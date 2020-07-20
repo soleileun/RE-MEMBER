@@ -24,6 +24,14 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
         	alias="message"/>
         <typeAlias type="com.ssafy.test.model.dto.Preference" 
         	alias="preference"/>
+		<typeAlias type="com.ssafy.test.model.dto.Board"
+			alias="board" />
+		<typeAlias type="com.ssafy.test.model.dto.Comments"
+			alias="comments" />
+		<typeAlias type="com.ssafy.test.model.dto.Pinterest"
+			alias="pinterest" />
+		<typeAlias type="com.ssafy.test.model.dto.Reffile"
+			alias="reffile" />
 	</typeAliases>
 
 	<mappers>
@@ -35,6 +43,10 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
         <mapper resource="mybatis/mapper/FollowingMapper.xml" />
         <mapper resource="mybatis/mapper/MessageMapper.xml" />
         <mapper resource="mybatis/mapper/PreferenceMapper.xml" />
+		<mapper resource="mybatis/mapper/boardMapper.xml" />
+		<mapper resource="mybatis/mapper/commentsMapper.xml" />
+		<mapper resource="mybatis/mapper/pinterestMapper.xml" />
+		<mapper resource="mybatis/mapper/reffileMapper.xml" />
 		
 	</mappers>
 
