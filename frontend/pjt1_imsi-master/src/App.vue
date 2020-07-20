@@ -47,7 +47,7 @@ body {
 body{
   padding-top: 7vh;
   section {
-    min-height: 400px;
+    min-height: 800px;
   }
 }
 #app {
@@ -61,7 +61,6 @@ body{
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  height: 3000px;
 }
 
 nav {

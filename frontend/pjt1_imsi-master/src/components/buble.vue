@@ -59,6 +59,8 @@ export default {
   height: 80px;
   width: 80px;
   border-radius: 80px;
+  box-sizing: border-box;
+  border: 2px black solid;
   background-color: #ddddaa;
   z-index: 9999;
   i {
