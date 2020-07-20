@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.test.Pinterest">
+	<select id="selectAll" resultType="pinterest">
+		select *
+		from pinterest
+	</select>
+
+
+	<select id="select" parameterType="int" resultType="pinterest">
+		select *
+		from pinterest
+		where pid =#{pid}
+	</select>
+
+
+	<select id="pick" parameterType="pinterest" resultType="pinterest">
+		select *
+		from pinterest
+		where pid =#{pid} and interest =#{interest}
+
+	</select>
+
+	<insert id="insert" parameterType="pinterest">
+		insert into pinterest(pid, interest)
+		values(#{pid}, #{interest})
+	</insert>
+
+	<delete id="delete" parameterType="int">
+		delete from pinterest where
+		pid=#{pid} and interest =#{interest}
+	</delete>
+
+	
+	
+</mapper>

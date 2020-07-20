@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.test.Reffile">
+	<select id="selectAll" resultType="reffile">
+		select *
+		from reffile
+	</select>
+
+	<select id="select" parameterType="int" resultType="reffile">
+		select *
+		from reffile
+		where fno =#{fno}
+	
+
+	</select>
+
+	<insert id="insert" parameterType="reffile">
+		insert into reffile(fboardno, foname, fsname, fsize, makeday, makeid)
+		values(#{fboardno}, #{foname},
+		#{fsname}, #{fsize}, #{makeday},
+		#{makeid})
+	</insert>
+
+	<delete id="delete" parameterType="int">
+		delete from reffile where
+		fno=#{fno}
+	</delete>
+
+	<update id="update" parameterType="reffile">
+		update reffile set
+		foname =#{foname }, fsname=#{fsname}, fsize =#{fsize },
+		changeday =#{changeday }, changeid =#{changeid }
+		where fno=#{fno}
+	</update>
+	
+	
+</mapper>
