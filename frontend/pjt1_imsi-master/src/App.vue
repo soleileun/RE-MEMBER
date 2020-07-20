@@ -2,14 +2,20 @@
   <div id="app">
     <navibar />
     <sidebar />
-    <router-view></router-view>
+    <login />
+    <section class="rtViewContainer">
+      <router-view></router-view>
+    </section>
+    <buble v-if="logined" />
     <footerr />
   </div>
 </template>
 
 <script>
+import login from "./components/login.vue";
 import navibar from "./components/navibar.vue";
 import sidebar from "./components/sidebar.vue";
+import buble from "./components/buble.vue";
 import footerr from "./components/footer.vue";
 
 export default {
@@ -17,7 +23,14 @@ export default {
   components: {
     navibar,
     sidebar,
-    footerr
+    buble,
+    footerr,
+    login
+  },
+  data: () => {
+    return {
+      logined: true
+    };
   }
 };
 </script>
@@ -33,6 +46,9 @@ body {
 }
 body{
   padding-top: 7vh;
+  section {
+    min-height: 400px;
+  }
 }
 #app {
   color: red;
@@ -46,5 +62,9 @@ body{
   text-align: center;
   color: #2c3e50;
   height: 3000px;
+}
+
+nav {
+  z-index: 999;
 }
 </style>

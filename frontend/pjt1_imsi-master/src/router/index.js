@@ -28,9 +28,9 @@ import registmember from '../components/recruit/registmember.vue'
 import registteam from '../components/recruit/registteam.vue'
 
 import service from './link/service.vue'
-import signin from './link/signin.vue'
+import signup from './link/signup.vue'
 import user from './link/user.vue'
-import usermessenger from './link/user/usermessenger.vue'
+import usermessenger from '../components/user/usermessenger.vue'
 
 Vue.use(VueRouter)
 
@@ -132,9 +132,9 @@ const routes = [
     component: service
   },
   {
-    path: '/signin',
-    name: 'signin',
-    component: signin
+    path: '/signup',
+    name: 'signup',
+    component: signup
   },
   {
     path: '/user',
