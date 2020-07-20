@@ -55,9 +55,10 @@ public class BoardController {
 
 
 	@ApiOperation(value = "특정 속성을 가진 글을 조회한다. EX) 공지사항", response = List.class)
-	@GetMapping("state/{s}")
-	public ResponseEntity<List<Board>> detailstateBoard(@PathVariable String s) {
-		return new ResponseEntity<List<Board>>(bService.search(s), HttpStatus.OK);
+	@GetMapping("statesearching/{bstate}")
+	public ResponseEntity<List<Board>> detailstateBoard(@PathVariable String bstate) {
+		System.out.println("bstats : " + bstate);
+		return new ResponseEntity<List<Board>>(bService.search(bstate), HttpStatus.OK);
 	}
 
 	
