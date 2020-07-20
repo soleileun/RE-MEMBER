@@ -45,6 +45,24 @@ public class CommentsController {
 		return new ResponseEntity<Comments>(Service.select(cno), HttpStatus.OK);
 	}
 
+	@ApiOperation(value = "특정 게시글에 채택된 글을 반환한다.", response = Comments.class)
+	@GetMapping("selected/{bno}")
+	public ResponseEntity<Comments> selectedComments(@PathVariable int bno) {
+		return new ResponseEntity<Comments>(Service.selectedComments(bno), HttpStatus.OK);
+	}
+
+	@ApiOperation(value = "해당 사용자가 작성한 모든 comments를 반환한다.", response = List.class)
+	@GetMapping("search/{bwriter}")
+	public ResponseEntity<List<Comments>> searchById(@PathVariable String bwriter) throws Exception {
+		return new ResponseEntity<List<Comments>>(Service.searchById(bwriter), HttpStatus.OK);
+	}
+
+	@ApiOperation(value = "해당 사용자가 작성한 comments 중, 채택된 comments를 반환한다.", response = List.class)
+	@GetMapping("searchselectedcomments/{bwriter}")
+	public ResponseEntity<List<Comments>> searchSelectedComments(@PathVariable String bwriter) throws Exception {
+		return new ResponseEntity<List<Comments>>(Service.searchSelectedComments(bwriter), HttpStatus.OK);
+	}
+	
 	@ApiOperation(value = "새로운 커멘트의 정보를 입력한다. 그리고 DB입력 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
 	@PostMapping
 	public ResponseEntity<String> writeBoard(@RequestBody Comments v) {

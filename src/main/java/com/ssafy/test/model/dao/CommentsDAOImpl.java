@@ -50,4 +50,19 @@ public class CommentsDAOImpl implements CommentsDAO{
 		return template.update(ns + "update", v);
 	}
 
+	@Override
+	public Comments selectedComments(int k) {
+		return template.selectOne(ns + "selectedComments", k);
+	}
+
+	@Override
+	public List<Comments> searchById(String s) {
+		return template.selectList(ns + "searchById", s);
+	}
+
+	@Override
+	public List<Comments> searchSelectedComments(String s) {
+		return template.selectList(ns + "searchSelectedComments", s);
+	}
+
 }
