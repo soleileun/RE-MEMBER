@@ -20,7 +20,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="search" parameterType="string" resultType="board">
-		select * from board
+		select bno,bwriter,btitle,bcontent,bview,bfile,bstate,makeday,makeid from board
 		where bstate =#{bstate}
 	
 	</select>
