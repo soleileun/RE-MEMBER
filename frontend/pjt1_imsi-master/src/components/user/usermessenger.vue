@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import usermessenger1 from "../../../components/user/usermessenger1.vue";
+import usermessenger1 from "./usermessenger1.vue";
 
 export default {
   name: "usermessenger",

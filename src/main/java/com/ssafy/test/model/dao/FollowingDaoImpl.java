@@ -13,7 +13,7 @@ import com.ssafy.test.model.dto.Following;
 @Repository
 
 public class FollowingDaoImpl implements FollowingDao {
-	private static final String ns = "com.ssafy.Following.";
+	private static final String ns = "com.ssafy.test.Following.";
 
 	@Autowired
 	SqlSessionTemplate template;
@@ -48,4 +48,5 @@ public class FollowingDaoImpl implements FollowingDao {
 	}
 	
 
+	
 }

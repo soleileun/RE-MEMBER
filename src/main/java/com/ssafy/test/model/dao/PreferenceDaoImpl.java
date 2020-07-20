@@ -14,7 +14,7 @@ import com.ssafy.test.model.dto.Preference;
 
 public class PreferenceDaoImpl implements PreferenceDao {
 
-	private static final String ns = "com.ssafy.Preference.";
+	private static final String ns = "com.ssafy.test.Preference.";
 	
 	@Autowired
 	SqlSessionTemplate template;

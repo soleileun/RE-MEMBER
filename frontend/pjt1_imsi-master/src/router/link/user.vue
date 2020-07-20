@@ -1,5 +1,12 @@
 <template>
   <div class="user">
+    유저 개인 메인페이지
+    <li>마이 프로필</li>
+    <li>개</li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
     <user1 />
   </div>
 </template>

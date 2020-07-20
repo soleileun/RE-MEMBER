@@ -3,7 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.ssafy.Following">
+<mapper namespace="com.ssafy.test.Following">
 
     <!-- following 가입  -->
     <insert id="insert" parameterType="following">
