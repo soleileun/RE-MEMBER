@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.Preference">
+
+    <!-- 좋싫 생성  -->
+    <insert id="insert" parameterType="preference">
+        insert into preference (pwriter,pboardno,plike,pdislike) 
+         values (#{pwriter},#{pboardno},#{plike},#{pdislike})
+    </insert>
+
+    <!--  좋싫 삭제  -->
+    <delete id="delete" parameterType="string">
+        delete from preference where pno=#{pno}
+    </delete>
+    
+    
+    <!-- 좋싫 조회 -->
+    <select id="select" parameterType="string" resultType="preference">
+        select pno,pwriter,pboardno,plike,pdislike 
+        from preference where pno=#{pno} 
+    </select>
+    
+
+
+
+</mapper>

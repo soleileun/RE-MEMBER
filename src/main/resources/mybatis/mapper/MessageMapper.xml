@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.UserInfo">
+
+    <!-- message 생성  -->
+    <insert id="insert" parameterType="message">
+        insert into message (to_user,from_user,content,time,is_read) 
+         values (#{to_user},#{from_user},#{content},#{time},#{is_read})
+    </insert>
+
+
+    
+    <!--  message 삭제  -->
+    <delete id="delete" parameterType="string">
+        delete from message where mnum=#{mnum}
+    </delete>
+    
+    
+    <!-- message 조회 -->
+    <select id="select" parameterType="string" resultType="message">
+        select to_user,from_user,content,time,is_read
+        from message where mnum=#{mnum}
+    </select>
+    
+        <!-- 전체 message  조회 -->
+    <select id="selectAll" parameterType="string" resultType="following">
+        select mnum, to_user,from_user,content,time,is_read
+        from message 
+    </select>
+    
+
+
+
+</mapper>
