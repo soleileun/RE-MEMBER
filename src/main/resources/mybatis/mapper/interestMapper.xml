@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.test.Interest">
+	<select id="selectAll" resultType="interest">
+		select * from interest
+	</select>
+
+	<select id="select" parameterType="interest" resultType="interest">
+		select * from
+		interest 
+		where id=#{id} and interest=#{interest}
+	</select>
+
+	<insert id="insert" parameterType="interest">
+		insert into interest
+		values(#{id}, #{interest})
+	</insert>
+
+	<delete id="delete" parameterType="interest">
+		delete from interest where
+		id=#{id} and interest=#{interest}
+	</delete>
+
+<!-- 	<update id="update" parameterType="interest"> -->
+<!-- 		update interest set -->
+<!-- 		totalperson=#{totalperson}, nowperson=#{nowperson}, pjtname=#{pjtname}, -->
+<!-- 		pjtstartdate=#{pjtstartdate}, pjtcontent=#{pjtcontent}, pjtstate=#{pjtstate}, -->
+<!-- 		pjtleader=#{pjtleader}, pjtteammate=#{pjtteammate} -->
+<!-- 		where pid=#{pid} -->
+<!-- 	</update> -->
+</mapper>

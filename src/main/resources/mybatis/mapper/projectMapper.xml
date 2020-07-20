@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.test.Project">
+	<select id="selectAll" resultType="project">
+		select * from project
+	</select>
+
+	<select id="select" parameterType="int" resultType="project">
+		select * from
+		project where pid=#{pid}
+	</select>
+
+	<insert id="insert" parameterType="project">
+		insert into project
+		values(#{pid}, #{pjtname}, #{pjtcontent}, #{pjtstate},
+		#{pjtmember_cnt}, #{makeday}, #{changeday}, #{makeid},
+		#{changeid})
+	</insert>
+
+	<delete id="delete" parameterType="int">
+		delete from project where
+		pid=#{pid}
+	</delete>
+
+	<update id="update" parameterType="project">
+		update project set
+		pjtname=#{pjtname}, pjtcontent=#{pjtcontent}, pjtstate=#{pjtstate},
+		pjtmember_cnt=#{pjtmember_cnt}, makeday=#{makeday}, changeday=#{changeday},
+		makeid=#{makeid}, changeid=#{changeid}
+		where pid=#{pid}
+	</update>
+</mapper>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.test.Project_member">
+	<select id="selectAll" resultType="project_member">
+		select * from project_member;
+	</select>
+
+	<select id="select" parameterType="project_member" resultType="project_member">
+		select * from
+		project_member where pid=#{pid} and user_id=#{user_id}
+	</select>
+
+	<insert id="insert" parameterType="project_member">
+		insert into project_member
+		values(#{pid}, #{user_id}, #{state}, #{priority})
+	</insert>
+
+	<delete id="delete" parameterType="project_member">
+		delete from project_member where
+		pid=#{pid} and user_id=#{user_id}
+	</delete>
+
+	<update id="update" parameterType="project_member">
+		update project_member set
+		state=#{state}, priority=#{priority}
+		where pid=#{pid} and user_id=#{user_id}
+	</update>
+</mapper>

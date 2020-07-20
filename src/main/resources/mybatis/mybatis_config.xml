@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration  
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<settings>
+		<setting name="mapUnderscoreToCamelCase" value="true" />
+		<setting name="jdbcTypeForNull" value="NULL" />
+	</settings>
+	<typeAliases>
+		<typeAlias type="com.ssafy.test.model.dto.Project"
+			alias="project" />
+		<typeAlias type="com.ssafy.test.model.dto.Recruit"
+			alias="recruit" />
+		<typeAlias type="com.ssafy.test.model.dto.Project_member"
+			alias="project_member" />
+		<typeAlias type="com.ssafy.test.model.dto.Interest"
+			alias="interest" />
+	</typeAliases>
+
+	<mappers>
+		<mapper resource="mybatis/mapper/projectMapper.xml" />
+		<mapper resource="mybatis/mapper/recruitMapper.xml" />
+		<mapper resource="mybatis/mapper/project_memberMapper.xml" />
+		<mapper resource="mybatis/mapper/interestMapper.xml" />
+	</mappers>
+
+</configuration>
