@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.UserInfo">
+
+    <!-- 회원 가입  -->
+    <insert id="insert" parameterType="userinfo">
+        insert into userinfo (id,nickname,name,pw,address1,address2,phone,git,points,lastdate,state,responsibility) 
+         values (#{id},#{nickname},#{name},#{pw},#{address1},#{address2},#{phone},#{git},#{points},#{lastdate},#{state},#{responsibility})
+    </insert>
+
+    <!-- 회원 수정 -->
+    <update id="update" parameterType="userinfo" >
+         update userinfo 
+         set pw=#{pw}, name=#{name}, lastdate=#{lastdate} 
+           ,phone=#{phone}
+          where id=#{id}
+    </update>
+    
+    <!--  회원 삭제  -->
+    <delete id="delete" parameterType="string">
+        delete from userinfo where id=#{id}
+    </delete>
+    
+    
+    <!-- 로그인 회원 조회 -->
+    <select id="select" parameterType="string" resultType="userinfo">
+        select id,nickname,name,pw
+        from userinfo where id=#{id} 
+    </select>
+    
+    <select id="selectAll" parameterType="string" resultType="userinfo">
+        select id,nickname,name,pw
+        from userinfo
+    </select> 
+
+
+
+</mapper>

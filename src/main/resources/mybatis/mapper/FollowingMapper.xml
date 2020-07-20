@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.Following">
+
+    <!-- following 가입  -->
+    <insert id="insert" parameterType="following">
+        insert into following 
+         values (#{uid},#{target})
+    </insert>
+
+    <!-- following 수정 -->
+    <update id="update" parameterType="following" >
+         update following 
+         set target=#{target}
+          where uid=#{uid}
+    </update>
+    
+    <!--  following 삭제  -->
+    <delete id="delete" parameterType="string">
+        delete from following where uid=#{uid}
+    </delete>
+    
+    
+    <!-- following 회원 조회 -->
+    <select id="selectAll" parameterType="string" resultType="following">
+        select uid, target 
+        from following 
+    </select>
+    
+       <select id="select" parameterType="string" resultType="following">
+        select uid, target 
+        from following where uid=#{uid}
+    </select>
+
+
+
+</mapper>
