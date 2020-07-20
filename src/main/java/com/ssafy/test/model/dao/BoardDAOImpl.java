@@ -57,7 +57,7 @@ public class BoardDAOImpl implements BoardDAO{
 
 	@Override
 	public List<Board> search(String s) {
-		return template.selectList(ns + "getComments", s);
+		return template.selectList(ns + "search", s);
 	}
 
 }
