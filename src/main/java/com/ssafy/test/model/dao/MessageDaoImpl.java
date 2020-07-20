@@ -13,7 +13,7 @@ import com.ssafy.test.model.dto.Message;
 
 public class MessageDaoImpl implements MessageDao{
 
-	private static final String ns = "com.ssafy.Message.";
+	private static final String ns = "com.ssafy.test.Message.";
 
 	@Autowired
 	SqlSessionTemplate template;

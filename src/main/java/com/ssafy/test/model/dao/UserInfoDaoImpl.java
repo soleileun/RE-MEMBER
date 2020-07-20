@@ -15,7 +15,7 @@ import com.ssafy.test.model.dto.UserInfo;
 
 public class UserInfoDaoImpl implements UserInfoDao {
 
-	private static String ns = "com.ssafy.UserInfo.";
+	private static String ns = "com.ssafy.test.UserInfo.";
 	@Autowired
 	SqlSessionTemplate template;
 	
