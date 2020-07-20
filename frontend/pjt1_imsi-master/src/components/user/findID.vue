@@ -1,12 +1,12 @@
 <template>
-  <div class="usermessenger1">
-    메세지 페이지
+  <div class="findID">
+    아이디 찾기
   </div>
 </template>
 
 <script>
 export default {
-  name: "usermessenger1"
+  name: "findID"
 };
 </script>
 
