@@ -1,7 +1,6 @@
 <template>
-  <div class="messages">
-    쪽지 목록
-    <span v-show="viewdetail" @click="nodetail">
+  <div class="messagelist">
+    <span v-show="viewdetail" @click="viewlist">
       <i class="far fa-times-circle"></i>
     </span>
     <div v-show="!viewdetail">
@@ -10,17 +9,16 @@
         {{mes.message[0].content}} (클릭하면 디테일)
       </li>
     </div>
-    <messagedetail v-if="viewdetail" :id="detailid" />
+    <messageDetail v-if="viewdetail" :id="detailid" />
   </div>
 </template>
 
 <script>
-import messagedetail from "./messagedetail.vue";
-
+import messageDetail from "../bubble/messagedetail.vue";
 export default {
-  name: "messages",
+  name: "messagelist",
   components: {
-    messagedetail
+    messageDetail
   },
   data: function() {
     return {
@@ -34,7 +32,7 @@ export default {
       this.viewdetail = true;
       this.detailid = id;
     },
-    nodetail: function() {
+    viewlist: function() {
       this.viewdetail = false;
     }
   }
@@ -43,6 +41,10 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-// .maina{
-// }
+.messagelist {
+  border: 1px black solid;
+  margin-left: 5vw;
+  width: 90vw;
+  min-height: 70vh;
+}
 </style>

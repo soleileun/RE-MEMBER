@@ -6,7 +6,7 @@
     <section class="rtViewContainer">
       <router-view></router-view>
     </section>
-    <buble v-if="logined" />
+    <buble v-if="$store.state.logined" />
     <footerr />
   </div>
 </template>
@@ -28,9 +28,29 @@ export default {
     login
   },
   data: () => {
-    return {
-      logined: true
-    };
+    return {};
+  },
+  mounted: function() {
+    // let form = new FormData();
+    // form.append("id", this.pwID);
+    // form.append("name", this.pwname);
+    // if (this.pwradio === "phone") {
+    //   form.append("method", "phone");
+    // } else {
+    //   form.append("method", "email");
+    // }
+    // axios({
+    //   method: "post",
+    //   url: "초기요청 url",
+    //   data: form,
+    //   responseType: "json"
+    // })
+    //   .then(response => {
+    //     console.log(response.data);
+    //   })
+    //   .catch(e => {
+    //     console.log(e);
+    //   });
   }
 };
 </script>
@@ -44,10 +64,10 @@ body {
     height: 0;
   }
 }
-body{
+body {
   padding-top: 7vh;
   section {
-    min-height: 800px;
+    min-height: 500px;
   }
 }
 #app {
@@ -65,5 +85,8 @@ body{
 
 nav {
   z-index: 999;
+}
+textarea {
+  resize: none;
 }
 </style>

@@ -1,39 +1,14 @@
 <template>
   <div class="signupform">
-    <br />아이디 :
-    <input class="id" v-model="id" type="text" />
-    <br />비밀번호 :
-    <input class="id" v-model="pw" type="password" />
-    <br />
-    {{error.pw}}
-    <br />비밀번호 확인 :
-    <input class="id" v-model="pw2" type="password" />
-    <br />
-    {{error.pw2}}
-    <br />닉네임(별명) :
-    <input class="id" v-model="nickname" type="text" />
-    <br />이름(실명) :
-    <input class="id" v-model="name" type="text" />
-    <br />주소1 :
-    <input class="id" v-model="address1" type="text" />
-    <br />주소2 :
-    <input class="id" v-model="address2" type="text" />
-    <br />전화번호 :
-    <input class="id" v-model="phone" type="text" />
-    <br />이메일주소 :
-    <input class="id" v-model="email" type="text" />
-    <br />
-    {{error.email}}
-    <br />깃주소 :
-    <input class="id" v-model="git" type="text" />
-    <br />
-    <button @click="goSignin" class="gosignin" :class="{submitable:submitable}">회원가입</button>
+    <form action=""><input type="checkbox"></form>
+    <button @click="goSignin" class="gosignin" :class="{submitable:submitable}">선택 완료</button>
   </div>
 </template>
 
 <script>
 import PV from "password-validator";
 import * as EmailValidator from "email-validator";
+import axios from 'axios';
 
 export default {
   name: "signupform",
@@ -113,19 +88,18 @@ export default {
       form.append("email", this.email);
       form.append("git", this.git);
       console.log(form);
-      // 
-      // axios({
-      //   method: "post",
-      //   url: "비번 찾기 url",
-      //   data: form,
-      //   responseType: "json"
-      // })
-      //   .then(response => {
-      //     console.log(response.data);
-      //   })
-      //   .catch(e => {
-      //     console.log(e);
-      //   });
+      axios({
+        method: "post",
+        url: "회원가입 url",
+        data: form,
+        responseType: "json"
+      })
+        .then(response => {
+          console.log(response.data);
+        })
+        .catch(e => {
+          console.log(e);
+        });
     }
   }
 };

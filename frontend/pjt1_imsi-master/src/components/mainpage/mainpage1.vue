@@ -1,6 +1,6 @@
 <template>
 <div class="main1">
-  메인 1 샘플
+  인터레스트 입력을 토대로 추천 position 보여주기
 </div>
 </template>
 

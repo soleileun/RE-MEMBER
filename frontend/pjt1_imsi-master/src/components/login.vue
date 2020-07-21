@@ -10,9 +10,8 @@
       <button @click="goLogin">로그인</button>
       <span @click="loginexit">
         <router-link :to="{name:'signup'}">회원가입</router-link>
-        <br>
+        <br />
         <router-link :to="{name:'findIDPW'}">아이디 / 비밀번호 찾기</router-link>
-
       </span>
       <div v-if="error">아이디와 비밀번호를 모두 입력해주세요</div>
     </div>
@@ -20,7 +19,7 @@
 </template>
 
 <script>
-// import Axios from 'axios';
+import axios from "axios";
 
 export default {
   name: "login",
@@ -47,10 +46,22 @@ export default {
           form.append("pw", this.pw);
           console.log(form);
           document.querySelector(".login").classList.toggle("turn");
-          setTimeout(() => {
-            document.querySelector(".login").classList.toggle("turn");
-            this.logining = false;
-          }, 1000);
+          axios({
+            method: "post",
+            url: "로그인 url",
+            data: form,
+            responseType: "json"
+          })
+            .then(response => {
+              document.querySelector(".login").classList.toggle("turn");
+              this.logining = false;
+              console.log(response.data);
+            })
+            .catch(e => {
+              console.log(e);
+              document.querySelector(".login").classList.toggle("turn");
+              this.logining = false;
+            });
         }
       }
     },
