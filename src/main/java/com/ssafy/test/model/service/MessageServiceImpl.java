@@ -44,4 +44,10 @@ public class MessageServiceImpl implements MessageService{
 		return mDao.update(msg);
 	}
 
+	@Override
+	public List<Message> selectById(String id) {
+		// TODO Auto-generated method stub
+		return mDao.selectById(id);
+	}
+
 }

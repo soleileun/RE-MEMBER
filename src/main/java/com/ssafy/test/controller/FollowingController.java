@@ -36,21 +36,35 @@ public class FollowingController {
 	@Autowired
 	private FollowingService fService;
 
-    @ApiOperation(value = "모든 게시글의 정보를 반환한다.", response = List.class)
+    @ApiOperation(value = "모든 following의 정보를 반환한다.", response = List.class)
 	@GetMapping
 	public ResponseEntity<List<Following>> retrieveBoard() throws Exception {
 		logger.debug("retrieveBoard - 호출");
 		return new ResponseEntity<List<Following>>(fService.selectAll(), HttpStatus.OK);
 	}
 
-    @ApiOperation(value = "글번호에 해당하는 게시글의 정보를 반환한다.", response = Following.class)    
+//    @ApiOperation(value = "해당하는 following 정보를 반환한다.", response = Following.class)    
+//	@GetMapping("{id}")
+//	public ResponseEntity<Following> detailBoard(@PathVariable Following f) {
+//		logger.debug("detailBoard - 호출");
+//		return new ResponseEntity<Following>(fService.select(f), HttpStatus.OK);
+//	}
+    
+    @ApiOperation(value = "id를 입력받고 id가 팔로우하는 계정을 반환함", response = Following.class)    
 	@GetMapping("{id}")
-	public ResponseEntity<Following> detailBoard(@PathVariable Following f) {
-		logger.debug("detailBoard - 호출");
-		return new ResponseEntity<Following>(fService.select(f), HttpStatus.OK);
+	public ResponseEntity<List<Following>> getFollowings(@PathVariable String id) {
+		logger.debug("getFollowings - 호출");
+		return new ResponseEntity<List<Following>>(fService.selectById(id), HttpStatus.OK);
 	}
+    
+//    @ApiOperation(value = "해당하는 following 정보를 반환한다.", response = Following.class)    
+//	@GetMapping("{target}")
+//	public ResponseEntity<List<Following>> getFollowers(@PathVariable String target) {
+//		logger.debug("getFollowers - 호출");
+//		return new ResponseEntity<List<Following>>(fService.selectByTarget(target), HttpStatus.OK);
+//	}
 
-    @ApiOperation(value = "새로운 게시글 정보를 입력한다. 그리고 DB입력 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
+    @ApiOperation(value = "새로운 following 정보를 입력한다. ", response = String.class)
 	@PostMapping
 	public ResponseEntity<String> writeBoard(@RequestBody Following q) {
 		//logger.debug("writeQnA - 호출");
@@ -60,21 +74,21 @@ public class FollowingController {
 		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
 	}
 
-    @ApiOperation(value = "글번호에 해당하는 게시글의 정보를 수정한다. 그리고 DB수정 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
-	@PutMapping("{no}")
-	public ResponseEntity<String> updateBoard(@RequestBody Following q) {
-		logger.debug("updateQnA - 호출");
-		logger.debug("" + q);
-		
-		if (fService.update(q) != 0) {
-			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
-		}
-		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
-	}
+//    @ApiOperation(value = "해당하는 following 정보를 수정한다.", response = String.class)
+//	@PutMapping("{no}")
+//	public ResponseEntity<String> updateBoard(@RequestBody Following q) {
+//		logger.debug("updateQnA - 호출");
+//		logger.debug("" + q);
+//		
+//		if (fService.update(q) != 0) {
+//			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+//		}
+//		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
+//	}
 
-    @ApiOperation(value = "글번호에 해당하는 게시글의 정보를 삭제한다. 그리고 DB삭제 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
-	@DeleteMapping("{id}")
-	public ResponseEntity<String> deleteBoard(@PathVariable Following f) {
+    @ApiOperation(value = "following 해당하는 게시글의 정보를 삭제한다.", response = String.class)
+	@DeleteMapping
+	public ResponseEntity<String> deleteBoard(@RequestBody Following f) {
 		logger.debug("deleteBoard - 호출");
 		if (fService.delete(f) == 1) {
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);

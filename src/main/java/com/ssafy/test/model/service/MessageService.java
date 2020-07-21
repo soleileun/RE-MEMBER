@@ -15,4 +15,6 @@ public interface MessageService {
 	public int delete(int mnum);
 
 	public int update(Message msg);
+	
+	public List<Message> selectById(String id);
 }

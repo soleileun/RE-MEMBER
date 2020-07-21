@@ -18,4 +18,5 @@ public interface MessageDao {
 
 	public int update(Message msg);
 	
+	public List<Message> selectById(String id);
 }

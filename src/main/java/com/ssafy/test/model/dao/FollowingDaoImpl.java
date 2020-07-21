@@ -46,6 +46,18 @@ public class FollowingDaoImpl implements FollowingDao {
 		// TODO Auto-generated method stub
 		return template.update(ns + "update", f);
 	}
+
+	@Override
+	public List<Following> selectById(String id) {
+		// TODO Auto-generated method stub
+		return template.selectList(ns + "selectById",id );
+	}
+
+	@Override
+	public List<Following> selectByTarget(String target) {
+		// TODO Auto-generated method stub
+		return template.selectList(ns + "selectByTarget", target);
+	}
 	
 
 	

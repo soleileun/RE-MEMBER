@@ -22,12 +22,6 @@ public class FollowingServiceImpl implements FollowingService {
 	}
 
 	@Override
-	public Following select(Following f) {
-		// TODO Auto-generated method stub
-		return fDao.select(f);
-	}
-
-	@Override
 	public int insert(Following f) {
 		// TODO Auto-generated method stub
 		return fDao.insert(f);
@@ -36,7 +30,7 @@ public class FollowingServiceImpl implements FollowingService {
 	@Override
 	public int delete(Following f) {
 		// TODO Auto-generated method stub
-		return fDao.insert(f);
+		return fDao.delete(f);
 	}
 
 	@Override
@@ -44,5 +38,26 @@ public class FollowingServiceImpl implements FollowingService {
 		// TODO Auto-generated method stub
 		return fDao.update(f);
 	}
+
+	@Override
+	public List<Following> selectById(String id) {
+		// TODO Auto-generated method stub
+		return fDao.selectById(id);
+	}
+
+	@Override
+	public List<Following> selectByTarget(String target) {
+		// TODO Auto-generated method stub
+		return fDao.selectByTarget(target);
+	}
+
+	@Override
+	public Following select(Following f) {
+		// TODO Auto-generated method stub
+		return fDao.select(f);
+	}
+
+
+
 
 }

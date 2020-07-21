@@ -12,18 +12,22 @@
     </insert>
 
     <!--  좋싫 삭제  -->
-    <delete id="delete" parameterType="string">
+    <delete id="delete" parameterType="int">
         delete from preference where pno=#{pno}
     </delete>
     
     
     <!-- 좋싫 조회 -->
-    <select id="select" parameterType="string" resultType="preference">
+    <select id="select" parameterType="int" resultType="preference">
         select pno,pwriter,pboardno,plike,pdislike 
         from preference where pno=#{pno} 
     </select>
     
-
+   <select id="selectAll" parameterType="string" resultType="preference">
+        select pno,pwriter,pboardno,plike,pdislike 
+        from preference 
+    </select>
+    
 
 
 </mapper>
