@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.test.model.dto.Board;
@@ -62,6 +63,8 @@ public class BoardController {
 	}
 	
 
+	//search part@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+	
 	@ApiOperation(value = "특정 사람이 쓴 글을 검색한다.", response = List.class)
 	@GetMapping("search/id/{bwriter}")
 	public ResponseEntity<List<Board>> searchById(@PathVariable String bwriter) {
@@ -85,7 +88,55 @@ public class BoardController {
 	public ResponseEntity<List<Board>> searchByTitleAndContents(@PathVariable String btitle) {
 		return new ResponseEntity<List<Board>>(bService.searchByTitleAndContents(btitle), HttpStatus.OK);
 	}
+
+	//search part	END @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	
+	
+
+	//type search part@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+	
+	@ApiOperation(value = "특정 카테고리에서 특정 사람이 쓴 글을 검색한다.", response = List.class)
+	@GetMapping("typesearch/wriiter={bwriter},bstate={bstate}")
+	public ResponseEntity<List<Board>> typesearchById(@PathVariable String bwriter, String bstate) {
+		Board v;
+		v = new Board();
+		v.setBstate(bstate);
+		v.setBwriter(bwriter);
+		return new ResponseEntity<List<Board>>(bService.typesearchById(v), HttpStatus.OK);
+	}
+
+	@ApiOperation(value = "특정 카테고리에서 특정 내용이 포함된 글을 검색한다.", response = List.class)
+	@GetMapping("typesearch/bcontent={bcontent},bstate={bstate}")
+	public ResponseEntity<List<Board>> typesearchByContents(@PathVariable String bcontent, String bstate) {
+		Board v;
+		v = new Board();
+		v.setBstate(bstate);
+		v.setBcontent(bcontent);
+		return new ResponseEntity<List<Board>>(bService.typesearchByContents(v), HttpStatus.OK);
+	}
+
+	@ApiOperation(value = "특정 카테고리에서 특정 제목이 포함된 글을 검색한다.", response = List.class)
+	@GetMapping("typesearch/btitle={btitle},bstate={bstate}")
+	public ResponseEntity<List<Board>> typesearchByTitle(@PathVariable String btitle, String bstate) {
+		Board v;
+		v = new Board();
+		v.setBstate(bstate);
+		v.setBtitle(btitle);
+		return new ResponseEntity<List<Board>>(bService.typesearchByTitle(v), HttpStatus.OK);
+	}
+
+	@ApiOperation(value = "특정 카테고리에서 특정 제목이나 내용이 포함된 글을 검색한다.", response = List.class)
+	@GetMapping("typesearch/btitleandbcontent={btitle},bstate={bstate}")
+	public ResponseEntity<List<Board>> typesearchByTitleAndContents(@PathVariable String btitle, String bstate) {
+		Board v;
+		v = new Board();
+		v.setBstate(bstate);
+		v.setBtitle(btitle);
+		v.setBcontent(btitle);
+		return new ResponseEntity<List<Board>>(bService.typesearchByTitleAndContents(v), HttpStatus.OK);
+	}
+
+	//type search part	END @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 	
 	@ApiOperation(value = "새로운 글 정보를 입력한다. 그리고 DB입력 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)

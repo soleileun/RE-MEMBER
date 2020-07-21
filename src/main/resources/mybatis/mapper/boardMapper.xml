@@ -6,7 +6,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="selectAll" resultType="board">
 		select * from board
 	</select>
-
+	
 	<select id="select" parameterType="int" resultType="board">
 		select * from board
 		where bno =#{bno}
@@ -49,6 +49,37 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where btitle like CONCAT('%',#{btitle},'%') or bcontent like CONCAT('%',#{btitle},'%')
 	
 	</select>
+
+
+	<!-- Dto searach  -->
+
+
+	<select id="typesearchById" parameterType="board" resultType="board">
+		select * from board
+		where bwriter =#{bwriter} and bstate =#{bstate}
+	
+	</select>
+
+	<select id="typesearchByContents" parameterType="board" resultType="board">
+		select * from board
+		where bcontent like CONCAT('%',#{bcontent},'%') and bstate =#{bstate}
+	
+	</select>
+	
+	
+	<select id="typesearchByTitle" parameterType="board" resultType="board">
+		select * from board
+		where btitle like CONCAT('%',#{btitle},'%') and bstate =#{bstate}
+	
+	</select>
+	
+	<select id="typesearchByTitleAndContents" parameterType="board" resultType="board">
+		select * from board
+		where (btitle like CONCAT('%',#{btitle},'%') or bcontent like CONCAT('%',#{bcontent},'%')) and bstate =#{bstate}
+	
+	</select>
+
+
 
 
 	<insert id="insert" parameterType="board">
