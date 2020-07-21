@@ -20,7 +20,7 @@
     
     <!--  following 삭제  -->
     <delete id="delete" parameterType="string">
-        delete from following where uid=#{uid}
+        delete from following where uid=#{uid} and target=#{target}
     </delete>
     
     
@@ -35,6 +35,14 @@
         from following where uid=#{uid}
     </select>
 
+     <select id="selectById" parameterType="string" resultType="following">
+        select uid, target 
+        from following where uid=#{uid}
+    </select>
+         <select id="selectByTarget" parameterType="string" resultType="following">
+        select uid, target 
+        from following where target=#{target}
+    </select>
 
 
 </mapper>

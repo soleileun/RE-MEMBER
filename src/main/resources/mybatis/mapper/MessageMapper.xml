@@ -14,19 +14,26 @@
 
     
     <!--  message 삭제  -->
-    <delete id="delete" parameterType="string">
+    <delete id="delete" parameterType="int">
         delete from message where mnum=#{mnum}
     </delete>
     
     
     <!-- message 조회 -->
-    <select id="select" parameterType="string" resultType="message">
+    <select id="select" parameterType="int" resultType="message">
         select to_user,from_user,content,time,is_read
         from message where mnum=#{mnum}
     </select>
     
+      <select id="selectById" parameterType="String" resultType="message">
+        select to_user,from_user,content,time,is_read
+        from message where to_user=#{to_user}
+    </select>
+    
+    
+    
         <!-- 전체 message  조회 -->
-    <select id="selectAll" parameterType="string" resultType="following">
+    <select id="selectAll" parameterType="string" resultType="message">
         select mnum, to_user,from_user,content,time,is_read
         from message 
     </select>

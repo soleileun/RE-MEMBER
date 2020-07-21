@@ -36,21 +36,22 @@ public class PreferenceController {
 	@Autowired
 	private PreferenceService pService;
 
-    @ApiOperation(value = "모든 메시지 정보를 반환한다.", response = List.class)
+    @ApiOperation(value = "모든 선호 정보를 반환한다.", response = List.class)
 	@GetMapping
 	public ResponseEntity<List<Preference>> retrieveBoard() throws Exception {
 		logger.debug("retrieveBoard - 호출");
 		return new ResponseEntity<List<Preference>>(pService.selectAll(), HttpStatus.OK);
 	}
 
-    @ApiOperation(value = "메시지번호에 해당하는 메시지 정보를 반환한다.", response = Preference.class)    
+    @ApiOperation(value = "번호에 해당하는 선호 정보를 반환한다.", response = Preference.class)    
 	@GetMapping("{pno}")
-	public ResponseEntity<Preference> detailBoard(@PathVariable int pno) {
-		logger.debug("detailBoard - 호출");
-		return new ResponseEntity<Preference>(pService.select(pno), HttpStatus.OK);
+	public ResponseEntity<Preference> detailBoard(@PathVariable String pno) {
+		logger.debug("pno : "+ pno);
+		int pnum = Integer.parseInt(pno);
+		return new ResponseEntity<Preference>(pService.select(pnum), HttpStatus.OK);
 	}
 
-    @ApiOperation(value = "새로운 메시지 정보를 입력한다.", response = String.class)
+    @ApiOperation(value = "새로운 선호 정보를 입력한다.", response = String.class)
 	@PostMapping
 	public ResponseEntity<String> writeBoard(@RequestBody Preference p) {
 		//logger.debug("writeQnA - 호출");
@@ -60,7 +61,7 @@ public class PreferenceController {
 		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
 	}
 
-    @ApiOperation(value = "메시지번호에 해당하는메시지의 정보를 삭제한다. ", response = String.class)
+    @ApiOperation(value = "번호에 해당하는 선호 정보를 삭제한다. ", response = String.class)
 	@DeleteMapping("{pno}")
 	public ResponseEntity<String> deleteBoard(@PathVariable int pno) {
 		logger.debug("deleteBoard - 호출");
