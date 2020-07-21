@@ -96,7 +96,7 @@ public class BoardController {
 	//type search part@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	
 	@ApiOperation(value = "특정 카테고리에서 특정 사람이 쓴 글을 검색한다.", response = List.class)
-	@GetMapping("typesearch/wriiter={bwriter},bstate={bstate}")
+	@GetMapping("typesearch/writer={bwriter},bstate={bstate}")
 	public ResponseEntity<List<Board>> typesearchById(@PathVariable String bwriter, String bstate) {
 		Board v;
 		v = new Board();
