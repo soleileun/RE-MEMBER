@@ -32,6 +32,8 @@ import signup from './link/signup.vue'
 import user from './link/user.vue'
 import usermessenger from '../components/user/usermessenger.vue'
 import findIDPW from "../components/user/findIDPW.vue";
+import leave from "../components/user/leave.vue";
+import editinfo from "../components/user/editinfo.vue";
 
 Vue.use(VueRouter)
 
@@ -148,9 +150,19 @@ const routes = [
     component: usermessenger
   },
   {
-    path: 'user/findid',
+    path: '/user/findid',
     name: 'findIDPW',
     component: findIDPW
+  },
+  {
+    path: '/user/editinfo',
+    name: 'editinfo',
+    component: editinfo
+  },
+  {
+    path: '/user/leave',
+    name: 'leave',
+    component: leave
   }
 ]
 

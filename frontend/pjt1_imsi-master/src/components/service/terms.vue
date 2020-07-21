@@ -1,6 +1,6 @@
 <template>
   <div class="terms">
-    운영자는 절대적이며 회원은 절대복종해야한다.
+    운영자는 절대적이며 회원은 복종해야한다.
   </div>
 </template>
 <script>

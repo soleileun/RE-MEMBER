@@ -1,16 +1,17 @@
 <template>
   <div class="usermessenger">
-    <usermessenger1 />
+    메신저
+    <messagelist />
   </div>
 </template>
 
 <script>
-import usermessenger1 from "./usermessenger1.vue";
+import messagelist from "./messagelist.vue";
 
 export default {
   name: "usermessenger",
   components: {
-    usermessenger1,
+    messagelist,
   },
 };
 </script>

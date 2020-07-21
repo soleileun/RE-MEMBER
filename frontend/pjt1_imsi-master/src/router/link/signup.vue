@@ -3,7 +3,7 @@
     <userlist /> <!-- 백엔드 디버깅용, 서비스전 제거 필수 -->
     <signupTerm />
     <signupform />
-
+    <signupInterest />
   </div>
 </template>
 
@@ -11,6 +11,7 @@
 import userlist from "../../components/signup/userlist.vue";
 import signupTerm from "../../components/signup/signupterm.vue";
 import signupform from "../../components/signup/signupform.vue";
+import signupInterest from "../../components/signup/signupInterest.vue";
 
 export default {
   name: "signup",
@@ -18,6 +19,7 @@ export default {
     userlist,
     signupform,
     signupTerm,
+    signupInterest
   },
 };
 </script>

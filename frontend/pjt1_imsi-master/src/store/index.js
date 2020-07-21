@@ -6,8 +6,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     user: {
-      id: 'imUser',
-      nick: '공 모전',
+      id: '',
+      nick: '',
     },
     followings: [
       {
@@ -29,16 +29,24 @@ export default new Vuex.Store({
         nick: '유명인',
         lastdate: '2000-01-01',
         state: 0,
-        message: {
-          content: '안녕',
-          time: '',
-          is_read: ''
-        }
+        message: [
+          {
+            content: '안녕',
+            time: '',
+            is_read: ''
+          },
+          {
+            content: '11',
+            time: '',
+            is_read: ''
+          }
+        ]
       }
     ],
     news: [
 
-    ]
+    ],
+    logined: true,
   },
   mutations: {
   },

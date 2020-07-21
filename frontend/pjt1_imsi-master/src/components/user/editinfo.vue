@@ -1,12 +1,12 @@
 <template>
-  <div class="usermessenger1">
-    메세지 페이지
+  <div class=".">
+    유저 메인 샘플 1
   </div>
 </template>
 
 <script>
 export default {
-  name: "usermessenger1"
+  name: "."
 };
 </script>
 
