@@ -12,9 +12,27 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select *
 		from comments
 		where cno =#{cno}
-	
-
 	</select>
+	
+	<select id="selectedComments" parameterType="int" resultType="comments">
+		select *
+		from comments
+		where bno =#{bno} and isSelected = 1
+	</select>
+	
+	<select id="searchById" parameterType="string" resultType="comments">
+		select *
+		from comments
+		where cwriter =#{cwriter}
+	</select>
+	<select id="searchSelectedComments" parameterType="string" resultType="comments">
+		select *
+		from comments
+		where cwriter =#{cwriter} and isSelected = 1
+	</select>
+	
+	
+	
 
 	<insert id="insert" parameterType="comments">
 		insert into comments(cwriter,ccontent,bno,isSelected,makeday,makeid)

@@ -1,20 +1,27 @@
 <template>
   <div class="service">
+    사이트 이용 약관
+    <terms />
+    
     자주 묻는 질문
-qa (질문게시판과의 차이점을 두거나 병합하는 방향은 어떤가요?? - 동균 )
-신고
-제안
+    <siteQ50 />
 
+    문의 / 신고 / 제안
+    <sitereport />
   </div>
 </template>
 
 <script>
-// import service1 from "../../components/service/service1.vue";
+import terms from "../../components/service/terms.vue";
+import siteQ50 from "../../components/service/siteQ50.vue";
+import sitereport from "../../components/service/sitereport.vue";
 
 export default {
   name: "service",
   components: {
-    // service1,
+    terms,
+    siteQ50,
+    sitereport,
   }
 };
 </script>

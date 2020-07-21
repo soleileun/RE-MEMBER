@@ -20,4 +20,25 @@ public interface BoardService {
 	public List<Comments> getComments(int k);
 
 	public List<Board> search(String s);
+
+	public List<Board> searchById(String s);	//	작성자 아이디로 검색
+	
+	public List<Board> searchByContents(String s);	// 게시글 내용으로 검색
+	
+	public List<Board> searchByTitle(String s);		//게시글 제목으로 검색
+	
+	public List<Board> searchByTitleAndContents(String s);	//게시글 내용과 제목으로 검색
+	
+	
+
+	// 카테고리하고 같이 검색하는 파트
+	
+	public List<Board> typesearchById(Board v);	//	작성자 아이디로 검색
+	
+	public List<Board> typesearchByContents(Board v);	// 게시글 내용으로 검색
+	
+	public List<Board> typesearchByTitle(Board v);		//게시글 제목으로 검색
+	
+	public List<Board> typesearchByTitleAndContents(Board v);	//게시글 내용과 제목으로 검색
+	
 }

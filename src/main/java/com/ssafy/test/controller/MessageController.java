@@ -43,12 +43,19 @@ public class MessageController {
 		return new ResponseEntity<List<Message>>(mService.selectAll(), HttpStatus.OK);
 	}
 
-    @ApiOperation(value = "메시지번호에 해당하는 메시지 정보를 반환한다.", response = Message.class)    
-	@GetMapping("{mnum}")
-	public ResponseEntity<Message> detailBoard(@PathVariable int mnum) {
-		logger.debug("detailBoard - 호출");
-		return new ResponseEntity<Message>(mService.select(mnum), HttpStatus.OK);
-	}
+//    @ApiOperation(value = "메시지번호에 해당하는 메시지 정보를 반환한다.", response = Message.class)    
+//	@GetMapping("{mnum}")
+//	public ResponseEntity<Message> detailBoard(@PathVariable int mnum) {
+//		logger.debug("detailBoard - 호출");
+//		return new ResponseEntity<Message>(mService.select(mnum), HttpStatus.OK);
+//	}
+    
+    @ApiOperation(value = "받는사람이 id에 해당하는 메시지 정보를 반환한다.", response = Message.class)    
+    @GetMapping("{id}")
+    public ResponseEntity<List<Message>> GetMessageToMe(@PathVariable String id) {
+    	logger.debug("detailBoard - 호출");
+    	return new ResponseEntity<List<Message>>(mService.selectById(id), HttpStatus.OK);
+    }
 
     @ApiOperation(value = "새로운 메시지 정보를 입력한다.", response = String.class)
 	@PostMapping

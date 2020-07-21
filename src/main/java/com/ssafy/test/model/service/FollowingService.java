@@ -11,6 +11,9 @@ public interface FollowingService {
 
 	public Following select(Following f);
 
+	public List<Following> selectById(String id);
+	public List<Following> selectByTarget(String target);
+
 	public int insert(Following f);
 
 	public int delete(Following f);

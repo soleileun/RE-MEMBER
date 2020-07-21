@@ -56,8 +56,8 @@ public class Message {
 		this.is_read = is_read;
 	}
 	public Message() {
-	
 	}
+
 	
 	
 

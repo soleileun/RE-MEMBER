@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.test.model.dto.Pinterest;
@@ -46,11 +47,12 @@ public class PinterestController {
 	
 
 	@ApiOperation(value = "특정 pid와 특정 관심사를 가진 정보를 조회한다.", response = Pinterest.class)
-	@GetMapping("search/pid?{pid}and{interest}")
+	@GetMapping("search/pid={pid},interest={interest}")
 	public ResponseEntity<Pinterest> detailBoard(@PathVariable int pid, String interest) {
-		Pinterest v = null;
-		v.setPid(pid);
-		v.setInterest(interest);
+		Pinterest v;
+		v = new Pinterest(pid,interest);
+		//v.setPid(pid);
+		//v.setInterest(interest);
 		return new ResponseEntity<Pinterest>(Service.pick(v), HttpStatus.OK);
 	}
 	

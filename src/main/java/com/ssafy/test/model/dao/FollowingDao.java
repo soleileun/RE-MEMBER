@@ -17,6 +17,10 @@ public interface FollowingDao {
 	public int delete(Following f);
 
 	public int update(Following f);
+	
+
+	public List<Following> selectById(String id);
+	public List<Following> selectByTarget(String target);
 
 
 }

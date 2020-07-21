@@ -40,4 +40,19 @@ public class CommentsServiceImpl implements CommentsService{
 	public int update(Comments v) {
 		return Dao.update(v);
 	}
+
+	@Override
+	public Comments selectedComments(int k) {
+		return Dao.selectedComments(k);
+	}
+
+	@Override
+	public List<Comments> searchById(String s) {
+		return Dao.searchById(s);
+	}
+
+	@Override
+	public List<Comments> searchSelectedComments(String s) {
+		return Dao.searchSelectedComments(s);
+	}
 }
