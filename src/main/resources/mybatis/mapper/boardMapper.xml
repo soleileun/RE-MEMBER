@@ -24,6 +24,31 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where bstate =#{bstate}
 	
 	</select>
+	
+	<select id="searchById" parameterType="string" resultType="board">
+		select * from board
+		where bwriter =#{bwriter}
+	
+	</select>
+
+	<select id="searchByContents" parameterType="string" resultType="board">
+		select * from board
+		where bcontent like CONCAT('%',#{bcontent},'%')
+	
+	</select>
+	
+	
+	<select id="searchByTitle" parameterType="string" resultType="board">
+		select * from board
+		where btitle like CONCAT('%',#{btitle},'%')
+	
+	</select>
+	
+	<select id="searchByTitleAndContents" parameterType="string" resultType="board">
+		select * from board
+		where btitle like CONCAT('%',#{btitle},'%') or bcontent like CONCAT('%',#{btitle},'%')
+	
+	</select>
 
 
 	<insert id="insert" parameterType="board">

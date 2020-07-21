@@ -31,6 +31,7 @@ import service from './link/service.vue'
 import signup from './link/signup.vue'
 import user from './link/user.vue'
 import usermessenger from '../components/user/usermessenger.vue'
+import findIDPW from "../components/user/findIDPW.vue";
 
 Vue.use(VueRouter)
 
@@ -146,6 +147,11 @@ const routes = [
     name: 'usermessenger',
     component: usermessenger
   },
+  {
+    path: 'user/findid',
+    name: 'findIDPW',
+    component: findIDPW
+  }
 ]
 
 // eslint-disable-next-line no-new

@@ -1,41 +1,39 @@
 <template>
   <div class="login">
-    <i class="far fa-times-circle fa-3x"></i>
-    아이디 :
-    <input class="id" v-model="id" type="text" />
-    <br />비밀번호 :
-    <input class="id" v-model="pw" type="password" />
-    <br />
-    <button @click="goLogin">로그인</button>
-    <findID />
-    <findPW />
-    <div v-if="error">아이디와 비밀번호를 모두 입력해주세요</div>
+    <i class="far fa-times-circle fa-3x" @click="loginexit"></i>
+    <div>
+      아이디 :
+      <input class="id" v-model="id" type="text" />
+      <br />비밀번호 :
+      <input class="id" v-model="pw" type="password" />
+      <br />
+      <button @click="goLogin">로그인</button>
+      <span @click="loginexit">
+        <router-link :to="{name:'signup'}">회원가입</router-link>
+        <br>
+        <router-link :to="{name:'findIDPW'}">아이디 / 비밀번호 찾기</router-link>
+
+      </span>
+      <div v-if="error">아이디와 비밀번호를 모두 입력해주세요</div>
+    </div>
   </div>
 </template>
 
 <script>
-import findID from "./user/findID.vue";
-import findPW from "./user/findPW.vue";
 // import Axios from 'axios';
+
 export default {
   name: "login",
-  components:{
-    findID,
-    findPW
-  },
   data: function() {
     return {
       id: "",
       pw: "",
       error: false,
-      logining: false
+      logining: false,
+      findform: false
     };
   },
-  mounted: function (){
-    document.querySelector(".fa-times-circle").addEventListener("click", () => {
-      document.querySelector(".login").classList.toggle("active");
-    });
-  },
+  mounted: function() {},
   methods: {
     goLogin: function() {
       if (!this.logining) {
@@ -55,6 +53,9 @@ export default {
           }, 1000);
         }
       }
+    },
+    loginexit: function() {
+      document.querySelector(".login").classList.toggle("active");
     }
   }
 };
@@ -73,14 +74,16 @@ export default {
   position: fixed;
   z-index: 99999;
   top: 25vh;
-  left: 30vw;
-  width: 40vw;
-  height: 50vh;
+  left: 25vw;
+  width: 50vw;
+  height: 60vh;
   background-color: rgba($color: white, $alpha: 0.9);
   border: black 1.5px solid;
   i {
-    margin-top: -3vh;
-    float: right;
+    position: fixed;
+    top: 27vh;
+    right: 26vw;
+    width: 50px;
     &:hover {
       cursor: pointer;
     }
@@ -90,8 +93,12 @@ export default {
   .login.active {
     width: 100vw;
     height: 100vh;
-    top: 0;
-    left: 0;
+    top: 5px;
+    left: 5px;
+    i {
+      top: 2vh;
+      right: 0px;
+    }
   }
 }
 .login.turn {

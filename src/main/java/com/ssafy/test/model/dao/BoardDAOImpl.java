@@ -60,4 +60,24 @@ public class BoardDAOImpl implements BoardDAO{
 		return template.selectList(ns + "search", s);
 	}
 
+	@Override
+	public List<Board> searchById(String s) {
+		return template.selectList(ns + "searchById",s);
+	}
+
+	@Override
+	public List<Board> searchByContents(String s) {
+		return template.selectList(ns + "searchByContents",s);
+	}
+
+	@Override
+	public List<Board> searchByTitle(String s) {
+		return template.selectList(ns + "searchByTitle",s);
+	}
+
+	@Override
+	public List<Board> searchByTitleAndContents(String s) {
+		return template.selectList(ns + "searchByTitleAndContents",s);
+	}
+
 }

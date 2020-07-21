@@ -60,6 +60,32 @@ public class BoardController {
 		System.out.println("bstats : " + bstate);
 		return new ResponseEntity<List<Board>>(bService.search(bstate), HttpStatus.OK);
 	}
+	
+
+	@ApiOperation(value = "특정 사람이 쓴 글을 검색한다.", response = List.class)
+	@GetMapping("search/id/{bwriter}")
+	public ResponseEntity<List<Board>> searchById(@PathVariable String bwriter) {
+		return new ResponseEntity<List<Board>>(bService.searchById(bwriter), HttpStatus.OK);
+	}
+
+	@ApiOperation(value = "특정 내용이 포함된 글을 검색한다.", response = List.class)
+	@GetMapping("search/contents/{bcontent}")
+	public ResponseEntity<List<Board>> searchByContents(@PathVariable String bcontent) {
+		return new ResponseEntity<List<Board>>(bService.searchByContents(bcontent), HttpStatus.OK);
+	}
+
+	@ApiOperation(value = "특정 제목이 포함된 글을 검색한다.", response = List.class)
+	@GetMapping("search/title/{btitle}")
+	public ResponseEntity<List<Board>> searchByTitle(@PathVariable String btitle) {
+		return new ResponseEntity<List<Board>>(bService.searchByTitle(btitle), HttpStatus.OK);
+	}
+
+	@ApiOperation(value = "특정 제목이나 내용이 포함된 글을 검색한다.", response = List.class)
+	@GetMapping("search/contentandtitle/{btitle}")
+	public ResponseEntity<List<Board>> searchByTitleAndContents(@PathVariable String btitle) {
+		return new ResponseEntity<List<Board>>(bService.searchByTitleAndContents(btitle), HttpStatus.OK);
+	}
+	
 
 	
 	@ApiOperation(value = "새로운 글 정보를 입력한다. 그리고 DB입력 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
