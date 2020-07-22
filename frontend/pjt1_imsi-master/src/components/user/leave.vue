@@ -1,12 +1,12 @@
 <template>
-  <div class=".">
-    유저 메인 샘플 1
+  <div class="leave">
+    회원탈퇴
   </div>
 </template>
 
 <script>
 export default {
-  name: "."
+  name: "leave"
 };
 </script>
 

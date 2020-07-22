@@ -12,7 +12,6 @@
         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">계정</button>
         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
           <router-link class="nav-link dropdown-item" :to="{name:'user'}">user</router-link>
-          <router-link class="nav-link dropdown-item" :to="{name:'usermessenger'}">messenger</router-link>
           <router-link class="nav-link dropdown-item" :to="{name:'signup'}">회원가입</router-link>
           <button class="btn btn-dark nav-link dropdown-item" @click="loginon">로그인</button>
         </div>

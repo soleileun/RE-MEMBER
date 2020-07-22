@@ -1,12 +1,12 @@
 <template>
-  <div class=".">
-    유저 메인 샘플 1
+  <div class="editinfo">
+    개인정보 수정
   </div>
 </template>
 
 <script>
 export default {
-  name: "."
+  name: "editinfo"
 };
 </script>
 
