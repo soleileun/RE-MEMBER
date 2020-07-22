@@ -7,24 +7,32 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select * from project_member;
 	</select>
 
-	<select id="select" parameterType="project_member" resultType="project_member">
+	<select id="select" parameterType="project_member"
+		resultType="project_member">
 		select * from
-		project_member where pid=#{pid} and user_id=#{user_id}
+		project_member where pid=#{pid} and
+		user_id=#{user_id}
 	</select>
 
 	<insert id="insert" parameterType="project_member">
 		insert into project_member
-		values(#{pid}, #{user_id}, #{state}, #{priority})
+		select #{pid}, #{user_id}, #{state}, #{priority}
+		from dual
+		where exists (select * from userInfo where id = #{user_id})
+		and exists (select * from project where pid = #{pid})
+		and not exists(select * from project_member where user_id =#{user_id} and pid = #{pid});		
 	</insert>
 
 	<delete id="delete" parameterType="project_member">
-		delete from project_member where
+		delete from project_member
+		where
 		pid=#{pid} and user_id=#{user_id}
 	</delete>
 
 	<update id="update" parameterType="project_member">
 		update project_member set
 		state=#{state}, priority=#{priority}
-		where pid=#{pid} and user_id=#{user_id}
+		where pid=#{pid} and
+		user_id=#{user_id}
 	</update>
 </mapper>
