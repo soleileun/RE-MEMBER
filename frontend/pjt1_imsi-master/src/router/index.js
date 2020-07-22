@@ -27,7 +27,6 @@ import service from './link/service.vue'
 import signup from './link/signup.vue'
 
 import user from './link/user.vue'
-import usermessenger from '../components/user/usermessenger.vue'
 import findIDPW from "../components/user/findIDPW.vue";
 import leave from "../components/user/leave.vue";
 import editinfo from "../components/user/editinfo.vue";
@@ -45,18 +44,16 @@ const routes = [
         path: '/freeboard',
         name: 'freeboard',
         component: freeboard,
-        children: [
-            {
-                path: 'writefree',
-                name: 'writefree',
-                component: writefree
-            },
-            {
-                path: 'detailfree/:bno',
-                name: 'detailfree',
-                component: detailfree
-            },
-        ]
+    },
+    {
+        path: '/freeboard/writefree',
+        name: 'writefree',
+        component: writefree
+    },
+    {
+        path: '/freeboard/detailfree/:bno',
+        name: 'detailfree',
+        component: detailfree
     },
     {
         path: '/mainboard',
@@ -67,64 +64,57 @@ const routes = [
         path: '/notice',
         name: 'notice',
         component: notice,
-        children: [
-            {
-                path: '/writenotice',
-                name: 'writenotice',
-                component: writenotice
-            },
-            {
-                path: 'detailnotice',
-                name: 'detailnotice',
-                component: detailnotice
-            },
-        ]
+    },
+    
+    {
+        path: '/writenotice',
+        name: 'writenotice',
+        component: writenotice
+    },
+    {
+        path: '/writenotice/detailnotice',
+        name: 'detailnotice',
+        component: detailnotice
     },
     {
         path: '/project',
         name: 'project',
         component: project,
-        children: [
-            {
-                path: 'project1',
-                name: 'project1',
-                component: project1
-            },
-        ]
+    },
+    {
+        path: '/project/project1',
+        name: 'project1',
+        component: project1
     },
     {
         path: '/qaboard',
         name: 'qaboard',
         component: qaboard,
-        children: [
-            {
-                path: 'writeqa',
-                name: 'writeqa',
-                component: writeqa
-            },
-            {
-                path: 'detailqa',
-                name: 'detailqa',
-                component: detailqa
-            },
-        ]
+    },
+    {
+        path: '/qaboard/writeqa',
+        name: 'writeqa',
+        component: writeqa
+    },
+    {
+        path: '/qaboard/detailqa',
+        name: 'detailqa',
+        component: detailqa
     },
     {
         path: '/recruit',
         name: 'recruit',
         component: recruit,
-        children: [
-            {
-                path: 'registmember',
-                name: 'registmember',
-                component: registmember
-            },
-            {
-                path: 'registteam',
-                name: 'registteam',
-                component: registteam
-            },
-        ]
+    },
+    {
+        path: '/recruit/registmember',
+        name: 'registmember',
+        component: registmember
+    },
+    {
+        path: '/recruit/registteam',
+        name: 'registteam',
+        component: registteam
     },
     {
         path: '/service',
@@ -138,31 +128,24 @@ const routes = [
     },
     {
         path: '/user',
-        name: 'user',
+        name:'user',
         component: user,
-        children: [
-            {
-                path: 'messenger',
-                name: 'usermessenger',
-                component: usermessenger
-            },
-            {
-                path: 'findid',
-                name: 'findIDPW',
-                component: findIDPW
-            },
-            {
-                path: 'editinfo',
-                name: 'editinfo',
-                component: editinfo
-            },
-            {
-                path: 'leave',
-                name: 'leave',
-                component: leave
-            }
-        ]
     },
+    {
+        path: '/user/findid',
+        name: 'findIDPW',
+        component: findIDPW
+    },
+    {
+        path: '/user/editinfo',
+        name: 'editinfo',
+        component: editinfo
+    },
+    {
+        path: '/user/leave',
+        name: 'leave',
+        component: leave
+    }
 ]
 
 // eslint-disable-next-line no-new
