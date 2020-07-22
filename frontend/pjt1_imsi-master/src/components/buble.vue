@@ -92,7 +92,6 @@ export default {
           flex-direction: row;
         }
         div{
-          background-color: yellow;
           height: 70vh;
           overflow-y: scroll;
         }
@@ -124,7 +123,6 @@ export default {
         }
         div{
           height: 440px;
-          background-color: yellow;
           border-bottom-left-radius: 80px;
           border-bottom-right-radius: 80px;
         }
