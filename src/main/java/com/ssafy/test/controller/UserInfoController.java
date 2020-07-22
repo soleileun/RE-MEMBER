@@ -43,27 +43,27 @@ public class UserInfoController {
 //		return new ResponseEntity<List<UserInfo>>(uiService.selectAll(), HttpStatus.OK);
 //	}
 
-    @ApiOperation(value = "글번호에 해당하는 게시글의 정보를 반환한다.", response = UserInfo.class)    
+    @ApiOperation(value = "로그인 기능으로 할 것/ 일단 아이디에 맞는 거 반환 를 반환한다.", response = UserInfo.class)    
 	@GetMapping("{id}")
-	public ResponseEntity<UserInfo> detailBoard(@PathVariable String id) {
-		logger.debug("detailBoard - 호출");
+	public ResponseEntity<UserInfo> login(@PathVariable String id) {
+		logger.debug("login - 호출");
 		return new ResponseEntity<UserInfo>(uiService.select(id), HttpStatus.OK);
 	}
 
-    @ApiOperation(value = "새로운 게시글 정보를 입력한다. 그리고 DB입력 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
+    @ApiOperation(value = "회원가입기능, 새로운 유저를 추가한다. ", response = String.class)
 	@PostMapping
-	public ResponseEntity<String> writeBoard(@RequestBody UserInfo q) {
-		//logger.debug("writeQnA - 호출");
+	public ResponseEntity<String> insertUser(@RequestBody UserInfo q) {
+		logger.debug("insertUser - 호출");
 		if (uiService.insert(q) ==1) {
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		}
 		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
 	}
 
-    @ApiOperation(value = "글번호에 해당하는 게시글의 정보를 수정한다. 그리고 DB수정 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
+    @ApiOperation(value = "유저 정보를 수정한다", response = String.class)
 	@PutMapping("{no}")
-	public ResponseEntity<String> updateBoard(@RequestBody UserInfo q) {
-		logger.debug("updateQnA - 호출");
+	public ResponseEntity<String> updateUser(@RequestBody UserInfo q) {
+		logger.debug("updateUser - 호출");
 		logger.debug("" + q);
 		
 		if (uiService.update(q) != 0) {
@@ -72,10 +72,10 @@ public class UserInfoController {
 		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
 	}
 
-    @ApiOperation(value = "글번호에 해당하는 게시글의 정보를 삭제한다. 그리고 DB삭제 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
+    @ApiOperation(value = "회원탈퇴, 회원 삭제기능", response = String.class)
 	@DeleteMapping("{id}")
-	public ResponseEntity<String> deleteBoard(@PathVariable String id) {
-		logger.debug("deleteBoard - 호출");
+	public ResponseEntity<String> deleteUser(@PathVariable String id) {
+		logger.debug("deleteUser - 호출");
 		if (uiService.delete(id) == 1) {
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		}
