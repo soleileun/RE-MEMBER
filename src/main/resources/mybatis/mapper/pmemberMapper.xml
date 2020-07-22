@@ -8,7 +8,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 
 	<select id="select" parameterType="pmember"
-		resultType="project_member">
+		resultType="pmember">
 		select * from
 		pmember where pid=#{pid} and
 		userId=#{userId}
@@ -16,11 +16,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<insert id="insert" parameterType="pmember">
 		insert into pmember
-		select #{pid}, #{userId}, #{state}, #{priority}
+		select
+		#{pid}, #{userId}, #{state}, #{priority}
 		from dual
-		where exists (select * from userInfo where id = #{userId})
-		and exists (select * from project where pid = #{pid})
-		and not exists(select * from project_member where user_id =#{userId} and pid = #{pid});		
+		where exists (select
+		* from userInfo where id = #{userId})
+		and exists (select * from project
+		where pid = #{pid})
+		and not exists(select * from pmember where userId
+		=#{userId} and pid = #{pid});
 	</insert>
 
 	<delete id="delete" parameterType="pmember">
