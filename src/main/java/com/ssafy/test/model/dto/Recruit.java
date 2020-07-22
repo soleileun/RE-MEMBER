@@ -8,11 +8,11 @@ public class Recruit {
 	private int pid;
 	private String title;
 	private String contents;
-	private Date end_date;
-	private Date makeday;
-	private Date changeday;
-	private String makeid;
-	private String changeid;
+	private Date endDate;
+	private Date makeDay;
+	private Date changeDay;
+	private String makeId;
+	private String changeId;
 
 	public int getRnum() {
 		return rnum;
@@ -21,11 +21,11 @@ public class Recruit {
 	public void setRnum(int rnum) {
 		this.rnum = rnum;
 	}
-	
+
 	public int getPid() {
 		return pid;
 	}
-	
+
 	public void setPid(int pid) {
 		this.pid = pid;
 	}
@@ -46,59 +46,58 @@ public class Recruit {
 		this.contents = contents;
 	}
 
-	public Date getEnd_date() {
-		return end_date;
+	public Date getEndDate() {
+		return endDate;
 	}
 
-	public void setEnd_date(Date end_date) {
-		this.end_date = end_date;
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
 	}
 
-	public Date getMakeday() {
-		return makeday;
+	public Date getMakeDay() {
+		return makeDay;
 	}
 
-	public void setMakeday(Date makeday) {
-		this.makeday = makeday;
+	public void setMakeDay(Date makeDay) {
+		this.makeDay = makeDay;
 	}
 
-	public Date getChangeday() {
-		return changeday;
+	public Date getChangeDay() {
+		return changeDay;
 	}
 
-	public void setChangeday(Date changeday) {
-		this.changeday = changeday;
+	public void setChangeDay(Date changeDay) {
+		this.changeDay = changeDay;
 	}
 
-	public String getMakeid() {
-		return makeid;
+	public String getMakeId() {
+		return makeId;
 	}
 
-	public void setMakeid(String makeid) {
-		this.makeid = makeid;
+	public void setMakeId(String makeId) {
+		this.makeId = makeId;
 	}
 
-	public String getChangeid() {
-		return changeid;
+	public String getChangeId() {
+		return changeId;
 	}
 
-	public void setChangeid(String changeid) {
-		this.changeid = changeid;
+	public void setChangeId(String changeId) {
+		this.changeId = changeId;
 	}
 
-
-	public Recruit(int rnum, int pid, String title, String contents, Date end_date, Date makeday, Date changeday,
-			String makeid, String changeid) {
+	public Recruit(int rnum, int pid, String title, String contents, Date endDate, Date makeDay, Date changeDay,
+			String makeId, String changeId) {
 		super();
 		this.rnum = rnum;
 		this.pid = pid;
 		this.title = title;
 		this.contents = contents;
-		this.end_date = end_date;
-		this.makeday = makeday;
-		this.changeday = changeday;
-		this.makeid = makeid;
-		this.changeid = changeid;
+		this.endDate = endDate;
+		this.makeDay = makeDay;
+		this.changeDay = changeDay;
+		this.makeId = makeId;
+		this.changeId = changeId;
 	}
 
 	public Recruit() {

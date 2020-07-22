@@ -5,14 +5,14 @@ import java.util.Date;
 public class Project {
 
 	private int pid;
-	private String pjtname;
-	private String pjtcontent;
-	private String pjtstate;
-	private int pjtmember_cnt;
-	private Date makeday;
-	private Date changeday;
-	private String makeid;
-	private String changeid;
+	private String pjtName;
+	private String pjtContent;
+	private String pjtState;
+	private int pjtMemberCnt;
+	private Date makeDay;
+	private Date changeDay;
+	private String makeId;
+	private String changeId;
 
 	public int getPid() {
 		return pid;
@@ -22,82 +22,82 @@ public class Project {
 		this.pid = pid;
 	}
 
-	public String getPjtname() {
-		return pjtname;
+	public String getPjtName() {
+		return pjtName;
 	}
 
-	public void setPjtname(String pjtname) {
-		this.pjtname = pjtname;
+	public void setPjtName(String pjtName) {
+		this.pjtName = pjtName;
 	}
 
-	public String getPjtcontent() {
-		return pjtcontent;
+	public String getPjtContent() {
+		return pjtContent;
 	}
 
-	public void setPjtcontent(String pjtcontent) {
-		this.pjtcontent = pjtcontent;
+	public void setPjtContent(String pjtContent) {
+		this.pjtContent = pjtContent;
 	}
 
-	public String getPjtstate() {
-		return pjtstate;
+	public String getPjtState() {
+		return pjtState;
 	}
 
-	public void setPjtstate(String pjtstate) {
-		this.pjtstate = pjtstate;
+	public void setPjtState(String pjtState) {
+		this.pjtState = pjtState;
 	}
 
-	public int getPjtmember_cnt() {
-		return pjtmember_cnt;
+	public int getPjtMemberCnt() {
+		return pjtMemberCnt;
 	}
 
-	public void setPjtmember_cnt(int pjtmember_cnt) {
-		this.pjtmember_cnt = pjtmember_cnt;
+	public void setPjtMemberCnt(int pjtMemberCnt) {
+		this.pjtMemberCnt = pjtMemberCnt;
 	}
 
-	public Date getMakeday() {
-		return makeday;
+	public Date getMakeDay() {
+		return makeDay;
 	}
 
-	public void setMakeday(Date makeday) {
-		this.makeday = makeday;
+	public void setMakeDay(Date makeDay) {
+		this.makeDay = makeDay;
 	}
 
-	public Date getChangeday() {
-		return changeday;
+	public Date getChangeDay() {
+		return changeDay;
 	}
 
-	public void setChangeday(Date changeday) {
-		this.changeday = changeday;
+	public void setChangeDay(Date changeDay) {
+		this.changeDay = changeDay;
 	}
 
-	public String getMakeid() {
-		return makeid;
+	public String getMakeId() {
+		return makeId;
 	}
 
-	public void setMakeid(String makeid) {
-		this.makeid = makeid;
+	public void setMakeId(String makeId) {
+		this.makeId = makeId;
 	}
 
-	public String getChangeid() {
-		return changeid;
+	public String getChangeId() {
+		return changeId;
 	}
 
-	public void setChangeid(String changeid) {
-		this.changeid = changeid;
+	public void setChangeId(String changeId) {
+		this.changeId = changeId;
 	}
 
-	public Project(int pid, String pjtname, String pjtcontent, String pjtstate, int pjtmember_cnt, Date makeday,
-			Date changeday, String makeid, String changeid) {
+	public Project(int pid, String pjtName, String pjtContent, String pjtState, int pjtMemberCnt, Date makeDay,
+			Date changeDay, String makeId, String changeId) {
 		super();
 		this.pid = pid;
-		this.pjtname = pjtname;
-		this.pjtcontent = pjtcontent;
-		this.pjtstate = pjtstate;
-		this.pjtmember_cnt = pjtmember_cnt;
-		this.makeday = makeday;
-		this.changeday = changeday;
-		this.makeid = makeid;
-		this.changeid = changeid;
+		this.pjtName = pjtName;
+		this.pjtContent = pjtContent;
+		this.pjtState = pjtState;
+		this.pjtMemberCnt = pjtMemberCnt;
+		this.makeDay = makeDay;
+		this.changeDay = changeDay;
+		this.makeId = makeId;
+		this.changeId = changeId;
 	}
 
 	public Project() {

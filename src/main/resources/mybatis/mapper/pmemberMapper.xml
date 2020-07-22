@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.test.pmember">
+	<select id="selectAll" resultType="pmember">
+		select * from pmember;
+	</select>
+
+	<select id="select" parameterType="pmember"
+		resultType="project_member">
+		select * from
+		pmember where pid=#{pid} and
+		userId=#{userId}
+	</select>
+
+	<insert id="insert" parameterType="pmember">
+		insert into pmember
+		select #{pid}, #{userId}, #{state}, #{priority}
+		from dual
+		where exists (select * from userInfo where id = #{userId})
+		and exists (select * from project where pid = #{pid})
+		and not exists(select * from project_member where user_id =#{userId} and pid = #{pid});		
+	</insert>
+
+	<delete id="delete" parameterType="pmember">
+		delete from pmember
+		where
+		pid=#{pid} and userId=#{userId}
+	</delete>
+
+	<update id="update" parameterType="pmember">
+		update pmember set
+		state=#{state}, priority=#{priority}
+		where pid=#{pid} and
+		userId=#{userId}
+	</update>
+</mapper>

@@ -14,9 +14,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<insert id="insert" parameterType="project">
 		insert into project
-		values(#{pid}, #{pjtname}, #{pjtcontent}, #{pjtstate},
-		1, #{makeday}, #{changeday}, #{makeid},
-		#{changeid})
+		values(#{pid}, #{pjtName}, #{pjtContent}, #{pjtState},
+		1, #{makeDay}, #{changeDay}, #{makeId},
+		#{changeId})
 	</insert>
 
 	<delete id="delete" parameterType="int">
@@ -26,9 +26,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<update id="update" parameterType="project">
 		update project set
-		pjtname=#{pjtname}, pjtcontent=#{pjtcontent}, pjtstate=#{pjtstate},
-		pjtmember_cnt=#{pjtmember_cnt}, makeday=#{makeday}, changeday=#{changeday},
-		makeid=#{makeid}, changeid=#{changeid}
+		pjtName=#{pjtName}, pjtContent=#{pjtContent}, pjtState=#{pjtState},
+		pjtMemberCnt=#{pjtMemberCnt}, makeDay=#{makeDay}, changeDay=#{changeDay},
+		makeId=#{makeId}, changeId=#{changeId}
 		where pid=#{pid}
 	</update>
 </mapper>
