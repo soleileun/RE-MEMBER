@@ -34,7 +34,7 @@
         
               <!-- Modal content -->
               <div class="modal-content">
-                <span class="close">&times;</span>                                                               
+                <span class="close2">&times;</span>                                                               
                 <p>이 곳에 프로젝트 컴포넌트 대입</p>
                  <button>참가신청</button>
                  <button>메시지 전송</button>
@@ -103,7 +103,7 @@ export default {
         var modal = document.getElementById('myModal2');
 
         // Get the <span> element that closes the modal
-        var span = document.getElementsByClassName("close")[0];                                          
+        var span = document.getElementsByClassName("close2")[0];                                          
  
         // When the user clicks on the button, open the modal 
         modal.style.display = "block";
@@ -159,14 +159,14 @@ export default {
       width: 50%; /* Could be more or less, depending on screen size */                          
   }
   /* The Close Button */
-  .close {
+  .close2 {
       color: #aaa;
       float: right;
       font-size: 28px;
       font-weight: bold;
   }
-  .close:hover,
-  .close:focus {
+  .close2:hover,
+  .close2:focus {
       color: black;
       text-decoration: none;
       cursor: pointer;
