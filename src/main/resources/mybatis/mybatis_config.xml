@@ -12,8 +12,8 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			alias="project" />
 		<typeAlias type="com.ssafy.test.model.dto.Recruit"
 			alias="recruit" />
-		<typeAlias type="com.ssafy.test.model.dto.Project_member"
-			alias="project_member" />
+		<typeAlias type="com.ssafy.test.model.dto.Pmember"
+			alias="pmember" />
 		<typeAlias type="com.ssafy.test.model.dto.Interest"
 			alias="interest" />
        <typeAlias type="com.ssafy.test.model.dto.UserInfo" 
@@ -37,7 +37,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	<mappers>
 		<mapper resource="mybatis/mapper/projectMapper.xml" />
 		<mapper resource="mybatis/mapper/recruitMapper.xml" />
-		<mapper resource="mybatis/mapper/project_memberMapper.xml" />
+		<mapper resource="mybatis/mapper/pmemberMapper.xml" />
 		<mapper resource="mybatis/mapper/interestMapper.xml" />
 		<mapper resource="mybatis/mapper/UserInfoMapper.xml" />
         <mapper resource="mybatis/mapper/FollowingMapper.xml" />

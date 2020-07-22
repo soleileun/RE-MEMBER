@@ -1,8 +1,8 @@
 package com.ssafy.test.model.dto;
 
-public class Project_member {
+public class Pmember {
 	private int pid;
-	private String user_id;
+	private String userId;
 	private String state;
 	private int priority;
 
@@ -14,12 +14,12 @@ public class Project_member {
 		this.pid = pid;
 	}
 
-	public String getUser_id() {
-		return user_id;
+	public String getUserId() {
+		return userId;
 	}
 
-	public void setUser_id(String user_id) {
-		this.user_id = user_id;
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 
 	public String getState() {
@@ -38,15 +38,15 @@ public class Project_member {
 		this.priority = priority;
 	}
 
-	public Project_member(int pid, String user_id, String state, int priority) {
+	public Pmember(int pid, String userId, String state, int priority) {
 		super();
 		this.pid = pid;
-		this.user_id = user_id;
+		this.userId = userId;
 		this.state = state;
 		this.priority = priority;
 	}
 
-	public Project_member() {
+	public Pmember() {
 		super();
 	}
 

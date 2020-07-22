@@ -14,12 +14,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 
 	<insert id="insert" parameterType="recruit">
-		insert into recruit(rnum, pid,
-		title, contents, end_date, makeday, changeday, makeid, changeid)
-		values(#{rnum},
+
+		insert into recruit(pid,
+		title, contents, endDate, makeDay, changeDay, makeId, changeId)
+		select
 		#{pid}, #{title}, #{contents},
-		#{end_date}, #{makeday}, #{changeday},
-		#{makeid}, #{changeid})
+		date_add(now(), interval 7 day),
+		now(),
+		now(),
+		#{makeId}, #{changeId}
+		where exists (select * from project
+		where
+		pid =
+		#{pid})
+		and exists (select * from userInfo where id =
+		#{makeId})
+		and exists
+		(select * from userInfo where id = #{changeId})
+		;
+
 	</insert>
 
 	<delete id="delete" parameterType="int">
@@ -28,13 +41,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</delete>
 
 	<update id="update" parameterType="recruit">
-		update recruit set
-		pid=#{pid},
-		title=#{title}, contents=#{contents},
-		end_date=#{end_date},
-		makeday=#{makeday}, changeday=#{changeday},
-		makeid=#{makeid}, changeid=#{changeid}
-		where
-		rnum=#{rnum}
+	
+		update recruit inner join
+		userInfo
+		on userInfo.id = recruit.changeId
+		set title = #{title},
+		contents = #{contents}, changeId =
+		#{changeId}
+		where (select count(*)
+		from userInfo where id = #{changeId}) = 1
+		and rnum = #{rnum}
+		;
+
 	</update>
 </mapper>

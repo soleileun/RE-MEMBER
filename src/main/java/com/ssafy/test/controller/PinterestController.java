@@ -48,7 +48,7 @@ public class PinterestController {
 
 	@ApiOperation(value = "특정 pid와 특정 관심사를 가진 정보를 조회한다.", response = Pinterest.class)
 	@GetMapping("search/pid={pid},interest={interest}")
-	public ResponseEntity<Pinterest> detailBoard(@PathVariable int pid, String interest) {
+	public ResponseEntity<Pinterest> detailBoard(@PathVariable int pid, @PathVariable String interest) {
 		Pinterest v;
 		v = new Pinterest(pid,interest);
 		//v.setPid(pid);

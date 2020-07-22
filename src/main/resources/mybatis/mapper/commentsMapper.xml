@@ -10,35 +10,41 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<select id="select" parameterType="int" resultType="comments">
 		select *
-		from comments
+		from
+		comments
 		where cno =#{cno}
 	</select>
-	
-	<select id="selectedComments" parameterType="int" resultType="comments">
+
+	<select id="selectedComments" parameterType="int"
+		resultType="comments">
 		select *
 		from comments
 		where bno =#{bno} and isSelected = 1
 	</select>
-	
-	<select id="searchById" parameterType="string" resultType="comments">
+
+	<select id="searchById" parameterType="string"
+		resultType="comments">
 		select *
 		from comments
 		where cwriter =#{cwriter}
 	</select>
-	<select id="searchSelectedComments" parameterType="string" resultType="comments">
+	<select id="searchSelectedComments" parameterType="string"
+		resultType="comments">
 		select *
 		from comments
-		where cwriter =#{cwriter} and isSelected = 1
+		where cwriter =#{cwriter} and
+		isSelected = 1
 	</select>
-	
-	
-	
+
+
+
 
 	<insert id="insert" parameterType="comments">
-		insert into comments(cwriter,ccontent,bno,isSelected,makeday,makeid)
+		insert into
+		comments(cwriter,ccontent,bno,isSelected,makeDay,makeId)
 		values(#{cwriter}, #{ccontent},
-		#{bno}, #{isSelected}, #{makeday},
-		#{makeid})
+		#{bno}, #{isSelected}, #{makeDay},
+		#{makeId})
 	</insert>
 
 	<delete id="delete" parameterType="int">
@@ -48,15 +54,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<update id="update" parameterType="comments">
 		update comments set
-		ccontent =#{ccontent }, isSelected =#{isSelected },
-		changeday =#{changeday }, changeid =#{changeid }
+		ccontent
+		=#{ccontent }, isSelected =#{isSelected },
+		changeDay =#{changeDay },
+		changeId =#{changeId }
 		where cno=#{cno}
 	</update>
-	
-	
+
+
 	<update id="pick" parameterType="comments">
 		update comments set
-		isSelected = 1
+		isSelected =
+		1
 		where cno=#{cno}
 	</update>
 </mapper>

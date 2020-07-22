@@ -3,63 +3,73 @@ package com.ssafy.test.model.dto;
 import java.util.Date;
 
 public class Message {
-	
+
 	private int mnum;
-	private String to_user;
-	private String from_user;
+	private String toUser;
+	private String fromUser;
 	private String content;
 	private Date time;
-	private boolean is_read;
+	private boolean isRead;
+
 	public int getMnum() {
 		return mnum;
 	}
+
 	public void setMnum(int mnum) {
 		this.mnum = mnum;
 	}
-	public String getTo_user() {
-		return to_user;
+
+	public String getToUser() {
+		return toUser;
 	}
-	public void setTo_user(String to_user) {
-		this.to_user = to_user;
+
+	public void setToUser(String toUser) {
+		this.toUser = toUser;
 	}
-	public String getFrom_user() {
-		return from_user;
+
+	public String getFromUser() {
+		return fromUser;
 	}
-	public void setFrom_user(String from_user) {
-		this.from_user = from_user;
+
+	public void setFromUser(String fromUser) {
+		this.fromUser = fromUser;
 	}
+
 	public String getContent() {
 		return content;
 	}
+
 	public void setContent(String content) {
 		this.content = content;
 	}
+
 	public Date getTime() {
 		return time;
 	}
+
 	public void setTime(Date time) {
 		this.time = time;
 	}
-	public boolean isIs_read() {
-		return is_read;
+
+	public boolean isRead() {
+		return isRead;
 	}
-	public void setIs_read(boolean is_read) {
-		this.is_read = is_read;
+
+	public void setRead(boolean isRead) {
+		this.isRead = isRead;
 	}
-	public Message(int mnum, String to_user, String from_user, String content, Date time, boolean is_read) {
+
+	public Message(int mnum, String toUser, String fromUser, String content, Date time, boolean isRead) {
 		super();
 		this.mnum = mnum;
-		this.to_user = to_user;
-		this.from_user = from_user;
+		this.toUser = toUser;
+		this.fromUser = fromUser;
 		this.content = content;
 		this.time = time;
-		this.is_read = is_read;
+		this.isRead = isRead;
 	}
+
 	public Message() {
 	}
 
-	
-	
-
-	  
 }

@@ -14,7 +14,7 @@ public class UserInfo {
 	private String phone;
 	private String git;
 	private int points;
-	private Date lastdate;
+	private Date lastDate;
 	private boolean state;
 	private String responsibility;
 	public String getId() {
@@ -71,11 +71,11 @@ public class UserInfo {
 	public void setPoints(int points) {
 		this.points = points;
 	}
-	public Date getLastdate() {
-		return lastdate;
+	public Date getLastDate() {
+		return lastDate;
 	}
-	public void setLastdate(Date lastdate) {
-		this.lastdate = lastdate;
+	public void setLastdate(Date lastDate) {
+		this.lastDate = lastDate;
 	}
 	public boolean isState() {
 		return state;
@@ -90,7 +90,7 @@ public class UserInfo {
 		this.responsibility = responsibility;
 	}
 	public UserInfo(String id, String nickname, String name, String pw, String address1, String address2, String phone,
-			String git, int points, Date lastdate, boolean state, String responsibility) {
+			String git, int points, Date lastDate, boolean state, String responsibility) {
 		super();
 		this.id = id;
 		this.nickname = nickname;
@@ -101,7 +101,7 @@ public class UserInfo {
 		this.phone = phone;
 		this.git = git;
 		this.points = points;
-		this.lastdate = lastdate;
+		this.lastDate = lastDate;
 		this.state = state;
 		this.responsibility = responsibility;
 	}

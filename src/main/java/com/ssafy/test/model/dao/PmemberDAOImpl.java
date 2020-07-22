@@ -6,38 +6,38 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.ssafy.test.model.dto.Project_member;
+import com.ssafy.test.model.dto.Pmember;
 
 @Repository
-public class Project_memberDAOImpl implements Project_memberDAO{
+public class PmemberDAOImpl implements PmemberDAO{
 	
-	private static final String ns = "com.ssafy.test.Project_member.";
+	private static final String ns = "com.ssafy.test.pmember.";
 
 	@Autowired
 	SqlSessionTemplate template;
 
 	@Override
-	public List<Project_member> selectAll() {
+	public List<Pmember> selectAll() {
 		return template.selectList(ns + "selectAll");
 	}
 
 	@Override
-	public Project_member select(Project_member pm) {
+	public Pmember select(Pmember pm) {
 		return template.selectOne(ns + "select", pm);
 	}
 
 	@Override
-	public int insert(Project_member pm) {
+	public int insert(Pmember pm) {
 		return template.insert(ns + "insert", pm);
 	}
 
 	@Override
-	public int delete(Project_member pm) {
+	public int delete(Pmember pm) {
 		return template.delete(ns + "delete", pm);
 	}
 
 	@Override
-	public int update(Project_member pm) {
+	public int update(Pmember pm) {
 		return template.update(ns + "update", pm);
 	}
 }

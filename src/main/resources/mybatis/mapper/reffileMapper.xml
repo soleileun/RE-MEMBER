@@ -10,17 +10,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<select id="select" parameterType="int" resultType="reffile">
 		select *
-		from reffile
+		from
+		reffile
 		where fno =#{fno}
-	
+
 
 	</select>
 
 	<insert id="insert" parameterType="reffile">
-		insert into reffile(fboardno, foname, fsname, fsize, makeday, makeid)
+		insert into reffile(fboardno,
+		foname, fsname, fsize, makeDay, makeId)
 		values(#{fboardno}, #{foname},
-		#{fsname}, #{fsize}, #{makeday},
-		#{makeid})
+		#{fsname}, #{fsize}, #{makeDay},
+		#{makeId})
 	</insert>
 
 	<delete id="delete" parameterType="int">
@@ -30,10 +32,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<update id="update" parameterType="reffile">
 		update reffile set
-		foname =#{foname }, fsname=#{fsname}, fsize =#{fsize },
-		changeday =#{changeday }, changeid =#{changeid }
+		foname
+		=#{foname }, fsname=#{fsname}, fsize =#{fsize },
+		changeDay =#{changeDay
+		}, changeId =#{changeId }
 		where fno=#{fno}
 	</update>
-	
-	
+
+
 </mapper>
