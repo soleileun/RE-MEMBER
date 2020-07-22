@@ -97,7 +97,7 @@ public class BoardController {
 	
 	@ApiOperation(value = "특정 카테고리에서 특정 사람이 쓴 글을 검색한다.", response = List.class)
 	@GetMapping("typesearch/writer={bwriter},bstate={bstate}")
-	public ResponseEntity<List<Board>> typesearchById(@PathVariable String bwriter, String bstate) {
+	public ResponseEntity<List<Board>> typesearchById(@PathVariable String bwriter, @PathVariable String bstate) {
 		Board v;
 		v = new Board();
 		v.setBstate(bstate);
@@ -107,7 +107,7 @@ public class BoardController {
 
 	@ApiOperation(value = "특정 카테고리에서 특정 내용이 포함된 글을 검색한다.", response = List.class)
 	@GetMapping("typesearch/bcontent={bcontent},bstate={bstate}")
-	public ResponseEntity<List<Board>> typesearchByContents(@PathVariable String bcontent, String bstate) {
+	public ResponseEntity<List<Board>> typesearchByContents(@PathVariable String bcontent, @PathVariable String bstate) {
 		Board v;
 		v = new Board();
 		v.setBstate(bstate);
@@ -117,7 +117,7 @@ public class BoardController {
 
 	@ApiOperation(value = "특정 카테고리에서 특정 제목이 포함된 글을 검색한다.", response = List.class)
 	@GetMapping("typesearch/btitle={btitle},bstate={bstate}")
-	public ResponseEntity<List<Board>> typesearchByTitle(@PathVariable String btitle, String bstate) {
+	public ResponseEntity<List<Board>> typesearchByTitle(@PathVariable String btitle, @PathVariable String bstate) {
 		Board v;
 		v = new Board();
 		v.setBstate(bstate);
@@ -126,8 +126,8 @@ public class BoardController {
 	}
 
 	@ApiOperation(value = "특정 카테고리에서 특정 제목이나 내용이 포함된 글을 검색한다.", response = List.class)
-	@GetMapping("typesearch/btitleandbcontent={btitle},bstate={bstate}")
-	public ResponseEntity<List<Board>> typesearchByTitleAndContents(@PathVariable String btitle, String bstate) {
+	@GetMapping("typesearch/btitleandbcontent={btitle}&bstate={bstate}")
+	public ResponseEntity<List<Board>> typesearchByTitleAndContents(@PathVariable String btitle, @PathVariable String bstate) {
 		Board v;
 		v = new Board();
 		v.setBstate(bstate);
