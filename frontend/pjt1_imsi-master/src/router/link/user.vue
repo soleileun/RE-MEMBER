@@ -3,7 +3,7 @@
     <h1>내 프로필</h1>
     <h1>(github.io로 직접 작성하는것이라고 함)</h1>
     <iframe src="https://renielcanlas.github.io" width="900vw" height="500px" frameborder="0"></iframe>
-
+    
     <router-link class="nav-link" :to="{name:'editinfo'}">개인정보 수정</router-link>
 
     <router-link class="nav-link" :to="{name:'service'}">고객센터</router-link>

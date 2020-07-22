@@ -26,7 +26,13 @@ export default {
     return {
       detailid: 1,
       viewdetail: false,
-      mess: this.$store.state.messageList
+      mess: [
+        {
+          nick:'123'
+          
+        }
+        ]
+      //this.$store.state.messageList
     };
   },
   methods: {

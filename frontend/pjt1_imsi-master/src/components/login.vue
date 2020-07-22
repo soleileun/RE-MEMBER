@@ -14,8 +14,8 @@
         <router-link :to="{name:'findIDPW'}">아이디 / 비밀번호 찾기</router-link>
       </span>
       <div>
-        <span @click="kakao">카카오</span> | 
-        <span @click="google">구글</span>
+        <!-- <span @click="kakao">카카오</span> | 
+        <span @click="google">구글</span> -->
       </div>
       <div v-if="error">아이디와 비밀번호를 모두 입력해주세요</div>
     </div>

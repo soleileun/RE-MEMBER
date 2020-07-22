@@ -26,6 +26,8 @@
     {{error.email}}
     <br />깃주소 :
     <input class="id" v-model="git" type="text" />
+    <br />sadasdfasdf :
+    <input class="id" v-model="responsibility" type="text" />
     <br />
     <button @click="goSignin" class="gosignin" :class="{submitable:submitable}">회원가입</button>
   </div>
@@ -34,6 +36,7 @@
 <script>
 import PV from "password-validator";
 import * as EmailValidator from "email-validator";
+import http from "@/http-common.js";
 
 export default {
   name: "signupform",
@@ -63,10 +66,11 @@ export default {
       git: "",
       submitable: false,
       error: {
-        email: '',
-        pw: '',
-        pw2: ''
-      }
+        email: "",
+        pw: "",
+        pw2: ""
+      },
+      responsibility:''
     };
   },
   watch: {
@@ -84,15 +88,15 @@ export default {
     checkForm() {
       if (this.email.length >= 0 && !EmailValidator.validate(this.email))
         this.error.email = "이메일 형식이 아닙니다.";
-      else this.error.email = '';
+      else this.error.email = "";
 
       if (this.pw.length >= 0 && !this.pwSchema.validate(this.pw))
         this.error.pw = "영문,숫자 포함 8 자리이상이어야 합니다.";
-      else this.error.pw = '';
+      else this.error.pw = "";
 
       if (this.pw !== this.pw2)
         this.error.pw2 = "비밀번호가 일치하지 않습니다.";
-      else this.error.pw2 = '';
+      else this.error.pw2 = "";
 
       let submitable = true;
       Object.values(this.error).map(v => {
@@ -101,31 +105,18 @@ export default {
       this.submitable = submitable;
     },
     goSignin: function() {
-      let form = new FormData();
-      form.append("id", this.id);
-      form.append("pw", this.pw);
-      form.append("pw2", this.pw2);
-      form.append("nickname", this.nickname);
-      form.append("name", this.name);
-      form.append("address1", this.address1);
-      form.append("address2", this.address2);
-      form.append("phone", this.phone);
-      form.append("email", this.email);
-      form.append("git", this.git);
-      console.log(form);
-      // 
-      // axios({
-      //   method: "post",
-      //   url: "비번 찾기 url",
-      //   data: form,
-      //   responseType: "json"
-      // })
-      //   .then(response => {
-      //     console.log(response.data);
-      //   })
-      //   .catch(e => {
-      //     console.log(e);
-      //   });
+      http.post("/api/userinfo/", {
+        id: this.id,
+        pw: this.pw,
+        nickname: this.nickname,
+        name:this.name,
+        address1: this.address1,
+        address2: this.address2,
+        phone: this.phone,
+        email: this.email,
+        git: this.git,
+        responsibility:this.responsibility
+      });
     }
   }
 };
@@ -133,10 +124,10 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-.gosignin{
-  opacity: .2;
+.gosignin {
+  opacity: 0.2;
 }
-.submitable{
+.submitable {
   opacity: 1;
 }
 </style>
