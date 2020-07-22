@@ -5,7 +5,7 @@ import Constant from '../../Constant.js';
 import http from '../../http-common.js';
 Vue.use(Vuex);
 
-const boardstore = new Vuex.Store({
+const boardstore = {
   state: {
       boards: [],
       board: {}
@@ -109,6 +109,6 @@ const boardstore = new Vuex.Store({
 
   modules: {
   }
-});
+};
 
 export default boardstore;
