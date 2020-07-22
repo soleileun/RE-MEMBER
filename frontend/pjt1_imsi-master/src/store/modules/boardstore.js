@@ -17,7 +17,10 @@ const boardstore = {
     //bstate에 맞는 리스트 가져오기
     [Constant.GET_BOARDLIST]: (store,payload) => {
       http.get('/api/board/statesearching/'+ payload.bstate)
-          .then(response => store.commit(Constant.GET_BOARDLIST, { boards: response.data }))
+          .then(response => {
+            console.log(response)
+              store.commit(Constant.GET_BOARDLIST, { boards: response.data })
+        })
           .catch(exp => alert('getBoardList처리에 실패하였습니다.' + exp));
     },
     //bno으로 게시글 하나 가져오기
@@ -39,10 +42,10 @@ const boardstore = {
                 bview : payload.bview,
                 bfile : payload.bfile,
                 bstate : payload.bstate,
-                makeday : payload.makeday,
-                // changeday : payload.changeday,
-                makeid : payload.makeid,
-                // changeid : payload.changeid
+                makeDay : payload.makeDay,
+                // changeDay : payload.changeDay,
+                makeId : payload.makeId,
+                // changeId : payload.changeId
             })
             .then(() => {
                 console.log('추가하였습니다.');
@@ -68,14 +71,34 @@ const boardstore = {
     },
     //게시글 삭제
     [Constant.REMOVE_BOARD]: (store, payload) => {
-        http.delete('/api/board/' + payload.qna_no)
+        http.delete('/api/board/delete/' + payload.bno)
             .then(() => {
-                console.log('삭제하였습니다.');
-                store.dispatch(Constant.GET_TODOLIST);
+                alert('삭제하였습니다.');
             })
             .catch(exp => alert('삭제 처리에 실패하였습니다.' + exp));
 
     },
+    //제목으로 찾기
+    [Constant.SEARCH_BOARD_TITLE]: (store,payload) => {
+        console.log(payload);
+        http.get('/api/board/typesearch/btitle='+ payload.btitle + '&bstate=' + payload.bstate)
+            .then(response => {
+                console.log(response.data);
+                store.commit(Constant.GET_BOARDLIST, { boards: response.data })
+          })
+            .catch(exp => alert('search by title 처리에 실패하였습니다.' + exp));
+      },
+    //작성자로 찾기
+    [Constant.SEARCH_BOARD_WRITER]: (store,payload) => {
+        console.log(payload);
+        http.get('/api/board/typesearch/writer='+ payload.bwriter + '&bstate=' + payload.bstate)
+            .then(response => {
+                console.log(response.data);
+                store.commit(Constant.GET_BOARDLIST, { boards: response.data })
+          })
+            .catch(exp => alert('search by title 처리에 실패하였습니다.' + exp));
+      },
+
     // [Constant.COMPLETE_TODO]: (store, payload) => {
     //     http.put('/api/qna/' + payload.qna_no)
     //         .then(() => {
@@ -96,7 +119,8 @@ const boardstore = {
 
   mutations: {
     [Constant.GET_BOARDLIST]: (state, payload) => {
-            state.boards = payload.boards;
+        // console.log('mutation' + payload.boards);
+        state.boards = payload.boards;
     },
     [Constant.GET_BOARD]: (state, payload) => {
         state.board = payload.board;

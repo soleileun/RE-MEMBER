@@ -1,49 +1,24 @@
 <template>
-  <div class="detailfree">
-    <h1>자유게시판 글 조회 샘플</h1>
-    
-    <hr>
-    <!-- 게시물 번호로 게시물 search 후 id 꺼내기 -->
-    아이디 : {{board.bwriter}}<br> 
-    제목 : {{board.btitle}}<br>
-    등록날짜 : {{board.makeDay}}<br>
-    내용<br>
-    {{board.bcontent}}<br>
-    <!-- 작성자 본인, 관리자만 수정 삭제 가능 -->
-    <router-link :to="'/freeboard/modifyfree/' + free.bno">수정</router-link>
-    <button @click="deleteFree">삭제</button>
-    <router-link to="/freeboard" tag="button">목록으로</router-link>
-    <br>
-    <br>
-    * 댓글 목록
-    <!-- comment 싱글파일컴포넌트 제작시 테이블 빼고 컴포로 대체 -->
-    <table>
-    <thead>
-      <tr>
-        <th>no</th>
-        <th>id</th>
-        <th>contents</th>
-        <th>register_day</th>
-        <th> - </th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="comment in comments" :key="comment.cno">
-        <td>{{comment.cno}}</td>
-        <!-- bno 쿼리스트링 달아서 분기 -->
-        <td>{{comment.cwriter}}</td>
-        <td>{{comment.ccontent}}</td>
-        <td>{{comment.makeDay}}</td>
-        <!-- 작성자 또는 관리자일 때만 활성화로 설정 변경할 것 -->
-        <td><a href="#">삭제</a></td>
-      </tr>
-    </tbody>
-  </table>
-  </div>
+    <div>
+
+        <h1>자유게시판 글 수정 샘플</h1>
+        
+        <hr>
+        <!-- 게시물 번호로 게시물 search 후 id 꺼내기 -->
+        아이디 : {{board.bwriter}}<br> 
+        제목 : {{board.btitle}}<br>
+        등록날짜 : {{board.makeDay}}<br>
+        내용<br>
+        {{board.bcontent}}<br>
+        <!-- 작성자 본인, 관리자만 수정 삭제 가능 -->
+        <router-link :to="'/freeboard/modifyfree/' + free.bno">수정</router-link>
+        <button @click="deleteFree">삭제</button>
+        <router-link to="/freeboard" tag="button">목록으로</router-link>
+    </div>
 </template>
 
 <script>
-import Constant from '../../Constant';
+    import Constant from '../../Constant';
 
 export default {
   name: "detailfree",
@@ -75,7 +50,20 @@ export default {
     getBoard(bno) {
       this.$store.dispatch(Constant.GET_BOARD, { bno });
     },
-    
+    // modifyFree() {
+    //   if (this.board.qna_content != "") {
+    //     console.log("할일 수정:: ");
+    //     console.log(this.todo);
+    //     this.$store.dispatch(Constant.MODIFY_TODO, { todo: this.todo });
+    //     this.$router.push("/");
+    //   } else {
+    //     console.log("공백입력.");
+    //   }
+    //   this.clear();
+    // },
+    // clear() {
+    //   this.todo = {}; 
+    // },
     deleteFree(){
       var con_test = confirm("삭제하시겠습니까?");
       if(con_test == true){
@@ -120,12 +108,6 @@ export default {
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="scss">
-table, td, tr, th {
-  width : 1000px;
-  margin : 0 auto;
-  text-align: center;
-  border: 1px solid black;
-}
+<style>
+
 </style>

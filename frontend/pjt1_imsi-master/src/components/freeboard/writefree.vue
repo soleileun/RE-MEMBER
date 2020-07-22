@@ -28,10 +28,10 @@ export default {
         bview :'',
         bfile :'',
         bstate : '',
-        makeday : '',
-        changeday : '',
-        makeid :'',
-        changeid : ''
+        makeDay : '',
+        changeDay : '',
+        makeId :'',
+        changeId : ''
       },
     };
   },
@@ -47,10 +47,10 @@ export default {
                     bview : this.board.bview,
                     bfile : this.board.bfile,
                     bstate : 'free',
-                    makeday : new Date(),
-                    // changeday : this.board.changeday,
-                    makeid : this.board.makeid,
-                    // changeid : this.board.changeid
+                    makeDay : new Date(),
+                    // changeDay : this.board.changeday,
+                    makeId : this.board.makeid,
+                    // changeId : this.board.changeid
                 });
                 this.$router.push('/freeboard');
             }else{

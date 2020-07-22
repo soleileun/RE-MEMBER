@@ -5,6 +5,7 @@ import mainpage from './link/mainpage.vue'
 import freeboard from './link/freeboard.vue'
 import writefree from '../components/freeboard/writefree.vue'
 import detailfree from '../components/freeboard/detailfree.vue'
+import modifyfree from '../components/freeboard/modifyfree.vue'
 
 import mainboard from '../components/board/mainboard.vue'
 
@@ -54,6 +55,11 @@ const routes = [
         path: '/freeboard/detailfree/:bno',
         name: 'detailfree',
         component: detailfree
+    },
+    {
+        path: '/freeboard/modifyfree/:bno',
+        name: 'modifyfree',
+        component: modifyfree
     },
     {
         path: '/mainboard',

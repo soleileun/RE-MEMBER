@@ -19,7 +19,7 @@
         <!-- bno 쿼리스트링 달아서 분기 -->
         <td>  <router-link :to="'/freeboard/detailfree/' + free.bno">{{free.btitle}}</router-link></td>
         <td>{{free.bwriter}}</td>
-        <td>{{free.makeday}}</td>
+        <td>{{free.makeDay}}</td>
       </tr>
     </tbody>
   </table>
@@ -44,8 +44,9 @@ export default {
   name: "freeboard1",
   computed: {
     frees() {
-      // console.log(this.$store.state.boards);
-      return this.$store.state.boards; 
+      // console.log('안녕');
+      console.log('확인 : ' + this.$store.state.boardstore.boards);
+      return this.$store.state.boardstore.boards; 
     }
   },
   created () {
@@ -77,9 +78,9 @@ export default {
       //제목 검색
       if(std == 't'){
         console.log(val);
-        this.$store.dispatch(Constant.SEARCH_BOARD_TITLE, {btitle : val});
+        this.$store.dispatch(Constant.SEARCH_BOARD_TITLE, {btitle : val, bstate : 'free'});
       }else{ //작성자 검색
-        this.$store.dispatch(Constant.SEARCH_BOARD_WRITER, {bwriter : val});
+        this.$store.dispatch(Constant.SEARCH_BOARD_WRITER, {bwriter : val, bstate : 'free'});
       }
     }
   },
