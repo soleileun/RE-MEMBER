@@ -1,7 +1,8 @@
 package com.ssafy.test.controller;
 
 import java.util.List;
-
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,10 +55,19 @@ public class UserInfoController {
 	@PostMapping
 	public ResponseEntity<String> insertUser(@RequestBody UserInfo q) {
 		logger.debug("insertUser - 호출");
-		if (uiService.insert(q) ==1) {
+		boolean emailTest = checkRex(q.getId(), "id");
+		boolean pwTest = checkRex(q.getPw(), "password");
+		boolean nameTest = checkRex(q.getName(), "name");
+		boolean nicknameTest = checkRex(q.getNickname(), "nickname");
+		boolean phoneTest = checkRex(q.getPhone(), "phone");
+		boolean resTest = false;
+		String rep = q.getResponsibility();
+		if(rep == "개발" || rep == "기획" || rep=="디자인") resTest = true;
+		if (emailTest && pwTest && nameTest && nicknameTest && phoneTest && resTest) {
+			uiService.insert(q);
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		}
-		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
+		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT); //에러를 바꿔줘야할것같아여 ㅠㅠ
 	}
 
     @ApiOperation(value = "유저 정보를 수정한다", response = String.class)
@@ -81,4 +91,30 @@ public class UserInfoController {
 		}
 		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
 	}
+    
+    public boolean checkRex(String input, String option) {
+    	Pattern p=Pattern.compile(" ");
+    	if(option == "id") {
+    		p = Pattern.compile("^[0-9a-zA-Z]([-_\\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\\.]?[0-9a-zA-Z])*\\.[a-zA-Z]{2,3}$");
+    	}else if( option =="name") {
+    		p = Pattern.compile("^[가-힣]*$");
+    	}else if(option =="phone") {
+    		p = Pattern.compile("^01([0|1|6|7|8|9]?)-?([0-9]{3,4})-?([0-9]{4})$");
+    	}else if(option == "password") {
+    		p = Pattern.compile("^[a-z0-9_]{8,20}$");
+    	}else if(option == "nickname") {
+    		p = Pattern.compile("^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|\\*]+$");
+    	}
+    	
+    	Matcher m = p.matcher(input);
+    	if(m.find()) {
+    		return true;
+    	}
+    	
+    	System.out.println( option + "틀렸음 ㅡㅡ ");
+    	
+    	return false;
+    }
+    
+    
 }
