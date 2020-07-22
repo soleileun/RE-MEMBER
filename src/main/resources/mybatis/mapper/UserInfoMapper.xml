@@ -7,13 +7,13 @@
 
     <!-- 회원 가입  -->
     <insert id="insert" parameterType="userinfo">
-        insert into userinfo (id,nickname,name,pw,address1,address2,phone,git,points,lastDate,state,responsibility) 
+        insert into userInfo (id,nickname,name,pw,address1,address2,phone,git,points,lastDate,state,responsibility) 
          values (#{id},#{nickname},#{name},#{pw},#{address1},#{address2},#{phone},#{git},#{points},#{lastDate},#{state},#{responsibility})
     </insert>
 
     <!-- 회원 수정 -->
     <update id="update" parameterType="userinfo" >
-         update userinfo 
+         update userInfo 
          set pw=#{pw}, name=#{name}, lastDate=#{lastDate} 
            ,phone=#{phone}
           where id=#{id}
@@ -21,19 +21,18 @@
     
     <!--  회원 삭제  -->
     <delete id="delete" parameterType="string">
-        delete from userinfo where id=#{id}
+        delete from userInfo where id=#{id}
     </delete>
     
     
     <!-- 로그인 회원 조회 -->
     <select id="select" parameterType="string" resultType="userinfo">
         select id,nickname,name,pw
-        from userinfo where id=#{id} 
+        from userInfo where id=#{id} 
     </select>
     
     <select id="selectAll" parameterType="string" resultType="userinfo">
-        select id,nickname,name,pw
-        from userinfo
+        select * from userInfo
     </select> 
 
 
