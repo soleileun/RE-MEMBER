@@ -17,16 +17,16 @@
       <tr v-for="free in frees" :key="free.bno">
         <td>{{free.bno}}</td>
         <!-- bno 쿼리스트링 달아서 분기 -->
-        <td>  <router-link to="/freeboard/detailfree">{{free.btitle}}</router-link></td>
+        <td>  <router-link :to="'/freeboard/detailfree/' + free.bno">{{free.btitle}}</router-link></td>
         <td>{{free.bwriter}}</td>
         <td>{{free.makeday}}</td>
       </tr>
     </tbody>
   </table>
-  디비에 들어갈 조건들 : {{selected}} + {{searchWord}} <br>
+  <!-- 디비에 들어갈 조건들 : {{selected}} + {{searchWord}} <br> -->
     <select name="standard" id="standard" >
-      <option value="제목" selected>제목</option>
-      <option value="작성자">작성자</option>
+      <option value="t" selected>제목</option>
+      <option value="w">작성자</option>
     </select>
     <input type="text" placeholder="검색어를 입력하세요" id="searchWord"/>
     <button v-on:click="searchFree">검색</button>
@@ -37,47 +37,50 @@
 </template>
 
 <script>
+import Constant from '../../Constant';
+// import { mapActions } from 'vuex'
+
 export default {
   name: "freeboard1",
-  data() {
-    return {
-      searchWord : '검색어',
-      selected : '조건',
-      //후에 디비로 교체
-      frees:[
-        { 
-          bno : 1 ,
-          bwriter : 'ssafy',
-          btitle : 'love you ssafy',
-          bcontent : 'fall in love ssafy',
-          bview : 12, //조회 시 increase 나중에 구현
-          bfile : 'c:/ssafy',
-          bstate : 'free', //게시글 종류. 후에 수정
-          makeday : '2020-03-31',
-          changeday : '2020-07-01',
-          makeid : 'makeid1',
-          changeid : 'changeid1'
-        },
-        { 
-          bno : 2 ,
-          bwriter : 'meeting',
-          btitle : 'ssafy meeting',
-          bcontent : 'offline good good',
-          bview : 7, //조회 시 increase 나중에 구현
-          bfile : 'c:/ssafy/meeting',
-          bstate : 'free', //게시글 종류. 후에 수정
-          makeday : '2020-04-31',
-          changeday : '2020-05-01',
-          makeid : 'makeid2',
-          changeid : 'changeid2'
-        }
-      ]
+  computed: {
+    frees() {
+      // console.log(this.$store.state.boards);
+      return this.$store.state.boards; 
     }
   },
+  created () {
+    this.$store.dispatch(Constant.GET_BOARDLIST,{bstate : 'free'});
+  },
+
+  data() {
+    return {
+      // searchWord : '검색어',
+      // selected : '조건',
+    }
+  },
+  // methods: {
+  //   getBoard(no) {
+  //     console.log('getBoard :::: '+no);
+  //     this.$router.push('/detail/'+no);
+  //   },
+  //   ...mapActions([
+  //     Constant.REMOVE_TODO,
+  //     Constant.COMPLETE_TODO
+  //   ])
+  // },
+
   methods: {
     searchFree(){
-      this.searchWord = document.getElementById("searchWord").value;
-      this.selected = document.getElementById("standard").value;
+      let val  = document.getElementById("searchWord").value;
+      let std = document.getElementById("standard").value;
+
+      //제목 검색
+      if(std == 't'){
+        console.log(val);
+        this.$store.dispatch(Constant.SEARCH_BOARD_TITLE, {btitle : val});
+      }else{ //작성자 검색
+        this.$store.dispatch(Constant.SEARCH_BOARD_WRITER, {bwriter : val});
+      }
     }
   },
 };

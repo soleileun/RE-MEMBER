@@ -15,7 +15,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<insert id="insert" parameterType="project">
 		insert into project
 		values(#{pid}, #{pjtname}, #{pjtcontent}, #{pjtstate},
-		#{pjtmember_cnt}, #{makeday}, #{changeday}, #{makeid},
+		1, #{makeday}, #{changeday}, #{makeid},
 		#{changeid})
 	</insert>
 

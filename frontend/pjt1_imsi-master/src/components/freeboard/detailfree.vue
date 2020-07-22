@@ -4,14 +4,14 @@
     
     <hr>
     <!-- 게시물 번호로 게시물 search 후 id 꺼내기 -->
-    아이디 : 게시글아이디<br> 
-    제목 : 게시글제목<br>
-    등록날짜 : 게시글등록날짜<br>
+    아이디 : {{board.bwriter}}<br> 
+    제목 : {{board.btitle}}<br>
+    등록날짜 : {{board.makeday}}<br>
     내용<br>
-    게시글내용<br>
+    {{board.bcontent}}<br>
     <!-- 작성자 본인, 관리자만 수정 삭제 가능 -->
-    <button @click="modifyFree">수정</button>
-    <button @click="deleteFree">삭제</button>
+    <!-- <button @click="modifyFree">수정</button>
+    <button @click="deleteFree">삭제</button> -->
     <router-link to="/freeboard" tag="button">목록으로</router-link>
     <br>
     <br>
@@ -43,9 +43,53 @@
 </template>
 
 <script>
+import Constant from '../../Constant';
+
 export default {
   name: "detailfree",
-
+  created() {
+    this.getBoard(this.$route.params.bno);
+  },
+  computed: {
+        board:{
+          get() {
+            // 화살표함수 사용하면 안됨. this : undefined 로 나옴.
+            return this.$store.state.board;
+          },
+          set(newBoard) {
+            this.board.bno = newBoard.bno;
+            this.board.bwriter = newBoard.bwriter;
+            this.board.btitle = newBoard.btitle;
+            this.board.bcontent = newBoard.bcontent;
+            this.board.bview = newBoard.bview;
+            this.board.bfile = newBoard.bfile;
+            this.board.bstate = newBoard.bstate;
+            this.board.makeday = newBoard.makeday;
+            this.board.changeday = newBoard.changeday;
+            this.board.makeid = newBoard.makeid;
+            this.board.changeid = newBoard.changeid;
+          }
+      }
+  },
+  methods: {
+    getBoard(bno) {
+      this.$store.dispatch(Constant.GET_BOARD, { bno });
+    },
+    // modifyBoard() {
+    //   if (this.todo.qna_content != "") {
+    //     console.log("할일 수정:: ");
+    //     console.log(this.todo);
+    //     this.$store.dispatch(Constant.MODIFY_TODO, { todo: this.todo });
+    //     this.$router.push("/");
+    //   } else {
+    //     console.log("공백입력.");
+    //   }
+    //   this.clear();
+    // },
+    // clear() {
+    //   this.todo = {}; 
+    // }
+  },
   data: function() {
     return {
       comments : [
@@ -74,14 +118,14 @@ export default {
       ]
     };
   },
-  methods: {
-    modifyFree(){
-      alert('db 연동하여 글 수정하는 코드로 대체');
-    },
-    deleteFree(){
-      alert('db 연동하여 글 삭제하는 코드로 대체');
-    },
-  }
+  // methods: {
+  //   modifyFree(){
+  //     alert('db 연동하여 글 수정하는 코드로 대체');
+  //   },
+  //   deleteFree(){
+  //     alert('db 연동하여 글 삭제하는 코드로 대체');
+  //   },
+  // }
 };
 </script>
 

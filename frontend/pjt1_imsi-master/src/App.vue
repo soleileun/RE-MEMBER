@@ -6,7 +6,7 @@
     <section class="rtViewContainer">
       <router-view></router-view>
     </section>
-    <buble v-if="$store.state.logined" />
+    <buble  />
     <footerr />
   </div>
 </template>
