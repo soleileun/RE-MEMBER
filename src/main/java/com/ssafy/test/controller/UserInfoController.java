@@ -36,12 +36,12 @@ public class UserInfoController {
 	@Autowired
 	private UserInfoService uiService;
 
-//    @ApiOperation(value = "모든 게시글의 정보를 반환한다.", response = List.class)
-//	@GetMapping
-//	public ResponseEntity<List<UserInfo>> retrieveBoard() throws Exception {
-//		logger.debug("retrieveBoard - 호출");
-//		return new ResponseEntity<List<UserInfo>>(uiService.selectAll(), HttpStatus.OK);
-//	}
+    @ApiOperation(value = "모든 유저의 정보를 반환한다.", response = List.class)
+	@GetMapping
+	public ResponseEntity<List<UserInfo>> getAllUsers() throws Exception {
+		logger.debug("getAllUsers - 호출");
+		return new ResponseEntity<List<UserInfo>>(uiService.selectAll(), HttpStatus.OK);
+	}
 
     @ApiOperation(value = "로그인 기능으로 할 것/ 일단 아이디에 맞는 거 반환 를 반환한다.", response = UserInfo.class)    
 	@GetMapping("{id}")
