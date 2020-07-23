@@ -41,4 +41,10 @@ public class InterestDAOImpl implements InterestDAO {
 		return template.update(ns + "update", i);
 	}
 
+	@Override
+	public List<Interest> selectById(String id) {
+		
+		return template.selectList(ns + "selectById", id);
+	}
+
 }

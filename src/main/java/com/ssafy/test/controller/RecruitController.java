@@ -1,5 +1,6 @@
 package com.ssafy.test.controller;
 
+import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.test.model.dto.Interest;
+import com.ssafy.test.model.dto.Pinterest;
 import com.ssafy.test.model.dto.Recruit;
+import com.ssafy.test.model.service.InterestService;
+import com.ssafy.test.model.service.PinterestService;
 import com.ssafy.test.model.service.RecruitService;
 
 import io.swagger.annotations.ApiOperation;
@@ -30,9 +35,47 @@ public class RecruitController {
 	@Autowired
 	private RecruitService rService;
 
+	@Autowired
+	private InterestService iService;
+
+	@Autowired
+	private PinterestService piService;
+
 	@ApiOperation(value = "모든 구인구직 게시판의 정보를 반환한다.", response = List.class)
 	@GetMapping
 	public ResponseEntity<List<Recruit>> retrieveBoard() throws Exception {
+		return new ResponseEntity<List<Recruit>>(rService.selectAll(), HttpStatus.OK);
+	}
+
+	@ApiOperation(value = "모든 구인구직 게시판의 정보를 소팅해서 반환한다.", response = List.class)
+	@GetMapping("/sorting/{id}")
+	public ResponseEntity<List<Recruit>> retrieveBoard(@PathVariable String id) throws Exception {
+		List<Recruit> list = rService.selectAll();
+		List<Interest> iList = iService.selectById(id);
+		list.sort(new Comparator<Recruit>() {
+
+			@Override
+			public int compare(Recruit o1, Recruit o2) {
+				List<Pinterest> pi1 = piService.select(o1.getPid());
+				List<Pinterest> pi2 = piService.select(o2.getPid());
+				Integer cnt1 = 0, cnt2 = 0;
+				for (int i = 0; i < iList.size(); i++) {
+					String ui = iList.get(i).getInterest();
+					for (int j = 0; j < pi1.size(); j++) {
+						if (pi1.get(j).getInterest().equals(ui)) {
+							cnt1++;
+						}
+
+						if (pi2.get(j).getInterest().equals(ui)) {
+							cnt2++;
+						}
+					}
+				}
+
+				return cnt2.compareTo(cnt1);
+			}
+		});
+
 		return new ResponseEntity<List<Recruit>>(rService.selectAll(), HttpStatus.OK);
 	}
 
@@ -64,7 +107,7 @@ public class RecruitController {
 	@ApiOperation(value = "글번호에 해당하는 프로젝트의 정보를 삭제한다. 그리고 DB삭제 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
 	@DeleteMapping("{rnum}")
 	public ResponseEntity<String> deleteBoard(@PathVariable int rnum) {
-		
+
 		if (rService.delete(rnum) != 0) {
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		}

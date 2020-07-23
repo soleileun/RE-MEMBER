@@ -7,28 +7,33 @@
 
 	<!-- message 생성 -->
 	<insert id="insert" parameterType="message">
-		insert into message (toUser,fromUser,content,time,isRead)
-		values (#{toUser},#{fromUser},#{content},#{time},#{isRead})
+		insert into message
+		(toUser,fromUser,content,time,isRead)
+		values
+		(#{toUser},#{fromUser},#{content},#{time},#{isRead})
 	</insert>
 
 
 
 	<!-- message 삭제 -->
 	<delete id="delete" parameterType="int">
-		delete from message where mnum=#{mnum}
+		delete from message where
+		mnum=#{mnum}
 	</delete>
 
 
 	<!-- message 조회 -->
 	<select id="select" parameterType="int" resultType="message">
-		select toUser,fromUser,content,time,isRead
+		select
+		toUser,fromUser,content,time,isRead
 		from message where mnum=#{mnum}
 	</select>
 
 	<select id="selectById" parameterType="String"
 		resultType="message">
 		select toUser,fromUser,content,time,isRead
-		from message where toUser=#{toUser}
+		from message
+		where toUser=#{toUser}
 	</select>
 
 
@@ -37,7 +42,8 @@
 	<select id="selectAll" parameterType="string"
 		resultType="message">
 		select mnum, toUser,fromUser,content,time,isRead
-		from message
+		from
+		message
 	</select>
 
 

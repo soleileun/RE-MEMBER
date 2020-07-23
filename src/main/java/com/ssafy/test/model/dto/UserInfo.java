@@ -104,7 +104,7 @@ public class UserInfo {
 		this.lastDate = lastDate;
 		this.state = state;
 		this.responsibility = responsibility;
-	}
+	}	
 	public UserInfo() {
 	}
 

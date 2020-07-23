@@ -11,20 +11,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<select id="select" parameterType="int" resultType="pinterest">
 		select *
-		from pinterest
+		from
+		pinterest
 		where pid =#{pid}
 	</select>
 
 
-	<select id="pick" parameterType="pinterest" resultType="pinterest">
+	<select id="pick" parameterType="pinterest"
+		resultType="pinterest">
 		select *
 		from pinterest
-		where pid =#{pid} and interest =#{interest}
+		where pid =#{pid} and interest
+		=#{interest}
 
 	</select>
 
 	<insert id="insert" parameterType="pinterest">
-		insert into pinterest(pid, interest)
+		insert into pinterest(pid,
+		interest)
 		values(#{pid}, #{interest})
 	</insert>
 
@@ -33,6 +37,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		pid=#{pid} and interest =#{interest}
 	</delete>
 
-	
-	
+
+
 </mapper>

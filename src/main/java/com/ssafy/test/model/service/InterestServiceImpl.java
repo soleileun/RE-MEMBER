@@ -40,4 +40,9 @@ public class InterestServiceImpl implements InterestService{
 		return iDao.update(i);
 	}
 
+	@Override
+	public List<Interest> selectById(String id) {
+		return iDao.selectById(id);
+	}
+
 }
