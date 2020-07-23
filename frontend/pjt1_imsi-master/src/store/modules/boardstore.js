@@ -18,7 +18,7 @@ const boardstore = {
     [Constant.GET_BOARDLIST]: (store,payload) => {
       http.get('/api/board/statesearching/'+ payload.bstate)
           .then(response => {
-            console.log(response)
+            // console.log(response)
               store.commit(Constant.GET_BOARDLIST, { boards: response.data })
         })
           .catch(exp => alert('getBoardList처리에 실패하였습니다.' + exp));
@@ -26,13 +26,15 @@ const boardstore = {
     //bno으로 게시글 하나 가져오기
     [Constant.GET_BOARD]: (store, payload) => {
         http.get('/api/board/no/' + payload.bno)
-            .then(response => store.commit(Constant.GET_BOARD, { board: response.data }))
+            .then(response => {
+                // console.log(response.data);
+                store.commit(Constant.GET_BOARD, { board: response.data })})
             .catch(exp => alert('getTodo처리에 실패하였습니다.' + exp));
 
     },
     //게시글 추가
     [Constant.ADD_BOARD]: (store, payload) => {
-        console.log(payload.bstate);
+        // console.log(payload.bstate);
 
         http.post('/api/board/', {
                 // bno : payload.bno,
@@ -57,15 +59,24 @@ const boardstore = {
     },
     //게시글 수정
     [Constant.MODIFY_BOARD]: (store, payload) => {
-        http.put('/api/board/' + payload.board.bno, {
-            qna_content: payload.board.qna_content,
-            qna_title: payload.board.qna_title,
-            qna_userid: payload.board.qna_userid,
-            qna_datetime : payload.board.qna_datetime
+        // console.log(payload);
+
+        http.put('/api/board/change/' + payload.board.bno, {
+                bno:payload.board.bno,
+                bwriter: payload.board.bwriter,
+                btitle: payload.board.btitle,
+                bcontent: payload.board.bcontent,
+                bview : payload.board.bview,
+                bfile : payload.board.bfile,
+                bstate : payload.board.bstate,
+                makeDay : payload.board.makeDay,
+                changeDay : new Date(),
+                makeId : payload.board.makeId,
+                changeId : payload.board.changeId //세션 id
             })
             .then(() => {
-                console.log('수정하였습니다.');
-                store.dispatch(Constant.GET_TODOLIST);
+                // console.log('수정하였습니다.'+ response.data);
+                store.dispatch(Constant.GET_BOARD, {bno : payload.board.bno});
             })
             .catch(exp => alert('수정 처리에 실패하였습니다.' + exp));
     },
@@ -74,6 +85,8 @@ const boardstore = {
         http.delete('/api/board/delete/' + payload.bno)
             .then(() => {
                 alert('삭제하였습니다.');
+                // store.dispatch(Constant.GET_BOARDLIST);
+
             })
             .catch(exp => alert('삭제 처리에 실패하였습니다.' + exp));
 

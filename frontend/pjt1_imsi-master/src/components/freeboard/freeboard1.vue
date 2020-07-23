@@ -53,23 +53,6 @@ export default {
     this.$store.dispatch(Constant.GET_BOARDLIST,{bstate : 'free'});
   },
 
-  data() {
-    return {
-      // searchWord : '검색어',
-      // selected : '조건',
-    }
-  },
-  // methods: {
-  //   getBoard(no) {
-  //     console.log('getBoard :::: '+no);
-  //     this.$router.push('/detail/'+no);
-  //   },
-  //   ...mapActions([
-  //     Constant.REMOVE_TODO,
-  //     Constant.COMPLETE_TODO
-  //   ])
-  // },
-
   methods: {
     searchFree(){
       let val  = document.getElementById("searchWord").value;
