@@ -107,6 +107,11 @@ public class UserInfo {
 	}
 	public UserInfo() {
 	}
+	public UserInfo(String id, String pw) {
+		super();
+		this.id = id;
+		this.pw = pw;
+	}
 
 
 	

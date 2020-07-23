@@ -53,4 +53,16 @@ public class UserInfoServiceImpl implements UserInfoService {
 		return uDao.login(info);
 	}
 
+	@Override
+	public UserInfo signin(String id, String pw) {
+		//System.out.println("serviceimpl");
+		return uDao.signin(id, pw);
+	}
+
+	@Override
+	public String getServerInfo() {
+		// TODO Auto-generated method stub
+		return "TRY BY EUNJOUNG...";
+	}
+
 }

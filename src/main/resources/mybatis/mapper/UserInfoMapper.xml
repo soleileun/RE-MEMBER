@@ -34,6 +34,16 @@
     <select id="selectAll" parameterType="string" resultType="userinfo">
         select * from userInfo
     </select> 
+    
+    <select id="login" parameterType="string" resultType="userinfo">
+    select id,nickname,name,pw,phone,git,points,lastDate,state,responsibility
+    from userInfo where id=#{id} and pw=#{pw}
+    </select>
+    
+        <select id="signin" parameterType="string" resultType="userinfo">
+    select id,nickname,name,pw,phone,git,points,lastDate,state,responsibility
+    from userInfo where id=#{id} and pw=#{pw}
+    </select>
 
 
 

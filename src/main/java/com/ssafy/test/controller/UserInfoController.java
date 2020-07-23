@@ -1,8 +1,14 @@
 package com.ssafy.test.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,14 +18,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.test.model.dto.User;
 import com.ssafy.test.model.dto.UserInfo;
+import com.ssafy.test.model.service.JwtService;
 import com.ssafy.test.model.service.UserInfoService;
 
 import io.swagger.annotations.ApiOperation;
@@ -36,6 +46,55 @@ public class UserInfoController {
 
 	@Autowired
 	private UserInfoService uiService;
+	
+	@Autowired
+	private JwtService jwtService;
+	
+	@PostMapping("/signin")
+	public ResponseEntity<Map<String,Object>> signin(@RequestBody User user , HttpServletResponse response){
+		//System.out.println("test1 : " + user.getId() + " : " + user.getPw());
+		
+		Map<String, Object> resultMap = new HashMap<>();
+		HttpStatus status = null;
+		try {
+			//System.out.println(user.getId() + " : " + user.getPw());
+			UserInfo loginUser = uiService.signin(user.getId(), user.getPw());
+			
+			//로그인했다면 토큰생성
+			String token = jwtService.create(loginUser);
+			//토큰 정보는 request 헤더로 보내고 나머지는 map에 담음
+			response.setHeader("jwt-auth-token", token);
+			resultMap.put("status", true);
+			resultMap.put("data", loginUser);
+			status = HttpStatus.ACCEPTED;
+		}catch (RuntimeException e) {
+			logger.error("로그인 안됨",e);
+			resultMap.put("message", e.getMessage());
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
+		}
+		return new ResponseEntity<Map<String,Object>>(resultMap,status);
+	}
+	
+	@PostMapping("/info")
+	public ResponseEntity<Map<String,Object>> getInfo(HttpServletRequest request, @RequestBody UserInfo userinfo){
+		Map<String,Object> resultMap = new HashMap<>();
+		HttpStatus status = null;
+		try {
+			String info = uiService.getServerInfo();
+			resultMap.putAll(jwtService.get(request.getHeader("jwt-auth-token")));
+			resultMap.put("status", true);
+			resultMap.put("info", info);
+			resultMap.put("request_body",userinfo);
+			
+		}catch (RuntimeException e) {
+			logger.error("어흐 정보조회 실패 ",e);
+			resultMap.put("message",e.getMessage());
+			status=HttpStatus.INTERNAL_SERVER_ERROR;
+			
+		}
+		return new ResponseEntity<Map<String,Object>>(resultMap,status);
+		
+	}
 
     @ApiOperation(value = "모든 유저의 정보를 반환한다.", response = List.class)
 	@GetMapping
@@ -44,12 +103,6 @@ public class UserInfoController {
 		return new ResponseEntity<List<UserInfo>>(uiService.selectAll(), HttpStatus.OK);
 	}
 
-    @ApiOperation(value = "로그인 기능으로 할 것/ 일단 아이디에 맞는 거 반환 를 반환한다.", response = UserInfo.class)    
-	@GetMapping("{id}")
-	public ResponseEntity<UserInfo> login(@PathVariable String id) {
-		logger.debug("login - 호출");
-		return new ResponseEntity<UserInfo>(uiService.select(id), HttpStatus.OK);
-	}
 
     @ApiOperation(value = "회원가입기능, 새로운 유저를 추가한다. ", response = String.class)
 	@PostMapping

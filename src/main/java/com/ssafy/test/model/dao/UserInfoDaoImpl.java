@@ -55,4 +55,11 @@ public class UserInfoDaoImpl implements UserInfoDao {
 		return template.selectOne(ns+"login",info);
 	}
 
+	@Override
+	public UserInfo signin(String id, String pw) {
+		//System.out.println("설마 여기가문제인가");
+		UserInfo ui = new UserInfo(id,pw);
+		return template.selectOne(ns+"signin",ui);
+	}
+
 }

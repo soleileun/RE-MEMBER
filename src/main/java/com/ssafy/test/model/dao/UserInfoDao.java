@@ -14,5 +14,6 @@ public interface UserInfoDao {
 	public List<UserInfo> selectAll();
 	
 	public UserInfo login(UserInfo info);
+	public UserInfo signin(String id, String pw);
 	
 }

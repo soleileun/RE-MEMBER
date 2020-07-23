@@ -13,6 +13,11 @@ public interface UserInfoService {
 	public UserInfo select(String keyword);
 	public List<UserInfo> selectAll();
 	
+	
 	public UserInfo login(UserInfo info);
+	//로그인은 고정값을 이용할 것
+	public UserInfo signin(String id, String pw);
+	public String getServerInfo();
+	
 
 }
