@@ -9,8 +9,8 @@ import org.springframework.stereotype.Repository;
 import com.ssafy.test.model.dto.Pmember;
 
 @Repository
-public class PmemberDAOImpl implements PmemberDAO{
-	
+public class PmemberDAOImpl implements PmemberDAO {
+
 	private static final String ns = "com.ssafy.test.pmember.";
 
 	@Autowired

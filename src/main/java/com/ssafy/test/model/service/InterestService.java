@@ -15,4 +15,6 @@ public interface InterestService {
 	public int delete(Interest i);
 
 	public int update(Interest i);
+	
+	public List<Interest> selectById(String id);
 }

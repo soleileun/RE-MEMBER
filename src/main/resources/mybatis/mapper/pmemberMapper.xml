@@ -7,9 +7,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select * from pmember;
 	</select>
 
-	<select id="select" parameterType="pmember"
-		resultType="pmember">
-		select * from
+	<select id="select" parameterType="pmember" resultType="pmember">
+		select *
+		from
 		pmember where pid=#{pid} and
 		userId=#{userId}
 	</select>

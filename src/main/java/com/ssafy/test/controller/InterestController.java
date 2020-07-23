@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -40,7 +41,13 @@ public class InterestController {
 	public ResponseEntity<Interest> detailBoard(@RequestBody Interest i) {
 		return new ResponseEntity<Interest>(iService.select(i), HttpStatus.OK);
 	}
-
+	
+	@ApiOperation(value = "id로 관심정보를 검색한다.", response = List.class)
+	@GetMapping("/selectById/{id}")
+	public ResponseEntity<List<Interest>> selectById(@PathVariable String id) throws Exception {
+		return new ResponseEntity<List<Interest>>(iService.selectById(id), HttpStatus.OK);
+	}
+	
 	@ApiOperation(value = "새로운 관심정보를 입력한다. 그리고 DB입력 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
 	@PostMapping
 	public ResponseEntity<String> writeBoard(@RequestBody Interest i) {

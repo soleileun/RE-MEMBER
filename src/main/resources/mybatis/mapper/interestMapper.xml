@@ -6,10 +6,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="selectAll" resultType="interest">
 		select * from interest
 	</select>
+	
+	<select id="selectById" parameterType="string" resultType="interest">
+		select * from interest
+		where id = #{id}
+	</select>
 
-	<select id="select" parameterType="interest" resultType="interest">
+	<select id="select" parameterType="interest"
+		resultType="interest">
 		select * from
-		interest 
+		interest
 		where id=#{id} and interest=#{interest}
 	</select>
 
@@ -23,11 +29,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		id=#{id} and interest=#{interest}
 	</delete>
 
-<!-- 	<update id="update" parameterType="interest"> -->
-<!-- 		update interest set -->
-<!-- 		totalperson=#{totalperson}, nowperson=#{nowperson}, pjtname=#{pjtname}, -->
-<!-- 		pjtstartdate=#{pjtstartdate}, pjtcontent=#{pjtcontent}, pjtstate=#{pjtstate}, -->
-<!-- 		pjtleader=#{pjtleader}, pjtteammate=#{pjtteammate} -->
-<!-- 		where pid=#{pid} -->
-<!-- 	</update> -->
+	<!-- <update id="update" parameterType="interest"> -->
+	<!-- update interest set -->
+	<!-- totalperson=#{totalperson}, nowperson=#{nowperson}, pjtname=#{pjtname}, -->
+	<!-- pjtstartdate=#{pjtstartdate}, pjtcontent=#{pjtcontent}, pjtstate=#{pjtstate}, -->
+	<!-- pjtleader=#{pjtleader}, pjtteammate=#{pjtteammate} -->
+	<!-- where pid=#{pid} -->
+	<!-- </update> -->
 </mapper>

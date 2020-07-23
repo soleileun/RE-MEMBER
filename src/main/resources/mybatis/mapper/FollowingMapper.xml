@@ -5,44 +5,48 @@
 
 <mapper namespace="com.ssafy.test.Following">
 
-    <!-- following 가입  -->
-    <insert id="insert" parameterType="following">
-        insert into following 
-         values (#{uid},#{target})
-    </insert>
+	<!-- following 가입 -->
+	<insert id="insert" parameterType="following">
+		insert into following
+		values (#{uid},#{target})
+	</insert>
 
-    <!-- following 수정 -->
-    <update id="update" parameterType="following" >
-         update following 
-         set target=#{target}
-          where uid=#{uid}
-    </update>
-    
-    <!--  following 삭제  -->
-    <delete id="delete" parameterType="string">
-        delete from following where uid=#{uid} and target=#{target}
-    </delete>
-    
-    
-    <!-- following 회원 조회 -->
-    <select id="selectAll" parameterType="string" resultType="following">
-        select uid, target 
-        from following 
-    </select>
-    
-       <select id="select" parameterType="string" resultType="following">
-        select uid, target 
-        from following where uid=#{uid}
-    </select>
+	<!-- following 수정 -->
+	<update id="update" parameterType="following">
+		update following
+		set target=#{target}
+		where uid=#{uid}
+	</update>
 
-     <select id="selectById" parameterType="string" resultType="following">
-        select uid, target 
-        from following where uid=#{uid}
-    </select>
-         <select id="selectByTarget" parameterType="string" resultType="following">
-        select uid, target 
-        from following where target=#{target}
-    </select>
+	<!-- following 삭제 -->
+	<delete id="delete" parameterType="string">
+		delete from following where uid=#{uid} and target=#{target}
+	</delete>
+
+
+	<!-- following 회원 조회 -->
+	<select id="selectAll" parameterType="string"
+		resultType="following">
+		select uid, target
+		from following
+	</select>
+
+	<select id="select" parameterType="string"
+		resultType="following">
+		select uid, target
+		from following where uid=#{uid}
+	</select>
+
+	<select id="selectById" parameterType="string"
+		resultType="following">
+		select uid, target
+		from following where uid=#{uid}
+	</select>
+	<select id="selectByTarget" parameterType="string"
+		resultType="following">
+		select uid, target
+		from following where target=#{target}
+	</select>
 
 
 </mapper>
