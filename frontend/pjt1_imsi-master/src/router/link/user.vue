@@ -17,10 +17,6 @@
 export default {
   name: "user",
   components: {},
-  beforeCreate:function(){
-    document.cookie = "SameSite=Lax;"
-    console.log(document.cookie)
-  }
 };
 </script>
 

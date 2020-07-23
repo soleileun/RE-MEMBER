@@ -6,7 +6,7 @@
     <section class="rtViewContainer">
       <router-view></router-view>
     </section>
-    <buble  />
+    <buble v-if="userNick" />
     <footerr />
   </div>
 </template>
@@ -18,6 +18,8 @@ import sidebar from "./components/sidebar.vue";
 import buble from "./components/buble.vue";
 import footerr from "./components/footer.vue";
 
+const storage = window.sessionStorage;
+
 export default {
   name: "App",
   components: {
@@ -27,31 +29,18 @@ export default {
     footerr,
     login
   },
-  data: () => {
-    return {};
+  mounted: function(){
+    console.log(storage)
+    this.$store.dispatch("init", {});
   },
-  mounted: function() {
-    // let form = new FormData();
-    // form.append("id", this.pwID);
-    // form.append("name", this.pwname);
-    // if (this.pwradio === "phone") {
-    //   form.append("method", "phone");
-    // } else {
-    //   form.append("method", "email");
-    // }
-    // axios({
-    //   method: "post",
-    //   url: "초기요청 url",
-    //   data: form,
-    //   responseType: "json"
-    // })
-    //   .then(response => {
-    //     console.log(response.data);
-    //   })
-    //   .catch(e => {
-    //     console.log(e);
-    //   });
-  }
+  beforeUpdate: function(){
+    this.$store.dispatch("update", {});
+  },
+  computed: {
+    userNick: function (){
+      return this.$store.state.userstore.userNick
+    },
+  },
 };
 </script>
 

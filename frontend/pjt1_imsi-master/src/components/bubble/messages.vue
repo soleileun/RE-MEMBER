@@ -5,9 +5,9 @@
       <i class="far fa-times-circle"></i>
     </span>
     <div v-show="!viewdetail">
-      <li v-for="mes in mess" :key="mes.id" @click="detail(mes.from)">
-        from : {{mes.nick}} |
-        {{mes.message[0].content}} (클릭하면 디테일)
+      <li v-for="mes in messageList" :key="mes.id" @click="detail(mes.from)">
+        from : {{mes.fromUser}} | {{mes.content}}
+        <!-- {{mes.message[0].content}} (클릭하면 디테일) -->
       </li>
     </div>
     <messagedetail v-if="viewdetail" :id="detailid" />
@@ -26,14 +26,12 @@ export default {
     return {
       detailid: 1,
       viewdetail: false,
-      mess: [
-        {
-          nick:'123'
-          
-        }
-        ]
-      //this.$store.state.messageList
     };
+  },
+  computed:{
+    messageList: function(){
+      return this.$store.state.userstore.messageList
+    },
   },
   methods: {
     detail: function(id) {

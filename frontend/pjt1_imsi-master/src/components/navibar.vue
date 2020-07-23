@@ -8,12 +8,22 @@
       <router-link class="nav-link" :to="{name:'project'}">프로젝트</router-link>
       <router-link class="nav-link" :to="{name:'recruit'}">모집</router-link>
       <router-link class="nav-link" :to="{name:'service'}">고객센터</router-link>
-      <div class="dropdown">
-        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">계정</button>
+      <div class="dropdown" v-if="!userNick">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          계정
+        </button>
         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-          <router-link class="nav-link dropdown-item" :to="{name:'user'}">user</router-link>
           <router-link class="nav-link dropdown-item" :to="{name:'signup'}">회원가입</router-link>
           <button class="btn btn-dark nav-link dropdown-item" @click="loginon">로그인</button>
+        </div>
+      </div>
+      <div class="dropdown" v-else>
+        <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          {{ userNick }}님
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <router-link class="nav-link dropdown-item" :to="{name:'user'}">user</router-link>
+          <button class="btn btn-dark nav-link dropdown-item" @click="logout">로그아웃</button>
         </div>
       </div>
     </div>
@@ -38,9 +48,17 @@ export default {
     });
     })
   },
+  computed: {
+    userNick: function (){
+      return this.$store.state.userstore.userNick
+    }
+  },
   methods: {
     loginon: function() {
       document.querySelector(".login").classList.toggle("active");
+    },
+    logout: function () {
+        this.$store.dispatch("logout");
     }
   }
 };

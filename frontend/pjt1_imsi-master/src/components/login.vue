@@ -5,7 +5,7 @@
       아이디 :
       <input class="id" v-model="id" type="text" />
       <br />비밀번호 :
-      <input class="id" v-model="pw" type="password" />
+      <input class="id" v-model="pw" type="password" @keyup.enter="goLogin"/>
       <br />
       <button @click="goLogin">로그인</button>
       <span @click="loginexit">
@@ -15,58 +15,39 @@
       </span>
       <div>
         <!-- <span @click="kakao">카카오</span> | 
-        <span @click="google">구글</span> -->
+        <span @click="google">구글</span>-->
       </div>
-      <div v-if="error">아이디와 비밀번호를 모두 입력해주세요</div>
+      {{error}}
     </div>
   </div>
 </template>
 
 <script>
-import axios from "axios";
-
 export default {
   name: "login",
   data: function() {
     return {
       id: "",
       pw: "",
-      error: false,
-      logining: false,
       findform: false
     };
   },
-  mounted: function() {},
+  computed: {
+    logining: function() {
+      return this.$store.state.userstore.logining
+    },
+    error: function() {
+      return this.$store.state.userstore.loginError
+    },
+  },
   methods: {
     goLogin: function() {
-      if (!this.logining) {
-        this.logining = true;
-        if (this.id == "" || this.pw == "") {
-          this.error = true;
-        } else {
-          this.error = false;
-          let form = new FormData();
-          form.append("id", this.id);
-          form.append("pw", this.pw);
-          console.log(form);
-          document.querySelector(".login").classList.toggle("turn");
-          axios({
-            method: "post",
-            url: "로그인 url",
-            data: form,
-            responseType: "json"
-          })
-            .then(response => {
-              document.querySelector(".login").classList.toggle("turn");
-              this.logining = false;
-              console.log(response.data);
-            })
-            .catch(e => {
-              console.log(e);
-              document.querySelector(".login").classList.toggle("turn");
-              this.logining = false;
-            });
-        }
+      if (this.id ==='' || this.pw === ''){
+        this.$store.commit("loginError", { e: '아이디와 비밀번호를 모두 입력해 주세요' });
+      }
+      else if (!this.$store.state.userstore.logining) {
+        this.$store.state.userstore.logining = true;
+        this.$store.dispatch("login", { id: this.id, pw:this.pw });
       }
     },
     loginexit: function() {
@@ -75,7 +56,6 @@ export default {
   }
 };
 </script>
-
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 .login {

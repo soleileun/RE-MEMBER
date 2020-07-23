@@ -41,6 +41,7 @@ export default {
   methods: {
     act: function() {
       document.querySelector(".bubble").classList.toggle("active");
+      this.$store.dispatch("init");
       this.bubbleS = 1;
     },
     bubbleState: function(state) {
