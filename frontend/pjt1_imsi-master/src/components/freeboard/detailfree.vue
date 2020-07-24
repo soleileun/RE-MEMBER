@@ -3,6 +3,7 @@
     <h1>자유게시판 글 조회 샘플</h1>
     
     <hr>
+    
     <!-- 게시물 번호로 게시물 search 후 id 꺼내기 -->
     아이디 : {{board.bwriter}}<br> 
     제목 : {{board.btitle}}<br>
@@ -12,7 +13,7 @@
     <!-- 작성자 본인, 관리자만 수정 삭제 가능 -->
     <router-link :to="'/freeboard/modifyfree/' + board.bno" tag="button">수정</router-link>
     <button @click="deleteFree">삭제</button>
-    <router-link to="/freeboard" tag="button">목록으로</router-link>
+    <router-link to="/mainboard/freeboard" tag="button">목록으로</router-link>
     <br>
     <br>
     * 댓글 목록
@@ -94,7 +95,7 @@ export default {
       if(con_test == true){
         this.$store.dispatch(Constant.REMOVE_BOARD, { bno : this.board.bno, bstate : this.board.bstate});
         // console.log('삭제요청완료.' + this.board.bno);
-        this.$router.push('/freeboard');
+        this.$router.push('/mainboard/freeboard');
       }
       else if(con_test == false){
         console.log('');

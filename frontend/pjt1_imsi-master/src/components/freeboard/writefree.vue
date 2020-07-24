@@ -8,7 +8,7 @@
     내용<br>
     <textarea name="" id="" cols="30" rows="10" v-model="board.bcontent" placeholder="내용을 입력하세요"></textarea><br>
     <button @click="addFree">등록</button>
-    <router-link to="/freeboard" tag="button">목록으로</router-link>
+    <router-link to="/mainboard/freeboard" tag="button">목록으로</router-link>
   </div>
 </template>
 
@@ -52,7 +52,7 @@ export default {
                     makeId : this.board.makeid,
                     // changeId : this.board.changeid
                 });
-                this.$router.push('/freeboard');
+                this.$router.push('/mainboard/freeboard');
             }else{
                 console.log('공백입력.');
             }    

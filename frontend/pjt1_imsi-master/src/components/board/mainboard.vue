@@ -5,23 +5,16 @@
 
     <div class="tab_wrap">
       <div class="tab_menu_container">
-        <button class="tab_menu_btn on" type="button">자유게시판</button>
-        <button class="tab_menu_btn" type="button">공지사항</button>
-        <button class="tab_menu_btn" type="button">질문게시판</button>
+        <button class="tab_menu_btn on" type="button" v-on:click="urlFree">자유게시판</button>
+        <button class="tab_menu_btn" type="button" v-on:click="urlNotice">공지사항</button>
+        <button class="tab_menu_btn" type="button" v-on:click="urlQa">질문게시판</button>
       </div> <!-- tab_menu_container e -->
       <hr>
-
-      <div class="tab_box_container">
-        <div class="tab_box on">
-            <freeboard />
-        </div>
-        <div class="tab_box">
-            <notice />
-        </div>
-        <div class="tab_box">
-            <qaboard />
-        </div>
-      </div> <!-- tab_box_container e -->
+  
+        
+            <router-view></router-view>
+        
+      
     </div> <!-- tab_wrap e -->
 
 
@@ -32,16 +25,15 @@
 <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
   
 <script>
-import freeboard from "../freeboard/freeboard1.vue";
-import notice from "../notice/notice1.vue";
-import qaboard from "../qaboard/qaboard1.vue";
-
+// import freeboard from "../freeboard/freeboard1.vue";
+// import notice from "../notice/notice1.vue";
+// import qaboard from "../qaboard/qaboard1.vue";
 export default {
-    components: {
-        freeboard,
-        notice,
-        qaboard
-     },
+    // components: {
+    //     freeboard,
+    //     notice,
+    //     qaboard,
+    //  },
     mounted(){
         //탭 메뉴 js
 
@@ -56,6 +48,19 @@ export default {
             $('.tab_box').hide();
             $('.tab_box').eq(idx).show();
         });
+    },
+    methods:{
+      urlFree(){
+        this.$router.push('/mainboard/freeboard');
+
+      },
+      urlNotice(){
+        this.$router.push('/mainboard/notice');
+
+      },
+      urlQa(){
+        this.$router.push('/mainboard/qaboard');
+      },
     }
 }
 

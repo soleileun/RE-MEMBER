@@ -1,5 +1,6 @@
 <template>
   <div class="freeboard1">
+    
     <h1>자유게시판  샘플 1</h1>
   <hr>
   <!-- 로그인 여부에 따라 활성 비활성 여부 결정 -->
@@ -45,7 +46,7 @@ export default {
   computed: {
     frees() {
       // console.log('안녕');
-      console.log('확인 : ' + this.$store.state.boardstore.boards);
+      // console.log('확인 : ' + this.$store.state.boardstore.boards);
       return this.$store.state.boardstore.boards; 
     }
   },

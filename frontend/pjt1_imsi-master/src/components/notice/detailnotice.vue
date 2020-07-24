@@ -1,90 +1,137 @@
 <template>
-  <div class="freeboard1">
-    <h1>공지사항 조회 샘플</h1>
+  <div class="detailfree">
+    <h1>공지사항 글 조회 샘플</h1>
     
     <hr>
+    
     <!-- 게시물 번호로 게시물 search 후 id 꺼내기 -->
-    아이디 : 게시글아이디<br> 
-    제목 : 게시글제목<br>
-    등록날짜 : 게시글등록날짜<br>
+    아이디 : {{board.bwriter}}<br> 
+    제목 : {{board.btitle}}<br>
+    등록날짜 : {{board.makeDay}}<br>
     내용<br>
-    게시글내용<br>
+    {{board.bcontent}}<br>
     <!-- 작성자 본인, 관리자만 수정 삭제 가능 -->
-    <button @click="modifyNotice">수정</button>
+    <router-link :to="'/notice/modifynotice/' + board.bno" tag="button">수정</router-link>
     <button @click="deleteNotice">삭제</button>
-    <router-link to="/notice" tag="button">목록으로</router-link>
+    <router-link to="/mainboard/notice" tag="button">목록으로</router-link>
     <br>
     <br>
-    <!--
-      공지에는 댓글 달기 없게 하려면 주석 유지
     * 댓글 목록
-     comment 싱글파일컴포넌트 제작시 테이블 빼고 컴포로 대체 
-    <table>
-    <thead>
-      <tr>
-        <th>no</th>
-        <th>id</th>
-        <th>contents</th>
-        <th>register_day</th>
-        <th> - </th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="comment in comments" :key="comment.cno">
-        <td>{{comment.cno}}</td>
-        bno 쿼리스트링 달아서 분기
-        <td>{{comment.cwriter}}</td>
-        <td>{{comment.ccontent}}</td>
-        <td>{{comment.makeday}}</td>
-         작성자 또는 관리자일 때만 활성화로 설정 변경할 것
-        <td><a href="#">삭제</a></td>
-      </tr>
-    </tbody>
-  </table>
-  -->
+    <button @click="addComment">댓글달기</button><br>
+    <textarea name="" id="" cols="30" rows="10" v-model="comment2.ccontent" placeholder="내용을 입력하세요"></textarea>
+    <!-- comment 싱글파일컴포넌트 제작시 테이블 빼고 컴포로 대체 -->
+    <comment v-for="comment in comments" 
+    :key="comment.cno"
+    :comment="comment"
+    @delete-comment="deleteComment"
+    />
   </div>
 </template>
 
 <script>
-export default {
-  name: "detailnotice",
+import Constant from '../../Constant';
+import comment from '../comment/comment';
 
-  data: function() {
+export default {
+  components:{
+    comment
+  },
+  name: "detailnotice",
+  data() {
     return {
-      comments : [
-        {
-          cno:1,
-          cwriter:'ydg',
-          ccontent:'i agree',
-          bno:1,
-          isSelected:1,
-          makeday:"2020-04-11",
-          changeday:"2020-04-13",
-          makeid:"makeid",
-          changeid:"changeid"
-        },
-         {
-          cno:2,
-          cwriter:'hsh',
-          ccontent:'i dont agree',
-          bno:1,
-          isSelected:0,
-          makeday:"2020-04-11",
-          changeday:"2020-04-13",
-          makeid:"makeid",
-          changeid:"changeid"
-        }
-      ]
-    };
+      comment2 : {
+        cno :'',
+        cwriter:'',
+        ccontent:'',
+        bno:'',
+        isSelected:'',
+        makeDay:'',
+        changeDay:'',
+        makeId:'',
+        changeId:''
+      }
+    }
+  },
+  created() {
+    // console.log(this.$route.params.bno);
+    this.getBoard(this.$route.params.bno);
+  },
+  computed: {
+        board:{
+          get() {
+            // 화살표함수 사용하면 안됨. this : undefined 로 나옴.
+            // console.log(this.$store.state.boardstore.board);
+            return this.$store.state.boardstore.board;
+          },
+          set(newBoard) {
+            this.board.bno = newBoard.bno;
+            this.board.bwriter = newBoard.bwriter;
+            this.board.btitle = newBoard.btitle;
+            this.board.bcontent = newBoard.bcontent;
+            this.board.bview = newBoard.bview;
+            this.board.bfile = newBoard.bfile;
+            this.board.bstate = newBoard.bstate;
+            this.board.makeDay = newBoard.makeDay;
+            this.board.changeDay = newBoard.changeDay;
+            this.board.makeId = newBoard.makeId;
+            this.board.changeId = newBoard.changeId;
+          }
+      },
+
+      comments(){
+        // console.log('도착'+this.$store.state.commentstore.comments);
+        return this.$store.state.commentstore.comments; 
+      }
   },
   methods: {
-    modifyNotice(){
-      alert('db 연동하여 글 수정하는 코드로 대체');
+    getBoard(bno) {
+      this.$store.dispatch(Constant.GET_BOARD, { bno });
+      this.$store.dispatch(Constant.GET_COMMENTLIST,{bno});
+
     },
+    
     deleteNotice(){
-      alert('db 연동하여 글 삭제하는 코드로 대체');
+      var con_test = confirm("삭제하시겠습니까?");
+      if(con_test == true){
+        this.$store.dispatch(Constant.REMOVE_BOARD, { bno : this.board.bno, bstate : this.board.bstate});
+        // console.log('삭제요청완료.' + this.board.bno);
+        this.$router.push('/mainboard/notice');
+      }
+      else if(con_test == false){
+        console.log('');
+      }
     },
-  }
+
+    deleteComment(cno){
+      this.$emit('delete-comment',cno);
+    },
+
+    addComment(){
+     
+      if(this.comment2.ccontent.trim() != ''){
+          this.$store.dispatch(Constant.ADD_COMMENT,{
+            // cno :this.comment2.cno,
+            // cwriter:this.comment2.cwriter,
+            cwriter:'ssafy',
+            ccontent:this.comment2.ccontent,
+            bno:this.board.bno,
+            isSelected:this.comment2.isSelected,
+            makeDay:new Date(),
+            // changeDay:this.comment2.changeDay,
+            // makeId:this.comment2.makeId,
+            makeId:'ssafy',
+            // changeId:this.comment2.changeId
+          });
+          alert('댓글 추가가 완료되었습니다.');
+          this.comment2.ccontent='';
+      }else{
+          console.log('공백입력.');
+      }    
+    },
+    
+  },
+  
+  
 };
 </script>
 

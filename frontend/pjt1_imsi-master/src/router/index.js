@@ -12,6 +12,7 @@ import mainboard from '../components/board/mainboard.vue'
 import notice from './link/notice.vue'
 import writenotice from '../components/notice/writenotice.vue'
 import detailnotice from '../components/notice/detailnotice.vue'
+import modifynotice from '../components/notice/modifynotice.vue'
 
 import project from './link/project.vue'
 import project1 from '../components/project/project1.vue'
@@ -19,6 +20,7 @@ import project1 from '../components/project/project1.vue'
 import qaboard from './link/qaboard.vue'
 import writeqa from '../components/qaboard/writeqa.vue'
 import detailqa from '../components/qaboard/detailqa.vue'
+import modifyqa from '../components/qaboard/modifyqa.vue'
 
 import recruit from './link/recruit.vue'
 import registmember from '../components/recruit/registmember.vue'
@@ -41,11 +43,11 @@ const routes = [
         name: 'mainpage',
         component: mainpage
     },
-    {
-        path: '/freeboard',
-        name: 'freeboard',
-        component: freeboard,
-    },
+    // {
+    //     path: '/mainboard/freeboard',
+    //     name: 'freeboard',
+    //     component: freeboard,
+    // },
     {
         path: '/freeboard/writefree',
         name: 'writefree',
@@ -64,23 +66,47 @@ const routes = [
     {
         path: '/mainboard',
         name: 'mainboard',
-        component: mainboard
+        component: mainboard,
+        children : [
+            
+                {
+                    path: 'freeboard',
+                    name: 'freeboard',
+                    component: freeboard,
+                },
+                {
+                    path: 'notice',
+                    name: 'notice',
+                    component: notice,
+                },
+                {
+                    path: 'qaboard',
+                    name: 'qaboard',
+                    component: qaboard,
+                },
+            
+        ]
     },
-    {
-        path: '/notice',
-        name: 'notice',
-        component: notice,
-    },
+    // {
+    //     path: '/mainboard/notice',
+    //     name: 'notice',
+    //     component: notice,
+    // },
     
     {
-        path: '/writenotice',
+        path: '/notice/writenotice',
         name: 'writenotice',
         component: writenotice
     },
     {
-        path: '/writenotice/detailnotice',
+        path: '/notice/detailnotice/:bno',
         name: 'detailnotice',
         component: detailnotice
+    },
+    {
+        path: '/notice/modifynotice/:bno',
+        name: 'modifynotice',
+        component: modifynotice
     },
     {
         path: '/project',
@@ -92,20 +118,25 @@ const routes = [
         name: 'project1',
         component: project1
     },
-    {
-        path: '/qaboard',
-        name: 'qaboard',
-        component: qaboard,
-    },
+    // {
+    //     path: '/mainboard/qaboard',
+    //     name: 'qaboard',
+    //     component: qaboard,
+    // },
     {
         path: '/qaboard/writeqa',
         name: 'writeqa',
         component: writeqa
     },
     {
-        path: '/qaboard/detailqa',
+        path: '/qaboard/detailqa/:bno',
         name: 'detailqa',
         component: detailqa
+    },
+    {
+        path: '/qaboard/modifyqa/:bno',
+        name: 'modifyqa',
+        component: modifyqa
     },
     {
         path: '/recruit',
