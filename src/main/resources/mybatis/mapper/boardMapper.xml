@@ -96,7 +96,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<delete id="deletecomments" parameterType="int">
 		delete from comments 
-		where bno = {#bno}
+		where bno = #{bno}
 	</delete>
 
 	<update id="update" parameterType="board">

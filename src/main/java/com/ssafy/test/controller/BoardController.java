@@ -34,7 +34,6 @@ public class BoardController {
 
 	@Autowired
 	private BoardService bService;
-	
 
 	@ApiOperation(value = "모든 게시글의 정보를 반환한다.", response = List.class)
 	@GetMapping
@@ -54,17 +53,15 @@ public class BoardController {
 		return new ResponseEntity<Board>(bService.select(bno), HttpStatus.OK);
 	}
 
-
 	@ApiOperation(value = "특정 속성을 가진 글을 조회한다. EX) 공지사항", response = List.class)
 	@GetMapping("statesearching/{bstate}")
 	public ResponseEntity<List<Board>> detailstateBoard(@PathVariable String bstate) {
 		System.out.println("bstats : " + bstate);
 		return new ResponseEntity<List<Board>>(bService.search(bstate), HttpStatus.OK);
 	}
-	
 
-	//search part@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-	
+	// search part@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
 	@ApiOperation(value = "특정 사람이 쓴 글을 검색한다.", response = List.class)
 	@GetMapping("search/id/{bwriter}")
 	public ResponseEntity<List<Board>> searchById(@PathVariable String bwriter) {
@@ -89,12 +86,10 @@ public class BoardController {
 		return new ResponseEntity<List<Board>>(bService.searchByTitleAndContents(btitle), HttpStatus.OK);
 	}
 
-	//search part	END @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-	
-	
+	// search part END @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
-	//type search part@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-	
+	// type search part@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
 	@ApiOperation(value = "특정 카테고리에서 특정 사람이 쓴 글을 검색한다.", response = List.class)
 	@GetMapping("typesearch/writer={bwriter}&bstate={bstate}")
 	public ResponseEntity<List<Board>> typesearchById(@PathVariable String bwriter, @PathVariable String bstate) {
@@ -107,7 +102,8 @@ public class BoardController {
 
 	@ApiOperation(value = "특정 카테고리에서 특정 내용이 포함된 글을 검색한다.", response = List.class)
 	@GetMapping("typesearch/bcontent={bcontent}&bstate={bstate}")
-	public ResponseEntity<List<Board>> typesearchByContents(@PathVariable String bcontent, @PathVariable String bstate) {
+	public ResponseEntity<List<Board>> typesearchByContents(@PathVariable String bcontent,
+			@PathVariable String bstate) {
 		Board v;
 		v = new Board();
 		v.setBstate(bstate);
@@ -127,7 +123,8 @@ public class BoardController {
 
 	@ApiOperation(value = "특정 카테고리에서 특정 제목이나 내용이 포함된 글을 검색한다.", response = List.class)
 	@GetMapping("typesearch/btitleandbcontent={btitle}&bstate={bstate}")
-	public ResponseEntity<List<Board>> typesearchByTitleAndContents(@PathVariable String btitle, @PathVariable String bstate) {
+	public ResponseEntity<List<Board>> typesearchByTitleAndContents(@PathVariable String btitle,
+			@PathVariable String bstate) {
 		Board v;
 		v = new Board();
 		v.setBstate(bstate);
@@ -136,9 +133,8 @@ public class BoardController {
 		return new ResponseEntity<List<Board>>(bService.typesearchByTitleAndContents(v), HttpStatus.OK);
 	}
 
-	//type search part	END @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+	// type search part END @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
-	
 	@ApiOperation(value = "새로운 글 정보를 입력한다. 그리고 DB입력 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
 	@PostMapping
 	public ResponseEntity<String> writeBoard(@RequestBody Board v) {
@@ -162,10 +158,11 @@ public class BoardController {
 	@DeleteMapping("delete/{bno}")
 	public ResponseEntity<String> deleteBoard(@PathVariable int bno) {
 
-		if (bService.delete(bno) != 0 && bService.deletecomments(bno) != 0) {
-			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
-		}
-		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
+		bService.deletecomments(bno);
+		bService.delete(bno);
+		return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+
+//		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
 	}
 
 	private ResponseEntity<Map<String, Object>> handleSuccess(Object data) {
