@@ -14,8 +14,8 @@
     <!-- 회원 수정 -->
     <update id="update" parameterType="userinfo" >
          update userInfo 
-         set pw=#{pw}, name=#{name}, lastDate=#{lastDate} 
-           ,phone=#{phone}
+         set pw=#{pw}, nickname=#{nickname}, lastDate=#{lastDate}, address1=#{address1}, address2=#{address2}
+           ,phone=#{phone},git=#{git},state=#{state} ,responsibility=#{responsibility} 
           where id=#{id}
     </update>
     
@@ -41,7 +41,7 @@
     </select>
     
         <select id="signin" parameterType="string" resultType="userinfo">
-    select id,nickname,name,pw,phone,git,points,lastDate,state,responsibility
+    select id,nickname,name,pw,phone,git,points,lastDate,state,address1,address2,responsibility
     from userInfo where id=#{id} and pw=#{pw}
     </select>
 
