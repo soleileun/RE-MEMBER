@@ -19,7 +19,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.test.model.dto.Message;
+import com.ssafy.test.model.dto.User;
 import com.ssafy.test.model.service.MessageService;
+import com.ssafy.test.model.service.UserInfoService;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -35,13 +37,16 @@ public class MessageController {
 
 	@Autowired
 	private MessageService mService;
+	
+	@Autowired
+	private UserInfoService uService;
 
-    @ApiOperation(value = "모든 메시지 정보를 반환한다.", response = List.class)
-	@GetMapping
-	public ResponseEntity<List<Message>> retrieveBoard() throws Exception {
-		logger.debug("retrieveBoard - 호출");
-		return new ResponseEntity<List<Message>>(mService.selectAll(), HttpStatus.OK);
-	}
+//    @ApiOperation(value = "모든 메시지 정보를 반환한다.", response = List.class)
+//	@GetMapping
+//	public ResponseEntity<List<Message>> retrieveBoard() throws Exception {
+//		logger.debug("retrieveBoard - 호출");
+//		return new ResponseEntity<List<Message>>(mService.selectAll(), HttpStatus.OK);
+//	}
 
 //    @ApiOperation(value = "메시지번호에 해당하는 메시지 정보를 반환한다.", response = Message.class)    
 //	@GetMapping("{mnum}")
@@ -52,14 +57,17 @@ public class MessageController {
     
     @ApiOperation(value = "받는사람이 id에 해당하는 메시지 정보를 반환한다.", response = Message.class)    
     @GetMapping("{id}")
-    public ResponseEntity<List<Message>> GetMessageToMe(@PathVariable String id) {
-    	logger.debug("detailBoard - 호출");
-    	return new ResponseEntity<List<Message>>(mService.selectById(id), HttpStatus.OK);
+    public ResponseEntity<List<Message>> GetMessageById(@PathVariable String id) {
+    	System.out.println("어케확인하지..");
+    	
+    	
+    		return new ResponseEntity<List<Message>>(mService.selectById(id), HttpStatus.OK);
+    	
     }
 
     @ApiOperation(value = "새로운 메시지 정보를 입력한다.", response = String.class)
 	@PostMapping
-	public ResponseEntity<String> writeBoard(@RequestBody Message mnum) {
+	public ResponseEntity<String> SendMessage(@RequestBody Message mnum) {
 		//logger.debug("writeQnA - 호출");
 		if (mService.insert(mnum) ==1) {
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);

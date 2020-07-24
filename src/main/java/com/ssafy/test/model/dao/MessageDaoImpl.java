@@ -31,8 +31,10 @@ public class MessageDaoImpl implements MessageDao{
 	}
 	@Override
 	public List<Message> selectById(String id) {
-		// TODO Auto-generated method stub
-		return template.selectList(ns + "selectById", id);
+		Message msg = new Message();
+		msg.setFromUser(id);
+		msg.setToUser(id);
+		return template.selectList(ns + "selectById", msg);
 	}
 
 	@Override

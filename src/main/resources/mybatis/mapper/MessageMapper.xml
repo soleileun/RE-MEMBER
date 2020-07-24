@@ -33,7 +33,7 @@
 		resultType="message">
 		select toUser,fromUser,content,time,isRead
 		from message
-		where toUser=#{toUser}
+		where  toUser = #{toUser} or fromUser = #{fromUser}
 	</select>
 
 
