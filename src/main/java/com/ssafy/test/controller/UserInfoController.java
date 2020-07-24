@@ -108,6 +108,7 @@ public class UserInfoController {
 	@PostMapping
 	public ResponseEntity<String> insertUser(@RequestBody UserInfo q) {
 		logger.debug("insertUser - 호출");
+		System.out.println(q.toString());
 		boolean emailTest = checkRex(q.getId(), "id");
 		boolean pwTest = checkRex(q.getPw(), "password");
 		boolean nameTest = checkRex(q.getName(), "name");
@@ -115,9 +116,15 @@ public class UserInfoController {
 		boolean phoneTest = checkRex(q.getPhone(), "phone");
 		boolean resTest = false;
 		String rep = q.getResponsibility();
-		if(rep == "개발" || rep == "기획" || rep=="디자인") resTest = true;
+	//	System.out.println(rep);
+		if(rep.equals("개발")||rep.equals("디자인")||rep.equals("기획")) {
+			resTest = true;
+		}
+	//	System.out.println(emailTest + " " + pwTest + " " + nicknameTest +" " + phoneTest +" " + resTest  );
 		if (emailTest && pwTest && nameTest && nicknameTest && phoneTest && resTest) {
-			uiService.insert(q);
+			//System.out.println("들어감");
+			int test = uiService.insert(q);
+			//System.out.println("들어감 : " + test);
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		}
 		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT); //에러를 바꿔줘야할것같아여 ㅠㅠ

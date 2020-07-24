@@ -57,6 +57,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
+//탭메뉴
 #rec button {
   background:none;
   border:0;
@@ -86,4 +87,6 @@ export default {
 .tab_box.on {
   display:block;
 }
+
+
 </style>

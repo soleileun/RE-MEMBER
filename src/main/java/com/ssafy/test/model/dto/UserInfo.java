@@ -112,6 +112,12 @@ public class UserInfo {
 		this.id = id;
 		this.pw = pw;
 	}
+	@Override
+	public String toString() {
+		return "UserInfo [id=" + id + ", nickname=" + nickname + ", name=" + name + ", pw=" + pw + ", address1="
+				+ address1 + ", address2=" + address2 + ", phone=" + phone + ", git=" + git + ", points=" + points
+				+ ", lastDate=" + lastDate + ", state=" + state + ", responsibility=" + responsibility + "]";
+	}
 
 
 	

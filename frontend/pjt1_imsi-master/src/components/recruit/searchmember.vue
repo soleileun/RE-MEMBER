@@ -3,13 +3,15 @@
     <h1>인재풀 샘플 1</h1>
   <hr>
   <h2>스택 필터링</h2>
-  <!-- name을 db front back으로 묶기도 가능. 회의 후 결정  -->
+  <!-- name을 db front back으로 묶기도 가능. 회의 후 결정  
   <input type="checkbox" name="stack" value="spring"/>Spring
   <input type="checkbox" name="stack" value="vue"/>Vue.js
   <input type="checkbox" name="stack" value="mysql"/>MySQL
   <input type="checkbox" name="stack" value="django"/>django
   <input type="checkbox" name="stack" value="embedded"/>embedded
-  <button v-on:click="searchMember">검색</button>
+  <button v-on:click="searchMember">검색</button> -->
+
+  
   <!-- 로그인 여부에 따라 인재풀 등록 버튼 활성 비활성 여부 결정 -->
   <br>
   <router-link to="/recruit/registmember" tag="button">인재풀 등록</router-link>
@@ -136,6 +138,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
+ 
   table, td, tr, th {
     width : 1000px;
     margin : 0 auto;
@@ -144,40 +147,40 @@ export default {
   }
 
   /* The Modal (background) */
-  .modal {
-      display: none; /* Hidden by default */
-      position: fixed; /* Stay in place */
-      z-index: 1; /* Sit on top */
-      left: 0;
-      top: 0;
-      width: 100%; /* Full width */
-      height: 100%; /* Full height */
-      overflow: auto; /* Enable scroll if needed */
-      background-color: rgb(0,0,0); /* Fallback color */
-      background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-  }
+  // .modal {
+  //     display: none; /* Hidden by default */
+  //     position: fixed; /* Stay in place */
+  //     z-index: 1; /* Sit on top */
+  //     left: 0;
+  //     top: 0;
+  //     width: 100%; /* Full width */
+  //     height: 100%; /* Full height */
+  //     overflow: auto; /* Enable scroll if needed */
+  //     background-color: rgb(0,0,0); /* Fallback color */
+  //     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  // }
 
-  /* Modal Content/Box */
-  .modal-content {
-      background-color: #fefefe;
-      margin: 15% auto; /* 15% from the top and centered */
-      padding: 20px;
-      border: 1px solid #888;
-      width: 80%; /* Could be more or less, depending on screen size */                          
-  }
-  /* The Close Button */
-  .close {
-      color: #aaa;
-      float: right;
-      font-size: 28px;
-      font-weight: bold;
-  }
-  .close:hover,
-  .close:focus {
-      color: black;
-      text-decoration: none;
-      cursor: pointer;
-  }
+  // /* Modal Content/Box */
+  // .modal-content {
+  //     background-color: #fefefe;
+  //     margin: 15% auto; /* 15% from the top and centered */
+  //     padding: 20px;
+  //     border: 1px solid #888;
+  //     width: 80%; /* Could be more or less, depending on screen size */                          
+  // }
+  // /* The Close Button */
+  // .close {
+  //     color: #aaa;
+  //     float: right;
+  //     font-size: 28px;
+  //     font-weight: bold;
+  // }
+  // .close:hover,
+  // .close:focus {
+  //     color: black;
+  //     text-decoration: none;
+  //     cursor: pointer;
+  // }
 
 
 </style>

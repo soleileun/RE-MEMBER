@@ -51,6 +51,8 @@ const boardstore = {
             })
             .then(() => {
                 console.log('추가하였습니다.');
+                store.dispatch(Constant.GET_BOARDLIST, {bstate : payload.bstate});
+
             })
             .catch(exp => {
                 console.log('추가 실패 확인 로그');
@@ -85,7 +87,7 @@ const boardstore = {
         http.delete('/api/board/delete/' + payload.bno)
             .then(() => {
                 alert('삭제하였습니다.');
-                // store.dispatch(Constant.GET_BOARDLIST);
+                store.dispatch(Constant.GET_BOARDLIST, {bstate : payload.bstate});
 
             })
             .catch(exp => alert('삭제 처리에 실패하였습니다.' + exp));
@@ -120,14 +122,7 @@ const boardstore = {
     //         })
     //         .catch(exp => alert('완료 처리에 실패하였습니다.' + exp));
     // },
-    // [Constant.CLEAR_TODO]: (store) => {
-    //     http.delete('/api/qna/' + 'java')
-    //         .then(() => {
-    //             console.log('할일 목록을 삭제 처리하였습니다.');
-    //             store.commit(Constant.CLEAR_TODO, { todoItems: [], todo: {} });
-    //         })
-    //         .catch(exp => alert('할일 목록을 삭제 처리에 실패하였습니다.' + exp));
-    // },
+    
   },
 
   mutations: {

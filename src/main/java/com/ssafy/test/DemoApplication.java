@@ -29,7 +29,8 @@ public class DemoApplication implements WebMvcConfigurer {
 		.excludePathPatterns(Arrays.asList("/api/userinfo/**",
 										 "/api/board/**",
 										 "/api/recruit/**",
-										 "/api/comments/**"));
+										 "/api/comments/**",
+										 "/api/message/**"));
 	}
 	
 	@Override
