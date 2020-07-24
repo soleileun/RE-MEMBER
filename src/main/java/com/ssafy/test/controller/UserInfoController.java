@@ -59,7 +59,7 @@ public class UserInfoController {
 		try {
 			//System.out.println(user.getId() + " : " + user.getPw());
 			UserInfo loginUser = uiService.signin(user.getId(), user.getPw());
-			
+	
 			//로그인했다면 토큰생성
 			String token = jwtService.create(loginUser);
 			//토큰 정보는 request 헤더로 보내고 나머지는 map에 담음
