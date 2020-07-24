@@ -1,7 +1,7 @@
 import Vuex from 'vuex';
 import Vue from 'vue';
+import router from '../../router';
 
-// import ConstantUser from '../../ConstantUser.js';
 import http from '../../http-common.js';
 Vue.use(Vuex);
 const storage = window.sessionStorage;
@@ -22,7 +22,7 @@ const userstore = {
         // 사이트init
 
         init: (store) => {
-            console.log('init')
+            
             if (storage.getItem("jwt-auth-token")) {
                 // 로그인 검증 폼 생기면 바꾸기
                 store.dispatch("update")
@@ -31,13 +31,15 @@ const userstore = {
                     userid: storage.getItem("userid")
                 })
             } else {
-                console.log('initFail')
                 storage.setItem("jwt-auth-token", "");
-                storage.setItem("user", false);
+                store.commit('init', {
+                    userNick: "",
+                    userid: ""
+                })
             }
         },
         update: () => {
-            // 메신저 버블 업데이트
+            
         },
         // 유저 관련
         login: (store, payload) => {
@@ -46,11 +48,13 @@ const userstore = {
                 pw: payload.pw
             })
                 .then(response => {
+                    console.log(response)
                     if (response.data.data) {
                         storage.setItem("jwt-auth-token", response.headers["jwt-auth-token"]);
                         storage.setItem("userNick", response.data.data.nickname)
                         storage.setItem("userid", response.data.data.id)
-                        document.querySelector(".login").classList.toggle("active");
+                        document.querySelector(".login").classList.remove('active')
+                        router.push({ name: "mainpage" });
                         store.commit('loginError', { e: '' })
                         store.dispatch("init")
                     }
@@ -62,17 +66,18 @@ const userstore = {
                     }
                 })
                 .catch(exp => {
+                    console.log(exp)
                     store.commit('loginError', { e: '오류 발생' + exp })
                     storage.setItem("jwt-auth-token", "");
                     storage.setItem("userNick", "")
                     storage.setItem("userid", "")
                 });
         },
-        logout: () => {
+        logout: (store) => {
             storage.setItem("jwt-auth-token", "");
             storage.setItem("userNick", "")
             storage.setItem("userid", "")
-
+            store.dispatch("init")
             // 로그인폼 구현되면 하기
             // http.get('/api/userinfo/' + payload.id)
             // .then(response => {
@@ -84,7 +89,7 @@ const userstore = {
             // });
         },
         signup: () => {
-
+            
         },
         leave: (store, payload) => {
             http.post('/api/userinfo/signin', {
@@ -92,21 +97,18 @@ const userstore = {
                 pw: payload.pw,
             })
                 .then(response => {
-                    console.log(response.headers["jwt-auth-token"])
                     if (response.data.data) {
-
-                        http.delete('api/userinfo/' + storage.getItem("userid"),
-                            {
-                                headers: {
-                                    "jwt-auth-token": response.headers["jwt-auth-token"]
-                                }
-                            })
+                        http.delete('api/userinfo/' + storage.getItem("userid"), {
+                            headers: {
+                                "jwt-auth-token": storage.getItem("jwt-auth-token")
+                            }
+                        })
                             .then(() => {
-                                this.$router.push({ name: "mainpage" });
                                 storage.setItem("jwt-auth-token", "");
                                 storage.setItem("userNick", "")
                                 storage.setItem("userid", "")
-                            }).catch(exp =>{console.log(exp)})
+                                router.push({ name: "mainpage" });
+                            }).catch(exp => { console.log(exp) })
                     }
                     else {
                         alert("비밀번호가 다릅니다.")

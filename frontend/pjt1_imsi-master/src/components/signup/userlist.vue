@@ -1,7 +1,7 @@
 <template>
   <div class="userlist">
     유저목록(백엔드 디버깅용) : 
-    <div v-for="userr in users" :key='userr.id'>{{userr}}</div> 
+    <div v-for="userr in users" :key='userr.id'>{{userr}} </div> 
     <br />
   </div>
 </template>
