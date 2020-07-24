@@ -15,6 +15,8 @@ public interface BoardService {
 
 	public int delete(int k);
 
+	public int deletecomments(int k);
+	
 	public int update(Board v);
 	
 	public List<Comments> getComments(int k);

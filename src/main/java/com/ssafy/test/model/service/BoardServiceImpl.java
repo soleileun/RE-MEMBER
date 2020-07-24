@@ -95,4 +95,9 @@ public class BoardServiceImpl implements BoardService{
 		return Dao.typesearchByTitleAndContents(v);
 	}
 
+	@Override
+	public int deletecomments(int k) {
+		return Dao.deletecomments(k);
+	}
+
 }

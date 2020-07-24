@@ -14,6 +14,8 @@ public interface BoardDAO {
 	public int insert(Board v);
 
 	public int delete(int k);
+	
+	public int deletecomments(int k);
 
 	public int update(Board v);
 	

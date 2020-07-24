@@ -102,4 +102,9 @@ public class BoardDAOImpl implements BoardDAO{
 		return template.selectList(ns + "typesearchByTitleAndContents",v);
 	}
 
+	@Override
+	public int deletecomments(int k) {
+		return template.delete(ns + "deletecomments", k);
+	}
+
 }

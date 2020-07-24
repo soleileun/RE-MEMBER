@@ -162,7 +162,7 @@ public class BoardController {
 	@DeleteMapping("delete/{bno}")
 	public ResponseEntity<String> deleteBoard(@PathVariable int bno) {
 
-		if (bService.delete(bno) != 0) {
+		if (bService.delete(bno) != 0 && bService.deletecomments(bno) != 0) {
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		}
 		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
