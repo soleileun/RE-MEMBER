@@ -13,5 +13,7 @@ export default{
     //댓글 CRUD
     GET_COMMENTLIST : 'getCommentList',
     ADD_COMMENT : 'addComment',
-    REMOVE_COMMENT : 'removeComment'
+    REMOVE_COMMENT : 'removeComment',
+    CLEAR_COMMENT : 'clearComment'
+
 }

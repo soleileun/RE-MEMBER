@@ -92,7 +92,7 @@ export default {
     deleteFree(){
       var con_test = confirm("삭제하시겠습니까?");
       if(con_test == true){
-        this.$store.dispatch(Constant.REMOVE_BOARD, { bno : this.board.bno});
+        this.$store.dispatch(Constant.REMOVE_BOARD, { bno : this.board.bno, bstate : this.board.bstate});
         // console.log('삭제요청완료.' + this.board.bno);
         this.$router.push('/freeboard');
       }

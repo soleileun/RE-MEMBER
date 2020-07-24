@@ -58,6 +58,18 @@ const commentstore = {
             .catch(exp => alert('삭제 처리에 실패하였습니다.' + exp));
 
     },
+
+    //이거 구현하고 게시글 삭제보다 선행시키기, 공지, 질게 복사
+
+    // //댓글 클리어
+    // [Constant.CLEAR_COMMENT]: (store, payload) => {
+    //     http.delete('/api//' + 'java')
+    //         .then(() => {
+    //             // console.log('할일 목록을 삭제 처리하였습니다.');
+    //             // store.commit(Constant.CLEAR_TODO, { todoItems: [], todo: {} });
+    //         })
+    //         .catch(exp => alert('댓글 클리어 실패하였습니다.' + exp));
+    // },
    
 
    
