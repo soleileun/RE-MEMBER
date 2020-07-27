@@ -4,25 +4,30 @@ import Vue from 'vue';
 import Constant from '../../Constant.js';
 import http from '../../http-common.js';
 Vue.use(Vuex);
-// const storage = window.sessionStorage;
+const storage = window.sessionStorage;
 
-const boardstore = {
+const projectstore = {
   state: {
-      boards: [],
-      board: {}
+      pmembers: [],
+      project: {}
   },
  
   actions: {
-    //게시판
+    
 
-    //bstate에 맞는 리스트 가져오기
-    [Constant.GET_BOARDLIST]: (store,payload) => {
-      http.get('/api/board/statesearching/'+ payload.bstate)
+    //userId에 맞는 pmember 리스트 가져오기
+    [Constant.GET_PMEMBERLIST]: (store,payload) => {
+      http.post('/api/pmember/selectByUserId/'+ payload.userId,{
+        headers: {
+            "jwt-auth-token": storage.getItem("jwt-auth-token")
+        }
+
+      })
           .then(response => {
-            // console.log(response)
-              store.commit(Constant.GET_BOARDLIST, { boards: response.data })
+            console.log('과정2' + response.data);
+              store.commit(Constant.GET_PMEMBERLIST, { pmembers: response.data })
         })
-          .catch(exp => alert('getBoardList처리에 실패하였습니다!!' + exp));
+          .catch(exp => alert('getPmemberList처리에 실패하였습니다.' + exp));
     },
     //bno으로 게시글 하나 가져오기
     [Constant.GET_BOARD]: (store, payload) => {
@@ -127,9 +132,9 @@ const boardstore = {
   },
 
   mutations: {
-    [Constant.GET_BOARDLIST]: (state, payload) => {
+    [Constant.GET_PMEMBERLIST]: (state, payload) => {
         // console.log('mutation' + payload.boards);
-        state.boards = payload.boards;
+        state.pmembers = payload.pmembers;
     },
     [Constant.GET_BOARD]: (state, payload) => {
         state.board = payload.board;
@@ -144,4 +149,4 @@ const boardstore = {
   }
 };
 
-export default boardstore;
+export default projectstore;

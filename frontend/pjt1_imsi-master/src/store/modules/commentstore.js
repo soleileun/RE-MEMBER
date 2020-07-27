@@ -21,7 +21,7 @@ const commentstore = {
             console.log(response)
               store.commit(Constant.GET_COMMENTLIST, { comments: response.data })
         })
-          .catch(exp => alert('getBoardList처리에 실패하였습니다.' + exp));
+          .catch(exp => alert('getBoardList처리에 실패하였습니다!.' + exp));
     },
    
     //댓글 추가
