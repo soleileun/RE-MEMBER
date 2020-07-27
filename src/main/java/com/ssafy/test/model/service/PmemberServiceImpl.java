@@ -38,4 +38,9 @@ public class PmemberServiceImpl implements PmemberService {
 		return pmDao.update(pm);
 	}
 
+	@Override
+	public List<Pmember> selectByUserId(String id) {
+		return pmDao.selectByUserId(id);
+	}
+
 }

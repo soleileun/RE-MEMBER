@@ -40,4 +40,10 @@ public class PmemberDAOImpl implements PmemberDAO {
 	public int update(Pmember pm) {
 		return template.update(ns + "update", pm);
 	}
+
+	@Override
+	public List<Pmember> selectByUserId(String id) {
+
+		return template.selectList(ns + "selectByUserId", id);
+	}
 }

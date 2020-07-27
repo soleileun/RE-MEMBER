@@ -16,4 +16,6 @@ public interface PmemberDAO {
 	public int delete(Pmember pm);
 
 	public int update(Pmember pm);
+	
+	public List<Pmember> selectByUserId(String id);
 }

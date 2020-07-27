@@ -24,7 +24,7 @@ import io.swagger.annotations.ApiOperation;
 
 @RestController
 @CrossOrigin(origins = { "*" }, maxAge = 6000)
-@RequestMapping("/api/project_member")
+@RequestMapping("/api/pmember")
 public class PmemberController {
 	private static final String SUCCESS = "success";
 	private static final String FAIL = "fail";
@@ -40,11 +40,18 @@ public class PmemberController {
 	public ResponseEntity<List<Pmember>> retrieveBoard() throws Exception {
 		return new ResponseEntity<List<Pmember>>(pmService.selectAll(), HttpStatus.OK);
 	}
+	
 
 	@ApiOperation(value = "정보에 해당하는 프로젝트 멤버의 정보를 반환한다.", response = Pmember.class)
 	@PostMapping("/select")
 	public ResponseEntity<Pmember> detailBoard(@RequestBody Pmember pm) {
 		return new ResponseEntity<Pmember>(pmService.select(pm), HttpStatus.OK);
+	}
+	
+	@ApiOperation(value = "아이디에 해당하는 프로젝트 멤버의 정보를 반환한다.", response = Pmember.class)
+	@PostMapping("/selectByUserId/{id}")
+	public ResponseEntity<List<Pmember>> selectByUserId(@PathVariable String id) {
+		return new ResponseEntity<List<Pmember>>(pmService.selectByUserId(id), HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "새로운 프로젝트 멤버정보를 입력한다. 그리고 DB입력 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
