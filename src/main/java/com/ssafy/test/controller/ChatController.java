@@ -51,7 +51,7 @@ public class ChatController {
 	@DeleteMapping("delete/{roomName}")
 	public ResponseEntity<String> deleteBoard(@PathVariable String roomName) {
 
-		if (Service.delete(pid) != 0) {
+		if (Service.delete(roomName) != 0) {
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		}
 		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
