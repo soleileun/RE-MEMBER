@@ -20,13 +20,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 
 	<insert id="insert" parameterType="chatroom">
-		insert into chat(roomName,uid)
+		insert into chatroom(roomName,uid)
 		values(#{roomName}, #{uid})
 	</insert>
 
 	<delete id="delete" parameterType="chatroom">
-		delete from chat
-		where
+		delete from chatroom
 		where roomName = #{roomName} and uid =#{uid}
 	</delete>
 	
