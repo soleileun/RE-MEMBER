@@ -34,8 +34,16 @@
 		select toUser,fromUser,content,time,isRead
 		from message
 		where  toUser = #{toUser} or fromUser = #{fromUser}
+		order by time desc
 	</select>
 
+	<!-- 특정인과 message 조회 -->
+	<select id="getcontacts" parameterType="message" resultType="message">
+		select toUser,fromUser,content,time,isRead
+		from message 
+		where (toUser = #{toUser} and  fromUser = #{fromUser}) or (toUser=#{fromUser} and fromUser=#{toUser});
+		order by time desc
+	</select>
 
 
 	<!-- 전체 message 조회 -->
@@ -46,6 +54,10 @@
 		message
 	</select>
 
+	<!--  is-read를 업데이트 -->
+	<update id="update">
+	update message set isRead=1 where mnum=#{mnum};
+	</update>
 
 
 

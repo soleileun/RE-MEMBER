@@ -56,4 +56,12 @@ public class MessageDaoImpl implements MessageDao{
 		return template.update(ns + "update", msg);
 	}
 
+	@Override
+	public List<Message> getContacts(String id, String other) {
+		Message msg = new Message();
+		msg.setToUser(id);
+		msg.setFromUser(other);
+		return template.selectList(ns+"getcontacts", msg);
+	}
+
 }

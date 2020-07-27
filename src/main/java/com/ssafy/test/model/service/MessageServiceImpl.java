@@ -50,4 +50,10 @@ public class MessageServiceImpl implements MessageService{
 		return mDao.selectById(id);
 	}
 
+	@Override
+	public List<Message> getContacts(String id, String other) {
+		// TODO Auto-generated method stub
+		return mDao.getContacts(id, other);
+	}
+
 }

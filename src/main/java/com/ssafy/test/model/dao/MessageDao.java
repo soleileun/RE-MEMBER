@@ -19,4 +19,5 @@ public interface MessageDao {
 	public int update(Message msg);
 	
 	public List<Message> selectById(String id);
+	public List<Message> getContacts(String id,String other);
 }
