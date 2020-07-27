@@ -9,6 +9,7 @@ public class Project {
 	private String pjtContent;
 	private String pjtState;
 	private int pjtMemberCnt;
+	private String location;
 	private Date makeDay;
 	private Date changeDay;
 	private String makeId;
@@ -86,14 +87,23 @@ public class Project {
 		this.changeId = changeId;
 	}
 
-	public Project(int pid, String pjtName, String pjtContent, String pjtState, int pjtMemberCnt, Date makeDay,
-			Date changeDay, String makeId, String changeId) {
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
+	}
+
+	public Project(int pid, String pjtName, String pjtContent, String pjtState, int pjtMemberCnt, String location,
+			Date makeDay, Date changeDay, String makeId, String changeId) {
 		super();
 		this.pid = pid;
 		this.pjtName = pjtName;
 		this.pjtContent = pjtContent;
 		this.pjtState = pjtState;
 		this.pjtMemberCnt = pjtMemberCnt;
+		this.location = location;
 		this.makeDay = makeDay;
 		this.changeDay = changeDay;
 		this.makeId = makeId;
