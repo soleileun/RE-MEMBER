@@ -38,6 +38,7 @@
 </template>
 
 <script>
+
 import Constant from '../../Constant';
 // import { mapActions } from 'vuex'
 

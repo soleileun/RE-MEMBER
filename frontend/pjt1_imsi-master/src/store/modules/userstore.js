@@ -5,32 +5,32 @@ import router from '../../router';
 import http from '../../http-common.js';
 Vue.use(Vuex);
 const storage = window.sessionStorage;
-
 const userstore = {
     state: {
         userNick: '',
         userid: '',
         followings: [],
         messageList: [],
-        users:[],
+        users: [],
         news: [],
         logined: true,
         logining: false,
         loginError: '',
+        mesDetail: {},
     },
 
     actions: {
         // 사이트init
 
         init: (store) => {
-            
+
             if (storage.getItem("jwt-auth-token")) {
                 // 로그인 검증 폼 생기면 바꾸기
-                store.dispatch("update")
                 store.commit('init', {
                     userNick: storage.getItem("userNick"),
                     userid: storage.getItem("userid")
                 })
+                store.dispatch("update")
             } else {
                 storage.setItem("jwt-auth-token", "");
                 store.commit('init', {
@@ -40,30 +40,23 @@ const userstore = {
             }
         },
         update: (store) => {
+            console.log("up")
             // 메세지
-            http.get('/api/message/'+ storage.getItem("userid"), {
-                headers:{
-                    "jwt-auth-token":storage.getItem("jwt-auth-token")
+            http.get('/api/message/' + storage.getItem("userid"), {
+                headers: {
+                    "jwt-auth-token": storage.getItem("jwt-auth-token")
                 }
             }).then(res => {
-                store.commit('loadMesList',{messageList:res.data})
-            })
+                store.commit('loadMesList', { messageList: res.data })
+            }).catch(exp => console.log(exp))
             // 팔로잉
-            http.get('/api/following/'+ storage.getItem("userid"), {
-                headers:{
-                    "jwt-auth-token":storage.getItem("jwt-auth-token")
+            http.get('/api/following/' + storage.getItem("userid"), {
+                headers: {
+                    "jwt-auth-token": storage.getItem("jwt-auth-token")
                 }
             }).then(res => {
-                store.commit('loadfollowings',{followings:res.data})
-            })
-            // // 유저 목록
-            // http.get('/api/userinfo/', {
-            //     headers:{
-            //         "jwt-auth-token":storage.getItem("jwt-auth-token")
-            //     }
-            // }).then(res => {
-            //     store.commit('loadUsers',{users:res.data})
-            // })
+                store.commit('loadfollowings', { followings: res.data })
+            }).catch(exp => console.log(exp))
         },
         // 유저 관련
         login: (store, payload) => {
@@ -113,7 +106,7 @@ const userstore = {
             // });
         },
         signup: () => {
-            
+
         },
         leave: (store, payload) => {
             http.post('/api/userinfo/signin', {
@@ -146,17 +139,31 @@ const userstore = {
         sendMes: (store, payload) => {
             http.post('/api/message/', {
                 content: payload.content,
-                fromUser: store.state.user.id,
-                toUser: payload.id
+                fromUser: storage.getItem("userid"),
+                toUser: payload.other,
+                read:false,
+                headers: {
+                    "jwt-auth-token": storage.getItem("jwt-auth-token"),
+
+                },
             })
                 .then(response => {
-                    // 자동으로 메세지 창에 추가하기
-                    console.log(response.data)
+                    console.log(response)
+                    store.commit('pushDetailMes', { mes: response.data })
                 })
                 .catch(exp => {
                     alert('메세지 전송에 실패하였습니다.' + exp)
                 });
-        }
+        },
+        detailMes: (store, payload) => {
+            http.get(`/api/message/message/${storage.getItem("userid")}/${payload.other}`, {
+                headers: {
+                    "jwt-auth-token": storage.getItem("jwt-auth-token")
+                }
+            }).then(res => {
+                store.commit('loadDetailMes', { list: res.data })
+            }).catch(exp => console.log(exp))
+        },
     },
 
     mutations: {
@@ -167,15 +174,28 @@ const userstore = {
         loadMesList: (state, payload) => {
             state.messageList = payload.messageList;
         },
-        loadfollowings:(state, payload) => {
+        loadDetailMes: (state, payload) => {
+            state.mesDetail = payload.list;
+        },
+        pushDetailMes: (state, payload) => {
+            state.mesDetail.push(payload.mes);
+        },
+        loadfollowings: (state, payload) => {
             state.followings = payload.followings;
         },
-        loadUsers:(state, payload) => {
+        loadUsers: (state, payload) => {
             state.users = payload.users;
         },
         init: (state, payload) => {
-            state.userNick = payload.userNick;
-            state.userid = payload.userid;
+            if (payload.userid !== state.userid) {
+                state.userNick = payload.userNick;
+                state.userid = payload.userid;
+                state.mesDetail = [];
+                state.followings = [];
+                state.messageList = [];
+                state.users = [];
+                state.news = [];
+            }
         },
         // loadMes: (state, payload) => {
         //     state

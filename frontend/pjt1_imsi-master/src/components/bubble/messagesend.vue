@@ -21,7 +21,7 @@ export default {
   },
   methods:{
     send: function(){
-
+      this.$store.dispatch("sendMes",{other: this.id, content:this.mesval})
     }
   }
 };

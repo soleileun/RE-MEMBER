@@ -27,18 +27,23 @@ export default {
     sidebar,
     buble,
     footerr,
-    login
+    login,
   },
-  mounted: function(){
-    console.log(storage)
+  mounted: function () {
+    console.log(storage);
     this.$store.dispatch("init", {});
   },
-  beforeUpdate: function(){
-    this.$store.dispatch("update", {});
+  beforeUpdate: function () {
+    this.$store.dispatch("News", {});
   },
   computed: {
-    userNick: function (){
-      return this.$store.state.userstore.userNick
+    userNick: function () {
+      return this.$store.state.userstore.userNick;
+    },
+  },
+  methods: {
+    update: function () {
+      this.$store.dispatch("News", {});
     },
   },
 };
