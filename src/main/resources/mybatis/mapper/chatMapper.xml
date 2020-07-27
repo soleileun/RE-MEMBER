@@ -7,7 +7,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select * from chat
 		where roomName = #{roomName}
 	</select>
-
+	
+	<!--  안 씀
+	<select id="selectRoom" parameterType="string" resultType="chat">
+		select distinct roomName from chat
+		where roomName = #{roomName}
+	</select>
+ -->
 	<insert id="insert" parameterType="chat">
 		insert into chat(roomName,id,nickname,content,makedate)
 		values(#{roomName}, #{id},

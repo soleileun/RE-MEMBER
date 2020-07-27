@@ -31,4 +31,5 @@ public class ChatDaoImpl implements ChatDao{
 	public int insert(Chat v) {
 		return template.insert(ns + "insert", v);
 	}
+
 }

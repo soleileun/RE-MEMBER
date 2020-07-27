@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.test.Chatroom">
+	<select id="selectAll" parameterType="string" resultType="chatroom">
+		select * from chatroom
+		where uid = #{uid}
+	</select>
+	
+	
+	<select id="selectMember" parameterType="string" resultType="chatroom">
+		select * from chatroom
+		where roomName = #{roomName}
+	</select>
+	
+	<select id="select" parameterType="chatroom" resultType="chatroom">
+		select * from chatroom
+		where roomName = #{roomName} and uid =#{uid}
+	</select>
+
+	<insert id="insert" parameterType="chatroom">
+		insert into chat(roomName,uid)
+		values(#{roomName}, #{uid})
+	</insert>
+
+	<delete id="delete" parameterType="chatroom">
+		delete from chat
+		where
+		where roomName = #{roomName} and uid =#{uid}
+	</delete>
+	
+	<update id="update" parameterType="chatroom">
+		update chatroom
+		set roomName=#{roomName}, uid =#{uid}
+		where uid=#{uid} and roomName =#{roomName}
+	</update>
+
+</mapper>

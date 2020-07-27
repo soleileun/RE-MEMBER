@@ -37,7 +37,8 @@ public class ChatController {
 	public ResponseEntity<List<Chat>> retrieveChat(@PathVariable String roomName) throws Exception {
 		return new ResponseEntity<List<Chat>>(Service.selectAll(roomName), HttpStatus.OK);
 	}
-
+	
+	
 	@ApiOperation(value = "새로운 채팅 정보를 입력한다. 그리고 DB입력 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
 	@PostMapping
 	public ResponseEntity<String> writeBoard(@RequestBody Chat v) {
