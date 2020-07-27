@@ -16,9 +16,12 @@
     <input v-model="nickname" maxlength="10" type="text" />
     <br />이름(국문) :
     <input v-model="name" maxlength="10" type="text" />
-    <br />주소1 :
-    <input v-model="address1" type="text" />
-    <br />주소2 :
+    <br />
+    <div class="postcode">
+    <DaumPostcode :on-complete="handleAddress"/>
+    </div>주소 :
+    <input v-model="address1" type="text" disabled/>
+    <br />추가 주소 :
     <input v-model="address2" type="text" />
     <br />전화번호 :
     <input v-model="phone0" maxlength="3" type="tel" />-
@@ -40,12 +43,12 @@
 import PV from "password-validator";
 import * as EmailValidator from "email-validator";
 import http from "@/http-common.js";
-// import Daum from "./address.html"
+import DaumPostcode from "vuejs-daum-postcode";
 
 export default {
   name: "signupform",
-  components:{
-    // Daum
+  components: {
+    DaumPostcode,
   },
   created() {
     this.pwSchema
@@ -74,6 +77,7 @@ export default {
       name: "",
       address1: "",
       address2: "",
+      fullAddress:"",
       phone0: "",
       phone1: "",
       phone2: "",
@@ -120,6 +124,25 @@ export default {
     },
   },
   methods: {
+    handleAddress: function(data) {
+      let fullAddress = data.address;
+      let extraAddress = "";
+      if (data.addressType === "R") {
+        if (data.bname !== "") {
+          extraAddress += data.bname;
+        }
+        if (data.buildingName !== "") {
+          extraAddress +=
+            extraAddress !== "" ? `, ${data.buildingName}` : data.buildingName;
+        }
+        // fullAddress += extraAddress !== "" ? ` (${extraAddress})` : "";
+      }
+      this.address1 = fullAddress
+      this.address2 = extraAddress
+    },
+    // editAddress: function() {
+
+    // },
     checkpw() {
       if (this.pw.length >= 0 && !this.pwSchema.validate(this.pw))
         this.error.pw =
@@ -167,6 +190,12 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
+.postcode{
+  height: 300px;
+  width: 500px;
+  border: 2px black solid;
+  overflow-y: scroll;
+}
 .gosignin {
   opacity: 0.2;
 }
