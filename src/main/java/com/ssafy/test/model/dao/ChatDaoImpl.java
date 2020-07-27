@@ -17,13 +17,13 @@ public class ChatDaoImpl implements ChatDao{
 	SqlSessionTemplate template;
 	
 	@Override
-	public int delete(int k) {
+	public int delete(String k) {
 		// TODO Auto-generated method stub
 		return template.delete(ns + "delete", k);
 	}
 
 	@Override
-	public List<Chat> selectAll(int k) {
+	public List<Chat> selectAll(String k) {
 		return template.selectList(ns + "selectAll", k);
 	}
 

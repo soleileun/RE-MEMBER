@@ -5,15 +5,15 @@ import java.util.Date;
 public class Chat {
 
  	private int chno;
- 	private int pid;
+ 	private String roomName;
  	private String id;
  	private String nickname;
  	private String content;
  	private Date makedate;
-	public Chat(int chno, int pid, String id, String nickname, String content, Date makedate) {
+	public Chat(int chno, String roomName, String id, String nickname, String content, Date makedate) {
 		super();
 		this.chno = chno;
-		this.pid = pid;
+		this.roomName = roomName;
 		this.id = id;
 		this.nickname = nickname;
 		this.content = content;
@@ -25,11 +25,11 @@ public class Chat {
 	public void setChno(int chno) {
 		this.chno = chno;
 	}
-	public int getPid() {
-		return pid;
+	public String getRoomName() {
+		return this.roomName;
 	}
-	public void setPid(int pid) {
-		this.pid = pid;
+	public void setRoomName(String roomName) {
+		this.roomName = roomName;
 	}
 	public String getId() {
 		return id;
@@ -55,10 +55,10 @@ public class Chat {
 	public void setMakedate(Date makedate) {
 		this.makedate = makedate;
 	}
-	public Chat(int chno, int pid, String id, String nickname, String content) {
+	public Chat(int chno, String roomName, String id, String nickname, String content) {
 		super();
 		this.chno = chno;
-		this.pid = pid;
+		this.roomName = roomName;
 		this.id = id;
 		this.nickname = nickname;
 		this.content = content;

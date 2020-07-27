@@ -16,7 +16,7 @@ public class ChatServiceImpl implements ChatService{
 	ChatDao Dao;
 	
 	@Override
-	public List<Chat> selectAll(int k) {
+	public List<Chat> selectAll(String k) {
 		// TODO Auto-generated method stub
 		return Dao.selectAll(k);
 	}
@@ -28,7 +28,7 @@ public class ChatServiceImpl implements ChatService{
 	}
 
 	@Override
-	public int delete(int k) {
+	public int delete(String k) {
 		// TODO Auto-generated method stub
 		return Dao.delete(k);
 	}

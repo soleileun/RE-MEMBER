@@ -6,9 +6,9 @@ import com.ssafy.test.model.dto.Chat;
 
 public interface ChatService {
 
-	public List<Chat> selectAll(int k);
+	public List<Chat> selectAll(String k);
 
 	public int insert(Chat v);
 	
-	public int delete(int k);
+	public int delete(String k);
 }

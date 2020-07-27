@@ -32,10 +32,10 @@ public class ChatController {
 	@Autowired
 	private ChatService Service;
 
-	@ApiOperation(value = "특정 pid의 모든 채팅 정보를 반환한다", response = List.class)
-	@GetMapping("chat/pid={pid}")
-	public ResponseEntity<List<Chat>> retrieveChat(@PathVariable int pid) throws Exception {
-		return new ResponseEntity<List<Chat>>(Service.selectAll(pid), HttpStatus.OK);
+	@ApiOperation(value = "특정 roomName의 모든 채팅 정보를 반환한다", response = List.class)
+	@GetMapping("chat/name={roomName}")
+	public ResponseEntity<List<Chat>> retrieveChat(@PathVariable String roomName) throws Exception {
+		return new ResponseEntity<List<Chat>>(Service.selectAll(roomName), HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "새로운 채팅 정보를 입력한다. 그리고 DB입력 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
@@ -47,9 +47,9 @@ public class ChatController {
 		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
 	}
 
-	@ApiOperation(value = "특정 pid의 모든 채팅 정보를 삭제한다. 그리고 DB삭제 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
-	@DeleteMapping("delete/{pid}")
-	public ResponseEntity<String> deleteBoard(@PathVariable int pid) {
+	@ApiOperation(value = "특정 roomName의 모든 채팅 정보를 삭제한다. 그리고 DB삭제 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
+	@DeleteMapping("delete/{roomName}")
+	public ResponseEntity<String> deleteBoard(@PathVariable String roomName) {
 
 		if (Service.delete(pid) != 0) {
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
