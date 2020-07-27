@@ -44,12 +44,14 @@ public class JwtService {
 		builder.signWith(SignatureAlgorithm.HS256, salt.getBytes());
 		//직렬화
 		final String jwt = builder.compact();
+		System.out.println("토큰발행 : " +jwt);
 		logger.debug("토큰발행 : {}",jwt );
 		return jwt;
 	}
 	
 	//전달받은 토큰이 제대로 생성된건지 확인하고 문제가 있닫면 Runtime에러를 발생시킴
 	public void checkValid(final String jwt) {
+		System.out.println("토큰점검 : " +jwt);
 		logger.trace("토큰점검  :{}",jwt);
 		Jwts.parser().setSigningKey(salt.getBytes()).parseClaimsJws(jwt);
 	}
@@ -63,7 +65,7 @@ public class JwtService {
 		}catch (final Exception e) {
 			throw new RuntimeException();
 		}
-		
+		System.out.println("claim : " + claims);
 		logger.trace("claims:{}",claims);
 		return claims.getBody();
 	}
