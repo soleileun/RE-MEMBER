@@ -2,27 +2,22 @@
   <nav class="navibar">
     <router-link class="navbar-brand" :to="{name:'mainpage'}">이름을 뭘로하지</router-link>
     <div class="nav-items">
-      <router-link class="nav-link" :to="{name:'freeboard'}">자유게시판</router-link>
-      <router-link class="nav-link" :to="{name:'notice'}">공지</router-link>
-      <router-link class="nav-link" :to="{name:'qaboard'}">질문게시판</router-link>
+      <router-link class="nav-link" :to="{name:'freeboard'}">게시판</router-link>
       <router-link class="nav-link" :to="{name:'project'}">프로젝트</router-link>
       <router-link class="nav-link" :to="{name:'recruit'}">모집</router-link>
-      <router-link class="nav-link" :to="{name:'service'}">고객센터</router-link>
       <div class="dropdown" v-if="!userNick">
-        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          계정
-        </button>
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">계정</button>
         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-          <router-link class="nav-link dropdown-item" :to="{name:'signup'}">회원가입</router-link>
           <button class="btn btn-dark nav-link dropdown-item" @click="loginon">로그인</button>
+          <router-link class="nav-link dropdown-item" :to="{name:'signup'}">회원가입</router-link>
+          <router-link class="nav-link" :to="{name:'service'}">고객센터</router-link>
         </div>
       </div>
       <div class="dropdown" v-else>
-        <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          {{ userNick }}님
-        </button>
+        <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ userNick }}님</button>
         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
           <router-link class="nav-link dropdown-item" :to="{name:'user'}">user</router-link>
+          <router-link class="nav-link" :to="{name:'service'}">고객센터</router-link>
           <button class="btn btn-dark nav-link dropdown-item" @click="logout">로그아웃</button>
         </div>
       </div>
@@ -36,31 +31,31 @@
 <script>
 export default {
   name: "navibar",
-  mounted: function() {
+  mounted: function () {
     document.querySelector(".hamburg").addEventListener("click", () => {
       document.querySelector(".nav-items").classList.toggle("active");
       document.querySelector(".hamburg").classList.toggle("active");
     });
-    document.querySelectorAll(".nav-link").forEach(function (e){
+    document.querySelectorAll(".nav-link").forEach(function (e) {
       e.addEventListener("click", () => {
-      document.querySelector(".nav-items").classList.toggle("active");
-      document.querySelector(".hamburg").classList.toggle("active");
+        document.querySelector(".nav-items").classList.toggle("active");
+        document.querySelector(".hamburg").classList.toggle("active");
+      });
     });
-    })
   },
   computed: {
-    userNick: function (){
-      return this.$store.state.userstore.userNick
-    }
+    userNick: function () {
+      return this.$store.state.userstore.userNick;
+    },
   },
   methods: {
-    loginon: function() {
+    loginon: function () {
       document.querySelector(".login").classList.toggle("active");
     },
     logout: function () {
-        this.$store.dispatch("logout");
-    }
-  }
+      this.$store.dispatch("logout");
+    },
+  },
 };
 </script>
 
