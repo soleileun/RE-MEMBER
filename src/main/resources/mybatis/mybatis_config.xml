@@ -32,6 +32,8 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			alias="pinterest" />
 		<typeAlias type="com.ssafy.test.model.dto.Reffile"
 			alias="reffile" />
+		<typeAlias type="com.ssafy.test.model.dto.Chat"
+			alias="chat" />
 	</typeAliases>
 
 	<mappers>
@@ -47,6 +49,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<mapper resource="mybatis/mapper/commentsMapper.xml" />
 		<mapper resource="mybatis/mapper/pinterestMapper.xml" />
 		<mapper resource="mybatis/mapper/reffileMapper.xml" />
+		<mapper resource="mybatis/mapper/chatMapper.xml" />
 		
 	</mappers>
 
