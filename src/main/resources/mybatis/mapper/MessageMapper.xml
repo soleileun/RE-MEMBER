@@ -41,7 +41,7 @@
 	<select id="getcontacts" parameterType="message" resultType="message">
 		select toUser,fromUser,content,time,isRead
 		from message 
-		where (toUser = #{toUser} and  fromUser = #{fromUser}) or (toUser=#{fromUser} and fromUser=#{toUser});
+		where (toUser = #{toUser} and  fromUser = #{fromUser}) or (toUser=#{fromUser} and fromUser=#{toUser})
 		order by time desc
 	</select>
 
