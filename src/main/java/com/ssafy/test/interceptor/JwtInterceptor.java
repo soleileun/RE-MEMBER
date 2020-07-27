@@ -35,11 +35,11 @@ public class JwtInterceptor implements HandlerInterceptor {
 	        // request의 parameter에서 auth_token으로 넘어온 녀석을 찾아본다.
 	        // String token = request.getParameter("auth_token");
 	        String token = request.getHeader("jwt-auth-token");
-	       System.out.println(token);
+	        // System.out.println(token);
 	        if (token != null && token.length() > 0) {
 	            // 유효한 토큰이면 진행, 그렇지 않으면 예외를 발생시킨다.
 	            jwtService.checkValid(token);
-	            logger.trace("토큰 사용 가능: {}", token);
+	           System.out.println("토큰 사용 가능: " + token);
 	            return true;
 	        } else {
 	            throw new RuntimeException("인증 토큰이 없습니다.");
