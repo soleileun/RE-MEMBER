@@ -7,6 +7,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select * from pmember;
 	</select>
 
+	<select id="selectByUserId" parameterType="string" resultType="pmember">
+		select * from pmember
+		where userId = #{userId};
+	</select>
+
 	<select id="select" parameterType="pmember" resultType="pmember">
 		select *
 		from
