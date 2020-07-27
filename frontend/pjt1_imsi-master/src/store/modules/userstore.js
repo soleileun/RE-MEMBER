@@ -12,6 +12,7 @@ const userstore = {
         userid: '',
         followings: [],
         messageList: [],
+        users:[],
         news: [],
         logined: true,
         logining: false,
@@ -38,8 +39,31 @@ const userstore = {
                 })
             }
         },
-        update: () => {
-            
+        update: (store) => {
+            // 메세지
+            http.get('/api/message/'+ storage.getItem("userid"), {
+                headers:{
+                    "jwt-auth-token":storage.getItem("jwt-auth-token")
+                }
+            }).then(res => {
+                store.commit('loadMesList',{messageList:res.data})
+            })
+            // 팔로잉
+            http.get('/api/following/'+ storage.getItem("userid"), {
+                headers:{
+                    "jwt-auth-token":storage.getItem("jwt-auth-token")
+                }
+            }).then(res => {
+                store.commit('loadfollowings',{followings:res.data})
+            })
+            // // 유저 목록
+            // http.get('/api/userinfo/', {
+            //     headers:{
+            //         "jwt-auth-token":storage.getItem("jwt-auth-token")
+            //     }
+            // }).then(res => {
+            //     store.commit('loadUsers',{users:res.data})
+            // })
         },
         // 유저 관련
         login: (store, payload) => {
@@ -140,15 +164,21 @@ const userstore = {
             state.loginError = payload.e;
             state.logining = false;
         },
-        getMesList: (state, payload) => {
+        loadMesList: (state, payload) => {
             state.messageList = payload.messageList;
+        },
+        loadfollowings:(state, payload) => {
+            state.followings = payload.followings;
+        },
+        loadUsers:(state, payload) => {
+            state.users = payload.users;
         },
         init: (state, payload) => {
             state.userNick = payload.userNick;
             state.userid = payload.userid;
         },
-        // update: (state, payload) => {
-        // 메신저 버블 업데이트 용
+        // loadMes: (state, payload) => {
+        //     state
         // },
     },
 

@@ -55,7 +55,7 @@ body {
 }
 body {
   padding-top: 7vh;
-  section {
+  .rtViewContainer {
     min-height: 500px;
   }
 }

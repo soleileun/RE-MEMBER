@@ -9,10 +9,10 @@
       <button @click="bubbleState('4')">쪽지함</button>
     </div>
     <div class="bubble-items">
-      <news class="news" v-if="bubbleS == 1"/>
-      <users class="users" v-if="bubbleS == 2"/>
-      <follows class="follows" v-if="bubbleS == 3"/>
-      <messages class="messages" v-if="bubbleS == 4"/>
+      <news class="news" v-if="bubbleS == 1" />
+      <users class="users" v-if="bubbleS == 2" />
+      <follows class="follows" v-if="bubbleS == 3" />
+      <messages class="messages" v-if="bubbleS == 4" />
     </div>
     <div class="bubble-items exit" @click="act">닫기</div>
   </div>
@@ -30,24 +30,24 @@ export default {
     news,
     users,
     follows,
-    messages
+    messages,
   },
-  data: function() {
+  data: function () {
     return {
-      bubbleS: 1
+      bubbleS: 1,
     };
   },
-  mounted: function() {},
+  mounted: function () {},
   methods: {
-    act: function() {
+    act: function () {
       document.querySelector(".bubble").classList.toggle("active");
       this.$store.dispatch("init");
       this.bubbleS = 1;
     },
-    bubbleState: function(state) {
+    bubbleState: function (state) {
       this.bubbleS = state;
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -79,7 +79,7 @@ export default {
       height: 90vh;
       border-radius: 30px;
       overflow: hidden;
-      animation-duration: .5s;
+      animation-duration: 0.5s;
       animation-name: big2;
       .bubble-items {
         display: flex;
@@ -89,19 +89,22 @@ export default {
         button {
           width: 25%;
         }
-        &.btns{
+        &.btns {
           flex-direction: row;
         }
-        div{
+        .news,
+        .users,
+        .follows,
+        .messages {
           height: 70vh;
           overflow-y: scroll;
         }
-        &.exit{
+        &.exit {
           position: fixed;
           height: 1rem;
           bottom: 90vh;
           right: 10vw;
-          animation-duration: .5s;
+          animation-duration: 0.5s;
           animation-name: visi;
         }
       }
@@ -112,7 +115,7 @@ export default {
       width: 450px;
       height: 550px;
       overflow: hidden;
-      animation-duration: .5s;
+      animation-duration: 0.5s;
       animation-name: big1;
       .bubble-items {
         display: flex;
@@ -122,21 +125,24 @@ export default {
         button {
           width: 25%;
         }
-        div{
+        .news,
+        .users,
+        .follows,
+        .messages {
           height: 440px;
           border-bottom-left-radius: 80px;
           border-bottom-right-radius: 80px;
         }
-        &.btns{
+        &.btns {
           flex-direction: row;
           height: 35px;
         }
-        &.exit{
+        &.exit {
           position: fixed;
           height: 1rem;
           bottom: 550px;
           right: 100px;
-          animation-duration: .5s;
+          animation-duration: 0.5s;
           animation-name: visi;
         }
       }
@@ -149,8 +155,8 @@ export default {
     height: 80px;
   }
   to {
-      width: 450px;
-      height: 550px;
+    width: 450px;
+    height: 550px;
   }
 }
 @keyframes big2 {
@@ -159,15 +165,15 @@ export default {
     height: 80px;
   }
   to {
-      width: 100vw;
-      height: 90vh;
+    width: 100vw;
+    height: 90vh;
   }
 }
 @keyframes visi {
   from {
     opacity: 0;
   }
-  99%{
+  99% {
     opacity: 0;
   }
   to {

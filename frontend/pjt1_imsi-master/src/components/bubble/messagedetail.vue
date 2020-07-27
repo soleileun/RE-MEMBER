@@ -10,7 +10,6 @@
 
 <script>
 import sending from "./sending.vue";
-import axios from "axios";
 export default {
   name: "messages",
   components: {
@@ -25,21 +24,6 @@ export default {
     id: String
   },
   mounted: function() {
-    axios({
-      method: "get",
-      url: "쪽지목록 url",
-      data: {
-        user1: this.$store.state.user.id,
-        user2: this.id
-      },
-      responseType: "json"
-    })
-      .then(response => {
-        this.msgs = response;
-      })
-      .catch(e => {
-        console.log(e);
-      });
   }
 };
 </script>
