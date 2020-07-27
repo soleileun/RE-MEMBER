@@ -25,13 +25,13 @@
 	<!-- message 조회 -->
 	<select id="select" parameterType="int" resultType="message">
 		select
-		toUser,fromUser,content,time,isRead
+		mnum,toUser,fromUser,content,time,isRead
 		from message where mnum=#{mnum}
 	</select>
 
 	<select id="selectById" parameterType="String"
 		resultType="message">
-		select toUser,fromUser,content,time,isRead
+		select mnum, toUser,fromUser,content,time,isRead
 		from message
 		where  toUser = #{toUser} or fromUser = #{fromUser}
 		order by time desc
@@ -39,7 +39,7 @@
 
 	<!-- 특정인과 message 조회 -->
 	<select id="getcontacts" parameterType="message" resultType="message">
-		select toUser,fromUser,content,time,isRead
+		select mnum,toUser,fromUser,content,time,isRead
 		from message 
 		where (toUser = #{toUser} and  fromUser = #{fromUser}) or (toUser=#{fromUser} and fromUser=#{toUser})
 		order by time desc
