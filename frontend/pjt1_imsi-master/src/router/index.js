@@ -16,6 +16,8 @@ import modifynotice from '../components/notice/modifynotice.vue'
 
 import project from './link/project.vue'
 import project1 from '../components/project/project1.vue'
+import myproject from '../components/project/myproject.vue'
+import projectdetail from '../components/project/projectdetail.vue'
 
 import qaboard from './link/qaboard.vue'
 import writeqa from '../components/qaboard/writeqa.vue'
@@ -118,6 +120,19 @@ const routes = [
         name: 'project1',
         component: project1
     },
+    {
+        path: '/project/myproject/:userId',
+        name: 'myproject',
+        component: myproject
+    },
+    {
+        path: '/project/projectdetail/:pid',
+        name: 'projectdetail',
+        component: projectdetail
+    },
+
+
+
     // {
     //     path: '/mainboard/qaboard',
     //     name: 'qaboard',

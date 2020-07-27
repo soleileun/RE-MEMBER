@@ -5,7 +5,7 @@
 
     <div class="tab_wrap">
       <div class="tab_menu_container">
-        <button class="tab_menu_btn on" type="button" v-on:click="urlFree">자유게시판</button>
+        <button class="tab_menu_btn " type="button" v-on:click="urlFree">자유게시판</button>
         <button class="tab_menu_btn" type="button" v-on:click="urlNotice">공지사항</button>
         <button class="tab_menu_btn" type="button" v-on:click="urlQa">질문게시판</button>
       </div> <!-- tab_menu_container e -->

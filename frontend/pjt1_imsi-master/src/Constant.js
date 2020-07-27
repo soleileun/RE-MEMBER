@@ -14,6 +14,8 @@ export default{
     GET_COMMENTLIST : 'getCommentList',
     ADD_COMMENT : 'addComment',
     REMOVE_COMMENT : 'removeComment',
-    CLEAR_COMMENT : 'clearComment'
+    CLEAR_COMMENT : 'clearComment',
 
+    //프로젝트 CRUD
+    GET_PMEMBERLIST : 'getPmemberList',
 }

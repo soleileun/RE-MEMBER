@@ -9,6 +9,7 @@ Vue.use(Vuex);
 import boardstore from '@/store/modules/boardstore.js';
 import userstore from '@/store/modules/userstore.js';
 import commentstore from '@/store/modules/commentstore.js';
+import projectstore from '@/store/modules/projectstore.js';
 
 const store = new Vuex.Store({
   modules: {
@@ -16,7 +17,8 @@ const store = new Vuex.Store({
     // 이런형태로 저장!
     boardstore,
     userstore,
-    commentstore
+    commentstore,
+    projectstore
   }
 });
 
