@@ -58,7 +58,7 @@ public class ChatroomController {
 
 	@ApiOperation(value = "특정 유저가 특정 roomName을 가진 채팅방에서 퇴장한다. 그리고 DB삭제 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
 	@DeleteMapping("delete/roomname{roomName}&uid={uid}")
-	public ResponseEntity<String> deleteBoard(@PathVariable String roomName, @PathVariable int uid) {
+	public ResponseEntity<String> deleteBoard(@PathVariable String roomName, @PathVariable String uid) {
 
 		Chatroom v = new Chatroom();
 		v.setRoomName(roomName);
@@ -73,7 +73,7 @@ public class ChatroomController {
 
 	@ApiOperation(value = "정보를 수정한다. 그리고 DB수정 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
 	@PutMapping("change/{roomName}&{uid}")
-	public ResponseEntity<String> updateBoard(@PathVariable String roomName, @PathVariable int uid) {
+	public ResponseEntity<String> updateBoard(@PathVariable String roomName, @PathVariable String uid) {
 
 		Chatroom v = new Chatroom();
 		v.setRoomName(roomName);
