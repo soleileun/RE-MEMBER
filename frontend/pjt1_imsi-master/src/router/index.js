@@ -15,7 +15,7 @@ import detailnotice from '../components/notice/detailnotice.vue'
 import modifynotice from '../components/notice/modifynotice.vue'
 
 import project from './link/project.vue'
-import project1 from '../components/project/project1.vue'
+// import project1 from '../components/project/project1.vue'
 import myproject from '../components/project/myproject.vue'
 import projectdetail from '../components/project/projectdetail.vue'
 
@@ -115,11 +115,11 @@ const routes = [
         name: 'project',
         component: project,
     },
-    {
-        path: '/project/project1',
-        name: 'project1',
-        component: project1
-    },
+    // {
+    //     path: '/project/project1',
+    //     name: 'project1',
+    //     component: project1
+    // },
     {
         path: '/project/myproject/:userId',
         name: 'myproject',

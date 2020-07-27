@@ -4,6 +4,7 @@ import Vue from 'vue';
 import Constant from '../../Constant.js';
 import http from '../../http-common.js';
 Vue.use(Vuex);
+// const storage = window.sessionStorage;
 
 const boardstore = {
   state: {
@@ -21,7 +22,7 @@ const boardstore = {
             // console.log(response)
               store.commit(Constant.GET_BOARDLIST, { boards: response.data })
         })
-          .catch(exp => alert('getBoardList처리에 실패하였습니다.' + exp));
+          .catch(exp => alert('getBoardList처리에 실패하였습니다!!' + exp));
     },
     //bno으로 게시글 하나 가져오기
     [Constant.GET_BOARD]: (store, payload) => {

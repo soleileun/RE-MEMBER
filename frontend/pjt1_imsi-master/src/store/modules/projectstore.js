@@ -4,6 +4,7 @@ import Vue from 'vue';
 import Constant from '../../Constant.js';
 import http from '../../http-common.js';
 Vue.use(Vuex);
+const storage = window.sessionStorage;
 
 const projectstore = {
   state: {
@@ -12,16 +13,21 @@ const projectstore = {
   },
  
   actions: {
-    //게시판
+    
 
-    //bstate에 맞는 리스트 가져오기
+    //userId에 맞는 pmember 리스트 가져오기
     [Constant.GET_PMEMBERLIST]: (store,payload) => {
-      http.post('/api/pmember/selectByUserId/'+ payload.userId)
+      http.post('/api/pmember/selectByUserId/'+ payload.userId,{
+        headers: {
+            "jwt-auth-token": storage.getItem("jwt-auth-token")
+        }
+
+      })
           .then(response => {
             console.log('과정2' + response.data);
               store.commit(Constant.GET_PMEMBERLIST, { pmembers: response.data })
         })
-          .catch(exp => alert('getBoardList처리에 실패하였습니다.' + exp));
+          .catch(exp => alert('getPmemberList처리에 실패하였습니다.' + exp));
     },
     //bno으로 게시글 하나 가져오기
     [Constant.GET_BOARD]: (store, payload) => {
