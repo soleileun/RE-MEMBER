@@ -10,6 +10,8 @@ import boardstore from '@/store/modules/boardstore.js';
 import userstore from '@/store/modules/userstore.js';
 import commentstore from '@/store/modules/commentstore.js';
 import projectstore from '@/store/modules/projectstore.js';
+import poolstore from '@/store/modules/poolstore.js';
+import recruitstore from '@/store/modules/recruitstore.js';
 
 const store = new Vuex.Store({
   modules: {
@@ -18,7 +20,9 @@ const store = new Vuex.Store({
     boardstore,
     userstore,
     commentstore,
-    projectstore
+    projectstore,
+    poolstore,
+    recruitstore
   }
 });
 

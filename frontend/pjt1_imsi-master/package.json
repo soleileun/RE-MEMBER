@@ -10,6 +10,7 @@
   "dependencies": {
     "axios": "^0.19.2",
     "core-js": "^3.6.5",
+    "dragula": "^3.7.2",
     "email-validator": "^2.0.4",
     "password-validator": "^5.0.3",
     "route": "^0.2.5",

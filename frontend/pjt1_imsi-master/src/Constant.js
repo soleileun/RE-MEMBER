@@ -18,5 +18,15 @@ export default{
 
     //프로젝트 CRUD
     GET_PROJECTLIST_BY_PMEMBER : 'getProjectListByPmember',
+    GET_PROJECT : 'getProject',
     GET_CURRENT_MEMBER_COUNT : 'getCurrentMemberCount', 
+
+    //인재풀
+    GET_POOLLIST : 'getPoolList',
+
+    //리쿠르트
+    GET_RECRUITLIST : 'getRecruitList',
+    GET_RECRUIT : 'getRecruit',
+    ADD_RECRUIT : 'addRecruit',
+
 }

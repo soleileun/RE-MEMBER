@@ -27,7 +27,8 @@ import detailqa from '../components/qaboard/detailqa.vue'
 import modifyqa from '../components/qaboard/modifyqa.vue'
 
 import recruit from './link/recruit.vue'
-import registmember from '../components/recruit/registmember.vue'
+import recruit1 from '../components/recruit/recruit1.vue'
+import recruitdetail from '../components/recruit/recruitdetail.vue'
 import registteam from '../components/recruit/registteam.vue'
 
 import service from './link/service.vue'
@@ -159,21 +160,31 @@ const routes = [
         name: 'modifyqa',
         component: modifyqa
     },
+
+    //리쿠릇
     {
         path: '/recruit',
         name: 'recruit',
         component: recruit,
     },
     {
-        path: '/recruit/registmember',
-        name: 'registmember',
-        component: registmember
+        path: '/recruit/recruit1',
+        name: 'recruit1',
+        component: recruit1,
+    },
+    {
+        path: '/recruit/recruitdetail/:rnum',
+        name: 'recruitdetail',
+        component: recruitdetail,
     },
     {
         path: '/recruit/registteam',
         name: 'registteam',
         component: registteam
     },
+
+
+
     {
         path: '/service',
         name: 'service',

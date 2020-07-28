@@ -1,6 +1,6 @@
 <template>
   <div class="project">
-    <poollist />필요 유무 회의에서 결정
+    <poollist />
   </div>
 </template>
 

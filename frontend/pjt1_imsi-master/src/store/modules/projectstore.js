@@ -41,15 +41,17 @@ const projectstore = {
             .catch(exp => alert('getTodo처리에 실패하였습니다.' + exp));
     },
 
-    // //bno으로 게시글 하나 가져오기
-    // [Constant.GET_BOARD]: (store, payload) => {
-    //     http.get('/api/board/no/' + payload.bno)
-    //         .then(response => {
-    //             // console.log(response.data);
-    //             store.commit(Constant.GET_BOARD, { board: response.data })})
-    //         .catch(exp => alert('getTodo처리에 실패하였습니다.' + exp));
+    //pid으로 프로젝트 하나 가져오기
+    [Constant.GET_PROJECT]: (store, payload) => {
+        http.get('/api/project/' + payload.pid)
+            .then(response => {
+                // console.log(response.data);
+                store.commit(Constant.GET_PROJECT, { project: response.data })})
+            .catch(exp => alert('getTodo처리에 실패하였습니다.' + exp));
 
-    // },
+    },
+
+
     // //게시글 추가
     // [Constant.ADD_BOARD]: (store, payload) => {
     //     // console.log(payload.bstate);
@@ -150,9 +152,9 @@ const projectstore = {
     [Constant.GET_CURRENT_MEMBER_COUNT]: (state, payload) => {
       state.pjtcnt = payload.pjtcnt;
   },
-    // [Constant.GET_BOARD]: (state, payload) => {
-    //     state.board = payload.board;
-    // },
+    [Constant.GET_PROJECT]: (state, payload) => {
+        state.project = payload.project;
+    },
     // [Constant.CLEAR_TODO]: (state, payload) => {
     //     state.board = payload.todo;
     //     state.boards = payload.todoItems;
