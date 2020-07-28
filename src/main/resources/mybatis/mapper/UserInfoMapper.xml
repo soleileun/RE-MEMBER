@@ -18,6 +18,12 @@
            ,phone=#{phone},git=#{git},state=#{state} ,responsibility=#{responsibility} 
           where id=#{id}
     </update>
+    <!--  validation 수정 -->
+     <update id="updateVal" parameterType="String" >
+         update userInfo 
+         set isValid=true
+          where id=#{id}
+    </update>
     
     <!--  회원 삭제  -->
     <delete id="delete" parameterType="string">

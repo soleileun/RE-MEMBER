@@ -62,4 +62,10 @@ public class UserInfoDaoImpl implements UserInfoDao {
 		return template.selectOne(ns+"signin",ui);
 	}
 
+	@Override
+	public int updateVal(String id) {
+		// TODO Auto-generated method stub
+		return template.update(ns+"updateVal",id);
+	}
+
 }

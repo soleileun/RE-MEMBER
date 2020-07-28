@@ -1,11 +1,13 @@
 package com.ssafy.test.controller;
 
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -15,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,10 +30,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.test.model.dto.Email;
 import com.ssafy.test.model.dto.User;
 import com.ssafy.test.model.dto.UserInfo;
+import com.ssafy.test.model.service.EmailService;
 import com.ssafy.test.model.service.JwtService;
+import com.ssafy.test.model.service.MailHandler;
+import com.ssafy.test.model.service.MailTempKey;
 import com.ssafy.test.model.service.UserInfoService;
+
 
 import io.swagger.annotations.ApiOperation;
 
@@ -49,6 +57,12 @@ public class UserInfoController {
 	
 	@Autowired
 	private JwtService jwtService;
+	
+	@Autowired
+	private JavaMailSender mailSender;
+	
+	@Autowired
+	private EmailService eService;
 	
 	@PostMapping("/signin")
 	public ResponseEntity<Map<String,Object>> signin(@RequestBody User user , HttpServletResponse response){
@@ -104,9 +118,9 @@ public class UserInfoController {
 	}
 
 
-    @ApiOperation(value = "회원가입기능, 새로운 유저를 추가한다. ", response = String.class)
+    @ApiOperation(value = "회원가입기능, 새로운 유저를 추가한다. 인증메일도 보내진다 ", response = String.class)
 	@PostMapping
-	public ResponseEntity<String> insertUser(@RequestBody UserInfo q) {
+	public ResponseEntity<String> insertUser(@RequestBody UserInfo q) throws MessagingException, UnsupportedEncodingException {
 		logger.debug("insertUser - 호출");
 		System.out.println(q.toString());
 		boolean emailTest = checkRex(q.getId(), "id");
@@ -125,7 +139,25 @@ public class UserInfoController {
 			//System.out.println("들어감");
 			int test = uiService.insert(q);
 			//System.out.println("들어감 : " + test);
+			if(test ==1) {
+			//이메일 인증
+			String key = new MailTempKey().getKey(50, false);
+			Email e = new Email(q.getId(),key) ;
+	        eService.insert(e);
+	        MailHandler sendMail = new MailHandler(mailSender);
+	        sendMail.setSubject("[이메일 인증]");
+	        sendMail.setText(new StringBuffer().append("<h1>메일인증</h1>")
+	                .append("<a href='https://localhost:8080/api/email/validKey=")
+	                .append(key)
+	                .append("' target='_blenk'>이메일 인증 확인</a>")
+	                .toString());
+	        sendMail.setFrom("test@gmail.com", "admin");
+	        sendMail.setTo(q.getId());
+	        sendMail.send();
+			
+			
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+			}
 		}
 		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT); //에러를 바꿔줘야할것같아여 ㅠㅠ
 	}
@@ -176,5 +208,6 @@ public class UserInfoController {
     	return false;
     }
     
+
     
 }

@@ -46,4 +46,9 @@ public class PmemberDAOImpl implements PmemberDAO {
 
 		return template.selectList(ns + "selectByUserId", id);
 	}
+
+	@Override
+	public int selectCntByPid(int pid) {
+		return template.selectOne(ns + "selectCntByPid", pid);
+	}
 }

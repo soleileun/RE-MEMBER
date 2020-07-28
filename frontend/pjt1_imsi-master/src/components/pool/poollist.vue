@@ -1,5 +1,7 @@
 <template>
-  <div>22ddsdfsdsdsf</div>
+  <div>
+      풀리스트
+  </div>
 </template>
 
 <script>

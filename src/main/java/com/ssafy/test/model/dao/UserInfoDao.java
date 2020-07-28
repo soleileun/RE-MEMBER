@@ -9,6 +9,7 @@ public interface UserInfoDao {
 
 	public int insert(UserInfo info);
 	public int update(UserInfo info);
+	public int updateVal(String id);
 	public int delete(String keyword);
 	public UserInfo select(String keyword);
 	public List<UserInfo> selectAll();

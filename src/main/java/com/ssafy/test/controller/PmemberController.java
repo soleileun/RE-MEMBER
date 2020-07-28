@@ -41,6 +41,11 @@ public class PmemberController {
 		return new ResponseEntity<List<Pmember>>(pmService.selectAll(), HttpStatus.OK);
 	}
 	
+	@ApiOperation(value = "pid에 해당하는 프로젝트의 사람 수를 반환한다.", response = List.class)
+	@GetMapping("/selectCntByPid/{pid}")
+	public ResponseEntity<Integer> selectCntByPid(@PathVariable int pid) throws Exception {
+		return new ResponseEntity<Integer>(pmService.selectCntByPid(pid), HttpStatus.OK);
+	}	
 
 	@ApiOperation(value = "정보에 해당하는 프로젝트 멤버의 정보를 반환한다.", response = Pmember.class)
 	@PostMapping("/select")
@@ -58,10 +63,6 @@ public class PmemberController {
 	@PostMapping
 	public ResponseEntity<String> writeBoard(@RequestBody Pmember pm) {
 		if (pmService.insert(pm) != 0) {
-			Project p = pService.select(pm.getPid());
-			int cnt = p.getPjtMemberCnt();
-			p.setPjtMemberCnt(cnt + 1);
-			pService.update(p);
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		}
 		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
@@ -78,7 +79,6 @@ public class PmemberController {
 	}
 
 	@ApiOperation(value = "글번호에 해당하는 프로젝트의 정보를 삭제한다. 그리고 DB삭제 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
-
 	@DeleteMapping
 	public ResponseEntity<String> deleteBoard(@RequestBody Pmember pm) {
 

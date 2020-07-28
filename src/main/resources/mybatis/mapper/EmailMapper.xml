@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.test.Email">
+
+	<!-- 인증 email 보내고 데이터 저장 -->
+	<insert id="insert" parameterType="email">
+		insert into email
+		values (#{validKey},#{userEmail})
+	</insert>
+
+	<!--  인증 email완료 후 데이터 삭제 -->
+	<delete id="delete" parameterType="string">
+		delete from email where userEmail=#{userEmail}
+	</delete>
+	
+	<select id="selectAll" parameterType="string"
+		resultType="email">
+		select validKey, userEmail
+		from email 
+	</select>
+
+	<select id="selectByKey" parameterType="string"
+		resultType="email">
+		select validKey, userEmail
+		from email where validKey=#{validKey}
+	</select>
+
+	<select id="selectById" parameterType="string"
+		resultType="email">
+	select validKey, userEmail
+		from email where userEmail=#{userEmail}
+	</select>
+
+
+
+</mapper>
