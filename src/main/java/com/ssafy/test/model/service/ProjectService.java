@@ -15,4 +15,6 @@ public interface ProjectService {
 	public int delete(int pid);
 
 	public int update(Project p);
+	
+	public List<Project> searchByUserId(String userId);
 }

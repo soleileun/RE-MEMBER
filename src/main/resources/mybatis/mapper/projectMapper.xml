@@ -12,10 +12,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		project where pid=#{pid}
 	</select>
 
+	<select id="searchByUserId" parameterType="string"
+		resultType="project">
+		select p.pid, pjtName, pjtContent, pjtState, pjtMemberCnt, makeDay, changeDay,makeId, changeId, location from project as p
+		left join pmember as pm on pm.pid = p.pid
+		where pm.userId=#{userId};
+	</select>
+
 	<insert id="insert" parameterType="project">
 		insert into project
 		values(#{pid}, #{pjtName}, #{pjtContent}, #{pjtState},
-		1, #{makeDay}, #{changeDay}, #{makeId},
+		1, #{makeDay},
+		#{changeDay}, #{makeId},
 		#{changeId}), #{location}
 	</insert>
 

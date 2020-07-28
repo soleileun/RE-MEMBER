@@ -45,6 +45,12 @@ public class ProjectController {
 	public ResponseEntity<Project> detailBoard(@PathVariable int pid) {
 		return new ResponseEntity<Project>(pService.select(pid), HttpStatus.OK);
 	}
+	
+	@ApiOperation(value = "UserId에 해당하는 프로젝트의 정보를 반환한다.", response = Project.class)
+	@GetMapping("/searchByUserId/{userId}")
+	public ResponseEntity<List<Project>> searchByUserId(@PathVariable String userId) throws Exception {
+		return new ResponseEntity<List<Project>>(pService.searchByUserId(userId), HttpStatus.OK);
+	}
 
 	@ApiOperation(value = "새로운 프로젝트 정보를 입력한다. 그리고 DB입력 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
 	@PostMapping

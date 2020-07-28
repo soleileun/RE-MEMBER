@@ -40,4 +40,9 @@ public class ProjectServiceImpl implements ProjectService {
 		return pDao.update(p);
 	}
 
+	@Override
+	public List<Project> searchByUserId(String userId) {
+		return pDao.searchByUserId(userId);
+	}
+
 }
