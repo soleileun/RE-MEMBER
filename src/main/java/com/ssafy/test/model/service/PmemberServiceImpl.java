@@ -43,4 +43,9 @@ public class PmemberServiceImpl implements PmemberService {
 		return pmDao.selectByUserId(id);
 	}
 
+	@Override
+	public int selectCntByPid(int pid) {
+		return pmDao.selectCntByPid(pid);
+	}
+
 }
