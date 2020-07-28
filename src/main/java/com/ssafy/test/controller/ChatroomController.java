@@ -40,7 +40,7 @@ public class ChatroomController {
 	}
 	
 
-	@ApiOperation(value = "특정 roomName의 모든 채팅 정보를 반환한다", response = List.class)
+	@ApiOperation(value = "특정 roomName의 모든 멤버 정보를 반환한다", response = List.class)
 	@GetMapping("chat/roomname={roomName}")
 	public ResponseEntity<List<Chatroom>> selectMember(@PathVariable String roomName) throws Exception {
 		return new ResponseEntity<List<Chatroom>>(Service.selectMember(roomName), HttpStatus.OK);
@@ -57,7 +57,7 @@ public class ChatroomController {
 	}
 
 	@ApiOperation(value = "특정 유저가 특정 roomName을 가진 채팅방에서 퇴장한다. 그리고 DB삭제 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
-	@DeleteMapping("delete/roomname{roomName}&uid={uid}")
+	@DeleteMapping("delete/roomname={roomName}&uid={uid}")
 	public ResponseEntity<String> deleteBoard(@PathVariable String roomName, @PathVariable String uid) {
 
 		Chatroom v = new Chatroom();
