@@ -45,4 +45,9 @@ public class ProjectDAOImpl implements ProjectDAO {
 		return template.update(ns + "update", p);
 	}
 
+	@Override
+	public List<Project> searchByUserId(String userId) {
+		return template.selectList(ns + "searchByUserId", userId);
+	}
+
 }

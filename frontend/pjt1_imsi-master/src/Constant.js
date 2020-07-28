@@ -17,5 +17,6 @@ export default{
     CLEAR_COMMENT : 'clearComment',
 
     //프로젝트 CRUD
-    GET_PMEMBERLIST : 'getPmemberList',
+    GET_PROJECTLIST_BY_PMEMBER : 'getProjectListByPmember',
+    GET_CURRENT_MEMBER_COUNT : 'getCurrentMemberCount', 
 }

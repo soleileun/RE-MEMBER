@@ -3,9 +3,9 @@
     <h1>프로젝트 관리 페이지</h1>
     <hr>
     
-    <project v-for="pmember in pmembers" 
-            :key="pmember.pid"
-            :pmember="pmember"
+    <project v-for="project in projects" 
+            :key="project.pid"
+            :project="project"
             />
 
             <!-- @delete-project="deleteComment" -->
@@ -24,9 +24,9 @@ export default {
     project
   },
   computed: {
-    pmembers() {
-      console.log(this.$store.state.projectstore.pmembers);
-      return this.$store.state.projectstore.pmembers; 
+    projects() {
+      console.log('확인2'+ this.$store.state.projectstore.projects);
+      return this.$store.state.projectstore.projects; 
     }
   },
   created () {
@@ -36,27 +36,12 @@ export default {
   methods: {
     getPmemberList(userId) {
       console.log('과정1');
-      this.$store.dispatch(Constant.GET_PMEMBERLIST,{userId });
+      this.$store.dispatch(Constant.GET_PROJECTLIST_BY_PMEMBER,{userId });
     },
 
     
   },
-  // data() {
-  //   return {
-  //     project : {
-  //       pid : 'ssafy',
-  //       pjtname : '블록체인 프로젝트',
-  //       pjtstartdate : '2020-02-11',
-  //       pjtcontent : '블록 체인을 이용',
-  //       pjtstate : '완료',
-  //       pjtmember_cnt : 3,
-  //       makeday : '2020-03-31',
-  //       changeday : '2020-07-01',
-  //       makeid : 'makeid1',
-  //       changeid : 'changeid1'
-  //     }
-  //   }
-  // },
+
 };
 </script>
 

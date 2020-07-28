@@ -1,16 +1,16 @@
 <template>
   <div class="project">
-    <project1 />
+    <poollist />필요 유무 회의에서 결정
   </div>
 </template>
 
 <script>
-import project1 from "../../components/project/project1.vue";
+import poollist from "../../components/pool/poollist.vue";
 
 export default {
   name: "project",
   components: {
-    project1,
+    poollist,
   }
 };
 </script>
