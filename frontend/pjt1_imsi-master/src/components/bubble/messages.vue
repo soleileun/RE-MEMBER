@@ -1,56 +1,60 @@
 <template>
   <div class="messages">
     쪽지 목록
-    <span v-show="viewdetail" @click="nodetail">
+    <span v-show="mesviewdetail" @click="nodetail">
       <i class="far fa-times-circle"></i>
     </span>
-    <div v-show="!viewdetail">
+    <div v-show="!mesviewdetail">
       <li v-for="mes in messageList" :key="mes.id" @click="detailview(mes.fromUser,mes.toUser)" :class="{read:!mes.read}">
-        from : {{mes.fromUser}} | to : {{ mes.toUser}} | 시간 : {{mes.time}}
+        상대 : {{abc(mes.toUser,mes.fromUser)}} | 시간 : {{mestime(mes.time)}} / {{mes.mnum}}
         <br />
         {{mes.content}} (클릭해서 답장)
       </li>
     </div>
-    <messagedetail v-if="viewdetail" :id="detailid" />
-    
+    <messagedetail v-if="mesviewdetail"  />
   </div>
 </template>
 
 
 <script>
 import messagedetail from "./messagedetail.vue";
+const storage = window.sessionStorage;
 
 export default {
   name: "messages",
   components: {
     messagedetail,
   },
-  data: function () {
-    return {
-      detailid: "",
-      viewdetail: false,
-      mesUser: [],
-      // { "mnum": 0, "toUser": "", "fromUser": "", "content": "", "time": , "read": false },}
-    };
-  },
   computed: {
     messageList: function () {
       return this.$store.state.userstore.messageList;
     },
+    mesviewdetail: function () {
+      return this.$store.state.userstore.mesviewdetail;
+    },
+
+    //
   },
   methods: {
+    mestime: function (x) {
+      if (x){
+        return x.slice(0, 10);
+      }
+    },
+    abc: function (a, b) {
+      return a === storage.getItem("userid") ? b : a;
+    },
     detailview: function (id1, id2) {
-      const storage = window.sessionStorage;
+      let detailid;
       if (storage.getItem("userid") === id1) {
-        this.detailid = id2;
+        detailid = id2;
+      } else if (storage.getItem("userid") === id2) {
+        detailid = id1;
       }
-      else if (storage.getItem("userid") === id2){
-        this.detailid = id1;
-      }
-      this.viewdetail = true;
+      this.$store.commit("viewMes",{id:detailid,view:true})
     },
     nodetail: function () {
-      this.viewdetail = false;
+      this.$store.commit("viewMes",{id:"",view:false})
     },
   },
 };

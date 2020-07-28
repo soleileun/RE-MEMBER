@@ -9,15 +9,15 @@
 <script>
 export default {
   name: "messagesend",
-  components: {
+  computed: {
+    id: function(){
+      return this.$store.state.userstore.mesdetailid;
+    }
   },
   data: function() {
     return {
       mesval:''
     };
-  },
-  props: {
-    id: String
   },
   methods:{
     send: function(){

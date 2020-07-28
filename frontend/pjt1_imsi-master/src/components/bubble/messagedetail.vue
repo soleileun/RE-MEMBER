@@ -1,9 +1,13 @@
 <template>
   <div class="messages">
     <section class="detaillist">
-      <div v-for="mes in msgs" :key="mes.mnum" :class="{read:mes.read}">{{mes}}</div>
+      <div v-for="mes in msgs" :key="mes.mnum" :class="{read:mes.read}">
+        보낸이 : {{mes.fromUser}} | 시간 : {{mestime(mes.time)}}
+        <br />
+        {{mes.content}}
+      </div>
     </section>
-    <messagesend :id="id" />
+    <messagesend />
   </div>
 </template>
 
@@ -20,20 +24,31 @@ export default {
   },
   computed: {
     msgs: function () {
-      let tmp = this.$store.state.userstore.mesDetail
-      tmp.sort(function(a,b) {
-        return  a.mnum -b.mnum 
-      });
-      return tmp
+      let tmp = this.$store.state.userstore.mesDetail;
+      if (tmp) {
+        tmp.sort(function (a, b) {
+          return b.mnum - a.mnum;
+        });
+      }
+      return tmp;
     },
-  },
-  props: {
-    id: String,
+    id: function(){
+      return this.$store.state.userstore.mesdetailid;
+    }
   },
   mounted: function () {
     this.$store.dispatch("detailMes", { other: this.id });
   },
-  methods: {},
+  methods: {
+    mestime: function (x) {
+      if (x) {
+        return x.slice(0, 10);
+      }
+    },
+    delmes: function (x) {
+      this.$store.dispatch("delMes", { mnum: x });
+    },
+  },
 };
 </script>
 
@@ -44,9 +59,11 @@ export default {
   flex-direction: column;
   justify-content: space-between;
   .detaillist {
-    div{
+    max-height: 300px;
+    overflow-y: scroll;
+    div {
       border: 1px black solid;
-      &.read{
+      &.read {
         background-color: skyblue;
       }
     }

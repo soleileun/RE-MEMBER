@@ -34,7 +34,9 @@ export default {
     this.$store.dispatch("init", {});
   },
   beforeUpdate: function () {
-    this.$store.dispatch("News", {});
+    if (this.userNick) {
+      this.$store.dispatch("update", {});
+    }
   },
   computed: {
     userNick: function () {

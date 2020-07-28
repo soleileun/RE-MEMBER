@@ -1,5 +1,7 @@
 <template>
   <div class="service">
+    <userlist/>
+    <mesToAll v-if="userid === 'admin'"/>
     사이트 이용 약관
     <terms />
     
@@ -12,16 +14,25 @@
 </template>
 
 <script>
+import userlist from "../../components/signup/userlist.vue";
 import terms from "../../components/service/terms.vue";
 import siteQ50 from "../../components/service/siteQ50.vue";
 import sitereport from "../../components/service/sitereport.vue";
+import mesToAll from "../../components/service/mesToAll.vue";
 
 export default {
   name: "service",
   components: {
+    userlist,
     terms,
     siteQ50,
     sitereport,
+    mesToAll
+  },
+  data: function (){
+    return {
+      userid:window.sessionStorage.getItem('userid')
+    }
   }
 };
 </script>

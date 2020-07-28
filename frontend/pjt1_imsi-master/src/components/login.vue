@@ -7,7 +7,9 @@
       <br />비밀번호 :
       <input class="id" v-model="pw" type="password" @keyup.enter="goLogin"/>
       <br />
+      자동 로그인 : <input type="checkbox" v-model="autologin">
       <button @click="goLogin">로그인</button>
+      <br>
       <span @click="loginexit">
         <router-link :to="{name:'signup'}">회원가입</router-link>
         <br />
@@ -23,13 +25,16 @@
 </template>
 
 <script>
+const storage = window.sessionStorage;
+
 export default {
   name: "login",
   data: function() {
     return {
       id: "",
       pw: "",
-      findform: false
+      findform: false,
+      autologin:false
     };
   },
   computed: {
@@ -46,6 +51,13 @@ export default {
         this.$store.commit("loginError", { e: '아이디와 비밀번호를 모두 입력해 주세요' });
       }
       else if (!this.$store.state.userstore.logining) {
+        if (this.autologin){
+          storage.setItem("autologin",'t')
+          storage.setItem("pw",this.pw)
+        }else{
+          storage.setItem("autologin",'f')
+          storage.setItem("pw",'')
+        }
         this.$store.state.userstore.logining = true;
         this.$store.dispatch("login", { id: this.id, pw:this.pw });
       }

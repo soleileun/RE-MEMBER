@@ -4,15 +4,15 @@
 
     <div class="bubble-items btns">
       <button @click="bubbleState('1')">알림</button>
-      <button @click="bubbleState('2')">유저 목록</button>
+      <button @click="bubbleState('2')">채팅창</button>
       <button @click="bubbleState('3')">팔로우</button>
       <button @click="bubbleState('4')">쪽지함</button>
     </div>
     <div class="bubble-items">
-      <news class="news" v-if="bubbleS == 1" />
-      <users class="users" v-if="bubbleS == 2" />
-      <follows class="follows" v-if="bubbleS == 3" />
-      <messages class="messages" v-if="bubbleS == 4" />
+      <news class="news" v-if="bubbleS === '1'" />
+      <users class="users" v-if="bubbleS === '2'" />
+      <follows class="follows" v-if="bubbleS === '3'" />
+      <messages class="messages" v-if="bubbleS === '4'" />
     </div>
     <div class="bubble-items exit" @click="act">닫기</div>
   </div>
@@ -32,20 +32,22 @@ export default {
     follows,
     messages,
   },
-  data: function () {
-    return {
-      bubbleS: 1,
-    };
+  computed: {
+    bubbleS: function(){
+      return this.$store.state.userstore.bubbleS
+    },
   },
   mounted: function () {},
   methods: {
     act: function () {
       document.querySelector(".bubble").classList.toggle("active");
-      this.$store.dispatch("init");
-      this.bubbleS = 1;
+      this.$store.dispatch("update");
+      this.$store.commit('bubbleState', { st: '1'})
+      this.$store.commit("viewMes",{id:"",view:false})
     },
     bubbleState: function (state) {
-      this.bubbleS = state;
+      this.$store.commit('bubbleState', { st: state })
+      this.$store.commit("viewMes",{id:"",view:false})
     },
   },
 };

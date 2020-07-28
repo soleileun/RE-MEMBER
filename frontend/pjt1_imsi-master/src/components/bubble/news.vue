@@ -1,25 +1,16 @@
 <template>
 <div class="news">
   알림
-  <li v-for="neww in newss" :key="neww.id">{{neww.content}}</li>
+  <li v-for="neww in news" :key="neww.id">{{neww.content}}</li>
 </div>
 </template>
 
 <script>
 export default {
   name: 'news',
-  data:function(){
-    return{
-      newss:[
-      {
-        id:0,
-        content:'123'
-      },
-      {
-        id:1,
-        content:'알림2'
-      },
-      ]
+  computed:{
+    news: function(){
+      return this.$store.state.userstore.news;
     }
   }
 }

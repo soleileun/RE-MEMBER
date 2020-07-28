@@ -16,7 +16,10 @@ const userstore = {
         logined: true,
         logining: false,
         loginError: '',
-        mesDetail: {},
+        mesDetail: [],
+        bubbleS: '1',
+        mesdetailid:"",
+        mesviewdetail:false,
     },
 
     actions: {
@@ -31,7 +34,10 @@ const userstore = {
                     userid: storage.getItem("userid")
                 })
                 store.dispatch("update")
-            } else {
+            } else if (storage.getItem("autologin")==='t' ){
+                store.dispatch("login", { id: storage.getItem("userid"), pw:storage.getItem("pw")});
+            }
+            else{
                 storage.setItem("jwt-auth-token", "");
                 store.commit('init', {
                     userNick: "",
@@ -41,6 +47,14 @@ const userstore = {
         },
         update: (store) => {
             console.log("up")
+            // 팔로잉
+            http.get('/api/following/' + storage.getItem("userid"), {
+                headers: {
+                    "jwt-auth-token": storage.getItem("jwt-auth-token")
+                }
+            }).then(res => {
+                store.commit('loadfollowings', { followings: res.data })
+            }).catch(exp => console.log(exp))
             // 메세지
             http.get('/api/message/' + storage.getItem("userid"), {
                 headers: {
@@ -49,13 +63,13 @@ const userstore = {
             }).then(res => {
                 store.commit('loadMesList', { messageList: res.data })
             }).catch(exp => console.log(exp))
-            // 팔로잉
-            http.get('/api/following/' + storage.getItem("userid"), {
+            // 알림
+            http.get(`/api/message/message/${storage.getItem("userid")}/admin`, {
                 headers: {
                     "jwt-auth-token": storage.getItem("jwt-auth-token")
                 }
             }).then(res => {
-                store.commit('loadfollowings', { followings: res.data })
+                store.commit('loadNews', { list: res.data })
             }).catch(exp => console.log(exp))
         },
         // 유저 관련
@@ -94,16 +108,8 @@ const userstore = {
             storage.setItem("jwt-auth-token", "");
             storage.setItem("userNick", "")
             storage.setItem("userid", "")
+            storage.setItem("autologin", "f")
             store.dispatch("init")
-            // 로그인폼 구현되면 하기
-            // http.get('/api/userinfo/' + payload.id)
-            // .then(response => {
-            //     store.commit('login', { user: response.data })
-            // })
-            // .catch(exp => {
-            //     store.commit('login', { user: '' })
-            //     alert('로그인에 실패하였습니다.' + exp)
-            // });
         },
         signup: () => {
 
@@ -134,26 +140,53 @@ const userstore = {
                     alert("오류가 발생했습니다." + exp)
                 })
         },
-
+        follow:(store, payload) => {
+            http.post('/api/following/', {
+                headers: {
+                    "jwt-auth-token": storage.getItem("jwt-auth-token")
+                },
+                target: payload.target,
+                uid: storage.getItem("userid")
+            }).then(res => {
+                store.commit('newFollow', { followings: res.data })
+            }).catch(exp => console.log(exp))
+        },
+            //this.$store.dispatch("follow", { target: //targetId }); 
+            //this.$store.dispatch("sendMes", { toUser//targetId });
         // 메세지
         sendMes: (store, payload) => {
-            http.post('/api/message/', {
-                content: payload.content,
-                fromUser: storage.getItem("userid"),
-                toUser: payload.other,
-                read:false,
-                headers: {
-                    "jwt-auth-token": storage.getItem("jwt-auth-token"),
-
-                },
-            })
-                .then(response => {
-                    console.log(response)
-                    store.commit('pushDetailMes', { mes: response.data })
+            if (!payload.content){
+                if (!storage.getItem("jwt-auth-token")){
+                    alert("로그인이 필요합니다.")
+                    document.querySelector(".login").classList.remove("active");
+                    document.querySelector(".login").classList.add("active");
+                }else{
+                    document.querySelector(".bubble").classList.remove("active")
+                    document.querySelector(".bubble").classList.add("active")
+                    store.commit('bubbleState', { st: '4' })
+                    store.commit("viewMes",{id:payload.toUser,view:true})
+                    store.dispatch("detailMes", { other: payload.toUser });
+                }
+            }else if (payload.other !==''){
+                http.post('/api/message/', {
+                    content: payload.content,
+                    fromUser: storage.getItem("userid"),
+                    toUser: payload.other,
+                    read:false,
+                    headers: {
+                        "jwt-auth-token": storage.getItem("jwt-auth-token"),
+    
+                    },
                 })
-                .catch(exp => {
-                    alert('메세지 전송에 실패하였습니다.' + exp)
-                });
+                    .then(response => {
+                        console.log(response)
+                        store.commit('pushDetailMes', { mes: {fromUser:storage.getItem("userid"),time:"방금",content:payload.content,mnum:9999999} })
+                    })
+                    .catch(exp => {
+                        alert('메세지 전송에 실패하였습니다.' + exp)
+                    });
+            }
+            
         },
         detailMes: (store, payload) => {
             http.get(`/api/message/message/${storage.getItem("userid")}/${payload.other}`, {
@@ -164,6 +197,15 @@ const userstore = {
                 store.commit('loadDetailMes', { list: res.data })
             }).catch(exp => console.log(exp))
         },
+        delMes:(store, payload) => {
+            http.delete(`/api/message/${payload.mnum}`, {
+                headers: {
+                    "jwt-auth-token": storage.getItem("jwt-auth-token")
+                }
+            }).then(res => {
+                alert("메세지가 삭제되었습니다."+res.data)
+            }).catch(exp => console.log(exp))
+        },
     },
 
     mutations: {
@@ -172,16 +214,27 @@ const userstore = {
             state.logining = false;
         },
         loadMesList: (state, payload) => {
-            state.messageList = payload.messageList;
+            state.messageList = payload.messageList.filter(item => item.fromUser!=="admin");
         },
         loadDetailMes: (state, payload) => {
             state.mesDetail = payload.list;
         },
+        loadNews: (state, payload) => {
+            state.news = payload.list;
+        },
         pushDetailMes: (state, payload) => {
-            state.mesDetail.push(payload.mes);
+            if (typeof(state.mesDetail) ==typeof([])){
+                state.mesDetail.push(payload.mes);
+            }
+            else{
+                state.mesDetail = [payload.mes];
+            }
         },
         loadfollowings: (state, payload) => {
             state.followings = payload.followings;
+        },
+        newFollow: (state, payload) => {
+            state.followings.push(payload.followings);
         },
         loadUsers: (state, payload) => {
             state.users = payload.users;
@@ -197,9 +250,13 @@ const userstore = {
                 state.news = [];
             }
         },
-        // loadMes: (state, payload) => {
-        //     state
-        // },
+        viewMes:(state,payload) =>{
+            state.mesdetailid = payload.id
+            state.mesviewdetail = payload.view
+        },
+        bubbleState:(state,payload) => {
+            state.bubbleS = payload.st
+        },
     },
 
     modules: {
