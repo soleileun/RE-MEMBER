@@ -14,10 +14,12 @@ import writenotice from '../components/notice/writenotice.vue'
 import detailnotice from '../components/notice/detailnotice.vue'
 import modifynotice from '../components/notice/modifynotice.vue'
 
-import project from './link/project.vue'
+import pool from './link/pool.vue'
 // import project1 from '../components/project/project1.vue'
 import myproject from '../components/project/myproject.vue'
 import projectdetail from '../components/project/projectdetail.vue'
+
+import poollist from '../components/pool/poollist.vue'
 
 import qaboard from './link/qaboard.vue'
 import writeqa from '../components/qaboard/writeqa.vue'
@@ -110,16 +112,20 @@ const routes = [
         name: 'modifynotice',
         component: modifynotice
     },
+
+    //풀
     {
-        path: '/project',
-        name: 'project',
-        component: project,
+        path: '/pool',
+        name: 'pool',
+        component: pool,
     },
-    // {
-    //     path: '/project/project1',
-    //     name: 'project1',
-    //     component: project1
-    // },
+    {
+        path: '/pool/poollist',
+        name: 'poollist',
+        component: poollist
+    },
+
+    //프로젝트
     {
         path: '/project/myproject/:userId',
         name: 'myproject',

@@ -3,7 +3,7 @@
     <router-link class="navbar-brand" :to="{name:'mainpage'}">이름을 뭘로하지</router-link>
     <div class="nav-items">
       <router-link class="nav-link" :to="{name:'freeboard'}">게시판</router-link>
-      <router-link class="nav-link" :to="{name:'project'}">프로젝트</router-link>
+      <router-link class="nav-link" :to="{name:'pool'}">인재풀</router-link>
       <router-link class="nav-link" :to="{name:'recruit'}">모집</router-link>
       <div class="dropdown" v-if="!userNick">
         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">계정</button>
