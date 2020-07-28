@@ -65,4 +65,10 @@ public class UserInfoServiceImpl implements UserInfoService {
 		return "TRY BY EUNJOUNG...";
 	}
 
+	@Override
+	public int updateVal(String id) {
+		// TODO Auto-generated method stub
+		return uDao.updateVal(id);
+	}
+
 }

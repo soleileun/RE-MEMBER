@@ -17,6 +17,7 @@ public class UserInfo {
 	private Date lastDate;
 	private boolean state;
 	private String responsibility;
+	private boolean isValid;
 	public String getId() {
 		return id;
 	}
@@ -89,8 +90,9 @@ public class UserInfo {
 	public void setResponsibility(String responsibility) {
 		this.responsibility = responsibility;
 	}
+
 	public UserInfo(String id, String nickname, String name, String pw, String address1, String address2, String phone,
-			String git, int points, Date lastDate, boolean state, String responsibility) {
+			String git, int points, Date lastDate, boolean state, String responsibility, boolean isValid) {
 		super();
 		this.id = id;
 		this.nickname = nickname;
@@ -104,7 +106,8 @@ public class UserInfo {
 		this.lastDate = lastDate;
 		this.state = state;
 		this.responsibility = responsibility;
-	}	
+		this.isValid = isValid;
+	}
 	public UserInfo() {
 	}
 	public UserInfo(String id, String pw) {
@@ -117,6 +120,15 @@ public class UserInfo {
 		return "UserInfo [id=" + id + ", nickname=" + nickname + ", name=" + name + ", pw=" + pw + ", address1="
 				+ address1 + ", address2=" + address2 + ", phone=" + phone + ", git=" + git + ", points=" + points
 				+ ", lastDate=" + lastDate + ", state=" + state + ", responsibility=" + responsibility + "]";
+	}
+	public boolean isValid() {
+		return isValid;
+	}
+	public void setValid(boolean isValid) {
+		this.isValid = isValid;
+	}
+	public void setLastDate(Date lastDate) {
+		this.lastDate = lastDate;
 	}
 
 
