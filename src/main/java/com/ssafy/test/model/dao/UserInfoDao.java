@@ -19,4 +19,5 @@ public interface UserInfoDao {
 	
 	public List<UserInfo> getCurrList();
 	
+	
 }
