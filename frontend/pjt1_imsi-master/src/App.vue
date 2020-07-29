@@ -12,6 +12,7 @@
 </template>
 
 <script>
+//test
 import login from "./components/login.vue";
 import navibar from "./components/navibar.vue";
 import sidebar from "./components/sidebar.vue";
