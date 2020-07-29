@@ -14,4 +14,6 @@ public interface EmailService {
 	
 	public Email selectByKey(String validKey);
 	public Email selectById(String id);
+	
+	
 }
