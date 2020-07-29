@@ -14,7 +14,7 @@ const poolstore = {
   actions: {
 
     [Constant.GET_POOLLIST]: (store) => {
-      http.get('/api/userinfo')
+      http.get('/api/userinfo/getCurrList')
           .then(response => {
             console.log(response)
               store.commit(Constant.GET_POOLLIST, { pools: response.data })

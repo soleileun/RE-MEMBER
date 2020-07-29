@@ -4,7 +4,6 @@
       pool db crud 제작??
       일단 급한대로 userinfo에서 가져옴
   <hr>
-  인재풀에 등록 상태인지 아닌지에 따라 리스트 필터링<br>
   <router-link to="/pool/registpool" tag="button">인재풀 등록</router-link>
   <table>
     <thead>

@@ -17,7 +17,7 @@
       프로젝트 선택<br>
       <table>
         <tr v-for="project in projects" :key="project.pid">
-          <td><input type="radio" name="pjtList" value="HTML">{{project.pjtName}}</td>
+          <td><input type="radio" name="pjtList" :value="project.pid">{{project.pjtName}}</td>
         </tr>
       </table>
 
@@ -96,7 +96,7 @@ export default {
         changeDay: '',
         makeId: '',
         changeId: ''
-      }
+      },
     }
   },
 
@@ -137,10 +137,11 @@ export default {
 
     },
     addRecruit(){
+            let radioValue = document.getElementsByName('pjtList');
             if(this.wrecruit.contents.trim() != ''){
                 this.$store.dispatch(Constant.ADD_RECRUIT,{
                   //rnum:'',
-                  pid: this.wrecruit.pid,
+                  pid: radioValue,
                   title: this.wrecruit.title,
                   contents: this.wrecruit.contents,
                   endDate: this.wrecruit.endDate,
