@@ -19,6 +19,6 @@ public interface UserInfoService {
 	//로그인은 고정값을 이용할 것
 	public UserInfo signin(String id, String pw);
 	public String getServerInfo();
-	
+	public List<UserInfo> getCurrList();
 
 }

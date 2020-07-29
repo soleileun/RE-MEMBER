@@ -37,6 +37,12 @@
         from userInfo where id=#{id} 
     </select>
     
+    <select id="getCurrList" resultType="userinfo">
+    	select *
+    	from userInfo
+    	where state = 1;
+    </select>
+    
     <select id="selectAll" parameterType="string" resultType="userinfo">
         select * from userInfo
     </select> 

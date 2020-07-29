@@ -68,4 +68,9 @@ public class UserInfoDaoImpl implements UserInfoDao {
 		return template.update(ns+"updateVal",id);
 	}
 
+	@Override
+	public List<UserInfo> getCurrList() {
+		return template.selectList(ns + "getCurrList");
+	}
+
 }

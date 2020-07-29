@@ -71,4 +71,9 @@ public class UserInfoServiceImpl implements UserInfoService {
 		return uDao.updateVal(id);
 	}
 
+	@Override
+	public List<UserInfo> getCurrList() {
+		return uDao.getCurrList();
+	}
+
 }

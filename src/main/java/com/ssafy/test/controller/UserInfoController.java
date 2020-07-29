@@ -89,6 +89,12 @@ public class UserInfoController {
 		return new ResponseEntity<Map<String,Object>>(resultMap,status);
 	}
 	
+	@GetMapping("/getCurrList")
+	public ResponseEntity<List<UserInfo>> getCurrList(){
+		List<UserInfo> list = uiService.getCurrList();		
+		return new ResponseEntity<List<UserInfo>>(list, HttpStatus.OK);
+	}
+	
 	@PostMapping("/info")
 	public ResponseEntity<Map<String,Object>> getInfo(HttpServletRequest request, @RequestBody UserInfo userinfo){
 		Map<String,Object> resultMap = new HashMap<>();
