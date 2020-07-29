@@ -40,6 +40,15 @@ public class IssueController {
 		return new ResponseEntity<List<Issue>>(Service.selectAll(pid), HttpStatus.OK);
 	}
 
+	@ApiOperation(value = "특정 프로젝트의 특정 상태의 이슈 정보를 반환한다", response = List.class)
+	@GetMapping("search/pid={pid}&issuestate={issuestate}")
+	public ResponseEntity<List<Issue>> selectStateAll(@PathVariable int pid,@PathVariable String issuestate) throws Exception {
+		Issue v = new Issue();
+		v.setPid(pid);
+		v.setIssuestate(issuestate);
+		return new ResponseEntity<List<Issue>>(Service.selectStateAll(v), HttpStatus.OK);
+	}
+
 	@ApiOperation(value = "이슈번호에 해당하는 이슈의 정보를 반환한다.", response = Issue.class)
 	@GetMapping("no/{issueid}")
 	public ResponseEntity<Issue> detailIssue(@PathVariable int issueid) {
@@ -66,6 +75,16 @@ public class IssueController {
 		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
 	}
 
+	@ApiOperation(value = "특정 프로젝트의 모든 이슈를 삭제한다. 그리고 DB삭제 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
+	@DeleteMapping("deletebyproject/pid={pid}")
+	public ResponseEntity<String> deleteByProject(@PathVariable int pid) {
+
+		if (Service.deleteByProject(pid) != 0) {
+			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+		}
+		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
+	}
+
 	@ApiOperation(value = "이슈번호에 해당하는 이슈의 상태정보를 수정한다. 그리고 DB수정 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
 	@PutMapping("changestate/issueid={issueid}&issuestate={issuestate}")
 	public ResponseEntity<String> updateState(@PathVariable int issueid, @PathVariable String issuestate) {
@@ -75,7 +94,7 @@ public class IssueController {
 		v.setIssuestate(issuestate);
 		v.setChangeDay(new Date());
 		
-		if (Service.update(v) != 0) {
+		if (Service.updateState(v) != 0) {
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		}
 		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
@@ -90,7 +109,7 @@ public class IssueController {
 		v.setResponse(response);
 		v.setChangeDay(new Date());
 		
-		if (Service.update(v) != 0) {
+		if (Service.updateResponse(v) != 0) {
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		}
 		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
@@ -106,7 +125,7 @@ public class IssueController {
 		v.setPriority(priority);
 		v.setChangeDay(new Date());
 		
-		if (Service.update(v) != 0) {
+		if (Service.updatePriority(v) != 0) {
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		}
 		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);

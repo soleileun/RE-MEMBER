@@ -11,6 +11,13 @@
 		from issue
 		where pid=#{pid}
 	</select>
+	
+	<select id="selectStateAll" parameterType="issue" resultType="issue">
+		select *
+		from issue
+		where pid=#{pid} and issuestate=#{issuestate}
+	</select>
+	
 
 	<select id="select" parameterType="int" resultType="issue">
 		select *
@@ -19,7 +26,7 @@
 	</select>
 	
 	<insert id="insert" parameterType="issue">
-		insert into issue(pid ,uid ,response  ,issuetype ,issuestate,,issuetitle ,issuecontent ,prework ,priority ,
+		insert into issue(pid, uid, response, issuetype, issuestate,issuetitle ,issuecontent ,prework,priority,
 		makeDay,startDay ,endDay ,changeDay  )
 		values (#{pid},#{uid},#{response},#{issuetype},#{issuestate},#{issuetitle},#{issuecontent},#{prework},#{priority},
 		#{makeDay}, #{startDay},#{endDay},#{changeDay})
@@ -27,6 +34,10 @@
 	
 	<delete id="delete" parameterType="int">
 		delete from issue where issueid=#{issueid}
+	</delete>
+	
+	<delete id="deleteByProject" parameterType="int">
+		delete from issue where pid=#{pid}
 	</delete>
 	
 	<update id="update" parameterType="issue">
