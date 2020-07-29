@@ -60,4 +60,16 @@ public class IssueServiceImpl implements IssueService{
 		// TODO Auto-generated method stub
 		return Dao.updatePriority(v);
 	}
+
+	@Override
+	public List<Issue> selectStateAll(Issue v) {
+		// TODO Auto-generated method stub
+		return Dao.selectStateAll(v);
+	}
+
+	@Override
+	public int deleteByProject(int k) {
+		// TODO Auto-generated method stub
+		return Dao.deleteByProject(k);
+	}
 }

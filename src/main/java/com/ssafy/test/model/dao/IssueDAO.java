@@ -8,11 +8,15 @@ public interface IssueDAO {
 
 	public List<Issue> selectAll(int k);
 
+	public List<Issue> selectStateAll(Issue v);
+
 	public Issue select(int k);
 
 	public int insert(Issue v);
 
 	public int delete(int k);
+	
+	public int deleteByProject(int k);
 
 	public int update(Issue v); // 이슈 전체를 업데이트함
 

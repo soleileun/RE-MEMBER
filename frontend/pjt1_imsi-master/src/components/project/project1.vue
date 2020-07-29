@@ -9,7 +9,7 @@
           <div class="card-header-is_closed">
             <!-- 여기 모집중 / 모집완료 분기 -->
             <div class="card-header-text">모집중</div>
-            <div class="card-header-number">{{this.pjtcnt}} / {{project.pjtMemberCnt}}</div>
+            <div class="card-header-number">{{pjtcnt[project.pid]}} / {{project.pjtMemberCnt}}</div>
           </div>
         </div>
 
@@ -53,10 +53,10 @@ export default {
       return this.$store.state.projectstore.pjtcnt;
     },
   },
-  created() {
+  mounted() {
     console.log(this.project.pid);
     this.$store.dispatch(Constant.GET_CURRENT_MEMBER_COUNT, {
-      pid: this.project.pid,
+      pid: this.project.pid
     });
   },
   props: {
@@ -69,7 +69,7 @@ export default {
     popup() {
       //배포 주소로 바꾸기
       var url =
-        "http://localhost:9000/project/projectdetail/" + this.project.pid;
+        "http://localhost:8080/project/projectdetail.jsp?pid=" + this.project.pid;
       var name = "project detail";
       var option =
         "width = 1000, height = 750, top = 100, left = 200, location = no";

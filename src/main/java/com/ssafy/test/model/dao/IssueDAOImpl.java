@@ -59,5 +59,14 @@ public class IssueDAOImpl implements IssueDAO{
 		// TODO Auto-generated method stub
 		return template.update(ns + "updatePriority", v);
 	}
-	
+
+	@Override
+	public List<Issue> selectStateAll(Issue v) {
+		return template.selectList(ns + "selectStateAll", v);
+	}
+
+	@Override
+	public int deleteByProject(int k) {
+		return template.delete(ns + "deleteByProject", k);
+	}
 }
