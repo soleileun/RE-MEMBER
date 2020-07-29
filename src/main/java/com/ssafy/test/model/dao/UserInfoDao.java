@@ -18,5 +18,4 @@ public interface UserInfoDao {
 	public UserInfo signin(String id, String pw);
 	
 	public List<UserInfo> getCurrList();
-	
 }

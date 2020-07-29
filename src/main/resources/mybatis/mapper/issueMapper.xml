@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.test.Issue">
+
+
+	<select id="selectAll" parameterType="int" resultType="issue">
+		select *
+		from issue
+		where pid=#{pid}
+	</select>
+	
+	<select id="selectStateAll" parameterType="issue" resultType="issue">
+		select *
+		from issue
+		where pid=#{pid} and issuestate=#{issuestate}
+	</select>
+	
+
+	<select id="select" parameterType="int" resultType="issue">
+		select *
+		from issue
+		where issueid=#{issueid}
+	</select>
+	
+	<insert id="insert" parameterType="issue">
+		insert into issue(pid, uid, response, issuetype, issuestate,issuetitle ,issuecontent ,prework,priority,
+		makeDay,startDay ,endDay ,changeDay  )
+		values (#{pid},#{uid},#{response},#{issuetype},#{issuestate},#{issuetitle},#{issuecontent},#{prework},#{priority},
+		#{makeDay}, #{startDay},#{endDay},#{changeDay})
+	</insert>
+	
+	<delete id="delete" parameterType="int">
+		delete from issue where issueid=#{issueid}
+	</delete>
+	
+	<delete id="deleteByProject" parameterType="int">
+		delete from issue where pid=#{pid}
+	</delete>
+	
+	<update id="update" parameterType="issue">
+		update issue
+		set pid=#{pid},uid=#{uid},response=#{response},issuetype=#{issuetype},issuestate=#{issuestate},issuetitle=#{issuetitle},
+		issuecontent=#{issuecontent},prework=#{prework},priority=#{priority},startDay=#{startDay},
+		endDay=#{endDay},changeDay=now()
+		where issueid=#{issueid}
+	</update>
+	
+	<update id="updateState" parameterType="issue">
+		update issue
+		set issuestate=#{issuestate},changeDay=now()
+		where issueid=#{issueid}
+	</update>
+	
+	<update id="updateResponse" parameterType="issue">
+		update issue
+		set response=#{response},changeDay=now()
+		where issueid=#{issueid}
+	</update>
+	
+	<update id="updatePriority" parameterType="issue">
+		update issue
+		set priority=#{priority},changeDay=now()
+		where issueid=#{issueid}
+	</update>
+	
+
+
+</mapper>
