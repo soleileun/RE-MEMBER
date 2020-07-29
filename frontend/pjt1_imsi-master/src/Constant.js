@@ -29,4 +29,14 @@ export default{
     GET_RECRUIT : 'getRecruit',
     ADD_RECRUIT : 'addRecruit',
 
+    
+    //이거 그 뭐야 채팅 관련
+    GET_CHATROOMLIST : 'getChatroomList',
+    GET_CHATROOMMEMBER : 'getChatroomMember',
+    ADD_CHATROOM : 'addChatroom',
+    GET_CHATLIST : 'getChatList',
+    SEND_CHAT : 'sendChat',
+    REMOVE_CHATROOM : 'removeChatroom',
+    REMOVE_CHAT : 'removeChat',
+
 }

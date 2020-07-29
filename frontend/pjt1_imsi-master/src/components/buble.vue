@@ -10,7 +10,7 @@
     </div>
     <div class="bubble-items">
       <news class="news" v-if="bubbleS === '1'" />
-      <users class="users" v-if="bubbleS === '2'" />
+      <chatroom class="chatroom" v-if="bubbleS == '2'" />
       <follows class="follows" v-if="bubbleS === '3'" />
       <messages class="messages" v-if="bubbleS === '4'" />
     </div>
@@ -20,17 +20,19 @@
 
 <script>
 import news from "./bubble/news.vue";
-import users from "./bubble/users.vue";
+//import users from "./bubble/users.vue";
 import follows from "./bubble/follows.vue";
 import messages from "./bubble/messages.vue";
+import chatroom from "./bubble/chatroom.vue";
 
 export default {
   name: "bubble",
   components: {
     news,
-    users,
+ //   users,
     follows,
     messages,
+    chatroom,
   },
   computed: {
     bubbleS: function(){
