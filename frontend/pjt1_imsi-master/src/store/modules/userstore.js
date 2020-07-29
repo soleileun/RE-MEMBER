@@ -85,7 +85,6 @@ const userstore = {
                         storage.setItem("userNick", response.data.data.nickname)
                         storage.setItem("userid", response.data.data.id)
                         document.querySelector(".login").classList.remove('active')
-                        router.push({ name: "mainpage" });
                         store.commit('loginError', { e: '' })
                         store.dispatch("init")
                     }

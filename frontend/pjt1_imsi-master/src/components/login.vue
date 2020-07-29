@@ -5,11 +5,12 @@
       아이디 :
       <input class="id" v-model="id" type="text" />
       <br />비밀번호 :
-      <input class="id" v-model="pw" type="password" @keyup.enter="goLogin"/>
+      <input class="id" v-model="pw" type="password" @keyup.enter="goLogin" />
+      <br />자동 로그인 :
+      <input type="checkbox" v-model="autologin" data-tooltip-text="비밀번호가 브라우저에 저장되어 취약하므로 개인 PC에서만 사용하세요" />
       <br />
-      자동 로그인 : <input type="checkbox" v-model="autologin">
       <button @click="goLogin">로그인</button>
-      <br>
+      <br />
       <span @click="loginexit">
         <router-link :to="{name:'signup'}">회원가입</router-link>
         <br />
@@ -29,43 +30,44 @@ const storage = window.sessionStorage;
 
 export default {
   name: "login",
-  data: function() {
+  data: function () {
     return {
       id: "",
       pw: "",
       findform: false,
-      autologin:false
+      autologin: false,
     };
   },
   computed: {
-    logining: function() {
-      return this.$store.state.userstore.logining
+    logining: function () {
+      return this.$store.state.userstore.logining;
     },
-    error: function() {
-      return this.$store.state.userstore.loginError
+    error: function () {
+      return this.$store.state.userstore.loginError;
     },
   },
   methods: {
-    goLogin: function() {
-      if (this.id ==='' || this.pw === ''){
-        this.$store.commit("loginError", { e: '아이디와 비밀번호를 모두 입력해 주세요' });
-      }
-      else if (!this.$store.state.userstore.logining) {
-        if (this.autologin){
-          storage.setItem("autologin",'t')
-          storage.setItem("pw",this.pw)
-        }else{
-          storage.setItem("autologin",'f')
-          storage.setItem("pw",'')
+    goLogin: function () {
+      if (this.id === "" || this.pw === "") {
+        this.$store.commit("loginError", {
+          e: "아이디와 비밀번호를 모두 입력해 주세요",
+        });
+      } else if (!this.$store.state.userstore.logining) {
+        if (this.autologin) {
+          storage.setItem("autologin", "t");
+          storage.setItem("pw", this.pw);
+        } else {
+          storage.setItem("autologin", "f");
+          storage.setItem("pw", "");
         }
         this.$store.state.userstore.logining = true;
-        this.$store.dispatch("login", { id: this.id, pw:this.pw });
+        this.$store.dispatch("login", { id: this.id, pw: this.pw });
       }
     },
-    loginexit: function() {
+    loginexit: function () {
       document.querySelector(".login").classList.toggle("active");
-    }
-  }
+    },
+  },
 };
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -93,6 +95,24 @@ export default {
     width: 50px;
     &:hover {
       cursor: pointer;
+    }
+  }
+  [data-tooltip-text]:hover {
+    position: relative;
+    &:after {
+      content: attr(data-tooltip-text);
+
+      position: absolute;
+      bottom: 100%;
+      height: 50px;
+      width: 300px;
+      left: 0;
+
+      background-color: rgba(0, 0, 0, 0.8);
+      color: #ffffff;
+      font-size: 12px;
+
+      z-index: 9999;
     }
   }
 }
