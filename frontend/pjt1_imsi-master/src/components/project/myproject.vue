@@ -23,6 +23,9 @@ export default {
   components:{
     project
   },
+  data:function(){
+    return{index:0}
+  },
   computed: {
     projects() {
       console.log('확인2'+ this.$store.state.projectstore.projects);
@@ -32,7 +35,6 @@ export default {
   created () {
     this.getPmemberList(this.$route.params.userId);
   },
-
   methods: {
     getPmemberList(userId) {
       console.log('과정1');

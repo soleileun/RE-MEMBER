@@ -10,7 +10,7 @@ const projectstore = {
   state: {
       projects: [],
       project: {},
-      pjtcnt:0
+      pjtcnt:{}
   },
  
   actions: {
@@ -37,7 +37,7 @@ const projectstore = {
         http.get('/api/pmember/selectCntByPid/' + payload.pid)
             .then(response => {
                 // console.log(response.data);
-                store.commit(Constant.GET_CURRENT_MEMBER_COUNT, { pjtcnt: response.data })})
+                store.commit(Constant.GET_CURRENT_MEMBER_COUNT, { pjtcnt: response.data, pid:payload.pid })})
             .catch(exp => alert('getTodo처리에 실패하였습니다.' + exp));
     },
 
@@ -149,8 +149,8 @@ const projectstore = {
     [Constant.GET_PROJECTLIST_BY_PMEMBER]: (state, payload) => {
         state.projects = payload.projects;
     },
-    [Constant.GET_CURRENT_MEMBER_COUNT]: (state, payload) => {
-      state.pjtcnt = payload.pjtcnt;
+    [Constant.GET_CURRENT_MEMBER_COUNT]: (state, payload) => { 
+      state.pjtcnt[payload.pid] = payload.pjtcnt;
   },
     [Constant.GET_PROJECT]: (state, payload) => {
         state.project = payload.project;
