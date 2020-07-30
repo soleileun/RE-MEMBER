@@ -385,3 +385,4 @@ h1 {
 .reg_date {
   float: right;
 
+}
