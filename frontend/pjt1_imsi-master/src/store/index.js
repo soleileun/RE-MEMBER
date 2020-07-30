@@ -13,6 +13,7 @@ import projectstore from '@/store/modules/projectstore.js';
 import poolstore from '@/store/modules/poolstore.js';
 import recruitstore from '@/store/modules/recruitstore.js';
 import chatstore from '@/store/modules/chatstore.js';
+import stackstore from '@/store/modules/stackstore.js';
 
 const store = new Vuex.Store({
   modules: {
@@ -25,6 +26,7 @@ const store = new Vuex.Store({
     poolstore,
     recruitstore,
     chatstore,
+    stackstore
   }
 });
 

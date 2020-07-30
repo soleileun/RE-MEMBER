@@ -1,65 +1,58 @@
 <template>
   <div>
-      <h1>인재풀 샘플</h1>
-      pool db crud 제작??
-      일단 급한대로 userinfo에서 가져옴
-  <hr>
-  <router-link to="/pool/registpool" tag="button">인재풀 등록</router-link>
-  <table>
-    <thead>
-      <tr>
-        <th>id</th>
-        <th>field</th>
-        <th>git</th>
-        <th>project</th>
-        <th>call</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="pool in pools" :key="pool.id">
-        <td>{{pool.id}}</td>
-        <td>관심분야칼럼??스택??필터링기준넣기</td>
-        <!-- 깃 링크 넣기 -->
-        <td><a href="">{{pool.git}}</a></td>
-        <td>  <router-link :to="'/project/myproject/' + pool.id" tag="button">프로젝트 보기</router-link></td>
-        <td><button>메시지 전송</button></td>
-      </tr>
-    </tbody>
-  </table>
-
-필터링 기준??? 어떤식으로 할 것인지. 조건에 따른 유저인포 검색 쿼리 추가<br>
-    <select name="standard" id="standard" >
-      <option value="t" selected>스택으로 검색</option>
-      <option value="w">id로 검색</option>
-    </select>
-    <input type="text" placeholder="검색어를 입력하세요" id="searchWord"/>
-    <button v-on:click="searchPool">검색</button>
-  
-
-
+    <h1>인재풀 샘플</h1>
+    <hr />
+    <stack />
+    <hr />
+    <router-link to="/pool/registpool" tag="button">인재풀 등록</router-link>
+    <!-- card layout -->
+    <ul class="cards">
+      <li class="cards__item" v-for="pool in pools" :key="pool.id">
+        <div class="card">
+          <div class="card__image card__image--fence"></div>
+          <div class="card__content">
+            <div class="card__title">{{pool.id}}</div>
+            <p class="card__text">
+              {{pool.address1}}
+              <br />
+              {{pool.responsibility}}
+            </p>
+            <!-- <button class="btn btn--block card__btn">Button</button> -->
+            <router-link
+              :to="'/project/myproject/' + pool.id"
+              tag="button"
+              class="btn btn--block card__btn"
+            >프로젝트 보기</router-link>
+            <button class="btn btn--block card__btn">Git</button>
+          </div>
+        </div>
+      </li>
+    </ul>
   </div>
 </template>
 
 <script>
-
-import Constant from '../../Constant';
+import Constant from "../../Constant";
+import stack from "../stack/stack";
 
 export default {
   name: "poollist1",
+  components: {
+    stack,
+  },
   computed: {
     pools() {
-      return this.$store.state.poolstore.pools; 
-    }
+      return this.$store.state.poolstore.pools;
+    },
   },
-  created () {
+  created() {
     this.$store.dispatch(Constant.GET_POOLLIST);
   },
 
   methods: {
-    searchPool(){
+    searchPool() {
       // let val  = document.getElementById("searchWord").value;
       // let std = document.getElementById("standard").value;
-
       // //제목 검색
       // if(std == 't'){
       //   console.log(val);
@@ -67,18 +60,167 @@ export default {
       // }else{ //작성자 검색
       //   this.$store.dispatch(Constant.SEARCH_BOARD_WRITER, {bwriter : val, bstate : 'free'});
       // }
-    }
+    },
   },
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-table, td, tr, th {
-  width : 1000px;
-  margin : 0 auto;
+table,
+td,
+tr,
+th {
+  width: 1000px;
+  margin: 0 auto;
   text-align: center;
   border: 1px solid black;
 }
 
+//카드 레이아웃
+//   @gray-darker:               #444444;
+// @gray-dark:                 #696969;
+// @gray:                      #999999;
+// @gray-light:                #cccccc;
+// @gray-lighter:              #ececec;
+// @gray-lightest:             lighten(@gray-lighter,4%);
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  background-color: #f0f0f0;
+}
+
+body {
+  color: #999999;
+  font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: 0;
+  padding: 1rem;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -moz-font-feature-settings: "liga" on;
+}
+
+img {
+  height: auto;
+  max-width: 100%;
+  vertical-align: middle;
+}
+
+.btn {
+  background-color: white;
+  border: 1px solid #cccccc;
+  //border-radius: 1rem;
+  color: #696969;
+  padding: 0.5rem;
+  text-transform: lowercase;
+}
+
+.btn--block {
+  display: block;
+  width: 100%;
+}
+
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.cards__item {
+  display: flex;
+  padding: 1rem;
+  @media (min-width: 40rem) {
+    width: 50%;
+  }
+  @media (min-width: 56rem) {
+    width: 20%;
+  }
+}
+
+.card {
+  background-color: white;
+  border-radius: 0.25rem;
+  box-shadow: 0 20px 40px -14px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  width: 100%;
+
+  &:hover {
+    .card__image {
+      filter: contrast(100%);
+    }
+  }
+}
+
+.card__content {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  padding: 1rem;
+}
+
+.card__image {
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-top-left-radius: 0.25rem;
+  border-top-right-radius: 0.25rem;
+  filter: contrast(70%);
+  //filter: saturate(180%);
+  overflow: hidden;
+  position: relative;
+  transition: filter 0.5s cubic-bezier(0.43, 0.41, 0.22, 0.91);
+  &::before {
+    content: "";
+    display: block;
+    padding-top: 56.25%; // 16:9 aspect ratio
+  }
+  @media (min-width: 40rem) {
+    &::before {
+      padding-top: 66.6%; // 3:2 aspect ratio
+    }
+  }
+}
+
+.card__image--flowers {
+  background-image: url(https://unsplash.it/800/600?image=82);
+}
+
+.card__image--river {
+  background-image: url(https://unsplash.it/800/600?image=11);
+}
+
+.card__image--record {
+  background-image: url(https://unsplash.it/800/600?image=39);
+}
+
+.card__image--fence {
+  background-image: url(https://unsplash.it/800/600?image=59);
+}
+
+.card__title {
+  color: #696969;
+  font-size: 1.25rem;
+  font-weight: 300;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.card__text {
+  flex: 1 1 auto;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  margin-bottom: 1.25rem;
+}
 </style>
