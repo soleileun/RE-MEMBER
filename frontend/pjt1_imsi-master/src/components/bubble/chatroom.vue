@@ -1,19 +1,22 @@
 <template>
   <div class="chatroom">
-    <section class="roomlist" v-show="!chatting">
-        <li v-for="room in rooms" :key="room.roomName" @click="startchat(room.roomName)">
+    <section class="roomlist" v-show="!chatting" style="padding-left:10px;">
+        <div v-for="room in rooms" :key="room.roomName" @click="startchat(room.roomName)">
           <div class="row">
-            <div class="col-sm-2">사진</div>
-            <div class="col-sm-8">
-              {{room.roomName}}
-              <p>안 읽은 개수 : {{room.cnt}}</p>
-              <p>사람 수 {{room.membercnt}}</p>
+            <div class="col-sm-2" style="padding : 15px;">
+            <div style="background : white; width:100%; height:100%; radius:10px"> </div>
+            </div>
+            <div class="col-sm-8" style="text-align : left; overflow:hidden">
+                <p class="font-weight-bold">{{room.roomName}} ({{room.membercnt}}명)</p>
               <p>최근 메시지 {{room.content}}</p>
             </div>
-            <div class="col-sm-2">시간, 배지</div>
+            <div class="col-sm-2">
+              <p>{{room.makedate}}</p>
+              <span v-show = "room.cnt != 0" class="badge badge-danger">{{room.cnt}}</span>
+            </div>
           </div>
             <!--{{room.roomName}}-->
-        </li>
+        </div>
     </section>
 
 

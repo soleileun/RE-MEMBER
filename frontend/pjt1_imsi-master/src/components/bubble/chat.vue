@@ -36,7 +36,7 @@
 
 import Stomp from 'webstomp-client'
 import SockJS from 'sockjs-client'
-import Constant from "../../Constant";
+//import Constant from "../../Constant";
 
 const storage = window.sessionStorage;
 
@@ -101,6 +101,8 @@ export default {
         };
         this.stompClient.send("/receive/"+this.room, JSON.stringify(msg), {});
 
+
+
               /*
                 this.$store.dispatch(Constant.SEND_CHAT,{
                   //bno : auto increase
@@ -139,14 +141,13 @@ export default {
           console.log("여기서 ㅂ다아오니?");
           // roomname으로 들어오는 방 정보가 현재 접속한 방 정보와 일치하면 push해주게 해서 방을 구분함.
           // 받은 데이터를 json으로 파싱하고 리스트에 넣어줍니다.
-          this.recvList.push(JSON.parse(res.body))
+          this.recvList.push(JSON.parse(res.body));
+          console.log("roomName : " + this.rname);
+          console.log("id : " + this.id);
           
-                this.$store.dispatch(Constant.chatRead,{
-                    roomName : this.rname,
-                    id : this.id,
-                },
-                console.log("chatread했음"),
-                );
+          
+            
+
           });
 
 

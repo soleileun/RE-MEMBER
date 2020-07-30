@@ -109,12 +109,12 @@ const chatstore = {
             .catch(exp => alert('채팅 내역 삭제 처리에 실패하였습니다.' + exp));
 
     },
-    [Constant.CHAT_READ]: (store, payload) => {
-  
-        http.put('/api/chat/change/' + payload.roomName + '&' + storage.getItem("userid"), {
-                id:storage.getItem("userid"),
-                roomName: payload.roomName,  
-            })
+    [Constant.CHAT_READ]: (payload) => {
+        console.log("chatread 자체가 안 됨");
+        http.put('/api/chat/change/roomName=' + payload.rname + '&id=' + storage.getItem("userid"), {
+            roomName : payload.rname,
+            id : payload.id,
+        })
             .then(() => {
                 console.log('읽음으로 표시.');
             })
