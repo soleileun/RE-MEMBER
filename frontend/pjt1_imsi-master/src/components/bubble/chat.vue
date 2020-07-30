@@ -3,7 +3,6 @@
     <section class="chatlist">
 
       내용: <input v-model="inputcontent" type="text" @keyup="sendMessage">
-          <button @click="disconnect" style="color:black;">구독취소테스트</button>
       <div style = "height : 500px; width:570px; padding:25px; background:white; overflow-y : auto;color:black; background:skyblue">
         <div v-for="chat in chats" :key="chat.chno">
           <div>
@@ -71,6 +70,7 @@ export default {
           roomName : this.room,
           id : this.id,}
           );
+          console.log(this.id + "가 쓴거 아님 다 읽음 표시로 바꿈");
       //this.stompClient.subscribe("/send/" + this.room);
       //console.log("구독했음");
       //this.$store.dispatch(Constant.GET_CHATLIST, {roomName : roomName});
@@ -161,6 +161,7 @@ export default {
 
           });
 
+          console.log(this.id + "가 쓴거 아님 다 읽음 표시로 바꿈");
 
         },
         error => {
@@ -170,15 +171,14 @@ export default {
         }
       );        
     },
-    disconnect() {
-      if(this.stompClient !== null) {
+
+  },
+beforeDestroy:function(){
+    if(this.stompClient !== null) {
         console.log("disconnect");
         this.stompClient.disconnect();
       }
-    },
-
   },
-
   
 };
 
