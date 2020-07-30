@@ -13,4 +13,6 @@ public interface ChatDao {
 	public int insert(Chat v);
 	
 	public int delete(String k);
+	
+	public int updateRead(Chat v);
 }

@@ -1,66 +1,31 @@
 <template>
   <div class="chatroom">
     <section class="chatlist">
-      <!--
-        <input
-      v-model="inputid"
-      type="text"
-    >
-    -->
-    내용: <input
-      v-model="inputcontent"
-      type="text"
-      @keyup="sendMessage"
-    >
-    여기
-    {{ rname }}
-    사이
 
-     <div
-      v-for="(item, idx) in recvList"
-      :key="idx"
-    >
-      <h3>유저이름: {{ item.nickname }}</h3>
-      <h3>내용: {{ item.content }}</h3>
-    </div>
-  
- <div style = "height : 500px; width:570px; padding:25px; background:white; overflow-y : auto;color:black; background:skyblue">
-
+      내용: <input v-model="inputcontent" type="text" @keyup="sendMessage">
+      <div style = "height : 500px; width:570px; padding:25px; background:white; overflow-y : auto;color:black; background:skyblue">
         <div v-for="chat in chats" :key="chat.chno">
-          
-                <div>
-                <div style="width:30px; height:100%; float:left; margin:10px; margin-top:0px;" >
-                   <img src="" style="width:30px;height:30px"> 
-                </div>
-
-                <div style="font-size:6px; height:4px; margin:5px">{{ chat.nickname }} </div>
-                
-                <div>{{ chat.content }}</div>
-
+          <div>
+            <div style="width:30px; height:100%; float:left; margin:10px; margin-top:0px;" >
+              <img src="" style="width:30px;height:30px"> 
             </div>
+
+            <div style="font-size:6px; height:4px; margin:5px">{{ chat.nickname }} </div>
+            <div>{{ chat.content }}</div>
+            <br>
+          </div>
         </div>
-  </div>
-<!--
-<div class="container p-3 my-3 bg-dark text-white" style= "height:700px; width:600px;">
-  채팅창입니다.
-  <div style = "height : 500px; width:570px; padding:25px; background:white; overflow-y : auto;color:black; background:skyblue">
 
-        <div v-for="chat in chats" :key="chat.chno">
-          
-                <div>
-                <div style="width:30px; height:100%; float:left; margin:10px; margin-top:0px;" >
-                   <img src="./sample.jpeg" style="width:30px;height:30px"> 
-                </div>
+        <div v-for="(item, idx) in recvList" :key="idx">
+          <div style="width:30px; height:100%; float:left; margin:10px; margin-top:0px;" >
+            <img src="" style="width:30px;height:30px"> 
+          </div>
 
-                <div style="font-size:6px; height:4px; margin:5px">{{ chat.nickname }} </div>
-                
-                <div>{{ chat.content }}</div>
-
-            </div>
+          <div style="font-size:6px; height:4px; margin:5px">{{ item.nickname }} </div>
+          <div>{{ item.content }}</div>
+          <br>
         </div>
-  </div>
-</div>
--->
+      </div>
     </section>
   </div>
 </template>
@@ -136,7 +101,7 @@ export default {
         };
         this.stompClient.send("/receive/"+this.room, JSON.stringify(msg), {});
 
-
+              /*
                 this.$store.dispatch(Constant.SEND_CHAT,{
                   //bno : auto increase
                     // bwriter : this.board.bwriter, 임시로 ssafy foreign key때문
@@ -147,23 +112,13 @@ export default {
                     makedate : new Date(),
                     // changeDay : this.board.changeday,
                     // changeId : this.board.changeid
-                });
+                }
+                );
 
-        //this.stompClient.send("/chat/message/" + this.pid, JSON.stringify(msg), {});
+                */
+        //this.stompClient.send("/chat/message/" + this.room, JSON.stringify(msg), {});
       }
     },    
-    enter() {
-        console.log("click 됨");
-        //this.stompClient.subscribe("/send/" + this.pid, res => {
-        this.stompClient.subscribe("/send/" + this.room, res => {
-        console.log('구독으로 받은 메시지 입니다.', res.body);
-        console.log("구독 : " + "/send/" + this.room);
-        // roomname으로 들어오는 방 정보가 현재 접속한 방 정보와 일치하면 push해주게 해서 방을 구분함.
-        // 받은 데이터를 json으로 파싱하고 리스트에 넣어줍니다.
-        this.recvList.push(JSON.parse(res.body))
-        
-        });
-    },
     connect() {  
         console.log("소켓 커넥트 실행");
         const serverURL = "http://i3a208.p.ssafy.io:8000"
@@ -181,10 +136,17 @@ export default {
           this.stompClient.subscribe("/send/" + this.room, res => {
           console.log('구독으로 받은 메시지 입니다.', res.body);
           console.log("구독 : " + "/send/" + this.room);
+          console.log("여기서 ㅂ다아오니?");
           // roomname으로 들어오는 방 정보가 현재 접속한 방 정보와 일치하면 push해주게 해서 방을 구분함.
           // 받은 데이터를 json으로 파싱하고 리스트에 넣어줍니다.
           this.recvList.push(JSON.parse(res.body))
           
+                this.$store.dispatch(Constant.chatRead,{
+                    roomName : this.rname,
+                    id : this.id,
+                },
+                console.log("chatread했음"),
+                );
           });
 
 

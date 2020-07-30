@@ -33,5 +33,11 @@ public class ChatServiceImpl implements ChatService{
 		return Dao.delete(k);
 	}
 
+	@Override
+	public int updateRead(Chat v) {
+		// TODO Auto-generated method stub
+		return Dao.updateRead(v);
+	}
+
 
 }

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.ssafy.test.model.dto.Chatroom;
+import com.ssafy.test.model.dto.ChatroomChat;
 
 @Repository
 public class ChatroomDaoImpl implements ChatroomDao{
@@ -43,6 +44,11 @@ public class ChatroomDaoImpl implements ChatroomDao{
 	@Override
 	public List<Chatroom> selectMember(String k) {
 		return template.selectList(ns + "selectMember", k);
+	}
+
+	@Override
+	public List<ChatroomChat> selectDetailAll(String k) {
+		return template.selectList(ns + "selectDetailAll", k);
 	}
 
 }

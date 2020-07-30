@@ -2,9 +2,17 @@
   <div class="chatroom">
     <section class="roomlist" v-show="!chatting">
         <li v-for="room in rooms" :key="room.roomName" @click="startchat(room.roomName)">
-          
-            {{room.roomName}}
-          
+          <div class="row">
+            <div class="col-sm-2">사진</div>
+            <div class="col-sm-8">
+              {{room.roomName}}
+              <p>안 읽은 개수 : {{room.cnt}}</p>
+              <p>사람 수 {{room.membercnt}}</p>
+              <p>최근 메시지 {{room.content}}</p>
+            </div>
+            <div class="col-sm-2">시간, 배지</div>
+          </div>
+            <!--{{room.roomName}}-->
         </li>
     </section>
 

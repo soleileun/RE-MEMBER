@@ -32,4 +32,9 @@ public class ChatDaoImpl implements ChatDao{
 		return template.insert(ns + "insert", v);
 	}
 
+	@Override
+	public int updateRead(Chat v) {
+		return template.update(ns + "updateRead", v);
+	}
+
 }

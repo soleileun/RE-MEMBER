@@ -8,6 +8,50 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where uid = #{uid}
 	</select>
 	
+	<select id="selectDetailAll" parameterType="string" resultType="chatroomchat">
+		select a.roomName, a.id, a.nickname, a.content, a.makedate, a.membercnt,b.cnt
+		from
+		(
+			select a.roomName, a.id, a.nickname, a.content, a.makedate, b.membercnt
+			from
+			(
+				select a.roomName, a.id, a.nickname, a.content, a.makedate
+				from chat as a
+				inner join
+				(
+					select max(chno) as latest 
+					from chat group by roomName
+				) as b
+				where a.chno = b.latest
+			) as a
+			inner join 
+			(
+				select count(*) as membercnt, roomName 
+				from chatroom group by roomName
+			) as b
+			on a.roomName = b.roomName
+		) as a 
+		inner join 
+		(
+			select a.roomName, b.cnt as cnt 
+			from 
+			(
+				select distinct roomName 
+				from chatroom 
+				where uid =#{uid}
+			) as a 
+			left join 
+			(
+				select count(*) as cnt, roomName 
+				from chat 
+				where isRead = 0 and id != #{uid} group by roomName 
+			)as b 
+			on a.roomName = b.roomName
+		) as b
+		on a.roomName = b.roomName
+	</select>
+	
+	
 	
 	<select id="selectMember" parameterType="string" resultType="chatroom">
 		select * from chatroom

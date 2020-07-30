@@ -40,6 +40,8 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			alias="email" />
 			<typeAlias type="com.ssafy.test.model.dto.Issue"
 			alias="issue" />
+			<typeAlias type="com.ssafy.test.model.dto.ChatroomChat"
+			alias="chatroomchat" />
 	</typeAliases>
 
 	<mappers>

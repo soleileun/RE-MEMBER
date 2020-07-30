@@ -38,5 +38,5 @@ export default{
     SEND_CHAT : 'sendChat',
     REMOVE_CHATROOM : 'removeChatroom',
     REMOVE_CHAT : 'removeChat',
-
+    CHAT_READ : 'chatRead'
 }

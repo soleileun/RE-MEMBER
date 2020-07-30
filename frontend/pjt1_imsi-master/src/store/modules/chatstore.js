@@ -21,7 +21,7 @@ const chatstore = {
 
     //해당 유저가 들어있는 채팅방 리스트 가져오기
     [Constant.GET_CHATROOMLIST]: (store) => {
-      http.get('/api/chatroom/chat/name='+ storage.getItem("userid"))
+      http.get('/api/chatroom/chat/roomlist='+ storage.getItem("userid"))
           .then(response => {
               store.commit(Constant.GET_CHATROOMLIST, { rooms: response.data })
         })
@@ -108,6 +108,17 @@ const chatstore = {
             })
             .catch(exp => alert('채팅 내역 삭제 처리에 실패하였습니다.' + exp));
 
+    },
+    [Constant.CHAT_READ]: (store, payload) => {
+  
+        http.put('/api/chat/change/' + payload.roomName + '&' + storage.getItem("userid"), {
+                id:storage.getItem("userid"),
+                roomName: payload.roomName,  
+            })
+            .then(() => {
+                console.log('읽음으로 표시.');
+            })
+            .catch(exp => alert('수정 처리에 실패하였습니다.' + exp));
     },
   },
 

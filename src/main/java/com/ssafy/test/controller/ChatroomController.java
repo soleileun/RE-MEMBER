@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.test.model.dto.Chatroom;
+import com.ssafy.test.model.dto.ChatroomChat;
 import com.ssafy.test.model.service.ChatroomService;
 
 import io.swagger.annotations.ApiOperation;
@@ -37,6 +38,12 @@ public class ChatroomController {
 	@GetMapping("chat/name={uid}")
 	public ResponseEntity<List<Chatroom>> retrieveChatroom(@PathVariable String uid) throws Exception {
 		return new ResponseEntity<List<Chatroom>>(Service.selectAll(uid), HttpStatus.OK);
+	}
+
+	@ApiOperation(value = "특정 유저가 속한 roomlist를 조회한다. 조인 쿼리", response = List.class)
+	@GetMapping("chat/roomlist={uid}")
+	public ResponseEntity<List<ChatroomChat>> selectRoomList(@PathVariable String uid) throws Exception {
+		return new ResponseEntity<List<ChatroomChat>>(Service.selectDetailAll(uid), HttpStatus.OK);
 	}
 	
 

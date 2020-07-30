@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.ssafy.test.model.dao.ChatroomDao;
 import com.ssafy.test.model.dto.Chatroom;
+import com.ssafy.test.model.dto.ChatroomChat;
 
 @Service
 public class ChatroomServiceImpl implements ChatroomService{
@@ -48,6 +49,11 @@ public class ChatroomServiceImpl implements ChatroomService{
 	public List<Chatroom> selectMember(String k) {
 		// TODO Auto-generated method stub
 		return Dao.selectMember(k);
+	}
+
+	@Override
+	public List<ChatroomChat> selectDetailAll(String k) {
+		return Dao.selectDetailAll(k);
 	}
 
 }
