@@ -67,7 +67,7 @@ export default {
   },
   methods: {
     popup() {
-      //배포 주소로 바꾸기
+      //배포 주소로 바꾸기!
       var url =
         "http://localhost:8080/projectdetail.jsp?pid=" + this.project.pid;
       var name = "project detail";
