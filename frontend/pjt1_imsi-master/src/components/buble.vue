@@ -1,55 +1,116 @@
 <template>
-  <div class="bubble">
-    <i class="far fa-comments" @click="act"></i>
-
-    <div class="bubble-items btns">
-      <button @click="bubbleState('1')">알림</button>
-      <button @click="bubbleState('2')">채팅창</button>
-      <button @click="bubbleState('3')">팔로우</button>
-      <button @click="bubbleState('4')">쪽지함</button>
+  <div class="bubble" :style="{height:`${bubbleY+6}px`,width:`${bubbleX+6}px`}">
+    <div class="con" :style="{height:`${bubbleY}px`,width:`${bubbleX}px`}">
+      <div class="icon" draggable="false">
+        <i class="far fa-comments" @click="act"></i>
+        <i class="fas fa-map-pin bubble-items dragable" draggable="true" @dragend="dragend" @drag="drag"></i>
+        <i class="fas fa-times exit bubble-items" @click="act"></i>
+        <div class="bubble-items btns">
+          <button class="act" id="bubble1" @click="bubbleState('1')">알림</button>
+          <button id="bubble2" @click="bubbleState('2')">채팅창</button>
+          <button id="bubble3" @click="bubbleState('3')">팔로우</button>
+          <button id="bubble4" @click="bubbleState('4')">쪽지함</button>
+        </div>
+      </div>
+      <div class="bubble-items contents" :style="{height:`${bubbleY-55}px`}" draggable="false">
+        <news class="news" v-if="bubbleS === '1'" />
+        <chatroom class="chatroom" v-if="bubbleS == '2'" />
+        <follows class="follows" v-if="bubbleS === '3'" />
+        <messages class="messages" v-if="bubbleS === '4'" />
+      </div>
     </div>
-    <div class="bubble-items">
-      <news class="news" v-if="bubbleS === '1'" />
-      <chatroom class="chatroom" v-if="bubbleS == '2'" />
-      <follows class="follows" v-if="bubbleS === '3'" />
-      <messages class="messages" v-if="bubbleS === '4'" />
-    </div>
-    <div class="bubble-items exit" @click="act">닫기</div>
   </div>
 </template>
 
 <script>
 import news from "./bubble/news.vue";
-//import users from "./bubble/users.vue";
 import follows from "./bubble/follows.vue";
 import messages from "./bubble/messages.vue";
 import chatroom from "./bubble/chatroom.vue";
+const storage = window.sessionStorage;
 
 export default {
   name: "bubble",
   components: {
     news,
- //   users,
     follows,
     messages,
     chatroom,
   },
+  data: function () {
+    return {
+      bubbleX: 80,
+      bubbleY: 80,
+    };
+  },
   computed: {
-    bubbleS: function(){
-      return this.$store.state.userstore.bubbleS
+    bubbleS: function () {
+      return this.$store.state.userstore.bubbleS;
     },
   },
-  mounted: function () {},
+  watch: {
+    bubbleS: function (x) {
+      for (let i = 1; i < 5; i++) {
+        if (x === `${i}`) {
+          document.querySelector(`#bubble${i}`).classList.add("act");
+        } else {
+          document.querySelector(`#bubble${i}`).classList.remove("act");
+        }
+      }
+    },
+  },
   methods: {
     act: function () {
       document.querySelector(".bubble").classList.toggle("active");
+      if (
+        document
+          .querySelector(".bubble")
+          .classList.value.split(" ")
+          .indexOf("active") >= 0
+      ) {
+        this.bubbleX =
+          storage.getItem("bubbleX")*1 > 450 &&
+          storage.getItem("bubbleX")*1 <= window.innerWidth - 20
+            ? storage.getItem("bubbleX")*1
+            : 450;
+        this.bubbleY =
+          storage.getItem("bubbleY")*1 > 550 &&
+          storage.getItem("bubbleY")*1 <= window.innerHeight - 100
+            ? storage.getItem("bubbleY")*1
+            : 550;
+      } else {
+        this.bubbleX = 80;
+        this.bubbleY = 80;
+      }
       this.$store.dispatch("update");
-      this.$store.commit('bubbleState', { st: '1'})
-      this.$store.commit("viewMes",{id:"",view:false})
+      this.$store.commit("bubbleState", { st: "1" });
+      this.$store.commit("viewMes", { id: "", view: false });
     },
     bubbleState: function (state) {
-      this.$store.commit('bubbleState', { st: state })
-      this.$store.commit("viewMes",{id:"",view:false})
+      this.$store.commit("bubbleState", { st: state });
+      this.$store.commit("viewMes", { id: "", view: false });
+    },
+    drag: function (e) {
+      this.bubbleX = Math.min(
+        Math.max(window.innerWidth - e.pageX - 25, 400),
+        window.innerWidth - 20
+      );
+      this.bubbleY = Math.min(
+        Math.max(window.innerHeight - e.pageY - 25, 500),
+        window.innerHeight - 100
+      );
+    },
+    dragend: function (e) {
+      this.bubbleX = Math.min(
+        Math.max(window.innerWidth - e.pageX - 25, 400),
+        window.innerWidth - 20
+      );
+      this.bubbleY = Math.min(
+        Math.max(window.innerHeight - e.pageY - 25, 500),
+        window.innerHeight - 100
+      );
+      storage.setItem("bubbleX", this.bubbleX);
+      storage.setItem("bubbleY", this.bubbleY);
     },
   },
 };
@@ -59,129 +120,107 @@ export default {
 <style scoped lang="scss">
 .bubble {
   position: fixed;
-  right: 50px;
-  bottom: 50px;
-  height: 80px;
-  width: 80px;
+  right: 25px;
+  bottom: 25px;
+  height: 86px;
+  width: 86px;
+  padding: 3px;
   border-radius: 80px;
+  background-color: skyblue;
   box-sizing: border-box;
-  border: 2px black solid;
-  background-color: #ddddaa;
   z-index: 9999;
-  i {
-    padding: 13px;
-    font-size: 49px;
-    color: black;
+  .con {
+    width: 80px;
+    height: 80px;
+    background-color: white;
+    border-radius: 80px;
+    .icon {
+      font-size: 49px;
+      color: blue;
+    }
+    .bubble-items {
+      display: none;
+    }
   }
-  .bubble-items {
-    display: none;
+  &:hover {
+    background-color: #aaf;
+    cursor: pointer;
   }
-  @media (max-width: 758px) {
-    &.active {
-      right: 0px;
-      width: 100vw;
-      height: 90vh;
-      border-radius: 30px;
-      overflow: hidden;
-      animation-duration: 0.5s;
-      animation-name: big2;
+  &.active {
+    border-radius: 10px;
+    .fa-comments {
+      display: none;
+    }
+    .con {
+      border-radius: 10px;
       .bubble-items {
         display: flex;
         flex-direction: column;
         justify-content: space-between;
         align-content: center;
-        button {
-          width: 25%;
-        }
-        &.btns {
-          flex-direction: row;
-        }
-        .news,
-        .users,
-        .follows,
-        .messages {
-          height: 70vh;
-          overflow-y: scroll;
-        }
-        &.exit {
-          position: fixed;
-          height: 1rem;
-          bottom: 90vh;
-          right: 10vw;
-          animation-duration: 0.5s;
-          animation-name: visi;
-        }
       }
-    }
-  }
-  @media (min-width: 758px) {
-    &.active {
-      width: 450px;
-      height: 550px;
-      overflow: hidden;
-      animation-duration: 0.5s;
-      animation-name: big1;
-      .bubble-items {
+      .icon {
+        position: relative;
+        padding-top: 5px;
         display: flex;
-        flex-direction: column;
-        justify-content: space-between;
+        justify-content: space-around;
         align-content: center;
-        button {
-          width: 25%;
+        flex-direction: row;
+        height: 55px;
+        box-shadow: #aaa 0px 1px 10px;
+        margin-bottom: 3px;
+        .dragable {
+          cursor: nw-resize;
+          color: red;
+          text-shadow: yellow 2px 2px 3px;
+          font-size: 1rem;
+          text-align: start;
+          position: absolute;
+          left: 0px;
+          top: 0px;
         }
-        .news,
-        .users,
-        .follows,
-        .messages {
-          height: 440px;
-          border-bottom-left-radius: 80px;
-          border-bottom-right-radius: 80px;
+        .exit{
+          color: black;
+          height: 2.4rem;
+          width: 2.4rem;
+          font-size: 2.5rem;
+          border-radius: 2.5rem;
+          cursor: pointer;
+          &:hover{
+            background-color: #ccc;
+          }
         }
-        &.btns {
+        .btns {
+          font-size: 1.2rem;
           flex-direction: row;
-          height: 35px;
-        }
-        &.exit {
-          position: fixed;
-          height: 1rem;
-          bottom: 550px;
-          right: 100px;
-          animation-duration: 0.5s;
-          animation-name: visi;
+          box-sizing: border-box;
+          border: none;
+          width: 80%;
+          height: 100%;
+          button {
+            width: 25%;
+            height: 90%;
+            background: none;
+            box-sizing: border-box;
+            border: none;
+            outline: none;
+            &.act {
+              border-bottom: 5px solid blue;
+            }
+            &:hover {
+              background-color: #aaa;
+            }
+          }
         }
       }
+      &:hover {
+        cursor: default;
+      }
     }
-  }
-}
-@keyframes big1 {
-  from {
-    // width: 80px;
-    height: 80px;
-  }
-  to {
-    width: 450px;
-    height: 550px;
-  }
-}
-@keyframes big2 {
-  from {
-    // width: 80px;
-    height: 80px;
-  }
-  to {
-    width: 100vw;
-    height: 90vh;
-  }
-}
-@keyframes visi {
-  from {
-    opacity: 0;
-  }
-  99% {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
+    &:hover {
+      background-color: skyblue;
+      cursor: default;
+    }
   }
 }
 </style>

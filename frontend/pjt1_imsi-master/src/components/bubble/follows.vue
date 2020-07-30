@@ -1,27 +1,27 @@
 <template>
   <div class="follows">
-    팔로우된 사람
-    {{followings}}
-    <!-- <li v-for="user in followings" :key="user.id">
-    {{user.nick}} / last : {{user.lastdate}}
-    </li>-->
+    팔로우
+    <hr />
+    <div v-if="followings.length===0">팔로우한 사람이 없습니다.</div>
+    <div v-for="user in followings" :key="user.id">{{user.target}}</div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'follows',
-  data:function(){
-    return{
-    }
+  name: "follows",
+  data: function () {
+    return {};
   },
-  computed:{
-    followings: function(){
-      return this.$store.state.userstore.followings
+  beforeCreate: function () {
+    this.$store.dispatch("getFollow");
+  },
+  computed: {
+    followings: function () {
+      return this.$store.state.userstore.followings;
     },
-    
   },
-}
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

@@ -1,6 +1,6 @@
 <template>
   <section class="messagesend">
-    <h6>{{id}}에게 전송</h6>
+    <h6>{{id}}님에게 전송</h6>
     <textarea v-model="mesval" cols="50" rows="3"></textarea>
     <button @click="send">보내기</button>
   </section>
@@ -34,7 +34,8 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  background-color: yellow;
+  font-size: 1.2rem;
+  border: black 1px solid;
 }
 
 </style>
