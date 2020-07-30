@@ -64,4 +64,10 @@ public class MessageDaoImpl implements MessageDao{
 		return template.selectList(ns+"getcontacts", msg);
 	}
 
+	@Override
+	public int insertAlert(Message msg) {
+		// TODO Auto-generated method stub
+		return template.insert(ns + "insertAlert", msg);
+	}
+
 }

@@ -18,4 +18,6 @@ public interface MessageService {
 	
 	public List<Message> selectById(String id);
 	public List<Message> getContacts(String id,String other);
+	
+	public int insertAlert(Message msg);
 }

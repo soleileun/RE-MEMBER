@@ -19,5 +19,7 @@ public interface PmemberDAO {
 	
 	public List<Pmember> selectByUserId(String id);
 	
+	public List<Pmember> selectByPid(int pid);
+	
 	public int selectCntByPid(int pid);
 }

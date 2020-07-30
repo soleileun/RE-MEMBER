@@ -51,4 +51,10 @@ public class PmemberDAOImpl implements PmemberDAO {
 	public int selectCntByPid(int pid) {
 		return template.selectOne(ns + "selectCntByPid", pid);
 	}
+
+	@Override
+	public List<Pmember> selectByPid(int pid) {
+		// TODO Auto-generated method stub
+		return template.selectList(ns + "selectByPid", pid);
+	}
 }
