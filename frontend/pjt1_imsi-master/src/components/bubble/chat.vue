@@ -36,7 +36,7 @@
 
 import Stomp from 'webstomp-client'
 import SockJS from 'sockjs-client'
-//import Constant from "../../Constant";
+import Constant from "../../Constant";
 
 const storage = window.sessionStorage;
 
@@ -65,6 +65,10 @@ export default {
       console.log("roomname : " + this.room);
       this.connect();
       console.log("connect 했음");
+         this.$store.dispatch(Constant.CHAT_READ, {
+          roomName : this.room,
+          id : this.id,}
+          );
       //this.stompClient.subscribe("/send/" + this.room);
       //console.log("구독했음");
       //this.$store.dispatch(Constant.GET_CHATLIST, {roomName : roomName});
@@ -103,6 +107,7 @@ export default {
 
 
 
+/////
               /*
                 this.$store.dispatch(Constant.SEND_CHAT,{
                   //bno : auto increase
@@ -118,6 +123,8 @@ export default {
                 );
 
                 */
+
+               /////
         //this.stompClient.send("/chat/message/" + this.room, JSON.stringify(msg), {});
       }
     },    
@@ -145,8 +152,10 @@ export default {
           console.log("roomName : " + this.rname);
           console.log("id : " + this.id);
           
-          
-            
+          this.$store.dispatch(Constant.CHAT_READ, {
+          roomName : this.rname,
+          id : this.id,}
+          );
 
           });
 

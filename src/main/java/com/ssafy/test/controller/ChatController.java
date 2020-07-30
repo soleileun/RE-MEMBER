@@ -64,14 +64,15 @@ public class ChatController {
 
 
 	@ApiOperation(value = "글 정보를 읽었음으로 수정한다. 그리고 DB수정 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
-	@PutMapping("change/{roomName}&{id}")
+	@PutMapping("change/roomName={roomName}&id={id}")
 	public ResponseEntity<String> updateRead(@PathVariable String roomName, @PathVariable String id) {
 
 		Chat v = new Chat();
 		v.setRoomName(roomName);
 		v.setId(id);
-		
+		System.out.println("실행됨");
 		if (Service.updateRead(v) != 0) {
+			System.out.println("됐음 바뀜");
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		}
 		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
