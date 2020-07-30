@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.test.model.dto.Project;
+import com.ssafy.test.model.dto.Message;
 import com.ssafy.test.model.dto.Pmember;
 import com.ssafy.test.model.service.ProjectService;
+import com.ssafy.test.model.service.MessageService;
 import com.ssafy.test.model.service.PmemberService;
 
 import io.swagger.annotations.ApiOperation;
@@ -34,6 +36,9 @@ public class PmemberController {
 	
 	@Autowired
 	private ProjectService pService;
+	
+	@Autowired
+	private MessageService mService;
 
 	@ApiOperation(value = "모든 프로젝트 멤버의 정보를 반환한다.", response = List.class)
 	@GetMapping
@@ -61,8 +66,28 @@ public class PmemberController {
 
 	@ApiOperation(value = "새로운 프로젝트 멤버정보를 입력한다. 그리고 DB입력 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
 	@PostMapping
-	public ResponseEntity<String> writeBoard(@RequestBody Pmember pm) {
-		if (pmService.insert(pm) != 0) {
+	public ResponseEntity<String> addNewMember(@RequestBody Pmember pm) {
+		int cnt = pmService.insert(pm);
+		if (cnt ==1) {
+			int pid = pm.getPid();
+			List<Pmember> list = pmService.selectByPid(pid);
+			System.out.println(list.size());
+			for(int i=0;i<list.size();i++) {
+				Message msg = new Message();
+				msg.setFromUser("admin");
+				if(list.get(i).getUserId().equals(pm.getUserId())) {
+					msg.setToUser(pm.getUserId());
+					msg.setContent(pm.getPid() + " 프로젝트에 추가되었습니다. ");
+					
+				}else {
+		
+				msg.setToUser(list.get(i).getUserId());
+				msg.setContent(pm.getPid() + "프로젝트에 다른 팀원이 추가되었습니다.");
+				}
+				mService.insert(msg);
+				System.out.println("보내짐");
+			}
+			
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		}
 		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);

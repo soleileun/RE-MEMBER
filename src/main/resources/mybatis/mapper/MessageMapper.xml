@@ -12,6 +12,13 @@
 		values
 		(#{toUser},#{fromUser},#{content},#{time},#{isRead})
 	</insert>
+	<!-- message 생성 -->
+	<insert id="insertAlert" parameterType="message">
+		insert into message
+		(toUser,fromUser,content,time,isRead)
+		values
+		(#{toUser},#{fromUser},#{content},#{time},#{isRead})
+	</insert>
 
 
 

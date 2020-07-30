@@ -17,6 +17,7 @@ public interface PmemberService {
 	public int update(Pmember pm);
 	
 	public List<Pmember> selectByUserId(String id);
+	public List<Pmember> selectByPid(int pid);
 	
 	public int selectCntByPid(int pid);
 }
