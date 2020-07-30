@@ -24,6 +24,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		from pmember
 		where pid = #{pid}
 	</select>
+	
+		<select id="selectByPid" parameterType="int" resultType="pmember">
+		select *
+		from pmember
+		where pid = #{pid}
+	</select>
 
 	<insert id="insert" parameterType="pmember">
 		insert into pmember

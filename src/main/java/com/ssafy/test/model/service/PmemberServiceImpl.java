@@ -48,4 +48,10 @@ public class PmemberServiceImpl implements PmemberService {
 		return pmDao.selectCntByPid(pid);
 	}
 
+	@Override
+	public List<Pmember> selectByPid(int pid) {
+		// TODO Auto-generated method stub
+		return pmDao.selectByPid(pid);
+	}
+
 }

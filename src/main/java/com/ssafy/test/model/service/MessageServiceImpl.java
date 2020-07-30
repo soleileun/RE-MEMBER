@@ -56,4 +56,10 @@ public class MessageServiceImpl implements MessageService{
 		return mDao.getContacts(id, other);
 	}
 
+	@Override
+	public int insertAlert(Message msg) {
+		// TODO Auto-generated method stub
+		return mDao.insertAlert(msg);
+	}
+
 }
