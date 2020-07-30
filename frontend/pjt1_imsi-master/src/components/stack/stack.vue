@@ -70,12 +70,17 @@
       스택 태그 입력
       <input type="text" placeholder="스택을 입력하세요" id="stackWord" />
       <button v-on:click="registStack">입력</button>
+
+      <ul>
+        <li v-for="(stack,index) in stacks" :key="index" :value="1">{{stack}}</li>
+      </ul>
       <hr />
       <button v-on:click="searchPool">검색</button>
     </div>
   </div>
 </template>
 
+<script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
 <script>
 // import Constant from "../../Constant";
 
@@ -85,19 +90,29 @@
 // import { Button, FormGroupInput } from "@/components";
 
 export default {
-  //   methods: {
-  //     searchPool() {
-  //       // let val  = document.getElementById("searchWord").value;
-  //       // let std = document.getElementById("standard").value;
-  //       // //제목 검색
-  //       // if(std == 't'){
-  //       //   console.log(val);
-  //       //   this.$store.dispatch(Constant.SEARCH_BOARD_TITLE, {btitle : val, bstate : 'free'});
-  //       // }else{ //작성자 검색
-  //       //   this.$store.dispatch(Constant.SEARCH_BOARD_WRITER, {bwriter : val, bstate : 'free'});
-  //       // }
-  //     },
-  //   },
+  data() {
+    return {
+      stacks: [],
+    };
+  },
+  methods: {
+    searchPool() {
+    //   let val  = document.getElementById("searchWord").value;
+    //   let std = document.getElementById("standard").value;
+    //   //제목 검색
+    //   if(std == 't'){
+    //     console.log(val);
+    //     this.$store.dispatch(Constant.SEARCH_BOARD_TITLE, {btitle : val, bstate : 'free'});
+    //   }else{ //작성자 검색
+    //     this.$store.dispatch(Constant.SEARCH_BOARD_WRITER, {bwriter : val, bstate : 'free'});
+    //   }
+    },
+    registStack() {
+      let addValue = $("#stackWord").val();
+      this.stacks.push("#" + addValue);
+      $("#stackWord").val(null);
+    },
+  },
   //   data: function() {
   //     return {
   //       sidoList: [],

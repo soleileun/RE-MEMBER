@@ -4,7 +4,6 @@
     <hr />
     <stack />
     <hr />
-    <router-link to="/pool/registpool" tag="button">인재풀 등록</router-link>
     <!-- card layout -->
     <ul class="cards">
       <li class="cards__item" v-for="pool in pools" :key="pool.id">
