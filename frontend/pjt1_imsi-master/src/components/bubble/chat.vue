@@ -3,6 +3,7 @@
     <section class="chatlist">
 
       내용: <input v-model="inputcontent" type="text" @keyup="sendMessage">
+          <button @click="disconnect" style="color:black;">구독취소테스트</button>
       <div style = "height : 500px; width:570px; padding:25px; background:white; overflow-y : auto;color:black; background:skyblue">
         <div v-for="chat in chats" :key="chat.chno">
           <div>
@@ -26,6 +27,7 @@
           <br>
         </div>
       </div>
+      
     </section>
   </div>
 </template>
@@ -108,7 +110,7 @@ export default {
 
 
 /////
-              /*
+              
                 this.$store.dispatch(Constant.SEND_CHAT,{
                   //bno : auto increase
                     // bwriter : this.board.bwriter, 임시로 ssafy foreign key때문
@@ -122,7 +124,7 @@ export default {
                 }
                 );
 
-                */
+                
 
                /////
         //this.stompClient.send("/chat/message/" + this.room, JSON.stringify(msg), {});
@@ -167,11 +169,20 @@ export default {
           this.connected = false;
         }
       );        
-    }
+    },
+    disconnect() {
+      if(this.stompClient !== null) {
+        console.log("disconnect");
+        this.stompClient.disconnect();
+      }
+    },
+
   },
 
   
 };
+
+
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

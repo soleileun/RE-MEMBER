@@ -70,9 +70,7 @@ public class ChatController {
 		Chat v = new Chat();
 		v.setRoomName(roomName);
 		v.setId(id);
-		System.out.println("실행됨");
 		if (Service.updateRead(v) != 0) {
-			System.out.println("됐음 바뀜");
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		}
 		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);

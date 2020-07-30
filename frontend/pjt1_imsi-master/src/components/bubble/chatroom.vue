@@ -77,7 +77,7 @@ export default {
   },
   created() {
         this.$store.dispatch(Constant.GET_CHATROOMLIST);
-
+      
 /*
         /////추가파트
         console.log("create 실행됨");
