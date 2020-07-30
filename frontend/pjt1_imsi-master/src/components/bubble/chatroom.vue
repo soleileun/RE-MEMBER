@@ -10,8 +10,8 @@
                 <p class="font-weight-bold">{{room.roomName}} ({{room.membercnt}}명)</p>
               <p>최근 메시지 {{room.content}}</p>
             </div>
-            <div class="col-sm-2">
-              <p>{{room.makedate}}</p>
+            <div class="col-sm-2" >
+              <p>{{room.makedate.slice(11,16)}}</p>
               <span v-show = "room.cnt != 0" class="badge badge-danger">{{room.cnt}}</span>
             </div>
           </div>
@@ -20,7 +20,7 @@
     </section>
 
 
- <chat :rname="rname" v-if="chatting" />
+ <chat @endchat="endchat" :rname="rname" :chatting="chatting" v-if="chatting" />
 
 <!--
 div시작
@@ -102,6 +102,11 @@ export default {
         //// 여기까지.
         this.$store.dispatch(Constant.GET_CHATLIST, {roomName : this.rname});
       },
+      endchat(f) {
+        console.log("endchat 실행");
+        this.chatting = f;
+        this.$store.dispatch(Constant.GET_CHATROOMLIST);
+      }
 
         ///여기부터 소켓부분 connect 추가했음..!
         /*

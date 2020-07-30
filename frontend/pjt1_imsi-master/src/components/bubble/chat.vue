@@ -2,6 +2,7 @@
   <div class="chatroom">
     <section class="chatlist">
 
+          <button @click="back()" style="color:black;">뒤로가기</button>
       내용: <input v-model="inputcontent" type="text" @keyup="sendMessage">
       <div style = "height : 500px; width:570px; padding:25px; background:white; overflow-y : auto;color:black; background:skyblue">
         <div v-for="chat in chats" :key="chat.chno">
@@ -43,7 +44,7 @@ const storage = window.sessionStorage;
 
 export default {
   name: "chatroom",
-  props: ['rname'],
+  props: ['rname', 'chatting'],
   data: function() {
     return {
         room : this.rname,
@@ -52,6 +53,7 @@ export default {
         content : "",
         makedate : "",
         recvList: [],
+        propchatting:this.chatting
     };
   },
   computed: {
@@ -82,6 +84,7 @@ export default {
         
     console.log("소켓 커넥트 실행끝");
     */
+    return this.$store.state.chatstore.chats;
   },
   
   
@@ -171,6 +174,10 @@ export default {
         }
       );        
     },
+    back() {
+      console.log("back 클릭");
+      this.$emit('endchat',false);
+    }
 
   },
 beforeDestroy:function(){
