@@ -1,39 +1,43 @@
 <template>
-    <!-- <a href=""> 클릭 시 링크 설정 -->
-    <!-- <router-link :to="'/project/projectdetail/'+project.pid"> -->
-    <div class="card">
-      <a href="#none" v-on:click="popup()">
-        <!-- 카드 헤더 -->
-        <div class="card-header">
-          <div class="card-header-is_closed">
-            <!-- 여기 모집중 / 모집완료 분기 -->
-            <div class="card-header-text">모집중</div>
-            <div class="card-header-number">{{pjtcnt[project.pid]}} / {{project.pjtMemberCnt}}</div>
-          </div>
+  <!-- <a href=""> 클릭 시 링크 설정 -->
+  <!-- <router-link :to="'/project/projectdetail/'+project.pid"> -->
+  <div class="card">
+    <!-- <a href="#none" v-on:click="popup()"> -->
+      <!-- 카드 헤더 -->
+      <div class="card-header">
+        <div class="card-header-is_closed">
+          <!-- 여기 모집중 / 모집완료 분기 -->
+          <div class="card-header-text">모집중</div>
+          <div class="card-header-number">{{pjtcnt[project.pid]}} / {{project.pjtMemberCnt}}</div>
         </div>
+      </div>
 
-        <!--  카드 바디 -->
-        <div class="card-body">
-          <!--  카드 바디 헤더 -->
-          <div class="card-body-header">
-            <h1>{{project.pjtName}}</h1>
-            <p class="card-body-hashtag">#이슈태그</p>
-            <p class="card-body-nickname">팀장: {{project.makeId}}</p>
-          </div>
-          <p class="card-body-description">{{project.pjtContent}}</p>
-
-          <!--  카드 바디 본문 : 넣지말기-->
-          <!--  카드 바디 푸터, 조회수, 댓글 아이콘 넣기-->
-          <div class="card-body-footer">
-            <hr style="margin-bottom: 8px; opacity: 0.5; border-color: #EF5A31" />
-            <i class="icon icon-view_count"></i>조회 n회
-            <i class="icon icon-comments_count"></i>댓글 n개
-            <i class="reg_date">{{project.makeDay}}</i>
-          </div>
+      <!--  카드 바디 -->
+      <div class="card-body">
+        <!--  카드 바디 헤더 -->
+        <div class="card-body-header">
+          <h1>{{project.pjtName}}</h1>
+          <p class="card-body-hashtag">#이슈태그</p>
+          <p class="card-body-nickname">팀장: {{project.makeId}}</p>
         </div>
-      </a>
-    </div>
-    <!-- </router-link> -->
+        <p class="card-body-description">
+          {{project.pjtContent}}
+          <br />
+          <button >팀원관리</button>
+          <button v-on:click="popup()">일정관리페이지</button>
+        </p>
+        <!--  카드 바디 본문 : 넣지말기-->
+        <!--  카드 바디 푸터, 조회수, 댓글 아이콘 넣기-->
+        <div class="card-body-footer">
+          <hr style="margin-bottom: 8px; opacity: 0.5; border-color: #EF5A31" />
+          <i class="icon icon-view_count"></i>조회 n회
+          <i class="icon icon-comments_count"></i>댓글 n개
+          <i class="reg_date">{{project.makeDay}}</i>
+        </div>
+      </div>
+    <!-- </a> -->
+  </div>
+  <!-- </router-link> -->
 </template>
 
 <script>
