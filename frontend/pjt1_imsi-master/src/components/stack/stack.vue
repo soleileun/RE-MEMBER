@@ -71,9 +71,10 @@
       <input type="text" placeholder="스택을 입력하세요" id="stackWord" />
       <button v-on:click="registStack">입력</button>
 
-      <ul>
-        <li v-for="(stack,index) in stacks" :key="index" :value="1">{{stack}}</li>
-      </ul>
+      <div v-for="(stack,index) in stacks" :key="index" :value="stack">
+        <span>{{stack}}</span>
+        <button v-on:click="deleteStack(index)">X</button>
+      </div>
       <hr />
       <button v-on:click="searchPool">검색</button>
     </div>
@@ -111,6 +112,9 @@ export default {
       let addValue = $("#stackWord").val();
       this.stacks.push("#" + addValue);
       $("#stackWord").val(null);
+    },
+    deleteStack(idx) {
+      this.stacks.splice(idx,1);
     },
   },
   //   data: function() {
