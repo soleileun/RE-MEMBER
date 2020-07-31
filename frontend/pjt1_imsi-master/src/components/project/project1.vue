@@ -3,38 +3,48 @@
   <!-- <router-link :to="'/project/projectdetail/'+project.pid"> -->
   <div class="card">
     <!-- <a href="#none" v-on:click="popup()"> -->
-      <!-- 카드 헤더 -->
-      <div class="card-header">
-        <div class="card-header-is_closed">
-          <!-- 여기 모집중 / 모집완료 분기 -->
-          <div class="card-header-text">모집중</div>
-          <div class="card-header-number">{{pjtcnt[project.pid]}} / {{project.pjtMemberCnt}}</div>
-        </div>
+    <!-- 카드 헤더 -->
+    <div class="card-header">
+      <div class="card-header-is_closed">
+        <!-- 여기 모집중 / 모집완료 분기 -->
+        <div class="card-header-text">모집중</div>
+        <div class="card-header-number">{{pjtcnt[project.pid]}} / {{project.pjtMemberCnt}}</div>
       </div>
+    </div>
 
-      <!--  카드 바디 -->
-      <div class="card-body">
-        <!--  카드 바디 헤더 -->
-        <div class="card-body-header">
-          <h1>{{project.pjtName}}</h1>
-          <p class="card-body-hashtag">#이슈태그</p>
-          <p class="card-body-nickname">팀장: {{project.makeId}}</p>
-        </div>
-        <p class="card-body-description">
-          {{project.pjtContent}}
-          <br />
-          <button >팀원관리</button>
-          <button v-on:click="popup()">일정관리페이지</button>
-        </p>
-        <!--  카드 바디 본문 : 넣지말기-->
-        <!--  카드 바디 푸터, 조회수, 댓글 아이콘 넣기-->
-        <div class="card-body-footer">
-          <hr style="margin-bottom: 8px; opacity: 0.5; border-color: #EF5A31" />
-          <i class="icon icon-view_count"></i>조회 n회
-          <i class="icon icon-comments_count"></i>댓글 n개
-          <i class="reg_date">{{project.makeDay}}</i>
+    <!--  카드 바디 -->
+    <div class="card-body">
+      <!--  카드 바디 헤더 -->
+      <div class="card-body-header">
+        <h1>{{project.pjtName}}</h1>
+        <p class="card-body-hashtag">#이슈태그</p>
+        <p class="card-body-nickname">팀장: {{project.makeId}}</p>
+      </div>
+      <p class="card-body-description">
+        {{project.pjtContent}}
+        <br />
+        <button id="myBtn" @click="openModal">팀원관리</button>
+
+        <button v-on:click="popup()">일정관리페이지</button>
+      </p>
+      <!-- The Modal -->
+      <div id="myModal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+          <span class="close">&times;</span>
+          
+          모달페이지
         </div>
       </div>
+      <!--  카드 바디 본문 : 넣지말기-->
+      <!--  카드 바디 푸터, 조회수, 댓글 아이콘 넣기-->
+      <div class="card-body-footer">
+        <hr style="margin-bottom: 8px; opacity: 0.5; border-color: #EF5A31" />
+        <i class="icon icon-view_count"></i>조회 n회
+        <i class="icon icon-comments_count"></i>댓글 n개
+        <i class="reg_date">{{project.makeDay}}</i>
+      </div>
+    </div>
     <!-- </a> -->
   </div>
   <!-- </router-link> -->
@@ -79,6 +89,28 @@ export default {
       var option =
         "width = 1000, height = 750, top = 100, left = 200, location = no";
       window.open(url, name, option);
+    },
+    openModal() {
+      // Get the modal
+      var modal = document.getElementById("myModal");
+
+      // Get the <span> element that closes the modal
+      var span = document.getElementsByClassName("close")[0];
+
+      // When the user clicks on the button, open the modal
+      modal.style.display = "block";
+
+      // When the user clicks on <span> (x), close the modal
+      span.onclick = function () {
+        modal.style.display = "none";
+      };
+
+      // When the user clicks anywhere outside of the modal, close it
+      window.onclick = function (event) {
+        if (event.target == modal) {
+          modal.style.display = "none";
+        }
+      };
     },
   },
 };
@@ -389,5 +421,41 @@ h1 {
 
 .reg_date {
   float: right;
+}
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0, 0, 0); /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%; /* Could be more or less, depending on screen size */
+}
+/* The Close Button */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
 }
 </style>
