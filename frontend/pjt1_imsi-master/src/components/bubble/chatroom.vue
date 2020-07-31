@@ -1,49 +1,27 @@
 <template>
   <div class="chatroom">
-    <section class="roomlist" v-show="!chatting" style="padding-left:10px;">
-        <div v-for="room in rooms" :key="room.roomName" @click="startchat(room.roomName)">
+    <div class="roomlist" v-show="!chatting">
+        <div class = "list" v-for="room in rooms" :key="room.roomName" @click="startchat(room.roomName)">
           <div class="row">
             <div class="col-sm-2" style="padding : 15px;">
-            <div style="background : white; width:100%; height:100%; radius:10px"> </div>
+            <div style="background : yellow; width:40px; height:40px; border-radius:10px"> </div>
             </div>
             <div class="col-sm-8" style="text-align : left; overflow:hidden">
                 <p class="font-weight-bold">{{room.roomName}} ({{room.membercnt}}명)</p>
               <p>최근 메시지 {{room.content}}</p>
             </div>
             <div class="col-sm-2" >
-              <p>{{room.makedate.slice(11,16)}}</p>
-              <span v-show = "room.cnt != 0" class="badge badge-danger">{{room.cnt}}</span>
+              <p>{{room.makedate}}</p>
+              <span v-show = "room.cnt != 0" class="badge badge-danger" style="margin-left:10px;">{{room.cnt}}</span>
             </div>
           </div>
             <!--{{room.roomName}}-->
         </div>
-    </section>
+    </div>
 
 
  <chat @endchat="endchat" :rname="rname" :chatting="chatting" v-if="chatting" />
 
-<!--
-div시작
-    <div
-      v-for="(item, idx) in recvList"
-      :key="idx"
-    >
-      <h3>유저이름: {{ item.nickname }}</h3>
-      <h3>내용: {{ item.content }}</h3>
-    </div>
-끝
-   
-            <input
-      v-model="id"
-      type="text"
-    >
-    내용: <input
-      v-model="content"
-      type="text"
-      @keyup="sendMessage"
-    >
-
--->
   </div>
 </template>
 
@@ -70,130 +48,60 @@ export default {
     }
   },
   computed: {
-    rooms() {
-        console.log("rooms 실행");
+    rooms() { 
       return this.$store.state.chatstore.rooms;
     },
   },
-  created() {
+  created() { // 채팅방 정보를 받아옵니다.
         this.$store.dispatch(Constant.GET_CHATROOMLIST);
-      
-/*
-        /////추가파트
-        console.log("create 실행됨");
-        console.log("소켓 커넥트 준비");
-        this.connect();
-        console.log("소켓 커넥트 실행끝");
-        //////
-        */
   },
   methods: {
-      startchat: function(e) {
-        //console.log("채팅창 시작");
-        console.log("인자값 : " + e)
-        console.log(this.chatting);
+      startchat: function(e) { //채팅방을 눌렀을 때 실행됩니다. 해당 chat.vue로 연결되어 채팅방에 입장합니다. 
+        
         this.chatting = true;
         this.rname = e;
-        console.log("roomName : " + this.rname);
-        
-        //추가한 부분
-        //this.stompClient.subscribe("/send/" + this.roomName);
-        //console.log("구독 성공  : " + this.roomName); 
-        //// 여기까지.
         this.$store.dispatch(Constant.GET_CHATLIST, {roomName : this.rname});
       },
-      endchat(f) {
-        console.log("endchat 실행");
+      endchat(f) { // 채팅방을 닫을 때 실행됩니다. chat.vue에서 사용되며, chatroom으로 돌아옵니다.
         this.chatting = f;
         this.$store.dispatch(Constant.GET_CHATROOMLIST);
       }
 
-        ///여기부터 소켓부분 connect 추가했음..!
-        /*
-    sendMessage (e) {
-      if(e.keyCode == 13 && this.id !== '' && this.content !== ''){
-        console.log("실행됨?");
-        console.log(this.id);
-        console.log(this.content)
-        this.send();
-        this.content = '';
-        this.id = '';
-      }
-    },    
-    send() {
-      console.log("Send message:" + this.content);
-      if (this.stompClient && this.stompClient.connected) {
-        const msg = { 
-          nickname: this.nickname,
-          content: this.content,
-          roomName: this.room 
-        };
-        this.stompClient.send("/receive/"+this.roomName, JSON.stringify(msg), {});
-        
-        //this.stompClient.send("/chat/message/" + this.pid, JSON.stringify(msg), {});
-      }
-    },    
-    enter() {
-        console.log("click 됨");
-        //this.stompClient.subscribe("/send/" + this.pid, res => {
-        this.stompClient.subscribe("/send/" + this.pid, res => {
-        console.log('구독으로 받은 메시지 입니다.', res.body);
-        console.log("구독 : " + "/send/" + this.pid);
-        // roomname으로 들어오는 방 정보가 현재 접속한 방 정보와 일치하면 push해주게 해서 방을 구분함.
-        // 받은 데이터를 json으로 파싱하고 리스트에 넣어줍니다.
-        this.recvList.push(JSON.parse(res.body))
-        });
-    },
-    connect() {  
-        console.log("소켓 커넥트 실행");
-        const serverURL = "http://i3a208.p.ssafy.io:8000"
-        let socket = new SockJS(serverURL);
-        this.stompClient = Stomp.over(socket);
-        console.log(`소켓 연결을 시도합니다. 서버 주소: ${serverURL}`)
-        this.stompClient.connect(
-        {},
-        frame => {
-          // 소켓 연결 성공
-            this.connected = true;
-            console.log('소켓 연결 성공', frame);
-            //this.stompClient.subscribe("/send/" + this.roomName);
-            //console.log("구독 성공  : " + this.roomName) 
-          // 서버의 메시지 전송 endpoint를 구독합니다.
-          // 이런형태를 pub sub 구조라고 합니다.
-          //this.stompClient.subscribe("/send", res => {
-          //this.stompClient.subscribe("/send/" + this.pid, res => {
-          //  console.log('구독으로 받은 메시지 입니다.', res.body);
-          //  console.log("구독 : " + "/send/" + this.pid);
-
-            // 받은 데이터를 json으로 파싱하고 리스트에 넣어줍니다.
-          //  this.recvList.push(JSON.parse(res.body))
-          //});
-        },
-        error => {
-          // 소켓 연결 실패
-          console.log('소켓 연결 실패', error);
-          this.connected = false;
-        }
-      );        
-    }
-    */
   }
 };
+
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-.messages {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  .detaillist {
-    div{
-      border: 1px black solid;
-      &.read{
-        background-color: skyblue;
-      }
+.chatroom {
+  height: 100%;
+  padding-bottom: 3px;
+  overflow-y : auto;
+  overflow-x : hidden;
+  height:98%;
+  .list {
+    padding: 10px;
+    margin: 8px;
+    background-color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    box-shadow: 1px 1px 3px black ;
+    text-align: start;
+    h6 {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px gray solid;
     }
+    &.read {
+      background-color: #ddddff;
+    }
+    &:hover{
+      border: 1px solid black;
+    }
+  }
+  p {
+    margin-bottom : 4px;
   }
 }
 </style>

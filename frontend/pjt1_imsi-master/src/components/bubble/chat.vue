@@ -1,34 +1,66 @@
 <template>
-  <div class="chatroom">
-    <section class="chatlist">
+  <div class="chatroom" >
+    <div class="chatlist" >
 
-          <button @click="back()" style="color:black;">뒤로가기</button>
-      내용: <input v-model="inputcontent" type="text" @keyup="sendMessage">
-      <div style = "height : 500px; width:570px; padding:25px; background:white; overflow-y : auto;color:black; background:skyblue">
+      <div class="base">
         <div v-for="chat in chats" :key="chat.chno">
-          <div>
-            <div style="width:30px; height:100%; float:left; margin:10px; margin-top:0px;" >
-              <img src="" style="width:30px;height:30px"> 
-            </div>
-
-            <div style="font-size:6px; height:4px; margin:5px">{{ chat.nickname }} </div>
-            <div>{{ chat.content }}</div>
-            <br>
+          <div v-if="chat.id === id">
+            <span >
+            <div  class="me">{{ chat.content }}</div>
+            </span>
+            <p> </p>
           </div>
+
+          <div v-else style="text-align:left">
+            <div class = "namepart">
+              <img src="" style="width:30px;height:30px; padding-top:6px;" > 
+            </div>
+          <div>
+            <span style="font-size:13px; text-align:top">{{ chat.nickname }} </span>
+            <br>
+            <span>
+            <div class="other" >{{ chat.content }} </div>
+            </span>
+            </div>
+          </div>
+  <br>
+
         </div>
 
         <div v-for="(item, idx) in recvList" :key="idx">
-          <div style="width:30px; height:100%; float:left; margin:10px; margin-top:0px;" >
-            <img src="" style="width:30px;height:30px"> 
+          <div v-if="item.id === id">
+            <span >
+            <div  class="me">{{ item.content }}</div>
+            </span>
+            <p> </p>
           </div>
 
-          <div style="font-size:6px; height:4px; margin:5px">{{ item.nickname }} </div>
-          <div>{{ item.content }}</div>
-          <br>
+         <div v-else style="text-align:left">
+            <div style="width:30px; height:100%; float:left; margin:10px; margin-top:0px;" >
+              <img src="" style="width:30px;height:30px;"> 
+            </div>
+          <div>
+            <div style="font-size:6px; height:4px; margin:5px;">{{ item.nickname }} </div>
+            <br>
+            <span style="background-color:blue;">
+            <div  class="other">{{ item.content }}</div>
+            </span>
+            </div>
+          </div>
+
+            <br>
         </div>
       </div>
-      
-    </section>
+
+
+
+
+    </div>
+    <p></p>
+      내용: <input v-model="inputcontent" type="text" @keyup="sendMessage">
+          <button  @click="clickSend()" >입력</button>
+          <button @click="back()" >뒤로</button>
+
   </div>
 </template>
 
@@ -58,48 +90,39 @@ export default {
   },
   computed: {
     chats() {
-        console.log("chats 실행");
         return this.$store.state.chatstore.chats;
     },
   },
-  created() {
-      console.log("채팅 create 실행됨");
-      console.log("room : " + this.room);
-      console.log("roomname : " + this.room);
+  created() { // 소켓 초기 연결을 시작합니다.
       this.connect();
-      console.log("connect 했음");
+      console.log("STOMP is working");
          this.$store.dispatch(Constant.CHAT_READ, {
           roomName : this.room,
           id : this.id,}
           );
           console.log(this.id + "가 쓴거 아님 다 읽음 표시로 바꿈");
-      //this.stompClient.subscribe("/send/" + this.room);
-      //console.log("구독했음");
-      //this.$store.dispatch(Constant.GET_CHATLIST, {roomName : roomName});
 
-      //소켓 파트
-      /*
-    console.log("소켓 커넥트 준비");
-        this.connect();
-        
-    console.log("소켓 커넥트 실행끝");
-    */
     return this.$store.state.chatstore.chats;
   },
-  
-  
   methods: {
-    sendMessage (e) {
-      if(e.keyCode === 13 && this.id !== '' && this.inputcontent !== ''){
-        //this.id = storage.getItem("userid");
-        console.log("input값 : " + storage.getItem("userid"));
-        this.nickname = storage.getItem("userid"); // 일단 넣어놨음 닉네임으로 바꿔야함
+    
+    clickSend () {
+      if(this.id !== '' && this.inputcontent !== ''){
+        this.nickname = storage.getItem("userid"); // 현재 접속중인 유저의 id를 사용합니다.
         this.content = this.inputcontent;
         this.send()
         this.inputcontent = '';
       }
     },    
-    send() {
+    sendMessage (e) {
+      if(e.keyCode === 13 && this.id !== '' && this.inputcontent !== ''){ // 엔터를 눌러 메시지를 발송합니다.
+        this.nickname = storage.getItem("userid"); // 현재 접속중인 유저의 id를 사용합니다.
+        this.content = this.inputcontent;
+        this.send()
+        this.inputcontent = '';
+      }
+    },    
+    send() { // 메시지를 발송하는 함수입니다.
       console.log("Send message:" + this.inputcontent);
       if (this.stompClient && this.stompClient.connected) {
         const msg = { 
@@ -110,72 +133,51 @@ export default {
         };
         this.stompClient.send("/receive/"+this.room, JSON.stringify(msg), {});
 
+        this.$store.dispatch(Constant.SEND_CHAT,{
+          roomName : this.rname,
+          id : this.id,
+          nickname : this.nickname,
+          content : this.content,
+          makedate : new Date(),
+          });
 
-
-/////
-              
-                this.$store.dispatch(Constant.SEND_CHAT,{
-                  //bno : auto increase
-                    // bwriter : this.board.bwriter, 임시로 ssafy foreign key때문
-                    roomName : this.rname,
-                    id : this.id,
-                    nickname : this.nickname,
-                    content : this.content,
-                    makedate : new Date(),
-                    // changeDay : this.board.changeday,
-                    // changeId : this.board.changeid
-                }
-                );
-
-                
-
-               /////
         //this.stompClient.send("/chat/message/" + this.room, JSON.stringify(msg), {});
       }
     },    
     connect() {  
-        console.log("소켓 커넥트 실행");
+        console.log("socket start");
         const serverURL = "http://i3a208.p.ssafy.io:8000"
         let socket = new SockJS(serverURL);
         this.stompClient = Stomp.over(socket);
-        console.log(`소켓 연결을 시도합니다. 서버 주소: ${serverURL}`)
+        console.log(`target server : ${serverURL}`)
         this.stompClient.connect(
         {},
         frame => {
           // 소켓 연결 성공
           this.connected = true;
-          console.log('소켓 연결 성공', frame);
+          console.log('[SUCCESS] socket is connected', frame);
             
             
           this.stompClient.subscribe("/send/" + this.room, res => {
-          console.log('구독으로 받은 메시지 입니다.', res.body);
-          console.log("구독 : " + "/send/" + this.room);
-          console.log("여기서 ㅂ다아오니?");
           // roomname으로 들어오는 방 정보가 현재 접속한 방 정보와 일치하면 push해주게 해서 방을 구분함.
           // 받은 데이터를 json으로 파싱하고 리스트에 넣어줍니다.
-          this.recvList.push(JSON.parse(res.body));
-          console.log("roomName : " + this.rname);
-          console.log("id : " + this.id);
-          
-          this.$store.dispatch(Constant.CHAT_READ, {
-          roomName : this.rname,
-          id : this.id,}
-          );
-
+            this.recvList.push(JSON.parse(res.body));
+            this.$store.dispatch(Constant.CHAT_READ, {
+              roomName : this.rname,
+              id : this.id,}
+            );
           });
-
-          console.log(this.id + "가 쓴거 아님 다 읽음 표시로 바꿈");
-
+          console.log(this.id + "[UPDATE] isRead field");
         },
         error => {
           // 소켓 연결 실패
-          console.log('소켓 연결 실패', error);
+          console.log('[FAIL] socket connection is failed', error);
           this.connected = false;
         }
       );        
     },
     back() {
-      console.log("back 클릭");
+ //     console.log("back 클릭");
       this.$emit('endchat',false);
     }
 
@@ -194,17 +196,63 @@ beforeDestroy:function(){
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-.messages {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  .detaillist {
-    div{
-      border: 1px black solid;
-      &.read{
-        background-color: skyblue;
-      }
-    }
+
+.chatroom {
+  height: 100%;
+  padding-bottom: 10px;
+  .chatlist{
+  overflow-y : auto;
+  overflow-x : hidden;
+  height:88%;
   }
+  .base {
+    height : 100%; 
+    width:100; 
+    padding:15px;
+    padding-left : 8px;
+    overflow-y : auto;
+    overflow-x : auto;
+    color:black; 
+    
+  }
+
+
+.me {
+  position:relative;
+  padding:7px 15px;
+  margin:0;
+  background-color:#ffdf89;
+  border-radius: 15px;
+  display:inline-block;
+  font-size : 12px;
+  float: right;
+}
+
+.other {
+  position:relative;
+  padding:7px 15px;
+  margin:0;
+  background-color: rgb(164, 192, 224);
+  border-radius: 15px;
+  display:inline-block;
+  font-size : 12px;
+}
+.namepart {
+  width:30px; 
+  height:100%; 
+  float:left; 
+  margin:10px; 
+  margin-top:0px;
+}
+button {
+  cursor: pointer;
+  border: 2px solid #008CBA;
+  background-color : white;
+  border-radius : 10px;
+  color:black; 
+  margin:10px;
+  margin-bottom:0;
+}
+
 }
 </style>

@@ -110,18 +110,14 @@ const chatstore = {
 
     },
     [Constant.CHAT_READ]: (store, payload) => {
-        console.log("chatread 자체가 안 됨");
-        console.log("payload.roomName : " + payload.roomName);
-        console.log("payload.id : " + payload.id);
-        console.log('/api/chat/change/roomName=' + payload.roomName + '&id=' + storage.getItem("userid"));
         http.put('/api/chat/change/roomName=' + payload.roomName + '&id=' + storage.getItem("userid"), {
             roomName : payload.roomName,
             id : payload.id,
         })
             .then(() => {
-                console.log('읽음으로 표시.');
+                console.log('Is Read');
             })
-            .catch(exp => alert('수정 처리에 실패하였습니다.' + exp));
+            .catch(exp => alert('[FAIL] CHAT_READ is not working' + exp));
     },
   },
 
