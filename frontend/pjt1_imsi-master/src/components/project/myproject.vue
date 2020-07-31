@@ -3,7 +3,7 @@
     <h1>프로젝트 관리 페이지</h1>
     <hr />
     <button @click="movePage">여기로 이동할것</button>
-
+    <br>
     <project v-for="project in projects" :key="project.pid" :project="project" />
 
     <!-- @delete-project="deleteComment" -->

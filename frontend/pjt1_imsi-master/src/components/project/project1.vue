@@ -1,42 +1,39 @@
 <template>
-
-    <div class="project1">
-      <!-- <a href=""> 클릭 시 링크 설정 -->
-      <!-- <router-link :to="'/project/projectdetail/'+project.pid"> -->
+    <!-- <a href=""> 클릭 시 링크 설정 -->
+    <!-- <router-link :to="'/project/projectdetail/'+project.pid"> -->
+    <div class="card">
       <a href="#none" v-on:click="popup()">
-        <div class="card">
-          <!-- 카드 헤더 -->
-          <div class="card-header">
-            <div class="card-header-is_closed">
-              <!-- 여기 모집중 / 모집완료 분기 -->
-              <div class="card-header-text">모집중</div>
-              <div class="card-header-number">{{pjtcnt[project.pid]}} / {{project.pjtMemberCnt}}</div>
-            </div>
+        <!-- 카드 헤더 -->
+        <div class="card-header">
+          <div class="card-header-is_closed">
+            <!-- 여기 모집중 / 모집완료 분기 -->
+            <div class="card-header-text">모집중</div>
+            <div class="card-header-number">{{pjtcnt[project.pid]}} / {{project.pjtMemberCnt}}</div>
           </div>
+        </div>
 
-          <!--  카드 바디 -->
-          <div class="card-body">
-            <!--  카드 바디 헤더 -->
-            <div class="card-body-header">
-              <h1>{{project.pjtName}}</h1>
-              <p class="card-body-hashtag">#이슈태그</p>
-              <p class="card-body-nickname">팀장: {{project.makeId}}</p>
-            </div>
-            <p class="card-body-description">{{project.pjtContent}}</p>
+        <!--  카드 바디 -->
+        <div class="card-body">
+          <!--  카드 바디 헤더 -->
+          <div class="card-body-header">
+            <h1>{{project.pjtName}}</h1>
+            <p class="card-body-hashtag">#이슈태그</p>
+            <p class="card-body-nickname">팀장: {{project.makeId}}</p>
+          </div>
+          <p class="card-body-description">{{project.pjtContent}}</p>
 
-            <!--  카드 바디 본문 : 넣지말기-->
-            <!--  카드 바디 푸터, 조회수, 댓글 아이콘 넣기-->
-            <div class="card-body-footer">
-              <hr style="margin-bottom: 8px; opacity: 0.5; border-color: #EF5A31" />
-              <i class="icon icon-view_count"></i>조회 n회
-              <i class="icon icon-comments_count"></i>댓글 n개
-              <i class="reg_date">{{project.makeDay}}</i>
-            </div>
+          <!--  카드 바디 본문 : 넣지말기-->
+          <!--  카드 바디 푸터, 조회수, 댓글 아이콘 넣기-->
+          <div class="card-body-footer">
+            <hr style="margin-bottom: 8px; opacity: 0.5; border-color: #EF5A31" />
+            <i class="icon icon-view_count"></i>조회 n회
+            <i class="icon icon-comments_count"></i>댓글 n개
+            <i class="reg_date">{{project.makeDay}}</i>
           </div>
         </div>
       </a>
-      <!-- </router-link> -->
     </div>
+    <!-- </router-link> -->
 </template>
 
 <script>
@@ -79,8 +76,6 @@ export default {
         "width = 1000, height = 750, top = 100, left = 200, location = no";
       window.open(url, name, option);
     },
-    
-
   },
 };
 </script>
@@ -219,17 +214,17 @@ table {
 .card {
   height: 400px;
 
-  width: 350px;
+  width: 20%;
 
   border-radius: 15px;
 
   display: inline-block;
-
+  // float:left;
   margin-top: 30px;
 
   margin-left: 30px;
 
-  margin-bottom: 30px;
+  margin-bottom: 0px;
 
   position: relative;
 
