@@ -7,25 +7,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select * from chat
 		where roomName = #{roomName}
 	</select>
-	
-	<!--  안 씀
-	<select id="selectRoom" parameterType="string" resultType="chat">
-		select distinct roomName from chat
-		where roomName = #{roomName}
-	</select>
- -->
- 
-	
-	<update id="updateRead" parameterType="chat">
-		update chat set isRead = 1
-		where id != #{id} and roomName=#{roomName} and isRead = 0
-	</update>	
  
  
-	<insert id="insert" parameterType="chat">
+	<insert id="insert" parameterType="string">
 		insert into chat(roomName,id,nickname,content,makedate)
 		values(#{roomName}, #{id},
-		#{nickname}, #{content}, #{makedate})
+		#{nickname}, #{content}, now())
 	</insert>
 
 	<delete id="delete" parameterType="string">

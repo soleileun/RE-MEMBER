@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.test.Tag">
+	<select id="selectAll" resultType="tag">
+		select * from tag
+	</select>
+ 
+ 
+	<select id="select" parameterType="string" resultType="tag">
+		select * from tag
+		where tagvalue = #{tagvalue}
+	</select>
+ 
+	<insert id="insert" parameterType="tag">
+		insert into tag(tagvalue)
+		values(#{tagvalue})
+	</insert>
+
+	<delete id="delete" parameterType="string">
+		delete from tag
+		where
+		tagvalue=#{tagvalue}
+	</delete>
+
+</mapper>

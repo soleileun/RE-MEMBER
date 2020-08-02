@@ -1,8 +1,8 @@
 <template>
   <div class="chatroom" >
-    <div class="chatlist" >
+    <div class="chatlist"  >
 
-      <div class="base">
+      <div class="base" ref="base">
         <div v-for="chat in chats" :key="chat.chno">
           <div v-if="chat.id === id">
             <span >
@@ -85,13 +85,26 @@ export default {
         content : "",
         makedate : "",
         recvList: [],
-        propchatting:this.chatting
+        propchatting:this.chatting,
+        isFirst : true,
+        //beforeScrollTop : "",
     };
   },
   computed: {
     chats() {
         return this.$store.state.chatstore.chats;
     },
+  },
+  updated: function(){ // 스크롤 관련입니다
+
+  
+    var a = this.$refs.base;
+
+    if(this.isFirst == true) {
+      this.isFirst = false;
+      a.scrollTop = a.scrollHeight;
+    }
+
   },
   created() { // 소켓 초기 연결을 시작합니다.
       this.connect();
@@ -162,6 +175,12 @@ export default {
           // roomname으로 들어오는 방 정보가 현재 접속한 방 정보와 일치하면 push해주게 해서 방을 구분함.
           // 받은 데이터를 json으로 파싱하고 리스트에 넣어줍니다.
             this.recvList.push(JSON.parse(res.body));
+
+            
+            var a = this.$refs.base;
+            a.scrollTop = a.scrollHeight;
+
+
             this.$store.dispatch(Constant.CHAT_READ, {
               roomName : this.rname,
               id : this.id,}

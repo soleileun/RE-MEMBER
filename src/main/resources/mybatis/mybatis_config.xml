@@ -42,6 +42,10 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			alias="issue" />
 			<typeAlias type="com.ssafy.test.model.dto.ChatroomChat"
 			alias="chatroomchat" />
+			<typeAlias type="com.ssafy.test.model.dto.Usertag"
+			alias="Usertag" />
+			<typeAlias type="com.ssafy.test.model.dto.Tag"
+			alias="Tag" />
 	</typeAliases>
 
 	<mappers>
@@ -61,6 +65,8 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<mapper resource="mybatis/mapper/chatroomMapper.xml" />
 		<mapper resource="mybatis/mapper/EmailMapper.xml" />
 		<mapper resource="mybatis/mapper/issueMapper.xml" />
+		<mapper resource="mybatis/mapper/tagMapper.xml" />
+		<mapper resource="mybatis/mapper/usertagMapper.xml" />
 		
 	</mappers>
 

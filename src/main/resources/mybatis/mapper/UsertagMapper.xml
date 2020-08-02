@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.test.Usertag">
+	<select id="selectAll" parameterType="string" resultType="usertag">
+		select * from usertag
+		where uid =#{uid}
+	</select>
+ 
+	<select id="select" parameterType="usertag" resultType="usertag">
+		select * from usertag
+		where tagvalue = #{tagvalue} and uid =#{uid};
+	</select>
+ 
+	<insert id="insert" parameterType="usertag">
+		insert into usertag(tagvalue,uid)
+		values(#{tagvalue},#{uid})
+	</insert>
+
+	<delete id="delete" parameterType="usertag">
+		delete from usertag
+		where
+		tagvalue=#{tagvalue} and uid=#{uid}
+	</delete>
+
+</mapper>

@@ -11,7 +11,11 @@
               <p>최근 메시지 {{room.content}}</p>
             </div>
             <div class="col-sm-2" >
-              <p>{{room.makedate}}</p>
+              <p style="font-size:15px;">
+                {{room.makedate.slice(5,10) }}
+                <br> 
+                {{room.makedate.slice(11,16) }}
+                </p>
               <span v-show = "room.cnt != 0" class="badge badge-danger" style="margin-left:10px;">{{room.cnt}}</span>
             </div>
           </div>
@@ -53,7 +57,8 @@ export default {
     },
   },
   created() { // 채팅방 정보를 받아옵니다.
-        this.$store.dispatch(Constant.GET_CHATROOMLIST);
+    this.$store.dispatch(Constant.GET_CHATROOMLIST);
+    
   },
   methods: {
       startchat: function(e) { //채팅방을 눌렀을 때 실행됩니다. 해당 chat.vue로 연결되어 채팅방에 입장합니다. 
@@ -85,8 +90,10 @@ export default {
     margin: 8px;
     background-color: white;
     cursor: pointer;
-    border-radius: 5px;
-    box-shadow: 1px 1px 3px black ;
+    /* 박스 테두리 만드는 것인데, 없는게 더 예쁜것 같습니다.
+    //border-radius: 5px;
+    //box-shadow: 1px 1px 3px black ;
+    */
     text-align: start;
     h6 {
       display: flex;
