@@ -5,7 +5,7 @@
         <div v-if="mes.fromUser === myid" class="me">
           <i class="fas fa-envelope-open-text">나</i>
           <div class="mesContent">
-            {{mes.content}}
+            {{mes}}
             <h6>
               <i class="fas fa-ellipsis-h"></i>
               <span>{{mestime(mes.time)}}</span>
@@ -15,7 +15,7 @@
         <div v-else class="you">
           <i class="fas fa-envelope-open-text">{{mes.fromUser}}</i>
           <div class="mesContent">
-            {{mes.content}}
+            {{mes}}
             <h6>
               <span>{{mestime(mes.time)}}</span>
               <i class="fas fa-ellipsis-h"></i>

@@ -10,26 +10,30 @@
 export default {
   name: "messagesend",
   computed: {
-    id: function(){
+    id: function () {
       return this.$store.state.userstore.mesdetailid;
-    }
+    },
   },
-  data: function() {
+  data: function () {
     return {
-      mesval:''
+      mesval: "",
     };
   },
-  methods:{
-    send: function(){
-      this.$store.dispatch("sendMes",{other: this.id, content:this.mesval})
-    }
-  }
+  methods: {
+    send: function () {
+      this.$store.dispatch("sendMes", { other: this.id, content: this.mesval });
+      let com = document.querySelector(".detaillist");
+      setTimeout(() => {
+        com.scrollTop = 9999999999;
+      }, 50);
+    },
+  },
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-.messagesend{
+.messagesend {
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -37,5 +41,4 @@ export default {
   font-size: 1.2rem;
   border: black 1px solid;
 }
-
 </style>
