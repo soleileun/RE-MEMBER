@@ -83,7 +83,7 @@
 
 <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
 <script>
-// import Constant from "../../Constant";
+import Constant from "../../Constant";
 
 // import { EventBus } from "@/utils/eventBus";
 // import SDealListSearch from "./SDealListSearch";
@@ -94,19 +94,27 @@ export default {
   data() {
     return {
       stacks: [],
+      //참고 소스 data
+      sidoList: [],
+      gugunList: [],
+      dongList: [],
+      selectedSido: 0,
+      selectedGugun: 0,
+      selectedDong: 0,
+      colorArr,
     };
   },
   methods: {
     searchPool() {
-    //   let val  = document.getElementById("searchWord").value;
-    //   let std = document.getElementById("standard").value;
-    //   //제목 검색
-    //   if(std == 't'){
-    //     console.log(val);
-    //     this.$store.dispatch(Constant.SEARCH_BOARD_TITLE, {btitle : val, bstate : 'free'});
-    //   }else{ //작성자 검색
-    //     this.$store.dispatch(Constant.SEARCH_BOARD_WRITER, {bwriter : val, bstate : 'free'});
-    //   }
+      //   let val  = document.getElementById("searchWord").value;
+      //   let std = document.getElementById("standard").value;
+      //   //제목 검색
+      //   if(std == 't'){
+      //     console.log(val);
+      //     this.$store.dispatch(Constant.SEARCH_BOARD_TITLE, {btitle : val, bstate : 'free'});
+      //   }else{ //작성자 검색
+      //     this.$store.dispatch(Constant.SEARCH_BOARD_WRITER, {bwriter : val, bstate : 'free'});
+      //   }
     },
     registStack() {
       let addValue = $("#stackWord").val();
@@ -114,9 +122,11 @@ export default {
       $("#stackWord").val(null);
     },
     deleteStack(idx) {
-      this.stacks.splice(idx,1);
+      this.stacks.splice(idx, 1);
     },
   },
+
+  // 참고소스 data
   //   data: function() {
   //     return {
   //       sidoList: [],
@@ -128,18 +138,22 @@ export default {
   //       colorArr,
   //     };
   //   },
-  //   created() {
-  //     // sido
-  //     axios
-  //       .get(
-  //         "http://localhost:9999/happyhouse/v1/sad/sido"
-  //       )
-  //       .then(({ data }) => {
-  //         console.log(data);
-  //         this.sidoList = data;
-  //       });
-  //     EventBus.$on("searchDealListS", this.searchDealListS);
-  //   },
+
+  // 참고소스 created
+  created() {
+    // sido리스트 불러오기
+    this.$store.dispatch(Constant.GET_SIDOLIST);
+
+    // axios
+    //   .get(
+    //     "http://localhost:9999/happyhouse/v1/sad/sido"
+    //   )
+    //   .then(({ data }) => {
+    //     console.log(data);
+    //     this.sidoList = data;
+    //   });
+    // EventBus.$on("searchDealListS", this.searchDealListS);
+  },
   //   methods: {
   //     changeSido(selectedSido) {
   //       // gugun
@@ -210,12 +224,18 @@ export default {
   //             console.log(data);
   //           });
   //       }
+
+
+  
   // 여긴 원래 생략되있었음
   //  else {
   //   axios.get("http://localhost:9999/happyhouse/v1/apt/list").then(({ data }) => {
   //     this.aptList = data;
   //   });
   // }
+
+
+
   //     },
   //   },
   //   components: {

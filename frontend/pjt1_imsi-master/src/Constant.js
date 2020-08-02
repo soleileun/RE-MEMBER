@@ -29,7 +29,13 @@ export default{
     GET_RECRUIT : 'getRecruit',
     ADD_RECRUIT : 'addRecruit',
 
-    
+    //스택
+    GET_FILTERED_POOLLIST : 'getFilteredPoolList',
+    GET_SIDOLIST : 'getSidoList',
+    GET_GUGUNLIST : 'getGugunList',
+    // GET_DONGLIST : 'getDongList',
+
+
     //이거 그 뭐야 채팅 관련
     GET_CHATROOMLIST : 'getChatroomList',
     GET_CHATROOMMEMBER : 'getChatroomMember',

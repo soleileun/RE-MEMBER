@@ -2,28 +2,58 @@ import Vuex from 'vuex';
 import Vue from 'vue';
 
 import Constant from '../../Constant.js';
-// import http from '../../http-common.js';
+import http from '../../http-common.js';
 Vue.use(Vuex);
 // const storage = window.sessionStorage;
 
 const stackstore = {
   state: {
-      boards: [],
-      board: {}
+      pools: [],
+      sidolist: [],
+      gugunlist: [],
+      donglist: [],
+      // pool: {}
   },
  
   actions: {
     //게시판
 
-    //bstate에 맞는 리스트 가져오기
-    // [Constant.GET_BOARDLIST]: (store,payload) => {
+    //조건에 맞는 인재풀 리스트 가져오기
+    [Constant.GET_FILTERED_POOLLIST]: (store,payload) => {
+      http.get('/api/board/statesearching/'+ payload.bstate)
+          .then(response => {
+            // console.log(response)
+              store.commit(Constant.GET_FILTERED_POOLLIST, { pools: response.data })
+        })
+          .catch(exp => alert('getFilteredPoolList처리에 실패하였습니다!!' + exp));
+    },
+    //시도로 구군 부르기
+    [Constant.GET_SIDOLIST]: (store,payload) => {
+      http.get('/api/board/statesearching/'+ payload.bstate)
+          .then(response => {
+            // console.log(response)
+              store.commit(Constant.GET_SIDOLIST, { sidolist: response.data })
+        })
+          .catch(exp => alert('getFilteredPoolList처리에 실패하였습니다!!' + exp));
+    },
+    //구군으로 동 부르기
+    [Constant.GET_GUGUNLIST]: (store,payload) => {
+      http.get('/api/board/statesearching/'+ payload.bstate)
+          .then(response => {
+            // console.log(response)
+              store.commit(Constant.GET_GUGUNLIST, { gugunlist: response.data })
+        })
+          .catch(exp => alert('getFilteredPoolList처리에 실패하였습니다!!' + exp));
+    },
+    // [Constant.GET_DONGLIST]: (store,payload) => {
     //   http.get('/api/board/statesearching/'+ payload.bstate)
     //       .then(response => {
     //         // console.log(response)
-    //           store.commit(Constant.GET_BOARDLIST, { boards: response.data })
+    //           store.commit(Constant.GET_DONGLIST, { donglist: response.data })
     //     })
-    //       .catch(exp => alert('getBoardList처리에 실패하였습니다!!' + exp));
+    //       .catch(exp => alert('getFilteredPoolList처리에 실패하였습니다!!' + exp));
     // },
+
     // //bno으로 게시글 하나 가져오기
     // [Constant.GET_BOARD]: (store, payload) => {
     //     http.get('/api/board/no/' + payload.bno)
@@ -127,13 +157,25 @@ const stackstore = {
   },
 
   mutations: {
-    [Constant.GET_BOARDLIST]: (state, payload) => {
+    [Constant.GET_FILTERED_POOLLIST]: (state, payload) => {
         // console.log('mutation' + payload.boards);
-        state.boards = payload.boards;
+        state.pools = payload.pools;
     },
-    [Constant.GET_BOARD]: (state, payload) => {
-        state.board = payload.board;
+    [Constant.GET_SIDOLIST]: (state, payload) => {
+        // console.log('mutation' + payload.boards);
+        state.sidolist = payload.sidolist;
     },
+    [Constant.GET_GUGUNLIST]: (state, payload) => {
+        // console.log('mutation' + payload.boards);
+        state.gugunlist = payload.gugunlist;
+    },
+    // [Constant.GET_DONGLIST]: (state, payload) => {
+    //     // console.log('mutation' + payload.boards);
+    //     state.donglist = payload.donglist;
+    // },
+    // [Constant.GET_BOARD]: (state, payload) => {
+    //     state.board = payload.board;
+    // },
     // [Constant.CLEAR_TODO]: (state, payload) => {
     //     state.board = payload.todo;
     //     state.boards = payload.todoItems;
