@@ -18,13 +18,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		left join pmember as pm on pm.pid = p.pid
 		where pm.userId=#{userId};
 	</select>
+	<select id="searchByPJT" parameterType="project"
+		resultType="project">
+		select * from project
+		where pjtName=#{pjtName} and pjtContent=#{pjtContent} and makeId=#{makeId}
+	</select>
 
 	<insert id="insert" parameterType="project">
 		insert into project
 		values(#{pid}, #{pjtName}, #{pjtContent}, #{pjtState},
-		1, #{makeDay},
-		#{changeDay}, #{makeId},
-		#{changeId}), #{location}
+		#{pjtMemberCnt}, #{makeDay}, #{changeDay}, #{makeId},
+		#{changeId}, #{location})
 	</insert>
 
 	<delete id="delete" parameterType="int">

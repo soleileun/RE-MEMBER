@@ -17,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.test.model.dto.Pmember;
 import com.ssafy.test.model.dto.Project;
+import com.ssafy.test.model.service.PmemberService;
 import com.ssafy.test.model.service.ProjectService;
 
 import io.swagger.annotations.ApiOperation;
@@ -33,6 +35,9 @@ public class ProjectController {
 	
 	@Autowired
 	private ProjectService pService;
+	
+	@Autowired
+	private PmemberService pmService;
 
 	@ApiOperation(value = "모든 프로젝트의 정보를 반환한다.", response = List.class)
 	@GetMapping
@@ -56,6 +61,10 @@ public class ProjectController {
 	@PostMapping
 	public ResponseEntity<String> writeBoard(@RequestBody Project p) {
 		if (pService.insert(p) != 0) {
+			Project tmp = pService.searchByPJT(p);
+			int pid = tmp.getPid();
+			Pmember pm = new Pmember(pid, tmp.getMakeId(), tmp.getPjtState(), 1);
+			pmService.insert(pm);
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		}
 		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);

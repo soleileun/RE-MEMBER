@@ -50,4 +50,10 @@ public class ProjectDAOImpl implements ProjectDAO {
 		return template.selectList(ns + "searchByUserId", userId);
 	}
 
+	@Override
+	public Project searchByPJT(Project p) {
+		// TODO Auto-generated method stub
+		return template.selectOne(ns + "searchByPJT", p);
+	}
+
 }
