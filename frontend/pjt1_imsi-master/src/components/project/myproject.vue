@@ -2,8 +2,8 @@
   <div class="project1">
     <h1>프로젝트 관리 페이지</h1>
     <hr />
-    <button @click="movePage">여기로 이동할것</button>
-    <br>
+    <button @click="movePage">새로운 프로젝트 생성하기</button>
+    <br />
     <project v-for="project in projects" :key="project.pid" :project="project" />
 
     <!-- @delete-project="deleteComment" -->

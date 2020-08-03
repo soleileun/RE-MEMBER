@@ -8,49 +8,87 @@ const storage = window.sessionStorage;
 
 const projectstore = {
   state: {
-      projects: [],
-      project: {},
-      pjtcnt:{}
+    projects: [],
+    project: {},
+    pjtcnt: {}
   },
- 
+
   actions: {
-    
+
 
     //userId에 맞는 project 리스트 가져오기
-    [Constant.GET_PROJECTLIST_BY_PMEMBER]: (store,payload) => {
-        // console.log('토큰 : '+ storage.getItem("jwt-auth-token"));
-      http.get('/api/project/searchByUserId/'+ payload.userId,{
-        headers: {
+    [Constant.GET_PROJECTLIST_BY_PMEMBER]: (store, payload) => {
+      // console.log('토큰 : '+ storage.getItem("jwt-auth-token"));
+      http.get('/api/project/searchByUserId/' + payload.userId, {
+          headers: {
             "jwt-auth-token": storage.getItem("jwt-auth-token")
-        }
+          }
 
-      })
-          .then(response => {
-            console.log('과정2' + response.data);
-              store.commit(Constant.GET_PROJECTLIST_BY_PMEMBER, { projects: response.data })
         })
-          .catch(exp => alert('getPmemberList처리에 실패하였습니다.' + exp));
+        .then(response => {
+          console.log('과정2' + response.data);
+          store.commit(Constant.GET_PROJECTLIST_BY_PMEMBER, {
+            projects: response.data
+          })
+        })
+        .catch(exp => alert('getPmemberList처리에 실패하였습니다.' + exp));
     },
 
-     //pid으로 현재 프로젝트 멤버수 가져오기
+    //pid으로 현재 프로젝트 멤버수 가져오기
     [Constant.GET_CURRENT_MEMBER_COUNT]: (store, payload) => {
-        http.get('/api/pmember/selectCntByPid/' + payload.pid)
-            .then(response => {
-                // console.log(response.data);
-                store.commit(Constant.GET_CURRENT_MEMBER_COUNT, { pjtcnt: response.data, pid:payload.pid })})
-            .catch(exp => alert('getTodo처리에 실패하였습니다.' + exp));
+      http.get('/api/pmember/selectCntByPid/' + payload.pid)
+        .then(response => {
+          // console.log(response.data);
+          store.commit(Constant.GET_CURRENT_MEMBER_COUNT, {
+            pjtcnt: response.data,
+            pid: payload.pid
+          })
+        })
+        .catch(exp => alert('getTodo처리에 실패하였습니다.' + exp));
     },
 
     //pid으로 프로젝트 하나 가져오기
     [Constant.GET_PROJECT]: (store, payload) => {
-        http.get('/api/project/' + payload.pid)
-            .then(response => {
-                // console.log(response.data);
-                store.commit(Constant.GET_PROJECT, { project: response.data })})
-            .catch(exp => alert('getTodo처리에 실패하였습니다.' + exp));
+      http.get('/api/project/' + payload.pid)
+        .then(response => {
+          // console.log(response.data);
+          store.commit(Constant.GET_PROJECT, {
+            project: response.data
+          })
+        })
+        .catch(exp => alert('getTodo처리에 실패하였습니다.' + exp));
 
     },
 
+    //project 추가 
+    [Constant.ADD_PROJECT]: (store, payload) => {
+      // console.log(payload.bstate);
+
+      http.post('/api/project/', {
+          // bno : payload.bno,
+          pjtName: payload.pjtName,
+          pjtContent: payload.pjtContent,
+          pjtState: payload.pjtState,
+          pjtMemberCnt: payload.pjtMemberCnt,
+          makeDay: payload.makeDay,
+          makeId: payload.makeId,
+          //changeDay: payload.changeDay,
+
+          //changeId: payload.changeId,
+          //location: payload.location,
+        })
+        .then(() => {
+          console.log('추가하였습니다.');
+          store.dispatch(Constant.GET_PROJECTLIST_BY_PMEMBER, {
+            userId: "ssafy"
+          });
+
+        })
+        .catch(exp => {
+          console.log('추가 실패 확인 로그');
+          alert('추가 처리에 실패하였습니다.' + exp);
+        })
+    },
 
     // //게시글 추가
     // [Constant.ADD_BOARD]: (store, payload) => {
@@ -142,18 +180,18 @@ const projectstore = {
     //         })
     //         .catch(exp => alert('완료 처리에 실패하였습니다.' + exp));
     // },
-    
+
   },
 
   mutations: {
     [Constant.GET_PROJECTLIST_BY_PMEMBER]: (state, payload) => {
-        state.projects = payload.projects;
+      state.projects = payload.projects;
     },
-    [Constant.GET_CURRENT_MEMBER_COUNT]: (state, payload) => { 
+    [Constant.GET_CURRENT_MEMBER_COUNT]: (state, payload) => {
       state.pjtcnt[payload.pid] = payload.pjtcnt;
-  },
+    },
     [Constant.GET_PROJECT]: (state, payload) => {
-        state.project = payload.project;
+      state.project = payload.project;
     },
     // [Constant.CLEAR_TODO]: (state, payload) => {
     //     state.board = payload.todo;
@@ -161,8 +199,7 @@ const projectstore = {
     // }
   },
 
-  modules: {
-  }
+  modules: {}
 };
 
 export default projectstore;
