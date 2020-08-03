@@ -17,4 +17,5 @@ public interface ProjectService {
 	public int update(Project p);
 	
 	public List<Project> searchByUserId(String userId);
+	public Project searchByPJT(Project p);
 }

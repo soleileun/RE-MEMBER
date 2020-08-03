@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.test.model.dto.Usertag;
-import com.ssafy.test.model.service.TagService;
 import com.ssafy.test.model.service.UsertagService;
 
 import io.swagger.annotations.ApiOperation;

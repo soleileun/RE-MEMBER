@@ -45,4 +45,10 @@ public class ProjectServiceImpl implements ProjectService {
 		return pDao.searchByUserId(userId);
 	}
 
+	@Override
+	public Project searchByPJT(Project p) {
+		// TODO Auto-generated method stub
+		return pDao.searchByPJT(p);
+	}
+
 }

@@ -30,7 +30,8 @@ public class DemoApplication implements WebMvcConfigurer {
 										 "/api/board/**",
 										 "/api/recruit/**","/api/project/**","/api/pmember/**",
 										 "/api/comments/**","/api/issue/**","/api/following/**","/api/interest/**",
-										 "/api/message/**","/api/chat/**","/api/chatroom/**"));
+										 "/api/message/**","/api/chat/**","/api/chatroom/**","/api/usertag/**",
+										 "/api/tag/**","/api/addr/**"));
 	}
 	
 	@Override

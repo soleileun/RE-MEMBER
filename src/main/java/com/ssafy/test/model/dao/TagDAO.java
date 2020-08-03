@@ -8,7 +8,7 @@ public interface TagDAO {
 
 	public List<Tag> selectAll();
 
-	public int insert(String k);
+	public int insert(Tag v);
 	
 	public int delete(String k);
 }
