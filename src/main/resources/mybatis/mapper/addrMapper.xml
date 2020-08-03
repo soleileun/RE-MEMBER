@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.test.Addr">
+
+
+	<select id="selectAll" resultType="addr">
+		select * from addr
+	</select>
+ 
+	<select id="select" parameterType="addr" resultType="addr">
+		select * from addr
+		where sido = #{sido},gugun = #{gugun},dong = #{dong}
+	</select>
+	
+	
+	<select id="selectByAnum" parameterType="int" resultType="addr">
+		select * from addr
+		where anum = #{anum}
+	</select>
+	
+	
+	
+	<select id="getSido" resultType="string">
+		select distinct sido from addr
+	</select>
+	
+	<select id="getGugun" parameterType="addr" resultType="string">
+		select distinct gugun from addr
+		where sido = #{sido}
+	</select>
+	
+	<select id="getDong" parameterType="addr" resultType="string">
+		select distinct dong from addr
+		where sido = #{sido},gugun = #{gugun}
+	</select>
+	
+ 
+	<insert id="insert" parameterType="addr">
+		insert into addr(sido,gugun,dong)
+		values(#{sido},#{gugun},#{dong})
+	</insert>
+
+	<delete id="delete" parameterType="addr">
+		delete from addr
+		where sido = #{sido},gugun = #{gugun},dong = #{dong}
+	</delete>
+
+	
+	<update id="update" parameterType="addr">
+		update addr set
+		sido=#{sido}, gugun=#{gugun}, dong=#{dong}
+		where sido=#{sido}
+	</update>
+
+</mapper>

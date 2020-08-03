@@ -43,8 +43,8 @@ public class TagController {
 
 	@ApiOperation(value = "새로운 태그 정보를 입력한다. 그리고 DB입력 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
 	@PostMapping
-	public ResponseEntity<String> writeBoard(@RequestBody String k) {
-		if (Service.insert(k) != 0) {
+	public ResponseEntity<String> writeBoard(@RequestBody Tag v) {
+		if (Service.insert(v) != 0) {
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		}
 		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
