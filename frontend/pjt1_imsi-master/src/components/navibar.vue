@@ -1,6 +1,6 @@
 <template>
   <nav class="navibar">
-    <router-link class="navbar-brand" :to="{name:'mainpage'}">이름을 뭘로하지</router-link>
+    <router-link class="navbar-brand" :to="{name:'mainpage'}">RE:멤버</router-link>
     <div class="nav-items">
       <router-link class="nav-link" :to="{name:'freeboard'}">게시판</router-link>
       <router-link class="nav-link" :to="{name:'pool'}">인재풀</router-link>

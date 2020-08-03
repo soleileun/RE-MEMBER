@@ -21,9 +21,9 @@ public class TagServiceImpl implements TagService{
 	}
 
 	@Override
-	public int insert(String k) {
+	public int insert(Tag v) {
 		// TODO Auto-generated method stub
-		return Dao.insert(k);
+		return Dao.insert(v);
 	}
 
 	@Override

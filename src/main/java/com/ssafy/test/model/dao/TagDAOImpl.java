@@ -22,14 +22,15 @@ public class TagDAOImpl implements TagDAO{
 	}
 
 	@Override
-	public int insert(String k) {
+	public int insert(Tag v) {
 		// TODO Auto-generated method stub
-		return template.insert(ns + "insert", k);
+		return template.insert(ns + "insert", v);
 	}
 
 	@Override
 	public int delete(String k) {
-		return template.delete(ns + "delete", k);
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 
