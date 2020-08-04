@@ -6,9 +6,9 @@
 
     <div class="tab_wrap">
       <div class="tab_menu_container" style="background-color:rgb(173, 203, 247); padding:0px;" >
-        <button class="tab_menu_btn " type="button" v-on:click="urlFree" style="width:33%; border-right: solid 1px white">자유게시판</button>
-        <button class="tab_menu_btn" type="button" v-on:click="urlNotice" style="width:33%; border-right: solid 1px white">공지사항</button>
-        <button class="tab_menu_btn" type="button" v-on:click="urlQa" style="width:33%;">질문게시판</button>
+        <button class="tab_menu_btn " type="button" v-on:click="urlFree" style="width:33%; border-right: solid 1px white; height:60px;">자유게시판</button>
+        <button class="tab_menu_btn" type="button" v-on:click="urlNotice" style="width:33%; border-right: solid 1px white; height:60px;">공지사항</button>
+        <button class="tab_menu_btn" type="button" v-on:click="urlQa" style="width:33%; height:60px;">질문게시판</button>
       </div> <!-- tab_menu_container e -->
       
     </div>
