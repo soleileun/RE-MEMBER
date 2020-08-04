@@ -2,6 +2,7 @@ package com.ssafy.test.model.dao;
 
 import java.util.List;
 
+import com.ssafy.test.model.dto.Addr;
 import com.ssafy.test.model.dto.UserInfo;
 
 
@@ -18,4 +19,6 @@ public interface UserInfoDao {
 	public UserInfo signin(String id, String pw);
 	
 	public List<UserInfo> getCurrList();
+	
+	public List<UserInfo> selectByAddr(Addr v);
 }

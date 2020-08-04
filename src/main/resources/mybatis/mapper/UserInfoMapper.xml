@@ -58,5 +58,15 @@
     </select>
 
 
+    <!-- 해당 주소에 거주하는 사람을 검색 -->
+    <select id="selectByAddr" parameterType="addr" resultType="userinfo">
+        select id, nickname, name, address2, git, lastDate, state, responsibility, isValid
+        from userInfo
+        where address2 like CONCAT('%',#{sido},'%')
+        and address2 like CONCAT('%',#{gugun},'%')
+        and address2 like CONCAT('%',#{dong},'%')
+        and state = 1
+    </select>
+
 
 </mapper>

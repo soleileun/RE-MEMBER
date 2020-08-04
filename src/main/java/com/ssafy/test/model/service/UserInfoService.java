@@ -2,6 +2,7 @@ package com.ssafy.test.model.service;
 
 import java.util.List;
 
+import com.ssafy.test.model.dto.Addr;
 import com.ssafy.test.model.dto.UserInfo;
 
 
@@ -20,5 +21,6 @@ public interface UserInfoService {
 	public UserInfo signin(String id, String pw);
 	public String getServerInfo();
 	public List<UserInfo> getCurrList();
+	public List<UserInfo> selectByAddr(Addr v);
 
 }
