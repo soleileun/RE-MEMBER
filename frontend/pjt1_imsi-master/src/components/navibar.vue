@@ -39,13 +39,15 @@
           </li>
 
           <!-- 쓸 곳 있으면 사용! -->
-          <!-- <li>
-            <a class="waves-effect waves-dark" href="icon-fontawesome.html" aria-expanded="false">
-              <i class="fa fa-smile-o"></i>
-              <span class="hide-menu">Icons</span>
-            </a>
-          </li>
           <li>
+            <router-link class="waves-effect waves-dark" :to="'/project/myproject/' + 'ssafy'" aria-expanded="false">
+              <i class="fa fa-smile-o"></i>
+              <span class="hide-menu">내 프로젝트</span>
+            </router-link>
+          </li>
+           <!-- 쓸 곳 있으면 사용! -->
+          
+          <!--<li>
             <a class="waves-effect waves-dark" href="map-google.html" aria-expanded="false">
               <i class="fa fa-globe"></i>
               <span class="hide-menu">Map</span>
