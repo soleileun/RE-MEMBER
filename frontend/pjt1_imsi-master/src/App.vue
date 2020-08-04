@@ -13,7 +13,6 @@
 
 
 <script>
-
 import login from "./components/login.vue";
 import navibar from "./components/navibar.vue";
 import sidebar from "./components/sidebar.vue";
@@ -34,10 +33,22 @@ export default {
   mounted: function () {
     console.log(storage);
     this.$store.dispatch("init", {});
+    if (
+      storage.getItem("jwt-auth-token").length >0 &&
+      storage.getItem("idvalid") !== "true"
+    ) {
+      this.$router.push({ name: "emailcheck" });
+    }
   },
   beforeUpdate: function () {
     if (this.userNick) {
       this.$store.dispatch("update", {});
+    }
+    if (
+      storage.getItem("jwt-auth-token").length >0 &&
+      storage.getItem("idvalid") !== "true"
+    ) {
+      this.$router.push({ name: "emailcheck" });
     }
   },
   computed: {
@@ -54,7 +65,6 @@ export default {
 </script>
 
 <style lang="scss">
-
 html,
 body {
   margin: 0;

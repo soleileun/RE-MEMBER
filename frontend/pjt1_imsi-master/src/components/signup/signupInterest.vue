@@ -2,15 +2,31 @@
   <div class="signupinterest">
     <h3>관심 분야 및 스택</h3>
     <div>
-      <span v-for="pint in pints" :key="pint.pk">
-        <input type="checkbox" v-model="picks" :value="pint.title"/>{{pint.title}} |
-      </span>
-      <br />
-      <input type="text" v-model="intVal" @keyup.enter="add"/>
-      <button @click="add">직접 입력</button>
+      <ul>
+        예 :
+        <li>Language : C / C++ / Java / Python / C#</li>
+        <li>web FrontEnd / BackEnd / Spring / Jenkins</li>
+        <li>Mobile -> Hybrid / Android / iOS /</li>
+        <li>Javascript -> node.js / Angular.JS / React.js / Vue.js / jQuery</li>
+        <li>IoT : Aduino / RaspberryPi / Embedded / Qt / MachineVision</li>
+        <li>DB : Oracle / MSSQL / MySQL / MariaDB / MongoDB</li>
+      </ul>
     </div>
-    {{picks}}
-    <button @click="goSignin" class="gosignin" :class="{submitable:submitable}">선택 완료</button>
+    {{signup}}{{submitable}}
+    <div class="selectform">
+      <button v-for="pick in picks" :key="pick">{{pick}}</button>
+    </div>
+
+    <div class="searchform">
+      <div class="input">
+        <input type="text" v-model="inputVal" @input="searchQuery()" @keyup.up="up()" @keyup.down="down()" @keyup.enter="enter()" />
+      </div>
+      <div class="autoComplete">
+        <div v-for="list in lists" :key="list" @click="add(list)">{{list}}</div>
+      </div>
+    </div>
+
+    <button @click="gosignup" class="gosignup" :class="{submitable:submitable}">회원가입</button>
   </div>
 </template>
 
@@ -18,52 +34,99 @@
 export default {
   name: "signupinterest",
   created() {},
+  props: {
+    signup: Number,
+  },
   data: function () {
     return {
-      pk: 0,
+      idx: 0,
+      lists: [],
       pints: [
-        { 
-          pk:0,
-          title:"frontend"
-        },
-        { 
-          pk:1,
-          title:"backend"
-        },
-        { 
-          pk:2,
-          title:"DB"
-        },
-        { 
-          pk:3,
-          title:"JAVA"
-        },
-        { 
-          pk:4,
-          title:"vue.js"
-        }
+        "C",
+        "C++",
+        "Java",
+        "Python",
+        "C#",
+        "Frontend",
+        "Backend",
+        "Spring",
+        "Jenkins",
+        "Django",
+        "Android",
+        "iOS",
+        "Unity",
+        "Unreal",
+        "react-native",
+        "Javascript",
+        "node.js",
+        "node.express",
+        "Angular.js",
+        "jQuery",
+        "React.js",
+        "Vue.js",
+        "IoT",
+        "Arduino",
+        "RasberryPi",
+        "Embedded",
+        "Qt",
+        "MachineVision",
+        "BlockChain",
+        "MachinLearning",
+        "DB",
+        "Oracle",
+        "MySQL",
+        "MSSQL",
+        "MariaDB",
+        "MongoDB",
+        "GraphQL",
       ],
       picks: [],
       submitable: false,
-      intVal: "",
+      inputVal: "",
     };
   },
   watch: {
-    picks: function (a) {
-      this.submitable = a.length > 0 ? true : false;
+    signup:function(){
+      this.check()
+    },
+    picks: function () {
+      this.check()
     },
   },
+  computed: {},
   methods: {
-    goSignin: function () {},
-    add: function () {
-      if (this.intVal !== "") {
-        this.pints.push({
-          pk: ++this.pk,
-          title: this.intVal,
-        });
-        this.picks.push(this.intVal);
+    check: function(){
+      if (this.signup === 0){
+        this.submitable = false
       }
-      this.intVal = "";
+      else{
+        this.submitable = this.picks.length > 0 ? true : false;
+      }
+    },
+    searchQuery: function () {
+      if (this.inputVal.trim() !== "") {
+        this.lists = this.pints.filter((el) => {
+          return el.toLowerCase().match(this.inputVal.toLowerCase());
+        });
+      } else {
+        this.lists = [];
+      }
+    },
+    gosignup: function () {
+      if (this.submitable) {
+        this.$emit('goSignup')
+        // this.picks.forEach((el) => {
+        // });
+      }
+    },
+    add: function (x) {
+      if (x !== "") {
+        if (!this.picks.find((i) => i === x)) {
+          this.picks.push(x);
+        }
+      }
+      this.inputVal = "";
+      this.lists = [];
     },
   },
 };
@@ -71,10 +134,58 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-.gosignin {
-  opacity: 0.2;
-}
-.submitable {
-  opacity: 1;
+.signupinterest {
+  ul {
+    text-align: left;
+    li {
+      list-style-type: none;
+    }
+  }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .selectform {
+    border: 1px solid black;
+    min-height: 100px;
+    width: 500px;
+    margin: 50px;
+  }
+  .searchform {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    border: 1px black solid;
+    width: 500px;
+    // height: 50px;
+    .autoComplete {
+      position: absolute;
+      max-height: 100px;
+      overflow: auto;
+      background-color: white;
+      border: 1px black solid;
+      width: 500px;
+      left: -1px;
+      bottom: 49px;
+    }
+    .input {
+      height: 50px;
+      font-size: 1.2rem;
+      border: 1px black solid;
+      padding: 5px;
+      input {
+        border: none;
+        outline: none;
+        &:focus {
+          border: none;
+        }
+      }
+    }
+  }
+  .gosignup {
+    opacity: 0.2;
+  }
+  .submitable {
+    opacity: 1;
+  }
 }
 </style>

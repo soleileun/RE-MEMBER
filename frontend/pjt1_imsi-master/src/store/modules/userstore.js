@@ -39,6 +39,7 @@ const userstore = {
             }
             else {
                 storage.setItem("jwt-auth-token", "");
+                storage.setItem("idvalid","");
                 store.commit('init', {
                     userNick: "",
                     userid: ""
@@ -76,6 +77,7 @@ const userstore = {
                         storage.setItem("jwt-auth-token", response.headers["jwt-auth-token"]);
                         storage.setItem("userNick", response.data.data.nickname)
                         storage.setItem("userid", response.data.data.id)
+                        storage.setItem("idvalid","true");
                         document.querySelector(".login").classList.remove('active')
                         store.commit('loginError', { e: '' })
                         store.dispatch("init")
@@ -84,6 +86,7 @@ const userstore = {
                         storage.setItem("jwt-auth-token", "");
                         storage.setItem("userNick", "")
                         storage.setItem("userid", "")
+                        storage.setItem("idvalid","");
                         store.commit('loginError', { e: '아이디나 존재하지 않거나 비밀번호가 다릅니다.' })
                     }
                 })
@@ -116,7 +119,7 @@ const userstore = {
             }).catch(exp => console.log(exp))
         },
         leave: (store, payload) => {
-            http.post('/api/userinfo/signin', {
+            http.delete('/api/userinfo/', {
                 id: storage.getItem("userid"),
                 pw: payload.pw,
             })

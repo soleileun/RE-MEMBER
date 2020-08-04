@@ -34,6 +34,7 @@ import registteam from "../components/recruit/registteam.vue";
 
 import service from "./link/service.vue";
 import signup from "./link/signup.vue";
+import emailcheck from "./link/emailcheck.vue";
 
 import user from "./link/user.vue";
 import findIDPW from "../components/user/findIDPW.vue";
@@ -193,6 +194,11 @@ const routes = [
 		path: "/signup",
 		name: "signup",
 		component: signup,
+	},
+	{
+		path: "/emailcheck",
+		name: "emailcheck",
+		component: emailcheck,
 	},
 	{
 		path: "/user",
