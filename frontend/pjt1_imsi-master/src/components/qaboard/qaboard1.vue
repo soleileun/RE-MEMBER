@@ -87,7 +87,7 @@
               </div>
             </div>
               <button type="button" class="btn btn-primary" style="width:90px; float:right">
-                <router-link to="/freeboard/writefree" tag="button">글쓰기</router-link>
+                <router-link to="/qaboard/writeqa" tag="button">글쓰기</router-link>
               </button>
                         
             <br><br>
