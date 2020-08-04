@@ -77,7 +77,7 @@ public class AddrController {
 		Addr v = new Addr();
 		v.setSido(sido);
 		v.setGugun(gugun);
-		return new ResponseEntity<List<String>>(Service.getGugun(v), HttpStatus.OK);
+		return new ResponseEntity<List<String>>(Service.getDong(v), HttpStatus.OK);
 	}
 	
 	

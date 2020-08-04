@@ -33,7 +33,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<select id="getDong" parameterType="addr" resultType="string">
 		select distinct dong from addr
-		where sido = #{sido},gugun = #{gugun}
+		where sido = #{sido} and gugun = #{gugun}
 	</select>
 	
  
