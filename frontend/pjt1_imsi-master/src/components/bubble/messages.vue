@@ -54,6 +54,20 @@ export default {
 .messages {
   height: 100%;
   .mes {
+     &::-webkit-scrollbar {
+      width: 10px;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: #2f3542;
+      border-radius: 10px;
+      background-clip: padding-box;
+      border: 2px solid transparent;
+    }
+    &::-webkit-scrollbar-track {
+      background-color: #aae;
+      border-radius: 10px;
+      box-shadow: inset 0px 0px 5px white;
+    }
     padding: 10px;
     margin: 8px;
     background-color: white;

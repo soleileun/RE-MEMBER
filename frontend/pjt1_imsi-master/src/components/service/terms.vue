@@ -13,8 +13,6 @@ export default {
 <style scoped lang="scss">
 .terms {
   border: 1px solid gray;
-  width: 70vw;
-  margin-left: 15vw;
   padding: 15px;
 }
 </style>

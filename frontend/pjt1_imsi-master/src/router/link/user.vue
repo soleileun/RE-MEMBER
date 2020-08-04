@@ -1,110 +1,83 @@
 <template>
   <div class="user">
-    <h1>내 프로필</h1>
-    <div class="ql-editor" v-html="content" v-if="!profileEdit"></div>
-    <vue-editor v-show="profileEdit" v-model="content" :editorToolbar="customToolbar"></vue-editor>
-    <!-- 에디터를 v-show로 숨겨두지 않으면 일부 꾸밈 코드가 안먹힘 -->
-    <button v-if="!profileEdit" @click="edit">프로필 수정하기</button>
-    <button v-else @click="complete">수정 완료</button>
-    <router-link class="nav-link" :to="{name:'editinfo'}">개인정보 수정</router-link>
-
-    <router-link class="nav-link" :to="{name:'service'}">고객센터</router-link>
-
-    <router-link class="nav-link" :to="{name:'leave'}">회원탈퇴</router-link>팔로우 목록
+    <div class="container-fluid">
+      <div class="row page-titles">
+        <div class="col-md-12 align-self-center">
+          <h1 class="text-themecolor">내 정보</h1>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-4 col-xlg-3 col-md-5">
+          <div class="card">
+            <div class="card-body">
+              <center class="m-t-30">
+                <img src="assets/images/users/5.jpg" class="img-circle" width="150" />
+                <h4 class="card-title m-t-10">{{userNick}}</h4>
+                <div class="row text-center justify-content-md-center">내 점수 : </div>
+                <div class="row text-center justify-content-md-center">깃 주소 : </div>
+                <div class="row text-center justify-content-md-center">나를 팔로우한 유저 수</div>
+              </center>
+            </div>
+          </div>
+          <br />
+          <div class="card">
+            <div class="card-body">
+              <center class="m-t-30">
+                <h4 class="card-title m-t-10">내 관심사</h4>
+              </center>
+            </div>
+          </div>
+          <br />
+          <div class="card">
+            <div class="card-body">
+              <center class="m-t-30">
+                { "id": "abc", "nickname": "sdfkja", "name": "황수", "pw": "abcd1234", "address1": "ㅁㄴㅇ", "address2": "ㅁㄴㅇㅇㄴㄹ", "phone": "010-3390-0000", "git": "sdagfdgkk", "points": 0, "lastDate": null, "state": false, "responsibility": "개발", "valid": false }
+                <br />
+                <button>
+                  <router-link class="nav-link" :to="{name:'editinfo'}">개인정보 수정</router-link>
+                </button>
+                <br />
+                <button>휴면하기</button>
+                <br />
+                <button>
+                  <router-link class="nav-link" :to="{name:'service'}">고객센터</router-link>
+                </button>
+                <br />
+                <button>
+                  <router-link class="nav-link" :to="{name:'leave'}">회원탈퇴</router-link>
+                </button>
+              </center>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-8 col-xlg-9 col-md-7">
+          <div class="card">
+            <div class="card-body">
+              <profile />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import { VueEditor } from "vue2-editor";
-import Constant from "@/Constant.js";
-import http from "@/http-common.js";
+import profile from "../../components/user/profile.vue";
 const storage = window.sessionStorage;
 
 export default {
   name: "user",
   components: {
-    VueEditor,
+    profile,
   },
-  mounted: function () {
-    http
-      .get(
-        "/api/board/typesearch/writer=" +
-          storage.getItem("userid") +
-          "&bstate=profile"
-      )
-      .then((response) => {
-        if (response.data.length > 0) {
-          this.content = response.data[0].bcontent;
-          this.bno = response.data[0].bno;
-        } else {
-          if (this.content.trim() !== "") {
-            this.$store.dispatch(Constant.ADD_BOARD, {
-              //bno : auto increase
-              // bwriter : this.board.bwriter, 임시로 ssafy foreign key때문
-              bwriter: storage.getItem("userid"),
-              btitle: this.board.btitle,
-              bcontent: "프로필 초기",
-              bview: this.board.bview,
-              bfile: this.board.bfile,
-              bstate: "profile",
-              makeDay: new Date(),
-              // changeDay : this.board.changeday,
-              makeId: this.board.makeid,
-              // changeId : this.board.changeid
-            });
-            setTimeout(() => {
-              this.$router.go();
-            }, 500);
-          } else {
-            console.log("공백입력.");
-          }
-        }
-      })
-      .catch((exp) => alert("내 프로필을 로드하는데에 실패하였습니다." + exp));
+  mounted: function(){
+    this.$store.dispatch("getMyProfile")
   },
-  data() {
+  data: function () {
     return {
-      content: "불러오는 중입니다.",
-      profileEdit: false,
-      customToolbar: [],
-      bno: "0",
-      board: {
-        btitle: "profile",
-        bview: "",
-        bfile: "",
-        bstate: "",
-        makeDay: "",
-        changeDay: "",
-        makeId: "",
-        changeId: "",
-      },
+      userNick: storage.getItem("userNick"),
     };
-  },
-  methods: {
-    edit: function () {
-      this.profileEdit = true;
-    },
-    complete: function () {
-      this.profileEdit = false;
-      http
-        .put("/api/board/change/" + this.bno, {
-          bno: this.bno,
-          bwriter: storage.getItem("userid"),
-          btitle: "profile",
-          bcontent: this.content,
-          bview: "",
-          bfile: "",
-          bstate: "profile",
-          makeDay: "",
-          changeDay: new Date(),
-          makeId: storage.getItem("userid"),
-          changeId: storage.getItem("userid"), //세션 id
-        })
-        .then((response) => {
-          console.log("수정하였습니다." + response.data);
-        })
-        .catch((exp) => alert("수정 처리에 실패하였습니다." + exp));
-    },
   },
 };
 </script>

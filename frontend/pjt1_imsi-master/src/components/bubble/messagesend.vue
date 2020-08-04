@@ -39,6 +39,6 @@ export default {
   flex-direction: column;
   justify-content: flex-start;
   font-size: 1.2rem;
-  border: black 1px solid;
+  padding: 5px;
 }
 </style>

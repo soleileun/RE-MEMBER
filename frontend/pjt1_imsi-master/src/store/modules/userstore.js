@@ -20,13 +20,12 @@ const userstore = {
         bubbleS: '1',
         mesdetailid: "",
         mesviewdetail: false,
+        bubbleNew: false,
     },
 
     actions: {
         // 사이트init
-
         init: (store) => {
-
             if (storage.getItem("jwt-auth-token")) {
                 // 로그인 검증 폼 생기면 바꾸기
                 store.commit('init', {
@@ -55,14 +54,14 @@ const userstore = {
                 }
             }).then(res => {
                 store.commit('loadMesList', { messageList: res.data })
-            }).catch(exp => console.log(exp))
-            // 알림
-            http.get(`/api/message/message/${storage.getItem("userid")}/admin`, {
-                headers: {
-                    "jwt-auth-token": storage.getItem("jwt-auth-token")
-                }
-            }).then(res => {
-                store.commit('loadNews', { list: res.data })
+                // 알림
+                http.get(`/api/message/message/${storage.getItem("userid")}/admin`, {
+                    headers: {
+                        "jwt-auth-token": storage.getItem("jwt-auth-token")
+                    }
+                }).then(res => {
+                    store.commit('loadNews', { list: res.data })
+                }).catch(exp => console.log(exp))
             }).catch(exp => console.log(exp))
         },
         // 유저 관련
@@ -143,7 +142,7 @@ const userstore = {
                 })
         },
         follow: (store, payload) => {
-            
+
             http.post('/api/following/', {
                 headers: {
                     "jwt-auth-token": storage.getItem("jwt-auth-token")
@@ -209,6 +208,19 @@ const userstore = {
                 alert("메세지가 삭제되었습니다." + res.data)
             }).catch(exp => console.log(exp))
         },
+        mesRead: (store, payload) => {
+            http.put(`/api/message/${payload.mnum}`, {
+                headers: {
+                    "jwt-auth-token": storage.getItem("jwt-auth-token")
+                },
+                read:true,
+                mnum:payload.mnum,
+                fromUser:"admin",
+                toUser:storage.getItem("userid")
+            }).then(res => {
+                console.log(res)
+            }).catch(exp => console.log(exp))
+        },
     },
 
     mutations: {
@@ -218,12 +230,21 @@ const userstore = {
         },
         loadMesList: (state, payload) => {
             state.messageList = payload.messageList.filter(item => item.fromUser !== "admin");
+            state.bubbleNew = false
+            if (state.messageList.find(item => item.fromUser !==storage.getItem("userid") && item.read === false)) {
+                state.bubbleNew = true
+            }
         },
         loadDetailMes: (state, payload) => {
             state.mesDetail = payload.list;
         },
         loadNews: (state, payload) => {
             state.news = payload.list;
+            if (!state.bubbleNew){
+                if (payload.list.find(item => item.read === false)) {
+                    state.bubbleNew = true
+                }
+            }
         },
         pushDetailMes: (state, payload) => {
             if (typeof (state.mesDetail) == typeof ([])) {
