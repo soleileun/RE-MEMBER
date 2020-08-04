@@ -16,7 +16,7 @@
     <div class="selectform">
       <button v-for="pick in picks" :key="pick">{{pick}}</button>
     </div>
-
+    입력
     <div class="searchform">
       <div class="input">
         <input type="text" v-model="inputVal" @input="searchQuery()" @keyup.up="up()" @keyup.down="down()" @keyup.enter="enter()" />
@@ -35,7 +35,7 @@ export default {
   name: "signupinterest",
   created() {},
   props: {
-    signup: Number,
+    signup: Boolean,
   },
   data: function () {
     return {
@@ -115,8 +115,7 @@ export default {
     gosignup: function () {
       if (this.submitable) {
         this.$emit('goSignup')
-        // this.picks.forEach((el) => {
-        // });
+        this.$store.commit('interest',{picks:this.picks})
       }
     },
     add: function (x) {
