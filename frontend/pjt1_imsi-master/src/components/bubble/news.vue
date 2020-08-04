@@ -1,13 +1,12 @@
 <template>
   <div class="news">
     <section class="newss">
-      <div v-for="neww in news" :key="neww.mnum">
+      <div v-for="neww in news" :key="neww.mnum" :class="{unread:!neww.read}">
         <span>{{neww.time}} {{neww.content}}</span>
         <i class="far fa-trash-alt del" @click="read(neww.mnum)"></i>
       </div>
       <div v-if="news.length===0">알림이 없습니다.</div>
     </section>
-    <button class="btn" @click="readAll">모두 삭제</button>
   </div>
 </template>
 
@@ -21,17 +20,20 @@ export default {
   },
   mounted: function () {
     let com = document.querySelector(".newss");
-    com.scrollTop = com.scrollHeight;
+    setTimeout(()=>{
+      com.scrollTop = com.scrollHeight;
+    },50)
   },
   methods: {
     read: function (mnum) {
       console.log(mnum);
-      // this.$store.dispatch('newsRead',{mnum:mnum})
-    },
-    readAll: function () {
-      this.news.forEach((element) => {
-        console.log(element.mnum);
-      });
+      this.$store.dispatch('mesRead',{mnum:mnum})
+      this.news.find(item => {
+        if (item.mnum === mnum){
+          item.read = true
+          return true
+        }
+      })
     },
   },
 };
@@ -46,14 +48,31 @@ export default {
   height: 100%;
   .newss {
     flex-grow: 1;
-    box-shadow: #aaa 0px 1px 15px;
+    overflow: auto;
+    &::-webkit-scrollbar {
+      width: 10px;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: #2f3542;
+      border-radius: 10px;
+      background-clip: padding-box;
+      border: 2px solid transparent;
+    }
+    &::-webkit-scrollbar-track {
+      background-color: #aae;
+      border-radius: 10px;
+      box-shadow: inset 0px 0px 5px white;
+    }
     div:nth-child(n) {
       display: flex;
       justify-content: space-between;
       margin: 10px;
       padding: 10px;
       border-radius: 5px;
-      box-shadow: 1px 1px 3px black;
+      box-shadow: 0px 1px 1px black;
+      &.unread{
+        border:red 1px solid;
+      }
       &:hover {
         border: 1px solid black;
       }

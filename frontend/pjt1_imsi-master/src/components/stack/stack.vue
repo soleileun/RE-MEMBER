@@ -15,7 +15,7 @@
         v-model="selectedSido"
       >
         <option value="0">선택</option>
-        <option v-for="(sido, index) in sidoList" :key="index">
+        <option v-for="(sido, index) in sidoList" :value="sido"  :key="index">
           {{
           sido
           }}
@@ -34,8 +34,8 @@
         @change="changeGugun(selectedSido, selectedGugun)"
         v-model="selectedGugun"
       >
-        <option value="0">선택</option>
-        <option v-for="(gu, index) in gugunList" :key="index">
+        <option value="0" >선택</option>
+        <option v-for="(gu, index) in gugunList" :value="gu" :key="index">
           {{
           gu
           }}
@@ -51,11 +51,12 @@
       <select
         id="dong"
         class="form-control col-md-2"
+        v-model="selectedDong"
       >
-        <!-- @change="changeDong(selectedDong)"
-        v-model="selectedDong" -->
+        <!-- @change="changeDong(selectedDong)" -->
+
         <option value="0">선택</option>
-        <option v-for="(don, index) in dongList" :key="index">
+        <option v-for="(don, index) in dongList" :value="don" :key="index">
           {{
           don
           }}
@@ -64,7 +65,7 @@
     </div>
 
     <hr />
-    <!-- <div>
+    <div>
       스택 태그 입력
       <input type="text" placeholder="스택을 입력하세요" id="stackWord" />
       <button v-on:click="registStack">입력</button>
@@ -75,7 +76,7 @@
       </div>
       <hr />
       <button v-on:click="searchPool">검색</button>
-    </div>-->
+    </div>
   </div>
 </template>
 
@@ -90,7 +91,8 @@ export default {
     return {
       stacks: [],
       selectedSido:0,
-      selectedGugun:0
+      selectedGugun:0,
+      selectedDong:0
     };
   },
   computed: {
@@ -106,7 +108,33 @@ export default {
     },
     
   },
+ 
+
+  created() {
+    // sido리스트 불러오기
+    this.$store.dispatch(Constant.GET_SIDOLIST);
+  },
   methods: {
+    changeSido(selectedSido) {
+      // gugun
+      // console.log(selectedSido);
+      this.selectedGugun=0;
+      this.selectedDong=0;
+      this.$store.dispatch(Constant.GET_GUGUNLIST, { sido: selectedSido });
+    },
+    changeGugun(selectedSido, selectedGugun) {
+      // dong
+      // console.log(selectedSido + selectedGugun);
+      this.selectedDong=0;
+
+      this.$store.dispatch(Constant.GET_DONGLIST, { sido: selectedSido, gugun: selectedGugun });
+
+    },
+    // changeDong(selectedDong) {
+    //   // apt
+      
+    // },
+
     searchPool() {
       //   let val  = document.getElementById("searchWord").value;
       //   let std = document.getElementById("standard").value;
@@ -118,76 +146,16 @@ export default {
       //     this.$store.dispatch(Constant.SEARCH_BOARD_WRITER, {bwriter : val, bstate : 'free'});
       //   }
     },
-    // registStack() {
-    //   let addValue = $("#stackWord").val();
-    //   this.stacks.push("#" + addValue);
-    //   $("#stackWord").val(null);
-    // },
-    // deleteStack(idx) {
-    //   this.stacks.splice(idx, 1);
-    // },
-  },
-
-  // 참고소스 data
-  //   data: function() {
-  //     return {
-  //       sidoList: [],
-  //       gugunList: [],
-  //       dongList: [],
-  //       selectedSido: 0,
-  //       selectedGugun: 0,
-  //       selectedDong: 0,
-  //       colorArr,
-  //     };
-  //   },
-
-  // 참고소스 created
-  created() {
-    // sido리스트 불러오기
-    this.$store.dispatch(Constant.GET_SIDOLIST);
-  },
-  methods: {
-    changeSido(selectedSido) {
-      // gugun
-      console.log(selectedSido);
-      this.$store.dispatch(Constant.GET_GUGUNLIST, { sido: selectedSido });
+    registStack() {
+      let addValue = $("#stackWord").val();
+      this.stacks.push("#" + addValue);
+      $("#stackWord").val(null);
     },
-    changeGugun(selectedSido, selectedGugun) {
-      // dong
-      console.log(selectedSido + selectedGugun);
-
-      this.$store.dispatch(Constant.GET_DONGLIST, { sido: selectedSido, gugun: selectedGugun });
-
+    deleteStack(idx) {
+      this.stacks.splice(idx, 1);
     },
-    // changeDong(selectedDong) {
-    //   // apt
-    //   const sMap = new Map();
-    //   sMap.set("dong", selectedDong);
-    //   sMap.set("id", this.$store.state.loginUser);
-    //   console.log(this.$store.state.loginUser);
-    //   axios
-    //     .get("http://localhost:9999/happyhouse/v1/sad/apt", {
-    //       params: {
-    //         dong: selectedDong,
-    //         id: this.$store.state.loginUser,
-    //       },
-    //     })
-    //     .then(({ data }) => {
-    //       console.log(selectedDong);
-    //       console.log(data);
-    //       this.aptList = data;
-    //       //geocode(data);
-    //       EventBus.$emit("changeMapS", data);
-    //     });
-    // },
-    //
+    
 
-    // 여긴 원래 생략되있었음
-    //  else {
-    //   axios.get("http://localhost:9999/happyhouse/v1/apt/list").then(({ data }) => {
-    //     this.aptList = data;
-    //   });
-    // }
   },
 };
 </script>

@@ -1,39 +1,58 @@
 <template>
   <div class="signupform">
-    <br />아이디 :
-    <input v-model="id" type="text" />
-    <br />
-    {{error.id}}
-    <br />비밀번호 :
-    <input v-model="pw" type="password" />
-    <br />
-    {{error.pw}}
-    <br />비밀번호 확인 :
-    <input v-model="pw2" type="password" />
-    <br />
-    {{error.pw2}}
-    <br />닉네임(별명) :
-    <input v-model="nickname" maxlength="10" type="text" />
-    <br />이름(국문) :
-    <input v-model="name" maxlength="10" type="text" />
-    <br />
-    <div class="postcode">
-    <DaumPostcode :on-complete="handleAddress"/>
-    </div>주소 :
-    <input v-model="address1" type="text" disabled/>
-    <br />추가 주소 :
-    <input v-model="address2" type="text" />
-    <br />전화번호 :
-    <input v-model="phone0" maxlength="3" type="tel" />-
-    <input id="p1" v-model="phone1" maxlength="4" type="tel" />-
-    <input id="p2" v-model="phone2" maxlength="4" type="tel" />
-    <br />깃주소 :
-    <input v-model="git" type="text" />
-    <br />역할 :
-    <input v-model="responsibility" type="radio" value="개발" /> 개발 |
-    <input v-model="responsibility" type="radio" value="디자인" /> 디자인 |
-    <input v-model="responsibility" type="radio" value="기획" /> 기획
-    <br />
+    <span>
+      아이디 :
+      <input v-model="id" type="text" />
+      {{error.id}}
+    </span>
+    <span>
+      비밀번호 :
+      <input v-model="pw" type="password" />
+      {{error.pw}}
+    </span>
+    <span>
+      비밀번호 확인 :
+      <input v-model="pw2" type="password" />
+      {{error.pw2}}
+    </span>
+    <span>
+      닉네임(별명) :
+      <input v-model="nickname" maxlength="10" type="text" />
+    </span>
+    <span>
+      이름(국문) :
+      <input v-model="name" maxlength="10" type="text" />
+    </span>
+    <span>
+      주소 :
+      <input v-model="address1" type="text" disabled /> <button @click="postActive">검색</button>
+    </span>
+    <div class="postcode" v-if="postAct">
+      <DaumPostcode :on-complete="handleAddress" />
+    </div>
+    <span>
+      추가 주소 :
+      <input v-model="address2" type="text" />
+    </span>
+
+    <span>
+      전화번호 :
+      <input v-model="phone0" maxlength="3" type="tel" />-
+      <input id="p1" v-model="phone1" maxlength="4" type="tel" />-
+      <input id="p2" v-model="phone2" maxlength="4" type="tel" />
+    </span>
+
+    <span>
+      깃주소 :
+      <input v-model="git" type="text" />
+    </span>
+
+    <span>
+      역할 :
+      <input v-model="responsibility" type="radio" value="개발" /> 개발 |
+      <input v-model="responsibility" type="radio" value="디자인" /> 디자인 |
+      <input v-model="responsibility" type="radio" value="기획" /> 기획
+    </span>
     <button @click="goSignin" class="gosignin" :class="{submitable:submitable}">회원가입</button>
   </div>
 </template>
@@ -77,12 +96,13 @@ export default {
       name: "",
       address1: "",
       address2: "",
-      fullAddress:"",
+      fullAddress: "",
       phone0: "",
       phone1: "",
       phone2: "",
       git: "",
       submitable: false,
+      postAct:false,
       error: {
         id: "",
         pw: "",
@@ -124,7 +144,7 @@ export default {
     },
   },
   methods: {
-    handleAddress: function(data) {
+    handleAddress: function (data) {
       let fullAddress = data.address;
       let extraAddress = "";
       if (data.addressType === "R") {
@@ -137,8 +157,9 @@ export default {
         }
         // fullAddress += extraAddress !== "" ? ` (${extraAddress})` : "";
       }
-      this.address1 = fullAddress
-      this.address2 = extraAddress
+      this.address1 = fullAddress;
+      this.address2 = extraAddress;
+      this.postAct = false
     },
     // editAddress: function() {
 
@@ -166,40 +187,51 @@ export default {
       });
     },
     goSignin: function () {
-      http
-        .post("/api/userinfo/", {
-          id: this.id,
-          pw: this.pw,
-          nickname: this.nickname,
-          name: this.name,
-          address1: this.address1,
-          address2: this.address2,
-          phone: `${this.phone0}-${this.phone1}-${this.phone2}`,
-          git: this.git,
-          responsibility: this.responsibility,
-        })
-        .then((res) => {
-          console.log(res);
-          this.$store.dispatch("login", { id: this.id, pw: this.pw });
-        })
-        .catch((e) => console.log(e));
+      if (this.submitable) {
+        http
+          .post("/api/userinfo/", {
+            id: this.id,
+            pw: this.pw,
+            nickname: this.nickname,
+            name: this.name,
+            address1: this.address1,
+            address2: this.address2,
+            phone: `${this.phone0}-${this.phone1}-${this.phone2}`,
+            git: this.git,
+            responsibility: this.responsibility,
+          })
+          .then((res) => {
+            console.log(res);
+            this.$store.dispatch("login", { id: this.id, pw: this.pw });
+            this.$emit("nxt")
+          })
+          .catch((e) => console.log(e));
+      }
     },
+    postActive:function(){
+      this.postAct = true
+    }
   },
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-.postcode{
-  height: 300px;
-  width: 500px;
-  border: 2px black solid;
-  overflow-y: scroll;
-}
-.gosignin {
-  opacity: 0.2;
-}
-.submitable {
-  opacity: 1;
+.signupform {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .postcode {
+    height: 300px;
+    width: 500px;
+    border: 2px black solid;
+    overflow-y: scroll;
+  }
+  .gosignin {
+    opacity: 0.2;
+  }
+  .submitable {
+    opacity: 1;
+  }
 }
 </style>

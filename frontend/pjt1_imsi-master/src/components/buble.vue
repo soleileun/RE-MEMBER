@@ -1,8 +1,8 @@
 <template>
-  <div class="bubble" :style="{height:`${bubbleY+6}px`,width:`${bubbleX+6}px`}">
+  <div class="bubble" :style="{height:`${bubbleY+4}px`,width:`${bubbleX+4}px`}">
     <div class="con" :style="{height:`${bubbleY}px`,width:`${bubbleX}px`}">
       <div class="icon" draggable="false">
-        <i class="far fa-comments" @click="act"></i>
+        <i class="far fa-comments" @click="act"> <div class="newdot" v-if="newdot"></div></i>
         <i class="fas fa-map-pin bubble-items dragable" draggable="true" @dragend="dragend" @drag="drag"></i>
         <i class="fas fa-times exit bubble-items" @click="act"></i>
         <div class="bubble-items btns">
@@ -39,14 +39,17 @@ export default {
   },
   data: function () {
     return {
-      bubbleX: 80,
-      bubbleY: 80,
+      bubbleX: 60,
+      bubbleY: 60,
     };
   },
   computed: {
     bubbleS: function () {
       return this.$store.state.userstore.bubbleS;
     },
+    newdot: function(){
+      return this.$store.state.userstore.bubbleNew;
+    }
   },
   watch: {
     bubbleS: function (x) {
@@ -69,18 +72,18 @@ export default {
           .indexOf("active") >= 0
       ) {
         this.bubbleX =
-          storage.getItem("bubbleX")*1 > 450 &&
-          storage.getItem("bubbleX")*1 <= window.innerWidth - 20
-            ? storage.getItem("bubbleX")*1
+          storage.getItem("bubbleX") * 1 > 450 &&
+          storage.getItem("bubbleX") * 1 <= window.innerWidth - 50
+            ? storage.getItem("bubbleX") * 1
             : 450;
         this.bubbleY =
-          storage.getItem("bubbleY")*1 > 550 &&
-          storage.getItem("bubbleY")*1 <= window.innerHeight - 100
-            ? storage.getItem("bubbleY")*1
+          storage.getItem("bubbleY") * 1 > 550 &&
+          storage.getItem("bubbleY") * 1 <= window.innerHeight - 100
+            ? storage.getItem("bubbleY") * 1
             : 550;
       } else {
-        this.bubbleX = 80;
-        this.bubbleY = 80;
+        this.bubbleX = 60;
+        this.bubbleY = 60;
       }
       this.$store.dispatch("update");
       this.$store.commit("bubbleState", { st: "1" });
@@ -93,7 +96,7 @@ export default {
     drag: function (e) {
       this.bubbleX = Math.min(
         Math.max(window.innerWidth - e.pageX - 25, 400),
-        window.innerWidth - 20
+        window.innerWidth - 50
       );
       this.bubbleY = Math.min(
         Math.max(window.innerHeight - e.pageY - 25, 500),
@@ -103,7 +106,7 @@ export default {
     dragend: function (e) {
       this.bubbleX = Math.min(
         Math.max(window.innerWidth - e.pageX - 25, 400),
-        window.innerWidth - 20
+        window.innerWidth - 50
       );
       this.bubbleY = Math.min(
         Math.max(window.innerHeight - e.pageY - 25, 500),
@@ -120,23 +123,33 @@ export default {
 <style scoped lang="scss">
 .bubble {
   position: fixed;
-  right: 25px;
-  bottom: 25px;
-  height: 86px;
-  width: 86px;
-  padding: 3px;
+  right: 15px;
+  bottom: 15px;
+  padding: 2px;
   border-radius: 80px;
-  background-color: skyblue;
+  background-color: #cce;
+  // box-shadow: -2px 0 #537, 0 2px #537, 2px 0 #537, 0 -2px #537;
+  box-shadow: 2px 2px 12px #77a;
   box-sizing: border-box;
   z-index: 9999;
   .con {
-    width: 80px;
-    height: 80px;
     background-color: white;
     border-radius: 80px;
     .icon {
-      font-size: 49px;
-      color: blue;
+      font-size: 39px;
+      color: #537;
+      .fa-comments{
+        position: relative;
+        .newdot{
+          position: absolute;
+          top: 0px;
+          right: 0px;
+          width: 10px;
+          height: 10px;
+          border-radius: 10px;
+          background-color: red;
+        }
+      }
     }
     .bubble-items {
       display: none;
@@ -179,14 +192,14 @@ export default {
           left: 0px;
           top: 0px;
         }
-        .exit{
+        .exit {
           color: black;
           height: 2.4rem;
           width: 2.4rem;
           font-size: 2.5rem;
           border-radius: 2.5rem;
           cursor: pointer;
-          &:hover{
+          &:hover {
             background-color: #ccc;
           }
         }

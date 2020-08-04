@@ -49,7 +49,7 @@ const stackstore = {
     [Constant.GET_DONGLIST]: (store,payload) => {
       http.get('/api/addr/getDong/sido='+payload.sido+'&gugun='+ payload.gugun)
           .then(response => {
-            console.log('반응:'+response)
+            // console.log('반응:'+response)
               store.commit(Constant.GET_DONGLIST, { donglist: response.data })
         })
           .catch(exp => alert('get동lList처리에 실패하였습니다!!' + exp));
