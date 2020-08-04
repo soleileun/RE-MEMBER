@@ -16,7 +16,7 @@ const poolstore = {
     [Constant.GET_POOLLIST]: (store) => {
       http.get('/api/userinfo/getCurrList')
           .then(response => {
-            console.log(response)
+            // console.log(response)
               store.commit(Constant.GET_POOLLIST, { pools: response.data })
         })
           .catch(exp => alert('getPoolList처리에 실패하였습니다!.' + exp));

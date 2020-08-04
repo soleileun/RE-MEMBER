@@ -27,32 +27,33 @@ const stackstore = {
         })
           .catch(exp => alert('getFilteredPoolList처리에 실패하였습니다!!' + exp));
     },
-    //시도로 구군 부르기
-    [Constant.GET_SIDOLIST]: (store,payload) => {
-      http.get('/api/board/statesearching/'+ payload.bstate)
+    //시도부르기
+    [Constant.GET_SIDOLIST]: (store) => {
+      http.get('/api/addr/getSido')
           .then(response => {
             // console.log(response)
               store.commit(Constant.GET_SIDOLIST, { sidolist: response.data })
         })
-          .catch(exp => alert('getFilteredPoolList처리에 실패하였습니다!!' + exp));
+          .catch(exp => alert('getsidoList처리에 실패하였습니다!!' + exp));
     },
-    //구군으로 동 부르기
+    //시도로 구군 부르기
     [Constant.GET_GUGUNLIST]: (store,payload) => {
-      http.get('/api/board/statesearching/'+ payload.bstate)
+      http.get('/api/addr/getGugun/sido='+ payload.sido)
           .then(response => {
             // console.log(response)
               store.commit(Constant.GET_GUGUNLIST, { gugunlist: response.data })
         })
-          .catch(exp => alert('getFilteredPoolList처리에 실패하였습니다!!' + exp));
+          .catch(exp => alert('get구군PoolList처리에 실패하였습니다!!' + exp));
     },
-    // [Constant.GET_DONGLIST]: (store,payload) => {
-    //   http.get('/api/board/statesearching/'+ payload.bstate)
-    //       .then(response => {
-    //         // console.log(response)
-    //           store.commit(Constant.GET_DONGLIST, { donglist: response.data })
-    //     })
-    //       .catch(exp => alert('getFilteredPoolList처리에 실패하였습니다!!' + exp));
-    // },
+    //구군으로 동 부르기
+    [Constant.GET_DONGLIST]: (store,payload) => {
+      http.get('/api/addr/getDong/sido='+payload.sido+'&gugun='+ payload.gugun)
+          .then(response => {
+            console.log('반응:'+response)
+              store.commit(Constant.GET_DONGLIST, { donglist: response.data })
+        })
+          .catch(exp => alert('get동lList처리에 실패하였습니다!!' + exp));
+    },
 
     // //bno으로 게시글 하나 가져오기
     // [Constant.GET_BOARD]: (store, payload) => {
@@ -169,10 +170,10 @@ const stackstore = {
         // console.log('mutation' + payload.boards);
         state.gugunlist = payload.gugunlist;
     },
-    // [Constant.GET_DONGLIST]: (state, payload) => {
-    //     // console.log('mutation' + payload.boards);
-    //     state.donglist = payload.donglist;
-    // },
+    [Constant.GET_DONGLIST]: (state, payload) => {
+        // console.log('mutation' + payload.boards);
+        state.donglist = payload.donglist;
+    },
     // [Constant.GET_BOARD]: (state, payload) => {
     //     state.board = payload.board;
     // },

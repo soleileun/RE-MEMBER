@@ -1,7 +1,5 @@
 <template>
   <div class="col-md-10 ml-auto col-xl-6 mr-auto">
-    <!-- 실거래정보 검색 -->
-    <SDealListSearch />
     <!-- 시군구동 검색 -->
     <div class="row">
       <label class="col-md-2" for="sido" style="margin-left:-20px;">
@@ -17,9 +15,9 @@
         v-model="selectedSido"
       >
         <option value="0">선택</option>
-        <option v-for="(si, index) in sidoList" v-bind:value="si.sido_code" :key="index">
+        <option v-for="(sido, index) in sidoList" :key="index">
           {{
-          si.sido_name
+          sido
           }}
         </option>
       </select>
@@ -33,13 +31,13 @@
       <select
         id="gugun"
         class="form-control col-md-2"
-        @change="changeGugun(selectedGugun)"
+        @change="changeGugun(selectedSido, selectedGugun)"
         v-model="selectedGugun"
       >
         <option value="0">선택</option>
-        <option v-for="(gu, index) in gugunList" v-bind:value="gu.gugun_code" :key="index">
+        <option v-for="(gu, index) in gugunList" :key="index">
           {{
-          gu.gugun_name
+          gu
           }}
         </option>
       </select>
@@ -53,20 +51,20 @@
       <select
         id="dong"
         class="form-control col-md-2"
-        @change="changeDong(selectedDong)"
-        v-model="selectedDong"
       >
+        <!-- @change="changeDong(selectedDong)"
+        v-model="selectedDong" -->
         <option value="0">선택</option>
-        <option v-for="(don, index) in dongList" v-bind:value="don.dong" :key="index">
+        <option v-for="(don, index) in dongList" :key="index">
           {{
-          don.dong
+          don
           }}
         </option>
       </select>
     </div>
 
     <hr />
-    <div>
+    <!-- <div>
       스택 태그 입력
       <input type="text" placeholder="스택을 입력하세요" id="stackWord" />
       <button v-on:click="registStack">입력</button>
@@ -77,7 +75,7 @@
       </div>
       <hr />
       <button v-on:click="searchPool">검색</button>
-    </div>
+    </div>-->
   </div>
 </template>
 
@@ -85,24 +83,28 @@
 <script>
 import Constant from "../../Constant";
 
-// import { EventBus } from "@/utils/eventBus";
-// import SDealListSearch from "./SDealListSearch";
-// let colorArr = ["table-primary", "table-success", "table-danger"];
-// import { Button, FormGroupInput } from "@/components";
+
 
 export default {
   data() {
     return {
       stacks: [],
-      //참고 소스 data
-      sidoList: [],
-      gugunList: [],
-      dongList: [],
-      selectedSido: 0,
-      selectedGugun: 0,
-      selectedDong: 0,
-      colorArr,
+      selectedSido:0,
+      selectedGugun:0
     };
+  },
+  computed: {
+    sidoList() {
+      // console.log("확인" + this.$store.state.stackstore.sidolist);
+      return this.$store.state.stackstore.sidolist;
+    },
+    gugunList() {
+      return this.$store.state.stackstore.gugunlist;
+    },
+    dongList() {
+      return this.$store.state.stackstore.donglist;
+    },
+    
   },
   methods: {
     searchPool() {
@@ -116,14 +118,14 @@ export default {
       //     this.$store.dispatch(Constant.SEARCH_BOARD_WRITER, {bwriter : val, bstate : 'free'});
       //   }
     },
-    registStack() {
-      let addValue = $("#stackWord").val();
-      this.stacks.push("#" + addValue);
-      $("#stackWord").val(null);
-    },
-    deleteStack(idx) {
-      this.stacks.splice(idx, 1);
-    },
+    // registStack() {
+    //   let addValue = $("#stackWord").val();
+    //   this.stacks.push("#" + addValue);
+    //   $("#stackWord").val(null);
+    // },
+    // deleteStack(idx) {
+    //   this.stacks.splice(idx, 1);
+    // },
   },
 
   // 참고소스 data
@@ -143,106 +145,50 @@ export default {
   created() {
     // sido리스트 불러오기
     this.$store.dispatch(Constant.GET_SIDOLIST);
-
-    // axios
-    //   .get(
-    //     "http://localhost:9999/happyhouse/v1/sad/sido"
-    //   )
-    //   .then(({ data }) => {
-    //     console.log(data);
-    //     this.sidoList = data;
-    //   });
-    // EventBus.$on("searchDealListS", this.searchDealListS);
   },
-  //   methods: {
-  //     changeSido(selectedSido) {
-  //       // gugun
-  //       axios
-  //         .get(
-  //           "http://localhost:9999/happyhouse/v1/sad/gugun/" +
-  //             selectedSido
-  //         )
-  //         .then(({ data }) => {
-  //           console.log(selectedSido);
-  //           console.log(data);
-  //           this.gugunList = data;
-  //         });
-  //     },
-  //     changeGugun(selectedGugun) {
-  //       // dong
-  //       axios
-  //         .get(
-  //           "http://localhost:9999/happyhouse/v1/sad/dong/" +
-  //             selectedGugun
-  //         )
-  //         .then(({ data }) => {
-  //           console.log(selectedGugun);
-  //           console.log(data);
-  //           this.dongList = data;
-  //         });
-  //     },
-  //     changeDong(selectedDong) {
-  //       // apt
-  //       const sMap = new Map();
-  //       sMap.set("dong", selectedDong);
-  //       sMap.set("id", this.$store.state.loginUser);
-  //       console.log(this.$store.state.loginUser);
-  //       axios
-  //         .get(
-  //           "http://localhost:9999/happyhouse/v1/sad/apt",
-  //           {
-  //             params: {
-  //               dong: selectedDong,
-  //               id: this.$store.state.loginUser,
-  //             },
-  //           }
-  //         )
-  //         .then(({ data }) => {
-  //           console.log(selectedDong);
-  //           console.log(data);
-  //           this.aptList = data;
-  //           //geocode(data);
-  //           EventBus.$emit("changeMapS", data);
-  //         });
-  //     },
-  //     searchDealListS(selectedType, word) {
-  //       console.log(selectedType);
-  //       console.log(word);
-  //       if (word !== "") {
-  //         axios
-  //           .get(
-  //             "http://localhost:9999/happyhouse/v1/sad/search/",
-  //             {
-  //               params: {
-  //                 word: word,
-  //                 id: this.$store.state.loginUser,
-  //               },
-  //             }
-  //           )
-  //           .then(({ data }) => {
-  //             this.aptList = data;
-  //             console.log(data);
-  //           });
-  //       }
+  methods: {
+    changeSido(selectedSido) {
+      // gugun
+      console.log(selectedSido);
+      this.$store.dispatch(Constant.GET_GUGUNLIST, { sido: selectedSido });
+    },
+    changeGugun(selectedSido, selectedGugun) {
+      // dong
+      console.log(selectedSido + selectedGugun);
 
+      this.$store.dispatch(Constant.GET_DONGLIST, { sido: selectedSido, gugun: selectedGugun });
 
-  
-  // 여긴 원래 생략되있었음
-  //  else {
-  //   axios.get("http://localhost:9999/happyhouse/v1/apt/list").then(({ data }) => {
-  //     this.aptList = data;
-  //   });
-  // }
+    },
+    // changeDong(selectedDong) {
+    //   // apt
+    //   const sMap = new Map();
+    //   sMap.set("dong", selectedDong);
+    //   sMap.set("id", this.$store.state.loginUser);
+    //   console.log(this.$store.state.loginUser);
+    //   axios
+    //     .get("http://localhost:9999/happyhouse/v1/sad/apt", {
+    //       params: {
+    //         dong: selectedDong,
+    //         id: this.$store.state.loginUser,
+    //       },
+    //     })
+    //     .then(({ data }) => {
+    //       console.log(selectedDong);
+    //       console.log(data);
+    //       this.aptList = data;
+    //       //geocode(data);
+    //       EventBus.$emit("changeMapS", data);
+    //     });
+    // },
+    //
 
-
-
-  //     },
-  //   },
-  //   components: {
-  //     SDealListSearch,
-  //     [Button.name]: Button,
-  //     [FormGroupInput.name]: FormGroupInput,
-  //   },
+    // 여긴 원래 생략되있었음
+    //  else {
+    //   axios.get("http://localhost:9999/happyhouse/v1/apt/list").then(({ data }) => {
+    //     this.aptList = data;
+    //   });
+    // }
+  },
 };
 </script>
 

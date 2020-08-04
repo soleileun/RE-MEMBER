@@ -11,7 +11,9 @@
   </div>
 </template>
 
+
 <script>
+
 import login from "./components/login.vue";
 import navibar from "./components/navibar.vue";
 import sidebar from "./components/sidebar.vue";
@@ -52,6 +54,7 @@ export default {
 </script>
 
 <style lang="scss">
+
 html,
 body {
   margin: 0;
