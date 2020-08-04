@@ -21,4 +21,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		roomName=#{roomName}
 	</delete>
 
+	
+	<update id="updateRead" parameterType="chatroom">
+		update chat
+		set isRead =1
+		where id != #{id} and roomName =#{roomName}
+	</update>
 </mapper>

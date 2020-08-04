@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.test.model.dto.Chat;
-import com.ssafy.test.model.dto.Chatroom;
 import com.ssafy.test.model.service.ChatService;
 
 import io.swagger.annotations.ApiOperation;

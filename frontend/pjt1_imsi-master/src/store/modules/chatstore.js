@@ -110,6 +110,8 @@ const chatstore = {
 
     },
     [Constant.CHAT_READ]: (store, payload) => {
+        console.log(payload.roomName);
+        console.log(payload.id);
         http.put('/api/chat/change/roomName=' + payload.roomName + '&id=' + storage.getItem("userid"), {
             roomName : payload.roomName,
             id : payload.id,
