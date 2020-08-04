@@ -32,8 +32,11 @@
         <!-- Modal content -->
         <div class="modal-content">
           <span class="close">&times;</span>
-          
-          모달페이지
+          <h3>프로젝트 팀원 관리</h3>
+
+          <ul>
+            <li v-for="pm in pmlist" :key="pm.userId">{{ pm.userId }}</li>
+          </ul>
         </div>
       </div>
       <!--  카드 바디 본문 : 넣지말기-->
@@ -52,9 +55,12 @@
 
 <script>
 import Constant from "../../Constant";
-
 export default {
   name: "project1",
+  component: {},
+  data: function () {
+    return { index: 0 };
+  },
   computed: {
     pjtcnt() {
       console.log(
@@ -63,6 +69,10 @@ export default {
           this.$store.state.projectstore.pjtcnt
       );
       return this.$store.state.projectstore.pjtcnt;
+    },
+    pmlist() {
+      console.log("pm test" + this.project.pid);
+      return this.$store.state.projectstore.pmlist;
     },
   },
   mounted() {
@@ -91,26 +101,30 @@ export default {
       window.open(url, name, option);
     },
     openModal() {
+      console.log(this.project.pid);
+      this.$store.dispatch(Constant.GET_PROJECT_MEMBER_BY_PID, {
+        pid: this.project.pid,
+      });
+      console.log(this.$store.state.projectstore.pmlist);
       // Get the modal
       var modal = document.getElementById("myModal");
-
       // Get the <span> element that closes the modal
       var span = document.getElementsByClassName("close")[0];
-
       // When the user clicks on the button, open the modal
       modal.style.display = "block";
-
       // When the user clicks on <span> (x), close the modal
       span.onclick = function () {
         modal.style.display = "none";
       };
-
       // When the user clicks anywhere outside of the modal, close it
       window.onclick = function (event) {
         if (event.target == modal) {
           modal.style.display = "none";
         }
       };
+      this.$store.dispatch(Constant.GET_PROJECT_MEMBER_BY_PID, {
+        pid: this.project.pid,
+      });
     },
   },
 };

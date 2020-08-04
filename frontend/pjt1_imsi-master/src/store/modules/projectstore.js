@@ -10,6 +10,7 @@ const projectstore = {
   state: {
     projects: [],
     project: {},
+    pmlist: [],
     pjtcnt: {}
   },
 
@@ -33,7 +34,6 @@ const projectstore = {
         })
         .catch(exp => alert('getPmemberList처리에 실패하였습니다.' + exp));
     },
-
     //pid으로 현재 프로젝트 멤버수 가져오기
     [Constant.GET_CURRENT_MEMBER_COUNT]: (store, payload) => {
       http.get('/api/pmember/selectCntByPid/' + payload.pid)
@@ -45,6 +45,21 @@ const projectstore = {
           })
         })
         .catch(exp => alert('getTodo처리에 실패하였습니다.' + exp));
+    },
+
+    //pid으로 현재 프로젝트 멤버 정보 가져오기
+    [Constant.GET_PROJECT_MEMBER_BY_PID]: (store, payload) => {
+      http.get('/api/pmember/selectByPid/' + payload.pid)
+        .then(response => {
+          console.log(response.data);
+          //console.log("궁금해 ㅠ");
+
+          store.commit(Constant.GET_PROJECT_MEMBER_BY_PID, {
+            pmlist: response.data,
+            pid: payload.pid
+          })
+        })
+        .catch(exp => alert('pid으로 현재 프로젝트 정보 가져오기에 실패하였습니다.' + exp));
     },
 
     //pid으로 프로젝트 하나 가져오기
@@ -192,6 +207,9 @@ const projectstore = {
     },
     [Constant.GET_PROJECT]: (state, payload) => {
       state.project = payload.project;
+    },
+    [Constant.GET_PROJECT_MEMBER_BY_PID]: (state, payload) => {
+      state.pmlist = payload.pmlist;
     },
     // [Constant.CLEAR_TODO]: (state, payload) => {
     //     state.board = payload.todo;
