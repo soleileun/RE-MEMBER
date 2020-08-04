@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
+import com.ssafy.test.model.dto.Addr;
 import com.ssafy.test.model.dto.UserInfo;
 
 
@@ -71,6 +72,12 @@ public class UserInfoDaoImpl implements UserInfoDao {
 	@Override
 	public List<UserInfo> getCurrList() {
 		return template.selectList(ns + "getCurrList");
+	}
+
+	@Override
+	public List<UserInfo> selectByAddr(Addr v) {
+		// TODO Auto-generated method stub
+		return template.selectList(ns + "selectByAddr",v);
 	}
 
 }

@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.test.model.dto.Addr;
 import com.ssafy.test.model.dto.Email;
 import com.ssafy.test.model.dto.User;
 import com.ssafy.test.model.dto.UserInfo;
@@ -63,6 +64,8 @@ public class UserInfoController {
 	
 	@Autowired
 	private EmailService eService;
+	
+	
 	
 	@PostMapping("/signin")
 	public ResponseEntity<Map<String,Object>> signin(@RequestBody User user , HttpServletResponse response){
@@ -121,6 +124,17 @@ public class UserInfoController {
 	public ResponseEntity<List<UserInfo>> getAllUsers() throws Exception {
 		logger.debug("getAllUsers - 호출");
 		return new ResponseEntity<List<UserInfo>>(uiService.selectAll(), HttpStatus.OK);
+	}
+
+    @ApiOperation(value = "해당 지역에 거주하는 유저의 정보를 반환한다..", response = List.class)
+	@GetMapping("/addr/sido={sido}&gugun={gugun}&dong={dong}")
+	public ResponseEntity<List<UserInfo>> selectByAddr(@PathVariable String sido,@PathVariable String gugun,@PathVariable String dong) throws Exception {
+		logger.debug("selectByAddr - 호출");
+		Addr v = new Addr();
+		v.setDong(dong);
+		v.setGugun(gugun);
+		v.setSido(sido);
+		return new ResponseEntity<List<UserInfo>>(uiService.selectByAddr(v), HttpStatus.OK);
 	}
 
 

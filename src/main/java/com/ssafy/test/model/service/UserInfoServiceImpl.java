@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import com.ssafy.test.model.dao.UserInfoDao;
+import com.ssafy.test.model.dto.Addr;
 import com.ssafy.test.model.dto.UserInfo;
 
 @Service
@@ -74,6 +75,12 @@ public class UserInfoServiceImpl implements UserInfoService {
 	@Override
 	public List<UserInfo> getCurrList() {
 		return uDao.getCurrList();
+	}
+
+	@Override
+	public List<UserInfo> selectByAddr(Addr v) {
+		// TODO Auto-generated method stub
+		return uDao.selectByAddr(v);
 	}
 
 }
