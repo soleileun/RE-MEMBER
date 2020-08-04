@@ -15,7 +15,7 @@
         v-model="selectedSido"
       >
         <option value="0">선택</option>
-        <option v-for="(sido, index) in sidoList" :value="sido"  :key="index">
+        <option v-for="(sido, index) in sidoList" :value="sido" :key="index">
           {{
           sido
           }}
@@ -29,18 +29,25 @@
         </strong>
       </label>
       <select
+        v-if="selectedSido!=0"
         id="gugun"
         class="form-control col-md-2"
         @change="changeGugun(selectedSido, selectedGugun)"
         v-model="selectedGugun"
       >
-        <option value="0" >선택</option>
+        <option value="0">선택</option>
         <option v-for="(gu, index) in gugunList" :value="gu" :key="index">
           {{
           gu
           }}
         </option>
       </select>
+      <select v-else id="gugun" class="form-control col-md-2" disabled>
+
+        <option value="0">선택</option>
+       
+      </select>
+
 
       <label class="col-md-2" for="dong">
         <strong>
@@ -48,11 +55,8 @@
           <span id="userid" class="text-danger"></span>
         </strong>
       </label>
-      <select
-        id="dong"
-        class="form-control col-md-2"
-        v-model="selectedDong"
-      >
+      
+      <select v-if="selectedGugun!=0" id="dong" class="form-control col-md-2" v-model="selectedDong">
         <!-- @change="changeDong(selectedDong)" -->
 
         <option value="0">선택</option>
@@ -61,6 +65,11 @@
           don
           }}
         </option>
+      </select>
+      <select v-else id="dong" class="form-control col-md-2" disabled>
+
+        <option value="0">선택</option>
+       
       </select>
     </div>
 
@@ -84,15 +93,13 @@
 <script>
 import Constant from "../../Constant";
 
-
-
 export default {
   data() {
     return {
       stacks: [],
-      selectedSido:0,
-      selectedGugun:0,
-      selectedDong:0
+      selectedSido: 0,
+      selectedGugun: 0,
+      selectedDong: 0,
     };
   },
   computed: {
@@ -106,9 +113,7 @@ export default {
     dongList() {
       return this.$store.state.stackstore.donglist;
     },
-    
   },
- 
 
   created() {
     // sido리스트 불러오기
@@ -118,44 +123,44 @@ export default {
     changeSido(selectedSido) {
       // gugun
       // console.log(selectedSido);
-      this.selectedGugun=0;
-      this.selectedDong=0;
+      this.selectedGugun = 0;
+      this.selectedDong = 0;
       this.$store.dispatch(Constant.GET_GUGUNLIST, { sido: selectedSido });
     },
     changeGugun(selectedSido, selectedGugun) {
       // dong
       // console.log(selectedSido + selectedGugun);
-      this.selectedDong=0;
+      this.selectedDong = 0;
 
-      this.$store.dispatch(Constant.GET_DONGLIST, { sido: selectedSido, gugun: selectedGugun });
-
+      this.$store.dispatch(Constant.GET_DONGLIST, {
+        sido: selectedSido,
+        gugun: selectedGugun,
+      });
     },
     // changeDong(selectedDong) {
     //   // apt
-      
+
     // },
 
     searchPool() {
-      //   let val  = document.getElementById("searchWord").value;
-      //   let std = document.getElementById("standard").value;
-      //   //제목 검색
-      //   if(std == 't'){
-      //     console.log(val);
-      //     this.$store.dispatch(Constant.SEARCH_BOARD_TITLE, {btitle : val, bstate : 'free'});
-      //   }else{ //작성자 검색
-      //     this.$store.dispatch(Constant.SEARCH_BOARD_WRITER, {bwriter : val, bstate : 'free'});
-      //   }
+      // this.$store.dispatch(Constant.SEARCH_BOARD_TITLE, {
+      //   btitle: val,
+      //   bstate: "free",
+      // });
     },
     registStack() {
-      let addValue = $("#stackWord").val();
-      this.stacks.push("#" + addValue);
-      $("#stackWord").val(null);
+      if (this.stacks.length == 5) {
+        alert("검색 스택은 5개까지만 입력 가능합니다.");
+        $("#stackWord").val(null);
+      } else {
+        let addValue = $("#stackWord").val();
+        this.stacks.push("#" + addValue);
+        $("#stackWord").val(null);
+      }
     },
     deleteStack(idx) {
       this.stacks.splice(idx, 1);
     },
-    
-
   },
 };
 </script>
