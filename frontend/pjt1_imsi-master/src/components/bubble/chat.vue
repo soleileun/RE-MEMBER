@@ -251,7 +251,7 @@ beforeDestroy:function(){
   position:relative;
   padding:7px 15px;
   margin:0;
-  background-color: rgb(164, 192, 224);
+  background-color: rgb(148, 183, 223);
   border-radius: 15px;
   display:inline-block;
   font-size : 12px;
