@@ -48,6 +48,10 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			alias="tag" />
 			<typeAlias type="com.ssafy.test.model.dto.Addr"
 			alias="addr" />
+			<typeAlias type="com.ssafy.test.model.dto.TagList"
+			alias="taglist" />
+			<typeAlias type="com.ssafy.test.model.dto.TagResult"
+			alias="tagresult" />
 	</typeAliases>
 
 	<mappers>

@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.test.model.dto.TagList;
+import com.ssafy.test.model.dto.TagResult;
 import com.ssafy.test.model.dto.Usertag;
 import com.ssafy.test.model.service.UsertagService;
 
@@ -69,6 +71,27 @@ public class UsertagController {
 
 //		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
 	}
+	
+//	이부분해야합니다 ㅎㅎㅎ
+	/*
+	@ApiOperation(value = "완전히 일치하는 유저의 id를 반환한다.", response = Usertag.class)
+	@GetMapping("selectSame/{tag}")
+	public ResponseEntity<List<String>> selectSame(@PathVariable String tag) {
+		TagList v = new TagList();
+		String a = tag.split(",");
+		for(int i = 0; i < tag.length; i++) {
+			v.setTag + i(tag1);
+		}
+		return new ResponseEntity<List<String>>(Service.selectSame(v), HttpStatus.OK);
+	}
+	
+	@ApiOperation(value = "특정 유저가 가진 특정 tagvalue의 정보를 반환한다.", response = Usertag.class)
+	@GetMapping("selectSimilar")
+	public ResponseEntity<List<TagResult>> selectSimilar(@RequestBody TagList v) {
+		return new ResponseEntity<List<TagResult>>(Service.selectSimilar(v), HttpStatus.OK);
+	}
+
+*/
 
 	private ResponseEntity<Map<String, Object>> handleSuccess(Object data) {
 		Map<String, Object> resultMap = new HashMap<>();

@@ -23,5 +23,31 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where
 		tagvalue=#{tagvalue} and uid=#{uid}
 	</delete>
+	
+	
+	<select id="selectSimilar" parameterType="taglist" resultType="tagresult">
+	select count(tagvalue) as same, uid
+	from (
+		select *
+		from usertag
+		where tagvalue in  (#{tag1},#{tag2},#{tag3},#{tag4},#{tag5})
+	) as b
+	group by uid;
+	</select>
+	
+	
+	
+	<select id="selectSame" parameterType="string" resultType="taglist">
+	
+	select * 
+	from usertag
+	where tagvalue like CONCAT('%',#{tag1},'%') and 
+	tagvalue like  CONCAT('%',#{tag2},'%') and
+	tagvalue like  CONCAT('%',#{tag3},'%') and
+	tagvalue like  CONCAT('%',#{tag4},'%') and
+	tagvalue like  CONCAT('%',#{tag5},'%')
+	</select>
+	
+	
 
 </mapper>
