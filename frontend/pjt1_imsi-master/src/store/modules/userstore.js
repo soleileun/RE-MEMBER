@@ -21,6 +21,7 @@ const userstore = {
         mesdetailid: "",
         mesviewdetail: false,
         bubbleNew: false,
+        interest: []
     },
 
     actions: {
@@ -39,7 +40,7 @@ const userstore = {
             }
             else {
                 storage.setItem("jwt-auth-token", "");
-                storage.setItem("idvalid","");
+                storage.setItem("idvalid", "");
                 store.commit('init', {
                     userNick: "",
                     userid: ""
@@ -77,7 +78,7 @@ const userstore = {
                         storage.setItem("jwt-auth-token", response.headers["jwt-auth-token"]);
                         storage.setItem("userNick", response.data.data.nickname)
                         storage.setItem("userid", response.data.data.id)
-                        storage.setItem("idvalid","true");
+                        storage.setItem("idvalid", "true");
                         document.querySelector(".login").classList.remove('active')
                         store.commit('loginError', { e: '' })
                         store.dispatch("init")
@@ -86,7 +87,7 @@ const userstore = {
                         storage.setItem("jwt-auth-token", "");
                         storage.setItem("userNick", "")
                         storage.setItem("userid", "")
-                        storage.setItem("idvalid","");
+                        storage.setItem("idvalid", "");
                         store.commit('loginError', { e: '아이디나 존재하지 않거나 비밀번호가 다릅니다.' })
                     }
                 })
@@ -105,8 +106,34 @@ const userstore = {
             storage.setItem("autologin", "f")
             store.dispatch("init")
         },
-        signup: () => {
-
+        signup: (store, payload) => {
+            console.log(payload)
+            http
+                .post("/api/userinfo/", {
+                    id: payload.id,
+                    pw: payload.pw,
+                    nickname: payload.nickname,
+                    name: payload.name,
+                    address1: payload.address1,
+                    address2: payload.address2,
+                    phone: payload.phone,
+                    git: payload.git,
+                    responsibility: payload.responsibility,
+                })
+                .then((res) => {
+                    console.log(res);
+                    store.state.interest.forEach((el) => {
+                        http
+                        .post("/api/interest/", {
+                            id: payload.id,
+                            interest:el,
+                        }).then(res=>{
+                            console.log(res)
+                        }).catch(e=> console.log(e))
+                    });
+                    store.dispatch("login", { id: payload.id, pw: payload.pw });
+                })
+                .catch((e) => console.log(e));
         },
         getFollow: (store) => {
             console.log("팔로우 검색")
@@ -216,10 +243,10 @@ const userstore = {
                 headers: {
                     "jwt-auth-token": storage.getItem("jwt-auth-token")
                 },
-                read:true,
-                mnum:payload.mnum,
-                fromUser:"admin",
-                toUser:storage.getItem("userid")
+                read: true,
+                mnum: payload.mnum,
+                fromUser: "admin",
+                toUser: storage.getItem("userid")
             }).then(res => {
                 console.log(res)
             }).catch(exp => console.log(exp))
@@ -234,7 +261,7 @@ const userstore = {
         loadMesList: (state, payload) => {
             state.messageList = payload.messageList.filter(item => item.fromUser !== "admin");
             state.bubbleNew = false
-            if (state.messageList.find(item => item.fromUser !==storage.getItem("userid") && item.read === false)) {
+            if (state.messageList.find(item => item.fromUser !== storage.getItem("userid") && item.read === false)) {
                 state.bubbleNew = true
             }
         },
@@ -243,7 +270,7 @@ const userstore = {
         },
         loadNews: (state, payload) => {
             state.news = payload.list;
-            if (!state.bubbleNew){
+            if (!state.bubbleNew) {
                 if (payload.list.find(item => item.read === false)) {
                     state.bubbleNew = true
                 }
@@ -277,6 +304,10 @@ const userstore = {
                 state.news = [];
             }
         },
+        interest: (state, payload) => {
+            state.interest = payload.picks
+        },
+
         viewMes: (state, payload) => {
             state.mesdetailid = payload.id
             state.mesviewdetail = payload.view

@@ -68,7 +68,6 @@
 <script>
 import PV from "password-validator";
 import * as EmailValidator from "email-validator";
-import http from "@/http-common.js";
 import DaumPostcode from "vuejs-daum-postcode";
 import signupInterest from "./signupInterest.vue";
 
@@ -110,7 +109,7 @@ export default {
       phone1: "",
       phone2: "",
       git: "",
-      submitable: 0,
+      submitable: false,
       postAct: false,
       error: {
         id: "",
@@ -237,35 +236,29 @@ export default {
       //     responsibility: "",
       if (this.responsibility !== "") {
         this.error.responsibility = "";
-        } else {
+      } else {
         this.error.responsibility = "필수 항목입니다.";
       }
-      if (Object.values(this.error).join('') === "") {
-        this.submitable = 1;
+      if (Object.values(this.error).join("") === "") {
+        this.submitable = true;
       } else {
-        this.submitable = 0;
+        this.submitable = false;
       }
     },
     goSignup: function () {
-      console.log(123);
-      if (!this.submitable) {
-        http
-          .post("/api/userinfo/", {
-            id: this.id,
-            pw: this.pw,
-            nickname: this.nickname,
-            name: this.name,
-            address1: this.address1,
-            address2: this.address2,
-            phone: `${this.phone0}-${this.phone1}-${this.phone2}`,
-            git: this.git,
-            responsibility: this.responsibility,
-          })
-          .then((res) => {
-            console.log(res);
-            this.$store.dispatch("login", { id: this.id, pw: this.pw });
-          })
-          .catch((e) => console.log(e));
+      if (this.submitable) {
+        console.log(123);
+        this.$store.dispatch("signup", {
+          id: this.id,
+          pw: this.pw,
+          nickname: this.nickname,
+          name: this.name,
+          address1: this.address1,
+          address2: this.address2,
+          phone: `${this.phone0}-${this.phone1}-${this.phone2}`,
+          git: this.git,
+          responsibility: this.responsibility,
+        });
       }
     },
     postActive: function () {

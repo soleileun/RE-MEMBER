@@ -53,7 +53,7 @@
     </select>
     
         <select id="signin" parameterType="string" resultType="userinfo">
-    select id,nickname,name,pw,phone,git,points,lastDate,state,address1,address2,responsibility
+    select id,nickname,name,pw,phone,git,points,lastDate,state,address1,address2,responsibility,isValid
     from userInfo where id=#{id} and pw=#{pw}
     </select>
 

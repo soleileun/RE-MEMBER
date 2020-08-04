@@ -31,6 +31,7 @@
 <script>
 export default {
   name: "navibar",
+  //햄버거
   mounted: function () {
     document.querySelector(".hamburg").addEventListener("click", () => {
       document.querySelector(".nav-items").classList.toggle("active");
