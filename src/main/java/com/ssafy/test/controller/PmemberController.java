@@ -51,6 +51,11 @@ public class PmemberController {
 	public ResponseEntity<Integer> selectCntByPid(@PathVariable int pid) throws Exception {
 		return new ResponseEntity<Integer>(pmService.selectCntByPid(pid), HttpStatus.OK);
 	}	
+	@ApiOperation(value = "pid에 해당하는 프로젝트 참여자 리스트를 반환한다.", response = List.class)
+	@GetMapping("/selectByPid/{pid}")
+	public ResponseEntity<List<Pmember>> selectByPid(@PathVariable int pid) throws Exception {
+		return new ResponseEntity<List<Pmember>>(pmService.selectByPid(pid), HttpStatus.OK);
+	}	
 
 	@ApiOperation(value = "정보에 해당하는 프로젝트 멤버의 정보를 반환한다.", response = Pmember.class)
 	@PostMapping("/select")
