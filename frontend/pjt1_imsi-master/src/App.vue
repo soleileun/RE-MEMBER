@@ -4,13 +4,14 @@
     <sidebar />
     <login />
     <section class="rtViewContainer">
-      <router-view></router-view>
+      <section class="reView">
+        <router-view></router-view>
+      </section>
+      <footerr />
     </section>
     <buble v-if="userNick" />
-    <footerr />
   </div>
 </template>
-
 
 <script>
 import login from "./components/login.vue";
@@ -34,7 +35,7 @@ export default {
     console.log(storage);
     this.$store.dispatch("init", {});
     if (
-      storage.getItem("jwt-auth-token").length >0 &&
+      storage.getItem("jwt-auth-token").length > 0 &&
       storage.getItem("idvalid") !== "true"
     ) {
       this.$router.push({ name: "emailcheck" });
@@ -45,7 +46,7 @@ export default {
       this.$store.dispatch("update", {});
     }
     if (
-      storage.getItem("jwt-auth-token").length >0 &&
+      storage.getItem("jwt-auth-token").length > 0 &&
       storage.getItem("idvalid") !== "true"
     ) {
       this.$router.push({ name: "emailcheck" });
@@ -73,28 +74,97 @@ body {
     height: 0;
   }
 }
-body {
-  padding-top: 7vh;
-  .rtViewContainer {
-    min-height: 500px;
-  }
-}
 #app {
   color: red;
-  img {
-    width: 100%;
-    height: 250px;
-  }
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  nav {
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 999;
+    width: 80vw;
+    height: 7vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 30px 0px 30px;
+    margin: 0px;
+    .nav-items {
+      display: flex;
+      align-items: center;
+      padding: 0px;
+      margin: 0px;
+      height: 100%;
+      .users {
+        border-left: #777 1px solid;
+        display: flex;
+        align-items: center;
+        height: 100%;
+        div {
+          width: 50px;
+          height: 30px;
+          border-radius: 50px;
+          background-color: #777;
+          margin-left: 10px;
+        }
+      }
+    }
+  }
+  aside.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 20vw;
+    height: 100vh;
+    border-right: 1px gray solid;
+    .navbar-brand {
+      font-size: 40px;
+      height: 7vh;
+    }
+    ul {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+      li {
+        padding: 10px;
+        width: 100%;
+        text-align: left;
+        height: 70px;
+        font-size: 26px;
+        padding-top: 20px;
+        a {
+          color: #777;
+        }
+      }
+    }
+  }
+  .rtViewContainer {
+    margin: 0px;
+    padding: 0px;
+    position: fixed;
+    top: 7vh;
+    right: 0;
+    height: 93vh;
+    width: 80vw;
+    overflow: auto;
+    .reView {
+      margin: 0;
+      background-color: #f3f3f3;
+      min-height: 83vh;
+      padding: 50px;
+    }
+    footer {
+      margin: 0;
+      height: 10vh;
+    }
+  }
 }
 
-nav {
-  z-index: 999;
-}
 textarea {
   resize: none;
 }
