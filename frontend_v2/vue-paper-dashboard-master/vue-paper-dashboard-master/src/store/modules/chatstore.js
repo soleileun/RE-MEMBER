@@ -46,6 +46,7 @@ const chatstore = {
                 roomName : payload.roomName,
             })
             .then(() => {
+                //alert(this.uid + '님을 초대했습니다.');
                 console.log('추가하였습니다.');
                 store.dispatch(Constant.GET_CHATROOMLIST);//, {rooms : payload.bstate});
 

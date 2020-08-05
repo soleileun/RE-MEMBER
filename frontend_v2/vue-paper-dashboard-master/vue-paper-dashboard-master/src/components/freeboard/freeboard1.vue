@@ -25,6 +25,7 @@
   </table>
   -->
   <!-- 디비에 들어갈 조건들 : {{selected}} + {{searchWord}} <br> -->
+  
     <div class="container-fluid">
                 <!-- ============================================================== -->
                 <!-- Bread crumb and right sidebar toggle -->
@@ -55,7 +56,7 @@
                 <!--
                 <h6 class="card-subtitle">Add class <code>.table</code></h6>
                 -->
-                <div class="table-full-width table-responsive">
+                <div class="table-responsive">
                   <table class="table">
                     <thead>
                       <tr>
@@ -71,7 +72,7 @@
                                             
                       <tr v-for="free in frees" :key="free.bno">
                         <td>{{free.bno}}</td>
-                        <td>[{{free.bstate}}]</td>
+                        <td>자유</td>
                         <!-- bno 쿼리스트링 달아서 분기 -->
                         <td style="text-align:left;">
                           <router-link :to="'/freeboard/detailfree/' + free.bno">{{free.btitle}}</router-link>
