@@ -35,6 +35,7 @@ export default {
     GET_SIDOLIST: 'getSidoList',
     GET_GUGUNLIST: 'getGugunList',
     GET_DONGLIST : 'getDongList',
+    SEARCH_POOL : 'searchPool',
 
 
     //이거 그 뭐야 채팅 관련

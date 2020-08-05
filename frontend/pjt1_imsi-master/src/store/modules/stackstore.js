@@ -125,16 +125,16 @@ const stackstore = {
     //         .catch(exp => alert('삭제 처리에 실패하였습니다.' + exp));
 
     // },
-    // //제목으로 찾기
-    // [Constant.SEARCH_BOARD_TITLE]: (store,payload) => {
-    //     console.log(payload);
-    //     http.get('/api/board/typesearch/btitle='+ payload.btitle + '&bstate=' + payload.bstate)
-    //         .then(response => {
-    //             console.log(response.data);
-    //             store.commit(Constant.GET_BOARDLIST, { boards: response.data })
-    //       })
-    //         .catch(exp => alert('search by title 처리에 실패하였습니다.' + exp));
-    //   },
+    //제목으로 찾기
+    [Constant.SEARCH_POOL]: (store,payload) => {
+        console.log(payload);
+        http.get('/api/board/typesearch/btitle='+ payload.btitle + '&bstate=' + payload.bstate)
+            .then(response => {
+                console.log(response.data);
+                store.commit(Constant.GET_BOARDLIST, { boards: response.data })
+          })
+            .catch(exp => alert('search by title 처리에 실패하였습니다.' + exp));
+      },
     // //작성자로 찾기
     // [Constant.SEARCH_BOARD_WRITER]: (store,payload) => {
     //     console.log(payload);

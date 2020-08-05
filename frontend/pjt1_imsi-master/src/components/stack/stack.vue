@@ -43,11 +43,8 @@
         </option>
       </select>
       <select v-else id="gugun" class="form-control col-md-2" disabled>
-
         <option value="0">선택</option>
-       
       </select>
-
 
       <label class="col-md-2" for="dong">
         <strong>
@@ -55,8 +52,13 @@
           <span id="userid" class="text-danger"></span>
         </strong>
       </label>
-      
-      <select v-if="selectedGugun!=0" id="dong" class="form-control col-md-2" v-model="selectedDong">
+
+      <select
+        v-if="selectedGugun!=0"
+        id="dong"
+        class="form-control col-md-2"
+        v-model="selectedDong"
+      >
         <!-- @change="changeDong(selectedDong)" -->
 
         <option value="0">선택</option>
@@ -67,24 +69,34 @@
         </option>
       </select>
       <select v-else id="dong" class="form-control col-md-2" disabled>
-
         <option value="0">선택</option>
-       
       </select>
     </div>
 
     <hr />
-    <div>
-      스택 태그 입력
-      <input type="text" placeholder="스택을 입력하세요" id="stackWord" />
-      <button v-on:click="registStack">입력</button>
 
-      <div v-for="(stack,index) in stacks" :key="index" :value="stack">
-        <span>{{stack}}</span>
+    <div class="selectform">
+      <div v-for="(pick,index) in picks" :key="index">
+        <button>{{pick}}</button>
         <button v-on:click="deleteStack(index)">X</button>
       </div>
-      <hr />
-      <button v-on:click="searchPool">검색</button>
+    </div>입력
+    <div class="searchform">
+      <div class="input">
+        <input
+          id="stackWord"
+          type="text"
+          v-model="inputVal"
+          @input="searchQuery()"
+          @keyup.enter="enter()"
+          placeholder="기술 태그 입력해주세요"
+        />
+      </div>
+      <table class="autoComplete">
+        <tr v-for="list in lists" :key="list" @click="add(list)">
+          <td>{{list}}</td>
+        </tr>
+      </table>
     </div>
   </div>
 </template>
@@ -96,10 +108,52 @@ import Constant from "../../Constant";
 export default {
   data() {
     return {
-      stacks: [],
       selectedSido: 0,
       selectedGugun: 0,
       selectedDong: 0,
+
+      lists: [],
+      pints: [
+        "C",
+        "C++",
+        "Java",
+        "Python",
+        "C#",
+        "Frontend",
+        "Backend",
+        "Spring",
+        "Jenkins",
+        "Django",
+        "Android",
+        "iOS",
+        "Unity",
+        "Unreal",
+        "react-native",
+        "Javascript",
+        "node.js",
+        "node.express",
+        "Angular.js",
+        "jQuery",
+        "React.js",
+        "Vue.js",
+        "IoT",
+        "Arduino",
+        "RasberryPi",
+        "Embedded",
+        "Qt",
+        "MachineVision",
+        "BlockChain",
+        "MachinLearning",
+        "DB",
+        "Oracle",
+        "MySQL",
+        "MSSQL",
+        "MariaDB",
+        "MongoDB",
+        "GraphQL",
+      ],
+      picks: [],
+      inputVal: "",
     };
   },
   computed: {
@@ -143,23 +197,51 @@ export default {
     // },
 
     searchPool() {
-      // this.$store.dispatch(Constant.SEARCH_BOARD_TITLE, {
-      //   btitle: val,
-      //   bstate: "free",
-      // });
+      let sd = "";
+      let gg = "";
+      let dn = "";
+
+      if(this.selectedSido == 0){
+        sd = " ";
+      }
+      if(this.selectedGugun == 0){
+        gg = " ";
+      }
+      if(this.selectedDong == 0){
+        dn = " ";
+      }
+      //시 구 동 미선택 시 " " 로 보내고 picks 배열은 그대로,
+      this.$store.dispatch(Constant.SEARCH_POOL, {sido : sd, gugun : gg, dong : dn, picks  });
+     
     },
-    registStack() {
-      if (this.stacks.length == 5) {
-        alert("검색 스택은 5개까지만 입력 가능합니다.");
-        $("#stackWord").val(null);
+
+    deleteStack(idx) {
+      this.picks.splice(idx, 1);
+    },
+
+    searchQuery: function () {
+      if (this.inputVal.trim() !== "") {
+        this.lists = this.pints.filter((el) => {
+          return el.toLowerCase().match(this.inputVal.toLowerCase());
+        });
       } else {
-        let addValue = $("#stackWord").val();
-        this.stacks.push("#" + addValue);
-        $("#stackWord").val(null);
+        this.lists = [];
       }
     },
-    deleteStack(idx) {
-      this.stacks.splice(idx, 1);
+    add: function (x) {
+      if (this.picks.length == 5) {
+        alert("검색 스택은 5개까지만 입력 가능합니다.");
+        this.lists = [];
+        this.inputVal = "";
+      } else {
+        if (x !== "") {
+          if (!this.picks.find((i) => i === x)) {
+            this.picks.push(x);
+          }
+        }
+        this.inputVal = "";
+        this.lists = [];
+      }
     },
   },
 };
