@@ -210,7 +210,7 @@ public class UserInfoController {
     	}else if(option =="phone") {
     		p = Pattern.compile("^01([0|1|6|7|8|9]?)-?([0-9]{3,4})-?([0-9]{4})$");
     	}else if(option == "password") {
-    		p = Pattern.compile("^[a-z0-9_]{8,20}$");
+    		p = Pattern.compile("^[a-Z0-9_]{8,20}$");
     	}else if(option == "nickname") {
     		p = Pattern.compile("^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|\\*]+$");
     	}
