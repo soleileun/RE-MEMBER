@@ -6,6 +6,7 @@
     아이디 : store의 state에서 가져오는 세션 아이디<br>
     제목 : <input type="text" v-model="board.btitle" placeholder="제목을 입력하세요" /><br>
     내용<br>
+    <vue-editor v-model="board.bcontent"></vue-editor>
     <textarea name="" id="" cols="30" rows="10" v-model="board.bcontent" placeholder="내용을 입력하세요"></textarea><br>
     <button @click="addFree">등록</button>
     <router-link to="/mainboard/freeboard" tag="button">목록으로</router-link>
@@ -14,10 +15,13 @@
 
 <script>
 import Constant from '../../Constant';
+import { VueEditor } from "vue2-editor";
 
 export default {
   name: "writefree",
-
+components: {
+    VueEditor,
+  },
   data: function() {
     return {
       board : {

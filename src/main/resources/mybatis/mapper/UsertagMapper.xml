@@ -37,8 +37,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	
 	
-	<select id="selectSame" parameterType="string" resultType="taglist">
-	
+	<select id="selectSame" parameterType="taglist" resultType="tagresult">
+	select count(tagvalue) as same, uid
+	from (
+		select * from usertag
+		where tagvalue in (#{tag1},#{tag2},#{tag3},#{tag4},#{tag5})
+	) as b
+	group by uid
+	having count(tagvalue) >= #{cnt};
+	<!--
 	select * 
 	from usertag
 	where tagvalue like CONCAT('%',#{tag1},'%') and 
@@ -46,6 +53,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	tagvalue like  CONCAT('%',#{tag3},'%') and
 	tagvalue like  CONCAT('%',#{tag4},'%') and
 	tagvalue like  CONCAT('%',#{tag5},'%')
+	
+	-->
 	</select>
 	
 	

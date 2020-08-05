@@ -41,7 +41,7 @@ public class UsertagServiceImpl implements UsertagService{
 	}
 
 	@Override
-	public List<String> selectSame(TagList v) {
+	public List<TagResult> selectSame(TagList v) {
 		// TODO Auto-generated method stub
 		return Dao.selectSame(v);
 	}

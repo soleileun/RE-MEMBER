@@ -17,7 +17,7 @@ public interface UsertagDAO {
 	
 	public int delete(Usertag v);
 	
-	public List<String> selectSame(TagList v);
+	public List<TagResult> selectSame(TagList v);
 	
 	public List<TagResult> selectSimilar(TagList v);
 }

@@ -40,7 +40,7 @@ public class UsertagDAOImpl implements UsertagDAO{
 	}
 
 	@Override
-	public List<String> selectSame(TagList v) {
+	public List<TagResult> selectSame(TagList v) {
 		return template.selectList(ns + "selectSame",v);
 	}
 
