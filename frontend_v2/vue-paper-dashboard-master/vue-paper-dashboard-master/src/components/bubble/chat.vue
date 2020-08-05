@@ -1,5 +1,67 @@
 <template>
   <div class="chatroom" >
+    
+    <div style="height 6%; text-align : center;" >
+      <div style="float:left; margin-top:10px;" class="hand" @click="back()">
+      <i class="fa fa-chevron-left " style="float:left; margin-left:12px; margin-top: 5px;" ></i>
+     이전
+      </div>
+      {{ this.room }}
+<div style="float:right; margin-top:10px; margin-right:12px;" class="hand"  @click="exit()">
+<i class="fa fa-sign-out" style="float:left; margin-top: 5px;"></i>
+나가기
+</div>
+
+      
+          <drop-down class="nav-item" title-classes="nav-link" icon="fa fa-envelope hand" title="초대">
+            
+                <input v-model="userinvite" type="text" @keyup="inviteuser">
+                <button @click="invite()" >초대</button>
+              <a class="dropdown-item" href="#">Notification 1</a>
+              <a class="dropdown-item" href="#">Notification 2</a>
+          </drop-down>
+
+
+<!--
+      <div class="btn-group dropdown" style="float:right;">
+    <i type="button" class="fa fa-align-justify dropdown-toggle" data-toggle="dropdown">
+
+    </i>
+
+    <div class="dropdown-menu">
+      
+      <p class="dropdown-item" data-toggle="collapse" data-target="#demo" >초대하기</p>
+      
+              <div id="demo" class="collapse">
+                <input v-model="userinvite" type="text" @keyup="inviteuser">
+                <button @click="invite()" >초대</button>
+
+              </div>
+
+           
+
+      <a class="dropdown-item" href="#" @click="exit()">나가기</a>
+    </div>
+    -
+    </div>
+    -->
+      <!--
+      <div class="menu dropdown">
+          <i type="button" class="fa fa-align-justify hand dropdown-toggle" data-toggle="dropdown" ></i>
+        
+          <div class="dropdown-content">
+            <button data-toggle="collapse" data-target="#demo">초대하기</button>
+
+              <div id="demo" class="collapse">
+                <input v-model="userinvite" type="text" @keyup="inviteuser">
+                <button @click="invite()" >초대</button>
+
+              </div>
+              <button @click="exit()" >나가기</button>
+        </div>
+      </div>
+      -->
+    </div>
     <div class="chatlist"  >
 
       <div class="base" ref="base">
@@ -10,6 +72,16 @@
             </span>
             <p> </p>
           </div>
+
+          
+          <div v-else-if="chat.id === 'system'">
+            <span >
+              <p></p>
+            <div style="text-align:center;">{{ chat.content }}</div>
+            </span>
+            <p> </p>
+          </div>
+
 
           <div v-else style="text-align:left">
             <div class = "namepart">
@@ -35,6 +107,15 @@
             <p> </p>
           </div>
 
+          <div v-else-if="item.id === 'system'">
+            <span >
+              <p></p>
+            <div style="text-align:center;">{{ item.content }}</div>
+            </span>
+            <p> </p>
+          </div>
+
+
          <div v-else style="text-align:left">
             <div style="width:30px; height:100%; float:left; margin:10px; margin-top:0px;" >
               <img src="" style="width:30px;height:30px;"> 
@@ -57,10 +138,10 @@
 
     </div>
     <p></p>
-      내용: <input v-model="inputcontent" type="text" @keyup="sendMessage">
+    <div style="margin-left : 20px;">
+      내용: <input v-model="inputcontent" type="text" @keyup="sendMessage" style="width:70%; margin-left:12px;">
           <button  @click="clickSend()" >입력</button>
-          <button @click="back()" >뒤로</button>
-
+    </div>
   </div>
 </template>
 
@@ -198,6 +279,79 @@ export default {
     back() {
  //     console.log("back 클릭");
       this.$emit('endchat',false);
+    },
+    inviteuser(e) {
+      
+      if(e.keyCode === 13 && this.id !== '' && this.userinvite !== ''){ // 엔터를 눌러 메시지를 발송합니다.
+        this.invite()
+        console.log("inviteuser");
+      }
+    },
+    invite() {
+      if(this.id !== '' && this.userinvite !== '') {
+        //만약 유저 아이디로 조회해서 널이 아니면 초대함.
+        //널이면 alert 보내자.
+        this.$store.dispatch(Constant.ADD_CHATROOM,{
+          roomName : this.rname,
+          uid : this.userinvite,
+          });
+      console.log(this.userinvite + "님을 초대");
+      alert(this.userinvite + "님을 초대했습니다.");
+      }
+
+
+      //초대 관련 시스템 메시지
+
+      
+      console.log("Send message:" + this.userinvite + "님께서 입장하셨습니다.");
+      if (this.stompClient && this.stompClient.connected) {
+        const msg = { 
+          id: "system",
+          nickname: "system",
+          content: this.userinvite + "님께서 입장하셨습니다.",
+          roomName: this.room, 
+        };
+        this.stompClient.send("/receive/"+this.room, JSON.stringify(msg), {});
+
+        this.$store.dispatch(Constant.SEND_CHAT,{
+          roomName : this.rname,
+          id : "system",
+          nickname : "system",
+          content : this.userinvite + "님께서 입장하셨습니다.",
+          makedate : new Date(),
+          });
+      }
+      // 끝
+    },
+    exit() {
+      console.log("나가기");
+
+      //나감 관련 시스템 메시지
+      console.log("Send message:" + this.id + "님께서 나가셨습니다.");
+      if (this.stompClient && this.stompClient.connected) {
+        const msg = { 
+          id: "system",
+          nickname: "system",
+          content: this.id + "님께서 나가셨습니다.",
+          roomName: this.room, 
+        };
+        this.stompClient.send("/receive/"+this.room, JSON.stringify(msg), {});
+
+        this.$store.dispatch(Constant.SEND_CHAT,{
+          roomName : this.rname,
+          id : "system",
+          nickname : "system",
+          content : this.id + "님께서 나가셨습니다.",
+          makedate : new Date(),
+          });
+      }
+      // 메시지 끝
+
+        this.$store.dispatch(Constant.REMOVE_CHATROOM,{
+          roomName : this.rname,
+          });
+          this.back();
+        //this.$router.push('/mainboard/qaboard');
     }
 
   },
@@ -222,7 +376,7 @@ beforeDestroy:function(){
   .chatlist{
   overflow-y : auto;
   overflow-x : hidden;
-  height:88%;
+  height:80%; // 원래 88%줬음
   }
   .base {
     height : 100%; 
@@ -273,5 +427,38 @@ button {
   margin-bottom:0;
 }
 
+
+.menu {
+   //height:7%; 
+   //opacity: 0.7;
+   float:right;
+}
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown > i {
+  float:right; margin:4px;margin-right:12px; margin-top:10px;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  right: 0;
+  background-color: #f9f9f9;
+  min-width: 120px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  text-align : center;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.hand:hover {
+cursor:pointer
+}
 }
 </style>

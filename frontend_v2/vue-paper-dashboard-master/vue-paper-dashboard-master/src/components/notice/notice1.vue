@@ -72,7 +72,7 @@
                                             
                       <tr v-for="free in frees" :key="free.bno">
                         <td>{{free.bno}}</td>
-                        <td>[{{free.bstate}}]</td>
+                        <td>공지</td>
                         <!-- bno 쿼리스트링 달아서 분기 -->
                         <td style="text-align:left;">
                           <router-link :to="'/freeboard/detailfree/' + free.bno">{{free.btitle}}</router-link>

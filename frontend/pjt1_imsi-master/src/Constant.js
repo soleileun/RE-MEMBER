@@ -24,7 +24,7 @@ export default {
     ADD_PROJECT: 'addProject',
     //인재풀
     GET_POOLLIST: 'getPoolList',
-
+    
     //리쿠르트
     GET_RECRUITLIST: 'getRecruitList',
     GET_RECRUIT: 'getRecruit',
@@ -35,7 +35,7 @@ export default {
     GET_SIDOLIST: 'getSidoList',
     GET_GUGUNLIST: 'getGugunList',
     GET_DONGLIST : 'getDongList',
-
+    SEARCH_POOL : 'searchPool',
 
     //이거 그 뭐야 채팅 관련
     GET_CHATROOMLIST: 'getChatroomList',
