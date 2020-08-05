@@ -2,121 +2,200 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>projectdetail</title>
 </head>
 
 <body>
     <div class="hello">
-
-        <div style="background:#E6E6E6; height:1000px;padding:20px;">
-            <div style="height: 200px; background:white;   border-radius: 10px;width:100%; float:left;">
+        <div style="background: #e6e6e6; height: 1000px; padding: 20px;">
+            <div style="
+            height: 200px;
+            background: white;
+            border-radius: 10px;
+            width: 100%;
+            float: left;
+          ">
                 간단한 이슈 대시보드
-                <br> 프로젝트 db 연동 완료<br> {{project.pid}} {{project.makeId}} {{project.pjtName}} {{project.pjtContent}}
+                <br /> 프로젝트 db 연동 완료<br /> {{project.pid}} {{project.makeId}} {{project.pjtName}} {{project.pjtContent}}
             </div>
 
             <section>
-                <div style="background:white;margin-top:40px;margin-bottom:40px; height:300px; width:47%; float:left; border-radius: 10px;padding-top:10px;padding-left:10px;padding-right:10px;">
+                <div style="
+              background: white;
+              margin-top: 40px;
+              margin-bottom: 40px;
+              height: 300px;
+              width: 47%;
+              float: left;
+              border-radius: 10px;
+              padding-top: 10px;
+              padding-left: 10px;
+              padding-right: 10px;
+            ">
                     전체 이슈 처리 현황 그래프를 넣어주자.
                 </div>
 
-                <div style="background:white; margin-top:40px;margin-bottom:40px; height:300px;  width:47%; float:right; border-radius: 10px;padding-top:10px;padding-left:10px;padding-right:10px;overflow-y : scroll">
-                    진행중인 이슈 나한테 할당된 이슈나, 이런거 보여줌<br> 아니면 총 이슈에 대한 정보를 스크롤 바 형식으로 보여주면 좋을것같음.
+                <div style="
+              background: white;
+              margin-top: 40px;
+              margin-bottom: 40px;
+              height: 300px;
+              width: 47%;
+              float: right;
+              border-radius: 10px;
+              padding-top: 10px;
+              padding-left: 10px;
+              padding-right: 10px;
+              overflow-y: scroll;
+            ">
+                    진행중인 이슈 나한테 할당된 이슈나, 이런거 보여줌<br /> 아니면 총 이슈에 대한 정보를 스크롤 바 형식으로 보여주면 좋을것같음.
 
-                    <section style="padding:5px; margin:5px; border:1px solid #D8D8D8; background:white; border-radius:25px; ">
+                    <section style="
+                padding: 5px;
+                margin: 5px;
+                border: 1px solid #d8d8d8;
+                background: white;
+                border-radius: 25px;
+              ">
                         이런식으로 들어감
                     </section>
                     <section style="padding:5px; margin:5px; border:1px solid #D8D8D8; background:white; border-radius:25px; s">
                         요렇게
                     </section>
                 </div>
-
-
             </section>
 
-            <div style="height: 300px; background:white;  border-radius: 10px;width:100%; float:left;">
-                간단한 이슈 대시보드 <br>
+            <div style="
+            height: 300px;
+            background: white;
+            border-radius: 10px;
+            width: 100%;
+            float: left;
+          ">
+                간단한 이슈 대시보드 <br />
 
-                <div class="left" id="before" ref="before" style="background:lightgrey; width:29%;height:80%;border-radius: 20px; margin:10px; padding:10px; float:left;">
+                <div class="left" id="before" ref="before" style="
+              background: lightgrey;
+              width: 29%;
+              height: 80%;
+              border-radius: 20px;
+              margin: 10px;
+              padding: 10px;
+              float: left;
+            ">
                     생성된 이슈
                 </div>
 
-                <div class="left" id="during" ref="during" style="background:lightgrey; width:29%;height:80%;border-radius: 20px; margin:10px;padding:10px; float:left;">
-                    진행중인 이슈 <br>
-                    <div class="test" id="첫번째" style="padding:5px; margin:5px; background:white; border-radius:25px;">
+                <div class="left" id="during" ref="during" style="
+              background: lightgrey;
+              width: 29%;
+              height: 80%;
+              border-radius: 20px;
+              margin: 10px;
+              padding: 10px;
+              float: left;
+            ">
+                    진행중인 이슈 <br />
+                    <div class="test" id="첫번째" style="
+                padding: 5px;
+                margin: 5px;
+                background: white;
+                border-radius: 25px;
+              ">
                         이런식으로 들어감
                     </div>
-                    <div class="test" id="두번째" style="padding:5px; margin:5px; background:white; border-radius:25px;">
+                    <div class="test" id="두번째" style="
+                padding: 5px;
+                margin: 5px;
+                background: white;
+                border-radius: 25px;
+              ">
                         요렇게
                     </div>
                 </div>
-                <div ref="end" id="end" class="left" style="background:lightgrey; width:29%;height:80%;border-radius: 20px; margin:10px;padding:10px; float:right;">
+                <div ref="end" id="end" class="left" style="
+              background: lightgrey;
+              width: 29%;
+              height: 80%;
+              border-radius: 20px;
+              margin: 10px;
+              padding: 10px;
+              float: right;
+            ">
                     완료된 이슈
                 </div>
-
             </div>
-
         </div>
-
     </div>
 
     <script>
-        import 'expose-loader?$!expose-loader?jQuery!jquery'
-        import dragula from 'dragula'
-        import Constant from '../../Constant';
+        import "expose-loader?$!expose-loader?jQuery!jquery";
+        import dragula from "dragula";
+        import Constant from "../../Constant";
 
         export default {
             created() {
                 this.$store.dispatch(Constant.GET_PROJECT, {
-                    pid: this.$route.params.pid
+                    pid: this.$route.params.pid,
                 });
             },
             computed: {
                 project() {
                     return this.$store.state.projectstore.project;
-                }
+                },
             },
             mounted() {
-                const { //right, display1, left, 
+                const {
+                    //right, display1, left,
                     middle,
                     before,
                     during,
-                    end
+                    end,
                 } = this.$refs;
-                dragula([
-                        //left, right, 
-                        middle, before, during, end //어디서 어디로 옮기는지 
+                dragula(
+                    [
+                        //left, right,
+                        middle,
+                        before,
+                        during,
+                        end, //어디서 어디로 옮기는지
                     ], {
-                        revertOnSpill: true //클릭한 요소 컨테이너 밖으로 보내도 순서유지. 
+                        revertOnSpill: true, //클릭한 요소 컨테이너 밖으로 보내도 순서유지.
                     }
-
-                ).on('drop', el => {
+                ).on("drop", (el) => {
                     //console.log("drop");
 
                     //console.log("source : " + source);
                     //console.log("el : " + el.className);
                     console.log("id : " + el.id);
                     //console.log("부모 id : " + this.$parent.name);
-                    console.log("부모 id : " + document.querySelector('#' + el.id).parentNode.id);
-                    console.log(el.id + "의 상태를 " + document.querySelector('#' + el.id).parentNode.id + "로 바꾸는 쿼리 실행");
+                    console.log(
+                        "부모 id : " + document.querySelector("#" + el.id).parentNode.id
+                    );
+                    console.log(
+                        el.id +
+                        "의 상태를 " +
+                        document.querySelector("#" + el.id).parentNode.id +
+                        "로 바꾸는 쿼리 실행"
+                    );
                     //부모 id에 따라 상태를 대기 진행중 완료됨으로 업데이트 하는 쿼리 실행하면 됨
-
 
                     //console.log(this.$parent);
                     //var a = $('첫번째').closet('div');
                     //console.log(a);
                     //console.log($("첫번째").closet('div'));
                     /*
-                    if(right.children.length > 0) { 
-                      display1.innerHTML = right.innerHTML 
-                    }else{ 
-                      display1.innerHTML = "Display" 
-                    } 
-                    */
-                })
-            }
-        }
+                            if(right.children.length > 0) { 
+                              display1.innerHTML = right.innerHTML 
+                            }else{ 
+                              display1.innerHTML = "Display" 
+                            } 
+                            */
+                });
+            },
+        };
     </script>
 </body>
 
