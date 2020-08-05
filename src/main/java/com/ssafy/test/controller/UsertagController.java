@@ -81,15 +81,11 @@ public class UsertagController {
 		TagList v = new TagList();
 		String a[] = tag.split(",");
 		int b = a.length;
-		System.out.println("b : " + b);
 		if(a.length > 0) v.setTag1(a[0]);
 		if(a.length > 1) v.setTag2(a[1]);
 		if(a.length > 2) v.setTag3(a[2]);
 		if(a.length > 3) v.setTag4(a[3]);
 		if(a.length > 4) v.setTag5(a[4]);
-		for(int i = 0; i < b; i++) {
-			System.out.println(a[i]);
-		}
 		v.setCnt(b);
 		//어차피 널이 들어감.
 
