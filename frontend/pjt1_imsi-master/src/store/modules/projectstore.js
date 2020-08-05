@@ -217,7 +217,15 @@ const projectstore = {
     // }
   },
 
+<<<<<<< HEAD
   modules: {}
+=======
+
+
+  
+  modules: {
+  }
+>>>>>>> 21b0ce6c87b22cb96793114e5dae771c1daa8a5c
 };
 
 export default projectstore;
