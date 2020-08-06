@@ -125,11 +125,9 @@ const stackstore = {
     //         .catch(exp => alert('삭제 처리에 실패하였습니다.' + exp));
 
     // },
-
-    
     //주소, 태그로 풀리스트 반환
-    [Constant.SEARCH_POOL]: (store,payload) => {
-        console.log(payload);
+    [Constant.SEARCH_POOL_BY_TAG_ADDR]: (store,payload) => {
+        // console.log(payload);
         http.get('/api/usertag/selectAddrAndTag/tag='+payload.stacks+'&addr=' + payload.addr)
             .then(response => {
                 console.log('풀리스트 반환: '+response.data);
@@ -137,6 +135,28 @@ const stackstore = {
           })
             .catch(exp => alert('풀리스트 반환 처리에 실패하였습니다.' + exp));
       },
+    //주소로 풀리스트 반환
+    [Constant.SEARCH_POOL_BY_ADDR]: (store,payload) => {
+        // console.log(payload);
+        http.get('/api/userinfo/addr/sido='+payload.sido+'&gugun='+payload.gugun+'&dong=' + payload.dong)
+            .then(response => {
+                // console.log('풀리스트 반환: '+response.data);
+                store.commit(Constant.GET_POOLLIST, { pools : response.data })
+          })
+            .catch(exp => alert('풀리스트 반환 처리에 실패하였습니다.' + exp));
+      },
+    //태그로 풀리스트 반환
+    [Constant.SEARCH_POOL_BY_TAG]: (store,payload) => {
+        // console.log(payload);
+        http.get('/api/usertag/selectSame/'+payload.stacks)
+            .then(response => {
+                // console.log('풀리스트 반환: '+response.data);
+                store.commit(Constant.GET_POOLLIST, { pools : response.data })
+          })
+            .catch(exp => alert('풀리스트 반환 처리에 실패하였습니다.' + exp));
+      },
+
+    
     // //작성자로 찾기
     // [Constant.SEARCH_BOARD_WRITER]: (store,payload) => {
     //     console.log(payload);

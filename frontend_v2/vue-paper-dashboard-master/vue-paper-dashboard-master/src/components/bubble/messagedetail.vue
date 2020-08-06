@@ -20,7 +20,7 @@
             <i class="ti-email">{{mes.fromUser}}</i>
             <strong v-if="!mes.read">읽지 않음</strong>
           </span>
-          <div class="mesContent" @mouseenter="read(mes.mnum,mes.read)">
+          <div class="mesContent" @mouseenter="read(mes.mnum,mes.read);mes.read = true">
             {{mes.content}}
             <h6>
               <span>{{mestime(mes.time)}}</span>
@@ -49,6 +49,7 @@ export default {
   data: function () {
     return {
       myid: storage.getItem("userid"),
+      mnums:[],
     };
   },
   computed: {
@@ -74,14 +75,10 @@ export default {
   },
   methods: {
     read: function (mnum, read) {
-      if (!read) {
+      if (!read && this.mnums.indexOf(mnum)===-1) {
+        this.mnums.push(mnum)
         this.$store.dispatch("mesRead", { mnum: mnum });
-        this.news.find((item) => {
-          if (item.mnum === mnum) {
-            item.read = true;
-            return true;
-          }
-        });
+       
       }
     },
     mestime: function (x) {

@@ -31,7 +31,7 @@
           </h5>
         </div>
       </div>
-    </div>
+    </div>Not Completed
   </card>
 </template>
 <script>
@@ -42,15 +42,15 @@ export default {
       details: [
         {
           title: "12",
-          subTitle: "Files",
+          subTitle: "Following ",
         },
         {
-          title: "2GB",
-          subTitle: "Used",
+          title: "6",
+          subTitle: "Followers",
         },
         {
-          title: "24,6$",
-          subTitle: "Spent",
+          title: "7",
+          subTitle: "Like PJT",
         },
       ],
       userNick: storage.getItem("userNick"),
