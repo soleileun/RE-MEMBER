@@ -12,9 +12,9 @@
       <button @click="goLogin">로그인</button>
       <br />
       <span @click="loginexit">
-        <router-link :to="{name:'signup'}">회원가입</router-link>
+        <router-link to="/signup">회원가입</router-link>
         <br />
-        <router-link :to="{name:'findIDPW'}">아이디 / 비밀번호 찾기</router-link>
+        <router-link to="/user/findid">아이디 / 비밀번호 찾기</router-link>
       </span>
       <div>
         <!-- <span @click="kakao">카카오</span> | 
@@ -77,6 +77,9 @@ export default {
   visibility: hidden;
   height: 0;
   width: 0;
+  position: fixed;
+  top:0;
+  left: 0;
 }
 .login.active {
   padding: 5vh;

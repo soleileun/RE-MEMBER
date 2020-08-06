@@ -13,7 +13,7 @@
     <!-- 작성자 본인, 관리자만 수정 삭제 가능 -->
     <router-link :to="'/notice/modifynotice/' + board.bno" tag="button">수정</router-link>
     <button @click="deleteNotice">삭제</button>
-    <router-link to="/mainboard/notice" tag="button">목록으로</router-link>
+    <router-link to="/notice" tag="button">목록으로</router-link>
     <br>
     <br>
     * 댓글 목록
@@ -95,7 +95,7 @@ export default {
       if(con_test == true){
         this.$store.dispatch(Constant.REMOVE_BOARD, { bno : this.board.bno, bstate : this.board.bstate});
         // console.log('삭제요청완료.' + this.board.bno);
-        this.$router.push('/mainboard/notice');
+        this.$router.push('/notice');
       }
       else if(con_test == false){
         console.log('');

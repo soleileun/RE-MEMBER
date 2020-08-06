@@ -2,11 +2,11 @@
   <div class="bubble" :style="{height:`${bubbleY+4}px`,width:`${bubbleX+4}px`}">
     <div class="con" :style="{height:`${bubbleY}px`,width:`${bubbleX}px`}">
       <div class="icon" draggable="false">
-        <i class="far fa-comments" @click="act">
+        <i class="ti-comments" @click="act">
           <div class="newdot" v-if="newdot"></div>
         </i>
-        <i class="fas fa-map-pin bubble-items dragable" draggable="true" @dragend="dragend" @drag="drag"></i>
-        <i class="fas fa-times exit bubble-items" @click="act"></i>
+        <i class="ti-location-arrow bubble-items dragable" draggable="true" @dragend="dragend" @drag="drag"></i>
+        <i class="ti-close exit bubble-items" @click="act"></i>
         <div class="bubble-items btns">
           <button class="act" id="bubble1" @click="bubbleState('1')">알림</button>
           <button id="bubble2" @click="bubbleState('2')">채팅창</button>
@@ -107,7 +107,7 @@ export default {
         window.innerWidth - 50
       );
       this.bubbleY = Math.min(
-        Math.max(window.innerHeight - e.pageY - 25, 500),
+        Math.max(window.innerHeight - (e.pageY - window.scrollY) - 25, 500),
         window.innerHeight - 100
       );
     },
@@ -117,7 +117,7 @@ export default {
         window.innerWidth - 50
       );
       this.bubbleY = Math.min(
-        Math.max(window.innerHeight - e.pageY - 25, 500),
+        Math.max(window.innerHeight - (e.pageY - window.scrollY) - 25, 500),
         window.innerHeight - 100
       );
       storage.setItem("bubbleX", this.bubbleX);
@@ -144,9 +144,11 @@ export default {
     background-color: white;
     border-radius: 80px;
     .icon {
+      padding: 7px;
+      padding-left: 10px;
       font-size: 39px;
       color: #537;
-      .fa-comments {
+      .ti-comments {
         position: relative;
         .newdot {
           position: absolute;
@@ -169,7 +171,7 @@ export default {
   }
   &.active {
     border-radius: 10px;
-    .fa-comments {
+    .ti-comments {
       display: none;
     }
     .con {
@@ -192,8 +194,7 @@ export default {
         margin-bottom: 3px;
         .dragable {
           cursor: nw-resize;
-          color: red;
-          text-shadow: yellow 2px 2px 3px;
+          color: black;
           font-size: 1rem;
           text-align: start;
           position: absolute;

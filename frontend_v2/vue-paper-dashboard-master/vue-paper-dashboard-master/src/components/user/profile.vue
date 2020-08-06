@@ -23,7 +23,9 @@ export default {
     VueEditor,
   },
   mounted: function () {
-    http
+    if (storage.getItem("jwt-auth-token").length>10){
+
+      http
       .get(
         "/api/board/typesearch/writer=" +
           storage.getItem("userid") +
@@ -35,26 +37,32 @@ export default {
           this.bno = response.data[0].bno;
           this.board.bview = response.data[0].bview;
         } else {
-          this.$store.dispatch(Constant.ADD_BOARD, {
-            //bno : auto increase
-            // bwriter : this.board.bwriter, 임시로 ssafy foreign key때문
-            bwriter: storage.getItem("userid"),
-            btitle: this.board.btitle,
-            bcontent: "프로필 초기",
-            bview: this.board.bview,
-            bfile: this.board.bfile,
-            bstate: "profile",
-            makeDay: new Date(),
-            // changeDay : this.board.changeday,
-            makeId: this.board.makeid,
-            // changeId : this.board.changeid
-          });
-          setTimeout(() => {
-            this.$router.go();
-          }, 500);
+          if (storage.getItem("userid").length > 0) {
+            this.$store.dispatch(Constant.ADD_BOARD, {
+              //bno : auto increase
+              // bwriter : this.board.bwriter, 임시로 ssafy foreign key때문
+              bwriter: storage.getItem("userid"),
+              btitle: this.board.btitle,
+              bcontent: "프로필 초기",
+              bview: this.board.bview,
+              bfile: this.board.bfile,
+              bstate: "profile",
+              makeDay: new Date(),
+              // changeDay : this.board.changeday,
+              makeId: this.board.makeid,
+              // changeId : this.board.changeid
+            });
+            setTimeout(() => {
+              this.$router.go();
+            }, 500);
+          }
         }
       })
       .catch((exp) => alert("내 프로필을 로드하는데에 실패하였습니다." + exp));
+    }else{
+      this.$router.push('/')
+      alert('로그인이 필요합니다.')
+    }
   },
   data() {
     return {

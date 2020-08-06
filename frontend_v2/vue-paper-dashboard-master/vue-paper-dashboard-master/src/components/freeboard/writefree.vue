@@ -1,37 +1,129 @@
 <template>
   <div class="freeboard1">
-    <h1>자유게시판 글 작성 샘플</h1>
-    
-    <hr>
-    아이디 : store의 state에서 가져오는 세션 아이디<br>
-    제목 : <input type="text" v-model="board.btitle" placeholder="제목을 입력하세요" /><br>
-    내용<br>
-    <textarea name="" id="" cols="30" rows="10" v-model="board.bcontent" placeholder="내용을 입력하세요"></textarea><br>
-    <button @click="addFree">등록</button>
+    <div class="card" >
+      
+      <div class="card-header">
+        <h1>게시판 글 작성 샘플 - 게시판들 통합 예정 -</h1>
+      </div>
+      <hr>
+      <div class="card-body">
+        <div style="display:block;">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-2 write-left" > 
+                글머리
+              </div>
+
+              <div class="col-10 write-right"> 
+                <select name="option" id="statetag" style="width:20%; padding-left:2px;" v-model="bstate">
+                  <option value ="free">자유게시판</option>
+                  <option value ="qa">질문게시판</option>
+                  <option value ="notice" v-if="this.makeId === 'admin'">공지게시판</option>
+                </select> 
+              </div>
+            </div>
+          </div>
+
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-2 write-left"  > 
+                제목
+              </div>
+
+              <div class="col-10 write-right"> 
+                <input v-model="btitle" type="text" >
+              </div>
+            </div>
+          </div>
+
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-2 write-left"  > 
+                작성자
+              </div>
+              <div class="col-10 write-right"> 
+                  {{this.bwriter}}
+              </div>
+            </div>
+          </div>
+          
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-2 write-left" > 
+                이메일
+              </div>
+
+              <div class="col-10 write-right"> 
+                  {{this.makeId}}
+              </div>
+            </div>
+          </div>
+
+
+          <div class="container-fluid">
+            <div class="row" style="min-height:600px;">
+              <div class="col-2 write-left" > 
+                내용
+              </div>
+
+              <div class="col-10 write-right">       
+                <vue-editor v-model="bcontent" style="height:80%;"></vue-editor>
+              <!--<textarea name="" id="" cols="30" rows="10" v-model="board.bcontent" placeholder="내용을 입력하세요"></textarea><br>-->
+              </div>
+            </div>
+          </div>
+
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-2 write-left" > 
+                첨부파일
+              </div>
+              <div class="col-10 write-right"> 
+                첨부파일 넣을 수 있는거 넣어주자
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="container">
+          <div class="row">
+            <div class="col text-center btndiv">
+              <button class="btn btn-outline-primary" @click="addFree">등록하기</button>
+              <button class="btn btn-outline-primary" @click="check">목록으로</button>
+            </div>
+          </div>
+        </div>
+<!--
     <router-link to="/mainboard/freeboard" tag="button">목록으로</router-link>
+    -->
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import Constant from '../../Constant';
-
+import { VueEditor } from "vue2-editor";
+const storage = window.sessionStorage;
 export default {
   name: "writefree",
-
+components: {
+    VueEditor,
+  },
   data: function() {
     return {
       board : {
-        bno : '',
-        bwriter : '',
-        btitle : '',
-        bcontent : '',
-        bview :'',
+        //bno : '',// 자동 증가라 필요가 없음
+        bwriter : storage.getItem("userNick"), //writer를 닉네임으로 할건지 메일로 할건지에 대해서
+        btitle : '', // 됐음
+        bcontent : '',  //됐음
+        bview : 0, // 초기 0임
         bfile :'',
-        bstate : '',
-        makeDay : '',
-        changeDay : '',
-        makeId :'',
-        changeId : ''
+        bstate : '',  // 됐음
+        makeDay : '', // 현재 자동으로 들어가게 할거임
+        changeDay : '', //null
+        makeId :storage.getItem("userid"),
+        changeId : storage.getItem("userid"),
       },
     };
   },
@@ -61,6 +153,12 @@ export default {
         clear(){
             this.board = {
             };  //this.board = {} 이렇게 하면 안나옴
+        },
+        check() {
+          //this.btitle = this.inputtitle;
+          console.log(this.btitle);
+          console.log(this.bcontent);
+          console.log(this.bstate);
         }
   }
 };
@@ -68,4 +166,34 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
+
+.write-left {
+  //float:left;
+  background:rgb(233, 233, 233);
+  //width:20%;
+  border: solid 0.5px rgb(128, 127, 127);
+  padding:15px;
+}
+.write-right {
+  //float:left; 
+  background:rgb(255, 255, 255); 
+  //width:80%; 
+  text-align:left;
+  border: solid 0.5px rgb(128, 127, 127);
+  padding:15px;
+}
+input {
+  width:70%; 
+  margin-left:2px;
+}
+.input-div{
+  padding-top:12px;
+  padding-bottom:12px;
+}
+.btndiv {
+  padding:10px;
+}
+.btndiv > button {
+  margin:10px;
+}
 </style>

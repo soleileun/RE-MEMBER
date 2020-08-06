@@ -52,6 +52,9 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			alias="taglist" />
 			<typeAlias type="com.ssafy.test.model.dto.TagResult"
 			alias="tagresult" />
+			<typeAlias type="com.ssafy.test.model.dto.AddrAndTag"
+			alias="addrandtag" />
+			
 	</typeAliases>
 
 	<mappers>

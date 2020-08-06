@@ -5,11 +5,12 @@ import NotFound from "@/pages/NotFoundPage.vue";
 // 우리꺼 루트
 import main from "./link/main.vue";
 import notice from "./link/notice.vue";
-import user from "@/components/user/profile.vue";
+import user from "./link/user.vue";
 import freeboard from "./link/freeboard.vue";
 import qaboard from "./link/qaboard.vue";
 import recruit from "./link/recruit.vue";
 import service from "./link/service.vue";
+import profile from "./link/profile.vue";
 // 우리 리브
 import findIDPW from "../components/user/findIDPW.vue";
 import leave from "../components/user/leave.vue";
@@ -47,8 +48,7 @@ import Typography from "@/pages/Typography.vue";
 import TableList from "@/pages/TableList.vue";
 
 
-const routes = [
-  {
+const routes = [{
     path: "/",
     component: DashboardLayout,
     redirect: "/main",
@@ -56,146 +56,150 @@ const routes = [
 
       {
         path: "main",
-        name: "main",
+        name: "메인",
         component: main
       },
       {
         path: "user",
-        name: "user",
+        name: "마이페이지",
         component: user
       },
       {
         path: "freeboard",
-        name: "freeboard",
+        name: "자유게시판",
         component: freeboard,
       },
       {
         path: "notice",
-        name: "notice",
+        name: "공지사항",
         component: notice,
       },
       {
         path: "qaboard",
-        name: "qaboard",
+        name: "질문게시판",
         component: qaboard,
       },
       {
         path: "/recruit",
-        name: "recruit",
+        name: "모집",
         component: recruit,
       },
       {
         path: "/service",
-        name: "service",
+        name: "고객센터",
         component: service,
       },
       {
         path: "/pool",
-        name: "pool",
+        name: "인재풀",
         component: pool,
+      }, {
+        path: "/profile",
+        name: "프로필",
+        component: profile,
       },
       /////////// 잎파리
 
       {
         path: "/freeboard/writefree",
-        name: "writefree",
+        name: "자유게시판 글쓰기",
         component: writefree,
       },
       {
         path: "/freeboard/detailfree/:bno",
-        name: "detailfree",
+        name: "자유게시판 글",
         component: detailfree,
       },
       {
         path: "/freeboard/modifyfree/:bno",
-        name: "modifyfree",
+        name: "글 수정",
         component: modifyfree,
       },
       {
         path: "/notice/writenotice",
-        name: "writenotice",
+        name: "공지 작성",
         component: writenotice,
       },
       {
         path: "/notice/detailnotice/:bno",
-        name: "detailnotice",
+        name: "공지사항 글",
         component: detailnotice,
       },
       {
         path: "/notice/modifynotice/:bno",
-        name: "modifynotice",
+        name: "공지사항 수정",
         component: modifynotice,
       },
 
       {
         path: "/pool/poollist",
-        name: "poollist",
+        name: "인재 리스트",
         component: poollist,
       }, {
         path: "/project/myproject/:userId",
-        name: "myproject",
+        name: "내 프로젝트",
         component: myproject,
       },
       {
         path: "/project/projectdetail/:pid",
-        name: "projectdetail",
+        name: "프로젝트 상세",
         component: projectdetail,
       },
       {
         path: "/project/makeproject",
-        name: "makeproject",
+        name: "프로젝트 작성",
         component: makeproject,
       }, {
         path: "/qaboard/writeqa",
-        name: "writeqa",
+        name: "질문 작성",
         component: writeqa,
       },
       {
         path: "/qaboard/detailqa/:bno",
-        name: "detailqa",
+        name: "질문",
         component: detailqa,
       },
       {
         path: "/qaboard/modifyqa/:bno",
-        name: "modifyqa",
+        name: "질문 수정",
         component: modifyqa,
       },
       {
         path: "/recruit/recruit1",
-        name: "recruit1",
+        name: "모집 리스트",
         component: recruit1,
       },
       {
         path: "/recruit/recruitdetail/:rnum",
-        name: "recruitdetail",
+        name: "모집 상세",
         component: recruitdetail,
       },
       {
         path: "/recruit/registteam",
-        name: "registteam",
+        name: "모집 등록",
         component: registteam,
       }, {
         path: "/signup",
-        name: "signup",
+        name: "회원 가입",
         component: signup,
       },
       {
         path: "/emailcheck",
-        name: "emailcheck",
+        name: "이메일 확인",
         component: emailcheck,
       }, {
         path: "/user/findid",
-        name: "findIDPW",
+        name: "아이디 /비밀번호 찾기",
         component: findIDPW,
       },
       {
         path: "/user/editinfo",
-        name: "editinfo",
+        name: "개인정보 수정",
         component: editinfo,
       },
       {
         path: "/user/leave",
-        name: "leave",
+        name: "회원 탈퇴",
         component: leave,
       },
       ///////////////////////////////////////////// 여기 아래로 탬플릿
@@ -236,7 +240,10 @@ const routes = [
       }
     ]
   },
-  { path: "*", component: NotFound }
+  {
+    path: "*",
+    component: NotFound
+  }
 ];
 
 /**

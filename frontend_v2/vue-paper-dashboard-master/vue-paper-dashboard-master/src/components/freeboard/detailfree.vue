@@ -1,19 +1,57 @@
 <template>
   <div class="detailfree">
-    <h1>자유게시판 글 조회 샘플</h1>
     
-    <hr>
+    <div class="card" >
+      
+      <div class="card-header">
+
+      </div>
+
+      <div class="card-body">
+
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-12" style="text-align:center"> 
+                <h1 > {{board.btitle}} </h1>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-1 pics">
+              사진
+              </div>
+            <div class="col-3">
+              <div class="col-12 name" >
+                {{board.bwriter}}
+              </div>
+              <div class="col-12 date">
+                {{board.makeDay.slice(0,16)}}
+              </div>
+            </div>
+          </div>
+          <hr>
+
+          <div class="col-12 contents" >
+            <html>
+              {{board.bcontent}}
+            </html>
+          </div>
+      
+      </div>
+
+    </div>
+
+
+
+
+
     
     <!-- 게시물 번호로 게시물 search 후 id 꺼내기 -->
-    아이디 : {{board.bwriter}}<br> 
-    제목 : {{board.btitle}}<br>
-    등록날짜 : {{board.makeDay}}<br>
-    내용<br>
-    {{board.bcontent}}<br>
     <!-- 작성자 본인, 관리자만 수정 삭제 가능 -->
     <router-link :to="'/freeboard/modifyfree/' + board.bno" tag="button">수정</router-link>
     <button @click="deleteFree">삭제</button>
-    <router-link to="/mainboard/freeboard" tag="button">목록으로</router-link>
+    <router-link to="/freeboard" tag="button">목록으로</router-link>
     <br>
     <br>
     * 댓글 목록
@@ -31,6 +69,8 @@
 <script>
 import Constant from '../../Constant';
 import comment from '../comment/comment';
+import { VueEditor } from "vue2-editor";
+const storage = window.sessionStorage;
 
 export default {
   components:{
@@ -95,7 +135,7 @@ export default {
       if(con_test == true){
         this.$store.dispatch(Constant.REMOVE_BOARD, { bno : this.board.bno, bstate : this.board.bstate});
         // console.log('삭제요청완료.' + this.board.bno);
-        this.$router.push('/mainboard/freeboard');
+        this.$router.push('/freeboard');
       }
       else if(con_test == false){
         console.log('');
@@ -142,5 +182,21 @@ table, td, tr, th {
   margin : 0 auto;
   text-align: center;
   border: 1px solid black;
+}
+
+.name {
+  font-size:18px;
+  margin:2px;
+}
+.date {
+  font-size:11px;
+  margin:2px;
+
+}
+.pics {
+  margin:4px;
+}
+.contents {
+  min-height:400px;
 }
 </style>

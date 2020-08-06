@@ -6,8 +6,10 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.ssafy.test.model.dto.AddrAndTag;
 import com.ssafy.test.model.dto.TagList;
 import com.ssafy.test.model.dto.TagResult;
+import com.ssafy.test.model.dto.UserInfo;
 import com.ssafy.test.model.dto.Usertag;
 
 @Repository
@@ -40,13 +42,18 @@ public class UsertagDAOImpl implements UsertagDAO{
 	}
 
 	@Override
-	public List<String> selectSame(TagList v) {
+	public List<UserInfo> selectSame(TagList v) {
 		return template.selectList(ns + "selectSame",v);
 	}
 
 	@Override
-	public List<TagResult> selectSimilar(TagList v) {
+	public List<UserInfo> selectSimilar(TagList v) {
 		return template.selectList(ns + "selectSimilar",v);
+	}
+
+	@Override
+	public List<UserInfo> selectAddrAndTag(AddrAndTag v) {
+		return template.selectList(ns + "selectAddrAndTag",v);
 	}
 
 }

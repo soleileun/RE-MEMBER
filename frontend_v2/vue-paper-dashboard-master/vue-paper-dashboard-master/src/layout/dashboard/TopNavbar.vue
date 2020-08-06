@@ -9,24 +9,30 @@
       </button>
       <div class="collapse navbar-collapse">
         <ul class="navbar-nav ml-auto">
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="ti-panel"></i>
-              <p>Stats</p>
+          <li class="nav-item" v-if="userNick">
+            <img class="nav-link" src="@/assets/img/vue-logo.png" />
+          </li>
+          <drop-down class="nav-item" :title="userNick+'님'" title-classes="nav-link" v-if="userNick">
+            <router-link to="/user" class="nav-link">
+              <i class="ti-user"></i>
+              <p>마이페이지</p>
+            </router-link>
+            <a href="#" class="nav-link" @click="logout">
+              <i class="ti-power-off"></i>
+              <p>로그아웃</p>
+            </a>
+          </drop-down>
+          <li class="nav-item" v-if="!userNick">
+            <a href="#" class="nav-link" @click="login">
+              <i class="ti-key"></i>
+              <p>로그인</p>
             </a>
           </li>
-          <drop-down class="nav-item" title="5 Notifications" title-classes="nav-link" icon="ti-bell">
-            <a class="dropdown-item" href="#">Notification 1</a>
-            <a class="dropdown-item" href="#">Notification 2</a>
-            <a class="dropdown-item" href="#">Notification 3</a>
-            <a class="dropdown-item" href="#">Notification 4</a>
-            <a class="dropdown-item" href="#">Another notification</a>
-          </drop-down>
-          <li class="nav-item">
-            <a href="#" class="nav-link" @click="login">
-              <i class="ti-settings"></i>
-              <p>login</p>
-            </a>
+          <li class="nav-item" v-if="!userNick">
+            <router-link to="/signup" class="nav-link">
+              <i class="ti-id-badge"></i>
+              <p>회원가입</p>
+            </router-link>
           </li>
         </ul>
       </div>
@@ -34,12 +40,16 @@
   </nav>
 </template>
 <script>
-// <sidebar-link to="/user" name="마이페이지" icon="ti-panel"/>
+// const storage = window.sessionStorage;
+
 export default {
   computed: {
     routeName() {
       const { name } = this.$route;
       return this.capitalizeFirstLetter(name);
+    },
+    userNick: function () {
+      return this.$store.state.userstore.userNick;
     },
   },
   data() {
@@ -67,8 +77,20 @@ export default {
     hideSidebar() {
       this.$sidebar.displaySidebar(false);
     },
+    logout: function () {
+      this.$store.dispatch("logout");
+    },
   },
 };
 </script>
-<style>
+<style scoped lang="scss">
+img.nav-link {
+  height: 40px;
+  width: 40px;
+  border-radius: 40px;
+  background-color: #555;
+}
+a.navbar-brand{
+  font-size: 1.5rem;
+}
 </style>
