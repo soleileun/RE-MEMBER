@@ -33,6 +33,8 @@ export default {
     SEARCH_RECRUIT_BY_TAG_ADDR : 'searchRecruitByTagAddr',
     SEARCH_RECRUIT_BY_TAG : 'searchRecruitByTag',
     SEARCH_RECRUIT_BY_ADDR : 'searchRecruitByAddr',
+    REMOVE_RECRUIT: 'removeRecruit',
+
 
     //인재풀, 모집 공용스택
     GET_FILTERED_POOLLIST: 'getFilteredPoolList',
