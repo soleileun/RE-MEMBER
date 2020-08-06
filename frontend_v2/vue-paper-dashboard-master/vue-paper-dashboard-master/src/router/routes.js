@@ -15,6 +15,7 @@ import othersprofile from "./link/othersprofile.vue";
 import findIDPW from "../components/user/findIDPW.vue";
 import leave from "../components/user/leave.vue";
 import editinfo from "../components/user/editinfo.vue";
+import editinterest from "../components/user/editinterest.vue";
 import signup from "./link/signup.vue";
 import emailcheck from "./link/emailcheck.vue";
 import recruit1 from "../components/recruit/recruit1.vue";
@@ -197,6 +198,11 @@ const routes = [{
         path: "/user/editinfo",
         name: "개인정보 수정",
         component: editinfo,
+      },
+      {
+        path: "/user/editinterest",
+        name: "내 관심사 수정",
+        component: editinterest,
       },
       {
         path: "/user/leave",

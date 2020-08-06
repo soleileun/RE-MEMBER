@@ -5,7 +5,7 @@
     <vue-editor v-show="profileEdit" v-model="content" :editorToolbar="customToolbar"></vue-editor>
     <!-- 에디터를 v-show로 숨겨두지 않으면 일부 꾸밈 코드가 안먹힘 -->
     <div v-if="myprofile">
-      <button class="btn btn-round btn-info" v-if="!profileEdit" @click="edit">프로필 수정하기</button>
+      <button class="btn btn-round btn-success" v-if="!profileEdit" @click="edit">프로필 수정하기</button>
       <button class="btn btn-round btn-info" v-else @click="complete">수정 완료</button>
     </div>
   </div>

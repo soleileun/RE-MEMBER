@@ -14,6 +14,11 @@
             <div class="card-body">
               <center class="m-t-30">
                 <h4 class="card-title m-t-10">내 관심사</h4>
+                <div class="ints btn btn-success" v-for="inter in inters" :key="inter.interest">{{inter.interest}}</div>
+                <hr>
+                <router-link class="nav-link" to="/user/editinterest">
+                  <button class="btn btn-info">관심사 수정</button>
+                </router-link>
               </center>
             </div>
           </div>
@@ -21,18 +26,20 @@
           <div class="card">
             <div class="card-body">
               <center class="m-t-30">
-                <br />
-                <button>
-                  <router-link class="nav-link" to="/user/editinfo">개인정보 수정</router-link>
-                </button>
-                <br />
-                <button>
-                  <router-link class="nav-link" :to="{path:'/service'}">고객센터</router-link>
-                </button>
-                <br />
-                <button>
-                  <router-link class="nav-link" to="/user/leave">회원탈퇴</router-link>
-                </button>
+                <router-link class="nav-link" to="/myproject">
+                  <button class="profBtn btn btn-info">내 프로젝트 보기</button>
+                </router-link>
+                <router-link class="nav-link" to="/user/editinfo">
+                  <button class="profBtn btn btn-info">개인정보 수정</button>
+                </router-link>
+
+                <router-link class="nav-link" :to="{path:'/service'}">
+                  <button class="profBtn btn btn-info">고객센터</button>
+                </router-link>
+
+                <router-link class="nav-link" to="/user/leave">
+                  <button class="profBtn btn btn-danger">회원탈퇴</button>
+                </router-link>
               </center>
             </div>
           </div>
@@ -52,6 +59,8 @@
 <script>
 import profile from "../../components/user/profile.vue";
 import cardUser from "../../components/user/cardUser.vue";
+import Constant from "@/Constant.js";
+import http from "@/http-common.js";
 const storage = window.sessionStorage;
 
 export default {
@@ -61,11 +70,21 @@ export default {
     cardUser,
   },
   mounted: function () {
-    this.$store.dispatch("getMyProfile");
+    http
+      .get("/api/interest/selectById/" + storage.getItem("userid"))
+      .then((response) => {
+        if (response.data.length > 0) {
+          this.inters = response.data;
+        } else {
+          this.inters = [{ interest: "관심사가 아직 없습니다." }];
+        }
+      })
+      .catch((exp) => alert("관심사를 로드하는데에 실패하였습니다." + exp));
   },
   data: function () {
     return {
       userNick: storage.getItem("userNick"),
+      inters:[]
     };
   },
   methods: {},
@@ -74,4 +93,12 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
+.ints {
+  margin: 5px;
+  border-radius: 20px;
+}
+button.profBtn{
+  width: 70%;
+  border-radius: 18px;
+}
 </style>
