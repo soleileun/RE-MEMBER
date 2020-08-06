@@ -40,7 +40,7 @@
           <div class="row">
             <div class="col text-center btndiv">
               <button v-if="board.bwriter === this.nowid || this.nowid === 'admin' " class="btn btn-outline-warning">수정하기</button>
-              <button v-if="board.bwriter === this.nowid || this.nowid === 'admin' " class="btn btn-outline-danger">삭제하기</button>
+              <button v-if="board.bwriter === this.nowid || this.nowid === 'admin' " class="btn btn-outline-danger" @click="deleteFree">삭제하기</button>
               <button class="btn btn-outline-primary">목록으로</button>
 
             </div>
@@ -85,7 +85,7 @@
             댓글
           </div>
           <div class="col-9"> 
-            <input v-model="input_btitle" type="text" style="width:100%" >
+            <input v-model="comment2.ccontent" type="text" style="width:100%" >
           </div>
           <div class="col-2">
             <button >입력</button>
@@ -132,7 +132,7 @@
           <div class="container-fluid">
             <div class="row" style="min-height:300px;">
               <div class="col-12">       
-                <vue-editor v-model="input_bcontent" style="height:60%;"></vue-editor>
+                <vue-editor v-model="comment2.ccontent" style="height:60%;"></vue-editor>
               <!--<textarea name="" id="" cols="30" rows="10" v-model="board.bcontent" placeholder="내용을 입력하세요"></textarea><br>-->
               </div>
             </div>

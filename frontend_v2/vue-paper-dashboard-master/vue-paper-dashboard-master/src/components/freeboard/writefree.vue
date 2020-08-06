@@ -15,7 +15,7 @@
               </div>
 
               <div class="col-10 write-right"> 
-                <select name="option" id="statetag" style="width:20%; padding-left:2px;" v-model="input_bstate">
+                <select name="option" id="statetag" style="width:20%; padding-left:2px;" v-model="board.bstate">
                   <option value ="free">자유게시판</option>
                   <option value ="qa">질문게시판</option>
                   <option value ="notice" v-show="this.board.bwriter === 'admin'">공지게시판</option>
@@ -31,7 +31,7 @@
               </div>
 
               <div class="col-10 write-right"> 
-                <input v-model="input_btitle" type="text" >
+                <input v-model="board.btitle" type="text" >
               </div>
             </div>
           </div>
@@ -67,7 +67,7 @@
               </div>
 
               <div class="col-10 write-right">       
-                <vue-editor v-model="input_bcontent" style="height:80%;"></vue-editor>
+                <vue-editor v-model="board.bcontent" style="height:80%;"></vue-editor>
               <!--<textarea name="" id="" cols="30" rows="10" v-model="board.bcontent" placeholder="내용을 입력하세요"></textarea><br>-->
               </div>
             </div>
@@ -137,16 +137,16 @@ components: {
       console.log("bstate : " + this.board.bstate);
       console.log("makeDay : " + this.board.makeDay);
       console.log("makeId : " + this.board.makeId);
-            if(this.input_bcontent.trim() != ''){
+            if(this.board.bcontent.trim() != ''){
                 this.$store.dispatch(Constant.ADD_BOARD,{
                   //bno : auto increase
                     // bwriter : this.board.bwriter, 임시로 ssafy foreign key때문
                     bwriter : this.board.bwriter,
-                    btitle : this.input_btitle,
-                    bcontent : this.input_bcontent,
+                    btitle : this.board.btitle,
+                    bcontent : this.board.bcontent,
                     bview : this.board.bview,
                     bfile : this.board.bfile,
-                    bstate : this.input_bstate,
+                    bstate : this.board.bstate,
                     makeDay : new Date(),
                     // changeDay : this.board.changeday,
                     makeId : this.board.makeid,
