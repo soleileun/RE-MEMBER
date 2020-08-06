@@ -326,7 +326,7 @@ const userstore = {
       state.mesDetail = payload.list;
     },
     loadNews: (state, payload) => {
-      state.news = payload.list;
+      state.news = payload.list.filter(item => item.fromUser === "admin");
       if (!state.bubbleNew) {
         if (payload.list.find(item => item.read === false)) {
           state.bubbleNew = true
