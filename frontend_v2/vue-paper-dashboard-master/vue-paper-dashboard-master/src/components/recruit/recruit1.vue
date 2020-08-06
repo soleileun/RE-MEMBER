@@ -141,12 +141,38 @@
         </div>
         <div class="row">
           <div class="col-25">
-            <label for="lname">제목</label>
+            <label for="lname">게시글 제목</label>
           </div>
           <div class="col-75">
             <input type="text" v-model="wrecruit.title" placeholder="제목을 입력하세요" />
           </div>
         </div>
+
+        <!-- 기술 스택 필터 추가 -->
+        <div class="selectform">
+          <div v-for="(pick,index) in picks2" :key="index">
+            <button>{{pick}}</button>
+            <button v-on:click="deleteStack2(index)">X</button>
+          </div>
+        </div>기술 태그 입력(현재 영어로만. 후에 한글까지 추가 예정입니다.)
+        <div class="searchform">
+          <div class="input">
+            <input
+              id="stackWord2"
+              type="text"
+              v-model="inputVal2"
+              @input="searchQuery2()"
+              @keyup.enter="enter()"
+              placeholder="기술 태그 입력해주세요"
+            />
+          </div>
+          <table class="autoComplete">
+            <tr v-for="list in lists2" :key="list" @click="add2(list)">
+              <td>{{list}}</td>
+            </tr>
+          </table>
+        </div>
+
         <div class="row">
           <div class="col-25">
             <label for="subject">내용</label>
@@ -190,11 +216,12 @@
                 </tr>
               </thead>
               <tbody class="table__tbody">
-                <recruitcomponent   
+                <recruitcomponent
                   v-for="(recruit,index) in recruits"
                   :key="index"
                   :recruit="recruit"
-                  :pid="recruit.pid"/>
+                  :pid="recruit.pid"
+                />
               </tbody>
             </table>
           </div>
@@ -216,8 +243,8 @@ import Constant from "../../Constant";
 import recruitcomponent from "@/components/recruit/recruitcomponent.vue";
 export default {
   name: "recruit1",
-  components:{
-    recruitcomponent
+  components: {
+    recruitcomponent,
   },
   computed: {
     recruits() {
@@ -229,13 +256,30 @@ export default {
     loginId() {
       return this.$store.state.userstore.userid;
     },
+
+    //필터링 스택
+    pools() {
+      return this.$store.state.poolstore.pools;
+    },
+    sidoList() {
+      // console.log("확인" + this.$store.state.stackstore.sidolist);
+      return this.$store.state.stackstore.sidolist;
+    },
+    gugunList() {
+      return this.$store.state.stackstore.gugunlist;
+    },
+    dongList() {
+      return this.$store.state.stackstore.donglist;
+    },
   },
   created() {
     this.$store.dispatch(Constant.GET_RECRUITLIST);
-    // 세션 아이디로 교체
+
     this.$store.dispatch(Constant.GET_PROJECTLIST_BY_PMEMBER, {
-      userId: "ssafy",
+      userId: this.loginId,
     });
+    // sido리스트 불러오기
+    this.$store.dispatch(Constant.GET_SIDOLIST);
   },
   data() {
     return {
@@ -250,6 +294,57 @@ export default {
         makeId: "",
         changeId: "",
       },
+
+      //스택 필터링
+      selectedSido: 0,
+      selectedGugun: 0,
+      selectedDong: 0,
+
+      lists: [],
+      lists2: [],
+      pints: [
+        "C",
+        "C++",
+        "Java",
+        "Python",
+        "C#",
+        "Frontend",
+        "Backend",
+        "Spring",
+        "Jenkins",
+        "Django",
+        "Android",
+        "iOS",
+        "Unity",
+        "Unreal",
+        "react-native",
+        "Javascript",
+        "node.js",
+        "node.express",
+        "Angular.js",
+        "jQuery",
+        "React.js",
+        "Vue.js",
+        "IoT",
+        "Arduino",
+        "RasberryPi",
+        "Embedded",
+        "Qt",
+        "MachineVision",
+        "BlockChain",
+        "MachinLearning",
+        "DB",
+        "Oracle",
+        "MySQL",
+        "MSSQL",
+        "MariaDB",
+        "MongoDB",
+        "GraphQL",
+      ],
+      picks: [],
+      picks2:[],
+      inputVal: "",
+      inputVal2: "",
     };
   },
 
@@ -304,6 +399,151 @@ export default {
         this.$router.push("/recruit/recruit1");
       } else {
         console.log("공백입력.");
+      }
+    },
+
+    //필터링 스택
+    changeSido(selectedSido) {
+      // gugun
+      // console.log(selectedSido);
+      this.selectedGugun = 0;
+      this.selectedDong = 0;
+      this.$store.dispatch(Constant.GET_GUGUNLIST, { sido: selectedSido });
+    },
+    changeGugun(selectedSido, selectedGugun) {
+      // dong
+      // console.log(selectedSido + selectedGugun);
+      this.selectedDong = 0;
+
+      this.$store.dispatch(Constant.GET_DONGLIST, {
+        sido: selectedSido,
+        gugun: selectedGugun,
+      });
+    },
+    // changeDong(selectedDong) {
+    //   // apt
+
+    // },
+
+    searchPool() {
+      let sd = "";
+      let gg = "";
+      let dn = "";
+
+      if (this.selectedSido == 0) {
+        sd = " ";
+      } else {
+        sd = this.selectedSido;
+      }
+      if (this.selectedGugun == 0) {
+        gg = " ";
+      } else {
+        gg = this.selectedGugun;
+      }
+      if (this.selectedDong == 0) {
+        dn = " ";
+      } else {
+        dn = this.selectedDong;
+      }
+
+      //주소만
+      if (this.picks.length == 0 && sd != " ") {
+        this.$store.dispatch(Constant.SEARCH_POOL_BY_ADDR, {
+          sido: sd,
+          gugun: gg,
+          dong: dn,
+        });
+      }
+      //태그만
+      else if (this.picks.length != 0 && sd == " ") {
+        let stacks = "";
+        if (this.picks.length != 0) {
+          for (let i = 0; i < this.picks.length; i++) {
+            stacks += this.picks[i] + ",";
+          }
+        } else {
+          stacks = null;
+        }
+        this.$store.dispatch(Constant.SEARCH_POOL_BY_TAG, { stacks });
+      }
+      //둘다 o
+      else if (this.picks.length != 0 && sd != " ") {
+        let addr = sd + "," + gg + "," + dn + ",";
+        let stacks = "";
+        if (this.picks.length != 0) {
+          for (let i = 0; i < this.picks.length; i++) {
+            stacks += this.picks[i] + ",";
+          }
+        } else {
+          stacks = null;
+        }
+
+        // console.log(addr + "/" + stacks);
+        //시 구 동 미선택 시 " " 로 보내고 picks
+        this.$store.dispatch(Constant.SEARCH_POOL_BY_TAG_ADDR, {
+          addr,
+          stacks,
+        });
+      }
+      //둘다 x
+      else if (this.picks.length == 0 && sd == " ") {
+        this.$store.dispatch(Constant.GET_POOLLIST);
+      }
+    },
+
+    deleteStack(idx) {
+      this.picks.splice(idx, 1);
+    },
+    deleteStack2(idx) {
+      this.picks2.splice(idx, 1);
+    },
+
+    searchQuery: function () {
+      if (this.inputVal.trim() !== "") {
+        this.lists = this.pints.filter((el) => {
+          return el.toLowerCase().match(this.inputVal.toLowerCase());
+        });
+      } else {
+        this.lists = [];
+      }
+    },
+    searchQuery2: function () {
+      if (this.inputVal2.trim() !== "") {
+        this.lists2 = this.pints.filter((el) => {
+          return el.toLowerCase().match(this.inputVal2.toLowerCase());
+        });
+      } else {
+        this.lists2 = [];
+      }
+    },
+    add: function (x) {
+      if (this.picks.length == 5) {
+        alert("검색 스택은 5개까지만 입력 가능합니다.");
+        this.lists = [];
+        this.inputVal = "";
+      } else {
+        if (x !== "") {
+          if (!this.picks.find((i) => i === x)) {
+            this.picks.push(x);
+          }
+        }
+        this.inputVal = "";
+        this.lists = [];
+      }
+    },
+    add2: function (x) {
+      if (this.picks2.length == 5) {
+        alert("검색 스택은 5개까지만 입력 가능합니다.");
+        this.lists2 = [];
+        this.inputVal2 = "";
+      } else {
+        if (x !== "") {
+          if (!this.picks2.find((i) => i === x)) {
+            this.picks2.push(x);
+          }
+        }
+        this.inputVal2 = "";
+        this.lists2 = [];
       }
     },
   },
