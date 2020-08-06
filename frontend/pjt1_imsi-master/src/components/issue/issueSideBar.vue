@@ -6,7 +6,7 @@
 
 			<div class="sidebar-wrapper">
 				<div class="logo">
-					<a href="" class="simple-text"> Project Info </a>
+					<a href="" class="simple-text"> afsd Info </a>
 				</div>
 
 				<ul class="nav">

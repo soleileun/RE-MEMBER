@@ -11,10 +11,10 @@
 <i class="fa fa-sign-out" style="float:left; margin-top: 5px;"></i>
 나가기
 </div>
-
       
           <drop-down class="nav-item" title-classes="nav-link" icon="fa fa-envelope hand" title="초대">
             
+
                 <input v-model="target" type="text">
                 <button @click="invite()" >초대</button>
               <a class="dropdown-item" href="#">Notification 1</a>
@@ -297,7 +297,14 @@ export default {
         this.$store.dispatch(Constant.ADD_CHATROOM,{
           roomName : this.rname,
           uid : this.target,
-          });
+          })
+          .then(response =>{
+            if(response == null)
+            console.log("then에서 찍어주는거야");
+            console.log(response);
+            
+          })
+          
       console.log(this.target + "님을 초대");
       alert(this.target + "님을 초대했습니다.");
       }

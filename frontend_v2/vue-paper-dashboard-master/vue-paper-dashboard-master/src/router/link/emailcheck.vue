@@ -8,19 +8,16 @@
       <br />
       <button class="btn btn-primary" @click="resendEmail">이메일 재발송</button>
     </div>
-    <userlist/>
   </div>
 </template>
 
 <script>
 import http from "@/http-common.js";
-import userlist from "@/components/signup/userlist.vue";
 const storage = window.sessionStorage;
 
 export default {
   name: "emailcheck",
   components: {
-      userlist
   },
   beforeDestroy:function(){
       if (storage.getItem("jwt-auth-token").length >0 && storage.getItem("idvalid") !== "true") {
