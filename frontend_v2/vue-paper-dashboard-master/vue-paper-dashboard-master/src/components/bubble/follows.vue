@@ -6,6 +6,7 @@
       <div class="dropdown" v-for="target in followings.filter(item=> item.state ===true)" :key="target.id">
         <drop-down class="btn" :title="target.nickname+'님'">
           <div class="dropdown-item" @click="mes(target.id)">메세지</div>
+          <!-- <div class="dropdown-item" @click="doChat(target.id)">채팅하기</div> -->
           <div class="dropdown-item" @click="viewProf(target.id)">프로필 보기</div>
           <div class="dropdown-item" @click="delFollow(target.id)">팔로우 해제</div>
         </drop-down>
@@ -25,7 +26,9 @@
 </template>
 
 <script>
+import Constant from "../../Constant";
 import http from "../../http-common.js";
+const storage = window.sessionStorage;
 export default {
   name: "follows",
   data: function () {
@@ -55,6 +58,10 @@ export default {
     delFollow(id) {
       this.$store.dispatch("delFollow", { target: id });
     },
+    doChat(id){
+      this.$store.dispatch(Constant.ADD_CHATROOM,{roomName:`${storage.getItem("userid")}/${id}`,uid:storage.getItem("userid")})
+      this.$store.dispatch(Constant.ADD_CHATROOM,{roomName:`${storage.getItem("userid")}/${id}`,uid:id})
+    }
   },
 };
 </script>

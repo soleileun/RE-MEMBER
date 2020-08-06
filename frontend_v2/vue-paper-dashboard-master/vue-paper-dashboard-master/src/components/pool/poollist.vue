@@ -112,9 +112,8 @@
         <div class="card">
           <div class="card__image card__image--fence"></div>
           <div class="card__content">
-            <div class="card__title">{{pool.id}}</div>
+            <div class="card__title">{{pool.nickname}}</div>
             <p class="card__text">
-              {{pool.address2}}
               <br />
               {{pool.responsibility}}
             </p>
@@ -124,6 +123,12 @@
               tag="button"
               class="btn btn--block card__btn"
             >프로젝트 보기</router-link>
+            <router-link
+              :to="'/profile/' + pool.id"
+              tag="button"
+              class="btn btn--block card__btn"
+            >프로필 보기</router-link>
+            <button class="btn btn--block card__btn" @click="fol(pool.id)">팔로우하기</button>
             <button class="btn btn--block card__btn">Git</button>
           </div>
         </div>
@@ -190,6 +195,7 @@ export default {
     };
   },
   computed: {
+    
     pools() {
       return this.$store.state.poolstore.pools;
     },
@@ -212,6 +218,9 @@ export default {
   },
 
   methods: {
+    fol: function (id) {
+      this.$store.dispatch("follow", { target: id });
+    },
     changeSido(selectedSido) {
       // gugun
       // console.log(selectedSido);
