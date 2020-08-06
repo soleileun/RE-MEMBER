@@ -1,12 +1,34 @@
 <template>
-  <div class="login">
-    <i class="far fa-times-circle fa-3x" @click="loginexit"></i>
+  <card class="login card" title="로그인">
+    <i class="ti-close" @click="loginexit"></i>
     <div>
-      아이디 :
-      <input class="id" v-model="id" type="text" />
-      <br />비밀번호 :
-      <input class="id" v-model="pw" type="password" @keyup.enter="goLogin" />
-      <br />자동 로그인 :
+      <form @submit.prevent>
+        <div class="row">
+          <div class="col-md-12">
+            <fg-input type="text" label="아이디" placeholder="E-mail" v-model="id"></fg-input>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <fg-input type="password" label="비밀번호" placeholder="password" v-model="pw"></fg-input>
+          </div>
+        </div>자동 로그인 :
+        <input type="checkbox" v-model="autologin" data-tooltip-text="비밀번호가 브라우저에 저장되어 취약하므로 개인 PC에서만 사용하세요" />
+        <div @click="loginexit">
+          <router-link to="/signup">회원가입</router-link>
+        </div>
+        <div @click="loginexit">
+          <router-link to="/user/findid">아이디 / 비밀번호 찾기</router-link>
+        </div>
+        <div class="text-center">
+          <p-button type="info" round @click.native.prevent="updateProfile">로그인</p-button>
+        </div>
+        <div class="clearfix"></div>
+      </form>
+    </div>
+  </card>
+  <!-- 
+    <div>
       <input type="checkbox" v-model="autologin" data-tooltip-text="비밀번호가 브라우저에 저장되어 취약하므로 개인 PC에서만 사용하세요" />
       <br />
       <button @click="goLogin">로그인</button>
@@ -17,12 +39,9 @@
         <router-link to="/user/findid">아이디 / 비밀번호 찾기</router-link>
       </span>
       <div>
-        <!-- <span @click="kakao">카카오</span> | 
-        <span @click="google">구글</span>-->
       </div>
       {{error}}
-    </div>
-  </div>
+  </div>-->
 </template>
 
 
@@ -33,10 +52,10 @@ export default {
   name: "login",
   data: function () {
     return {
-      id: "",
-      pw: "",
       findform: false,
       autologin: false,
+      id: "",
+      pw: "",
     };
   },
   computed: {
@@ -48,6 +67,9 @@ export default {
     },
   },
   methods: {
+    updateProfile() {
+      alert("Your data: " + JSON.stringify(this.user));
+    },
     goLogin: function () {
       if (this.id === "" || this.pw === "") {
         this.$store.commit("loginError", {
@@ -66,7 +88,7 @@ export default {
       }
     },
     loginexit: function () {
-      document.querySelector(".login").classList.toggle("active");
+      document.querySelector(".login").classList.remove("active");
     },
   },
 };
@@ -78,7 +100,7 @@ export default {
   height: 0;
   width: 0;
   position: fixed;
-  top:0;
+  top: 0;
   left: 0;
 }
 .login.active {
@@ -94,24 +116,27 @@ export default {
   border: black 1.5px solid;
   i {
     position: fixed;
-    top: 27vh;
-    right: 26vw;
-    width: 50px;
+    top: 29vh;
+    right: 28vw;
+    width: 1rem;
+    font-size: 1rem;
     &:hover {
       cursor: pointer;
+      border-radius: 50px;
+      background-color: #aaa;
     }
   }
   [data-tooltip-text]:hover {
     position: relative;
     &:after {
       content: attr(data-tooltip-text);
-
       position: absolute;
       bottom: 100%;
       height: 50px;
       width: 300px;
       left: 0;
-
+      padding: 10px;
+      border: 1px rgb(255, 215, 105) solid;
       background-color: rgba(0, 0, 0, 0.8);
       color: #ffffff;
       font-size: 12px;
@@ -122,13 +147,14 @@ export default {
 }
 @media (max-width: 768px) {
   .login.active {
+    box-sizing: border-box;
     width: 100vw;
     height: 100vh;
-    top: 5px;
-    left: 5px;
+    top: 0px;
+    left: 0px;
     i {
       top: 2vh;
-      right: 0px;
+      right: 30px;
     }
   }
 }
