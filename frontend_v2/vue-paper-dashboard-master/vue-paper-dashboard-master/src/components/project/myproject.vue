@@ -7,8 +7,8 @@
     <br />
     <br />
     <div class="row">
-      <div class="col-lg-4" display="inline-block">
-        <project v-for="project in projects" :key="project.pid" :project="project" />
+      <div class="col-4" v-for="project in projects" :key="project.pid">
+        <project  :project="project" />
         <!-- @delete-project="deleteComment" -->
       </div>
     </div>
