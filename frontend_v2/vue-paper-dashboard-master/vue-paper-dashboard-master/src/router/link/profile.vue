@@ -92,6 +92,11 @@ export default {
       inters: [],
     };
   },
+  computed:{
+    userid(){
+      return '/project/myproject/'+storage.getItem('userid')
+    }
+  },
   methods: {},
 };
 </script>

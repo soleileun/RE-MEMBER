@@ -193,7 +193,11 @@ public class RecruitController {
 	@ApiOperation(value = "글번호에 해당하는 프로젝트의 정보를 삭제한다. 그리고 DB삭제 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
 	@DeleteMapping("{rnum}")
 	public ResponseEntity<String> deleteBoard(@PathVariable int rnum) {
-
+		Recruit tmp = rService.select(rnum);
+		List<Pinterest> list = piService.select(tmp.getPid());
+		for(Pinterest pi : list) {
+			piService.delete(pi);
+		}
 		if (rService.delete(rnum) != 0) {
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		}
