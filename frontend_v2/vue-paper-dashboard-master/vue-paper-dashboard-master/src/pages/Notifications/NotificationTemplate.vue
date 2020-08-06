@@ -1,5 +1,5 @@
 <template>
-  <span>Welcome to <b>Paper Dashboard</b> - a beautiful freebie for every web developer.</span>
+  <span>리크루트 멤버에 오신것을 환영합니다</span>
 </template>
 
 <script>
