@@ -97,6 +97,8 @@
           <td>{{list}}</td>
         </tr>
       </table>
+      <button @click="searchPool()">검색</button>
+
     </div>
   </div>
 </template>
@@ -200,7 +202,7 @@ export default {
       let sd = "";
       let gg = "";
       let dn = "";
-
+      
       if(this.selectedSido == 0){
         sd = " ";
       }
@@ -210,8 +212,18 @@ export default {
       if(this.selectedDong == 0){
         dn = " ";
       }
-      //시 구 동 미선택 시 " " 로 보내고 picks 배열은 그대로,
-      this.$store.dispatch(Constant.SEARCH_POOL, {sido : sd, gugun : gg, dong : dn, picks  });
+
+      let addr = sd+","+gg+","+dn;
+      let stacks = null;
+      if(this.picks.length != 0){
+        for (let i = 0; i < this.picks.length; i++) {
+          stacks += this.picks[i] + ",";
+        }
+      }
+
+      console.log(addr+"/"+stacks);
+      //시 구 동 미선택 시 " " 로 보내고 picks 
+      this.$store.dispatch(Constant.SEARCH_POOL, {addr, stacks  });
      
     },
 
