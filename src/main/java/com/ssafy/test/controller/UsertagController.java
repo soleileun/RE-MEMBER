@@ -1,5 +1,6 @@
 package com.ssafy.test.controller;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +22,7 @@ import com.ssafy.test.model.dto.AddrAndTag;
 import com.ssafy.test.model.dto.TagList;
 import com.ssafy.test.model.dto.UserInfo;
 import com.ssafy.test.model.dto.Usertag;
+import com.ssafy.test.model.service.UserInfoService;
 import com.ssafy.test.model.service.UsertagService;
 
 import io.swagger.annotations.ApiOperation;
@@ -35,6 +37,7 @@ public class UsertagController {
 
 	@Autowired
 	private UsertagService Service;
+	private UserInfoService uiService;
 
 	@ApiOperation(value = "특정 유저의 모든 tagvalue 정보를 반환한다.", response = List.class)
 	@GetMapping("selet/uid={uid}")
@@ -118,14 +121,21 @@ public class UsertagController {
 	@GetMapping("selectAddrAndTag/tag={tag}&addr={addr}")
 	public ResponseEntity<List<UserInfo>> selectAddrAndTag(@PathVariable String tag, @PathVariable String addr) {
 		AddrAndTag v = new AddrAndTag();
+		System.out.println("원본 : "+tag + "&"+ addr + "입니다");
 		String b[] = addr.split(",");
 		if (tag == null) {
 			v.setDong(b[0]);
 			v.setGugun(b[1]);
 			v.setSido(b[2]);
 			v.setCnt(0);
+			
+			for (String string : b) {
+				System.out.println(string);
+			}
+			return new ResponseEntity<List<UserInfo>>(Service.selectAddrAndTag(v), HttpStatus.OK);
 
-		} else {
+		} 
+		else {
 			String a[] = tag.split(",");
 
 			if (a.length > 0)
@@ -143,8 +153,15 @@ public class UsertagController {
 			v.setGugun(b[1]);
 			v.setDong(b[2]);
 			// 어차피 널이 들어감.
+			for (String string : a) {
+				System.out.println(string);
+			}
+			for (String string : b) {
+				System.out.println(string);
+			}
+			return new ResponseEntity<List<UserInfo>>(Service.selectAddrAndTag(v), HttpStatus.OK);
+
 		}
-		return new ResponseEntity<List<UserInfo>>(Service.selectAddrAndTag(v), HttpStatus.OK);
 	}
 
 	private ResponseEntity<Map<String, Object>> handleSuccess(Object data) {
