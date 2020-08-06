@@ -9,7 +9,6 @@
         <sidebar-link to="/qaboard" name="질문게시판" icon="ti-help-alt" />
         <sidebar-link to="/notice" name="공지사항" icon="ti-announcement" />
         <sidebar-link to="/service" name="고객센터" icon="ti-headphone-alt" />
-        <sidebar-link to="/profile" name="프로필" icon="ti-face-smile" />
         <sidebar-link to="/4444" name="<<<<<<<<<<<<<<<<<<<<<<<<" icon="ti-panel" />
 
         <sidebar-link to="/dashboard" name="Dashboard" icon="ti-panel" />
@@ -21,24 +20,29 @@
         <sidebar-link to="/notifications" name="Notifications" icon="ti-bell" />
       </template>
       <mobile-menu>
-        <li class="nav-item">
-          <a class="nav-link">
-            <i class="ti-panel"></i>
-            <p>Stats</p>
+        <li class="nav-item" v-if="userNick">
+          <drop-down class="nav-item" :title="userNick+'님'" title-classes="nav-link" v-if="userNick">
+            <router-link to="/user" class="nav-link">
+              <i class="ti-user"></i>
+              <p>마이페이지</p>
+            </router-link>
+            <a href="#" class="nav-link" @click="logout">
+              <i class="ti-power-off"></i>
+              <p>로그아웃</p>
+            </a>
+          </drop-down>
+        </li>
+        <li class="nav-item" v-if="!userNick">
+          <a href="#" class="nav-link" @click="login">
+            <i class="ti-key"></i>
+            <p>로그인</p>
           </a>
         </li>
-        <drop-down class="nav-item" title="5 Notifications" title-classes="nav-link" icon="ti-bell">
-          <a class="dropdown-item">Notification 1</a>
-          <a class="dropdown-item">Notification 2</a>
-          <a class="dropdown-item">Notification 3</a>
-          <a class="dropdown-item">Notification 4</a>
-          <a class="dropdown-item">Another notification</a>
-        </drop-down>
-        <li class="nav-item">
-          <a class="nav-link">
-            <i class="ti-settings"></i>
-            <p>Settings</p>
-          </a>
+        <li class="nav-item" v-if="!userNick">
+          <router-link to="/signup" class="nav-link">
+            <i class="ti-id-badge"></i>
+            <p>회원가입</p>
+          </router-link>
         </li>
         <li class="divider"></li>
       </mobile-menu>
@@ -66,12 +70,34 @@ export default {
     DashboardContent,
     MobileMenu,
   },
+  computed: {
+    userNick: function () {
+      return this.$store.state.userstore.userNick;
+    },
+  },
   methods: {
     toggleSidebar() {
       if (this.$sidebar.showSidebar) {
         this.$sidebar.displaySidebar(false);
       }
     },
+    logout: function () {
+      this.$store.dispatch("logout");
+      this.$router.push("/");
+    },
+    login() {
+      document.querySelector(".login").classList.remove("active");
+      document.querySelector(".login").classList.add("active");
+    },
   },
 };
 </script>
+
+<style lang="scss" scoped>
+img.nav-link {
+  height: 40px;
+  width: 40px;
+  border-radius: 40px;
+  background-color: #555;
+}
+</style>

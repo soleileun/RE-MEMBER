@@ -5,7 +5,6 @@ import NotFound from "@/pages/NotFoundPage.vue";
 // 우리꺼 루트
 import main from "./link/main.vue";
 import notice from "./link/notice.vue";
-import user from "./link/user.vue";
 import freeboard from "./link/freeboard.vue";
 import qaboard from "./link/qaboard.vue";
 import recruit from "./link/recruit.vue";
@@ -16,6 +15,7 @@ import othersprofile from "./link/othersprofile.vue";
 import findIDPW from "../components/user/findIDPW.vue";
 import leave from "../components/user/leave.vue";
 import editinfo from "../components/user/editinfo.vue";
+import editinterest from "../components/user/editinterest.vue";
 import signup from "./link/signup.vue";
 import emailcheck from "./link/emailcheck.vue";
 import recruit1 from "../components/recruit/recruit1.vue";
@@ -61,11 +61,6 @@ const routes = [{
         component: main
       },
       {
-        path: "user",
-        name: "마이페이지",
-        component: user
-      },
-      {
         path: "freeboard",
         name: "자유게시판",
         component: freeboard,
@@ -96,8 +91,8 @@ const routes = [{
         component: pool,
       },
        {
-        path: "/profile",
-        name: "프로필",
+        path: "/mypage",
+        name: "마이페이지",
         component: profile,
       },
        {
@@ -203,6 +198,11 @@ const routes = [{
         path: "/user/editinfo",
         name: "개인정보 수정",
         component: editinfo,
+      },
+      {
+        path: "/user/editinterest",
+        name: "내 관심사 수정",
+        component: editinterest,
       },
       {
         path: "/user/leave",
