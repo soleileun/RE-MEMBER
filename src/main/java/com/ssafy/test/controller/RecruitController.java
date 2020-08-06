@@ -16,9 +16,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.test.model.dto.Addr;
+import com.ssafy.test.model.dto.AddrAndTag;
 import com.ssafy.test.model.dto.Interest;
 import com.ssafy.test.model.dto.Pinterest;
 import com.ssafy.test.model.dto.Recruit;
+import com.ssafy.test.model.dto.TagList;
+import com.ssafy.test.model.dto.UserInfo;
+import com.ssafy.test.model.dto.Usertag;
 import com.ssafy.test.model.service.InterestService;
 import com.ssafy.test.model.service.PinterestService;
 import com.ssafy.test.model.service.RecruitService;
@@ -77,6 +82,84 @@ public class RecruitController {
 		});
 
 		return new ResponseEntity<List<Recruit>>(rService.selectAll(), HttpStatus.OK);
+	}
+
+	@ApiOperation(value = "해당 지역에 거주하는 게시판의 정보를 반환한다..", response = List.class)
+	@GetMapping("/addr/sido={sido}&gugun={gugun}&dong={dong}")
+	public ResponseEntity<List<Recruit>> selectByAddr(@PathVariable String sido, @PathVariable String gugun,
+			@PathVariable String dong) throws Exception {
+		Addr v = new Addr();
+		v.setDong(dong);
+		v.setGugun(gugun);
+		v.setSido(sido);
+		return new ResponseEntity<List<Recruit>>(rService.selectByAddr(v), HttpStatus.OK);
+	}
+
+	@ApiOperation(value = "완전히 일치하는 유저의 id를 반환한다.", response = Usertag.class)
+	@GetMapping("selectSame/{tag}")
+	public ResponseEntity<List<Recruit>> selectSame(@PathVariable String tag) {
+		TagList v = new TagList();
+		String a[] = tag.split(",");
+		int b = a.length;
+		if (a.length > 0)
+			v.setTag1(a[0]);
+		if (a.length > 1)
+			v.setTag2(a[1]);
+		if (a.length > 2)
+			v.setTag3(a[2]);
+		if (a.length > 3)
+			v.setTag4(a[3]);
+		if (a.length > 4)
+			v.setTag5(a[4]);
+		v.setCnt(b);
+		// 어차피 널이 들어감.
+
+		return new ResponseEntity<List<Recruit>>(rService.selectSame(v), HttpStatus.OK);
+	}
+
+	@ApiOperation(value = "태그와 주소 혼합해서 검색하는 것.", response = Usertag.class)
+	@GetMapping("selectAddrAndTag/tag={tag}&addr={addr}")
+	public ResponseEntity<List<Recruit>> selectAddrAndTag(@PathVariable String tag, @PathVariable String addr) {
+		AddrAndTag v = new AddrAndTag();
+		String b[] = addr.split(",");
+		if (tag == null) {
+			v.setDong(b[0]);
+			v.setGugun(b[1]);
+			v.setSido(b[2]);
+			v.setCnt(0);
+
+			for (String string : b) {
+				System.out.println(string);
+			}
+			return new ResponseEntity<List<Recruit>>(rService.selectAddrAndTag(v), HttpStatus.OK);
+
+		} else {
+			String a[] = tag.split(",");
+
+			if (a.length > 0)
+				v.setTag1(a[0]);
+			if (a.length > 1)
+				v.setTag2(a[1]);
+			if (a.length > 2)
+				v.setTag3(a[2]);
+			if (a.length > 3)
+				v.setTag4(a[3]);
+			if (a.length > 4)
+				v.setTag5(a[4]);
+			v.setCnt(a.length);
+			v.setSido(b[0]);
+			v.setGugun(b[1]);
+			v.setDong(b[2]);
+			// 어차피 널이 들어감.
+			for (String string : a) {
+				System.out.println(string);
+			}
+			for (String string : b) {
+				System.out.println(string);
+			}
+			return new ResponseEntity<List<Recruit>>(rService.selectAddrAndTag(v), HttpStatus.OK);
+
+		}
 	}
 
 	@ApiOperation(value = "글번호에 해당하는 구인구직 게시판의 정보를 반환한다.", response = Recruit.class)

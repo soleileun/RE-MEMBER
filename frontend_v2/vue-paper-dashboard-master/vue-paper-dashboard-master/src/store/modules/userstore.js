@@ -21,7 +21,7 @@ const userstore = {
     mesdetailid: "",
     mesviewdetail: false,
     bubbleNew: false,
-    interest: []
+    interest: [],
   },
 
   actions: {
@@ -76,9 +76,9 @@ const userstore = {
     // 유저 관련
     login: (store, payload) => {
       http.post('/api/userinfo/signin', {
-          id: payload.id,
-          pw: payload.pw
-        })
+        id: payload.id,
+        pw: payload.pw
+      })
         .then(response => {
           console.log(response)
           if (response.data.data) {
@@ -153,30 +153,38 @@ const userstore = {
         .catch((e) => console.log(e));
     },
     getFollow: (store) => {
-      console.log("팔로우 검색")
-      http.get('/api/following/' + storage.getItem("userid"), {
-        headers: {
-          "jwt-auth-token": storage.getItem("jwt-auth-token")
-        }
-      }).then(res => {
-        store.commit('loadfollowings', {
-          followings: res.data
+      http
+        .get("/api/userinfo/")
+        .then((response) => {
+
+          http.get('/api/following/' + storage.getItem("userid"), {
+            headers: {
+              "jwt-auth-token": storage.getItem("jwt-auth-token")
+            }
+          }).then(res => {
+            store.commit('loadfollowings', {
+              followings: res.data,
+              users: response.data
+            })
+          }).catch(exp => console.log(exp))
         })
-      }).catch(exp => console.log(exp))
+        .catch((exp) => alert("에러" + exp));
+
+
     },
     leave: (store, payload) => {
       http.post('/api/userinfo/signin', {
-          id: storage.getItem("userid"),
-          pw: payload.pw,
-        })
+        id: storage.getItem("userid"),
+        pw: payload.pw,
+      })
         .then(response => {
           console.log(response);
           if (response.data.data) {
             http.delete('api/userinfo/' + storage.getItem("userid"), {
-                headers: {
-                  "jwt-auth-token": storage.getItem("jwt-auth-token")
-                }
-              })
+              headers: {
+                "jwt-auth-token": storage.getItem("jwt-auth-token")
+              }
+            })
               .then(() => {
 
                 store.dispatch("logout");
@@ -194,7 +202,6 @@ const userstore = {
         })
     },
     follow: (store, payload) => {
-
       http.post('/api/following/', {
         headers: {
           "jwt-auth-token": storage.getItem("jwt-auth-token")
@@ -207,21 +214,19 @@ const userstore = {
         })
       }).catch(exp => console.log(exp))
     },
-    disableAcount: (payload) => {
-      console.log(payload.st)
-      http.put('/api/userinfo/' + storage.getItem("userid"), {
+    delFollow: (store, payload) => {
+      http.delete('/api/following/', {
         headers: {
           "jwt-auth-token": storage.getItem("jwt-auth-token")
         },
-        id: storage.getItem("userid"),
-        pw: payload.pw,
-        state: payload.st,
+        data: {
+          target: payload.target,
+          uid: storage.getItem("userid")
+        }
       }).then(res => {
-        alert("계정이 휴면상태가 되었습니다." + res.data)
+        store.dispatch('getFollow')
       }).catch(exp => console.log(exp))
     },
-    //this.$store.dispatch("follow", { target: //targetId }); 
-    //this.$store.dispatch("sendMes", { toUser//targetId });
     // 메세지
     sendMes: (store, payload) => {
       if (!payload.content) {
@@ -245,15 +250,15 @@ const userstore = {
         }
       } else if (payload.other) {
         http.post('/api/message/', {
-            content: payload.content,
-            fromUser: storage.getItem("userid"),
-            toUser: payload.other,
-            read: false,
-            headers: {
-              "jwt-auth-token": storage.getItem("jwt-auth-token"),
+          content: payload.content,
+          fromUser: storage.getItem("userid"),
+          toUser: payload.other,
+          read: false,
+          headers: {
+            "jwt-auth-token": storage.getItem("jwt-auth-token"),
 
-            },
-          })
+          },
+        })
           .then(response => {
             console.log(response)
             store.commit('pushDetailMes', {
@@ -313,7 +318,7 @@ const userstore = {
     },
     loadMesList: (state, payload) => {
       if (storage.getItem("userid") !== "admin") {
-        state.messageList = payload.messageList.filter(item => item.fromUser !== "admin"&&item.toUser !== "admin");
+        state.messageList = payload.messageList.filter(item => item.fromUser !== "admin" && item.toUser !== "admin");
       } else {
         state.messageList = payload.messageList;
       }
@@ -326,7 +331,7 @@ const userstore = {
       state.mesDetail = payload.list;
     },
     loadNews: (state, payload) => {
-      state.news = payload.list.filter(item => item.fromUser === "admin");
+      state.news = payload.list.filter(item => item.fromUser == "admin");
       if (!state.bubbleNew) {
         if (payload.list.find(item => item.read === false)) {
           state.bubbleNew = true
@@ -341,13 +346,19 @@ const userstore = {
       }
     },
     loadfollowings: (state, payload) => {
-      state.followings = payload.followings;
+      let tmp = [];
+      payload.followings.forEach(item => {
+        tmp.push(item.target)
+      })
+      state.followings = payload.users.filter(item=>item.leaveUser===false).filter(item =>
+        (tmp.indexOf(item.id) > -1)
+      );
     },
     newFollow: (state, payload) => {
       state.followings.push(payload.followings);
     },
     loadUsers: (state, payload) => {
-      state.users = payload.users;
+      state.users = payload.users.filter(item=>item.leaveUser===false);
     },
     init: (state, payload) => {
       if (payload.userid !== state.userid) {

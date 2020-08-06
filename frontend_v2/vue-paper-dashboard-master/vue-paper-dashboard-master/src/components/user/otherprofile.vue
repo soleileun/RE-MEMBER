@@ -21,19 +21,10 @@ export default {
   props: {
     userid: String,
   },
-  mounted: function () {
-    http
-      .get("/api/board/typesearch/writer=" + this.userid + "&bstate=profile")
-      .then((response) => {
-        if (response.data.length > 0) {
-          this.content = response.data[0].bcontent;
-          this.bno = response.data[0].bno;
-          this.board.bview = response.data[0].bview;
-        } else {
-          alert("아직 프로필이 없습니다");
-        }
-      })
-      .catch((exp) => alert("내 프로필을 로드하는데에 실패하였습니다." + exp));
+  watch:{
+    userid:function(){
+      this.init()
+    }
   },
   data() {
     return {
@@ -55,7 +46,20 @@ export default {
     };
   },
   methods: {
-    
+    init:function(){
+      http
+      .get("/api/board/typesearch/writer=" + this.userid + "&bstate=profile")
+      .then((response) => {
+        if (response.data.length > 0) {
+          this.content = response.data[0].bcontent;
+          this.bno = response.data[0].bno;
+          this.board.bview = response.data[0].bview;
+        } else {
+          this.content='아직 프로필이 없습니다'
+        }
+      })
+      .catch((exp) => alert("내 프로필을 로드하는데에 실패하였습니다." + exp));
+    }
   },
 };
 </script>

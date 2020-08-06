@@ -6,7 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ssafy.test.model.dao.RecruitDAO;
+import com.ssafy.test.model.dto.Addr;
+import com.ssafy.test.model.dto.AddrAndTag;
 import com.ssafy.test.model.dto.Recruit;
+import com.ssafy.test.model.dto.TagList;
 
 @Service
 public class RecruitServiceImpl implements RecruitService {
@@ -37,6 +40,21 @@ public class RecruitServiceImpl implements RecruitService {
 	@Override
 	public int update(Recruit r) {
 		return rDao.update(r);
+	}
+
+	@Override
+	public List<Recruit> selectByAddr(Addr a) {
+		return rDao.selectByAddr(a);
+	}
+
+	@Override
+	public List<Recruit> selectSame(TagList tl) {
+		return rDao.selectSame(tl);
+	}
+
+	@Override
+	public List<Recruit> selectAddrAndTag(AddrAndTag aat) {
+		return rDao.selectAddrAndTag(aat);
 	}
 
 }

@@ -84,7 +84,7 @@
           <button>{{pick}}</button>
           <button v-on:click="deleteStack(index)">X</button>
         </div>
-      </div>기술 태그 입력(현재 영어로만. 후에 한글까지 추가 예정입니다.)
+      </div>기술 태그 입력
       <div class="searchform">
         <div class="input">
           <input
@@ -101,7 +101,7 @@
             <td>{{list}}</td>
           </tr>
         </table>
-        <button @click="searchPool()">프로젝트 검색</button>
+        <button @click="searchPool2()">프로젝트 검색</button>
       </div>
     </div>
 
@@ -147,30 +147,36 @@
             <input type="text" v-model="wrecruit.title" placeholder="제목을 입력하세요" />
           </div>
         </div>
-
-        <!-- 기술 스택 필터 추가 -->
-        <div class="selectform">
-          <div v-for="(pick,index) in picks2" :key="index">
-            <button>{{pick}}</button>
-            <button v-on:click="deleteStack2(index)">X</button>
+        <div class="row">
+          <div class="col-25">
+            <label for="lname">기술 태그 입력</label>
           </div>
-        </div>기술 태그 입력(현재 영어로만. 후에 한글까지 추가 예정입니다.)
-        <div class="searchform">
-          <div class="input">
-            <input
-              id="stackWord2"
-              type="text"
-              v-model="inputVal2"
-              @input="searchQuery2()"
-              @keyup.enter="enter()"
-              placeholder="기술 태그 입력해주세요"
-            />
+          <div class="col-75">
+            <!-- 기술 스택 필터 추가 -->
+            <div class="selectform">
+              <div v-for="(pick,index) in picks2" :key="index">
+                <button>{{pick}}</button>
+                <button v-on:click="deleteStack2(index)">X</button>
+              </div>
+            </div>
+            <div class="searchform">
+              <div class="input">
+                <input
+                  id="stackWord2"
+                  type="text"
+                  v-model="inputVal2"
+                  @input="searchQuery2()"
+                  @keyup.enter="enter()"
+                  placeholder="기술 태그 입력해주세요"
+                />
+              </div>
+              <table class="autoComplete">
+                <tr v-for="list in lists2" :key="list" @click="add2(list)">
+                  <td>{{list}}</td>
+                </tr>
+              </table>
+            </div>
           </div>
-          <table class="autoComplete">
-            <tr v-for="list in lists2" :key="list" @click="add2(list)">
-              <td>{{list}}</td>
-            </tr>
-          </table>
         </div>
 
         <div class="row">
@@ -181,6 +187,7 @@
             <textarea cols="30" rows="10" v-model="wrecruit.contents" placeholder="내용을 입력하세요"></textarea>
           </div>
         </div>
+
         <div class="row">
           <button @click="addRecruit">등록</button>
         </div>
@@ -241,6 +248,7 @@
 <script>
 import Constant from "../../Constant";
 import recruitcomponent from "@/components/recruit/recruitcomponent.vue";
+const storage = window.sessionStorage;
 export default {
   name: "recruit1",
   components: {
@@ -274,10 +282,11 @@ export default {
   },
   created() {
     this.$store.dispatch(Constant.GET_RECRUITLIST);
-
-    this.$store.dispatch(Constant.GET_PROJECTLIST_BY_PMEMBER, {
-      userId: this.loginId,
-    });
+    if (storage.getItem("userid") !== "") {
+      this.$store.dispatch(Constant.GET_PROJECTLIST_BY_PMEMBER, {
+        userId: this.loginId,
+      });
+    }
     // sido리스트 불러오기
     this.$store.dispatch(Constant.GET_SIDOLIST);
   },
@@ -342,7 +351,7 @@ export default {
         "GraphQL",
       ],
       picks: [],
-      picks2:[],
+      picks2: [],
       inputVal: "",
       inputVal2: "",
     };
@@ -383,19 +392,29 @@ export default {
       };
     },
     addRecruit() {
-      let radioValue = document.getElementsByName("pjtList");
+      let ppid = document.getElementById("myproject");
+      ppid = ppid.options[ppid.selectedIndex].value;
+      console.log("선택된 프로젝트넘버 : " + ppid);
       if (this.wrecruit.contents.trim() != "") {
         this.$store.dispatch(Constant.ADD_RECRUIT, {
           //rnum:'',
-          pid: radioValue,
+          pid: ppid,
           title: this.wrecruit.title,
           contents: this.wrecruit.contents,
           endDate: this.wrecruit.endDate,
           makeDay: this.wrecruit.makeDay,
           changeDay: this.wrecruit.changeDay,
-          makeId: this.wrecruit.makeId,
-          changeId: this.wrecruit.changeId,
+          makeId: this.loginId,
+          changeId: this.loginId,
         });
+
+        for (let i = 0; i < this.picks2.length; i++) {
+          this.$store.dispatch(Constant.ADD_PINTEREST, {
+            pid: ppid,
+            interest: this.picks2[i],
+          });
+        }
+
         this.$router.push("/recruit/recruit1");
       } else {
         console.log("공백입력.");
@@ -487,6 +506,72 @@ export default {
       }
       //둘다 x
       else if (this.picks.length == 0 && sd == " ") {
+        this.$store.dispatch(Constant.GET_POOLLIST);
+      }
+    },
+
+    searchPool2() {
+      let sd = "";
+      let gg = "";
+      let dn = "";
+
+      if (this.selectedSido == 0) {
+        sd = " ";
+      } else {
+        sd = this.selectedSido;
+      }
+      if (this.selectedGugun == 0) {
+        gg = " ";
+      } else {
+        gg = this.selectedGugun;
+      }
+      if (this.selectedDong == 0) {
+        dn = " ";
+      } else {
+        dn = this.selectedDong;
+      }
+
+      //주소만
+      if (this.picks2.length == 0 && sd != " ") {
+        this.$store.dispatch(Constant.SEARCH_POOL_BY_ADDR, {
+          sido: sd,
+          gugun: gg,
+          dong: dn,
+        });
+      }
+      //태그만
+      else if (this.picks2.length != 0 && sd == " ") {
+        let stacks = "";
+        if (this.picks2.length != 0) {
+          for (let i = 0; i < this.picks2.length; i++) {
+            stacks += this.picks2[i] + ",";
+          }
+        } else {
+          stacks = null;
+        }
+        this.$store.dispatch(Constant.SEARCH_POOL_BY_TAG, { stacks });
+      }
+      //둘다 o
+      else if (this.picks2.length != 0 && sd != " ") {
+        let addr = sd + "," + gg + "," + dn + ",";
+        let stacks = "";
+        if (this.picks2.length != 0) {
+          for (let i = 0; i < this.picks2.length; i++) {
+            stacks += this.picks[i] + ",";
+          }
+        } else {
+          stacks = null;
+        }
+
+        // console.log(addr + "/" + stacks);
+        //시 구 동 미선택 시 " " 로 보내고 picks
+        this.$store.dispatch(Constant.SEARCH_POOL_BY_TAG_ADDR, {
+          addr,
+          stacks,
+        });
+      }
+      //둘다 x
+      else if (this.picks2.length == 0 && sd == " ") {
         this.$store.dispatch(Constant.GET_POOLLIST);
       }
     },

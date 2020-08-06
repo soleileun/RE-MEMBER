@@ -84,7 +84,7 @@
           <button>{{pick}}</button>
           <button v-on:click="deleteStack(index)">X</button>
         </div>
-      </div>기술 태그 입력(현재 영어로만. 후에 한글까지 추가 예정입니다.)
+      </div>기술 태그 입력
       <div class="searchform">
         <div class="input">
           <input

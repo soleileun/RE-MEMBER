@@ -26,12 +26,18 @@ public class DemoApplication implements WebMvcConfigurer {
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(jwtInterceptor)
 		.addPathPatterns("/api/**")
-		.excludePathPatterns(Arrays.asList("/api/userinfo/**","/api/email/**",
-										 "/api/board/**",
-										 "/api/recruit/**","/api/project/**","/api/pmember/**",
+		.excludePathPatterns(Arrays.asList(
+				
+				"/api/userinfo/**",
+				"/api/email/**","/api/pmember/**"
+										, "/api/board/**",
+										 "/api/recruit/**","/api/project/**","/api/pinterest/**",
 										 "/api/comments/**","/api/issue/**","/api/following/**","/api/interest/**",
 										 "/api/message/**","/api/chat/**","/api/chatroom/**","/api/usertag/**",
-										 "/api/tag/**","/api/addr/**"));
+										 "/api/tag/**","/api/addr/**"
+										 
+				
+				));
 	}
 	
 	@Override

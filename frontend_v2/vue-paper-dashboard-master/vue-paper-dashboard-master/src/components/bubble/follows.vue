@@ -1,21 +1,37 @@
 <template>
   <div class="follows">
     <div v-if="followings.length===0">팔로우한 사람이 없습니다.</div>
-    <div class="dropdown" v-for="target in followings" :key="target.target">
-      <button class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{target.target}}</button>
-      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-        <div class="dropdown-item" @click="mes(target.target)">메세지</div>
-        <div class="dropdown-item">프로필 보기</div>
+    <div v-if="followings">
+      <h4>활동중인 유저</h4>
+      <div class="dropdown" v-for="target in followings.filter(item=> item.state ===true)" :key="target.id">
+        <drop-down class="btn" :title="target.nickname+'님'">
+          <div class="dropdown-item" @click="mes(target.id)">메세지</div>
+          <div class="dropdown-item" @click="viewProf(target.id)">프로필 보기</div>
+          <div class="dropdown-item" @click="delFollow(target.id)">팔로우 해제</div>
+        </drop-down>
+      </div>
+    </div>
+    <div v-if="followings">
+      <h4>휴면중인 유저</h4>
+      <div class="dropdown" v-for="target in followings.filter(item=> item.state ===false)" :key="target.id">
+        <drop-down class="btn" :title="target.nickname+'님'">
+          <div class="dropdown-item" @click="mes(target.id)">메세지</div>
+          <div class="dropdown-item" @click="viewProf(target.id)">프로필 보기</div>
+          <div class="dropdown-item" @click="delFollow(target.id)">팔로우 해제</div>
+        </drop-down>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import http from "../../http-common.js";
 export default {
   name: "follows",
   data: function () {
-    return {};
+    return {
+      // followings:[]
+    };
   },
   beforeCreate: function () {
     this.$store.dispatch("getFollow");
@@ -25,12 +41,19 @@ export default {
       return this.$store.state.userstore.followings;
     },
   },
+  mounted: function () {},
   methods: {
     mes: function (id) {
       this.$store.dispatch("sendMes", { toUser: id });
     },
     fol: function (id) {
       this.$store.dispatch("follow", { target: id });
+    },
+    viewProf(id) {
+      this.$router.push("/profile/" + id);
+    },
+    delFollow(id) {
+      this.$store.dispatch("delFollow", { target: id });
     },
   },
 };
@@ -39,11 +62,14 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 .follows {
-  padding-top: 15px; 
+  padding-top: 15px;
   display: flex;
   flex-direction: column;
   justify-items: flex-start;
   align-content: stretch;
+  h4 {
+    margin: 0;
+  }
   .dropdown {
     margin: 5px;
     padding: 0px 10px 0px 10px;
