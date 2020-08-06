@@ -44,17 +44,19 @@ export default {
     // console.log(this.$route.params.bno);
     this.$store.dispatch(Constant.GET_RECRUIT, { rnum : this.$route.params.rnum });
   //딜레이 해결할 것
-    this.$store.dispatch(Constant.GET_PROJECT, { pid : recruit.pid });
+      // console.log("ㅇㄴㄹ"+recruit.pid);
+
+    this.$store.dispatch(Constant.GET_PROJECT, { pid : this.$route.params.pid });
   },
   computed: {
     recruit() {
+      // console.log("어어어"+this.$store.state.recruitstore.recruit.rnum);
       return this.$store.state.recruitstore.recruit;
     },
     project() {
       return this.$store.state.projectstore.project;
     },
   },
-  created() {},
   methods: {
     // deleteRecruit(){
     //   var con_test = confirm("삭제하시겠습니까?");

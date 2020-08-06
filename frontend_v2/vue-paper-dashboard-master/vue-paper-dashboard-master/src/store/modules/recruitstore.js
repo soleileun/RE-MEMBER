@@ -54,7 +54,7 @@ const recruitstore = {
 
         })
         .then(() => {
-          console.log('추가하였습니다.');
+          console.log('구인글 추가하였습니다.');
         })
         .catch(exp => {
           console.log('추가 실패 확인 로그');
@@ -69,7 +69,7 @@ const recruitstore = {
           interest: payload.interest,
         })
         .then(() => {
-          console.log('추가하였습니다.');
+          console.log('핀인터 추가하였습니다.');
           store.dispatch(Constant.GET_RECRUITLIST);
 
         })

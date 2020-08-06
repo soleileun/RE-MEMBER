@@ -5,7 +5,7 @@
     </td>
     <td data-column="Policy" class="table-row__td">
       <div class>
-        <p class="table-row__policy"> <router-link :to="'/recruit/recruitdetail/' + recruit.rnum">{{recruit.title}}</router-link></p>
+        <p class="table-row__policy"> <router-link :to="'/recruit/recruitdetail/' + recruit.rnum + '&'+recruit.pid">{{recruit.title}}</router-link></p>
         <!-- <span class="table-row__small">Basic Policy</span> 프로젝트 분야 넣을 것-->
       </div>
     </td>

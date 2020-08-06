@@ -8,7 +8,7 @@
             여긴 간단히 1 2 3 개 텍스트
             <!-- 세션에서 꺼낸 id 넣기 -->
             <br>
-            <router-link :to="'/project/myproject/' + 'ssafy'">내 프로젝트</router-link>
+            <router-link :to="'/project/myproject/' + storage.getItem('userid')">내 프로젝트</router-link>
 
         </aside>
     
@@ -16,7 +16,7 @@
 </template>
 
 <script>
-
+const storage = window.sessionStorage;
 export default {
   name: 'main1',
   

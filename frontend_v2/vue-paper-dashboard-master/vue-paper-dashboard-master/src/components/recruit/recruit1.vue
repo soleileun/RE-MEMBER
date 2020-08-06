@@ -285,7 +285,7 @@ export default {
     this.$store.dispatch(Constant.GET_RECRUITLIST);
     if (storage.getItem("userid") !== "") {
       this.$store.dispatch(Constant.GET_PROJECTLIST_BY_PMEMBER, {
-        userId: this.loginId,
+        userId: storage.getItem("userid"),
       });
     }
     // sido리스트 불러오기

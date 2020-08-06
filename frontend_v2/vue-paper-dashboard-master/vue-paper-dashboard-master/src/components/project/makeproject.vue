@@ -78,7 +78,7 @@ export default {
   created() {
     // 세션 아이디로 교체
     this.$store.dispatch(Constant.GET_PROJECTLIST_BY_PMEMBER, {
-      // userId: "ssafy",
+      userId: storage.getItem('userid') // userId: "ssafy",
     });
   },
   data() {

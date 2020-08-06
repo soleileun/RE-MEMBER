@@ -171,7 +171,7 @@ const routes = [{
         component: recruit1,
       },
       {
-        path: "/recruit/recruitdetail/:rnum",
+        path: "/recruit/recruitdetail/:rnum&:pid",
         name: "모집 상세",
         component: recruitdetail,
       },

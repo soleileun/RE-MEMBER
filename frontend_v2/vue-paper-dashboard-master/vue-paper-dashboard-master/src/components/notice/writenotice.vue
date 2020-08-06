@@ -15,7 +15,7 @@
 
 <script>
 import Constant from '../../Constant';
-
+const storage= window.sessionStorage;
 export default {
   name: "writenotice",
 
@@ -42,7 +42,7 @@ export default {
                 this.$store.dispatch(Constant.ADD_BOARD,{
                   //bno : auto increase
                     // bwriter : this.board.bwriter, 임시로 ssafy foreign key때문
-                    bwriter : 'ssafy',
+                    bwriter : storage.getItem('userid'),
                     btitle : this.board.btitle,
                     bcontent : this.board.bcontent,
                     bview : this.board.bview,
