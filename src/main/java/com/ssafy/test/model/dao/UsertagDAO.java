@@ -3,20 +3,20 @@ package com.ssafy.test.model.dao;
 import java.util.List;
 
 import com.ssafy.test.model.dto.AddrAndTag;
+import com.ssafy.test.model.dto.Interest;
 import com.ssafy.test.model.dto.TagList;
 import com.ssafy.test.model.dto.UserInfo;
-import com.ssafy.test.model.dto.Usertag;
 
 public interface UsertagDAO {
 
 
-	public List<Usertag> selectAll(String k);
+	public List<Interest> selectAll(String k);
 	
-	public Usertag select(Usertag v);
+	public Interest select(Interest v);
 
-	public int insert(Usertag v);
+	public int insert(Interest v);
 	
-	public int delete(Usertag v);
+	public int delete(Interest v);
 	
 	public List<UserInfo> selectSame(TagList v);
 	

@@ -3,25 +3,25 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ssafy.test.Usertag">
-	<select id="selectAll" parameterType="string" resultType="usertag">
-		select * from usertag
-		where uid =#{uid}
+	<select id="selectAll" parameterType="string" resultType="interest">
+		select * from interest
+		where id =#{id}
 	</select>
  
-	<select id="select" parameterType="usertag" resultType="usertag">
-		select * from usertag
-		where tagvalue = #{tagvalue} and uid =#{uid};
+	<select id="select" parameterType="interest" resultType="interest">
+		select * from interest
+		where interest = #{interest} and id =#{id};
 	</select>
  
-	<insert id="insert" parameterType="usertag">
-		insert into usertag(tagvalue,uid)
-		values(#{tagvalue},#{uid})
+	<insert id="insert" parameterType="interest">
+		insert into interest(interest,id)
+		values(#{interest},#{id})
 	</insert>
 
-	<delete id="delete" parameterType="usertag">
-		delete from usertag
+	<delete id="delete" parameterType="interest">
+		delete from interest
 		where
-		tagvalue=#{tagvalue} and uid=#{uid}
+		interest=#{interest} and id=#{id}
 	</delete>
 	
 	
@@ -30,13 +30,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     select *
     from userInfo
     where id in (
-		select uid
+		select id
 		from (
 			select *
-			from usertag
-			where tagvalue in  (#{tag1},#{tag2},#{tag3},#{tag4},#{tag5})
+			from interest
+			where interest in  (#{tag1},#{tag2},#{tag3},#{tag4},#{tag5})
 		) as b
-		group by uid
+		group by id
 	);
 	</select>
 	
@@ -47,13 +47,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     select *
     from userInfo
     where id in (
-		select uid
+		select id
 		from (
-			select * from usertag
-			where tagvalue in (#{tag1},#{tag2},#{tag3},#{tag4},#{tag5})
+			select * from interest
+			where interest in (#{tag1},#{tag2},#{tag3},#{tag4},#{tag5})
 		) as b
-		group by uid
-		having count(tagvalue) >= #{cnt}
+		group by id
+		having count(interest) >= #{cnt}
 		
 	);
 	</select>
@@ -66,13 +66,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     and address2 like CONCAT('%',#{gugun},'%')
     and address2 like CONCAT('%',#{dong},'%')
 	and id in (
-		select  uid
+		select  id
 		from (
-			select * from usertag
-			where tagvalue in  (#{tag1},#{tag2},#{tag3},#{tag4},#{tag5})
+			select * from interest
+			where interest in  (#{tag1},#{tag2},#{tag3},#{tag4},#{tag5})
 		) as b
-		group by uid
-		having count(tagvalue) >= #{cnt}
+		group by id
+		having count(interest) >= #{cnt}
 	);
 	</select>
 	

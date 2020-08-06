@@ -91,7 +91,8 @@ public class RecruitController {
 		Addr v = new Addr();
 		v.setDong(dong);
 		v.setGugun(gugun);
-		v.setSido(sido);
+		v.setSido(sido);	
+		
 		return new ResponseEntity<List<Recruit>>(rService.selectByAddr(v), HttpStatus.OK);
 	}
 
@@ -113,6 +114,8 @@ public class RecruitController {
 			v.setTag5(a[4]);
 		v.setCnt(b);
 		// 어차피 널이 들어감.
+		
+		
 
 		return new ResponseEntity<List<Recruit>>(rService.selectSame(v), HttpStatus.OK);
 	}

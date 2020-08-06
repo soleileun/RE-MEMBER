@@ -5,7 +5,7 @@
     </td>
     <td data-column="Policy" class="table-row__td">
       <div class>
-        <p class="table-row__policy">{{recruit.title}}</p>
+        <p class="table-row__policy"> <router-link :to="'/recruit/recruitdetail/' + recruit.rnum">{{recruit.title}}</router-link></p>
         <!-- <span class="table-row__small">Basic Policy</span> 프로젝트 분야 넣을 것-->
       </div>
     </td>
@@ -99,6 +99,7 @@
         viewBox="0 0 512 512"
         style="enable-background:new 0 0 512 512;"
         xml:space="preserve"
+        @click="deleteRecruit()"
       >
         <g>
           <g>
@@ -185,6 +186,10 @@ export default {
           boon = str.slice(14, 16),
           cho = str.slice(17, 19);
         return `${year}/${month}/${day}`;
+    },
+    deleteRecruit(){
+      console.log("삭제 rnum : "+this.recruit.rnum);
+      this.$store.dispatch(Constant.REMOVE_RECRUIT, { rnum: this.recruit.rnum });
     }
   }
 };

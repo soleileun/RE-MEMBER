@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.ssafy.test.model.dao.UsertagDAO;
 import com.ssafy.test.model.dto.AddrAndTag;
+import com.ssafy.test.model.dto.Interest;
 import com.ssafy.test.model.dto.TagList;
 import com.ssafy.test.model.dto.TagResult;
 import com.ssafy.test.model.dto.UserInfo;
@@ -19,25 +20,25 @@ public class UsertagServiceImpl implements UsertagService{
 	UsertagDAO Dao;
 
 	@Override
-	public List<Usertag> selectAll(String k) {
+	public List<Interest> selectAll(String k) {
 		// TODO Auto-generated method stub
 		return Dao.selectAll(k);
 	}
 
 	@Override
-	public Usertag select(Usertag v) {
+	public Interest select(Interest v) {
 		// TODO Auto-generated method stub
 		return Dao.select(v);
 	}
 
 	@Override
-	public int insert(Usertag v) {
+	public int insert(Interest v) {
 		// TODO Auto-generated method stub
 		return Dao.insert(v);
 	}
 
 	@Override
-	public int delete(Usertag v) {
+	public int delete(Interest v) {
 		// TODO Auto-generated method stub
 		return Dao.delete(v);
 	}
