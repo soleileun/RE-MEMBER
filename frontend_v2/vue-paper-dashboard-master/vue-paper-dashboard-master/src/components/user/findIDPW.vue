@@ -1,128 +1,120 @@
 <template>
   <div class="findIDPW">
-    <div>
-      <form action="#">
-        <h1>아이디 찾기</h1>
-        <input type="radio" v-model="idradio" value="phone" />전화번호로 찾기
-        <input type="radio" v-model="idradio" value="email" />이메일로 찾기
-        <br />이름 :
-        <input type="text" v-model="idname" />
-        <br />
-        <span v-if="idradio === 'email'">
-          이메일주소 :
-          <input type="text" v-model="idemail1" />@
-          <input type="text" v-model="idemail2" />
-        </span>
-        <span v-else>
-          전화번호 :
-          <input type="text" v-model="idphone1" /> -
-          <input type="text" v-model="idphone2" /> -
-          <input type="text" v-model="idphone3" />
-        </span>
-        <br />
-        <div class="submit" @click="submitID">찾기</div>
-      </form>
-    </div>
-    <hr />
-    <div>
-      <form action="#">
-        <h1>비밀번호 찾기</h1>
-        <input type="radio" v-model="pwradio" value="phone" />가입시 입력한 전화번호로 전송
-        <input type="radio" v-model="pwradio" value="email" />가입시 입력한 이메일 주소로 전송
-        <br />아이디 :
-        <input type="text" v-model="pwID" />
-        <br />이름 :
-        <input type="text" v-model="pwname" />
-        <br />
-        <div class="submit" @click="submitpw">
-          <span v-if="pwradio === 'email'">이메일 주소</span>
-          <span v-else>전화번호</span>
-          로 변경된 비밀번호를 전송합니다.
+    <card class="card text-center">
+      <h1>아이디 찾기</h1>
+      <div class="row">
+        <div class="col-12">
+          이름
+          <input v-model="name" maxlength="10" type="text" />
         </div>
-      </form>
-    </div>
+        <div class="col-12">
+          전화번호:
+          <input type="text" maxlength="3" v-model="phone0" />-
+          <input id="p1" type="text" maxlength="4" v-model="phone1" />-
+          <input id="p2" type="text" maxlength="4" v-model="phone2" @keyup.enter="search()" />
+        </div>
+      </div>
+      <br />
+      <button class="btn-info btn-round" @click="search()">찾기</button>
+    </card>
+    <!-- <card class="card text-center">
+      <h1>비밀번호 찾기</h1>
+      <div class="row">
+        <div class="col-12">
+          이름
+          <input v-model="name" maxlength="10" type="text" />
+        </div>
+        <div class="col-12">
+          전화번호:
+          <input type="text" maxlength="3" v-model="phone0" />-
+          <input id="p1" type="text" maxlength="4" v-model="phone1" />-
+          <input id="p2" type="text" maxlength="4" v-model="phone2" @keyup.enter="search()" />
+        </div>
+      </div>
+      <br />
+      <button class="btn-info btn-round" @click="searchPW()">찾기</button>
+    </card> -->
   </div>
 </template>
 
 <script>
-import axios from "axios";
+import http from "../../http-common.js";
 export default {
   name: "findIDPW",
-  data: function() {
+  data: function () {
     return {
-      idradio: "phone",
-      idname: "",
-      idphone1: "",
-      idphone2: "",
-      idphone3: "",
-      idemail1: "",
-      idemail2: "",
-      pwradio: "phone",
-      pwID: "",
-      pwname: ""
+      id: "",
+      name: "",
+      phone0: "",
+      phone1: "",
+      phone2: "",
     };
   },
-  methods: {
-    submitID: function() {
-      let form = new FormData();
-      form.append("name", this.idname);
-      if (this.idradio === "phone") {
-        form.append("phone", this.idphone1 + this.idphone2 + this.idphone3);
-      } else {
-        form.append("email", this.idemail1 + "@" + this.idemail2);
-      }
-
-      axios({
-        method: "post",
-        url: "아이디 찾기 url",
-        data: form,
-        responseType: "json"
-      })
-        .then(response => {
-          console.log(response.data);
-        })
-        .catch(e => {
-          console.log(e);
-        });
+  watch: {
+    name: function () {
+      this.name = this.name.replace(/[^가-힣]/g, "");
     },
-    submitpw: function() {
-      let form = new FormData();
-      form.append("id", this.pwID);
-      form.append("name", this.pwname);
-      if (this.pwradio === 'phone'){
-        form.append("method",'phone');
+    phone0: function () {
+      this.phone0 = this.phone0.replace(/[^0-9]/g, "");
+      if (this.phone0.length === 3) {
+        document.querySelector("#p1").focus();
       }
-      else {
-        form.append("method",'email');
+    },
+    phone1: function () {
+      this.phone1 = this.phone1.replace(/[^0-9]/g, "");
+      if (this.phone1.length === 4) {
+        document.querySelector("#p2").focus();
       }
-      axios({
-        method: "post",
-        url: "비번 찾기 url",
-        data: form,
-        responseType: "json"
-      })
-        .then(response => {
-          console.log(response.data);
+    },
+    phone2: function () {
+      this.phone2 = this.phone2.replace(/[^0-9]/g, "");
+    },
+  },
+  methods: {
+    search() {
+      http
+        .get("/api/userinfo/")
+        .then((res) => {
+          if (
+            !res.data.find((item) => {
+              if (
+                item.name === this.name &&
+                item.phone === `${this.phone0}-${this.phone1}-${this.phone2}`
+              ) {
+                alert(`아이디는 '${item.id}'입니다.`);
+                return true;
+              }
+            })
+          ) {
+            alert("찾는 정보의 아이디가 없습니다.");
+          }
         })
-        .catch(e => {
-          console.log(e);
-        });
-    }
-  }
+        .catch((exp) => console.log("서버가 불안정합니다." + exp));
+    },
+    searchPW() {
+      http
+        .get("/api/userinfo/")
+        .then((res) => {
+          if (
+            !res.data.find((item) => {
+              if (
+                item.name === this.name &&
+                item.phone === `${this.phone0}-${this.phone1}-${this.phone2}`
+              ) {
+                alert(`아이디는 '${item.id}'입니다.`);
+                return true;
+              }
+            })
+          ) {
+            alert("찾는 정보의 아이디가 없습니다.");
+          }
+        })
+        .catch((exp) => console.log("서버가 불안정합니다." + exp));
+    },
+  },
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-.submit{
-  margin: 15px;
-  margin-left: 30vw;
-  margin-right: 30vw;
-  background-color: #eee;
-  border: 1px black solid;
-}
-.submit:hover{
-  cursor: pointer;
-  
-}
 </style>
