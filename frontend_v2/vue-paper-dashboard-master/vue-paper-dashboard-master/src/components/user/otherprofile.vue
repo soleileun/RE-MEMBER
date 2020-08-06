@@ -26,6 +26,9 @@ export default {
       this.init()
     }
   },
+  mounted(){
+    this.init()
+  },
   data() {
     return {
       content: "불러오는 중입니다.",

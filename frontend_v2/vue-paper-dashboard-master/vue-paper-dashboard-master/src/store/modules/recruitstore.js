@@ -10,80 +10,122 @@ const recruitstore = {
     recruits: [],
     recruit: {}
   },
- 
+
   actions: {
-    
+
 
     //구인글 리스트 가져오기
     [Constant.GET_RECRUITLIST]: (store) => {
       http.get('/api/recruit')
-          .then(response => {
-            // console.log(response)
-              store.commit(Constant.GET_RECRUITLIST, { recruits : response.data })
+        .then(response => {
+          // console.log(response)
+          store.commit(Constant.GET_RECRUITLIST, {
+            recruits: response.data
+          })
         })
-          .catch(exp => alert('getRecruitList처리에 실패하였습니다!.' + exp));
+        .catch(exp => alert('getRecruitList처리에 실패하였습니다!.' + exp));
     },
 
     //rnum으로 구인글 하나 가져오기
     [Constant.GET_RECRUIT]: (store, payload) => {
       http.get('/api/recruit/' + payload.rnum)
-          .then(response => {
-              // console.log(response.data);
-              store.commit(Constant.GET_RECRUIT, { recruit: response.data })})
-          .catch(exp => alert('getTodo처리에 실패하였습니다.' + exp));
+        .then(response => {
+          // console.log(response.data);
+          store.commit(Constant.GET_RECRUIT, {
+            recruit: response.data
+          })
+        })
+        .catch(exp => alert('getTodo처리에 실패하였습니다.' + exp));
 
     },
 
     //구인글 추가
     [Constant.ADD_RECRUIT]: (store, payload) => {
-        console.log(payload);
-        http.post('/api/recruit/', {
-                pid: payload.pid,
-                title: payload.title,
-                contents: payload.contents,
-                endDate: payload.endDate,
-                makeDay: payload.makeDay,
-                changeDay: payload.changeDay,
-                makeId: payload.makeId,
-                changeId: payload.changeId,
+      console.log(payload);
+      http.post('/api/recruit/', {
+          pid: payload.pid,
+          title: payload.title,
+          contents: payload.contents,
+          endDate: payload.endDate,
+          makeDay: payload.makeDay,
+          changeDay: payload.changeDay,
+          makeId: payload.makeId,
+          changeId: payload.changeId,
 
-            })
-            .then(() => {
-                console.log('추가하였습니다.');
-            })
-            .catch(exp => {
-                console.log('추가 실패 확인 로그');
-                alert('리쿠르트 추가 처리에 실패하였습니다.' + exp);
-            })
+        })
+        .then(() => {
+          console.log('추가하였습니다.');
+        })
+        .catch(exp => {
+          console.log('추가 실패 확인 로그');
+          alert('리쿠르트 추가 처리에 실패하였습니다.' + exp);
+        })
     },
-   
+
     [Constant.ADD_PINTEREST]: (store, payload) => {
       console.log(payload);
       http.post('/api/pinterest/', {
-              pid: payload.pid,
-              interest: payload.interest,
-          })
-          .then(() => {
-              console.log('추가하였습니다.');
-              store.dispatch(Constant.GET_RECRUITLIST);
+          pid: payload.pid,
+          interest: payload.interest,
+        })
+        .then(() => {
+          console.log('추가하였습니다.');
+          store.dispatch(Constant.GET_RECRUITLIST);
 
-          })
-          .catch(exp => {
-              console.log('추가 실패 확인 로그');
-              alert('피인터레스트 추가 처리에 실패하였습니다.' + exp);
-          })
-  },
-    // //댓글 삭제
-    // [Constant.REMOVE_COMMENT]: (store, payload) => {
-    //     http.delete('/api/comments/delete/' + payload.cno)
-    //         .then(() => {
-    //             alert('삭제하였습니다.');
-    //             store.dispatch(Constant.GET_COMMENTLIST, {bno : payload.bno});
+        })
+        .catch(exp => {
+          console.log('추가 실패 확인 로그');
+          alert('피인터레스트 추가 처리에 실패하였습니다.' + exp);
+        })
+    },
 
-    //         })
-    //         .catch(exp => alert('삭제 처리에 실패하였습니다.' + exp));
+    //주소, 태그로 풀리스트 반환
+    [Constant.SEARCH_RECRUIT_BY_TAG_ADDR]: (store, payload) => {
+      console.log(payload);
+      http.get('/api/recruit/selectAddrAndTag/tag=' + payload.stacks + '&addr=' + payload.addr)
+        .then(response => {
+          console.log('풀리스트 반환: ' + response.data);
+          store.commit(Constant.GET_RECRUITLIST, {
+            recruits: response.data
+          })
+        })
+        .catch(exp => alert('풀리스트 반환 처리에 실패하였습니다.' + exp));
+    },
+    //주소로 풀리스트 반환
+    [Constant.SEARCH_RECRUIT_BY_ADDR]: (store, payload) => {
+      console.log(payload);
+      http.get('/api/recruit/addr/sido=' + payload.sido + '&gugun=' + payload.gugun + '&dong=' + payload.dong)
+        .then(response => {
+          // console.log('풀리스트 반환: '+response.data);
+          store.commit(Constant.GET_RECRUITLIST, {
+            recruits: response.data
+          })
+        })
+        .catch(exp => alert('풀리스트 반환 처리에 실패하였습니다.' + exp));
+    },
+    //태그로 풀리스트 반환
+    [Constant.SEARCH_RECRUIT_BY_TAG]: (store, payload) => {
+      console.log(payload);
+      http.get('/api/recruit/selectSame/' + payload.stacks)
+        .then(response => {
+          // console.log('풀리스트 반환: '+response.data);
+          store.commit(Constant.GET_RECRUITLIST, {
+            recruits: response.data
+          })
+        })
+        .catch(exp => alert('풀리스트 반환 처리에 실패하였습니다.' + exp));
+    },
+    //댓글 삭제
+    [Constant.REMOVE_RECRUIT]: (store, payload) => {
+        http.delete('/api/recruit/' + payload.rnum)
+            .then(() => {
+                alert('삭제하였습니다.');
+                store.dispatch(Constant.GET_RECRUITLIST);
 
-    // },
+            })
+            .catch(exp => alert('삭제 처리에 실패하였습니다.' + exp));
+
+    },
 
 
     // //댓글 클리어
@@ -95,23 +137,22 @@ const recruitstore = {
     //         })
     //         .catch(exp => alert('댓글 클리어 실패하였습니다.' + exp));
     // },
-   
 
-   
+
+
   },
 
   mutations: {
     [Constant.GET_RECRUITLIST]: (state, payload) => {
-        // console.log('mutation' + payload.boards);
-        state.recruits = payload.recruits;
+      // console.log('mutation' + payload.boards);
+      state.recruits = payload.recruits;
     },
     [Constant.GET_RECRUIT]: (state, payload) => {
       state.recruit = payload.recruit;
-  },
+    },
   },
 
-  modules: {
-  }
+  modules: {}
 };
 
 export default recruitstore;

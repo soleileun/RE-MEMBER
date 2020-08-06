@@ -38,7 +38,9 @@ export default {
       this.init()
     }
   },
-
+  mounted(){
+    this.init()
+  },
   methods: {
     init(){
       http
