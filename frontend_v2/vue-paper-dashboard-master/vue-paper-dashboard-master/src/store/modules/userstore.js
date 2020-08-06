@@ -313,7 +313,7 @@ const userstore = {
     },
     loadMesList: (state, payload) => {
       if (storage.getItem("userid") !== "admin") {
-        state.messageList = payload.messageList.filter(item => item.fromUser !== "admin");
+        state.messageList = payload.messageList.filter(item => item.fromUser !== "admin"&&item.toUser !== "admin");
       } else {
         state.messageList = payload.messageList;
       }
@@ -326,7 +326,7 @@ const userstore = {
       state.mesDetail = payload.list;
     },
     loadNews: (state, payload) => {
-      state.news = payload.list;
+      state.news = payload.list.filter(item => item.fromUser === "admin");
       if (!state.bubbleNew) {
         if (payload.list.find(item => item.read === false)) {
           state.bubbleNew = true
