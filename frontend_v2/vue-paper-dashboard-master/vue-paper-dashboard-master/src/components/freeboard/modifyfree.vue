@@ -51,8 +51,8 @@
         <div class="container">
           <div class="row">
             <div class="col text-center btndiv">
-              <button class="btn btn-outline-primary">수정</button>
-              <button class="btn btn-outline-primary">취소</button>
+              <button class="btn btn-outline-primary" @click="modifyFree">수정</button>
+              <button class="btn btn-outline-primary" @click="back">취소</button>
             </div>
           </div>
         </div>
@@ -63,19 +63,6 @@
     </div>
 
 
-        <h1>자유게시판 글 수정 샘플</h1>
-        
-        <hr>
-        아이디 : store의 state에서 가져오는 세션 아이디<br>
-        <!--
-        제목 : <input type="text" v-model="board.btitle" placeholder="제목을 입력하세요" /><br>
-        내용<br>
-        
-        <textarea name="" id="" cols="30" rows="10" v-model="board.bcontent" placeholder="내용을 입력하세요"></textarea><br>
-        -->
-        <!-- 작성자 본인, 관리자만 수정 삭제 가능 -->
-        <button @click="modifyFree">수정</button>
-        <router-link :to="'/freeboard/detailfree/' + board.bno" tag="button">취소</router-link>
     </div>
 </template>
 
@@ -129,6 +116,10 @@ components: {
           }
           // this.clear();
         },
+        back() {
+            let addr = "/freeboard/detailfree/"+ this.board.bno;
+            this.$router.push(addr);
+        }
         // clear() {
         //   this.board = {}; 
         // },

@@ -39,9 +39,9 @@
         <div class="container">
           <div class="row">
             <div class="col text-center btndiv">
-              <button v-if="board.bwriter === this.nowid || this.nowid === 'admin' " class="btn btn-outline-warning">수정하기</button>
+              <button v-if="board.bwriter === this.nowid || this.nowid === 'admin' " class="btn btn-outline-warning" @click="change">수정하기</button>
               <button v-if="board.bwriter === this.nowid || this.nowid === 'admin' " class="btn btn-outline-danger" @click="deleteFree">삭제하기</button>
-              <button class="btn btn-outline-primary">목록으로</button>
+              <button class="btn btn-outline-primary" @click="back">목록으로</button>
 
             </div>
           </div>
@@ -58,9 +58,11 @@
     <!-- 게시물 번호로 게시물 search 후 id 꺼내기 -->
     <!-- 작성자 본인, 관리자만 수정 삭제 가능 -->
     <!-- 자유게시판일 경우 댓글 및 코멘트 -->
+    <!--
     <router-link :to="'/freeboard/modifyfree/' + board.bno" tag="button">수정</router-link>
     <button @click="deleteFree">삭제</button>
     <router-link to="/freeboard" tag="button">목록으로</router-link>
+    -->
     <br>
     <br>
    
@@ -88,7 +90,7 @@
             <input v-model="comment2.ccontent" type="text" style="width:100%" >
           </div>
           <div class="col-2">
-            <button >입력</button>
+            <button @click="addComment">입력</button>
           </div>
         </div>
       </div>
@@ -118,7 +120,7 @@
             </div>
             <hr>
 
-            <div class="col-12 ql-editor" style="min-height:200px;" v-html="board.bcontent">
+            <div class="col-12 ql-editor" style="min-height:200px;" v-html="comment.ccontent">
             
               <vue-editor v-show="false" style="height:80%;"></vue-editor>
             </div>
@@ -140,7 +142,7 @@
         <div class="container">
           <div class="row">
             <div class="col text-center btndiv">
-              <button class="btn btn-outline-primary">작성하기</button>
+              <button class="btn btn-outline-primary" @click="addComment">작성하기</button>
             </div>
           </div>
           </div>
@@ -247,6 +249,16 @@ export default {
 
     deleteComment(cno){
       this.$emit('delete-comment',cno);
+    },
+
+    change() {
+
+      let addr = "/freeboard/modifyfree/"+ this.board.bno;
+      this.$router.push(addr);
+    },
+    back() {
+      let addr = "/freeboard";
+      this.$router.push(addr);
     },
 
     addComment(){

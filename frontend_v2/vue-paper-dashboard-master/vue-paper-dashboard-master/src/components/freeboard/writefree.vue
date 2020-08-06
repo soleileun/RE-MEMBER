@@ -3,7 +3,7 @@
     <div class="card" >
       
       <div class="card-header">
-        <h1>게시판 글 작성 샘플 - 게시판들 통합 예정 -</h1>
+        <h1>글쓰기</h1>
       </div>
       <hr>
       <div class="card-body">
@@ -129,14 +129,6 @@ components: {
   },
   methods: {
     addFree(){
-      console.log("bwriter : " + this.board.bwriter);
-      console.log("btitle : " + this.board.btitle);
-      console.log("bcontent : " + this.board.bcontent);
-      console.log("bview : " + this.board.bview);
-      console.log("bfile : " + this.board.bfile);
-      console.log("bstate : " + this.board.bstate);
-      console.log("makeDay : " + this.board.makeDay);
-      console.log("makeId : " + this.board.makeId);
             if(this.board.bcontent.trim() != ''){
                 this.$store.dispatch(Constant.ADD_BOARD,{
                   //bno : auto increase
@@ -152,7 +144,7 @@ components: {
                     makeId : this.board.makeid,
                     // changeId : this.board.changeid
                 });
-                this.$router.push('/mainboard/freeboard');
+                this.$router.push('/freeboard'); // mainboard 뺐음.
             }else{
                 console.log('공백입력.');
             }    
@@ -164,6 +156,8 @@ components: {
         },
         check() {
           //this.btitle = this.inputtitle;
+            let addr = "/freeboard";
+            this.$router.push(addr);
           console.log(this.btitle);
           console.log(this.bcontent);
           console.log(this.bstate);

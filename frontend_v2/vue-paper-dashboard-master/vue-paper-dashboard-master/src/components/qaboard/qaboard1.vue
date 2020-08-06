@@ -86,24 +86,42 @@
                 </div>
               </div>
             </div>
-              <button type="button" class="btn btn-primary" style="width:90px; float:right">
-                <router-link to="/freeboard/writefree" tag="button">글쓰기</router-link>
-              </button>
-                        
-            <br><br>
+
+        <div class="container">
+          <div class="row">
+            <div class="col text-right btndiv">
+              <button class="btn btn-primary" @click="towrite">글쓰기</button>
+            </div>
+          </div>
+        </div>
+
+
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-1 "  > 
+                <select name="standard" id="standard3" >
+                  <option value="t" selected >제목</option>
+                  <option value="w">작성자</option>
+                </select>
+              </div>
+
+              <div class="col-8"> 
+                <input type="text" placeholder="검색어를 입력하세요" id="searchWord3" style="width:100%;"/>
+              </div>
+              
+              <div class="col-2 "  > 
+                 <button v-on:click="searchFree" style="border: 2px solid rgb(173, 203, 247); border-radius:10px; width:80%;">검색</button>
+              </div>
+
+              
+            </div>
+          </div>
           </div>            
         </div>
                 <!-- ============================================================== -->
                 <!-- End PAge Content -->
                 <!-- ============================================================== -->
             
-        <select name="standard" id="standard3" style="height:30px; margin-right:20px; width:80px;">
-          <option value="t" selected >제목</option>
-          <option value="w">작성자</option>
-        </select>
-        <input type="text" placeholder="검색어를 입력하세요" id="searchWord3" style="margin-right:20px; width:400px;"/>
-          <button v-on:click="searchFree" style="border: 2px solid rgb(173, 203, 247); border-radius:10px;">검색</button>
-                  
                   
       </div>
 
@@ -140,6 +158,10 @@ export default {
       }else{ //작성자 검색
         this.$store.dispatch(Constant.SEARCH_BOARD_WRITER, {bwriter : val, bstate : 'qa'});
       }
+    },
+    towrite() {
+      let addr = "/freeboard/writefree";
+      this.$router.push(addr);
     }
   },
 };
