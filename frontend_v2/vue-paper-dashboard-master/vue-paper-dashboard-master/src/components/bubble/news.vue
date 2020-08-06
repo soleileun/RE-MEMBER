@@ -2,8 +2,11 @@
   <div class="news">
     <section class="newss">
       <div v-for="neww in news" :key="neww.mnum" :class="{unread:!neww.read}">
-        <span>{{neww.time}} {{neww.content}}</span>
-        <i class="far fa-trash-alt del" @click="read(neww.mnum)"></i>
+        <span @mouseenter="read(neww.mnum,neww.read)">
+          {{newsTime(neww.time)}}
+          <br />
+          {{neww.content}}
+        </span>
       </div>
       <div v-if="news.length===0">알림이 없습니다.</div>
     </section>
@@ -20,20 +23,37 @@ export default {
   },
   mounted: function () {
     let com = document.querySelector(".newss");
-    setTimeout(()=>{
+    setTimeout(() => {
       com.scrollTop = com.scrollHeight;
-    },50)
+    }, 50);
+  },
+  data: function () {
+    return {};
   },
   methods: {
-    read: function (mnum) {
-      console.log(mnum);
-      this.$store.dispatch('mesRead',{mnum:mnum})
-      this.news.find(item => {
-        if (item.mnum === mnum){
-          item.read = true
-          return true
-        }
-      })
+    newsTime(str) {
+      if (str) {
+        const year = str.slice(0, 4),
+          month = str.slice(5, 7),
+          day = str.slice(8, 10),
+          si = str.slice(11, 13),
+          boon = str.slice(14, 16),
+          cho = str.slice(17, 19);
+        return `${year}/${month}/${day} ${si}시 ${boon}분 ${cho}초`;
+      } else {
+        return "";
+      }
+    },
+    read: function (mnum, read) {
+      if (!read) {
+        this.$store.dispatch("mesRead", { mnum: mnum });
+        this.news.find((item) => {
+          if (item.mnum === mnum) {
+            item.read = true;
+            return true;
+          }
+        });
+      }
     },
   },
 };
@@ -70,21 +90,14 @@ export default {
       padding: 10px;
       border-radius: 5px;
       box-shadow: 0px 1px 1px black;
-      &.unread{
-        border:red 1px solid;
+      &.unread {
+        border: red 1px solid;
       }
       &:hover {
         border: 1px solid black;
       }
       span {
         cursor: text;
-      }
-      .del {
-        cursor: pointer;
-        &:hover {
-          font-size: 1.1rem;
-          font-weight: 900;
-        }
       }
     }
   }
