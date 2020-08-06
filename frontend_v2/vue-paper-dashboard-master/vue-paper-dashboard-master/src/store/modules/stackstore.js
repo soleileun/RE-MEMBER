@@ -125,15 +125,17 @@ const stackstore = {
     //         .catch(exp => alert('삭제 처리에 실패하였습니다.' + exp));
 
     // },
-    //제목으로 찾기
+
+    
+    //주소, 태그로 풀리스트 반환
     [Constant.SEARCH_POOL]: (store,payload) => {
         console.log(payload);
-        http.get('/api/board/typesearch/btitle='+ payload.btitle + '&bstate=' + payload.bstate)
+        http.get('/api/usertag/selectAddrAndTag/tag='+payload.stacks+'{tag}&addr=' + payload.addr)
             .then(response => {
-                console.log(response.data);
-                store.commit(Constant.GET_BOARDLIST, { boards: response.data })
+                console.log('풀리스트 반환: '+response.data);
+                store.commit(Constant.SEARCH_POOL, { pools : response.data })
           })
-            .catch(exp => alert('search by title 처리에 실패하였습니다.' + exp));
+            .catch(exp => alert('풀리스트 반환 처리에 실패하였습니다.' + exp));
       },
     // //작성자로 찾기
     // [Constant.SEARCH_BOARD_WRITER]: (store,payload) => {
