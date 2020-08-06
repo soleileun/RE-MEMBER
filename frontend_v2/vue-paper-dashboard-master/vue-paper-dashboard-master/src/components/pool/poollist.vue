@@ -114,7 +114,7 @@
           <div class="card__content">
             <div class="card__title">{{pool.id}}</div>
             <p class="card__text">
-              {{pool.address1}}
+              {{pool.address2}}
               <br />
               {{pool.responsibility}}
             </p>

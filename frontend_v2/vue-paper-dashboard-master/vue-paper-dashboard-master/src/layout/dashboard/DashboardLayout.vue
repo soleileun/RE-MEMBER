@@ -9,7 +9,8 @@
         <sidebar-link to="/qaboard" name="질문게시판" icon="ti-help-alt" />
         <sidebar-link to="/notice" name="공지사항" icon="ti-announcement" />
         <sidebar-link to="/service" name="고객센터" icon="ti-headphone-alt" />
-        <sidebar-link to="/4444" name="<<<<<<<<<<<<<<<<<<<<<<<<" icon="ti-panel" />
+         <!-- 서버에 올릴땐 빼주세요 -->
+        <sidebar-link to="/4444" name="<<<<서버에 올릴때는 꼭 빼주세요<<" icon="ti-panel" />
 
         <sidebar-link to="/dashboard" name="Dashboard" icon="ti-panel" />
         <sidebar-link to="/stats" name="User Profile" icon="ti-user" />

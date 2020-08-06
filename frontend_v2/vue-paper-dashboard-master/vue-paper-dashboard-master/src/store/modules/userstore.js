@@ -313,7 +313,7 @@ const userstore = {
     },
     loadMesList: (state, payload) => {
       if (storage.getItem("userid") !== "admin") {
-        state.messageList = payload.messageList.filter(item => item.fromUser !== "admin");
+        state.messageList = payload.messageList.filter(item => item.fromUser !== "admin"&&item.toUser !== "admin");
       } else {
         state.messageList = payload.messageList;
       }
