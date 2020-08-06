@@ -15,7 +15,7 @@
     <update id="update" parameterType="userinfo" >
          update userInfo 
          set pw=#{pw}, nickname=#{nickname}, lastDate=#{lastDate}, address1=#{address1}, address2=#{address2}
-           ,phone=#{phone},git=#{git},state=#{state} ,responsibility=#{responsibility} 
+           ,phone=#{phone},git=#{git},state=#{state} ,responsibility=#{responsibility},leaveUser=#{leaveUser}
           where id=#{id}
     </update>
     <!--  validation 수정 -->
@@ -33,7 +33,7 @@
     
     <!-- 로그인 회원 조회 -->
     <select id="select" parameterType="string" resultType="userinfo">
-        select id,nickname,name,pw
+        select id,nickname,name,pw,leaveUser
         from userInfo where id=#{id} 
     </select>
     
@@ -48,19 +48,19 @@
     </select> 
     
     <select id="login" parameterType="string" resultType="userinfo">
-    select id,nickname,name,pw,phone,git,points,lastDate,state,responsibility
+    select id,nickname,name,pw,phone,git,points,lastDate,state,responsibility,leaveUser
     from userInfo where id=#{id} and pw=#{pw}
     </select>
     
         <select id="signin" parameterType="string" resultType="userinfo">
-    select id,nickname,name,pw,phone,git,points,lastDate,state,address1,address2,responsibility,isValid
+    select id,nickname,name,pw,phone,git,points,lastDate,state,address1,address2,responsibility,isValid,leaveUser
     from userInfo where id=#{id} and pw=#{pw}
     </select>
 
 
     <!-- 해당 주소에 거주하는 사람을 검색 -->
     <select id="selectByAddr" parameterType="addr" resultType="userinfo">
-        select id, nickname, name, address2, git, lastDate, state, responsibility, isValid
+        select id, nickname, name, address2, git, lastDate, state, responsibility, isValid,leaveUser
         from userInfo
         where address2 like CONCAT('%',#{sido},'%')
         and address2 like CONCAT('%',#{gugun},'%')

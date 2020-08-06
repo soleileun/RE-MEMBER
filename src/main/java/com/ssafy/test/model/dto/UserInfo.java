@@ -18,6 +18,7 @@ public class UserInfo {
 	private boolean state;
 	private String responsibility;
 	private boolean isValid;
+	private boolean leaveUser;
 	public String getId() {
 		return id;
 	}
@@ -129,6 +130,12 @@ public class UserInfo {
 	}
 	public void setLastDate(Date lastDate) {
 		this.lastDate = lastDate;
+	}
+	public boolean isLeaveUser() {
+		return leaveUser;
+	}
+	public void setLeaveUser(boolean leaveUser) {
+		this.leaveUser = leaveUser;
 	}
 
 
