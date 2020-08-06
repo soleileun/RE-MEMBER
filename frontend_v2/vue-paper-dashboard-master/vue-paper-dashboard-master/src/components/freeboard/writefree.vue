@@ -61,7 +61,7 @@
 
 
           <div class="container-fluid">
-            <div class="row" style="height:600px;">
+            <div class="row" style="min-height:600px;">
               <div class="col-2 write-left" > 
                 내용
               </div>
