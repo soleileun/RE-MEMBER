@@ -125,4 +125,13 @@ public class Board {
 		super();
 	}
 
+	@Override
+	public String toString() {
+		return "Board [bno=" + bno + ", bwriter=" + bwriter + ", btitle=" + btitle + ", bcontent=" + bcontent
+				+ ", bview=" + bview + ", bfile=" + bfile + ", bstate=" + bstate + ", makeDay=" + makeDay
+				+ ", changeDay=" + changeDay + ", makeId=" + makeId + ", changeId=" + changeId + "]";
+	}
+	
+	
+
 }
