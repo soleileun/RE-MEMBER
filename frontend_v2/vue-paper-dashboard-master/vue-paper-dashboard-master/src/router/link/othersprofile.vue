@@ -3,20 +3,12 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-lg-4 col-xlg-3 col-md-5">
-          <card-user></card-user>
-          <br />
-          <div class="card">
-            <div class="card-body">
-              <center class="m-t-30">
-                <h4 class="card-title m-t-10">관심사</h4>
-              </center>
-            </div>
-          </div>
+          <card-user :userid="this.$route.params.userid"></card-user>
         </div>
         <div class="col-lg-8 col-xlg-9 col-md-7">
           <div class="card">
             <div class="card-body">
-              <profile />
+              <profile :userid="this.$route.params.userid"/>
             </div>
           </div>
         </div>
@@ -26,19 +18,16 @@
 </template>
 
 <script>
-import profile from "../../components/user/profile.vue";
-import cardUser from "../../components/user/cardUser.vue";
+import profile from "../../components/user/otherprofile.vue";
+import cardUser from "../../components/user/othercardUser.vue";
 const storage = window.sessionStorage;
 // 
 
 export default {
   name: "othesprofile",
   components: {
-    profile,
     cardUser,
-  },
-  mounted: function () {
-    this.$store.dispatch("getOthersProfile",{id:this.$route.params.userid});
+    profile,
   },
   data: function () {
     return {

@@ -13,7 +13,7 @@
             <img class="nav-link" src="@/assets/img/vue-logo.png" />
           </li>
           <drop-down class="nav-item" :title="userNick+'님'" title-classes="nav-link" v-if="userNick">
-            <router-link to="/user" class="nav-link">
+            <router-link to="/mypage" class="nav-link">
               <i class="ti-user"></i>
               <p>마이페이지</p>
             </router-link>

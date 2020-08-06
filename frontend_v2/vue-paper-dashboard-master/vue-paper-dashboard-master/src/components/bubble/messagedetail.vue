@@ -11,7 +11,7 @@
                 <i class="ti-more-alt" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
 
               </div>
-              <span>{{mestime(mes.time)}}</span>
+              <span>{{mesTime(mes.time)}}</span>
             </h6>
           </div>
         </div>
@@ -23,7 +23,7 @@
           <div class="mesContent" @mouseenter="read(mes.mnum,mes.read);mes.read = true">
             {{mes.content}}
             <h6>
-              <span>{{mestime(mes.time)}}</span>
+              <span>{{mesTime(mes.time)}}</span>
               <div class="dropdown">
                 <i class="ti-more-alt" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
                 
@@ -84,9 +84,17 @@ export default {
         });
       }
     },
-    mestime: function (x) {
-      if (x) {
-        return x.slice(0, 10);
+    mesTime(str) {
+      if (str) {
+        const year = str.slice(0, 4),
+          month = str.slice(5, 7),
+          day = str.slice(8, 10),
+          si = str.slice(11, 13),
+          boon = str.slice(14, 16),
+          cho = str.slice(17, 19);
+        return `${year}/${month}/${day} ${si}시 ${boon}분 ${cho}초`;
+      } else {
+        return "";
       }
     },
     delmes: function (x) {

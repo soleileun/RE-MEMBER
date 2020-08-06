@@ -1,13 +1,9 @@
 <template>
   <div class="profile text-center">
-    <h3>내 소개</h3>
+    <h3>{{userid}}님의 소개</h3>
     <div class="ql-editor profileContainer" v-html="content" v-if="!profileEdit"></div>
     <vue-editor v-show="profileEdit" v-model="content" :editorToolbar="customToolbar"></vue-editor>
     <!-- 에디터를 v-show로 숨겨두지 않으면 일부 꾸밈 코드가 안먹힘 -->
-    <div v-if="myprofile">
-      <button class="btn btn-round btn-info" v-if="!profileEdit" @click="edit">프로필 수정하기</button>
-      <button class="btn btn-round btn-info" v-else @click="complete">수정 완료</button>
-    </div>
   </div>
 </template>
 
@@ -22,38 +18,19 @@ export default {
   components: {
     VueEditor,
   },
+  props: {
+    userid: String,
+  },
   mounted: function () {
     http
-      .get(
-        "/api/board/typesearch/writer=" +
-          storage.getItem("userid") +
-          "&bstate=profile"
-      )
+      .get("/api/board/typesearch/writer=" + this.userid + "&bstate=profile")
       .then((response) => {
         if (response.data.length > 0) {
           this.content = response.data[0].bcontent;
           this.bno = response.data[0].bno;
           this.board.bview = response.data[0].bview;
         } else {
-          if (storage.getItem("userid").length > 0) {
-            this.$store.dispatch(Constant.ADD_BOARD, {
-              //bno : auto increase
-              // bwriter : this.board.bwriter, 임시로 ssafy foreign key때문
-              bwriter: storage.getItem("userid"),
-              btitle: this.board.btitle,
-              bcontent: "프로필 초기",
-              bview: this.board.bview,
-              bfile: this.board.bfile,
-              bstate: "profile",
-              makeDay: new Date(),
-              // changeDay : this.board.changeday,
-              makeId: this.board.makeid,
-              // changeId : this.board.changeid
-            });
-            setTimeout(() => {
-              this.$router.go();
-            }, 500);
-          }
+          alert("아직 프로필이 없습니다");
         }
       })
       .catch((exp) => alert("내 프로필을 로드하는데에 실패하였습니다." + exp));
@@ -78,28 +55,7 @@ export default {
     };
   },
   methods: {
-    edit: function () {
-      console.log(this.content);
-      this.profileEdit = true;
-    },
-    complete: function () {
-      this.profileEdit = false;
-      http
-        .put("/api/board/change/" + this.bno, {
-          bno: this.bno,
-          bwriter: storage.getItem("userid"),
-          btitle: "profile",
-          bcontent: this.content,
-          bstate: "profile",
-          changeDay: new Date(),
-          makeId: storage.getItem("userid"),
-          changeId: storage.getItem("userid"), //세션 id
-        })
-        .then((response) => {
-          console.log("수정하였습니다." + response.data);
-        })
-        .catch((exp) => alert("수정 처리에 실패하였습니다." + exp));
-    },
+    
   },
 };
 </script>
