@@ -129,7 +129,7 @@
               class="btn btn--block card__btn"
             >프로필 보기</router-link>
             <button class="btn btn--block card__btn" @click="fol(pool.id)">팔로우하기</button>
-            <a class="btn btn--block card__btn" v-if="pool.git" :href="pool.git">Git</a>
+            <a class="btn btn--block card__btn" v-if="pool.git" :href="'https://github.com/'+pool.git">Git</a>
           </div>
         </div>
       </li>
