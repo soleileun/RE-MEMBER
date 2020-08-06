@@ -5,15 +5,21 @@
       <form @submit.prevent>
         <div class="row">
           <div class="col-md-12">
-            <fg-input type="text" label="아이디" placeholder="E-mail" v-model="id"></fg-input>
+            <fg-input type="text" label="아이디" placeholder="E-mail" v-model="id" @keyup.enter="goLogin"></fg-input>
           </div>
         </div>
         <div class="row">
           <div class="col-md-12">
-            <fg-input type="password" label="비밀번호" placeholder="password" v-model="pw"></fg-input>
+            <fg-input type="password" label="비밀번호" placeholder="password" v-model="pw" @keyup.enter="goLogin"></fg-input>
           </div>
-        </div>자동 로그인 :
-        <input type="checkbox" v-model="autologin" data-tooltip-text="비밀번호가 브라우저에 저장되어 취약하므로 개인 PC에서만 사용하세요" />
+        </div>
+        {{error}}<br>
+        <div class="row">
+          <div class="col-md-12">
+            자동 로그인 :
+            <input type="checkbox" v-model="autologin" data-tooltip-text="비밀번호가 브라우저에 저장되어 취약하므로 개인 PC에서만 사용하세요" />
+          </div>
+        </div>
         <div @click="loginexit">
           <router-link to="/signup">회원가입</router-link>
         </div>
@@ -21,7 +27,7 @@
           <router-link to="/user/findid">아이디 / 비밀번호 찾기</router-link>
         </div>
         <div class="text-center">
-          <p-button type="info" round @click.native.prevent="updateProfile">로그인</p-button>
+          <p-button type="info" round @click.native.prevent="goLogin">로그인</p-button>
         </div>
         <div class="clearfix"></div>
       </form>
@@ -40,7 +46,6 @@
       </span>
       <div>
       </div>
-      {{error}}
   </div>-->
 </template>
 
@@ -52,7 +57,6 @@ export default {
   name: "login",
   data: function () {
     return {
-      findform: false,
       autologin: false,
       id: "",
       pw: "",
@@ -67,9 +71,6 @@ export default {
     },
   },
   methods: {
-    updateProfile() {
-      alert("Your data: " + JSON.stringify(this.user));
-    },
     goLogin: function () {
       if (this.id === "" || this.pw === "") {
         this.$store.commit("loginError", {
@@ -112,7 +113,7 @@ export default {
   left: 25vw;
   width: 50vw;
   height: 60vh;
-  background-color: rgba($color: white, $alpha: 0.9);
+  background-color: white;
   border: black 1.5px solid;
   i {
     position: fixed;

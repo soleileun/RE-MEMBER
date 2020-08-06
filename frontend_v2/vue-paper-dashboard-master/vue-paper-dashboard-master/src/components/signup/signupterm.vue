@@ -1,10 +1,11 @@
 <template>
   <div class="signupTerm">
-    <h1>회원가입 약관</h1>
+    <h2>회원가입 약관</h2>
     <div class="terms" v-html="term1"></div>
     <span>회원가입 약관에 동의합니다. <input type="checkbox" :value="1" v-model="agree"></span>
     <br />
-    <h1>개인 정보 처리 방침</h1>
+    <br>
+    <h2>개인 정보 처리 방침</h2>
     <div class="terms" v-html="term2"></div>
     <span>개인 정보 처리 방침에 동의합니다. <input type="checkbox" :value="2" v-model="agree"></span>
     <br>
@@ -54,6 +55,7 @@ export default {
     word-break: break-all;
     white-space: pre-wrap;
     overflow: auto;
+    background-color: white;
   }
 }
 </style>

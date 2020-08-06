@@ -1,53 +1,120 @@
 <template>
-  <div class="signupform">
-    <span>
-      이메일(아이디) :
-      <input v-model="id" type="text" />
-      {{error.id}}
-    </span>
-    <span>
-      비밀번호 :
-      <input v-model="pw" type="password" />
-      {{error.pw}}
-    </span>
-    <span>
-      비밀번호 확인 :
-      <input v-model="pw2" type="password" />
-      {{error.pw2}}
-    </span>
-    <span>
-      닉네임(별명) :
-      <input v-model="nickname" maxlength="10" type="text" />
-      {{error.nickname}}
-    </span>
-    <span>
-      이름(국문) :
-      <input v-model="name" maxlength="10" type="text" />
-      {{error.name}}
-    </span>
-    <span>
-      주소 :
-      <input v-model="address1" type="text" disabled />
-      <button @click="postActive">검색</button>
-      {{error.address}}
-    </span>
-    <div class="postcode" v-if="postAct">
-      <DaumPostcode :on-complete="handleAddress" />
+  <card class="signupform card">
+    <div>
+      <form @submit.prevent class="forms">
+        <div class="row">
+          <h2>회원 정보 입력</h2>
+          <div class="col-md-12">
+            <br />
+          </div>
+          <div class="col-md-12">
+            이메일(아이디)
+            <fg-input type="text" placeholder="example@naver.com" v-model="id"></fg-input>
+          </div>
+          <div class="col-md-12">
+            {{error.id}}
+            <br />
+            <br />
+          </div>
+          <div class="col-md-6">
+            비밀번호
+            <fg-input type="password" placeholder="영문/숫자로 구성된 8-20자" v-model="pw"></fg-input>
+            {{error.pw}}
+            <br />
+            <br />
+          </div>
+          <div class="col-md-6">
+            비밀번호 확인
+            <fg-input type="password" placeholder="비밀번호를 한번 더 입력해주세요" v-model="pw2"></fg-input>
+            {{error.pw2}}
+            <br />
+            <br />
+          </div>
+          <div class="col-md-6">
+            이름
+            <fg-input type="text" placeholder="실명" v-model="name"></fg-input>
+          </div>
+          <div class="col-md-6">
+            닉네임
+            <fg-input type="text" placeholder="영문/한글/숫자만 입력 가능" v-model="nickname"></fg-input>
+          </div>
+          <div class="col-md-6">
+            {{error.name}}
+            <br />
+            <br />
+          </div>
+          <div class="col-md-6">
+            {{error.nickname}}
+            <br />
+            <br />
+          </div>
+
+          <div class="col-md-5">
+            주소
+            <fg-input type="text" placeholder="검색 버튼을 눌러주세요" v-model="address1" :disabled="true"></fg-input>
+          </div>
+          <div class="col-md-5">
+            상세주소
+            <fg-input type="text" placeholder="건물 호수" v-model="address3"></fg-input>
+          </div>
+          <div class="col-md-2">
+            <br />
+            <button class="btn btn-primary" @click="postActive">주소</button>
+          </div>
+          <div class="col-12 postcode" v-if="postAct">
+            <DaumPostcode :on-complete="handleAddress" />
+          </div>
+          <div class="col-12">
+          {{error.address}}
+          <br />
+          <br />
+
+          </div>
+          <div class="col-4">
+            전화번호
+            <fg-input type="text" maxlength="3" placeholder="010" v-model="phone0"></fg-input>
+            {{error.phone}}
+            <br />
+            <br />
+          </div>
+          <div class="col-4">
+            <br />
+            <fg-input id="p1" type="text" maxlength="4" placeholder="0000" v-model="phone1"></fg-input>
+          </div>
+          <div class="col-4">
+            <br />
+            <fg-input id="p2" type="text" maxlength="4" placeholder="0000" v-model="phone2"></fg-input>
+          </div>
+          <div class="col-12">
+            깃 주소
+            <fg-input id="p2" type="text" placeholder="https://github.com/example" v-model="git"></fg-input>
+          </div>
+          <div class="col-12">
+            포지션
+            <br />
+            <div class="checks">
+              <span class="btn btn-primary" @click="chek('개발')">
+                <input v-model="responsibility" type="radio" value="개발" /> 개발
+              </span>
+              <span class="btn btn-primary" @click="chek('디자인')">
+                <input v-model="responsibility" type="radio" value="디자인" /> 디자인
+              </span>
+              <span class="btn btn-primary" @click="chek('기획')">
+                <input v-model="responsibility" type="radio" value="기획" />
+                기획
+              </span>
+              <br>
+              {{error.responsibility}}
+              <br />
+              <br />
+            </div>
+          </div>
+        </div>
+      </form>
     </div>
-    <span>
-      추가 주소 :
-      <input v-model="address2" type="text" />
-    </span>
-
-    <span>
-      전화번호 :
-      <input v-model="phone0" maxlength="3" type="tel" />-
-      <input id="p1" v-model="phone1" maxlength="4" type="tel" />-
-      <input id="p2" v-model="phone2" maxlength="4" type="tel" />
-      {{error.phone}}
-    </span>
-
-    <span>
+    <signupInterest :signup="submitable" @goSignup="goSignup" />
+  </card>
+  <!--<span>
       깃주소 :
       <input v-model="git" type="text" />
     </span>
@@ -61,7 +128,7 @@
     </span>
     <hr />
     <signupInterest :signup="submitable" @goSignup="goSignup" />
-  </div>
+  </div>-->
 </template>
 
 
@@ -104,6 +171,7 @@ export default {
       name: "",
       address1: "",
       address2: "",
+      address3: "",
       fullAddress: "",
       phone0: "",
       phone1: "",
@@ -168,6 +236,9 @@ export default {
     },
   },
   methods: {
+    chek: function (a) {
+      this.responsibility = a;
+    },
     handleAddress: function (data) {
       let fullAddress = data.address;
       let extraAddress = "";
@@ -175,14 +246,10 @@ export default {
         if (data.bname !== "") {
           extraAddress += data.bname;
         }
-        if (data.buildingName !== "") {
-          extraAddress +=
-            extraAddress !== "" ? `, ${data.buildingName}` : data.buildingName;
-        }
         // fullAddress += extraAddress !== "" ? ` (${extraAddress})` : "";
       }
       this.address1 = fullAddress;
-      this.address2 = extraAddress;
+      this.address2 = fullAddress.split(' ').slice(0,-2).join(' ') +' '+extraAddress;
       this.postAct = false;
     },
     checker() {
@@ -247,7 +314,6 @@ export default {
     },
     goSignup: function () {
       if (this.submitable) {
-        console.log(123);
         this.$store.dispatch("signup", {
           id: this.id,
           pw: this.pw,
@@ -271,20 +337,34 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 .signupform {
+  background-color: #bbb;
+}
+.forms {
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 30px;
+  .control-label {
+    color: white;
+  }
+  input {
+    border: 1px black solid;
+  }
   .postcode {
-    height: 300px;
-    width: 500px;
     border: 2px black solid;
-    overflow-y: scroll;
+    padding: 0;
   }
   .gosignin {
     opacity: 0.2;
   }
   .submitable {
     opacity: 1;
+  }
+  .checks {
+    display: inline;
+    span {
+      margin: 10px;
+    }
   }
 }
 </style>
