@@ -37,23 +37,25 @@ const chatstore = {
 
     },
     //채팅방 추가
+    
     [Constant.ADD_CHATROOM]: (store, payload) => {
         // console.log(payload.bstate);
-
         http.post('/api/chatroom/', {
                 // bno : payload.bno,
                 uid : payload.uid,
                 roomName : payload.roomName,
             })
-            .then(() => {
-                //alert(this.uid + '님을 초대했습니다.');
-                console.log('추가하였습니다.');
-                store.dispatch(Constant.GET_CHATROOMLIST);//, {rooms : payload.bstate});
-
+            .then(response => {
+                if(response.data == 'success') {
+                    console.log('추가하였습니다.');
+                    store.dispatch(Constant.GET_CHATROOMLIST);//, {rooms : payload.bstate});
+                    
+                    return "성공";
+                };
             })
             .catch(exp => {
-                console.log('추가 실패 확인 로그');
-                alert('추가 처리에 실패하였습니다.' + exp);
+                console.log('추가 실패 확인 로그' + exp);
+                alert('이미 참가중인 유저입니다.');
             })
     },
     

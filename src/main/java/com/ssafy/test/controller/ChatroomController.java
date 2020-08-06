@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ssafy.test.model.dto.Chatroom;
 import com.ssafy.test.model.dto.ChatroomChat;
 import com.ssafy.test.model.service.ChatroomService;
+import com.ssafy.test.model.service.UserInfoService;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -33,6 +34,10 @@ public class ChatroomController {
 
 	@Autowired
 	private ChatroomService Service;
+	
+
+	@Autowired
+	private UserInfoService uService;
 
 	@ApiOperation(value = "특정 유저가 속한 모든 roomName을 반환한다", response = List.class)
 	@GetMapping("chat/name={uid}")
@@ -57,9 +62,15 @@ public class ChatroomController {
 	@ApiOperation(value = "새로운 채팅방 정보를 입력한다. 그리고 DB입력 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
 	@PostMapping
 	public ResponseEntity<String> writeBoard(@RequestBody Chatroom v) {
-		if (Service.insert(v) != 0) {
-			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+		if(uService.select(v.getUid()) != null) {
+			System.out.println("유저가 있넹");
+
+			if (Service.insert(v) != 0) {
+				return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+			}
+			
 		}
+		else System.out.println("유저가 없넹");
 		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
 	}
 
