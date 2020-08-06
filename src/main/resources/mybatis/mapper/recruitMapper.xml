@@ -7,6 +7,64 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select * from recruit
 	</select>
 
+	<select id="selectByAddr" resultType="recruit"
+		parameterType="addr">
+		select r.rnum, r.pid, r.title, r.contents, r.endDate,
+		r.makeDay, r.changeDay, r.makeId, r.changeId from recruit as r
+		left
+		join project as p
+		on r.pid = p.pid
+		where p.location like
+		CONCAT('%',#{sido},'%')
+		and p.location like CONCAT('%',#{gugun},'%')
+		and p.location like CONCAT('%',#{dong},'%');
+
+	</select>
+
+	<select id="selectSame" resultType="recruit"
+		parameterType="taglist">
+		select * from recruit
+		where pid in (
+		select pid
+		from (
+		select *
+		from pinterest
+		where interest in
+		(#{tag1},#{tag2},#{tag3},#{tag4},#{tag5})
+		) as p
+		group by pid
+		having
+		count(interest) >= #{cnt}
+		);
+
+	</select>
+
+	<select id="selectAddrAndTag" parameterType="addrandtag"
+		resultType="recruit">
+		select r.rnum, r.pid, r.title, r.contents, r.endDate,
+		r.makeDay, r.changeDay, r.makeId, r.changeId from recruit as r
+		left
+		join project as p
+		on r.pid = p.pid
+		where p.location like
+		CONCAT('%',#{sido},'%')
+		and p.location like CONCAT('%',#{gugun},'%')
+		and p.location like CONCAT('%',#{dong},'%')
+		and r.pid in (
+		select pid
+		from (
+		select *
+		from pinterest
+		where interest in
+		(#{tag1},#{tag2},#{tag3},#{tag4},#{tag5})
+		) as p
+		group by pid
+		having
+		count(interest) >= #{cnt}
+		);
+
+	</select>
+
 	<select id="select" parameterType="int" resultType="recruit">
 		select * from
 		recruit
@@ -41,15 +99,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</delete>
 
 	<update id="update" parameterType="recruit">
-	
+
 		update recruit inner join
 		userInfo
 		on userInfo.id = recruit.changeId
-		set title = #{title},
-		contents = #{contents}, changeId =
+		set title
+		= #{title},
+		contents
+		= #{contents}, changeId =
 		#{changeId}
-		where (select count(*)
-		from userInfo where id = #{changeId}) = 1
+		where (select
+		count(*)
+		from userInfo
+		where id = #{changeId}) = 1
 		and rnum = #{rnum}
 		;
 
