@@ -296,7 +296,7 @@ export default {
             id: storage.getItem("userid"),
             pw: this.pw,
           });
-          this.$router.push({ path: "/profile" });
+          this.$router.push({ path: "/mypage" });
         })
         .catch((e) => console.log(e));
     },
