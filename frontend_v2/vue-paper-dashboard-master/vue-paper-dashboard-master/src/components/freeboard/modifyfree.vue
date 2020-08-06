@@ -1,14 +1,78 @@
 <template>
     <div>
+    <div class="card" >
+      
+      <div class="card-header">
+        <h1>게시판 글 수정 샘플</h1>
+      </div>
+      <hr>
+      <div class="card-body">
+        <div style="display:block;">
+
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-2 write-left"  > 
+                제목
+              </div>
+
+              <div class="col-10 write-right"> 
+                <input v-model="board.btitle" type="text" value="board.title">
+              </div>
+            </div>
+          </div>
+          
+
+
+          <div class="container-fluid">
+            <div class="row" style="min-height:600px;">
+              <div class="col-2 write-left" > 
+                내용
+              </div>
+
+              <div class="col-10 write-right">       
+                <vue-editor v-model="board.bcontent" style="height:80%;"></vue-editor>
+              <!--<textarea name="" id="" cols="30" rows="10" v-model="board.bcontent" placeholder="내용을 입력하세요"></textarea><br>-->
+              </div>
+            </div>
+          </div>
+
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-2 write-left" > 
+                첨부파일
+              </div>
+              <div class="col-10 write-right"> 
+                첨부파일 넣을 수 있는거 넣어주자
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="container">
+          <div class="row">
+            <div class="col text-center btndiv">
+              <button class="btn btn-outline-primary">수정</button>
+              <button class="btn btn-outline-primary">취소</button>
+            </div>
+          </div>
+        </div>
+<!--
+    <router-link to="/mainboard/freeboard" tag="button">목록으로</router-link>
+    -->
+      </div>
+    </div>
+
 
         <h1>자유게시판 글 수정 샘플</h1>
         
         <hr>
         아이디 : store의 state에서 가져오는 세션 아이디<br>
+        <!--
         제목 : <input type="text" v-model="board.btitle" placeholder="제목을 입력하세요" /><br>
         내용<br>
-        <textarea name="" id="" cols="30" rows="10" v-model="board.bcontent" placeholder="내용을 입력하세요"></textarea><br>
         
+        <textarea name="" id="" cols="30" rows="10" v-model="board.bcontent" placeholder="내용을 입력하세요"></textarea><br>
+        -->
         <!-- 작성자 본인, 관리자만 수정 삭제 가능 -->
         <button @click="modifyFree">수정</button>
         <router-link :to="'/freeboard/detailfree/' + board.bno" tag="button">취소</router-link>
@@ -16,10 +80,15 @@
 </template>
 
 <script>
-    import Constant from '../../Constant';
+import Constant from '../../Constant';
+import { VueEditor } from "vue2-editor";
+const storage = window.sessionStorage;
 
     export default {
     name: "modifyfree",
+components: {
+    VueEditor,
+  },
     created() {
         this.getBoard(this.$route.params.bno);
     },
@@ -70,6 +139,35 @@
 };
 </script>
 
-<style>
+<style scoped lang="scss">
 
+.write-left {
+  //float:left;
+  background:rgb(233, 233, 233);
+  //width:20%;
+  border: solid 0.5px rgb(128, 127, 127);
+  padding:15px;
+}
+.write-right {
+  //float:left; 
+  background:rgb(255, 255, 255); 
+  //width:80%; 
+  text-align:left;
+  border: solid 0.5px rgb(128, 127, 127);
+  padding:15px;
+}
+input {
+  width:70%; 
+  margin-left:2px;
+}
+.input-div{
+  padding-top:12px;
+  padding-bottom:12px;
+}
+.btndiv {
+  padding:10px;
+}
+.btndiv > button {
+  margin:10px;
+}
 </style>

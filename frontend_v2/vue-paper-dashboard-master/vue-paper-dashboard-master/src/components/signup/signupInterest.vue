@@ -1,33 +1,40 @@
 <template>
-  <div class="signupinterest">
-    <h3>관심 분야 및 스택</h3>
+  <card class="signupinterest card">
     <div>
-      <ul>
-        예 :
-        <li>Language : C / C++ / Java / Python / C#</li>
-        <li>web FrontEnd / BackEnd / Spring / Jenkins</li>
-        <li>Mobile -> Hybrid / Android / iOS /</li>
-        <li>Javascript -> node.js / Angular.JS / React.js / Vue.js / jQuery</li>
-        <li>IoT : Aduino / RaspberryPi / Embedded / Qt / MachineVision</li>
-        <li>DB : Oracle / MSSQL / MySQL / MariaDB / MongoDB</li>
-      </ul>
+      <h3>관심 분야 및 스택</h3>
+      <form @submit.prevent>
+        <div class="row">
+          <div class="col-12">
+            <ul>
+              예
+              <li>Language : C / C++ / Java / Python / C#</li>
+              <li>web FrontEnd / BackEnd / Spring / Jenkins</li>
+              <li>Mobile -> Hybrid / Android / iOS /</li>
+              <li>Javascript -> node.js / Angular.JS / React.js / Vue.js / jQuery</li>
+              <li>IoT : Aduino / RaspberryPi / Embedded / Qt / MachineVision</li>
+              <li>DB : Oracle / MSSQL / MySQL / MariaDB / MongoDB</li>
+            </ul>
+          </div>
+          <div class="col-12 selectform">
+            <button class="btn btn-primary" v-for="pick in picks" :key="pick" @click="del(pick)">{{pick}}</button>
+            <br />
+          </div>
+          <div class="col-12 searchform">
+            <div class="input">
+              <input type="text" v-model="inputVal" @input="searchQuery()" @keyup.up="up()" @keyup.down="down()" @keyup.enter="enter()" />
+            </div>
+            <div class="autoComplete">
+              <div v-for="list in lists" :key="list" @click="add(list)">{{list}}</div>
+            </div>
+          </div>
+          <div class="col-12">
+            <br />
+            <button class="gosignup btn btn-success" @click="gosignup" :class="{submitable:submitable&&signup}">회원가입</button>
+          </div>
+        </div>
+      </form>
     </div>
-    {{signup}}{{submitable}}
-    <div class="selectform">
-      <button v-for="pick in picks" :key="pick">{{pick}}</button>
-    </div>
-    입력
-    <div class="searchform">
-      <div class="input">
-        <input type="text" v-model="inputVal" @input="searchQuery()" @keyup.up="up()" @keyup.down="down()" @keyup.enter="enter()" />
-      </div>
-      <div class="autoComplete">
-        <div v-for="list in lists" :key="list" @click="add(list)">{{list}}</div>
-      </div>
-    </div>
-
-    <button @click="gosignup" class="gosignup" :class="{submitable:submitable}">회원가입</button>
-  </div>
+  </card>
 </template>
 
 <script>
@@ -86,20 +93,19 @@ export default {
     };
   },
   watch: {
-    signup:function(){
-      this.check()
+    signup: function () {
+      this.check();
     },
     picks: function () {
-      this.check()
+      this.check();
     },
   },
   computed: {},
   methods: {
-    check: function(){
-      if (this.signup === 0){
-        this.submitable = false
-      }
-      else{
+    check: function () {
+      if (this.signup === 0) {
+        this.submitable = false;
+      } else {
         this.submitable = this.picks.length > 0 ? true : false;
       }
     },
@@ -114,8 +120,8 @@ export default {
     },
     gosignup: function () {
       if (this.submitable) {
-        this.$emit('goSignup')
-        this.$store.commit('interest',{picks:this.picks})
+        this.$emit("goSignup");
+        this.$store.commit("interest", { picks: this.picks });
       }
     },
     add: function (x) {
@@ -126,6 +132,10 @@ export default {
       }
       this.inputVal = "";
       this.lists = [];
+    },
+    del: function (x) {
+      const idx = this.picks.indexOf(x);
+      if (idx > -1) this.picks.splice(idx, 1);
     },
   },
 };
@@ -140,28 +150,16 @@ export default {
       list-style-type: none;
     }
   }
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  .selectform {
-    border: 1px solid black;
-    min-height: 100px;
-    width: 500px;
-    margin: 50px;
-  }
   .searchform {
     position: relative;
     display: flex;
     flex-direction: column;
-    border: 1px black solid;
-    width: 500px;
     // height: 50px;
     .autoComplete {
       position: absolute;
       max-height: 100px;
       overflow: auto;
       background-color: white;
-      border: 1px black solid;
       width: 500px;
       left: -1px;
       bottom: 49px;

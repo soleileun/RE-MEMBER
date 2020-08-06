@@ -23,47 +23,40 @@ export default {
     VueEditor,
   },
   mounted: function () {
-    if (storage.getItem("jwt-auth-token").length > 10) {
-      http
-        .get(
-          "/api/board/typesearch/writer=" +
-            storage.getItem("userid") +
-            "&bstate=profile"
-        )
-        .then((response) => {
-          if (response.data.length > 0) {
-            this.content = response.data[0].bcontent;
-            this.bno = response.data[0].bno;
-            this.board.bview = response.data[0].bview;
-          } else {
-            if (storage.getItem("userid").length > 0) {
-              this.$store.dispatch(Constant.ADD_BOARD, {
-                //bno : auto increase
-                // bwriter : this.board.bwriter, 임시로 ssafy foreign key때문
-                bwriter: storage.getItem("userid"),
-                btitle: this.board.btitle,
-                bcontent: "프로필 초기",
-                bview: this.board.bview,
-                bfile: this.board.bfile,
-                bstate: "profile",
-                makeDay: new Date(),
-                // changeDay : this.board.changeday,
-                makeId: this.board.makeid,
-                // changeId : this.board.changeid
-              });
-              setTimeout(() => {
-                this.$router.go();
-              }, 500);
-            }
+    http
+      .get(
+        "/api/board/typesearch/writer=" +
+          storage.getItem("userid") +
+          "&bstate=profile"
+      )
+      .then((response) => {
+        if (response.data.length > 0) {
+          this.content = response.data[0].bcontent;
+          this.bno = response.data[0].bno;
+          this.board.bview = response.data[0].bview;
+        } else {
+          if (storage.getItem("userid").length > 0) {
+            this.$store.dispatch(Constant.ADD_BOARD, {
+              //bno : auto increase
+              // bwriter : this.board.bwriter, 임시로 ssafy foreign key때문
+              bwriter: storage.getItem("userid"),
+              btitle: this.board.btitle,
+              bcontent: "프로필 초기",
+              bview: this.board.bview,
+              bfile: this.board.bfile,
+              bstate: "profile",
+              makeDay: new Date(),
+              // changeDay : this.board.changeday,
+              makeId: this.board.makeid,
+              // changeId : this.board.changeid
+            });
+            setTimeout(() => {
+              this.$router.go();
+            }, 500);
           }
-        })
-        .catch((exp) =>
-          alert("내 프로필을 로드하는데에 실패하였습니다." + exp)
-        );
-    } else {
-      this.$router.push("/");
-      alert("로그인이 필요합니다.");
-    }
+        }
+      })
+      .catch((exp) => alert("내 프로필을 로드하는데에 실패하였습니다." + exp));
   },
   data() {
     return {

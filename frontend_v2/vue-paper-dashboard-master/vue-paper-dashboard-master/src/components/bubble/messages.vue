@@ -1,7 +1,7 @@
 <template>
   <div class="messages">
     <div v-if="messageList.length===0 &&!mesviewdetail">쪽지 중인 상대가 없습니다.</div>
-    <div v-if="!mesviewdetail">
+    <div class="meslists" v-if="!mesviewdetail">
       <div class="mes" v-for="mes in messageList" :key="mes.id" @click="detailview(mes.fromUser,mes.toUser)" :class="{read:!mes.read}">
         <h6>
           <span>{{abc(mes.toUser,mes.fromUser)}}</span>
@@ -53,8 +53,10 @@ export default {
 <style scoped lang="scss">
 .messages {
   height: 100%;
-  .mes {
-     &::-webkit-scrollbar {
+  .meslists{
+    overflow: auto;
+    height: 95%;
+    &::-webkit-scrollbar {
       width: 10px;
     }
     &::-webkit-scrollbar-thumb {
@@ -64,10 +66,13 @@ export default {
       border: 2px solid transparent;
     }
     &::-webkit-scrollbar-track {
-      background-color: #aae;
+      background-color: white;
       border-radius: 10px;
       box-shadow: inset 0px 0px 5px white;
     }
+  }
+  .mes {
+     
     padding: 10px;
     margin: 8px;
     background-color: white;

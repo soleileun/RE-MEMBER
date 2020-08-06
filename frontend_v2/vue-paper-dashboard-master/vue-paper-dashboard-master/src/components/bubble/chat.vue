@@ -15,7 +15,7 @@
       
           <drop-down class="nav-item" title-classes="nav-link" icon="fa fa-envelope hand" title="초대">
             
-                <input v-model="userinvite" type="text" @keyup="inviteuser">
+                <input v-model="target" type="text">
                 <button @click="invite()" >초대</button>
               <a class="dropdown-item" href="#">Notification 1</a>
               <a class="dropdown-item" href="#">Notification 2</a>
@@ -139,7 +139,7 @@
     </div>
     <p></p>
     <div style="margin-left : 20px;">
-      내용: <input v-model="inputcontent" type="text" @keyup="sendMessage" style="width:70%; margin-left:12px;">
+      내용: <input v-model="content" type="text" @keyup="sendMessage" style="width:70%; margin-left:12px;">
           <button  @click="clickSend()" >입력</button>
     </div>
   </div>
@@ -168,6 +168,7 @@ export default {
         recvList: [],
         propchatting:this.chatting,
         isFirst : true,
+        target:"",
         //beforeScrollTop : "",
     };
   },
@@ -201,23 +202,23 @@ export default {
   methods: {
     
     clickSend () {
-      if(this.id !== '' && this.inputcontent !== ''){
+      if(this.id !== '' && this.content !== ''){
         this.nickname = storage.getItem("userid"); // 현재 접속중인 유저의 id를 사용합니다.
-        this.content = this.inputcontent;
+        this.content = this.content;
         this.send()
-        this.inputcontent = '';
+        this.content = '';
       }
     },    
     sendMessage (e) {
-      if(e.keyCode === 13 && this.id !== '' && this.inputcontent !== ''){ // 엔터를 눌러 메시지를 발송합니다.
+      if(e.keyCode === 13 && this.id !== '' && this.content !== ''){ // 엔터를 눌러 메시지를 발송합니다.
         this.nickname = storage.getItem("userid"); // 현재 접속중인 유저의 id를 사용합니다.
-        this.content = this.inputcontent;
+        this.content = this.content;
         this.send()
-        this.inputcontent = '';
+        this.content = '';
       }
     },    
     send() { // 메시지를 발송하는 함수입니다.
-      console.log("Send message:" + this.inputcontent);
+      console.log("Send message:" + this.content);
       if (this.stompClient && this.stompClient.connected) {
         const msg = { 
           id: this.id,
@@ -280,35 +281,37 @@ export default {
  //     console.log("back 클릭");
       this.$emit('endchat',false);
     },
+    /*
     inviteuser(e) {
       
-      if(e.keyCode === 13 && this.id !== '' && this.userinvite !== ''){ // 엔터를 눌러 메시지를 발송합니다.
+      if(e.keyCode === 13 && this.id !== '' && this.target !== ''){ // 엔터를 눌러 메시지를 발송합니다.
         this.invite()
-        console.log("inviteuser");
+        console.log("target");
       }
     },
+    */
     invite() {
-      if(this.id !== '' && this.userinvite !== '') {
+      if(this.id !== '' && this.target !== '') {
         //만약 유저 아이디로 조회해서 널이 아니면 초대함.
         //널이면 alert 보내자.
         this.$store.dispatch(Constant.ADD_CHATROOM,{
           roomName : this.rname,
-          uid : this.userinvite,
+          uid : this.target,
           });
-      console.log(this.userinvite + "님을 초대");
-      alert(this.userinvite + "님을 초대했습니다.");
+      console.log(this.target + "님을 초대");
+      alert(this.target + "님을 초대했습니다.");
       }
 
 
       //초대 관련 시스템 메시지
 
       
-      console.log("Send message:" + this.userinvite + "님께서 입장하셨습니다.");
+      console.log("Send message:" + this.target + "님께서 입장하셨습니다.");
       if (this.stompClient && this.stompClient.connected) {
         const msg = { 
           id: "system",
           nickname: "system",
-          content: this.userinvite + "님께서 입장하셨습니다.",
+          content: this.target + "님께서 입장하셨습니다.",
           roomName: this.room, 
         };
         this.stompClient.send("/receive/"+this.room, JSON.stringify(msg), {});
@@ -317,7 +320,7 @@ export default {
           roomName : this.rname,
           id : "system",
           nickname : "system",
-          content : this.userinvite + "님께서 입장하셨습니다.",
+          content : this.target + "님께서 입장하셨습니다.",
           makedate : new Date(),
           });
       }

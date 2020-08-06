@@ -15,10 +15,10 @@
               </div>
 
               <div class="col-10 write-right"> 
-                <select name="option" id="statetag" style="width:20%; padding-left:2px;" v-model="bstate">
+                <select name="option" id="statetag" style="width:20%; padding-left:2px;" v-model="board.bstate">
                   <option value ="free">자유게시판</option>
                   <option value ="qa">질문게시판</option>
-                  <option value ="notice" v-if="this.makeId === 'admin'">공지게시판</option>
+                  <option value ="notice" v-show="this.board.bwriter === 'admin'">공지게시판</option>
                 </select> 
               </div>
             </div>
@@ -31,7 +31,7 @@
               </div>
 
               <div class="col-10 write-right"> 
-                <input v-model="btitle" type="text" >
+                <input v-model="board.btitle" type="text" >
               </div>
             </div>
           </div>
@@ -42,7 +42,7 @@
                 작성자
               </div>
               <div class="col-10 write-right"> 
-                  {{this.bwriter}}
+                  {{this.board.bwriter}}
               </div>
             </div>
           </div>
@@ -54,7 +54,7 @@
               </div>
 
               <div class="col-10 write-right"> 
-                  {{this.makeId}}
+                  {{this.board.makeId}}
               </div>
             </div>
           </div>
@@ -67,7 +67,7 @@
               </div>
 
               <div class="col-10 write-right">       
-                <vue-editor v-model="bcontent" style="height:80%;"></vue-editor>
+                <vue-editor v-model="board.bcontent" style="height:80%;"></vue-editor>
               <!--<textarea name="" id="" cols="30" rows="10" v-model="board.bcontent" placeholder="내용을 입력하세요"></textarea><br>-->
               </div>
             </div>
@@ -114,7 +114,7 @@ components: {
     return {
       board : {
         //bno : '',// 자동 증가라 필요가 없음
-        bwriter : storage.getItem("userNick"), //writer를 닉네임으로 할건지 메일로 할건지에 대해서
+        bwriter : storage.getItem("userid"), //writer를 닉네임으로 할건지 메일로 할건지에 대해서
         btitle : '', // 됐음
         bcontent : '',  //됐음
         bview : 0, // 초기 0임
@@ -129,16 +129,24 @@ components: {
   },
   methods: {
     addFree(){
+      console.log("bwriter : " + this.board.bwriter);
+      console.log("btitle : " + this.board.btitle);
+      console.log("bcontent : " + this.board.bcontent);
+      console.log("bview : " + this.board.bview);
+      console.log("bfile : " + this.board.bfile);
+      console.log("bstate : " + this.board.bstate);
+      console.log("makeDay : " + this.board.makeDay);
+      console.log("makeId : " + this.board.makeId);
             if(this.board.bcontent.trim() != ''){
                 this.$store.dispatch(Constant.ADD_BOARD,{
                   //bno : auto increase
                     // bwriter : this.board.bwriter, 임시로 ssafy foreign key때문
-                    bwriter : 'ssafy',
+                    bwriter : this.board.bwriter,
                     btitle : this.board.btitle,
                     bcontent : this.board.bcontent,
                     bview : this.board.bview,
                     bfile : this.board.bfile,
-                    bstate : 'free',
+                    bstate : this.board.bstate,
                     makeDay : new Date(),
                     // changeDay : this.board.changeday,
                     makeId : this.board.makeid,

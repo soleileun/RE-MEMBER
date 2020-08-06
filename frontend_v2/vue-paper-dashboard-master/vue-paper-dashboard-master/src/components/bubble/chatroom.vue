@@ -16,7 +16,7 @@
                 <br> 
                 {{room.makedate.slice(11,16) }}
                 </p>
-              <span v-show = "room.cnt === 2" class="badge badge-danger" style="margin-left:10px;">{{room.cnt}}</span>
+              <span v-if="room.membercnt === 2 && room.cnt != 0" class="badge badge-danger" style="margin-left:10px;">{{room.cnt}}</span>
             </div>
           </div>
             <!--{{room.roomName}}-->

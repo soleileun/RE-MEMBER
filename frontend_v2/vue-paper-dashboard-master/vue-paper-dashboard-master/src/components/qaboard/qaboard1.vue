@@ -75,7 +75,7 @@
                         <td>질문</td>
                         <!-- bno 쿼리스트링 달아서 분기 -->
                         <td style="text-align:left;">
-                          <router-link :to="'/qaboard/detailqa/' + free.bno">{{free.btitle}}</router-link>
+                          <router-link :to="'/freeboard/detailfree/' + free.bno">{{free.btitle}}</router-link>
                         </td>
                         <td>{{free.bwriter}}</td>
                         <td>{{free.bview}}</td>

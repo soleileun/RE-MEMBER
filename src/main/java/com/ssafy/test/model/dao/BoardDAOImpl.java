@@ -34,6 +34,7 @@ public class BoardDAOImpl implements BoardDAO{
 
 	@Override
 	public int insert(Board v) {
+		System.out.println("v : "+v.toString());
 		// TODO Auto-generated method stub
 		return template.insert(ns + "insert", v);
 	}
