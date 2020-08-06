@@ -84,7 +84,7 @@
           <button>{{pick}}</button>
           <button v-on:click="deleteStack(index)">X</button>
         </div>
-      </div>기술 태그 입력(현재 영어로만. 후에 한글까지 추가 예정입니다.)
+      </div>기술 태그 입력
       <div class="searchform">
         <div class="input">
           <input
@@ -101,7 +101,7 @@
             <td>{{list}}</td>
           </tr>
         </table>
-        <button @click="searchPool()">프로젝트 검색</button>
+        <button @click="searchPool2()">프로젝트 검색</button>
       </div>
     </div>
 
@@ -187,7 +187,7 @@
             <textarea cols="30" rows="10" v-model="wrecruit.contents" placeholder="내용을 입력하세요"></textarea>
           </div>
         </div>
-        
+
         <div class="row">
           <button @click="addRecruit">등록</button>
         </div>
@@ -245,10 +245,10 @@
   </div>
 </template>
 
-<script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
 <script>
 import Constant from "../../Constant";
 import recruitcomponent from "@/components/recruit/recruitcomponent.vue";
+const storage = window.sessionStorage;
 export default {
   name: "recruit1",
   components: {
@@ -282,10 +282,11 @@ export default {
   },
   created() {
     this.$store.dispatch(Constant.GET_RECRUITLIST);
-
-    this.$store.dispatch(Constant.GET_PROJECTLIST_BY_PMEMBER, {
-      userId: this.loginId,
-    });
+    if (storage.getItem("userid") !== "") {
+      this.$store.dispatch(Constant.GET_PROJECTLIST_BY_PMEMBER, {
+        userId: this.loginId,
+      });
+    }
     // sido리스트 불러오기
     this.$store.dispatch(Constant.GET_SIDOLIST);
   },
@@ -391,8 +392,9 @@ export default {
       };
     },
     addRecruit() {
-      let ppid = $("#myproject option:selected").val();
-      console.log('선택된 프로젝트넘버 : '+ppid);
+      let ppid = document.getElementById("myproject");
+      ppid = ppid.options[ppid.selectedIndex].value;
+      console.log("선택된 프로젝트넘버 : " + ppid);
       if (this.wrecruit.contents.trim() != "") {
         this.$store.dispatch(Constant.ADD_RECRUIT, {
           //rnum:'',
@@ -407,7 +409,10 @@ export default {
         });
 
         for (let i = 0; i < this.picks2.length; i++) {
-          this.$store.dispatch(Constant.ADD_PINTEREST,{pid:ppid, interest:this.picks2[i]});
+          this.$store.dispatch(Constant.ADD_PINTEREST, {
+            pid: ppid,
+            interest: this.picks2[i],
+          });
         }
 
         this.$router.push("/recruit/recruit1");
@@ -501,6 +506,72 @@ export default {
       }
       //둘다 x
       else if (this.picks.length == 0 && sd == " ") {
+        this.$store.dispatch(Constant.GET_POOLLIST);
+      }
+    },
+
+    searchPool2() {
+      let sd = "";
+      let gg = "";
+      let dn = "";
+
+      if (this.selectedSido == 0) {
+        sd = " ";
+      } else {
+        sd = this.selectedSido;
+      }
+      if (this.selectedGugun == 0) {
+        gg = " ";
+      } else {
+        gg = this.selectedGugun;
+      }
+      if (this.selectedDong == 0) {
+        dn = " ";
+      } else {
+        dn = this.selectedDong;
+      }
+
+      //주소만
+      if (this.picks2.length == 0 && sd != " ") {
+        this.$store.dispatch(Constant.SEARCH_POOL_BY_ADDR, {
+          sido: sd,
+          gugun: gg,
+          dong: dn,
+        });
+      }
+      //태그만
+      else if (this.picks2.length != 0 && sd == " ") {
+        let stacks = "";
+        if (this.picks2.length != 0) {
+          for (let i = 0; i < this.picks2.length; i++) {
+            stacks += this.picks2[i] + ",";
+          }
+        } else {
+          stacks = null;
+        }
+        this.$store.dispatch(Constant.SEARCH_POOL_BY_TAG, { stacks });
+      }
+      //둘다 o
+      else if (this.picks2.length != 0 && sd != " ") {
+        let addr = sd + "," + gg + "," + dn + ",";
+        let stacks = "";
+        if (this.picks2.length != 0) {
+          for (let i = 0; i < this.picks2.length; i++) {
+            stacks += this.picks[i] + ",";
+          }
+        } else {
+          stacks = null;
+        }
+
+        // console.log(addr + "/" + stacks);
+        //시 구 동 미선택 시 " " 로 보내고 picks
+        this.$store.dispatch(Constant.SEARCH_POOL_BY_TAG_ADDR, {
+          addr,
+          stacks,
+        });
+      }
+      //둘다 x
+      else if (this.picks2.length == 0 && sd == " ") {
         this.$store.dispatch(Constant.GET_POOLLIST);
       }
     },

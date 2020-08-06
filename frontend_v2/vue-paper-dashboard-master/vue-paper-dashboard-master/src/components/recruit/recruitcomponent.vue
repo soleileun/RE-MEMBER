@@ -21,7 +21,7 @@
       <!-- <p class="table-row__p-status status--green status">Approved</p> -->
     </td>
     <!-- 1일 남을 시 붉은색 -->
-    <td data-column="Destination" class="table-row__td">{{recruit.endDate}}</td>
+    <td data-column="Destination" class="table-row__td">{{times(recruit.endDate)}}</td>
     <td data-column="Status" class="table-row__td">
       <!-- 구인 완료 시 붉은색 -->
       <p class="table-row__status status--green status">구인현황</p>
@@ -168,12 +168,25 @@ export default {
   },
   created() {
     this.$store.dispatch(Constant.GET_PROJECT, { pid: this.pid });
+
+    
   },
   computed: {
     project() {
       return this.$store.state.projectstore.project;
     },
   },
+  methods:{
+    times (str){
+      const year = str.slice(0, 4),
+          month = str.slice(5, 7),
+          day = str.slice(8, 10),
+          si = str.slice(11, 13),
+          boon = str.slice(14, 16),
+          cho = str.slice(17, 19);
+        return `${year}/${month}/${day}`;
+    }
+  }
 };
 </script>
 

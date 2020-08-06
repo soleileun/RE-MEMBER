@@ -30,6 +30,9 @@ export default {
     GET_RECRUIT: 'getRecruit',
     ADD_RECRUIT: 'addRecruit',
     ADD_PINTEREST : 'addPinterest',
+    SEARCH_RECRUIT_BY_TAG_ADDR : 'searchRecruitByTagAddr',
+    SEARCH_RECRUIT_BY_TAG : 'searchRecruitByTag',
+    SEARCH_RECRUIT_BY_ADDR : 'searchRecruitByAddr',
 
     //인재풀, 모집 공용스택
     GET_FILTERED_POOLLIST: 'getFilteredPoolList',
