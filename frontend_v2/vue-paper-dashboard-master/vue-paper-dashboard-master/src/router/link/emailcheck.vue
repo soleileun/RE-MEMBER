@@ -30,7 +30,7 @@ export default {
   methods: {
     resendEmail: function () {
       http
-        .post("/api/email/resend" + storage.getItem("userid"))
+        .get("/api/email/resend/" + storage.getItem("userid"))
         .then((res) => {
           console.log(res);
         })
