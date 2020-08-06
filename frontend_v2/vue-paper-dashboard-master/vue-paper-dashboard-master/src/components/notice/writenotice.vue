@@ -9,7 +9,7 @@
     내용<br>
     <textarea name="" id="" cols="30" rows="10" v-model="board.bcontent" placeholder="내용을 입력하세요"></textarea><br>
     <button @click="addFree">등록</button>
-    <router-link to="/mainboard/notice" tag="button">목록으로</router-link>
+    <router-link to="/notice" tag="button">목록으로</router-link>
   </div>
 </template>
 
@@ -53,7 +53,7 @@ export default {
                     makeId : this.board.makeid,
                     // changeId : this.board.changeid
                 });
-                this.$router.push('/mainboard/notice');
+                this.$router.push('/notice');
             }else{
                 console.log('공백입력.');
             }    
