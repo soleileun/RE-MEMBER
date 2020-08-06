@@ -10,6 +10,7 @@ import freeboard from "./link/freeboard.vue";
 import qaboard from "./link/qaboard.vue";
 import recruit from "./link/recruit.vue";
 import service from "./link/service.vue";
+import profile from "./link/profile.vue";
 // 우리 리브
 import findIDPW from "../components/user/findIDPW.vue";
 import leave from "../components/user/leave.vue";
@@ -47,8 +48,7 @@ import Typography from "@/pages/Typography.vue";
 import TableList from "@/pages/TableList.vue";
 
 
-const routes = [
-  {
+const routes = [{
     path: "/",
     component: DashboardLayout,
     redirect: "/main",
@@ -93,6 +93,10 @@ const routes = [
         path: "/pool",
         name: "인재풀",
         component: pool,
+      }, {
+        path: "/profile",
+        name: "프로필",
+        component: profile,
       },
       /////////// 잎파리
 
@@ -236,7 +240,10 @@ const routes = [
       }
     ]
   },
-  { path: "*", component: NotFound }
+  {
+    path: "*",
+    component: NotFound
+  }
 ];
 
 /**
