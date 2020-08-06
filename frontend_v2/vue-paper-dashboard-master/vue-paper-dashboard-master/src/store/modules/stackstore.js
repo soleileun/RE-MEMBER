@@ -8,7 +8,7 @@ Vue.use(Vuex);
 
 const stackstore = {
   state: {
-      pools: [],
+      // pools: [],
       sidolist: [],
       gugunlist: [],
       donglist: [],
@@ -18,15 +18,15 @@ const stackstore = {
   actions: {
     //게시판
 
-    //조건에 맞는 인재풀 리스트 가져오기
-    [Constant.GET_FILTERED_POOLLIST]: (store,payload) => {
-      http.get('/api/board/statesearching/'+ payload.bstate)
-          .then(response => {
-            // console.log(response)
-              store.commit(Constant.GET_FILTERED_POOLLIST, { pools: response.data })
-        })
-          .catch(exp => alert('getFilteredPoolList처리에 실패하였습니다!!' + exp));
-    },
+    // //조건에 맞는 인재풀 리스트 가져오기
+    // [Constant.GET_FILTERED_POOLLIST]: (store,payload) => {
+    //   http.get('/api/board/statesearching/'+ payload.bstate)
+    //       .then(response => {
+    //         // console.log(response)
+    //           store.commit(Constant.GET_FILTERED_POOLLIST, { pools: response.data })
+    //     })
+    //       .catch(exp => alert('getFilteredPoolList처리에 실패하였습니다!!' + exp));
+    // },
     //시도부르기
     [Constant.GET_SIDOLIST]: (store) => {
       http.get('/api/addr/getSido')
@@ -130,10 +130,10 @@ const stackstore = {
     //주소, 태그로 풀리스트 반환
     [Constant.SEARCH_POOL]: (store,payload) => {
         console.log(payload);
-        http.get('/api/usertag/selectAddrAndTag/tag='+payload.stacks+'{tag}&addr=' + payload.addr)
+        http.get('/api/usertag/selectAddrAndTag/tag='+payload.stacks+'&addr=' + payload.addr)
             .then(response => {
                 console.log('풀리스트 반환: '+response.data);
-                store.commit(Constant.SEARCH_POOL, { pools : response.data })
+                store.commit(Constant.GET_POOLLIST, { pools : response.data })
           })
             .catch(exp => alert('풀리스트 반환 처리에 실패하였습니다.' + exp));
       },
@@ -160,10 +160,10 @@ const stackstore = {
   },
 
   mutations: {
-    [Constant.GET_FILTERED_POOLLIST]: (state, payload) => {
-        // console.log('mutation' + payload.boards);
-        state.pools = payload.pools;
-    },
+    // [Constant.GET_FILTERED_POOLLIST]: (state, payload) => {
+    //     // console.log('mutation' + payload.boards);
+    //     state.pools = payload.pools;
+    // },
     [Constant.GET_SIDOLIST]: (state, payload) => {
         // console.log('mutation' + payload.boards);
         state.sidolist = payload.sidolist;
