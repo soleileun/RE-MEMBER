@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.test.model.dto.TagList;
 import com.ssafy.test.model.dto.TagResult;
+import com.ssafy.test.model.dto.UserInfo;
 import com.ssafy.test.model.dto.Usertag;
 import com.ssafy.test.model.service.UsertagService;
 
@@ -77,7 +78,7 @@ public class UsertagController {
 	
 	@ApiOperation(value = "완전히 일치하는 유저의 id를 반환한다.", response = Usertag.class)
 	@GetMapping("selectSame/{tag}")
-	public ResponseEntity<List<TagResult>> selectSame(@PathVariable String tag) {
+	public ResponseEntity<List<UserInfo>> selectSame(@PathVariable String tag) {
 		TagList v = new TagList();
 		String a[] = tag.split(",");
 		int b = a.length;
@@ -89,12 +90,12 @@ public class UsertagController {
 		v.setCnt(b);
 		//어차피 널이 들어감.
 
-		return new ResponseEntity<List<TagResult>>(Service.selectSame(v), HttpStatus.OK);
+		return new ResponseEntity<List<UserInfo>>(Service.selectSame(v), HttpStatus.OK);
 	}
 	
 	@ApiOperation(value = "특정 유저가 가진 특정 tagvalue의 정보를 반환한다.", response = Usertag.class)
 	@GetMapping("selectSimilar/{tag}")
-	public ResponseEntity<List<TagResult>> selectSimilar(@PathVariable String tag) {
+	public ResponseEntity<List<UserInfo>> selectSimilar(@PathVariable String tag) {
 		TagList v = new TagList();
 		String a[] = tag.split(",");
 		if(a.length > 0) v.setTag1(a[0]);
@@ -102,7 +103,7 @@ public class UsertagController {
 		if(a.length > 2) v.setTag3(a[2]);
 		if(a.length > 3) v.setTag4(a[3]);
 		if(a.length > 4) v.setTag5(a[4]);
-		return new ResponseEntity<List<TagResult>>(Service.selectSimilar(v), HttpStatus.OK);
+		return new ResponseEntity<List<UserInfo>>(Service.selectSimilar(v), HttpStatus.OK);
 	}
 
 

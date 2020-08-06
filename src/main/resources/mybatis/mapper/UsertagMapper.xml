@@ -25,26 +25,37 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</delete>
 	
 	
-	<select id="selectSimilar" parameterType="taglist" resultType="tagresult">
-	select count(tagvalue) as same, uid
-	from (
-		select *
-		from usertag
-		where tagvalue in  (#{tag1},#{tag2},#{tag3},#{tag4},#{tag5})
-	) as b
-	group by uid;
+	<select id="selectSimilar" parameterType="taglist" resultType="userinfo">
+	
+    select *
+    from userInfo
+    where id in (
+		select uid
+		from (
+			select *
+			from usertag
+			where tagvalue in  (#{tag1},#{tag2},#{tag3},#{tag4},#{tag5})
+		) as b
+		group by uid
+	);
 	</select>
 	
 	
 	
-	<select id="selectSame" parameterType="taglist" resultType="tagresult">
-	select count(tagvalue) as same, uid
-	from (
-		select * from usertag
-		where tagvalue in (#{tag1},#{tag2},#{tag3},#{tag4},#{tag5})
-	) as b
-	group by uid
-	having count(tagvalue) >= #{cnt};
+	<select id="selectSame" parameterType="taglist" resultType="userinfo">
+	
+    select *
+    from userInfo
+    where id in (
+		select uid
+		from (
+			select * from usertag
+			where tagvalue in (#{tag1},#{tag2},#{tag3},#{tag4},#{tag5})
+		) as b
+		group by uid
+		having count(tagvalue) >= #{cnt}
+		
+	);
 	<!--
 	select * 
 	from usertag
