@@ -28,11 +28,11 @@
                 </button>
                 <br />
                 <button>
-                  <router-link class="nav-link" :to="{name:'service'}">고객센터</router-link>
+                  <router-link class="nav-link" :to="{path:'/service'}">고객센터</router-link>
                 </button>
                 <br />
                 <button>
-                  <router-link class="nav-link" :to="{name:'leave'}">회원탈퇴</router-link>
+                  <router-link class="nav-link" to="/user/leave">회원탈퇴</router-link>
                 </button>
               </center>
             </div>

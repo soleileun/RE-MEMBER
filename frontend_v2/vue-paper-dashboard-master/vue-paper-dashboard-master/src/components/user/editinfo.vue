@@ -16,7 +16,8 @@
       </card>
     </div>
     <div v-else>
-      <card class="card text-center" title="Edit Profile">
+      <h4>Edit Profile</h4>
+      <card class="card text-center">
         <span class="form">
           비밀번호 :
           <input v-model="pw" type="password" />
