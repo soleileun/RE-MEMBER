@@ -2,108 +2,108 @@
   <div>
     <h1>인재풀 샘플</h1>
     <hr />
-    
+
     <div class="col-md-10 ml-auto col-xl-6 mr-auto">
-    <!-- 시군구동 검색 -->
-    <div class="row">
-      <label class="col-md-2" for="sido" style="margin-left:-20px;">
-        <strong>
-          시도
-          <span id="userid" class="text-danger"></span>
-        </strong>
-      </label>
-      <select
-        id="sido"
-        class="form-control col-md-2"
-        @change="changeSido(selectedSido)"
-        v-model="selectedSido"
-      >
-        <option value="0">선택</option>
-        <option v-for="(sido, index) in sidoList" :value="sido" :key="index">
-          {{
-          sido
-          }}
-        </option>
-      </select>
+      <!-- 시군구동 검색 -->
+      <div class="row">
+        <label class="col-md-2" for="sido" style="margin-left:-20px;">
+          <strong>
+            시도
+            <span id="userid" class="text-danger"></span>
+          </strong>
+        </label>
+        <select
+          id="sido"
+          class="form-control col-md-2"
+          @change="changeSido(selectedSido)"
+          v-model="selectedSido"
+        >
+          <option value="0">선택</option>
+          <option v-for="(sido, index) in sidoList" :value="sido" :key="index">
+            {{
+            sido
+            }}
+          </option>
+        </select>
 
-      <label class="col-md-2" for="gugun">
-        <strong>
-          구군
-          <span id="userid" class="text-danger"></span>
-        </strong>
-      </label>
-      <select
-        v-if="selectedSido!=0"
-        id="gugun"
-        class="form-control col-md-2"
-        @change="changeGugun(selectedSido, selectedGugun)"
-        v-model="selectedGugun"
-      >
-        <option value="0">선택</option>
-        <option v-for="(gu, index) in gugunList" :value="gu" :key="index">
-          {{
-          gu
-          }}
-        </option>
-      </select>
-      <select v-else id="gugun" class="form-control col-md-2" disabled>
-        <option value="0">선택</option>
-      </select>
+        <label class="col-md-2" for="gugun">
+          <strong>
+            구군
+            <span id="userid" class="text-danger"></span>
+          </strong>
+        </label>
+        <select
+          v-if="selectedSido!=0"
+          id="gugun"
+          class="form-control col-md-2"
+          @change="changeGugun(selectedSido, selectedGugun)"
+          v-model="selectedGugun"
+        >
+          <option value="0">선택</option>
+          <option v-for="(gu, index) in gugunList" :value="gu" :key="index">
+            {{
+            gu
+            }}
+          </option>
+        </select>
+        <select v-else id="gugun" class="form-control col-md-2" disabled>
+          <option value="0">선택</option>
+        </select>
 
-      <label class="col-md-2" for="dong">
-        <strong>
-          읍면동
-          <span id="userid" class="text-danger"></span>
-        </strong>
-      </label>
+        <label class="col-md-2" for="dong">
+          <strong>
+            읍면동
+            <span id="userid" class="text-danger"></span>
+          </strong>
+        </label>
 
-      <select
-        v-if="selectedGugun!=0"
-        id="dong"
-        class="form-control col-md-2"
-        v-model="selectedDong"
-      >
-        <!-- @change="changeDong(selectedDong)" -->
+        <select
+          v-if="selectedGugun!=0"
+          id="dong"
+          class="form-control col-md-2"
+          v-model="selectedDong"
+        >
+          <!-- @change="changeDong(selectedDong)" -->
 
-        <option value="0">선택</option>
-        <option v-for="(don, index) in dongList" :value="don" :key="index">
-          {{
-          don
-          }}
-        </option>
-      </select>
-      <select v-else id="dong" class="form-control col-md-2" disabled>
-        <option value="0">선택</option>
-      </select>
-    </div>
-
-    <hr />
-
-    <div class="selectform">
-      <div v-for="(pick,index) in picks" :key="index">
-        <button>{{pick}}</button>
-        <button v-on:click="deleteStack(index)">X</button>
+          <option value="0">선택</option>
+          <option v-for="(don, index) in dongList" :value="don" :key="index">
+            {{
+            don
+            }}
+          </option>
+        </select>
+        <select v-else id="dong" class="form-control col-md-2" disabled>
+          <option value="0">선택</option>
+        </select>
       </div>
-    </div>기술 태그 입력(현재 영어로만. 후에 한글까지 추가 예정입니다.)
-    <div class="searchform">
-      <div class="input">
-        <input
-          id="stackWord"
-          type="text"
-          v-model="inputVal"
-          @input="searchQuery()"
-          @keyup.enter="enter()"
-          placeholder="기술 태그 입력해주세요"
-        />
+
+      <hr />
+
+      <div class="selectform">
+        <div v-for="(pick,index) in picks" :key="index">
+          <button>{{pick}}</button>
+          <button v-on:click="deleteStack(index)">X</button>
+        </div>
+      </div>기술 태그 입력(현재 영어로만. 후에 한글까지 추가 예정입니다.)
+      <div class="searchform">
+        <div class="input">
+          <input
+            id="stackWord"
+            type="text"
+            v-model="inputVal"
+            @input="searchQuery()"
+            @keyup.enter="enter()"
+            placeholder="기술 태그 입력해주세요"
+          />
+        </div>
+        <table class="autoComplete">
+          <tr v-for="list in lists" :key="list" @click="add(list)">
+            <td>{{list}}</td>
+          </tr>
+        </table>
+        <button @click="searchPool()">인재 검색</button>
       </div>
-      <table class="autoComplete">
-        <tr v-for="list in lists" :key="list" @click="add(list)">
-          <td>{{list}}</td>
-        </tr>
-      </table>
-      <button @click="searchPool()">인재 검색</button>
     </div>
-  </div>
 
     <hr />
     <!-- card layout -->
@@ -187,7 +187,7 @@ export default {
       ],
       picks: [],
       inputVal: "",
-    }
+    };
   },
   computed: {
     pools() {
@@ -255,19 +255,49 @@ export default {
         dn = this.selectedDong;
       }
 
-      let addr = sd + "," + gg + "," + dn +",";
-      let stacks = "";
-      if (this.picks.length != 0) {
-        for (let i = 0; i < this.picks.length; i++) {
-          stacks += this.picks[i] + ",";
-        }
-      } else {
-        stacks = null;
+      //주소만
+      if (this.picks.length == 0 && sd != " ") {
+        this.$store.dispatch(Constant.SEARCH_POOL_BY_ADDR, {
+          sido: sd,
+          gugun: gg,
+          dong: dn,
+        });
       }
+      //태그만
+      else if (this.picks.length != 0 && sd == " ") {
+        let stacks = "";
+        if (this.picks.length != 0) {
+          for (let i = 0; i < this.picks.length; i++) {
+            stacks += this.picks[i] + ",";
+          }
+        } else {
+          stacks = null;
+        }
+        this.$store.dispatch(Constant.SEARCH_POOL_BY_TAG, { stacks });
+      }
+      //둘다 o
+      else if (this.picks.length != 0 && sd != " ") {
+        let addr = sd + "," + gg + "," + dn + ",";
+        let stacks = "";
+        if (this.picks.length != 0) {
+          for (let i = 0; i < this.picks.length; i++) {
+            stacks += this.picks[i] + ",";
+          }
+        } else {
+          stacks = null;
+        }
 
-      console.log(addr + "/" + stacks);
-      //시 구 동 미선택 시 " " 로 보내고 picks
-      this.$store.dispatch(Constant.SEARCH_POOL, { addr, stacks });
+        // console.log(addr + "/" + stacks);
+        //시 구 동 미선택 시 " " 로 보내고 picks
+        this.$store.dispatch(Constant.SEARCH_POOL_BY_TAG_ADDR, {
+          addr,
+          stacks,
+        });
+      }
+      //둘다 x
+      else if (this.picks.length == 0 && sd == " ") {
+        this.$store.dispatch(Constant.GET_POOLLIST);
+      }
     },
 
     deleteStack(idx) {
@@ -304,7 +334,6 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-
 td,
 tr,
 th {
