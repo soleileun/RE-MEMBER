@@ -30,11 +30,7 @@
           <div class="card">
             <div class="card-body">
               <center class="m-t-30">
-<<<<<<< HEAD
-                <router-link class="nav-link" :to="userid">
-=======
                 <router-link class="nav-link" :to="`project/myproject/${userId}`">
->>>>>>> c182374e200b228da38cd933578faf16e3ab20b2
                   <button class="profBtn btn btn-info">내 프로젝트 보기</button>
                 </router-link>
                 <router-link class="nav-link" to="/user/editinfo">
