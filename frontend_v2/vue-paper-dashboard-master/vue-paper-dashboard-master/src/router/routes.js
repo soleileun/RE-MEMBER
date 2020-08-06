@@ -20,7 +20,6 @@ import signup from "./link/signup.vue";
 import emailcheck from "./link/emailcheck.vue";
 import recruit1 from "../components/recruit/recruit1.vue";
 import recruitdetail from "../components/recruit/recruitdetail.vue";
-import registteam from "../components/recruit/registteam.vue";
 import writeqa from "../components/qaboard/writeqa.vue";
 import detailqa from "../components/qaboard/detailqa.vue";
 import modifyqa from "../components/qaboard/modifyqa.vue";
