@@ -24,7 +24,7 @@
                 <!-- { "id": "abc", "nickname": "sdfkja", "name": "황수", "pw": "abcd1234", "address1": "ㅁㄴㅇ", "address2": "ㅁㄴㅇㅇㄴㄹ", "phone": "010-3390-0000", "git": "sdagfdgkk", "points": 0, "lastDate": null, "state": false, "responsibility": "개발", "valid": false } -->
                 <br />
                 <button>
-                  <router-link class="nav-link" :to="{name:'editinfo'}">개인정보 수정</router-link>
+                  <router-link class="nav-link" to="/user/editinfo">개인정보 수정</router-link>
                 </button>
                 <br />
                 <button>

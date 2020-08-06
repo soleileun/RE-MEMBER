@@ -1,64 +1,79 @@
 <template>
   <div class="editinfo">
     <div v-if="!pwvalid">
-      비밀번호를 입력해주세요
-      <br />
-      <input type="password" v-model="oldpw" />
-      <br />
-      <button @click="pwconfirm">개인정보 바꾸기</button>
+      <card class="card text-center">
+        <h4>개인정보 수정을 위해 비밀번호를 다시 한 번 입력해주세요</h4>
+
+        <br />
+        <div class="row justify-content-md-center">
+          <div class="col-sm-4 center">
+            <fg-input type="password" label="비밀번호" v-model="oldpw" placeholder="비밀번호를 입력해주세요" />
+          </div>
+        </div>
+
+        <br />
+        <button class="btn btn-info btn-round" @click="pwconfirm">개인정보 바꾸기</button>
+      </card>
     </div>
     <div v-else>
-    <span class="form">
-      비밀번호 :
-      <input v-model="pw" type="password" />
-      {{error.pw}}
-    </span>
-    <span>
-      비밀번호 확인 :
-      <input v-model="pw2" type="password" />
-      {{error.pw2}}
-    </span>
-    <span>
-      닉네임(별명) :
-      <input v-model="nickname" maxlength="10" type="text" />
-      {{error.nickname}}
-    </span>
-    <span>
-      주소 :
-      <input v-model="address1" type="text" disabled />
-      <button @click="postActive">검색</button>
-      {{error.address}}
-    </span>
-    <div class="postcode" v-if="postAct">
-      <DaumPostcode :on-complete="handleAddress" />
-    </div>
-    <span>
-      추가 주소 :
-      <input v-model="address2" type="text" />
-    </span>
-
-    <span>
-      전화번호 :
-      <input v-model="phone0" maxlength="3" type="tel" />-
-      <input id="p1" v-model="phone1" maxlength="4" type="tel" />-
-      <input id="p2" v-model="phone2" maxlength="4" type="tel" />
-      {{error.phone}}
-    </span>
-
-    <span>
-      깃주소 :
-      <input v-model="git" type="text" />
-    </span>
-
-    <span>
-      역할 :
-      <input v-model="responsibility" type="radio" value="개발" /> 개발 |
-      <input v-model="responsibility" type="radio" value="디자인" /> 디자인 |
-      <input v-model="responsibility" type="radio" value="기획" />
-      기획{{error.responsibility}}
-    </span>
-      활성 여부 <input type="checkbox" v-model="st">
-      <button @click="edit" class="edit">수정</button>
+      <card class="card text-center" title="Edit Profile">
+        <span class="form">
+          비밀번호 :
+          <input v-model="pw" type="password" />
+          {{error.pw}}
+          비밀번호 확인 :
+          <input v-model="pw2" type="password" />
+          {{error.pw2}}
+          닉네임(별명) :
+          <input
+            v-model="nickname"
+            maxlength="10"
+            type="text"
+          />
+          {{error.nickname}}
+          주소 :
+          <input v-model="address1" type="text" disabled />
+          {{error.address}}
+          <span>
+            추가 주소 :
+            <br />
+            <input v-model="address2" type="text" />
+          </span>
+          <button @click="postActive" class="btn btn-info btn-round">주소 검색</button>
+          <div class="postcode" v-if="postAct">
+            <DaumPostcode :on-complete="handleAddress" />
+          </div>
+        </span>
+        <br />
+        <span>
+          전화번호 :
+          <input v-model="phone0" maxlength="3" type="tel" />-
+          <input id="p1" v-model="phone1" maxlength="4" type="tel" />-
+          <input id="p2" v-model="phone2" maxlength="4" type="tel" />
+          {{error.phone}}
+        </span>
+        <br />
+        <br />
+        <span>
+          깃주소 :
+          <input v-model="git" type="text" />
+        </span>
+        <br />
+        <br />
+        <span>
+          역할 :
+          <input v-model="responsibility" type="radio" value="개발" /> 개발 |
+          <input v-model="responsibility" type="radio" value="디자인" /> 디자인 |
+          <input v-model="responsibility" type="radio" value="기획" />
+          기획{{error.responsibility}}
+        </span>
+        <br />
+        <br />활성 여부
+        <input type="checkbox" v-model="st" />
+        <br />
+        <br />
+        <button @click="edit" class="btn-info btn-round">수정</button>
+      </card>
     </div>
   </div>
 </template>
@@ -93,9 +108,9 @@ export default {
   },
   data: function () {
     return {
-      oldpw:"",
+      oldpw: "",
       pw: "",
-      pwvalid:false,
+      pwvalid: false,
       pwSchema: new PV(),
       pw2: "",
       nickname: "",
@@ -242,7 +257,7 @@ export default {
             this.phone2 = response.data.data.phone.split("-")[2];
             this.git = response.data.data.git;
             this.responsibility = response.data.data.responsibility;
-            this.st = response.data.data.state
+            this.st = response.data.data.state;
           } else {
             alert("비밀번호가 다릅니다.");
           }
@@ -253,28 +268,34 @@ export default {
     },
     edit: function () {
       http
-        .put("/api/userinfo/" + storage.getItem("userid"), { 
-          id: storage.getItem("userid"),
-          pw: this.pw,
-          nickname: this.nickname,
-          name: this.name,
-          address1: this.address1,
-          address2: this.address2,
-          phone: `${this.phone0}-${this.phone1}-${this.phone2}`,
-          git: this.git,
-          responsibility: this.responsibility,
-          state:this.st
-        },
-        {
-          headers:{
-            "jwt-auth-token":storage.getItem("jwt-auth-token")
+        .put(
+          "/api/userinfo/" + storage.getItem("userid"),
+          {
+            id: storage.getItem("userid"),
+            pw: this.pw,
+            nickname: this.nickname,
+            name: this.name,
+            address1: this.address1,
+            address2: this.address2,
+            phone: `${this.phone0}-${this.phone1}-${this.phone2}`,
+            git: this.git,
+            responsibility: this.responsibility,
+            state: this.st,
+          },
+          {
+            headers: {
+              "jwt-auth-token": storage.getItem("jwt-auth-token"),
+            },
           }
-        })
+        )
         .then((res) => {
-          console.log('결과')
+          console.log("결과");
           console.log(res.data);
-          this.$store.dispatch("login", { id: storage.getItem("userid"), pw: this.pw });
-          this.$router.push({name:'user'})
+          this.$store.dispatch("login", {
+            id: storage.getItem("userid"),
+            pw: this.pw,
+          });
+          this.$router.push({ path: "/profile" });
         })
         .catch((e) => console.log(e));
     },
@@ -284,8 +305,8 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-.form{
-   display: flex;
+.form {
+  display: flex;
   flex-direction: column;
   align-items: center;
   .postcode {
