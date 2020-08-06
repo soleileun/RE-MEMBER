@@ -178,9 +178,8 @@ const userstore = {
                 }
               })
               .then(() => {
-                storage.setItem("jwt-auth-token", "");
-                storage.setItem("userNick", "")
-                storage.setItem("userid", "")
+
+                store.dispatch("logout");
                 router.push({
                   path: "/main"
                 });

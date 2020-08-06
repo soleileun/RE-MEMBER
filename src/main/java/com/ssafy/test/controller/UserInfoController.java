@@ -28,9 +28,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.test.model.dto.Addr;
+import com.ssafy.test.model.dto.Board;
 import com.ssafy.test.model.dto.Email;
 import com.ssafy.test.model.dto.User;
 import com.ssafy.test.model.dto.UserInfo;
+import com.ssafy.test.model.service.BoardService;
 import com.ssafy.test.model.service.EmailService;
 import com.ssafy.test.model.service.JwtService;
 import com.ssafy.test.model.service.MailHandler;
@@ -62,6 +64,8 @@ public class UserInfoController {
 	@Autowired
 	private EmailService eService;
 	
+	@Autowired
+	private BoardService bService;
 	
 	
 	@PostMapping("/signin")
@@ -121,6 +125,14 @@ public class UserInfoController {
 	public ResponseEntity<List<UserInfo>> getAllUsers() throws Exception {
 		logger.debug("getAllUsers - 호출");
 		return new ResponseEntity<List<UserInfo>>(uiService.selectAll(), HttpStatus.OK);
+	}
+    @ApiOperation(value = "모든 유저의 정보를 반환한다.", response = List.class)
+	@GetMapping("/search/{id}")
+	public ResponseEntity<UserInfo> getSelectedUser(@PathVariable String id) throws Exception {
+		logger.debug("getSelectedUser - 호출");
+		
+		return new ResponseEntity<UserInfo>(uiService.select(id), HttpStatus.OK);
+
 	}
 
     @ApiOperation(value = "해당 지역에 거주하는 유저의 정보를 반환한다..", response = List.class)
@@ -195,7 +207,10 @@ public class UserInfoController {
 	@DeleteMapping("{id}")
 	public ResponseEntity<String> deleteUser(@PathVariable String id) {
 		logger.debug("deleteUser - 호출");
-		if (uiService.delete(id) == 1) {
+		UserInfo user = uiService.select(id);
+		user.setLeaveUser(true);
+		user.setNickname("Unknown");
+		if (uiService.update(user)== 1) {
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		}
 		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
