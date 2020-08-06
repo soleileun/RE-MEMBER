@@ -175,11 +175,8 @@ const routes = [{
         name: "모집 상세",
         component: recruitdetail,
       },
+      
       {
-        path: "/recruit/registteam",
-        name: "모집 등록",
-        component: registteam,
-      }, {
         path: "/signup",
         name: "회원 가입",
         component: signup,
