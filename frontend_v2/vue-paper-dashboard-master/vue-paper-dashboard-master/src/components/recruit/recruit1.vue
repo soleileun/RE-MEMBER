@@ -101,7 +101,7 @@
             <td>{{list}}</td>
           </tr>
         </table>
-        <button @click="searchPool2()">프로젝트 검색</button>
+        <button @click="searchPool()">프로젝트 검색</button>
       </div>
     </div>
 
@@ -228,6 +228,7 @@
                   :key="index"
                   :recruit="recruit"
                   :pid="recruit.pid"
+                  @delete-recruit="deleteRecruit"
                 />
               </tbody>
             </table>
@@ -236,12 +237,12 @@
       </div>
     </div>
 
-    <select name="standard" id="standard">
+    <!-- <select name="standard" id="standard">
       <option value="t" selected>제목</option>
       <option value="w">작성자</option>
     </select>
     <input type="text" placeholder="검색어를 입력하세요" id="searchWord" />
-    <button v-on:click="searchRecruit">검색</button>
+    <button v-on:click="searchRecruit">검색</button> -->
   </div>
 </template>
 
@@ -359,15 +360,15 @@ export default {
 
   methods: {
     searchRecruit() {
-      // let val  = document.getElementById("searchWord").value;
-      // let std = document.getElementById("standard").value;
-      // //제목 검색
-      // if(std == 't'){
-      //   console.log(val);
-      //   this.$store.dispatch(Constant.SEARCH_BOARD_TITLE, {btitle : val, bstate : 'free'});
-      // }else{ //작성자 검색
-      //   this.$store.dispatch(Constant.SEARCH_BOARD_WRITER, {bwriter : val, bstate : 'free'});
-      // }
+      let val  = document.getElementById("searchWord").value;
+      let std = document.getElementById("standard").value;
+      //제목 검색
+      if(std == 't'){
+        console.log(val);
+        this.$store.dispatch(Constant.SEARCH_BOARD_TITLE, {btitle : val, bstate : 'free'});
+      }else{ //작성자 검색
+        this.$store.dispatch(Constant.SEARCH_BOARD_WRITER, {bwriter : val, bstate : 'free'});
+      }
     },
     openModal() {
       // Get the modal
@@ -444,6 +445,72 @@ export default {
 
     // },
 
+    // searchPool() {
+    //   let sd = "";
+    //   let gg = "";
+    //   let dn = "";
+
+    //   if (this.selectedSido == 0) {
+    //     sd = " ";
+    //   } else {
+    //     sd = this.selectedSido;
+    //   }
+    //   if (this.selectedGugun == 0) {
+    //     gg = " ";
+    //   } else {
+    //     gg = this.selectedGugun;
+    //   }
+    //   if (this.selectedDong == 0) {
+    //     dn = " ";
+    //   } else {
+    //     dn = this.selectedDong;
+    //   }
+
+    //   //주소만
+    //   if (this.picks.length == 0 && sd != " ") {
+    //     this.$store.dispatch(Constant.SEARCH_POOL_BY_ADDR, {
+    //       sido: sd,
+    //       gugun: gg,
+    //       dong: dn,
+    //     });
+    //   }
+    //   //태그만
+    //   else if (this.picks.length != 0 && sd == " ") {
+    //     let stacks = "";
+    //     if (this.picks.length != 0) {
+    //       for (let i = 0; i < this.picks.length; i++) {
+    //         stacks += this.picks[i] + ",";
+    //       }
+    //     } else {
+    //       stacks = null;
+    //     }
+    //     this.$store.dispatch(Constant.SEARCH_POOL_BY_TAG, { stacks });
+    //   }
+    //   //둘다 o
+    //   else if (this.picks.length != 0 && sd != " ") {
+    //     let addr = sd + "," + gg + "," + dn + ",";
+    //     let stacks = "";
+    //     if (this.picks.length != 0) {
+    //       for (let i = 0; i < this.picks.length; i++) {
+    //         stacks += this.picks[i] + ",";
+    //       }
+    //     } else {
+    //       stacks = null;
+    //     }
+
+    //     // console.log(addr + "/" + stacks);
+    //     //시 구 동 미선택 시 " " 로 보내고 picks
+    //     this.$store.dispatch(Constant.SEARCH_POOL_BY_TAG_ADDR, {
+    //       addr,
+    //       stacks,
+    //     });
+    //   }
+    //   //둘다 x
+    //   else if (this.picks.length == 0 && sd == " ") {
+    //     this.$store.dispatch(Constant.GET_POOLLIST);
+    //   }
+    // },
+
     searchPool() {
       let sd = "";
       let gg = "";
@@ -464,10 +531,12 @@ export default {
       } else {
         dn = this.selectedDong;
       }
+      console.log(sd + " "+gg +" "+ dn);
+      console.log("태그길이:"+ this.picks.length);
 
       //주소만
       if (this.picks.length == 0 && sd != " ") {
-        this.$store.dispatch(Constant.SEARCH_POOL_BY_ADDR, {
+        this.$store.dispatch(Constant.SEARCH_RECRUIT_BY_ADDR, {
           sido: sd,
           gugun: gg,
           dong: dn,
@@ -483,7 +552,7 @@ export default {
         } else {
           stacks = null;
         }
-        this.$store.dispatch(Constant.SEARCH_POOL_BY_TAG, { stacks });
+        this.$store.dispatch(Constant.SEARCH_RECRUIT_BY_TAG, { stacks });
       }
       //둘다 o
       else if (this.picks.length != 0 && sd != " ") {
@@ -499,80 +568,14 @@ export default {
 
         // console.log(addr + "/" + stacks);
         //시 구 동 미선택 시 " " 로 보내고 picks
-        this.$store.dispatch(Constant.SEARCH_POOL_BY_TAG_ADDR, {
+        this.$store.dispatch(Constant.SEARCH_RECRUIT_BY_TAG_ADDR, {
           addr,
           stacks,
         });
       }
       //둘다 x
       else if (this.picks.length == 0 && sd == " ") {
-        this.$store.dispatch(Constant.GET_POOLLIST);
-      }
-    },
-
-    searchPool2() {
-      let sd = "";
-      let gg = "";
-      let dn = "";
-
-      if (this.selectedSido == 0) {
-        sd = " ";
-      } else {
-        sd = this.selectedSido;
-      }
-      if (this.selectedGugun == 0) {
-        gg = " ";
-      } else {
-        gg = this.selectedGugun;
-      }
-      if (this.selectedDong == 0) {
-        dn = " ";
-      } else {
-        dn = this.selectedDong;
-      }
-
-      //주소만
-      if (this.picks2.length == 0 && sd != " ") {
-        this.$store.dispatch(Constant.SEARCH_POOL_BY_ADDR, {
-          sido: sd,
-          gugun: gg,
-          dong: dn,
-        });
-      }
-      //태그만
-      else if (this.picks2.length != 0 && sd == " ") {
-        let stacks = "";
-        if (this.picks2.length != 0) {
-          for (let i = 0; i < this.picks2.length; i++) {
-            stacks += this.picks2[i] + ",";
-          }
-        } else {
-          stacks = null;
-        }
-        this.$store.dispatch(Constant.SEARCH_POOL_BY_TAG, { stacks });
-      }
-      //둘다 o
-      else if (this.picks2.length != 0 && sd != " ") {
-        let addr = sd + "," + gg + "," + dn + ",";
-        let stacks = "";
-        if (this.picks2.length != 0) {
-          for (let i = 0; i < this.picks2.length; i++) {
-            stacks += this.picks[i] + ",";
-          }
-        } else {
-          stacks = null;
-        }
-
-        // console.log(addr + "/" + stacks);
-        //시 구 동 미선택 시 " " 로 보내고 picks
-        this.$store.dispatch(Constant.SEARCH_POOL_BY_TAG_ADDR, {
-          addr,
-          stacks,
-        });
-      }
-      //둘다 x
-      else if (this.picks2.length == 0 && sd == " ") {
-        this.$store.dispatch(Constant.GET_POOLLIST);
+        this.$store.dispatch(Constant.GET_RECRUITLIST);
       }
     },
 
@@ -631,6 +634,10 @@ export default {
         this.lists2 = [];
       }
     },
+
+    deleteRecruit(rnum){
+      this.$emit("delete-recruit",rnum);
+    }
   },
 };
 </script>

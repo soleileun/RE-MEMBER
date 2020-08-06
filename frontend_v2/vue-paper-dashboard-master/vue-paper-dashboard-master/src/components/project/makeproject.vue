@@ -9,7 +9,7 @@
         <br />
         <br />
         <div class="wrap-input100 validate-input" data-validate="Name is required">
-          아이디 : store의 state에서 가져오는 세션 아이디
+          <h5>프로젝트 팀장 : {{userId}}</h5>
           <span class="label-input100">Project Name</span>
           <br />
           <input
@@ -65,6 +65,7 @@
 
 <script>
 import Constant from "../../Constant";
+const storage = window.sessionStorage;
 //import project from "../project/project1";
 export default {
   name: "makeproject",
@@ -73,6 +74,7 @@ export default {
       return this.$store.state.projectstore.projects;
     },
   },
+
   created() {
     // 세션 아이디로 교체
     this.$store.dispatch(Constant.GET_PROJECTLIST_BY_PMEMBER, {
@@ -81,6 +83,9 @@ export default {
   },
   data() {
     return {
+      userNick: storage.getItem("userNick"),
+      userId: storage.getItem("userid"),
+
       wproject: {
         pid: "",
         pjtName: "",
@@ -109,12 +114,12 @@ export default {
           pjtMemberCnt: this.wproject.pjtMemberCnt,
           makeDay: new Date(),
           //changeDay: this.wproject.title,
-          makeId: "ssafy",
+          makeId: this.userId,
           //changeId: this.wproject.title,
           //location: this.wproject.location,
         });
         //userid 수정해야됨!
-        this.$router.push("/project/myproject/" + this.makeId);
+        this.$router.push({ path: "/project/myproject/" + userId });
       } else {
         console.log("공백입력.");
       }

@@ -15,8 +15,6 @@ const projectstore = {
   },
 
   actions: {
-
-
     //userId에 맞는 project 리스트 가져오기
     [Constant.GET_PROJECTLIST_BY_PMEMBER]: (store, payload) => {
       // console.log('토큰 : '+ storage.getItem("jwt-auth-token"));
@@ -95,7 +93,7 @@ const projectstore = {
         .then(() => {
           console.log('추가하였습니다.');
           store.dispatch(Constant.GET_PROJECTLIST_BY_PMEMBER, {
-            userId: "ssafy"
+            userId: payload.makeId
           });
 
         })
