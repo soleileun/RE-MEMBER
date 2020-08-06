@@ -49,7 +49,6 @@ export default {
   data: function () {
     return {
       myid: storage.getItem("userid"),
-      mnums:[],
     };
   },
   computed: {
@@ -70,15 +69,19 @@ export default {
     this.$store.dispatch("detailMes", { other: this.id });
     let com = document.querySelector(".detaillist");
     setTimeout(() => {
-      com.scrollTop = 9999999999;
+      com.scrollTop = 99999;
     }, 50);
   },
   methods: {
     read: function (mnum, read) {
-      if (!read && this.mnums.indexOf(mnum)===-1) {
-        this.mnums.push(mnum)
+      if (!read) {
         this.$store.dispatch("mesRead", { mnum: mnum });
-       
+        this.msgs.find((item) => {
+          if (item.mnum === mnum) {
+            item.read = true;
+            return true;
+          }
+        });
       }
     },
     mestime: function (x) {
