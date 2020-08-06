@@ -26,6 +26,7 @@ export default {
           other: this.id,
           content: this.mesval,
         });
+        this.mesval = '';
         let com = document.querySelector(".detaillist");
         setTimeout(() => {
           com.scrollTop = 9999999999;

@@ -10,22 +10,51 @@
 <script>
 import login from "./components/login.vue";
 import buble from "./components/buble.vue";
-
+const storage = window.sessionStorage;
 export default {
   name: "App",
   components: {
     login,
     buble,
   },
+  mounted: function () {
+    console.log(storage);
+    this.$store.dispatch("init", {});
+    if (
+      storage.getItem("jwt-auth-token").length > 0 &&
+      storage.getItem("idvalid") !== "true"
+    ) {
+      this.$router.push({ name: "emailcheck" });
+    }
+  },
+  beforeUpdate: function () {
+    if (this.userNick) {
+      this.$store.dispatch("update", {});
+    }
+    if (
+      storage.getItem("jwt-auth-token").length > 0 &&
+      storage.getItem("idvalid") !== "true"
+    ) {
+      this.$router.push({ name: "emailcheck" });
+    }
+  },
   computed: {
     userNick: function () {
       return this.$store.state.userstore.userNick;
+    },
+  },
+  methods: {
+    update: function () {
+      this.$store.dispatch("News", {});
     },
   },
 };
 </script>
 
 <style lang="scss">
+body{
+  overflow-x: hidden;
+}
 .vue-notifyjs.notifications {
   .alert {
     z-index: 10000;

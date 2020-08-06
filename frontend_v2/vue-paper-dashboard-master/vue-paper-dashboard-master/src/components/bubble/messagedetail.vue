@@ -3,17 +3,13 @@
     <section class="detaillist">
       <div class="eachMes" v-for="mes in msgs" :key="mes.mnum" :class="{read:mes.read}">
         <div v-if="mes.fromUser === myid" class="me">
-          <i class="fas fa-envelope-open-text">나</i>
+          <i class="ti-email">나</i>
           <div class="mesContent">
             {{mes.content}}
             <h6>
               <div class="dropdown">
-                <i class="fas fa-ellipsis-h" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
+                <i class="ti-more-alt" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
 
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <div class="dropdown-item" @click="mes(target.target)"></div>
-                  <div class="dropdown-item">프로필 보기</div>
-                </div>
               </div>
               <span>{{mestime(mes.time)}}</span>
             </h6>
@@ -21,7 +17,7 @@
         </div>
         <div v-else class="you">
           <span>
-            <i class="fas fa-envelope-open-text">{{mes.fromUser}}</i>
+            <i class="ti-email">{{mes.fromUser}}</i>
             <strong v-if="!mes.read">읽지 않음</strong>
           </span>
           <div class="mesContent" @mouseenter="read(mes.mnum,mes.read)">
@@ -29,11 +25,8 @@
             <h6>
               <span>{{mestime(mes.time)}}</span>
               <div class="dropdown">
-                <i class="fas fa-ellipsis-h" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <div class="dropdown-item" @click="mes(target.target)">메세지</div>
-                  <div class="dropdown-item">프로필 보기</div>
-                </div>
+                <i class="ti-more-alt" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
+                
               </div>
             </h6>
           </div>

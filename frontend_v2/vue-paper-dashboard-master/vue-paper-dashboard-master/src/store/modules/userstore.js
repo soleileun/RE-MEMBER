@@ -50,7 +50,6 @@ const userstore = {
         },
         update: (store) => {
             console.log("up")
-            console.log(storage.getItem("jwt-auth-token"))
             // 메세지
             http.get('/api/message/' + storage.getItem("userid"), {
                 headers: {
