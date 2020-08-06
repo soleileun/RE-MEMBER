@@ -117,7 +117,7 @@ export default {
         "http://localhost:8081/projectdetail.jsp?pid=" +
         this.project.pid +
         "&userId=" +
-        "ssafy"; //여기 세션 아이디로 교체
+        storage.getItem('userid'); //여기 세션 아이디로 교체
       var name = "project detail";
       var option =
         "width = 1000, height = 750, top = 100, left = 200, location = no";

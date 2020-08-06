@@ -12,7 +12,7 @@
     <td class="table-row__td">
       <div class="table-row__img"></div>
       <div class="table-row__info">
-        <p class="table-row__name">{{recruit.makeId}}</p>
+        <p class="table-row__name"><router-link :to="'/profile/' + recruit.makeId">{{recruit.makeId}}</router-link></p>
         <!-- <span class="table-row__small">CFO</span>  부직위 -->
       </div>
     </td>
