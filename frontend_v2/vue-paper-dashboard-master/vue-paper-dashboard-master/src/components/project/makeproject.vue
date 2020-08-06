@@ -2,7 +2,7 @@
   <div id="makepjt" class="container-contact100">
     <div class="wrap-contact100">
       <br />
-      <form class="contact100-form validate-form">
+      <div class="contact100-form validate-form" >
         <span class="contact100-form-title">
           <h2>프로젝트 생성페이지</h2>
         </span>
@@ -58,7 +58,7 @@
             </button>
           </div>
         </div>
-      </form>
+      </div>
     </div>
   </div>
 </template>
@@ -119,7 +119,8 @@ export default {
           //location: this.wproject.location,
         });
         //userid 수정해야됨!
-        this.$router.push({ path: "/project/myproject/" + userId });
+        this.$router.push("/project/myproject/" + this.userId);
+        console.log(this.userId);
       } else {
         console.log("공백입력.");
       }
