@@ -23,23 +23,14 @@ export default {
   },
   methods: {
     submit: function() {
-      // 운영자에게 쪽지 보내기로 구현
-      let form = new FormData();
-      form.append("to", "admin");
-      form.append("title", this.reporttype);
-      form.append("content", this.reportVal);
-      axios({
-        method: "post",
-        url: "쪽지 url",
-        data: form,
-        responseType: "json"
-      })
-        .then(response => {
-          console.log(response.data);
-        })
-        .catch(e => {
-          console.log(e);
+      if (this.mesval !== "") {
+        this.$store.dispatch("sendMes", {
+          other: "admin",
+          content: `[${this.reporttype}]` + this.reportVal,
         });
+        this.reportVal = '';
+        
+      }
     }
   }
 };

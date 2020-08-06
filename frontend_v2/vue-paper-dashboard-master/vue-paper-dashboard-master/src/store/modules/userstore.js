@@ -275,7 +275,11 @@ const userstore = {
             state.logining = false;
         },
         loadMesList: (state, payload) => {
-            state.messageList = payload.messageList.filter(item => item.fromUser !== "admin");
+            if( storage.getItem("userid")!=="admin"){
+                state.messageList = payload.messageList.filter(item => item.fromUser !== "admin");
+            }else{
+                state.messageList = payload.messageList;
+            }
             state.bubbleNew = false
             if (state.messageList.find(item => item.fromUser !== storage.getItem("userid") && item.read === false)) {
                 state.bubbleNew = true
