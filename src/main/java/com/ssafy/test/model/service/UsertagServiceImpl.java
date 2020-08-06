@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ssafy.test.model.dao.UsertagDAO;
+import com.ssafy.test.model.dto.AddrAndTag;
 import com.ssafy.test.model.dto.TagList;
 import com.ssafy.test.model.dto.TagResult;
 import com.ssafy.test.model.dto.UserInfo;
@@ -51,6 +52,12 @@ public class UsertagServiceImpl implements UsertagService{
 	public List<UserInfo> selectSimilar(TagList v) {
 		// TODO Auto-generated method stub
 		return Dao.selectSimilar(v);
+	}
+
+	@Override
+	public List<UserInfo> selectAddrAndTag(AddrAndTag v) {
+		// TODO Auto-generated method stub
+		return Dao.selectAddrAndTag(v);
 	}
 	
 }

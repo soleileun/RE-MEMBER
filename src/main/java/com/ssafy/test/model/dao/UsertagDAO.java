@@ -2,8 +2,8 @@ package com.ssafy.test.model.dao;
 
 import java.util.List;
 
+import com.ssafy.test.model.dto.AddrAndTag;
 import com.ssafy.test.model.dto.TagList;
-import com.ssafy.test.model.dto.TagResult;
 import com.ssafy.test.model.dto.UserInfo;
 import com.ssafy.test.model.dto.Usertag;
 
@@ -21,4 +21,6 @@ public interface UsertagDAO {
 	public List<UserInfo> selectSame(TagList v);
 	
 	public List<UserInfo> selectSimilar(TagList v);
+	
+	public List<UserInfo> selectAddrAndTag(AddrAndTag v);
 }

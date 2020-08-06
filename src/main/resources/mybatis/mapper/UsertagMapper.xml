@@ -56,16 +56,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		having count(tagvalue) >= #{cnt}
 		
 	);
-	<!--
-	select * 
-	from usertag
-	where tagvalue like CONCAT('%',#{tag1},'%') and 
-	tagvalue like  CONCAT('%',#{tag2},'%') and
-	tagvalue like  CONCAT('%',#{tag3},'%') and
-	tagvalue like  CONCAT('%',#{tag4},'%') and
-	tagvalue like  CONCAT('%',#{tag5},'%')
+	</select>
 	
-	-->
+	
+	<select id="selectAddrAndTag" parameterType="addrandtag" resultType="userinfo">
+	select id, nickname, name, address2, git, lastDate, state, responsibility, isValid
+	from userInfo
+	where address2 like CONCAT('%',#{sido},'%')
+    and address2 like CONCAT('%',#{gugun},'%')
+    and address2 like CONCAT('%',#{dong},'%')
+	and id in (
+		select  uid
+		from (
+			select * from usertag
+			where tagvalue in  (#{tag1},#{tag2},#{tag3},#{tag4},#{tag5})
+		) as b
+		group by uid
+		having count(tagvalue) >= #{cnt}
+	);
 	</select>
 	
 	

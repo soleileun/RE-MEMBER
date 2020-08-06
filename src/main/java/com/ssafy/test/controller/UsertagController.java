@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.test.model.dto.AddrAndTag;
 import com.ssafy.test.model.dto.TagList;
 import com.ssafy.test.model.dto.TagResult;
 import com.ssafy.test.model.dto.UserInfo;
@@ -107,6 +108,28 @@ public class UsertagController {
 	}
 
 
+
+	@ApiOperation(value = "태그와 주소 혼합해서 검색하는 것.", response = Usertag.class)
+	@GetMapping("selectAddrAndTag/tag={tag}&addr={addr}")
+	public ResponseEntity<List<UserInfo>> selectAddrAndTag(@PathVariable String tag,@PathVariable String addr) {
+		AddrAndTag v = new AddrAndTag();
+		String a[] = tag.split(",");
+		String b[] = addr.split(",");
+		
+		if(a.length > 0) v.setTag1(a[0]);
+		if(a.length > 1) v.setTag2(a[1]);
+		if(a.length > 2) v.setTag3(a[2]);
+		if(a.length > 3) v.setTag4(a[3]);
+		if(a.length > 4) v.setTag5(a[4]);
+		v.setCnt(a.length);
+		v.setSido(b[0]);
+		v.setGugun(b[1]);
+		v.setDong(b[2]);
+		//어차피 널이 들어감.
+
+		return new ResponseEntity<List<UserInfo>>(Service.selectAddrAndTag(v), HttpStatus.OK);
+	}
+	
 
 	private ResponseEntity<Map<String, Object>> handleSuccess(Object data) {
 		Map<String, Object> resultMap = new HashMap<>();
