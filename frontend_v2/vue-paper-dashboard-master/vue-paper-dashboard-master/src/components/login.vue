@@ -24,9 +24,9 @@
         <div @click="loginexit">
           <router-link to="/signup">회원가입</router-link>
         </div>
-        <div @click="loginexit">
+        <!-- <div @click="loginexit">
           <router-link to="/user/findid">아이디 / 비밀번호 찾기</router-link>
-        </div>
+        </div> -->
         <div class="text-center">
           <p-button type="info" round @click.native.prevent="goLogin">로그인</p-button>
         </div>
