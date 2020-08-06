@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.test.model.dto.Addr;
 import com.ssafy.test.model.dto.AddrAndTag;
+import com.ssafy.test.model.dto.Interest;
 import com.ssafy.test.model.dto.TagList;
 import com.ssafy.test.model.dto.UserInfo;
 import com.ssafy.test.model.dto.Usertag;
@@ -41,22 +42,22 @@ public class UsertagController {
 
 	@ApiOperation(value = "특정 유저의 모든 tagvalue 정보를 반환한다.", response = List.class)
 	@GetMapping("selet/uid={uid}")
-	public ResponseEntity<List<Usertag>> retrieveBoard(@PathVariable String uid) throws Exception {
-		return new ResponseEntity<List<Usertag>>(Service.selectAll(uid), HttpStatus.OK);
+	public ResponseEntity<List<Interest>> retrieveBoard(@PathVariable String uid) throws Exception {
+		return new ResponseEntity<List<Interest>>(Service.selectAll(uid), HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "특정 유저가 가진 특정 tagvalue의 정보를 반환한다.", response = Usertag.class)
 	@GetMapping("no/tagvalue={tagvalue}&uid={uid}")
-	public ResponseEntity<Usertag> detailnoBoard(@PathVariable String tagvalue, @PathVariable String uid) {
-		Usertag v = new Usertag();
-		v.setTagvalue(tagvalue);
-		v.setUid(uid);
-		return new ResponseEntity<Usertag>(Service.select(v), HttpStatus.OK);
+	public ResponseEntity<Interest> detailnoBoard(@PathVariable String tagvalue, @PathVariable String uid) {
+		Interest v = new Interest();
+		v.setInterest(tagvalue);
+		v.setId(uid);
+		return new ResponseEntity<Interest>(Service.select(v), HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "새로운 유저태그 정보를 입력한다. 그리고 DB입력 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
 	@PostMapping
-	public ResponseEntity<String> writeBoard(@RequestBody Usertag v) {
+	public ResponseEntity<String> writeBoard(@RequestBody Interest v) {
 		if (Service.insert(v) != 0) {
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		}
@@ -66,9 +67,9 @@ public class UsertagController {
 	@ApiOperation(value = "특정 유저의 특정 tagvalue를 삭제합니다.. 그리고 DB삭제 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
 	@DeleteMapping("delete/tagvalue={tagvalue}&uid={uid}")
 	public ResponseEntity<String> deleteBoard(@PathVariable String tagvalue, @PathVariable String uid) {
-		Usertag v = new Usertag();
-		v.setTagvalue(tagvalue);
-		v.setUid(uid);
+		Interest v = new Interest();
+		v.setInterest(tagvalue);
+		v.setId(uid);
 		Service.delete(v);
 		return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 

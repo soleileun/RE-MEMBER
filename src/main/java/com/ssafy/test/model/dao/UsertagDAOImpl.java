@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.ssafy.test.model.dto.AddrAndTag;
+import com.ssafy.test.model.dto.Interest;
 import com.ssafy.test.model.dto.TagList;
 import com.ssafy.test.model.dto.TagResult;
 import com.ssafy.test.model.dto.UserInfo;
@@ -22,22 +23,22 @@ public class UsertagDAOImpl implements UsertagDAO{
 	
 
 	@Override
-	public List<Usertag> selectAll(String k) {
+	public List<Interest> selectAll(String k) {
 		return template.selectList(ns + "selectAll",k);
 	}
 
 	@Override
-	public Usertag select(Usertag v) {
+	public Interest select(Interest v) {
 		return template.selectOne(ns + "select", v);
 	}
 
 	@Override
-	public int insert(Usertag v) {
+	public int insert(Interest v) {
 		return template.insert(ns + "insert", v);
 	}
 
 	@Override
-	public int delete(Usertag v) {
+	public int delete(Interest v) {
 		return template.delete(ns + "delete", v);
 	}
 
