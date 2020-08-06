@@ -20,7 +20,6 @@ import signup from "./link/signup.vue";
 import emailcheck from "./link/emailcheck.vue";
 import recruit1 from "../components/recruit/recruit1.vue";
 import recruitdetail from "../components/recruit/recruitdetail.vue";
-import registteam from "../components/recruit/registteam.vue";
 import writeqa from "../components/qaboard/writeqa.vue";
 import detailqa from "../components/qaboard/detailqa.vue";
 import modifyqa from "../components/qaboard/modifyqa.vue";
@@ -176,11 +175,8 @@ const routes = [{
         name: "모집 상세",
         component: recruitdetail,
       },
+      
       {
-        path: "/recruit/registteam",
-        name: "모집 등록",
-        component: registteam,
-      }, {
         path: "/signup",
         name: "회원 가입",
         component: signup,

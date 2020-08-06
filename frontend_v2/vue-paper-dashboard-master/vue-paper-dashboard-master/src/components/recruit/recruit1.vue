@@ -147,30 +147,36 @@
             <input type="text" v-model="wrecruit.title" placeholder="제목을 입력하세요" />
           </div>
         </div>
-
-        <!-- 기술 스택 필터 추가 -->
-        <div class="selectform">
-          <div v-for="(pick,index) in picks2" :key="index">
-            <button>{{pick}}</button>
-            <button v-on:click="deleteStack2(index)">X</button>
+        <div class="row">
+          <div class="col-25">
+            <label for="lname">기술 태그 입력</label>
           </div>
-        </div>기술 태그 입력(현재 영어로만. 후에 한글까지 추가 예정입니다.)
-        <div class="searchform">
-          <div class="input">
-            <input
-              id="stackWord2"
-              type="text"
-              v-model="inputVal2"
-              @input="searchQuery2()"
-              @keyup.enter="enter()"
-              placeholder="기술 태그 입력해주세요"
-            />
+          <div class="col-75">
+            <!-- 기술 스택 필터 추가 -->
+            <div class="selectform">
+              <div v-for="(pick,index) in picks2" :key="index">
+                <button>{{pick}}</button>
+                <button v-on:click="deleteStack2(index)">X</button>
+              </div>
+            </div>
+            <div class="searchform">
+              <div class="input">
+                <input
+                  id="stackWord2"
+                  type="text"
+                  v-model="inputVal2"
+                  @input="searchQuery2()"
+                  @keyup.enter="enter()"
+                  placeholder="기술 태그 입력해주세요"
+                />
+              </div>
+              <table class="autoComplete">
+                <tr v-for="list in lists2" :key="list" @click="add2(list)">
+                  <td>{{list}}</td>
+                </tr>
+              </table>
+            </div>
           </div>
-          <table class="autoComplete">
-            <tr v-for="list in lists2" :key="list" @click="add2(list)">
-              <td>{{list}}</td>
-            </tr>
-          </table>
         </div>
 
         <div class="row">
@@ -181,6 +187,7 @@
             <textarea cols="30" rows="10" v-model="wrecruit.contents" placeholder="내용을 입력하세요"></textarea>
           </div>
         </div>
+        
         <div class="row">
           <button @click="addRecruit">등록</button>
         </div>
@@ -238,6 +245,7 @@
   </div>
 </template>
 
+<script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
 <script>
 import Constant from "../../Constant";
 import recruitcomponent from "@/components/recruit/recruitcomponent.vue";
@@ -342,7 +350,7 @@ export default {
         "GraphQL",
       ],
       picks: [],
-      picks2:[],
+      picks2: [],
       inputVal: "",
       inputVal2: "",
     };
@@ -383,19 +391,25 @@ export default {
       };
     },
     addRecruit() {
-      let radioValue = document.getElementsByName("pjtList");
+      let ppid = $("#myproject option:selected").val();
+      console.log('선택된 프로젝트넘버 : '+ppid);
       if (this.wrecruit.contents.trim() != "") {
         this.$store.dispatch(Constant.ADD_RECRUIT, {
           //rnum:'',
-          pid: radioValue,
+          pid: ppid,
           title: this.wrecruit.title,
           contents: this.wrecruit.contents,
           endDate: this.wrecruit.endDate,
           makeDay: this.wrecruit.makeDay,
           changeDay: this.wrecruit.changeDay,
-          makeId: this.wrecruit.makeId,
-          changeId: this.wrecruit.changeId,
+          makeId: this.loginId,
+          changeId: this.loginId,
         });
+
+        for (let i = 0; i < this.picks2.length; i++) {
+          this.$store.dispatch(Constant.ADD_PINTEREST,{pid:ppid, interest:this.picks2[i]});
+        }
+
         this.$router.push("/recruit/recruit1");
       } else {
         console.log("공백입력.");

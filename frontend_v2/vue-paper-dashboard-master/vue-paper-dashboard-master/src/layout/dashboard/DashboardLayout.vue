@@ -10,7 +10,7 @@
         <sidebar-link to="/notice" name="공지사항" icon="ti-announcement" />
         <sidebar-link to="/service" name="고객센터" icon="ti-headphone-alt" />
          <!-- 서버에 올릴땐 빼주세요 -->
-        <sidebar-link to="/4444" name="<<<<서버에 올릴때는 꼭 빼주세요<<" icon="ti-panel" />
+        <!-- <sidebar-link to="/4444" name="<<<<서버에 올릴때는 꼭 빼주세요<<" icon="ti-panel" />
 
         <sidebar-link to="/dashboard" name="Dashboard" icon="ti-panel" />
         <sidebar-link to="/stats" name="User Profile" icon="ti-user" />
@@ -18,7 +18,7 @@
         <sidebar-link to="/typography" name="Typography" icon="ti-text" />
         <sidebar-link to="/icons" name="Icons" icon="ti-pencil-alt2" />
         <sidebar-link to="/maps" name="Map" icon="ti-map" />
-        <sidebar-link to="/notifications" name="Notifications" icon="ti-bell" />
+        <sidebar-link to="/notifications" name="Notifications" icon="ti-bell" /> -->
       </template>
       <mobile-menu>
         <li class="nav-item" v-if="userNick">

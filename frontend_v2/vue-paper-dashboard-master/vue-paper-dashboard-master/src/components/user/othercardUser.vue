@@ -33,8 +33,15 @@ export default {
       inters:[]
     };
   },
-  mounted: function () {
-    http
+  watch:{
+    userid:function(){
+      this.init()
+    }
+  },
+
+  methods: {
+    init(){
+      http
       .get("/api/interest/selectById/" + this.userid )
       .then((response) => {
         if (response.data.length > 0) {
@@ -44,9 +51,8 @@ export default {
         }
       })
       .catch((exp) => alert("관심사를 로드하는데에 실패하였습니다." + exp));
+    }
   },
-
-  methods: {},
 };
 </script>
 <style>

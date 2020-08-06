@@ -50,15 +50,29 @@ const recruitstore = {
             })
             .then(() => {
                 console.log('추가하였습니다.');
-                store.dispatch(Constant.GET_RECRUITLIST);
-
             })
             .catch(exp => {
                 console.log('추가 실패 확인 로그');
-                alert('추가 처리에 실패하였습니다.' + exp);
+                alert('리쿠르트 추가 처리에 실패하였습니다.' + exp);
             })
     },
    
+    [Constant.ADD_PINTEREST]: (store, payload) => {
+      console.log(payload);
+      http.post('/api/pinterest/', {
+              pid: payload.pid,
+              interest: payload.interest,
+          })
+          .then(() => {
+              console.log('추가하였습니다.');
+              store.dispatch(Constant.GET_RECRUITLIST);
+
+          })
+          .catch(exp => {
+              console.log('추가 실패 확인 로그');
+              alert('피인터레스트 추가 처리에 실패하였습니다.' + exp);
+          })
+  },
     // //댓글 삭제
     // [Constant.REMOVE_COMMENT]: (store, payload) => {
     //     http.delete('/api/comments/delete/' + payload.cno)
