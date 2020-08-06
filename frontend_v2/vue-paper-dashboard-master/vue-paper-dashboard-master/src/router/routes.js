@@ -11,6 +11,7 @@ import qaboard from "./link/qaboard.vue";
 import recruit from "./link/recruit.vue";
 import service from "./link/service.vue";
 import profile from "./link/profile.vue";
+import othersprofile from "./link/othersprofile.vue";
 // 우리 리브
 import findIDPW from "../components/user/findIDPW.vue";
 import leave from "../components/user/leave.vue";
@@ -93,10 +94,16 @@ const routes = [{
         path: "/pool",
         name: "인재풀",
         component: pool,
-      }, {
+      },
+       {
         path: "/profile",
         name: "프로필",
         component: profile,
+      },
+       {
+        path: "/profile/:userid",
+        name: "프로필보기",
+        component: othersprofile,
       },
       /////////// 잎파리
 

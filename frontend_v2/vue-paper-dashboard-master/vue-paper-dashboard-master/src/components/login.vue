@@ -4,13 +4,14 @@
     <div>
       <form @submit.prevent>
         <div class="row">
-          <div class="col-md-12">
-            <fg-input type="text" label="아이디" placeholder="E-mail" v-model="id" @keyup.enter="goLogin"></fg-input>
+          <div class="col-md-12"  @keyup.enter="goLogin">
+            <fg-input type="text" label="아이디" placeholder="E-mail" v-model="id"></fg-input>
           </div>
         </div>
         <div class="row">
-          <div class="col-md-12">
-            <fg-input type="password" label="비밀번호" placeholder="password" v-model="pw" @keyup.enter="goLogin"></fg-input>
+          <div class="col-md-12"  @keyup.enter="goLogin">
+            <fg-input type="password" label="비밀번호" placeholder="password" v-model="pw"
+            ></fg-input>
           </div>
         </div>
         {{error}}<br>
