@@ -16,12 +16,24 @@
             </ul>
           </div>
           <div class="col-12 selectform">
-            <button class="btn btn-primary" v-for="pick in picks" :key="pick" @click="del(pick)">{{pick}}</button>
+            <button
+              class="btn btn-primary"
+              v-for="pick in picks"
+              :key="pick"
+              @click="del(pick)"
+            >{{pick}}</button>
             <br />
           </div>
           <div class="col-12 searchform">
             <div class="input">
-              <input type="text" v-model="inputVal" @input="searchQuery()" @keyup.up="up()" @keyup.down="down()" @keyup.enter="enter()" />
+              <input
+                type="text"
+                v-model="inputVal"
+                @input="searchQuery()"
+                @keyup.up="up()"
+                @keyup.down="down()"
+                @keyup.enter="enter()"
+              />
             </div>
             <div class="autoComplete">
               <div v-for="list in lists" :key="list" @click="add(list)">{{list}}</div>
@@ -29,7 +41,11 @@
           </div>
           <div class="col-12">
             <br />
-            <button class="gosignup btn btn-success" @click="gosignup" :class="{submitable:submitable&&signup}">회원가입</button>
+            <button
+              class="gosignup btn btn-success"
+              @click="gosignup"
+              :class="{submitable:submitable&&signup}"
+            >회원가입</button>
           </div>
         </div>
       </form>
@@ -122,6 +138,7 @@ export default {
       if (this.submitable) {
         this.$emit("goSignup");
         this.$store.commit("interest", { picks: this.picks });
+        this.$router.push("/main");
       }
     },
     add: function (x) {

@@ -1,5 +1,7 @@
 <template>
+<div>
   <card class="card-user"  display: inline-block>
+    
     <div slot="image">
       <img src="@/assets/img/background.jpg" alt="..." />
     </div>
@@ -26,12 +28,26 @@
       <div class="row justify-content-md-center">
         <div clss="col-lg-4">
           <button id="myBtn" @click="openModal" class="btn btn-round btn-dark">팀원관리</button>
+        
         </div>
         <span></span>
         <div clss="col-lg-8">
           <button v-on:click="popup()" class="btn btn-round btn-success">일정관리페이지</button>
         </div>
-        <!-- The Modal -->
+
+        <!-- <div v-for="(info, index) in details" :key="index" :class="getClasses(index)">
+          <h5>
+            {{info.title}}
+            <br />
+            <small>{{info.subTitle}}</small>
+          </h5>
+        </div>-->
+      </div>
+      
+    </div>
+  
+  </card>
+            <!-- The Modal -->
         <div id="myModal" class="modal">
           <!-- Modal content -->
           <div class="modal-content">
@@ -43,16 +59,7 @@
             </ul>
           </div>
         </div>
-        <!-- <div v-for="(info, index) in details" :key="index" :class="getClasses(index)">
-          <h5>
-            {{info.title}}
-            <br />
-            <small>{{info.subTitle}}</small>
-          </h5>
-        </div>-->
-      </div>
-    </div>
-  </card>
+  </div>
   <!-- <a href=""> 클릭 시 링크 설정 -->
   <!-- <router-link :to="'/project/projectdetail/'+project.pid"> -->
 
@@ -475,7 +482,7 @@ export default {
 .modal {
   display: none; /* Hidden by default */
   position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
+  z-index: 9999; /* Sit on top */
   left: 0;
   top: 0;
   width: 100%; /* Full width */
