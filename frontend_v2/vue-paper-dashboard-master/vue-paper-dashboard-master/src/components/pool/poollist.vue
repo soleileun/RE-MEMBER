@@ -119,7 +119,7 @@
             </p>
             <!-- <button class="btn btn--block card__btn">Button</button> -->
             <router-link
-              :to="'/project/myproject/' + pool.id"
+              :to="'/project/' + pool.id"
               tag="button"
               class="btn btn--block card__btn"
             >프로젝트 보기</router-link>
@@ -129,7 +129,11 @@
               class="btn btn--block card__btn"
             >프로필 보기</router-link>
             <button class="btn btn--block card__btn" @click="fol(pool.id)">팔로우하기</button>
-            <a class="btn btn--block card__btn" v-if="pool.git" :href="'https://github.com/'+pool.git">Git</a>
+            <a
+              class="btn btn--block card__btn"
+              v-if="pool.git"
+              :href="'https://github.com/'+pool.git"
+            >Git</a>
           </div>
         </div>
       </li>
@@ -195,7 +199,6 @@ export default {
     };
   },
   computed: {
-    
     pools() {
       return this.$store.state.poolstore.pools;
     },
