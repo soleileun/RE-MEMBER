@@ -217,6 +217,7 @@ const userstore = {
           followings: res.data
         })
         alert('팔로우 되었습니다!')
+        store.dispatch('getFollow')
       }).catch(exp => console.log(exp))
     },
     delFollow: (store, payload) => {
