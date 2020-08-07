@@ -144,11 +144,15 @@ const userstore = {
               }).then(res => {
                 console.log(res)
               }).catch(e => console.log(e))
+              router.push({
+                path: "/main"
+              });
           });
           store.dispatch("login", {
             id: payload.id,
             pw: payload.pw
           });
+          
         })
         .catch((e) => console.log(e));
     },
@@ -212,6 +216,7 @@ const userstore = {
         store.commit('newFollow', {
           followings: res.data
         })
+        alert('팔로우 되었습니다!')
       }).catch(exp => console.log(exp))
     },
     delFollow: (store, payload) => {
