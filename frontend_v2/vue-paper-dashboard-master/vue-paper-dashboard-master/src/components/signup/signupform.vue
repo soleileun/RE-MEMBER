@@ -7,9 +7,13 @@
           <div class="col-md-12">
             <br />
           </div>
-          <div class="col-md-12">
+          <div class="col-md-8">
             이메일(아이디)
             <fg-input type="text" placeholder="example@naver.com" v-model="id"></fg-input>
+          </div>
+          <div class="col-md-4">
+            <br />
+            <button class="btn btn-info btn-round" @click="jungbok">중복조회</button>
           </div>
           <div class="col-md-12">
             {{error.id}}
@@ -65,10 +69,9 @@
             <DaumPostcode :on-complete="handleAddress" />
           </div>
           <div class="col-12">
-          {{error.address}}
-          <br />
-          <br />
-
+            {{error.address}}
+            <br />
+            <br />
           </div>
           <div class="col-4">
             전화번호
@@ -85,9 +88,14 @@
             <br />
             <fg-input id="p2" type="text" maxlength="4" placeholder="0000" v-model="phone2"></fg-input>
           </div>
-          <div class="col-12">
+          <div class="col-3">
             깃 주소
-            <fg-input id="p2" type="text" placeholder="https://github.com/example" v-model="git"></fg-input>
+            <br />
+            <button class="btn">https://github.com/</button>
+          </div>
+          <div class="col-9">
+            <br />
+            <fg-input type="text" placeholder="example" v-model="git"></fg-input>
           </div>
           <div class="col-12">
             포지션
@@ -103,7 +111,7 @@
                 <input v-model="responsibility" type="radio" value="기획" />
                 기획
               </span>
-              <br>
+              <br />
               {{error.responsibility}}
               <br />
               <br />
@@ -137,6 +145,7 @@ import PV from "password-validator";
 import * as EmailValidator from "email-validator";
 import DaumPostcode from "vuejs-daum-postcode";
 import signupInterest from "./signupInterest.vue";
+import http from "../../http-common.js";
 
 export default {
   name: "signupform",
@@ -189,6 +198,7 @@ export default {
         phone: "",
         responsibility: "",
       },
+      jungboks: false,
       responsibility: "",
     };
   },
@@ -200,6 +210,7 @@ export default {
       this.checker();
     },
     id: function () {
+      this.jungboks = false;
       this.checker();
     },
     name: function () {
@@ -236,6 +247,27 @@ export default {
     },
   },
   methods: {
+    jungbok() {
+      if (this.error.id === "" && this.id !== "") {
+        http
+          .get("/api/userinfo/")
+          .then((res) => {
+            if (
+              !res.data.find((item) => {
+                if (item.id === this.id) {
+                  alert(`이미 가입된 이메일입니다.`);
+                  this.jungboks = false;
+                  return true;
+                }
+              })
+            ) {
+              alert("사용 가능한 이메일입니다.");
+              this.jungboks = true;
+            }
+          })
+          .catch((exp) => console.log("서버가 불안정합니다." + exp));
+      }
+    },
     chek: function (a) {
       this.responsibility = a;
     },
@@ -249,12 +281,13 @@ export default {
         // fullAddress += extraAddress !== "" ? ` (${extraAddress})` : "";
       }
       this.address1 = fullAddress;
-      this.address2 = fullAddress.split(' ').slice(0,-2).join(' ') +' '+extraAddress;
+      this.address2 =
+        fullAddress.split(" ").slice(0, -2).join(" ") + " " + extraAddress;
       this.postAct = false;
     },
     checker() {
       //     id: "",
-      if (!EmailValidator.validate(this.id)) {
+      if (!EmailValidator.validate(this.id)||this.id.split('.')[1].length>3) {
         this.error.id = "이메일 형식이 아닙니다.";
       } else {
         this.error.id = "";
@@ -313,7 +346,10 @@ export default {
       }
     },
     goSignup: function () {
-      if (this.submitable) {
+      if (!this.jungboks) {
+        alert("아이디 중복조회를 하세요");
+      } else if (this.submitable) {
+        alert(this.pw)
         this.$store.dispatch("signup", {
           id: this.id,
           pw: this.pw,

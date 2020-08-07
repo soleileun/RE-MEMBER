@@ -30,7 +30,7 @@
 <script>
 import Constant from '../../Constant';
 import comment from '../comment/comment';
-
+const storage = window.sessionStorage;
 export default {
   components:{
     comment
@@ -111,14 +111,14 @@ export default {
           this.$store.dispatch(Constant.ADD_COMMENT,{
             // cno :this.comment2.cno,
             // cwriter:this.comment2.cwriter,
-            cwriter:'ssafy',
+            cwriter:storage.getItem('userid'),
             ccontent:this.comment2.ccontent,
             bno:this.board.bno,
             isSelected:this.comment2.isSelected,
             makeDay:new Date(),
             // changeDay:this.comment2.changeDay,
             // makeId:this.comment2.makeId,
-            makeId:'ssafy',
+            makeId:storage.getItem('userid'),
             // changeId:this.comment2.changeId
           });
           alert('댓글 추가가 완료되었습니다.');

@@ -246,7 +246,7 @@ export default {
           makeDay: new Date(),
           // changeDay:this.comment2.changeDay,
           // makeId:this.comment2.makeId,
-          makeId: "ssafy",
+          makeId: storage.getItem("userid"),
           // changeId:this.comment2.changeId
         });
         alert("댓글 추가가 완료되었습니다.");

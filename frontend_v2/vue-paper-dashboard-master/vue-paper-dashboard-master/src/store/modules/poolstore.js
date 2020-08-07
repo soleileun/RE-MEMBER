@@ -76,7 +76,7 @@ const poolstore = {
   mutations: {
     [Constant.GET_POOLLIST]: (state, payload) => {
         // console.log('mutation' + payload.boards);
-        state.pools = payload.pools;
+        state.pools = payload.pools.filter(item=>item.responsibility!=="admin");
     },
     
   },

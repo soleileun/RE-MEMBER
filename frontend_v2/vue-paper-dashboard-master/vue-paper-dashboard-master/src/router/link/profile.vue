@@ -14,8 +14,12 @@
             <div class="card-body">
               <center class="m-t-30">
                 <h4 class="card-title m-t-10">내 관심사</h4>
-                <div class="ints btn btn-success" v-for="inter in inters" :key="inter.interest">{{inter.interest}}</div>
-                <hr>
+                <div
+                  class="ints btn btn-success"
+                  v-for="inter in inters"
+                  :key="inter.interest"
+                >{{inter.interest}}</div>
+                <hr />
                 <router-link class="nav-link" to="/user/editinterest">
                   <button class="btn btn-info">관심사 수정</button>
                 </router-link>
@@ -26,7 +30,7 @@
           <div class="card">
             <div class="card-body">
               <center class="m-t-30">
-                <router-link class="nav-link" to="/myproject">
+                <router-link class="nav-link" :to="`project/myproject/${userId}`">
                   <button class="profBtn btn btn-info">내 프로젝트 보기</button>
                 </router-link>
                 <router-link class="nav-link" to="/user/editinfo">
@@ -84,8 +88,14 @@ export default {
   data: function () {
     return {
       userNick: storage.getItem("userNick"),
-      inters:[]
+      userId: storage.getItem("userid"),
+      inters: [],
     };
+  },
+  computed:{
+    userid(){
+      return '/project/myproject/'+storage.getItem('userid')
+    }
   },
   methods: {},
 };
@@ -97,7 +107,7 @@ export default {
   margin: 5px;
   border-radius: 20px;
 }
-button.profBtn{
+button.profBtn {
   width: 70%;
   border-radius: 18px;
 }
