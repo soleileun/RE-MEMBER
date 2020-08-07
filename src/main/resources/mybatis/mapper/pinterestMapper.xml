@@ -32,7 +32,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		values(#{pid}, #{interest})
 	</insert>
 
-	<delete id="delete" parameterType="int">
+	<delete id="delete" parameterType="pinterest">
 		delete from pinterest where
 		pid=#{pid} and interest =#{interest}
 	</delete>
