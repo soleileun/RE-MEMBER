@@ -121,7 +121,6 @@ const userstore = {
       store.dispatch("init")
     },
     signup: (store, payload) => {
-      console.log(payload)
       http
         .post("/api/userinfo/", {
           id: payload.id,
