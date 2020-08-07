@@ -119,7 +119,7 @@
             </p>
             <!-- <button class="btn btn--block card__btn">Button</button> -->
             <router-link
-              :to="'/project/' + pool.id"
+              :to="'/project/myproject/' + pool.id"
               tag="button"
               class="btn btn--block card__btn"
             >프로젝트 보기</router-link>
