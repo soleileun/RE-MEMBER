@@ -2,7 +2,7 @@
   <div id="makepjt" class="container-contact100">
     <div class="wrap-contact100">
       <br />
-      <div class="contact100-form validate-form" >
+      <div class="contact100-form validate-form">
         <span class="contact100-form-title">
           <h2>프로젝트 생성페이지</h2>
         </span>
@@ -78,7 +78,7 @@ export default {
   created() {
     // 세션 아이디로 교체
     this.$store.dispatch(Constant.GET_PROJECTLIST_BY_PMEMBER, {
-      userId: storage.getItem('userid') // userId: "ssafy",
+      userId: storage.getItem("userid"), // userId: "ssafy",
     });
   },
   data() {
@@ -91,7 +91,7 @@ export default {
         pjtName: "",
         pjtContent: "",
         pjtState: "",
-        pjtMemberCnt: "",
+        pjtMemberCnt: 5,
         makeDay: "",
         changeDay: "",
         makeId: "",

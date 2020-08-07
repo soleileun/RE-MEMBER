@@ -6,7 +6,7 @@
       <div class="dropdown" v-for="target in followings.filter(item=> item.state ===true)" :key="target.id">
         <drop-down class="btn" :title="target.nickname+'님'">
           <div class="dropdown-item" @click="mes(target.id)">메세지</div>
-          <!-- <div class="dropdown-item" @click="doChat(target.id)">채팅하기</div> -->
+          <div class="dropdown-item" v-if="!rooms.find(item=>item === (target.id.split('@')[0]))" @click="doChat(target.id)">채팅하기</div>
           <div class="dropdown-item" @click="viewProf(target.id)">프로필 보기</div>
           <div class="dropdown-item" @click="delFollow(target.id)">팔로우 해제</div>
         </drop-down>
@@ -38,10 +38,20 @@ export default {
   },
   beforeCreate: function () {
     this.$store.dispatch("getFollow");
+    this.$store.dispatch(Constant.GET_CHATROOMLIST);
   },
   computed: {
     followings: function () {
       return this.$store.state.userstore.followings;
+    },
+    rooms() {
+      let tmp = [];
+      this.$store.state.chatstore.rooms.forEach((item) => {
+        item.roomName.split(",").forEach((item) => {
+          tmp.push(item);
+        });
+      });
+      return tmp;
     },
   },
   mounted: function () {},
@@ -58,10 +68,30 @@ export default {
     delFollow(id) {
       this.$store.dispatch("delFollow", { target: id });
     },
-    doChat(id){
-      this.$store.dispatch(Constant.ADD_CHATROOM,{roomName:`${storage.getItem("userid")}/${id}`,uid:storage.getItem("userid")})
-      this.$store.dispatch(Constant.ADD_CHATROOM,{roomName:`${storage.getItem("userid")}/${id}`,uid:id})
-    }
+    doChat(id) {
+      this.$store.dispatch(Constant.ADD_CHATROOM, {
+        roomName: `${storage.getItem("userid")},${id.split("@")[0]}`,
+        uid: storage.getItem("userid"),
+      });
+      this.$store.dispatch(Constant.ADD_CHATROOM, {
+        roomName: `${storage.getItem("userid")},${id.split("@")[0]}`,
+        uid: id,
+      });
+      this.$store.dispatch(Constant.SEND_CHAT, {
+        roomName: `${storage.getItem("userid")},${id.split("@")[0]}`,
+        id: "system",
+        nickname: "system",
+        content: `${storage.getItem("userid")}님이 입장하셨습니다.`,
+        date: new Date(),
+      });
+      this.$store.dispatch(Constant.SEND_CHAT, {
+        roomName: `${storage.getItem("userid")},${id.split("@")[0]}`,
+        id: "system",
+        nickname: "system",
+        content: `${id}님이 입장하셨습니다.`,
+        date: new Date(),
+      });
+    },
   },
 };
 </script>

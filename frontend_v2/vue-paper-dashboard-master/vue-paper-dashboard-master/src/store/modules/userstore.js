@@ -121,7 +121,6 @@ const userstore = {
       store.dispatch("init")
     },
     signup: (store, payload) => {
-      console.log(payload)
       http
         .post("/api/userinfo/", {
           id: payload.id,
@@ -144,11 +143,15 @@ const userstore = {
               }).then(res => {
                 console.log(res)
               }).catch(e => console.log(e))
+              router.push({
+                path: "/main"
+              });
           });
           store.dispatch("login", {
             id: payload.id,
             pw: payload.pw
           });
+          
         })
         .catch((e) => console.log(e));
     },
@@ -212,6 +215,8 @@ const userstore = {
         store.commit('newFollow', {
           followings: res.data
         })
+        alert('팔로우 되었습니다!')
+        store.dispatch('getFollow')
       }).catch(exp => console.log(exp))
     },
     delFollow: (store, payload) => {

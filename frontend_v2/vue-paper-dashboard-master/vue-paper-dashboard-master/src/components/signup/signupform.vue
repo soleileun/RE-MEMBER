@@ -215,7 +215,9 @@ export default {
     },
     name: function () {
       this.checker();
-      this.name = this.name.replace(/[^가-힣]/g, "");
+      setTimeout(()=>{
+        this.name = this.name.replace(/[^가-힣]/g, "");
+      },500)
     },
     nickname: function () {
       this.checker();
@@ -349,7 +351,6 @@ export default {
       if (!this.jungboks) {
         alert("아이디 중복조회를 하세요");
       } else if (this.submitable) {
-        alert(this.pw)
         this.$store.dispatch("signup", {
           id: this.id,
           pw: this.pw,

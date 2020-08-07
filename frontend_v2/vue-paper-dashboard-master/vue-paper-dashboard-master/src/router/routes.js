@@ -34,7 +34,7 @@ import modifynotice from "../components/notice/modifynotice.vue";
 import writefree from "../components/freeboard/writefree.vue";
 import detailfree from "../components/freeboard/detailfree.vue";
 import modifyfree from "../components/freeboard/modifyfree.vue";
-
+import otherproject from "../components/project/otherproject.vue";
 
 
 
@@ -89,12 +89,12 @@ const routes = [{
         name: "인재풀",
         component: pool,
       },
-       {
+      {
         path: "/mypage",
         name: "마이페이지",
         component: profile,
       },
-       {
+      {
         path: "/profile/:userid",
         name: "프로필보기",
         component: othersprofile,
@@ -142,6 +142,11 @@ const routes = [{
         component: myproject,
       },
       {
+        path: "/project/:userid",
+        name: "프로젝트 보기",
+        component: otherproject,
+      },
+      {
         path: "/project/projectdetail/:pid",
         name: "프로젝트 상세",
         component: projectdetail,
@@ -175,7 +180,7 @@ const routes = [{
         name: "모집 상세",
         component: recruitdetail,
       },
-      
+
       {
         path: "/signup",
         name: "회원 가입",
