@@ -5,68 +5,130 @@
 
 <mapper namespace="com.ssafy.test.UserInfo">
 
-    <!-- 회원 가입  -->
-    <insert id="insert" parameterType="userinfo">
-        insert into userInfo (id,nickname,name,pw,address1,address2,phone,git,points,lastDate,state,responsibility) 
-         values (#{id},#{nickname},#{name},#{pw},#{address1},#{address2},#{phone},#{git},#{points},#{lastDate},#{state},#{responsibility})
-    </insert>
+	<!-- 회원 가입 -->
+	<insert id="insert" parameterType="userinfo">
+		insert into userInfo
+		(id,nickname,name,pw,address1,address2,phone,git,points,lastDate,state,responsibility)
+		values
+		(#{id},#{nickname},#{name},#{pw},#{address1},#{address2},#{phone},#{git},#{points},#{lastDate},#{state},#{responsibility})
+	</insert>
 
-    <!-- 회원 수정 -->
-    <update id="update" parameterType="userinfo" >
-         update userInfo 
-         set pw=#{pw}, nickname=#{nickname}, lastDate=#{lastDate}, address1=#{address1}, address2=#{address2}
-           ,phone=#{phone},git=#{git},state=#{state} ,responsibility=#{responsibility},leaveUser=#{leaveUser}
-          where id=#{id}
-    </update>
-    <!--  validation 수정 -->
-     <update id="updateVal" parameterType="String" >
-         update userInfo 
-         set isValid=true
-          where id=#{id}
-    </update>
-    
-    <!--  회원 삭제  -->
-    <delete id="delete" parameterType="string">
-        delete from userInfo where id=#{id}
-    </delete>
-    
-    
-    <!-- 로그인 회원 조회 -->
-    <select id="select" parameterType="string" resultType="userinfo">
-        select id,nickname,name,pw,leaveUser
-        from userInfo where id=#{id} 
-    </select>
-    
-    <select id="getCurrList" resultType="userinfo">
-    	select *
-    	from userInfo
-    	where state = 1;
-    </select>
-    
-    <select id="selectAll" parameterType="string" resultType="userinfo">
-        select * from userInfo
-    </select> 
-    
-    <select id="login" parameterType="string" resultType="userinfo">
-    select id,nickname,name,pw,phone,git,points,lastDate,state,responsibility,leaveUser
-    from userInfo where id=#{id} and pw=#{pw}
-    </select>
-    
-        <select id="signin" parameterType="string" resultType="userinfo">
-    select id,nickname,name,pw,phone,git,points,lastDate,state,address1,address2,responsibility,isValid,leaveUser
-    from userInfo where id=#{id} and pw=#{pw}
-    </select>
+	<!-- 회원 수정 -->
+	<update id="update" parameterType="userinfo">
+		update userInfo
+		set pw=#{pw},
+		nickname=#{nickname}, lastDate=#{lastDate},
+		address1=#{address1},
+		address2=#{address2}
+		,phone=#{phone},git=#{git},state=#{state}
+		,responsibility=#{responsibility},leaveUser=#{leaveUser}
+		where id=#{id}
+	</update>
+	<!-- validation 수정 -->
+	<update id="updateVal" parameterType="String">
+		update userInfo
+		set
+		isValid=true
+		where id=#{id}
+	</update>
+
+	<!-- 회원 삭제 -->
+	<delete id="delete" parameterType="string">
+		delete from userInfo where
+		id=#{id}
+	</delete>
 
 
-    <!-- 해당 주소에 거주하는 사람을 검색 -->
-    <select id="selectByAddr" parameterType="addr" resultType="userinfo">
-        select id, nickname, name, address2, git, lastDate, state, responsibility, isValid,leaveUser
-        from userInfo
-        where address2 like CONCAT('%',#{sido},'%')
-        and address2 like CONCAT('%',#{gugun},'%')
-        and address2 like CONCAT('%',#{dong},'%')
-        and state = 1
-    </select>
+	<!-- 로그인 회원 조회 -->
+	<select id="select" parameterType="string" resultType="userinfo">
+		select
+		id,nickname,name,pw,leaveUser
+		from userInfo where id=#{id}
+	</select>
+
+	<select id="getCurrList" resultType="userinfo">
+		select *
+		from userInfo
+		where
+		state = 1;
+	</select>
+
+	<select id="selectAll" parameterType="string"
+		resultType="userinfo">
+		select * from userInfo
+	</select>
+
+	<select id="login" parameterType="string" resultType="userinfo">
+		select
+		id,nickname,name,pw,phone,git,points,lastDate,state,responsibility,leaveUser
+		from userInfo where id=#{id} and pw=#{pw}
+	</select>
+
+	<select id="signin" parameterType="string" resultType="userinfo">
+		select
+		id,nickname,name,pw,phone,git,points,lastDate,state,address1,address2,responsibility,isValid,leaveUser
+		from userInfo where id=#{id} and pw=#{pw}
+	</select>
+
+
+	<!-- 해당 주소에 거주하는 사람을 검색 -->
+	<select id="selectByAddr" parameterType="addr"
+		resultType="userinfo">
+		select id, nickname, name, address2, git, lastDate, state,
+		responsibility,
+		isValid,leaveUser
+		from userInfo
+		where address2 like
+		CONCAT('%',#{sido},'%')
+		and address2 like CONCAT('%',#{gugun},'%')
+		and
+		address2 like CONCAT('%',#{dong},'%')
+		and state = 1
+	</select>
+
+
+	<select id="searchAddr" parameterType="searchparameter"
+		resultType="userinfo">
+		select id, nickname, name, address2, git, lastDate, state, responsibility,
+		isValid,leaveUser
+		from userInfo
+		where address2 like
+		CONCAT('%',#{sido},'%')
+		and address2 like CONCAT('%',#{gugun},'%')
+		and
+		address2 like CONCAT('%',#{dong},'%')
+		and state = 1
+		and id like
+		CONCAT('%',#{keyword},'%');
+	</select>
+
+	<select id="searchAll" parameterType="searchparameter"
+		resultType="userinfo">
+		select id, nickname, name, address2, git, lastDate, state,
+		responsibility,
+		isValid
+		from userInfo
+		where address2 like
+		CONCAT('%',#{sido},'%')
+		and address2 like CONCAT('%',#{gugun},'%')
+		and
+		address2 like CONCAT('%',#{dong},'%')
+		and state = 1
+		and id like
+		CONCAT('%',#{keyword},'%')
+		and id in (
+		select id
+		from (
+		select * from
+		interest
+		where interest in (#{tag1},#{tag2},#{tag3},#{tag4},#{tag5})
+		)
+		as b
+		group by
+		id
+		having count(interest) >= #{cnt}
+		);
+	</select>
 
 
 </mapper>

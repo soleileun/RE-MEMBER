@@ -161,15 +161,16 @@ public class RecruitController {
 
 		}
 	}
-	
+
 	@ApiOperation(value = "모든 검색어 통합 검색하는 것.", response = Recruit.class)
 	@GetMapping("search/tag={tag}&addr={addr}&by={by}&keyword={keyword}")
-	public ResponseEntity<List<Recruit>> search(@PathVariable String tag, @PathVariable String addr, @PathVariable String by, @PathVariable String keyword) {
+	public ResponseEntity<List<Recruit>> search(@PathVariable String tag, @PathVariable String addr,
+			@PathVariable String by, @PathVariable String keyword) {
 		SearchParameter sp = new SearchParameter();
 		String b[] = addr.split(",");
-		if (tag == null) {
+		if (tag.equals("null")) {
 			// tag 기술 스택이 없는 경우
-			
+			System.out.println("asdasdasd");
 			sp.setBy(by);
 			sp.setKeyword(keyword);
 			sp.setDong(b[0]);
@@ -182,6 +183,8 @@ public class RecruitController {
 		} else {
 			// 기술 스택 태그가 있는 경우
 			String a[] = tag.split(",");
+			System.out.println("tag is " + tag);
+			System.out.println("a 길이는 " + a.length);
 
 			if (a.length > 0)
 				sp.setTag1(a[0]);
@@ -236,7 +239,7 @@ public class RecruitController {
 	public ResponseEntity<String> deleteBoard(@PathVariable int rnum) {
 		Recruit tmp = rService.select(rnum);
 		List<Pinterest> list = piService.select(tmp.getPid());
-		for(Pinterest pi : list) {
+		for (Pinterest pi : list) {
 			piService.delete(pi);
 		}
 		if (rService.delete(rnum) != 0) {

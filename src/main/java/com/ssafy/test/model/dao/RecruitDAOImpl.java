@@ -47,7 +47,7 @@ public class RecruitDAOImpl implements RecruitDAO {
 	}
 
 	@Override
-	public List<Recruit> selectByAddr(Addr a) {		
+	public List<Recruit> selectByAddr(Addr a) {
 		return template.selectList(ns + "selectByAddr", a);
 	}
 
@@ -64,8 +64,8 @@ public class RecruitDAOImpl implements RecruitDAO {
 	@Override
 	public List<Recruit> searchAll(SearchParameter sp) {
 		String by = sp.getBy();
-		System.out.println("by is "+ by);
-		if(by == null) {
+		System.out.println("by is " + by);
+		if (by == null) {
 			AddrAndTag aat = new AddrAndTag();
 			aat.setCnt(sp.getCnt());
 			aat.setDong(sp.getDong());
@@ -77,13 +77,21 @@ public class RecruitDAOImpl implements RecruitDAO {
 			aat.setTag4(sp.getTag4());
 			aat.setTag5(sp.getTag5());
 			return template.selectList(ns + "selectAddrAndTag", aat);
-		}else if(by.equals("writer")) {
+		} else if (by.equals("writer")) {
+			if (sp.getCnt() == 0) {
+				return template.selectList(ns + "selectByAddrWriter", sp);
+			} else {
+				return template.selectList(ns + "selectAllByWriter", sp);
+			}
 			
-			return template.selectList(ns + "selectAllByWriter", sp);
-		}else if(by.equals("title")) {
-			return template.selectList(ns + "selectAllByTitle", sp);
-		}	
-		
+		} else if (by.equals("title")) {
+			if (sp.getCnt() == 0) {
+				return template.selectList(ns + "selectByAddrTitle", sp);
+			} else {
+				return template.selectList(ns + "selectAllByTitle", sp);
+			}			
+		}
+
 		return null;
 	}
 

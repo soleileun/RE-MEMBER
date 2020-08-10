@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
 import com.ssafy.test.model.dto.Addr;
+import com.ssafy.test.model.dto.SearchParameter;
 import com.ssafy.test.model.dto.UserInfo;
 
 
@@ -78,6 +79,19 @@ public class UserInfoDaoImpl implements UserInfoDao {
 	public List<UserInfo> selectByAddr(Addr v) {
 		// TODO Auto-generated method stub
 		return template.selectList(ns + "selectByAddr",v);
+	}
+
+	@Override
+	public List<UserInfo> searchAll(SearchParameter sp) {
+		int cnt = sp.getCnt();
+		if(cnt == 0) {
+			// tag 없음
+			return template.selectList(ns + "searchAddr", sp);
+		}else {
+			// tag 있는 경우
+			return template.selectList(ns + "searchAll", sp);
+		}
+		
 	}
 
 }

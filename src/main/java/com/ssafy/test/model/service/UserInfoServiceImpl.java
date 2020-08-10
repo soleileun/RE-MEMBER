@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.ssafy.test.model.dao.UserInfoDao;
 import com.ssafy.test.model.dto.Addr;
+import com.ssafy.test.model.dto.SearchParameter;
 import com.ssafy.test.model.dto.UserInfo;
 
 @Service
@@ -81,6 +82,11 @@ public class UserInfoServiceImpl implements UserInfoService {
 	public List<UserInfo> selectByAddr(Addr v) {
 		// TODO Auto-generated method stub
 		return uDao.selectByAddr(v);
+	}
+
+	@Override
+	public List<UserInfo> searchAll(SearchParameter sp) {
+		return uDao.searchAll(sp);
 	}
 
 }
