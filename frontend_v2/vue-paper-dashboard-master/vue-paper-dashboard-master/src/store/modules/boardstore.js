@@ -19,7 +19,7 @@ const boardstore = {
         const config = {
             headers: {"jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")}
         }
-      http.get('/api/board/statesearching/'+ payload.bstate, config)
+      http.get('/api/board/statesearching/'+ payload.bstate,config)
           .then(response => {
             // console.log(response)
               store.commit(Constant.GET_BOARDLIST, { boards: response.data })
@@ -31,7 +31,7 @@ const boardstore = {
         const config = {
             headers: {"jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")}
         }
-        http.get('/api/board/no/' + payload.bno, config)
+        http.get('/api/board/no/' + payload.bno,config)
             .then(response => {
                 // console.log(response.data);
                 store.commit(Constant.GET_BOARD, { board: response.data })})
@@ -108,11 +108,11 @@ const boardstore = {
     },
     //제목으로 찾기
     [Constant.SEARCH_BOARD_TITLE]: (store,payload) => {
+        console.log(payload);
         const config = {
             headers: {"jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")}
         }
-        console.log(payload);
-        http.get('/api/board/typesearch/btitle='+ payload.btitle + '&bstate=' + payload.bstate, config)
+        http.get('/api/board/typesearch/btitle='+ payload.btitle + '&bstate=' + payload.bstate,config)
             .then(response => {
                 console.log(response.data);
                 store.commit(Constant.GET_BOARDLIST, { boards: response.data })
@@ -121,10 +121,10 @@ const boardstore = {
       },
     //작성자로 찾기
     [Constant.SEARCH_BOARD_WRITER]: (store,payload) => {
+        console.log(payload);
         const config = {
             headers: {"jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")}
         }
-        console.log(payload);
         http.get('/api/board/typesearch/writer='+ payload.bwriter + '&bstate=' + payload.bstate,config)
             .then(response => {
                 console.log(response.data);

@@ -145,14 +145,16 @@ const userstore = {
               }).then(res => {
                 console.log(res)
               }).catch(e => console.log(e))
-            router.push({
-              path: "/main"
+              store.dispatch("login", {
+                id: payload.id,
+                pw: payload.pw
+              });
+              setTimeout(()=>{ router.push({
+                path: "/main"
+              })},
+              500)
+              
             });
-          });
-          store.dispatch("login", {
-            id: payload.id,
-            pw: payload.pw
-          });
 
         })
         .catch((e) => console.log(e));
