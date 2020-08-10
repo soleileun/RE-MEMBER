@@ -26,11 +26,7 @@
           <input v-model="pw2" type="password" />
           {{error.pw2}}
           닉네임(별명) :
-          <input
-            v-model="nickname"
-            maxlength="10"
-            type="text"
-          />
+          <input v-model="nickname" maxlength="10" type="text" />
           {{error.nickname}}
           주소 :
           <input v-model="address1" type="text" disabled />
@@ -235,11 +231,20 @@ export default {
       }
     },
     pwconfirm: function () {
+      const config = {
+        headers: {
+          "jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token"),
+        },
+      };
       http
-        .post("/api/userinfo/signin", {
-          id: storage.getItem("userid"),
-          pw: this.oldpw,
-        })
+        .post(
+          "/api/userinfo/signin",
+          {
+            id: storage.getItem("userid"),
+            pw: this.oldpw,
+          },
+          config
+        )
         .then((response) => {
           if (response.data.data) {
             storage.setItem(
@@ -268,6 +273,11 @@ export default {
         });
     },
     edit: function () {
+      const config = {
+        headers: {
+          "jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token"),
+        },
+      };
       http
         .put(
           "/api/userinfo/" + storage.getItem("userid"),
@@ -283,11 +293,7 @@ export default {
             responsibility: this.responsibility,
             state: this.st,
           },
-          {
-            headers: {
-              "jwt-auth-token": storage.getItem("jwt-auth-token"),
-            },
-          }
+          config
         )
         .then((res) => {
           console.log("결과");

@@ -42,9 +42,13 @@ export default {
     this.init()
   },
   methods: {
+    
     init(){
+      const config = {
+            headers: {"jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")}
+        }
       http
-      .get("/api/interest/selectById/" + this.userid )
+      .get("/api/interest/selectById/" + this.userid ,config)
       .then((response) => {
         if (response.data.length > 0) {
           this.inters= response.data

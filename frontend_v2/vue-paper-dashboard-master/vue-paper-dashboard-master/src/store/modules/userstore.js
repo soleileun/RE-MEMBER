@@ -64,14 +64,13 @@ const userstore = {
           messageList: res.data
         })
         // 알림
-        http.get(`/api/message/message/${storage.getItem("userid")}/admin`, {
-          headers: {
-            "jwt-auth-token": storage.getItem("jwt-auth-token")
+        http.get(`/api/message/message/${storage.getItem("userid")}/admin`, config).then(res => {
+          if (res.data) {
+
+            store.commit('loadNews', {
+              list: res.data
+            })
           }
-        }).then(res => {
-          store.commit('loadNews', {
-            list: res.data
-          })
         }).catch(exp => console.log(exp))
       }).catch(exp => console.log(exp))
     },
@@ -145,16 +144,18 @@ const userstore = {
               }).then(res => {
                 console.log(res)
               }).catch(e => console.log(e))
-              store.dispatch("login", {
-                id: payload.id,
-                pw: payload.pw
-              });
-              setTimeout(()=>{ router.push({
-                path: "/main"
-              })},
-              500)
-              
+            store.dispatch("login", {
+              id: payload.id,
+              pw: payload.pw
             });
+            setTimeout(() => {
+              router.push({
+                path: "/main"
+              })
+            },
+              500)
+
+          });
 
         })
         .catch((e) => console.log(e));
@@ -291,9 +292,9 @@ const userstore = {
     },
     detailMes: (store, payload) => {
       const config = {
-        headers: {"jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")}
-    }
-      http.get(`/api/message/message/${storage.getItem("userid")}/${payload.other}`,config).then(res => {
+        headers: { "jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token") }
+      }
+      http.get(`/api/message/message/${storage.getItem("userid")}/${payload.other}`, config).then(res => {
         store.commit('loadDetailMes', {
           list: res.data
         })
@@ -301,22 +302,22 @@ const userstore = {
     },
     delMes: (store, payload) => {
       const config = {
-        headers: {"jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")}
-    }
+        headers: { "jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token") }
+      }
       http.delete(`/api/message/${payload.mnum}`, config).then(res => {
         alert("메세지가 삭제되었습니다." + res.data)
       }).catch(exp => console.log(exp))
     },
     mesRead: (store, payload) => {
       const config = {
-        headers: {"jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")}
-    }
+        headers: { "jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token") }
+      }
       http.put(`/api/message/${payload.mnum}`, {
         read: true,
         mnum: payload.mnum,
         fromUser: "admin",
         toUser: storage.getItem("userid")
-      },config).then(res => {
+      }, config).then(res => {
         console.log(res)
       }).catch(exp => console.log(exp))
     },

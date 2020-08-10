@@ -90,6 +90,9 @@ export default {
       this.profileEdit = true;
     },
     complete: function () {
+      const config = {
+            headers: {"jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")}
+        }
       this.profileEdit = false;
       http
         .put("/api/board/change/" + this.bno, {
@@ -101,7 +104,7 @@ export default {
           changeDay: new Date(),
           makeId: storage.getItem("userid"),
           changeId: storage.getItem("userid"), //세션 id
-        })
+        },config)
         .then((response) => {
           console.log("수정하였습니다." + response.data);
         })

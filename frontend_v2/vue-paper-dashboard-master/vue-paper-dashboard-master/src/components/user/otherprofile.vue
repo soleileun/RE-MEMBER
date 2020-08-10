@@ -50,8 +50,11 @@ export default {
   },
   methods: {
     init:function(){
+      const config = {
+            headers: {"jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")}
+        }
       http
-      .get("/api/board/typesearch/writer=" + this.userid + "&bstate=profile")
+      .get("/api/board/typesearch/writer=" + this.userid + "&bstate=profile",config)
       .then((response) => {
         if (response.data.length > 0) {
           this.content = response.data[0].bcontent;

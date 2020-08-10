@@ -90,8 +90,11 @@ export default {
     };
   },
   mounted: function () {
+    const config = {
+            headers: {"jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")}
+        }
     http
-      .get("/api/interest/selectById/" + storage.getItem("userid"))
+      .get("/api/interest/selectById/" + storage.getItem("userid"),config)
       .then((response) => {
         if (response.data.length > 0) {
           this.ints = response.data;
@@ -135,6 +138,9 @@ export default {
           if (idx > -1) this.picks.splice(idx, 1);
           else dels.push(el.interest);
         });
+        const config = {
+            headers: {"jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")}
+        }
         console.log("추가할거" + this.picks);
         console.log("뺄거" + dels);
         dels.forEach((el) => {
@@ -144,7 +150,7 @@ export default {
                 id: storage.getItem("userid"),
                 interest: el,
               },
-            })
+            },config)
             .then((res) => {
               console.log(res);
             })
@@ -155,7 +161,7 @@ export default {
             .post("/api/interest/", {
               id: storage.getItem("userid"),
               interest: el,
-            })
+            },config)
             .then((res) => {
               console.log(res);
             })
