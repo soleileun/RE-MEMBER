@@ -7,7 +7,7 @@
         <br />
         <div class="row justify-content-md-center">
           <div class="col-sm-4 center">
-            <fg-input type="password" label="비밀번호" v-model="oldpw" placeholder="비밀번호를 입력해주세요" />
+            <input type="password" label="비밀번호" v-model="oldpw" @keyup.enter="pwconfirm" placeholder="비밀번호를 입력해주세요" />
           </div>
         </div>
 
@@ -34,7 +34,7 @@
           <span>
             추가 주소 :
             <br />
-            <input v-model="address2" type="text" />
+            <input v-model="address3" type="text" />
           </span>
           <button @click="postActive" class="btn btn-info btn-round">주소 검색</button>
           <div class="postcode" v-if="postAct">
@@ -105,6 +105,7 @@ export default {
   },
   data: function () {
     return {
+      address3:"",
       oldpw: "",
       pw: "",
       pwvalid: false,
@@ -140,14 +141,20 @@ export default {
     },
     nickname: function () {
       this.checker();
-      this.nickname = this.nickname.replace(/[^0-9가-힣a-zA-Zㄱ-ㅎㅏ-ㅣ]/g, "");
+      this.nickname = this.nickname.replace(/[^0-9가-힣a-zA-Zㄱ-ㅎ]/g, "");
     },
     phone0: function () {
       this.phone0 = this.phone0.replace(/[^0-9]/g, "");
+      if (this.phone0.length === 3) {
+        document.querySelector("#p1").focus();
+      }
       this.checker();
     },
     phone1: function () {
       this.phone1 = this.phone1.replace(/[^0-9]/g, "");
+      if (this.phone1.length === 4) {
+        document.querySelector("#p2").focus();
+      }
       this.checker();
     },
     phone2: function () {
@@ -172,14 +179,11 @@ export default {
         if (data.bname !== "") {
           extraAddress += data.bname;
         }
-        if (data.buildingName !== "") {
-          extraAddress +=
-            extraAddress !== "" ? `, ${data.buildingName}` : data.buildingName;
-        }
         // fullAddress += extraAddress !== "" ? ` (${extraAddress})` : "";
       }
       this.address1 = fullAddress;
-      this.address2 = extraAddress;
+      this.address2 =
+        fullAddress.split(" ").slice(0, -2).join(" ") + " " + extraAddress;
       this.postAct = false;
     },
     checker() {
@@ -273,38 +277,40 @@ export default {
         });
     },
     edit: function () {
-      const config = {
-        headers: {
-          "jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token"),
-        },
-      };
-      http
-        .put(
-          "/api/userinfo/" + storage.getItem("userid"),
-          {
-            id: storage.getItem("userid"),
-            pw: this.pw,
-            nickname: this.nickname,
-            name: this.name,
-            address1: this.address1,
-            address2: this.address2,
-            phone: `${this.phone0}-${this.phone1}-${this.phone2}`,
-            git: this.git,
-            responsibility: this.responsibility,
-            state: this.st,
+      if (this.submitable) {
+        const config = {
+          headers: {
+            "jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token"),
           },
-          config
-        )
-        .then((res) => {
-          console.log("결과");
-          console.log(res.data);
-          this.$store.dispatch("login", {
-            id: storage.getItem("userid"),
-            pw: this.pw,
-          });
-          this.$router.push({ path: "/mypage" });
-        })
-        .catch((e) => console.log(e));
+        };
+        http
+          .put(
+            "/api/userinfo/" + storage.getItem("userid"),
+            {
+              id: storage.getItem("userid"),
+              pw: this.pw,
+              nickname: this.nickname,
+              name: this.name,
+              address1: this.address1,
+              address2: this.address2,
+              phone: `${this.phone0}-${this.phone1}-${this.phone2}`,
+              git: this.git,
+              responsibility: this.responsibility,
+              state: this.st,
+            },
+            config
+          )
+          .then((res) => {
+            console.log("결과");
+            console.log(res.data);
+            this.$store.dispatch("login", {
+              id: storage.getItem("userid"),
+              pw: this.pw,
+            });
+            this.$router.push({ path: "/mypage" });
+          })
+          .catch((e) => console.log(e));
+      }
     },
   },
 };

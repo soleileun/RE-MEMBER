@@ -47,14 +47,15 @@ const chatstore = {
 
     
     //둘이 있는 채팅방이 있는지 확인
-    [Constant.GET_CHATONETOONE]: (store, payload) => {
+    [Constant.GET_CHATROOMONETOONE]: (store, payload) => {
         const config = {
             headers: {"jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")}
         }
-        http.get('/api/chatroom/exists/uid1=' + payload.uid1 + '&uid2=',payload.uid2, config)
+        http.get('/api/chatroom/exists/uid1=' + payload.uid1 + '&uid2=' +payload.uid2, config)
             .then(response => {
-                // console.log(response.data);
-                store.commit(Constant.GET_CHATONETOONE, { sameroom: response.data })})
+                console.log(response.data);
+                store.commit(Constant.GET_CHATROOMONETOONE, { sameroom: response.data,uid:payload.uid2  })
+            })
             .catch(exp => alert('getChatroomOneToOne처리에 실패하였습니다.' + exp));
 
     },
@@ -176,6 +177,9 @@ const chatstore = {
     [Constant.GET_CHATLIST]: (state, payload) => {
         // console.log('mutation' + payload.boards);
         state.chats = payload.chats;
+    },
+    [Constant.GET_CHATROOMONETOONE]: (state, payload) => {
+        state.sameroom[payload.uid] = payload.sameroom;
     },
     // [Constant.CLEAR_TODO]: (state, payload) => {
     //     state.board = payload.todo;

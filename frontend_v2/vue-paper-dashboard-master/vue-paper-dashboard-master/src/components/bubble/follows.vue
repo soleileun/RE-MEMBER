@@ -1,12 +1,14 @@
 <template>
   <div class="follows">
+    {{sameroom}}
     <div v-if="followings.length===0">팔로우한 사람이 없습니다.</div>
     <div v-if="followings">
       <h4>활동중인 유저</h4>
       <div class="dropdown" v-for="target in followings.filter(item=> item.state ===true)" :key="target.id">
         <drop-down class="btn" :title="target.nickname+'님'">
           <div class="dropdown-item" @click="mes(target.id)">메세지</div>
-          <div class="dropdown-item" v-if="!rooms.find(item=>item === (target.id.split('@')[0]))" @click="doChat(target.id)">채팅하기</div>
+          <div class="dropdown-item" v-if="sameroom[target.id]">채팅방 있음</div>
+          <div class="dropdown-item" v-else @click="doChat(target.id)">채팅방 개설</div>
           <div class="dropdown-item" @click="viewProf(target.id)">프로필 보기</div>
           <div class="dropdown-item" @click="delFollow(target.id)">팔로우 해제</div>
         </drop-down>
@@ -38,10 +40,10 @@ export default {
   },
   beforeCreate: function () {
     this.$store.dispatch("getFollow");
-    this.$store.dispatch(Constant.GET_CHATROOMLIST);
   },
   computed: {
     followings: function () {
+      
       return this.$store.state.userstore.followings;
     },
     rooms() {
@@ -53,8 +55,13 @@ export default {
       });
       return tmp;
     },
+    sameroom(){
+      return this.$store.state.chatstore.sameroom;
+    }
   },
-  mounted: function () {},
+  mounted() {
+      
+  },
   methods: {
     mes: function (id) {
       this.$store.dispatch("sendMes", { toUser: id });
@@ -68,35 +75,30 @@ export default {
     delFollow(id) {
       this.$store.dispatch("delFollow", { target: id });
     },
-    isExist: function(uid1, uid2) {
-      this.$store.dispatch(Constant.GET_CHATROOMONETOONE, {
-        uid1 = storage.getItem("userid"),
-        uid2 = id,
-      });
-    },
     doChat(id) {
       this.$store.dispatch(Constant.ADD_CHATROOM, {
-        roomName: `${storage.getItem("userid")},${id.split("@")[0]}`,
+        roomName: `${storage.getItem("userid")},${id}`,
         uid: storage.getItem("userid"),
       });
       this.$store.dispatch(Constant.ADD_CHATROOM, {
-        roomName: `${storage.getItem("userid")},${id.split("@")[0]}`,
+        roomName: `${storage.getItem("userid")},${id}`,
         uid: id,
       });
       this.$store.dispatch(Constant.SEND_CHAT, {
-        roomName: `${storage.getItem("userid")},${id.split("@")[0]}`,
+        roomName: `${storage.getItem("userid")},${id}`,
         id: "system",
         nickname: "system",
         content: `${storage.getItem("userid")}님이 입장하셨습니다.`,
         date: new Date(),
       });
       this.$store.dispatch(Constant.SEND_CHAT, {
-        roomName: `${storage.getItem("userid")},${id.split("@")[0]}`,
+        roomName: `${storage.getItem("userid")},${id}`,
         id: "system",
         nickname: "system",
         content: `${id}님이 입장하셨습니다.`,
         date: new Date(),
       });
+      this.$store.commit(Constant.GET_CHATROOMONETOONE, { sameroom: "임시",uid:id  })
     },
   },
 };

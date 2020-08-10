@@ -250,10 +250,6 @@ export default {
       this.checker();
     },
   },
-    	// }else if(option == "nickname") {
-    	// 	p = Pattern.compile("^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|\\*]+$");
-    	// }
-    	
   methods: {
     jungbok() {
       if (this.error.id === "" && this.id !== "") {
