@@ -18,12 +18,7 @@ const projectstore = {
     //userId에 맞는 project 리스트 가져오기
     [Constant.GET_PROJECTLIST_BY_PMEMBER]: (store, payload) => {
       // console.log('토큰 : '+ storage.getItem("jwt-auth-token"));
-      http.get('/api/project/searchByUserId/' + payload.userId, {
-          headers: {
-            "jwt-auth-token": storage.getItem("jwt-auth-token")
-          }
-
-        })
+      http.get('/api/project/searchByUserId/' + payload.userId)
         .then(response => {
           console.log('과정2' + response.data);
           store.commit(Constant.GET_PROJECTLIST_BY_PMEMBER, {
@@ -76,7 +71,9 @@ const projectstore = {
     //project 추가 
     [Constant.ADD_PROJECT]: (store, payload) => {
       // console.log(payload.bstate);
-
+      const config = {
+        headers: {"jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")}
+    }
       http.post('/api/project/', {
           // bno : payload.bno,
           pjtName: payload.pjtName,
@@ -89,7 +86,7 @@ const projectstore = {
 
           //changeId: payload.changeId,
           //location: payload.location,
-        })
+        },config)
         .then(() => {
           console.log('추가하였습니다.');
           store.dispatch(Constant.GET_PROJECTLIST_BY_PMEMBER, {
