@@ -98,14 +98,22 @@ components: {
                 this.board.makeId = newBoard.makeId;
                 this.board.changeId = newBoard.changeId;
             }
-        }
+        },
+    loginId() {
+      //this.$forceUpdate();
+      return this.$store.state.userstore.userid;
+    },
     },
     methods: {
         getBoard(bno) {
         this.$store.dispatch(Constant.GET_BOARD, { bno });
         },
         modifyFree() {
-          if (this.board.bcontent != "") {
+          
+          if(this.loginId == '') {
+            alert("로그인이 필요한 서비스입니다.");
+          }
+          else if (this.board.bcontent != "") {
             
             this.$store.dispatch(Constant.MODIFY_BOARD, { board: this.board });
             alert('수정이 완료되었습니다.');
