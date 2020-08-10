@@ -24,6 +24,7 @@ export default {
     ADD_PROJECT: 'addProject',
     //인재풀
     GET_POOLLIST: 'getPoolList',
+    SEARCH_POOLIST:'searchPoolist',
 
     //리쿠르트
     GET_RECRUITLIST: 'getRecruitList',
@@ -34,6 +35,7 @@ export default {
     SEARCH_RECRUIT_BY_TAG : 'searchRecruitByTag',
     SEARCH_RECRUIT_BY_ADDR : 'searchRecruitByAddr',
     REMOVE_RECRUIT: 'removeRecruit',
+    SEARCH_RECRUIT:'searchRecruit',
 
 
     //인재풀, 모집 공용스택
@@ -57,4 +59,5 @@ export default {
     REMOVE_CHATROOM: 'removeChatroom',
     REMOVE_CHAT: 'removeChat',
     CHAT_READ: 'chatRead',
+    GET_CHATROOMONETOONE : 'getChatroomOneToOne',
 }

@@ -105,8 +105,8 @@
         <div class="row">
           <div class="col-1">
             <select name="std" id="std">
-              <option value="t" selected>제목</option>
-              <option value="w">작성자</option>
+              <option value="title" selected>제목</option>
+              <option value="writer">작성자</option>
             </select>
           </div>
 
@@ -322,7 +322,7 @@ export default {
         makeId: "",
         changeId: "",
       },
-
+     
       //스택 필터링
       selectedSido: 0,
       selectedGugun: 0,
@@ -470,71 +470,7 @@ export default {
 
     // },
 
-    // searchPool() {
-    //   let sd = "";
-    //   let gg = "";
-    //   let dn = "";
-
-    //   if (this.selectedSido == 0) {
-    //     sd = " ";
-    //   } else {
-    //     sd = this.selectedSido;
-    //   }
-    //   if (this.selectedGugun == 0) {
-    //     gg = " ";
-    //   } else {
-    //     gg = this.selectedGugun;
-    //   }
-    //   if (this.selectedDong == 0) {
-    //     dn = " ";
-    //   } else {
-    //     dn = this.selectedDong;
-    //   }
-
-    //   //주소만
-    //   if (this.picks.length == 0 && sd != " ") {
-    //     this.$store.dispatch(Constant.SEARCH_POOL_BY_ADDR, {
-    //       sido: sd,
-    //       gugun: gg,
-    //       dong: dn,
-    //     });
-    //   }
-    //   //태그만
-    //   else if (this.picks.length != 0 && sd == " ") {
-    //     let stacks = "";
-    //     if (this.picks.length != 0) {
-    //       for (let i = 0; i < this.picks.length; i++) {
-    //         stacks += this.picks[i] + ",";
-    //       }
-    //     } else {
-    //       stacks = null;
-    //     }
-    //     this.$store.dispatch(Constant.SEARCH_POOL_BY_TAG, { stacks });
-    //   }
-    //   //둘다 o
-    //   else if (this.picks.length != 0 && sd != " ") {
-    //     let addr = sd + "," + gg + "," + dn + ",";
-    //     let stacks = "";
-    //     if (this.picks.length != 0) {
-    //       for (let i = 0; i < this.picks.length; i++) {
-    //         stacks += this.picks[i] + ",";
-    //       }
-    //     } else {
-    //       stacks = null;
-    //     }
-
-    //     // console.log(addr + "/" + stacks);
-    //     //시 구 동 미선택 시 " " 로 보내고 picks
-    //     this.$store.dispatch(Constant.SEARCH_POOL_BY_TAG_ADDR, {
-    //       addr,
-    //       stacks,
-    //     });
-    //   }
-    //   //둘다 x
-    //   else if (this.picks.length == 0 && sd == " ") {
-    //     this.$store.dispatch(Constant.GET_POOLLIST);
-    //   }
-    // },
+  
 
     searchPool() {
       let sd = "";
@@ -556,52 +492,71 @@ export default {
       } else {
         dn = this.selectedDong;
       }
+let addr = sd + "," + gg + "," + dn + ",";
+      let stacks = "";
+      if (this.picks.length != 0) {
+        for (let i = 0; i < this.picks.length; i++) {
+          stacks += this.picks[i] + ",";
+        }
+      } else {
+        stacks = null;
+      }
+
       console.log(sd + " " + gg + " " + dn);
       console.log("태그길이:" + this.picks.length);
+      console.log("stack is + "+ this.stacks);
 
-      //주소만
-      if (this.picks.length == 0 && sd != " ") {
-        this.$store.dispatch(Constant.SEARCH_RECRUIT_BY_ADDR, {
-          sido: sd,
-          gugun: gg,
-          dong: dn,
-        });
-      }
-      //태그만
-      else if (this.picks.length != 0 && sd == " ") {
-        let stacks = "";
-        if (this.picks.length != 0) {
-          for (let i = 0; i < this.picks.length; i++) {
-            stacks += this.picks[i] + ",";
-          }
-        } else {
-          stacks = null;
-        }
-        this.$store.dispatch(Constant.SEARCH_RECRUIT_BY_TAG, { stacks });
-      }
-      //둘다 o
-      else if (this.picks.length != 0 && sd != " ") {
-        let addr = sd + "," + gg + "," + dn + ",";
-        let stacks = "";
-        if (this.picks.length != 0) {
-          for (let i = 0; i < this.picks.length; i++) {
-            stacks += this.picks[i] + ",";
-          }
-        } else {
-          stacks = null;
-        }
+      //통합
+      this.$store.dispatch(Constant.SEARCH_RECRUIT, {
+        addr,
+        stacks,
+        by:document.getElementById("std").value,
+        keyword:document.getElementById('keyword').value
+      });
 
-        // console.log(addr + "/" + stacks);
-        //시 구 동 미선택 시 " " 로 보내고 picks
-        this.$store.dispatch(Constant.SEARCH_RECRUIT_BY_TAG_ADDR, {
-          addr,
-          stacks,
-        });
-      }
-      //둘다 x
-      else if (this.picks.length == 0 && sd == " ") {
-        this.$store.dispatch(Constant.GET_RECRUITLIST);
-      }
+      // //주소만
+      // if (this.picks.length == 0 && sd != " ") {
+      //   this.$store.dispatch(Constant.SEARCH_RECRUIT_BY_ADDR, {
+      //     sido: sd,
+      //     gugun: gg,
+      //     dong: dn,
+      //   });
+      // }
+      // //태그만
+      // else if (this.picks.length != 0 && sd == " ") {
+      //   let stacks = "";
+      //   if (this.picks.length != 0) {
+      //     for (let i = 0; i < this.picks.length; i++) {
+      //       stacks += this.picks[i] + ",";
+      //     }
+      //   } else {
+      //     stacks = null;
+      //   }
+      //   this.$store.dispatch(Constant.SEARCH_RECRUIT_BY_TAG, { stacks });
+      // }
+      // //둘다 o
+      // else if (this.picks.length != 0 && sd != " ") {
+      //   let addr = sd + "," + gg + "," + dn + ",";
+      //   let stacks = "";
+      //   if (this.picks.length != 0) {
+      //     for (let i = 0; i < this.picks.length; i++) {
+      //       stacks += this.picks[i] + ",";
+      //     }
+      //   } else {
+      //     stacks = null;
+      //   }
+
+      //   // console.log(addr + "/" + stacks);
+      //   //시 구 동 미선택 시 " " 로 보내고 picks
+      //   this.$store.dispatch(Constant.SEARCH_RECRUIT_BY_TAG_ADDR, {
+      //     addr,
+      //     stacks,
+      //   });
+      // }
+      // //둘다 x
+      // else if (this.picks.length == 0 && sd == " ") {
+      //   this.$store.dispatch(Constant.GET_RECRUITLIST);
+      // }
     },
 
     deleteStack(idx) {
