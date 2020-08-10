@@ -29,16 +29,18 @@ public class DemoApplication implements WebMvcConfigurer {
 		.excludePathPatterns(Arrays.asList(
 				
 				"/api/userinfo/**",
-				"/api/email/**","/api/pmember/**"
-										, "/api/board/**",
-										 "/api/recruit/**","/api/project/**","/api/pinterest/**",
-										 "/api/comments/**","/api/issue/**","/api/following/**","/api/interest/**",
-										 "/api/message/**","/api/chat/**","/api/chatroom/**","/api/usertag/**",
-										 "/api/tag/**","/api/addr/**"
-										 
+				"/api/email/**", "/api/board","/api/board/search/**", "/api/board/typesearch/**",
+				 "/api/comments","/api/recruit/**","/api/pinterest/**", 
+				 "/api/project/","/api/project/searchByUserId/**","/api/project/**"
+//										"/api/pmember/**","/api/following/**"
+//										 "/api/project/**",,
+//										 "/api/comments/**","/api/issue/**","/api/interest/**",
+//										 "/api/message/**","/api/chat/**","/api/chatroom/**","/api/usertag/**",
+//										 "/api/tag/**","/api/addr/**"
+//										 
 				
 				));
-	}
+	} 	
 	
 	@Override
 	public void addCorsMappings(CorsRegistry registry) {

@@ -41,6 +41,9 @@ const recruitstore = {
 
     //구인글 추가
     [Constant.ADD_RECRUIT]: (store, payload) => {
+      const config = {
+        headers: {"jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")}
+    }
       console.log(payload);
       http.post('/api/recruit/', {
           pid: payload.pid,
@@ -52,7 +55,7 @@ const recruitstore = {
           makeId: payload.makeId,
           changeId: payload.changeId,
 
-        })
+        },config)
         .then(() => {
           console.log('구인글 추가하였습니다.');
         })
@@ -63,11 +66,14 @@ const recruitstore = {
     },
 
     [Constant.ADD_PINTEREST]: (store, payload) => {
+      const config = {
+        headers: {"jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")}
+    }
       console.log(payload);
       http.post('/api/pinterest/', {
           pid: payload.pid,
           interest: payload.interest,
-        })
+        },config)
         .then(() => {
           console.log('핀인터 추가하였습니다.');
           store.dispatch(Constant.GET_RECRUITLIST);
@@ -117,7 +123,10 @@ const recruitstore = {
     },
     //댓글 삭제
     [Constant.REMOVE_RECRUIT]: (store, payload) => {
-        http.delete('/api/recruit/' + payload.rnum)
+      const config = {
+        headers: {"jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")}
+    }
+        http.delete('/api/recruit/' + payload.rnum,config)
             .then(() => {
                 alert('삭제하였습니다.');
                 store.dispatch(Constant.GET_RECRUITLIST);

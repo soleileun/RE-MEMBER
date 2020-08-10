@@ -60,7 +60,7 @@
                   <table class="table">
                     <thead>
                       <tr>
-                        <th style="width:2%;">No</th>
+                        <!-- <th style="width:2%;">No</th> -->
                         <th style="width:6%;">종류</th>
                         <th style="width:65%;">제목</th>
                         <th>ID</th>
@@ -71,7 +71,7 @@
                     <tbody>
                                             
                       <tr v-for="free in frees" :key="free.bno">
-                        <td>{{free.bno}}</td>
+                        <!-- <td>{{free.bno}}</td> -->
                         <td>자유</td>
                         <!-- bno 쿼리스트링 달아서 분기 -->
                         <td style="text-align:left;">
