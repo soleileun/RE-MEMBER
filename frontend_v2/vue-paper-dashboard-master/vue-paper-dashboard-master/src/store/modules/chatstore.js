@@ -53,7 +53,6 @@ const chatstore = {
         }
         http.get('/api/chatroom/exists/uid1=' + payload.uid1 + '&uid2=' +payload.uid2, config)
             .then(response => {
-                console.log(response.data);
                 store.commit(Constant.GET_CHATROOMONETOONE, { sameroom: response.data,uid:payload.uid2  })
             })
             .catch(exp => alert('getChatroomOneToOne처리에 실패하였습니다.' + exp));

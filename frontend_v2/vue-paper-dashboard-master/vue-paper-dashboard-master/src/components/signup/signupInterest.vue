@@ -17,7 +17,7 @@
           </div>
           <div class="col-12 selectform">
             <button
-              class="btn btn-primary"
+              class="btn btn-primary btn-round"
               v-for="pick in picks"
               :key="pick"
               @click="del(pick)"
@@ -138,7 +138,6 @@ export default {
       if (this.submitable && this.signup) {
         this.$emit("goSignup");
         this.$store.commit("interest", { picks: this.picks });
-        this.$router.push("/main");
       }
     },
     add: function (x) {
@@ -177,17 +176,21 @@ export default {
       max-height: 100px;
       overflow: auto;
       background-color: white;
-      width: 500px;
-      left: -1px;
+      width: 90%;
+      left: 5px;
       bottom: 49px;
       cursor: pointer;
     }
     .input {
-      height: 50px;
+      height: 100%;
+      width: 100%;
+
       font-size: 1.2rem;
       border: 1px black solid;
       padding: 5px;
       input {
+        width: 100%;
+        height: 100%;
         border: none;
         outline: none;
         &:focus {
