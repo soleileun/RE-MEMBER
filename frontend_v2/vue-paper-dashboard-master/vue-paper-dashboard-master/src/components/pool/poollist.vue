@@ -119,7 +119,7 @@
             </p>
             <!-- <button class="btn btn--block card__btn">Button</button> -->
             <router-link
-              :to="'/project/' + pool.id"
+              :to="'/project/myproject/' + pool.id"
               tag="button"
               class="btn btn--block card__btn"
             >프로젝트 보기</router-link>
@@ -128,12 +128,12 @@
               tag="button"
               class="btn btn--block card__btn"
             >프로필 보기</router-link>
-            <button class="btn btn--block card__btn" @click="fol(pool.id)">팔로우하기</button>
             <a
               class="btn btn--block card__btn"
               v-if="pool.git"
               :href="'https://github.com/'+pool.git"
             >Git</a>
+            <button v-if="!follow.find(item=>item.id === pool.id)" class="btn btn-success" @click="fol(pool.id)">팔로우하기</button>
           </div>
         </div>
       </li>
@@ -212,6 +212,9 @@ export default {
     dongList() {
       return this.$store.state.stackstore.donglist;
     },
+    follow(){
+      return this.$store.state.userstore.followings;
+    }
   },
   created() {
     this.$store.dispatch(Constant.GET_POOLLIST);

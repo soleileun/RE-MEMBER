@@ -60,7 +60,7 @@
                   <table class="table">
                     <thead>
                       <tr>
-                        <th style="width:2%;">No</th>
+                        <!-- <th style="width:2%;">No</th> -->
                         <th style="width:6%;">종류</th>
                         <th style="width:65%;">제목</th>
                         <th>ID</th>
@@ -71,7 +71,7 @@
                     <tbody>
                                             
                       <tr v-for="free in frees" :key="free.bno">
-                        <td>{{free.bno}}</td>
+                        <!-- <td>{{free.bno}}</td> -->
                         <td>자유</td>
                         <!-- bno 쿼리스트링 달아서 분기 -->
                         <td style="text-align:left;">
@@ -138,7 +138,11 @@ export default {
       // console.log('안녕');
       // console.log('확인 : ' + this.$store.state.boardstore.boards);
       return this.$store.state.boardstore.boards; 
-    }
+    },
+    loginId() {
+      //this.$forceUpdate();
+      return this.$store.state.userstore.userid;
+    },
   },
   created () {
     this.$store.dispatch(Constant.GET_BOARDLIST,{bstate : 'free'});
@@ -158,8 +162,13 @@ export default {
       }
     },
     towrite() {
-      let addr = "/freeboard/writefree";
-      this.$router.push(addr);
+      if(this.loginId == '') {
+        alert("로그인이 필요한 서비스입니다.");
+      }
+      else {
+        let addr = "/freeboard/writefree";
+        this.$router.push(addr);
+      }
     }
   },
 };

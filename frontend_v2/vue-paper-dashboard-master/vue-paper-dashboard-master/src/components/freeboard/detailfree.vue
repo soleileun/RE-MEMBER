@@ -3,6 +3,7 @@
     <div class="card">
       <div class="card-header"></div>
 
+
       <div class="card-body">
         <div class="container-fluid">
           <div class="row">
@@ -29,12 +30,12 @@
           <div class="row">
             <div class="col text-center btndiv">
               <button
-                v-if="board.bwriter === this.nowid || this.nowid === 'admin' "
+                v-if="board.bwriter === loginId || loginId === 'admin' "
                 class="btn btn-outline-warning"
                 @click="change"
               >수정하기</button>
               <button
-                v-if="board.bwriter === this.nowid || this.nowid === 'admin' "
+                v-if="board.bwriter === loginId || loginId === 'admin' "
                 class="btn btn-outline-danger"
                 @click="deleteFree"
               >삭제하기</button>
@@ -164,15 +165,14 @@ export default {
         makeId: "",
         changeId: "",
       },
-      nowid: storage.getItem("userid"),
     };
   },
   created() {
-    // console.log(this.$route.params.bno);
     this.getBoard(this.$route.params.bno);
   },
   computed: {
     loginId() {
+      //this.$forceUpdate();
       return this.$store.state.userstore.userid;
     },
     board: {
@@ -235,7 +235,10 @@ export default {
     },
 
     addComment() {
-      if (this.comment2.ccontent.trim() != "") {
+      if(this.loginId == '') {
+        alert("로그인이 필요한 서비스입니다.");
+      }
+      else if (this.loginId != '' && this.comment2.ccontent.trim() != "") {
         this.$store.dispatch(Constant.ADD_COMMENT, {
           // cno :this.comment2.cno,
           // cwriter:this.comment2.cwriter,

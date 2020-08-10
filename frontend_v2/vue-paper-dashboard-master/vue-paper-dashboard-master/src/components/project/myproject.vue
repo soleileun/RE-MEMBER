@@ -2,10 +2,17 @@
   <div class="project1">
     <h1>프로젝트 관리 페이지</h1>
     <hr />
-    <button @click="movePage" class="btn btn-info btn-round">새로운 프로젝트 생성하기</button>
+
+    <button
+      v-if="this.$route.params.userId===userId"
+      @click="movePage"
+      class="btn btn-info btn-round"
+    >새로운 프로젝트 생성하기</button>
+
     <br />
     <br />
     <div class="row">
+      <div class="col-4" v-if="projects.length<1">프로젝트가 없습니다.</div>
       <div class="col-4" v-for="project in projects" :key="project.pid">
         <project :project="project" />
         <!-- @delete-project="deleteComment" -->

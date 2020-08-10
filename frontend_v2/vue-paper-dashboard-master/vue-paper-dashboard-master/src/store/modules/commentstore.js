@@ -27,7 +27,9 @@ const commentstore = {
     //댓글 추가
     [Constant.ADD_COMMENT]: (store, payload) => {
         console.log(payload.bno);
-
+        const config = {
+          headers: {"jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")}
+      }
         http.post('/api/comments/', {
                 cwriter:payload.cwriter,
                 ccontent:payload.ccontent,
@@ -35,7 +37,7 @@ const commentstore = {
                 isSelected:payload.isSelected,
                 makeDay:payload.makeDay,
                 makeId:payload.makeId
-            })
+            },config)
             .then(() => {
                 console.log('추가하였습니다.');
                 store.dispatch(Constant.GET_COMMENTLIST, {bno : payload.bno});
@@ -49,7 +51,10 @@ const commentstore = {
    
     //댓글 삭제
     [Constant.REMOVE_COMMENT]: (store, payload) => {
-        http.delete('/api/comments/delete/' + payload.cno)
+      const config = {
+        headers: {"jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")}
+    }
+        http.delete('/api/comments/delete/' + payload.cno,config)
             .then(() => {
                 alert('삭제하였습니다.');
                 store.dispatch(Constant.GET_COMMENTLIST, {bno : payload.bno});

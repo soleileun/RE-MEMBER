@@ -54,6 +54,8 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			alias="tagresult" />
 			<typeAlias type="com.ssafy.test.model.dto.AddrAndTag"
 			alias="addrandtag" />
+			<typeAlias type="com.ssafy.test.model.dto.SearchParameter"
+			alias="searchparameter" />
 			
 	</typeAliases>
 
