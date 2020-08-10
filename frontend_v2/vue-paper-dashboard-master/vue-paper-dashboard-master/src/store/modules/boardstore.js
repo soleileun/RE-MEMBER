@@ -4,8 +4,6 @@ import Vue from 'vue';
 import Constant from '../../Constant.js';
 import http from '../../http-common.js';
 Vue.use(Vuex);
-// const storage = window.sessionStorage;
-
 
 const boardstore = {
   state: {
@@ -18,7 +16,10 @@ const boardstore = {
 
     //bstate에 맞는 리스트 가져오기
     [Constant.GET_BOARDLIST]: (store,payload) => {
-      http.get('/api/board/statesearching/'+ payload.bstate)
+        const config = {
+            headers: {"jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")}
+        }
+      http.get('/api/board/statesearching/'+ payload.bstate,config)
           .then(response => {
             // console.log(response)
               store.commit(Constant.GET_BOARDLIST, { boards: response.data })
@@ -27,7 +28,10 @@ const boardstore = {
     },
     //bno으로 게시글 하나 가져오기
     [Constant.GET_BOARD]: (store, payload) => {
-        http.get('/api/board/no/' + payload.bno)
+        const config = {
+            headers: {"jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")}
+        }
+        http.get('/api/board/no/' + payload.bno,config)
             .then(response => {
                 // console.log(response.data);
                 store.commit(Constant.GET_BOARD, { board: response.data })})
@@ -37,7 +41,9 @@ const boardstore = {
     //게시글 추가
     [Constant.ADD_BOARD]: (store, payload) => {
         // console.log(payload.bstate);
-
+        const config = {
+            headers: {"jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")}
+        }
         http.post('/api/board/', {
                 // bno : payload.bno,
                 bwriter : payload.bwriter,
@@ -50,7 +56,7 @@ const boardstore = {
                 // changeDay : payload.changeDay,
                 makeId : payload.makeId,
                 // changeId : payload.changeId
-            })
+            },config)
             .then(() => {
                 console.log('추가하였습니다.');
                 store.dispatch(Constant.GET_BOARDLIST, {bstate : payload.bstate});
@@ -64,7 +70,9 @@ const boardstore = {
     //게시글 수정
     [Constant.MODIFY_BOARD]: (store, payload) => {
         // console.log(payload);
-
+        const config = {
+            headers: {"jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")}
+        }
         http.put('/api/board/change/' + payload.board.bno, {
                 bno:payload.board.bno,
                 bwriter: payload.board.bwriter,
@@ -77,7 +85,7 @@ const boardstore = {
                 changeDay : new Date(),
                 makeId : payload.board.makeId,
                 changeId : payload.board.changeId //세션 id
-            })
+            },config)
             .then(() => {
                 // console.log('수정하였습니다.'+ response.data);
                 store.dispatch(Constant.GET_BOARD, {bno : payload.board.bno});
@@ -86,7 +94,10 @@ const boardstore = {
     },
     //게시글 삭제
     [Constant.REMOVE_BOARD]: (store, payload) => {
-        http.delete('/api/board/delete/' + payload.bno)
+        const config = {
+            headers: {"jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")}
+        }
+        http.delete('/api/board/delete/' + payload.bno,config)
             .then(() => {
                 alert('삭제하였습니다.');
                 store.dispatch(Constant.GET_BOARDLIST, {bstate : payload.bstate});
@@ -98,7 +109,10 @@ const boardstore = {
     //제목으로 찾기
     [Constant.SEARCH_BOARD_TITLE]: (store,payload) => {
         console.log(payload);
-        http.get('/api/board/typesearch/btitle='+ payload.btitle + '&bstate=' + payload.bstate)
+        const config = {
+            headers: {"jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")}
+        }
+        http.get('/api/board/typesearch/btitle='+ payload.btitle + '&bstate=' + payload.bstate,config)
             .then(response => {
                 console.log(response.data);
                 store.commit(Constant.GET_BOARDLIST, { boards: response.data })
@@ -108,7 +122,10 @@ const boardstore = {
     //작성자로 찾기
     [Constant.SEARCH_BOARD_WRITER]: (store,payload) => {
         console.log(payload);
-        http.get('/api/board/typesearch/writer='+ payload.bwriter + '&bstate=' + payload.bstate)
+        const config = {
+            headers: {"jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")}
+        }
+        http.get('/api/board/typesearch/writer='+ payload.bwriter + '&bstate=' + payload.bstate,config)
             .then(response => {
                 console.log(response.data);
                 store.commit(Constant.GET_BOARDLIST, { boards: response.data })

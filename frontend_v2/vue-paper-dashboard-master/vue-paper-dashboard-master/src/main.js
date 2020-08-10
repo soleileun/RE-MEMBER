@@ -17,11 +17,18 @@ import Vue from "vue";
 import App from "./App";
 import router from "./router/index";
 import store from '@/store/index.js'
+import BootstrapVue from 'bootstrap-vue'
 
 import PaperDashboard from "./plugins/paperDashboard";
 import "vue-notifyjs/themes/default.css";
 
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
+
+
 Vue.use(PaperDashboard);
+//부트스트랩-뷰
+Vue.use(BootstrapVue);
 
 /* eslint-disable no-new */
 new Vue({

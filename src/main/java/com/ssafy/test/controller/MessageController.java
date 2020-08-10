@@ -72,10 +72,13 @@ public class MessageController {
     @GetMapping("{id}")
     public ResponseEntity<List<Message>> GetMessageById(@PathVariable String id) {
     	List<Message> list = mService.selectById(id);
+    //	System.out.println();
     	List<String> arr = new ArrayList<>();
     	List<Message> msg = new ArrayList<>();
+    //	System.out.println(list.size());
     	for(int i=0;i<list.size();i++) {
     		Message tmp = list.get(i);
+    	//	System.out.println(tmp);
     		if(tmp.getFromUser().equals(id)) {
     			if(arr.contains(tmp.getToUser())) {
     				continue;
@@ -92,6 +95,8 @@ public class MessageController {
     			}
     		}
     	}
+    	//System.out.println("---msg---");
+    //	System.out.println(msg.size());
     return new ResponseEntity<List<Message>>(msg, HttpStatus.OK);
     	
     }

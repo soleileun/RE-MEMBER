@@ -20,6 +20,94 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		and p.location like CONCAT('%',#{dong},'%');
 
 	</select>
+	
+	<select id="selectByAddrWriter" resultType="recruit"
+		parameterType="searchparameter">
+		select r.rnum, r.pid, r.title, r.contents, r.endDate,
+		r.makeDay, r.changeDay, r.makeId, r.changeId from recruit as r
+		left
+		join project as p
+		on r.pid = p.pid
+		where p.location like
+		CONCAT('%',#{sido},'%')
+		and p.location like CONCAT('%',#{gugun},'%')
+		and p.location like CONCAT('%',#{dong},'%')
+		and r.makeId like CONCAT('%', #{keyword}, '%');
+
+	</select>
+	
+	<select id="selectByAddrTitle" resultType="recruit"
+		parameterType="searchparameter">
+		select r.rnum, r.pid, r.title, r.contents, r.endDate,
+		r.makeDay, r.changeDay, r.makeId, r.changeId from recruit as r
+		left
+		join project as p
+		on r.pid = p.pid
+		where p.location like
+		CONCAT('%',#{sido},'%')
+		and p.location like CONCAT('%',#{gugun},'%')
+		and p.location like CONCAT('%',#{dong},'%')
+		and r.title like CONCAT('%', #{keyword}, '%');
+
+	</select>
+
+	<select id="selectAllByWriter" resultType="recruit"
+		parameterType="searchparameter">
+		select r.rnum, r.pid, r.title, r.contents, r.endDate,
+		r.makeDay, r.changeDay, r.makeId, r.changeId from recruit as r
+		left
+		join project as p
+		on r.pid = p.pid
+		where p.location like
+		CONCAT('%',#{sido},'%')
+		and p.location like CONCAT('%',#{gugun},'%')
+		and p.location like CONCAT('%',#{dong},'%')
+		and r.makeId like CONCAT('%', #{keyword}, '%')
+		and r.pid in (
+		select pid
+		from (
+		select *
+		from pinterest
+		where interest in
+		(#{tag1},#{tag2},#{tag3},#{tag4},#{tag5})
+		) as p
+		group by pid
+		having
+		count(interest) >= #{cnt}
+		);
+	</select>
+
+	<select id="selectAllByTitle" resultType="recruit"
+		parameterType="searchparameter">
+		select r.rnum, r.pid, r.title, r.contents, r.endDate,
+		r.makeDay, r.changeDay,
+		r.makeId, r.changeId from recruit as r
+		left
+		join
+		project as p
+		on r.pid =
+		p.pid
+		where p.location like
+		CONCAT('%',#{sido},'%')
+		and p.location like
+		CONCAT('%',#{gugun},'%')
+		and
+		p.location like CONCAT('%',#{dong},'%')
+		and r.title like CONCAT('%', #{keyword},
+		'%')
+		and r.pid in (
+		select pid
+		from (
+		select *
+		from pinterest
+		where interest in
+		(#{tag1},#{tag2},#{tag3},#{tag4},#{tag5})
+		) as p
+		group by pid
+		having
+		count(interest) >= #{cnt}
+		);
+	</select>
 
 	<select id="selectSame" resultType="recruit"
 		parameterType="taglist">
@@ -38,6 +126,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		);
 
 	</select>
+	
+	
 
 	<select id="selectAddrAndTag" parameterType="addrandtag"
 		resultType="recruit">

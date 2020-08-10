@@ -79,11 +79,12 @@ export default {
         });
       } else if (!this.$store.state.userstore.logining) {
         if (this.autologin) {
-          storage.setItem("autologin", "t");
-          storage.setItem("pw", this.pw);
+          window.localStorage.setItem("id",this.id)
+          window.localStorage.setItem("autologin", "t");
+          window.localStorage.setItem("pw", this.pw);
         } else {
-          storage.setItem("autologin", "f");
-          storage.setItem("pw", "");
+          window.localStorage.setItem("autologin", "f");
+          window.localStorage.setItem("pw", "");
         }
         this.$store.state.userstore.logining = true;
         this.$store.dispatch("login", { id: this.id, pw: this.pw });

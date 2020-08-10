@@ -135,7 +135,7 @@ export default {
       }
     },
     gosignup: function () {
-      if (this.submitable) {
+      if (this.submitable && this.signup) {
         this.$emit("goSignup");
         this.$store.commit("interest", { picks: this.picks });
         this.$router.push("/main");

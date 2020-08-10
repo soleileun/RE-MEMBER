@@ -14,6 +14,7 @@ const chatstore = {
       rooms: [],
       room: {},
       members: [],
+      sameroom:{},
   },
  
   actions: {
@@ -21,7 +22,10 @@ const chatstore = {
 
     //해당 유저가 들어있는 채팅방 리스트 가져오기
     [Constant.GET_CHATROOMLIST]: (store) => {
-      http.get('/api/chatroom/chat/roomlist='+ storage.getItem("userid"))
+        const config = {
+            headers: {"jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")}
+        }
+      http.get('/api/chatroom/chat/roomlist='+ storage.getItem("userid"), config)
           .then(response => {
               store.commit(Constant.GET_CHATROOMLIST, { rooms: response.data })
         })
@@ -29,7 +33,10 @@ const chatstore = {
     },
     //채팅방 이름으로 채팅방 멤버리스트 가져오기
     [Constant.GET_CHATROOMMEMBER]: (store, payload) => {
-        http.get('/api/chatroom/chat/name=' + payload.roomName)
+        const config = {
+            headers: {"jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")}
+        }
+        http.get('/api/chatroom/chat/name=' + payload.roomName, config)
             .then(response => {
                 // console.log(response.data);
                 store.commit(Constant.GET_CHATROOMMEMBER, { members: response.data })})
@@ -37,14 +44,32 @@ const chatstore = {
 
     },
     //채팅방 추가
+
+    
+    //둘이 있는 채팅방이 있는지 확인
+    [Constant.GET_CHATONETOONE]: (store, payload) => {
+        const config = {
+            headers: {"jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")}
+        }
+        http.get('/api/chatroom/exists/uid1=' + payload.uid1 + '&uid2=',payload.uid2, config)
+            .then(response => {
+                // console.log(response.data);
+                store.commit(Constant.GET_CHATONETOONE, { sameroom: response.data })})
+            .catch(exp => alert('getChatroomOneToOne처리에 실패하였습니다.' + exp));
+
+    },
+
     
     [Constant.ADD_CHATROOM]: (store, payload) => {
         // console.log(payload.bstate);
+        const config = {
+            headers: {"jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")}
+        }
         http.post('/api/chatroom/', {
                 // bno : payload.bno,
                 uid : payload.uid,
                 roomName : payload.roomName,
-            })
+            },config)
             .then(response => {
                 if(response.data == 'success') {
                     console.log('추가하였습니다.');
@@ -61,7 +86,10 @@ const chatstore = {
     
     //특정 roomName의 모든 채팅 정보를 받아옵니다.
     [Constant.GET_CHATLIST]: (store,payload) => {
-        http.get('/api/chat/chat/name='+ payload.roomName)
+        const config = {
+            headers: {"jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")}
+        }
+        http.get('/api/chat/chat/name='+ payload.roomName,config)
             .then(response => {
                 store.commit(Constant.GET_CHATLIST, { chats: response.data })
                 console.log("불러왔음." + payload.roomName)
@@ -71,14 +99,16 @@ const chatstore = {
     //채팅 보내기 dispatch 수정해야함
     [Constant.SEND_CHAT]: (store, payload) => {
         // console.log(payload.bstate);
-
+        const config = {
+            headers: {"jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")}
+        }
         http.post('/api/chat/', {
                 roomName : payload.roomName,
                 id : payload.id,
                 nickname : payload.nickname,
                 content : payload.content,
                 makedate : payload.makedate,
-            })
+            },config)
             .then(() => {
                 console.log('채팅 입력했습니다');
                 //store.dispatch(Constant.GET_CHATROOMLIST);//, {rooms : payload.bstate});
@@ -91,7 +121,10 @@ const chatstore = {
     },
     //특정 roomName에서 나간다. dispatch 부분 봐야함
     [Constant.REMOVE_CHATROOM]: (store, payload) => {
-        http.delete('/api/chatroom/delete/roomname=' + payload.roomName + '&uid=' + storage.getItem("userid"))
+        const config = {
+            headers: {"jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")}
+        }
+        http.delete('/api/chatroom/delete/roomname=' + payload.roomName + '&uid=' + storage.getItem("userid"),config)
             .then(() => {
                 alert('채팅방에서 나갔습니다.');
                 store.dispatch(Constant.GET_CHATROOMLIST);   //, {bstate : payload.bstate});
@@ -103,7 +136,10 @@ const chatstore = {
 
     //특정 roomName의 모든 채팅 데이터를 삭제한다. dispatch 부분 봐야함
     [Constant.REMOVE_CHAT]: (store, payload) => {
-        http.delete('/api/chat/delete/' + payload.roomName)
+        const config = {
+            headers: {"jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")}
+        }
+        http.delete('/api/chat/delete/' + payload.roomName,config)
             .then(() => {
                 alert('채팅 내역 삭제하였습니다.');
                 store.dispatch(Constant.GET_CHATROOMLIST);   //, {bstate : payload.bstate});
@@ -113,12 +149,15 @@ const chatstore = {
 
     },
     [Constant.CHAT_READ]: (store, payload) => {
+        const config = {
+            headers: {"jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")}
+        }
         console.log(payload.roomName);
         console.log(payload.id);
         http.put('/api/chat/change/roomName=' + payload.roomName + '&id=' + storage.getItem("userid"), {
             roomName : payload.roomName,
             id : payload.id,
-        })
+        },config)
             .then(() => {
                 console.log('Is Read');
             })

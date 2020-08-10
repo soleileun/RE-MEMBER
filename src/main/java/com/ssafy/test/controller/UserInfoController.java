@@ -1,6 +1,7 @@
 package com.ssafy.test.controller;
 
 import java.io.UnsupportedEncodingException;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,8 +29,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.test.model.dto.Addr;
-import com.ssafy.test.model.dto.Board;
 import com.ssafy.test.model.dto.Email;
+import com.ssafy.test.model.dto.SearchParameter;
 import com.ssafy.test.model.dto.User;
 import com.ssafy.test.model.dto.UserInfo;
 import com.ssafy.test.model.service.BoardService;
@@ -66,6 +67,46 @@ public class UserInfoController {
 	
 	@Autowired
 	private BoardService bService;
+	
+	@ApiOperation(value = "모든 검색어 통합 검색하는 것.", response = UserInfo.class)
+	@GetMapping("searchAll/tag={tag}&addr={addr}&keyword={keyword}")
+	public ResponseEntity<List<UserInfo>> search(@PathVariable String tag, @PathVariable String addr,
+			@PathVariable String keyword) {
+		SearchParameter sp = new SearchParameter();
+		String b[] = addr.split(",");
+		if (tag.equals("null")) {
+			// tag 기술 스택이 없는 경우
+			sp.setKeyword(keyword);
+			sp.setDong(b[0]);
+			sp.setGugun(b[1]);
+			sp.setSido(b[2]);
+			sp.setCnt(0);
+
+			return new ResponseEntity<List<UserInfo>>(uiService.searchAll(sp), HttpStatus.OK);
+
+		} else {
+			// 기술 스택 태그가 있는 경우
+			String a[] = tag.split(",");
+			if (a.length > 0)
+				sp.setTag1(a[0]);
+			if (a.length > 1)
+				sp.setTag2(a[1]);
+			if (a.length > 2)
+				sp.setTag3(a[2]);
+			if (a.length > 3)
+				sp.setTag4(a[3]);
+			if (a.length > 4)
+				sp.setTag5(a[4]);
+			sp.setCnt(a.length);
+			sp.setSido(b[0]);
+			sp.setGugun(b[1]);
+			sp.setDong(b[2]);
+			sp.setKeyword(keyword);
+			// 어차피 널이 들어감.
+			return new ResponseEntity<List<UserInfo>>(uiService.searchAll(sp), HttpStatus.OK);
+
+		}
+	}
 	
 	
 	@PostMapping("/signin")

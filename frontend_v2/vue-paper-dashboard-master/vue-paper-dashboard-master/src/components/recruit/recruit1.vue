@@ -101,7 +101,25 @@
             <td>{{list}}</td>
           </tr>
         </table>
-        <button @click="searchPool()">프로젝트 검색</button>
+
+        <div class="row">
+          <div class="col-1">
+            <select name="std" id="std">
+              <option value="t" selected>제목</option>
+              <option value="w">작성자</option>
+            </select>
+          </div>
+
+          <div class="col-8">
+            <input type="text" placeholder="검색어를 입력하세요" id="keyword" style="width:100%;" />
+          </div>
+        </div>
+        <div class="col-2">
+          <button
+            @click="searchPool()"
+            style="border: 2px solid rgb(173, 203, 247); border-radius:10px;"
+          >프로젝트 검색</button>
+        </div>
       </div>
     </div>
 
@@ -242,7 +260,7 @@
       <option value="w">작성자</option>
     </select>
     <input type="text" placeholder="검색어를 입력하세요" id="searchWord" />
-    <button v-on:click="searchRecruit">검색</button> -->
+    <button v-on:click="searchRecruit">검색</button>-->
   </div>
 </template>
 
@@ -360,14 +378,21 @@ export default {
 
   methods: {
     searchRecruit() {
-      let val  = document.getElementById("searchWord").value;
+      let val = document.getElementById("searchWord").value;
       let std = document.getElementById("standard").value;
       //제목 검색
-      if(std == 't'){
+      if (std == "t") {
         console.log(val);
-        this.$store.dispatch(Constant.SEARCH_BOARD_TITLE, {btitle : val, bstate : 'free'});
-      }else{ //작성자 검색
-        this.$store.dispatch(Constant.SEARCH_BOARD_WRITER, {bwriter : val, bstate : 'free'});
+        this.$store.dispatch(Constant.SEARCH_BOARD_TITLE, {
+          btitle: val,
+          bstate: "free",
+        });
+      } else {
+        //작성자 검색
+        this.$store.dispatch(Constant.SEARCH_BOARD_WRITER, {
+          bwriter: val,
+          bstate: "free",
+        });
       }
     },
     openModal() {
@@ -531,8 +556,8 @@ export default {
       } else {
         dn = this.selectedDong;
       }
-      console.log(sd + " "+gg +" "+ dn);
-      console.log("태그길이:"+ this.picks.length);
+      console.log(sd + " " + gg + " " + dn);
+      console.log("태그길이:" + this.picks.length);
 
       //주소만
       if (this.picks.length == 0 && sd != " ") {
@@ -635,9 +660,9 @@ export default {
       }
     },
 
-    deleteRecruit(rnum){
-      this.$emit("delete-recruit",rnum);
-    }
+    deleteRecruit(rnum) {
+      this.$emit("delete-recruit", rnum);
+    },
   },
 };
 </script>

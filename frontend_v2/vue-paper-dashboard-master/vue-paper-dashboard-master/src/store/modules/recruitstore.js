@@ -16,7 +16,10 @@ const recruitstore = {
 
     //구인글 리스트 가져오기
     [Constant.GET_RECRUITLIST]: (store) => {
-      http.get('/api/recruit')
+      const config = {
+        headers: {"jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")}
+}
+      http.get('/api/recruit',config)
         .then(response => {
           // console.log(response)
           store.commit(Constant.GET_RECRUITLIST, {
@@ -28,7 +31,10 @@ const recruitstore = {
 
     //rnum으로 구인글 하나 가져오기
     [Constant.GET_RECRUIT]: (store, payload) => {
-      http.get('/api/recruit/' + payload.rnum)
+      const config = {
+        headers: {"jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")}
+}
+      http.get('/api/recruit/' + payload.rnum,config)
         .then(response => {
           // console.log(response.data);
           store.commit(Constant.GET_RECRUIT, {
@@ -41,6 +47,9 @@ const recruitstore = {
 
     //구인글 추가
     [Constant.ADD_RECRUIT]: (store, payload) => {
+      const config = {
+        headers: {"jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")}
+    }
       console.log(payload);
       http.post('/api/recruit/', {
           pid: payload.pid,
@@ -52,7 +61,7 @@ const recruitstore = {
           makeId: payload.makeId,
           changeId: payload.changeId,
 
-        })
+        },config)
         .then(() => {
           console.log('구인글 추가하였습니다.');
         })
@@ -63,11 +72,14 @@ const recruitstore = {
     },
 
     [Constant.ADD_PINTEREST]: (store, payload) => {
+      const config = {
+        headers: {"jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")}
+    }
       console.log(payload);
       http.post('/api/pinterest/', {
           pid: payload.pid,
           interest: payload.interest,
-        })
+        },config)
         .then(() => {
           console.log('핀인터 추가하였습니다.');
           store.dispatch(Constant.GET_RECRUITLIST);
@@ -82,7 +94,10 @@ const recruitstore = {
     //주소, 태그로 풀리스트 반환
     [Constant.SEARCH_RECRUIT_BY_TAG_ADDR]: (store, payload) => {
       console.log(payload);
-      http.get('/api/recruit/selectAddrAndTag/tag=' + payload.stacks + '&addr=' + payload.addr)
+      const config = {
+        headers: {"jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")}
+}
+      http.get('/api/recruit/selectAddrAndTag/tag=' + payload.stacks + '&addr=' + payload.addr,config)
         .then(response => {
           console.log('풀리스트 반환: ' + response.data);
           store.commit(Constant.GET_RECRUITLIST, {
@@ -94,7 +109,10 @@ const recruitstore = {
     //주소로 풀리스트 반환
     [Constant.SEARCH_RECRUIT_BY_ADDR]: (store, payload) => {
       console.log(payload);
-      http.get('/api/recruit/addr/sido=' + payload.sido + '&gugun=' + payload.gugun + '&dong=' + payload.dong)
+      const config = {
+        headers: {"jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")}
+}
+      http.get('/api/recruit/addr/sido=' + payload.sido + '&gugun=' + payload.gugun + '&dong=' + payload.dong,config)
         .then(response => {
           // console.log('풀리스트 반환: '+response.data);
           store.commit(Constant.GET_RECRUITLIST, {
@@ -106,7 +124,10 @@ const recruitstore = {
     //태그로 풀리스트 반환
     [Constant.SEARCH_RECRUIT_BY_TAG]: (store, payload) => {
       console.log(payload);
-      http.get('/api/recruit/selectSame/' + payload.stacks)
+      const config = {
+        headers: {"jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")}
+}
+      http.get('/api/recruit/selectSame/' + payload.stacks,config)
         .then(response => {
           // console.log('풀리스트 반환: '+response.data);
           store.commit(Constant.GET_RECRUITLIST, {
@@ -117,7 +138,10 @@ const recruitstore = {
     },
     //댓글 삭제
     [Constant.REMOVE_RECRUIT]: (store, payload) => {
-        http.delete('/api/recruit/' + payload.rnum)
+      const config = {
+        headers: {"jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")}
+    }
+        http.delete('/api/recruit/' + payload.rnum,config)
             .then(() => {
                 alert('삭제하였습니다.');
                 store.dispatch(Constant.GET_RECRUITLIST);

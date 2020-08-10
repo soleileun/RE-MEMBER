@@ -4,11 +4,12 @@
       <form @submit.prevent class="forms">
         <div class="row">
           <h2>회원 정보 입력</h2>
+          {{Object.values(this.error).join("")}}
           <div class="col-md-12">
             <br />
           </div>
           <div class="col-md-8">
-            이메일(아이디)
+            이메일(아이디)<span class="reddot">*</span>
             <fg-input type="text" placeholder="example@naver.com" v-model="id"></fg-input>
           </div>
           <div class="col-md-4">
@@ -21,25 +22,25 @@
             <br />
           </div>
           <div class="col-md-6">
-            비밀번호
+            비밀번호<span class="reddot">*</span>
             <fg-input type="password" placeholder="영문/숫자로 구성된 8-20자" v-model="pw"></fg-input>
             {{error.pw}}
             <br />
             <br />
           </div>
           <div class="col-md-6">
-            비밀번호 확인
+            비밀번호 확인<span class="reddot">*</span>
             <fg-input type="password" placeholder="비밀번호를 한번 더 입력해주세요" v-model="pw2"></fg-input>
             {{error.pw2}}
             <br />
             <br />
           </div>
           <div class="col-md-6">
-            이름
+            이름<span class="reddot">*</span>
             <fg-input type="text" placeholder="실명" v-model="name"></fg-input>
           </div>
           <div class="col-md-6">
-            닉네임
+            닉네임<span class="reddot">*</span>
             <fg-input type="text" placeholder="영문/한글/숫자만 입력 가능" v-model="nickname"></fg-input>
           </div>
           <div class="col-md-6">
@@ -54,7 +55,7 @@
           </div>
 
           <div class="col-md-5">
-            주소
+            주소<span class="reddot">*</span>
             <fg-input type="text" placeholder="검색 버튼을 눌러주세요" v-model="address1" :disabled="true"></fg-input>
           </div>
           <div class="col-md-5">
@@ -74,7 +75,7 @@
             <br />
           </div>
           <div class="col-4">
-            전화번호
+            전화번호<span class="reddot">*</span>
             <fg-input type="text" maxlength="3" placeholder="010" v-model="phone0"></fg-input>
             {{error.phone}}
             <br />
@@ -98,7 +99,7 @@
             <fg-input type="text" placeholder="example" v-model="git"></fg-input>
           </div>
           <div class="col-12">
-            포지션
+            포지션<span class="reddot">*</span>
             <br />
             <div class="checks">
               <span class="btn btn-primary" @click="chek('개발')">
@@ -120,6 +121,7 @@
         </div>
       </form>
     </div>
+    <h5><span class="reddot">*</span> : 필수 입력</h5>
     <signupInterest :signup="submitable" @goSignup="goSignup" />
   </card>
   <!--<span>
@@ -217,11 +219,11 @@ export default {
       this.checker();
       setTimeout(()=>{
         this.name = this.name.replace(/[^가-힣]/g, "");
-      },500)
+      },200)
     },
     nickname: function () {
       this.checker();
-      this.nickname = this.nickname.replace(/[^0-9가-힣a-zA-Zㄱ-ㅎㅏ-ㅣ]/g, "");
+      this.nickname = this.nickname.replace(/[^0-9가-힣a-zA-Zㄱ-ㅎ]/g, "");
     },
     phone0: function () {
       this.phone0 = this.phone0.replace(/[^0-9]/g, "");
@@ -248,6 +250,10 @@ export default {
       this.checker();
     },
   },
+    	// }else if(option == "nickname") {
+    	// 	p = Pattern.compile("^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|\\*]+$");
+    	// }
+    	
   methods: {
     jungbok() {
       if (this.error.id === "" && this.id !== "") {
@@ -375,6 +381,9 @@ export default {
 <style scoped lang="scss">
 .signupform {
   background-color: #bbb;
+}
+.reddot{
+  color: red;
 }
 .forms {
   display: flex;
