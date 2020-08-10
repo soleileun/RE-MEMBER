@@ -236,6 +236,8 @@ export default {
 
     addComment() {
       if(this.loginId == '') {
+        document.querySelector(".login").classList.remove("active");
+        document.querySelector(".login").classList.add("active");
         alert("로그인이 필요한 서비스입니다.");
       }
       else if (this.loginId != '' && this.comment2.ccontent.trim() != "") {

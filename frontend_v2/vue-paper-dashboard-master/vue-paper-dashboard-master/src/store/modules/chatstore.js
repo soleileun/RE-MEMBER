@@ -21,7 +21,10 @@ const chatstore = {
 
     //해당 유저가 들어있는 채팅방 리스트 가져오기
     [Constant.GET_CHATROOMLIST]: (store) => {
-      http.get('/api/chatroom/chat/roomlist='+ storage.getItem("userid"))
+        const config = {
+            headers: {"jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")}
+        }
+      http.get('/api/chatroom/chat/roomlist='+ storage.getItem("userid"), config)
           .then(response => {
               store.commit(Constant.GET_CHATROOMLIST, { rooms: response.data })
         })
@@ -32,7 +35,7 @@ const chatstore = {
         const config = {
             headers: {"jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")}
         }
-        http.get('/api/chatroom/chat/name=' + payload.roomName,config)
+        http.get('/api/chatroom/chat/name=' + payload.roomName, config)
             .then(response => {
                 // console.log(response.data);
                 store.commit(Constant.GET_CHATROOMMEMBER, { members: response.data })})
