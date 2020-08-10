@@ -58,6 +58,20 @@ public class ChatroomController {
 		return new ResponseEntity<List<Chatroom>>(Service.selectMember(roomName), HttpStatus.OK);
 	}
 	
+
+
+	@ApiOperation(value = "특정 roomName의 모든 멤버 정보를 반환한다", response = List.class)
+	@GetMapping("exists/uid1={uid1}&uid2={uid2}")
+	public ResponseEntity<String> selectOneToOne(@PathVariable String uid1, @PathVariable String uid2) throws Exception {
+		Map<String,String> k = new HashMap<>();
+		k.put("uid1", uid1);
+		k.put("uid2", uid2);
+		return new ResponseEntity<String>(Service.selectOneToOne(k), HttpStatus.OK);
+	}
+	
+	
+	
+	
 	
 	@ApiOperation(value = "새로운 채팅방 정보를 입력한다. 그리고 DB입력 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
 	@PostMapping
@@ -70,7 +84,10 @@ public class ChatroomController {
 			}
 			
 		}
-		else System.out.println("유저가 없넹");
+		else {
+			System.out.println("유저가 없넹");
+			return new ResponseEntity<String>("해당 ID를 가진 유저가 없습니다. ID를 확인해주세요.", HttpStatus.NO_CONTENT);
+		}
 		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
 	}
 

@@ -1,6 +1,7 @@
 package com.ssafy.test.model.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -54,6 +55,11 @@ public class ChatroomServiceImpl implements ChatroomService{
 	@Override
 	public List<ChatroomChat> selectDetailAll(String k) {
 		return Dao.selectDetailAll(k);
+	}
+
+	@Override
+	public String selectOneToOne(Map<String,String> k) {
+		return Dao.selectOneToOne(k);
 	}
 
 }

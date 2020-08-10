@@ -52,6 +52,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	
+	<select id="selectOneToOne" parameterType="HashMap" resultType="string">
+		select a.roomName 
+		from (
+			select roomName from chatroom
+			where roomName in (select roomName from chatroom where uid =#{uid1})
+			and uid =#{uid2}
+		) as a,
+		(
+			select roomName from chatroom
+			group by roomName
+			having count(uid)  = 2
+		)
+		as b
+		where a.roomName = b.roomName;
+
+	</select>
+	
+	
 	
 	<select id="selectMember" parameterType="string" resultType="chatroom">
 		select * from chatroom
