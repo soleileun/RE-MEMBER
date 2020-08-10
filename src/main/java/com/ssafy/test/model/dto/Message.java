@@ -72,4 +72,10 @@ public class Message {
 	public Message() {
 	}
 
+	@Override
+	public String toString() {
+		return "Message [mnum=" + mnum + ", toUser=" + toUser + ", fromUser=" + fromUser + ", content=" + content
+				+ ", time=" + time + ", isRead=" + isRead + "]";
+	}
+
 }
