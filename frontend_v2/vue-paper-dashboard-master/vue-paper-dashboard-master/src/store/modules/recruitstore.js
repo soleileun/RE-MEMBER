@@ -152,6 +152,21 @@ const recruitstore = {
     },
 
 
+    //통합 검색
+    [Constant.SEARCH_RECRUIT]: (store, payload) => {
+      console.log(payload);
+      const config = {
+        headers: {"jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")}
+}
+      http.get('/api/recruit/search/tag=' + payload.stacks + '&addr=' + payload.addr+'&by='+payload.by + '&keyword='+payload.keyword,config)
+        .then(response => {
+          console.log('통합 검색 조건 리쿠르트리스트 반환: ' + response.data);
+          store.commit(Constant.GET_RECRUITLIST, {
+            recruits: response.data
+          })
+        })
+        .catch(exp => alert('풀리스트 반환 처리에 실패하였습니다.' + exp));
+    },
     // //댓글 클리어
     // [Constant.CLEAR_COMMENT]: (store, payload) => {
     //     http.delete('/api//' + 'java')

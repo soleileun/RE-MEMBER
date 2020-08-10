@@ -14,10 +14,7 @@ const poolstore = {
   actions: {
 
     [Constant.GET_POOLLIST]: (store) => {
-      const config = {
-        headers: {"jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")}
-    }
-      http.get('/api/userinfo/getCurrList',config)
+      http.get('/api/userinfo/getCurrList')
           .then(response => {
             // console.log(response)
               store.commit(Constant.GET_POOLLIST, { pools: response.data })
@@ -25,6 +22,21 @@ const poolstore = {
           .catch(exp => alert('getPoolList처리에 실패하였습니다!.' + exp));
     },
    
+    //통합 검색
+    [Constant.SEARCH_POOLIST]: (store, payload) => {
+      // console.log(payload);
+      const config = {
+        headers: {"jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")}
+}     
+      http.get('/api/userinfo/searchAll/tag=' + payload.stacks + '&addr=' + payload.addr+ '&keyword='+payload.keyword,config)
+        .then(response => {
+          console.log('통합 검색 조건 유저리스트 반환: ' + response.status);
+          store.commit(Constant.GET_POOLLIST, {
+            pools: response.data
+          })
+        })
+        .catch(exp => alert('풀리스트 반환 처리에 실패하였습니다.' + exp));
+    },
     // //댓글 추가
     // [Constant.ADD_COMMENT]: (store, payload) => {
     //     console.log(payload.bno);
@@ -78,7 +90,7 @@ const poolstore = {
 
   mutations: {
     [Constant.GET_POOLLIST]: (state, payload) => {
-        // console.log('mutation' + payload.boards);
+        console.log('mutation' + payload.pools);
         state.pools = payload.pools.filter(item=>item.responsibility!=="admin");
     },
     
