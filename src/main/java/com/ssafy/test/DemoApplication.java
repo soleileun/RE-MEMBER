@@ -29,13 +29,13 @@ public class DemoApplication implements WebMvcConfigurer {
 		.excludePathPatterns(Arrays.asList(
 				
 				"/api/userinfo/**",
-				"/api/email/**","/api/pmember/**"
-										, "/api/board/**",
-										 "/api/recruit/**","/api/project/**","/api/pinterest/**",
-										 "/api/comments/**","/api/issue/**","/api/following/**","/api/interest/**",
-										 "/api/message/**","/api/chat/**","/api/chatroom/**","/api/usertag/**",
-										 "/api/tag/**","/api/addr/**"
-										 
+				"/api/email/**","/api/following/**"
+//										, "/api/board/**","/api/pmember/**"
+//										 "/api/recruit/**","/api/project/**","/api/pinterest/**",
+//										 "/api/comments/**","/api/issue/**","/api/interest/**",
+//										 "/api/message/**","/api/chat/**","/api/chatroom/**","/api/usertag/**",
+//										 "/api/tag/**","/api/addr/**"
+//										 
 				
 				));
 	}
