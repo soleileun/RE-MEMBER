@@ -17,8 +17,11 @@ const projectstore = {
   actions: {
     //userId에 맞는 project 리스트 가져오기
     [Constant.GET_PROJECTLIST_BY_PMEMBER]: (store, payload) => {
+      const config = {
+        headers: {"jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")}
+    }
       // console.log('토큰 : '+ storage.getItem("jwt-auth-token"));
-      http.get('/api/project/searchByUserId/' + payload.userId)
+      http.get('/api/project/searchByUserId/' + payload.userId,config)
         .then(response => {
           console.log('과정2' + response.data);
           store.commit(Constant.GET_PROJECTLIST_BY_PMEMBER, {
@@ -29,7 +32,10 @@ const projectstore = {
     },
     //pid으로 현재 프로젝트 멤버수 가져오기
     [Constant.GET_CURRENT_MEMBER_COUNT]: (store, payload) => {
-      http.get('/api/pmember/selectCntByPid/' + payload.pid)
+      const config = {
+        headers: {"jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")}
+    }
+      http.get('/api/pmember/selectCntByPid/' + payload.pid,config)
         .then(response => {
           // console.log(response.data);
           store.commit(Constant.GET_CURRENT_MEMBER_COUNT, {
@@ -42,7 +48,10 @@ const projectstore = {
 
     //pid으로 현재 프로젝트 멤버 정보 가져오기
     [Constant.GET_PROJECT_MEMBER_BY_PID]: (store, payload) => {
-      http.get('/api/pmember/selectByPid/' + payload.pid)
+      const config = {
+        headers: {"jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")}
+    }
+      http.get('/api/pmember/selectByPid/' + payload.pid,config)
         .then(response => {
           console.log(response.data);
           //console.log("궁금해 ㅠ");
@@ -57,7 +66,10 @@ const projectstore = {
 
     //pid으로 프로젝트 하나 가져오기
     [Constant.GET_PROJECT]: (store, payload) => {
-      http.get('/api/project/' + payload.pid)
+      const config = {
+        headers: {"jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")}
+    }
+      http.get('/api/project/' + payload.pid,config)
         .then(response => {
           // console.log(response.data);
           store.commit(Constant.GET_PROJECT, {

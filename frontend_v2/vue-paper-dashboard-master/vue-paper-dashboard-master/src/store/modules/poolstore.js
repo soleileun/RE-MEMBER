@@ -14,7 +14,10 @@ const poolstore = {
   actions: {
 
     [Constant.GET_POOLLIST]: (store) => {
-      http.get('/api/userinfo/getCurrList')
+      const config = {
+        headers: {"jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")}
+    }
+      http.get('/api/userinfo/getCurrList',config)
           .then(response => {
             // console.log(response)
               store.commit(Constant.GET_POOLLIST, { pools: response.data })

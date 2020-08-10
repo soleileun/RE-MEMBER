@@ -16,7 +16,10 @@ const commentstore = {
 
     //bno게시글의 댓글 가져오기
     [Constant.GET_COMMENTLIST]: (store,payload) => {
-      http.get('/api/board/getcomments/'+ payload.bno)
+      const config = {
+        headers: {"jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")}
+    }
+      http.get('/api/board/getcomments/'+ payload.bno,config)
           .then(response => {
             console.log(response)
               store.commit(Constant.GET_COMMENTLIST, { comments: response.data })
