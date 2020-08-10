@@ -21,10 +21,11 @@ export default {
     };
   },
   methods: {
-    agree:function(){
-      this.states = 2
+    agree: function () {
+      this.states = 2;
+      document.querySelector("html").scrollTop = 0;
     },
-  }
+  },
 };
 </script>
 
