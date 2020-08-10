@@ -29,7 +29,10 @@ const stackstore = {
     // },
     //시도부르기
     [Constant.GET_SIDOLIST]: (store) => {
-      http.get('/api/addr/getSido')
+      const config = {
+        headers: {"jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")}
+}
+      http.get('/api/addr/getSido',config)
           .then(response => {
             // console.log(response)
               store.commit(Constant.GET_SIDOLIST, { sidolist: response.data })
@@ -38,7 +41,10 @@ const stackstore = {
     },
     //시도로 구군 부르기
     [Constant.GET_GUGUNLIST]: (store,payload) => {
-      http.get('/api/addr/getGugun/sido='+ payload.sido)
+      const config = {
+        headers: {"jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")}
+}
+      http.get('/api/addr/getGugun/sido='+ payload.sido,config)
           .then(response => {
             // console.log(response)
               store.commit(Constant.GET_GUGUNLIST, { gugunlist: response.data })
@@ -47,7 +53,10 @@ const stackstore = {
     },
     //구군으로 동 부르기
     [Constant.GET_DONGLIST]: (store,payload) => {
-      http.get('/api/addr/getDong/sido='+payload.sido+'&gugun='+ payload.gugun)
+      const config = {
+        headers: {"jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")}
+}
+      http.get('/api/addr/getDong/sido='+payload.sido+'&gugun='+ payload.gugun,config)
           .then(response => {
             // console.log('반응:'+response)
               store.commit(Constant.GET_DONGLIST, { donglist: response.data })
