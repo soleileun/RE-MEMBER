@@ -68,6 +68,12 @@ export default {
     delFollow(id) {
       this.$store.dispatch("delFollow", { target: id });
     },
+    isExist: function(uid1, uid2) {
+      this.$store.dispatch(Constant.GET_CHATROOMONETOONE, {
+        uid1 = storage.getItem("userid"),
+        uid2 = id,
+      });
+    },
     doChat(id) {
       this.$store.dispatch(Constant.ADD_CHATROOM, {
         roomName: `${storage.getItem("userid")},${id.split("@")[0]}`,

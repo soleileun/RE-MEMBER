@@ -14,6 +14,7 @@ const chatstore = {
       rooms: [],
       room: {},
       members: [],
+      sameroom:{},
   },
  
   actions: {
@@ -43,6 +44,21 @@ const chatstore = {
 
     },
     //채팅방 추가
+
+    
+    //둘이 있는 채팅방이 있는지 확인
+    [Constant.GET_CHATONETOONE]: (store, payload) => {
+        const config = {
+            headers: {"jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")}
+        }
+        http.get('/api/chatroom/exists/uid1=' + payload.uid1 + '&uid2=',payload.uid2, config)
+            .then(response => {
+                // console.log(response.data);
+                store.commit(Constant.GET_CHATONETOONE, { sameroom: response.data })})
+            .catch(exp => alert('getChatroomOneToOne처리에 실패하였습니다.' + exp));
+
+    },
+
     
     [Constant.ADD_CHATROOM]: (store, payload) => {
         // console.log(payload.bstate);
