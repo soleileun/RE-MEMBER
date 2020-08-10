@@ -37,10 +37,10 @@ const userstore = {
         })
         store.dispatch("update")
         store.dispatch("getFollow");
-      } else if (storage.getItem("autologin") === 't') {
+      } else if (window.localStorage.getItem("autologin") === 't') {
         store.dispatch("login", {
-          id: storage.getItem("userid"),
-          pw: storage.getItem("pw")
+          id: window.localStorage.getItem("id"),
+          pw: window.localStorage.getItem("pw")
         });
       } else {
         storage.setItem("jwt-auth-token", "");
@@ -194,7 +194,7 @@ const userstore = {
         .then(response => {
           console.log(response);
           if (response.data.data) {
-            http.delete('api/userinfo/' + storage.getItem("userid"), {
+            http.delete('api/userinfo/' + storage.getItem("userid"), config = {
               headers: {
                 "jwt-auth-token": storage.getItem("jwt-auth-token")
               }
@@ -345,7 +345,7 @@ const userstore = {
     loadNews: (state, payload) => {
       state.news = payload.list.filter(item => item.fromUser == "admin");
       if (!state.bubbleNew) {
-        if (payload.list.find(item => item.read === false)) {
+        if (state.news.find(item => item.read === false)) {
           state.bubbleNew = true
         }
       }

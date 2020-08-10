@@ -27,12 +27,15 @@
     <div class="text-center">
       <div class="row justify-content-md-center">
         <div clss="col-lg-4">
-          <button id="myBtn" @click="openModal" class="btn btn-round btn-dark">팀원관리</button>
+          <button id="myBtn"  v-if="myId===targetId" @click="openModal" class="btn btn-round btn-dark">팀원관리</button>
         
         </div>
         <span></span>
         <div clss="col-lg-8">
-          <button v-on:click="popup()" class="btn btn-round btn-success">일정관리페이지</button>
+          <button  v-if="myId===targetId" v-on:click="popup()" class="btn btn-round btn-success">일정관리페이지</button>
+        </div>
+        <div clss="col-lg-8">
+          <!-- <button class="btn btn-round btn-success">다른사람이 볼때 보이는 버튼</button> -->
         </div>
 
         <!-- <div v-for="(info, index) in details" :key="index" :class="getClasses(index)">
@@ -75,20 +78,10 @@ export default {
   data: function () {
     return {
       index: 0,
-      details: [
-        {
-          title: "12",
-          subTitle: "Files",
-        },
-        {
-          title: "2GB",
-          subTitle: "Used",
-        },
-        {
-          title: "24,6$",
-          subTitle: "Spent",
-        },
-      ],
+      myId : storage.getItem("userid"),
+     userNick: storage.getItem("userNick"),
+      // userId: storage.getItem("userid"),
+      targetId: this.$route.params.userId,
     };
   },
   computed: {
@@ -106,10 +99,15 @@ export default {
     },
   },
   mounted() {
-    console.log(this.project.pid);
+   // console.log(this.project.pid);
     this.$store.dispatch(Constant.GET_CURRENT_MEMBER_COUNT, {
       pid: this.project.pid,
     });
+  },
+    created() {
+    //console.log(userId);
+    this.getPmemberList(this.$route.params.userId);
+    this.getProjectListByPmember(this.$route.params.userId);
   },
   props: {
     project: {

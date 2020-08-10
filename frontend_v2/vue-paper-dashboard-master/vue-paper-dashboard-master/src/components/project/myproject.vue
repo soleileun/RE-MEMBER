@@ -1,6 +1,6 @@
 <template>
   <div class="project1">
-    <h1>프로젝트 관리 페이지</h1>
+    <h1>{{targetId}}님의 프로젝트 페이지</h1>
     <hr />
 
     <button
@@ -35,7 +35,8 @@ export default {
     return {
       index: 0,
       userNick: storage.getItem("userNick"),
-      userId: this.$route.params.userid,
+      userId: storage.getItem("userid"),
+      targetId: this.$route.params.userId,
     };
   },
 
@@ -46,13 +47,17 @@ export default {
     },
   },
   created() {
-    console.log(userId);
+    //console.log(userId);
     this.getPmemberList(this.$route.params.userId);
     this.getProjectListByPmember(this.$route.params.userId);
+  },
+  mounted() {
+    // console.log(targetId + " : " + userId);
   },
   methods: {
     getPmemberList(userId) {
       console.log("과정1");
+
       this.$store.dispatch(Constant.GET_PROJECTLIST_BY_PMEMBER, { userId });
     },
     movePage() {

@@ -91,7 +91,7 @@ export default {
         pjtName: "",
         pjtContent: "",
         pjtState: "",
-        pjtMemberCnt: 5,
+        pjtMemberCnt: "5",
         makeDay: "",
         changeDay: "",
         makeId: "",
@@ -104,7 +104,8 @@ export default {
     addProject() {
       if (
         this.wproject.pjtContent.trim() != "" &&
-        this.wproject.pjtName.trim() != ""
+        this.wproject.pjtName.trim() != "" &&
+        this.wproject.pjtMemberCnt != "0"
       ) {
         this.$store.dispatch(Constant.ADD_PROJECT, {
           // pid: "",

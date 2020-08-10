@@ -4,6 +4,7 @@
       <form @submit.prevent class="forms">
         <div class="row">
           <h2>회원 정보 입력</h2>
+          {{Object.values(this.error).join("")}}
           <div class="col-md-12">
             <br />
           </div>
@@ -218,11 +219,11 @@ export default {
       this.checker();
       setTimeout(()=>{
         this.name = this.name.replace(/[^가-힣]/g, "");
-      },500)
+      },200)
     },
     nickname: function () {
       this.checker();
-      this.nickname = this.nickname.replace(/[^0-9가-힣a-zA-Zㄱ-ㅎㅏ-ㅣ]/g, "");
+      this.nickname = this.nickname.replace(/[^0-9가-힣a-zA-Zㄱ-ㅎ]/g, "");
     },
     phone0: function () {
       this.phone0 = this.phone0.replace(/[^0-9]/g, "");
@@ -249,6 +250,10 @@ export default {
       this.checker();
     },
   },
+    	// }else if(option == "nickname") {
+    	// 	p = Pattern.compile("^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|\\*]+$");
+    	// }
+    	
   methods: {
     jungbok() {
       if (this.error.id === "" && this.id !== "") {
