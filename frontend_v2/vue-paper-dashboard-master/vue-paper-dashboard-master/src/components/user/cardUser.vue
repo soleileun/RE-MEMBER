@@ -58,7 +58,6 @@ export default {
     };
   },
   mounted: function () {
-    this.$store.dispatch("getMyProfile");
   },
 
   methods: {

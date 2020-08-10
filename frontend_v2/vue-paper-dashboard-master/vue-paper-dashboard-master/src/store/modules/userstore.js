@@ -2,6 +2,7 @@ import Vuex from 'vuex';
 import Vue from 'vue';
 import router from '../../router';
 
+import Constant from '../../Constant.js';
 import http from '../../http-common.js';
 Vue.use(Vuex);
 const storage = window.sessionStorage;
@@ -118,7 +119,7 @@ const userstore = {
       storage.setItem("jwt-auth-token", "");
       storage.setItem("userNick", "")
       storage.setItem("userid", "")
-      storage.setItem("autologin", "f")
+      window.localStorage.setItem("autologin", "f")
       store.dispatch("init")
     },
     signup: (store, payload) => {
@@ -176,6 +177,12 @@ const userstore = {
             store.commit('loadfollowings', {
               followings: res.data,
               users: response.data
+            })
+            res.data.forEach(item=>{
+              store.dispatch(Constant.GET_CHATROOMONETOONE, {
+                uid1 : storage.getItem("userid"),
+                uid2 : item.target,
+              });
             })
           }).catch(exp => console.log(exp))
         })
