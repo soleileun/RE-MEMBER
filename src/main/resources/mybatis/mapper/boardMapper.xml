@@ -4,7 +4,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ssafy.test.Board">
 	<select id="selectAll" resultType="board">
-		select * from board
+		select * from board 
+		order by bno desc
 	</select>
 	
 	<select id="select" parameterType="int" resultType="board">
@@ -16,24 +17,28 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="getComments" parameterType="int" resultType="comments">
 		select * from comments
 		where bno =#{bno}
+		order by bno desc
 	
 	</select>
 	
 	<select id="search" parameterType="string" resultType="board">
 		select bno,bwriter,btitle,bcontent,bview,bfile,bstate,makeDay,makeId from board
 		where bstate =#{bstate}
+		order by bno desc
 	
 	</select>
 	
 	<select id="searchById" parameterType="string" resultType="board">
 		select * from board
 		where bwriter =#{bwriter}
+		order by bno desc
 	
 	</select>
 
 	<select id="searchByContents" parameterType="string" resultType="board">
 		select * from board
 		where bcontent like CONCAT('%',#{bcontent},'%')
+		order by bno desc
 	
 	</select>
 	
@@ -41,12 +46,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="searchByTitle" parameterType="string" resultType="board">
 		select * from board
 		where btitle like CONCAT('%',#{btitle},'%')
+		order by bno desc
 	
 	</select>
 	
 	<select id="searchByTitleAndContents" parameterType="string" resultType="board">
 		select * from board
 		where btitle like CONCAT('%',#{btitle},'%') or bcontent like CONCAT('%',#{btitle},'%')
+		order by bno desc
 	
 	</select>
 
@@ -57,12 +64,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="typesearchById" parameterType="board" resultType="board">
 		select * from board
 		where bwriter =#{bwriter} and bstate =#{bstate}
+		order by bno desc
 	
 	</select>
 
 	<select id="typesearchByContents" parameterType="board" resultType="board">
 		select * from board
 		where bcontent like CONCAT('%',#{bcontent},'%') and bstate =#{bstate}
+		order by bno desc
 	
 	</select>
 	
@@ -70,12 +79,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="typesearchByTitle" parameterType="board" resultType="board">
 	select * from board
 	where btitle like CONCAT('%',#{btitle},'%') and bstate =#{bstate}
+	order by bno desc
 	
 	</select>
 	
 	<select id="typesearchByTitleAndContents" parameterType="board" resultType="board">
 		select * from board
 		where (btitle like CONCAT('%',#{btitle},'%') or bcontent like CONCAT('%',#{bcontent},'%')) and bstate =#{bstate}
+		order by bno desc
 	
 	</select>
 
