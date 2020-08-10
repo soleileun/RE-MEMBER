@@ -5,6 +5,7 @@ import java.util.List;
 import com.ssafy.test.model.dto.Addr;
 import com.ssafy.test.model.dto.AddrAndTag;
 import com.ssafy.test.model.dto.Recruit;
+import com.ssafy.test.model.dto.SearchParameter;
 import com.ssafy.test.model.dto.TagList;
 
 public interface RecruitService {
@@ -24,4 +25,6 @@ public interface RecruitService {
 	public List<Recruit> selectSame(TagList tl);
 	
 	public List<Recruit> selectAddrAndTag(AddrAndTag aat);
+	
+	public List<Recruit> searchAll(SearchParameter sp);
 }
