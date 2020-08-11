@@ -96,16 +96,18 @@ const boardstore = {
     
     [Constant.READ_BOARD]: (store, payload) => {
         // console.log(payload);
+        console.log("받아옴? : " + payload.bno);
         const config = {
             headers: {"jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")}
         }
-        http.put('/api/board/read/' + payload.bno,config)
+        http.put('/api/board/read/' + payload.bno, config)
             .then(() => {
-                // console.log('수정하였습니다.'+ response.data);
-                store.dispatch(Constant.READ_BOARD, {bno : payload.bno});
+                 console.log('수정하였습니다.'+ response.data);
+                //store.dispatch(Constant.READ_BOARD, {bno : payload.bno});
             })
             .catch(exp => alert('읽음 처리에 실패하였습니다.' + exp));
     },
+
     //게시글 삭제
     [Constant.REMOVE_BOARD]: (store, payload) => {
         const config = {
