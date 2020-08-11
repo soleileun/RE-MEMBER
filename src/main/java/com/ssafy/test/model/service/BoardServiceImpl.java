@@ -100,4 +100,10 @@ public class BoardServiceImpl implements BoardService{
 		return Dao.deletecomments(k);
 	}
 
+	@Override
+	public int read(int k) {
+		// TODO Auto-generated method stub
+		return Dao.read(k);
+	}
+
 }

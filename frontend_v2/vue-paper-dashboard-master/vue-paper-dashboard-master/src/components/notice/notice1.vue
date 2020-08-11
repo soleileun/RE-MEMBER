@@ -74,8 +74,9 @@
                         <td>{{free.bno}}</td>
                         <td>공지</td>
                         <!-- bno 쿼리스트링 달아서 분기 -->
-                        <td style="text-align:left;">
-                          <router-link :to="'/freeboard/detailfree/' + free.bno">{{free.btitle}}</router-link>
+                        <td style="text-align:left;" @click="read(free.bno)">
+                          {{free.btitle}}
+                          <!--<router-link :to="'/freeboard/detailfree/' + free.bno">{{free.btitle}}</router-link>-->
                         </td>
                         <td>{{free.bwriter}}</td>
                         <td>{{free.bview}}</td>
@@ -153,6 +154,13 @@ export default {
   },
 
   methods: {
+    read: function(e) {
+        console.log("눌림" + e);
+        this.$store.dispatch(Constant.READ_BOARD, {bno : e});
+        let addr = "/freeboard/detailfree/" + e;
+        this.$router.push(addr);
+
+    },
     searchNotice(){
       let val  = document.getElementById("searchWord2").value;
       let std = document.getElementById("standard2").value;

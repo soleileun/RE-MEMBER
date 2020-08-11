@@ -108,4 +108,9 @@ public class BoardDAOImpl implements BoardDAO{
 		return template.delete(ns + "deletecomments", k);
 	}
 
+	@Override
+	public int read(int k) {
+		return template.update(ns + "read", k);
+	}
+
 }

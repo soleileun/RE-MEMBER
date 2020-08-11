@@ -7,6 +7,7 @@ export default {
     REMOVE_BOARD: 'removeBoard',
     SEARCH_BOARD_TITLE: 'searchBoardByTitle',
     SEARCH_BOARD_WRITER: 'searchBoardByWriter',
+    READ_BOARD: 'readBoard',
     // COMPLETE_BOARD : 'completeTodo',
     // CLEAR_BOARD : 'clearTodo'
 

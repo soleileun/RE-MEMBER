@@ -19,6 +19,8 @@ public interface BoardService {
 	
 	public int update(Board v);
 	
+	public int read(int k);
+	
 	public List<Comments> getComments(int k);
 
 	public List<Board> search(String s);

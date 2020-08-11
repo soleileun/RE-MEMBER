@@ -19,6 +19,8 @@ public interface BoardDAO {
 
 	public int update(Board v);
 	
+	public int read(int k);
+	
 	public List<Comments> getComments(int k); // 해당 글에 달린 커멘트들을 쫙 받아옴.
 	
 	public List<Board> search(String s);	// 게시글 타입으로 무슨 게시글인지 조회

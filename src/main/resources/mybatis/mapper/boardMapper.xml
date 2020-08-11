@@ -118,4 +118,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		changeId=#{changeId}
 		where bno=#{bno}
 	</update>
+	
+	
+	<update id="read" parameterType="int">
+		update board set
+		bview = bview + 1
+		where bno=#{bno}
+	</update>
 </mapper>
