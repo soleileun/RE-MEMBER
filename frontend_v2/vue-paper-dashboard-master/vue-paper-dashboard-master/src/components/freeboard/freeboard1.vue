@@ -101,7 +101,13 @@
           <div class="card">
             <div class="card-body">
               <h4 class="card-title">자유게시판</h4>
-              <br>
+              <div class="col-1">
+                <select name="standard" id="standard">
+                  <option value="t" selected>제목</option>
+                  <option value="w">작성자</option>
+                </select>
+              </div>
+              <br />
               <div class="overflow-auto table-responsive">
                 <b-table
                   class="table"
@@ -160,7 +166,8 @@ export default {
   name: "freeboard1",
   data() {
     return {
-      perPage: 3,
+      //몇개씩 보여줄것인가
+      perPage: 10,
       currentPage: 1,
       fields: [
         {
