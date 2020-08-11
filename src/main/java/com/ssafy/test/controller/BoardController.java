@@ -44,12 +44,18 @@ public class BoardController {
 	@ApiOperation(value = "모든 게시글의 댓글 정보를 반환한다.", response = List.class)
 	@GetMapping("getcomments/{bno}")
 	public ResponseEntity<List<Comments>> getComments(@PathVariable int bno) {
+
+		if (bService.read(bno) != 0) {
+			System.out.println("읽음처리 실패");
+		}
+		
 		return new ResponseEntity<List<Comments>>(bService.getComments(bno), HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "글번호에 해당하는 게시글의 정보를 반환한다.", response = Board.class)
 	@GetMapping("no/{bno}")
 	public ResponseEntity<Board> detailnoBoard(@PathVariable int bno) {
+		
 		return new ResponseEntity<Board>(bService.select(bno), HttpStatus.OK);
 	}
 
@@ -153,7 +159,17 @@ public class BoardController {
 		}
 		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
 	}
-
+/*
+	@ApiOperation(value = "조회수 올려준다. 그리고 DB수정 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
+	@PutMapping("read/{bno}")
+	public ResponseEntity<String> read(@PathVariable int k) {
+			System.out.println("read들어옴" + k);
+		if (bService.read(k) != 0) {
+			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+		}
+		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
+	}
+*/
 	@ApiOperation(value = "글번호에 해당하는 게시글의 정보를 삭제한다. 그리고 DB삭제 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
 	@DeleteMapping("delete/{bno}")
 	public ResponseEntity<String> deleteBoard(@PathVariable int bno) {

@@ -12,11 +12,11 @@
 나가기
 </div>
       
+                <input v-model="target" type="text">
+                <button @click="invite()" >초대</button>
           <drop-down class="nav-item" title-classes="nav-link" icon="fa fa-envelope hand" title="초대">
             
 
-                <input v-model="target" type="text">
-                <button @click="invite()" >초대</button>
               <a class="dropdown-item" href="#">Notification 1</a>
               <a class="dropdown-item" href="#">Notification 2</a>
           </drop-down>
@@ -304,7 +304,7 @@ export default {
             console.log(response);
             
           })
-          
+          /*
       console.log(this.target + "님을 초대");
       alert(this.target + "님을 초대했습니다.");
       }
@@ -330,6 +330,7 @@ export default {
           content : this.target + "님께서 입장하셨습니다.",
           makedate : new Date(),
           });
+      */
       }
       // 끝
     },

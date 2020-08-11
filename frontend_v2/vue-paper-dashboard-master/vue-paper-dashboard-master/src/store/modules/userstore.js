@@ -139,31 +139,67 @@ const userstore = {
           responsibility: payload.responsibility,
         })
         .then((res) => {
-          console.log(res);
-          store.state.interest.forEach((el) => {
-            http
-              .post("/api/interest/", {
-                id: payload.id,
-                interest: el,
-              }).then(res => {
-                console.log(res)
-              }).catch(e => console.log(e))
-            store.dispatch("login", {
+          http.post('/api/userinfo/signin', {
               id: payload.id,
               pw: payload.pw
-            });
-            setTimeout(() => {
+            })
+            .then(response => {
+              console.log(response)
+              if (response.data.data) {
+                const config = {
+                  headers: {
+                    "jwt-auth-token": response.headers["jwt-auth-token"]
+                  }
+                }
+                storage.setItem("jwt-auth-token", response.headers["jwt-auth-token"]);
+                storage.setItem("userNick", response.data.data.nickname)
+                storage.setItem("userid", response.data.data.id)
+                storage.setItem("idvalid", "true"); //response.data.data.valid);
+                storage.setItem("userState", response.data.data.state);
+                document.querySelector(".login").classList.remove('active')
+                store.commit('loginError', {
+                  e: ''
+                })
+                store.dispatch("init")
+                store.state.interest.forEach((el) => {
+                  http
+                    .post("/api/interest/", {
+                      id: payload.id,
+                      interest: el,
+                    }, config).then(res => {
+
+                    }).catch(e => console.log(e))
+                })
                 router.push({
                   path: "/main"
                 })
-              },
-              500)
+              } else {
+                storage.setItem("jwt-auth-token", "");
+                storage.setItem("userNick", "")
+                storage.setItem("userid", "")
+                storage.setItem("idvalid", "");
+                storage.setItem("userState", "");
+                store.commit('loginError', {
+                  e: '회원가입에 오류가 있습니다 문의해주세요'
+                })
+              }
+            })
+            .catch(exp => {
+              store.commit('loginError', {
+                e: '오류 발생' + exp
+              })
+              storage.setItem("jwt-auth-token", "");
+              storage.setItem("userNick", "")
+              storage.setItem("userid", "")
+            });
 
-          });
+
+
 
         })
         .catch((e) => console.log(e));
     },
+
     getFollow: (store) => {
       const config = {
         headers: {
@@ -186,7 +222,9 @@ const userstore = {
             res.data.forEach(item => {
               store.dispatch(Constant.GET_CHATROOMONETOONE, {
                 uid1: storage.getItem("userid"),
+
                 uid2: item.target,
+
               });
             })
           }).catch(exp => console.log(exp))
@@ -225,11 +263,13 @@ const userstore = {
         .catch((exp) => alert("에러" + exp));
     },
     leave: (store, payload) => {
-      const config = {
+
+      let config = {
         headers: {
           "jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")
         }
       }
+
       http.post('/api/userinfo/signin', {
           id: storage.getItem("userid"),
           pw: payload.pw,

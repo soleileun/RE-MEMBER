@@ -76,17 +76,21 @@ public class ChatroomController {
 	@ApiOperation(value = "새로운 채팅방 정보를 입력한다. 그리고 DB입력 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
 	@PostMapping
 	public ResponseEntity<String> writeBoard(@RequestBody Chatroom v) {
-		if(uService.select(v.getUid()) != null) {
-			System.out.println("유저가 있넹");
-
+		if(uService.select(v.getUid()) != null) { // 유저가 있을 경우
+			
+			if(Service.select(v) != null) { // 해당 방에 이미 참가중인경우에는 null이 아닌 값이 옴
+				//System.out.println("이미 참가중");
+				return new ResponseEntity<String>("exist", HttpStatus.NO_CONTENT);
+			}
 			if (Service.insert(v) != 0) {
 				return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 			}
 			
 		}
 		else {
-			System.out.println("유저가 없넹");
-			return new ResponseEntity<String>("해당 ID를 가진 유저가 없습니다. ID를 확인해주세요.", HttpStatus.NO_CONTENT);
+			//해당 아이디를 가진 유저가 없음.
+			//System.out.println("유저가 없음");
+			return new ResponseEntity<String>("noid", HttpStatus.NO_CONTENT);
 		}
 		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
 	}

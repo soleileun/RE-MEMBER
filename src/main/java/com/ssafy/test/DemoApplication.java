@@ -29,7 +29,7 @@ public class DemoApplication implements WebMvcConfigurer {
 		.excludePathPatterns(Arrays.asList(
 				
 				"/api/userinfo/**",
-				"/api/email/**", "/api/board","/api/board/search/**", "/api/board/typesearch/**",
+				"/api/email/**", "/api/board","/api/board/search/**","/api/board/read/**" ,"/api/board/typesearch/**",
 				 "/api/comments","/api/recruit/**","/api/pinterest/**", 
 				 "/api/project/","/api/project/searchByUserId/**","/api/project/**"
 				 //, "/api/message/**"
