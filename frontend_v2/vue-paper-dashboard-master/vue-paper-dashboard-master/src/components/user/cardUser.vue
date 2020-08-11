@@ -9,8 +9,8 @@
         <h4 class="title">
           {{userNick}}
           <br />
-          <a href="#">
-            <small>@Not complete</small>
+          <a :href="'https://github.com/'+usergit">
+            <small>@{{usergit}}</small>
             <!-- <small>@{{usergit}}</small> -->
           </a>
         </h4>
@@ -32,7 +32,7 @@
           </h5>
         </div>
       </div>
-    </div>Not Completed
+    </div>
   </card>
 </template>
 <script>
@@ -56,8 +56,9 @@ export default {
         },
       ],
       userNick: storage.getItem("userNick"),
+      userId: storage.getItem("userId"),
       users: storage.getItem("users"),
-      // usergit: storage.getItem("git"),
+      usergit: storage.getItem("usergit"),
     };
   },
   computed: {
@@ -70,6 +71,7 @@ export default {
   },
   created() {
     this.$store.dispatch("getFollower");
+
     // console.log("뭐냐고");
     console.log("팔로잉" + this.$store.state.userstore.followings);
     // console.log("팔로워");

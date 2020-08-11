@@ -25,6 +25,7 @@ const userstore = {
     mesviewdetail: false,
     bubbleNew: false,
     interest: [],
+    usergit: ''
   },
 
   actions: {
@@ -85,11 +86,14 @@ const userstore = {
           pw: payload.pw
         })
         .then(response => {
-          console.log(response)
+          console.log("ㅕ기");
+          console.log(response.data.data)
+          console.log("rjarj");
           if (response.data.data) {
             storage.setItem("jwt-auth-token", response.headers["jwt-auth-token"]);
             storage.setItem("userNick", response.data.data.nickname)
             storage.setItem("userid", response.data.data.id)
+            storage.setItem("usergit", response.data.data.git)
             storage.setItem("idvalid", "true"); //response.data.data.valid);
             storage.setItem("userState", response.data.data.state);
             document.querySelector(".login").classList.remove('active')
