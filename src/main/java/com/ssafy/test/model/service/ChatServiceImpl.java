@@ -1,6 +1,7 @@
 package com.ssafy.test.model.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,7 +17,7 @@ public class ChatServiceImpl implements ChatService{
 	ChatDao Dao;
 	
 	@Override
-	public List<Chat> selectAll(String k) {
+	public List<Chat> selectAll(Map<String,String> k) {
 		// TODO Auto-generated method stub
 		return Dao.selectAll(k);
 	}

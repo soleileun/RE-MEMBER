@@ -338,12 +338,12 @@ export default {
       console.log("나가기");
 
       //나감 관련 시스템 메시지
-      console.log("Send message:" + this.id + "님께서 나가셨습니다.");
+      console.log("Send message:" + this.id + "님이 나가셨습니다.");
       if (this.stompClient && this.stompClient.connected) {
         const msg = { 
           id: "system",
           nickname: "system",
-          content: this.id + "님께서 나가셨습니다.",
+          content: this.id + "님이 나가셨습니다.",
           roomName: this.room, 
         };
         this.stompClient.send("/receive/"+this.room, JSON.stringify(msg), {});
@@ -352,7 +352,7 @@ export default {
           roomName : this.rname,
           id : "system",
           nickname : "system",
-          content : this.id + "님께서 나가셨습니다.",
+          content : this.id + "님이 나가셨습니다.",
           makedate : new Date(),
           });
       }
@@ -370,6 +370,7 @@ beforeDestroy:function(){
     if(this.stompClient !== null) {
         console.log("disconnect");
         this.stompClient.disconnect();
+        this.$store.dispatch(Constant.GET_CHATLIST, {roomName : null, id:null});
       }
   },
   

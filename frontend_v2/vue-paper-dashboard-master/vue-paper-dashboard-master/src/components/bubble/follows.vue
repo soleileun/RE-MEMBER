@@ -54,6 +54,9 @@ export default {
     followings: function () {
       return this.$store.state.userstore.followings;
     },
+    followers: function () {
+      return this.$store.state.userstore.followers;
+    },
     rooms() {
       let tmp = [];
       this.$store.state.chatstore.rooms.forEach((item) => {
@@ -90,6 +93,7 @@ export default {
         roomName: `${storage.getItem("userid")},${id}`,
         uid: id,
       });
+      /*
       this.$store.dispatch(Constant.SEND_CHAT, {
         roomName: `${storage.getItem("userid")},${id}`,
         id: "system",
@@ -104,6 +108,7 @@ export default {
         content: `${id}님이 입장하셨습니다.`,
         date: new Date(),
       });
+      */
       this.$store.commit(Constant.GET_CHATROOMONETOONE, {
         sameroom: "임시",
         uid: id,

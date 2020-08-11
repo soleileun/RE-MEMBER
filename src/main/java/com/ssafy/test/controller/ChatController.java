@@ -32,13 +32,22 @@ public class ChatController {
 
 	@Autowired
 	private ChatService Service;
-
+/*
 	@ApiOperation(value = "특정 roomName의 모든 채팅 정보를 반환한다", response = List.class)
 	@GetMapping("chat/name={roomName}")
 	public ResponseEntity<List<Chat>> retrieveChat(@PathVariable String roomName) throws Exception {
 		return new ResponseEntity<List<Chat>>(Service.selectAll(roomName), HttpStatus.OK);
 	}
-	
+	*/
+
+	@ApiOperation(value = "특정 roomName의 모든 채팅 정보를 반환한다", response = List.class)
+	@GetMapping("chat/name={roomName}&id={id}")
+	public ResponseEntity<List<Chat>> retrieveChat(@PathVariable String roomName,@PathVariable String id) throws Exception {
+		Map<String,String> k = new HashMap<>();
+		k.put("roomName", roomName);
+		k.put("id", id);
+		return new ResponseEntity<List<Chat>>(Service.selectAll(k), HttpStatus.OK);
+	}
 	
 	@ApiOperation(value = "새로운 채팅 정보를 입력한다. 그리고 DB입력 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
 	@PostMapping

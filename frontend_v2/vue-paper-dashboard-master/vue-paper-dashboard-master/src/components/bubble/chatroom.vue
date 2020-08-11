@@ -34,6 +34,7 @@ import Constant from "../../Constant";
 import chat from "./chat.vue";
 //import Stomp from 'webstomp-client'
 //import SockJS from 'sockjs-client'
+const storage = window.sessionStorage;
 
 export default {
   name: "chatroom",
@@ -65,7 +66,7 @@ export default {
         
         this.chatting = true;
         this.rname = e;
-        this.$store.dispatch(Constant.GET_CHATLIST, {roomName : this.rname});
+        this.$store.dispatch(Constant.GET_CHATLIST, {roomName : this.rname, id:storage.getItem("userid")});
       },
       endchat(f) { // 채팅방을 닫을 때 실행됩니다. chat.vue에서 사용되며, chatroom으로 돌아옵니다.
         this.chatting = f;

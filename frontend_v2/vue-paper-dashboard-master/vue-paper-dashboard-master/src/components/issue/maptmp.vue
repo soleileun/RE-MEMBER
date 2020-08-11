@@ -1,10 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-	pageEncoding="EUC-KR"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="utf-8">
-<title>주소로 장소 표시하기</title>
+
 <style>
 .map_wrap {
 	position: relative;
