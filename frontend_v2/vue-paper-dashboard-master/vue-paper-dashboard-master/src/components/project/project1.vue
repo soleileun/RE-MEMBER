@@ -87,7 +87,6 @@ export default {
   },
   computed: {
     pmlist() {
-      console.log("pm test" + this.project.pid);
       return this.$store.state.projectstore.pmlist;
     },
   },

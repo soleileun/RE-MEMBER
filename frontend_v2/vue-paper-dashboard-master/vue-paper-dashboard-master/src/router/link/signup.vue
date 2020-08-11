@@ -20,6 +20,11 @@ export default {
       states: 1,
     };
   },
+  mounted(){
+    if (window.localStorage.getItem('userid').length>0){
+      this.$router.push('/')
+    }
+  },
   methods: {
     agree: function () {
       this.states = 2;

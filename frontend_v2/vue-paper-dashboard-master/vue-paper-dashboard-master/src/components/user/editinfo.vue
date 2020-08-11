@@ -16,9 +16,12 @@
       </card>
     </div>
     <div v-else>
-      <h4>Edit Profile</h4>
+      <h4>개인정보 수정</h4>
       <card class="card text-center">
+
         <span class="form">
+          한줄 자기 소개:
+          <input v-model="intro" type="text" />
           비밀번호 :
           <input v-model="pw" type="password" />
           {{error.pw}}
@@ -119,6 +122,7 @@ export default {
       phone1: "",
       phone2: "",
       git: "",
+      intro:'',
       submitable: false,
       postAct: false,
       error: {
@@ -128,6 +132,7 @@ export default {
         address: "",
         phone: "",
         responsibility: "",
+        
       },
       responsibility: "",
     };
@@ -257,6 +262,7 @@ export default {
             );
             this.pw = this.oldpw;
             this.pw2 = this.oldpw;
+            this.intro = response.data.data.intro;
             this.pwvalid = true;
             this.nickname = response.data.data.nickname;
             this.name = response.data.data.name;
@@ -297,6 +303,7 @@ export default {
               git: this.git,
               responsibility: this.responsibility,
               state: this.st,
+              intro:this.intro
             },
             config
           )

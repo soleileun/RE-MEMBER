@@ -29,16 +29,23 @@ const userstore = {
     userintro: ''
   },
 
+
   actions: {
     // 사이트init
     init: (store) => {
-      if (storage.getItem("jwt-auth-token")) {
+      if (window.localStorage.getItem("jwt-auth-token") !== '') {
         // 로그인 검증 폼 생기면 바꾸기
         store.commit('init', {
-          userNick: storage.getItem("userNick"),
-          userid: storage.getItem("userid"),
-          token: storage.getItem('jwt-auth-token')
+          userNick: window.localStorage.getItem("userNick"),
+          userid: window.localStorage.getItem("userid"),
+          token: window.localStorage.getItem('jwt-auth-token')
         })
+        storage.setItem("jwt-auth-token", window.localStorage.getItem("jwt-auth-token"));
+        storage.setItem("idvalid", window.localStorage.getItem("idvalid"));
+        storage.setItem("userState", window.localStorage.getItem("userState"));
+        storage.setItem("userid", window.localStorage.getItem("userid"));
+        storage.setItem("userNick", window.localStorage.getItem("userNick"));
+        storage.setItem("intro", window.localStorage.getItem("intro"));
         store.dispatch("update")
         store.dispatch("getFollow");
       } else if (window.localStorage.getItem("autologin") === 't') {
@@ -46,15 +53,6 @@ const userstore = {
           id: window.localStorage.getItem("id"),
           pw: window.localStorage.getItem("pw")
         });
-      } else {
-        storage.setItem("jwt-auth-token", "");
-        storage.setItem("idvalid", "");
-        storage.setItem("userState", '');
-        store.commit('init', {
-          userNick: "",
-          userid: "",
-          token: '',
-        })
       }
     },
     update: (store) => {
@@ -83,25 +81,25 @@ const userstore = {
     // 유저 관련
     login: (store, payload) => {
       http.post('/api/userinfo/signin', {
-          id: payload.id,
-          pw: payload.pw
-        })
+        id: payload.id,
+        pw: payload.pw
+      })
         .then(response => {
           // console.log(response.data.data)
 
           if (response.data.data) {
-            storage.setItem("jwt-auth-token", response.headers["jwt-auth-token"]);
-            storage.setItem("userNick", response.data.data.nickname)
-            storage.setItem("userid", response.data.data.id)
-            storage.setItem("usergit", response.data.data.git)
-            storage.setItem("userintro", response.data.data.intro)
-            storage.setItem("idvalid", "true"); //response.data.data.valid);
-            storage.setItem("userState", response.data.data.state);
+            window.localStorage.setItem("jwt-auth-token", response.headers["jwt-auth-token"]);
+            window.localStorage.setItem("userNick", response.data.data.nickname)
+            window.localStorage.setItem("userid", response.data.data.id)
+            window.localStorage.setItem("idvalid", "true"); //response.data.data.valid);
+            window.localStorage.setItem("userState", response.data.data.state);
+            window.localStorage.setItem("userintro", response.data.data.intro);
             document.querySelector(".login").classList.remove('active')
             store.commit('loginError', {
               e: ''
             })
             store.dispatch("init")
+            router.go()
           } else {
             storage.setItem("jwt-auth-token", "");
             storage.setItem("userNick", "")
@@ -127,8 +125,14 @@ const userstore = {
       storage.setItem("jwt-auth-token", "");
       storage.setItem("userNick", "")
       storage.setItem("userid", "")
+      window.localStorage.setItem("jwt-auth-token", "");
+      window.localStorage.setItem("userNick", "")
+      window.localStorage.setItem("userid", "")
       window.localStorage.setItem("autologin", "f")
-      store.dispatch("init")
+      setTimeout(() => {
+        store.dispatch("init")
+        router.go({path:'/main'});
+      }, 100)
     },
     signup: (store, payload) => {
       http
@@ -145,9 +149,9 @@ const userstore = {
         })
         .then((res) => {
           http.post('/api/userinfo/signin', {
-              id: payload.id,
-              pw: payload.pw
-            })
+            id: payload.id,
+            pw: payload.pw
+          })
             .then(response => {
               console.log(response)
               if (response.data.data) {
@@ -156,11 +160,13 @@ const userstore = {
                     "jwt-auth-token": response.headers["jwt-auth-token"]
                   }
                 }
-                storage.setItem("jwt-auth-token", response.headers["jwt-auth-token"]);
-                storage.setItem("userNick", response.data.data.nickname)
-                storage.setItem("userid", response.data.data.id)
-                storage.setItem("idvalid", "true"); //response.data.data.valid);
-                storage.setItem("userState", response.data.data.state);
+                window.localStorage.setItem("jwt-auth-token", response.headers["jwt-auth-token"]);
+                window.localStorage.setItem("userNick", response.data.data.nickname)
+                window.localStorage.setItem("userid", response.data.data.id)
+                window.localStorage.setItem("usergit", response.data.data.git)
+                window.localStorage.setItem("userintro", response.data.data.intro)
+                window.localStorage.setItem("idvalid", "true"); //response.data.data.valid);
+                window.localStorage.setItem("userState", response.data.data.state);
                 document.querySelector(".login").classList.remove('active')
                 store.commit('loginError', {
                   e: ''
@@ -179,11 +185,13 @@ const userstore = {
                   path: "/main"
                 })
               } else {
-                storage.setItem("jwt-auth-token", "");
-                storage.setItem("userNick", "")
-                storage.setItem("userid", "")
-                storage.setItem("idvalid", "");
-                storage.setItem("userState", "");
+                window.localStorage.setItem("jwt-auth-token", "");
+                window.localStorage.setItem("userNick", "")
+                window.localStorage.setItem("userid", "")
+                window.localStorage.setItem("usergit", "")
+                window.localStorage.setItem("userintro", "")
+                window.localStorage.setItem("idvalid", "true"); //response.data.data.valid);
+                window.localStorage.setItem("userState", "");
                 store.commit('loginError', {
                   e: '회원가입에 오류가 있습니다 문의해주세요'
                 })
@@ -276,17 +284,17 @@ const userstore = {
       }
 
       http.post('/api/userinfo/signin', {
-          id: storage.getItem("userid"),
-          pw: payload.pw,
-        }, config)
+        id: storage.getItem("userid"),
+        pw: payload.pw,
+      }, config)
         .then(response => {
           console.log(response);
           if (response.data.data) {
             http.delete('api/userinfo/' + storage.getItem("userid"), config = {
-                headers: {
-                  "jwt-auth-token": storage.getItem("jwt-auth-token")
-                }
-              })
+              headers: {
+                "jwt-auth-token": storage.getItem("jwt-auth-token")
+              }
+            })
               .then(() => {
 
                 store.dispatch("logout");
@@ -362,11 +370,11 @@ const userstore = {
           }
         }
         http.post('/api/message/', {
-            content: payload.content,
-            fromUser: storage.getItem("userid"),
-            toUser: payload.other,
-            read: false,
-          }, config)
+          content: payload.content,
+          fromUser: storage.getItem("userid"),
+          toUser: payload.other,
+          read: false,
+        }, config)
           .then(response => {
             console.log(response)
             store.commit('pushDetailMes', {
@@ -482,7 +490,7 @@ const userstore = {
       state.users = payload.users.filter(item => item.leaveUser === false);
     },
     init: (state, payload) => {
-      if (payload.userid !== state.userid) {
+      if (state.userid !== window.localStorage.getItem('userid')) {
         state.userNick = payload.userNick;
         state.userid = payload.userid;
         state.token = payload.token

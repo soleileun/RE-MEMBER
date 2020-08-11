@@ -54,8 +54,8 @@ export default {
       userNick: storage.getItem("userNick"),
       userId: storage.getItem("userId"),
       users: storage.getItem("users"),
-      usergit: storage.getItem("usergit"),
-      userintro: storage.getItem("userintro"),
+      usergit: window.localStorage.getItem("usergit"),
+      userintro: window.localStorage.getItem("userintro"),
     };
   },
   computed: {
@@ -66,9 +66,16 @@ export default {
       return this.$store.state.userstore.followers;
     },
   },
-  created() {
+  mounted() {
     this.$store.dispatch("getFollower");
+    setTimeout(()=>{
+      this.userNick = storage.getItem("userNick");
+      this.userId = storage.getItem("userId");
+      this.users = storage.getItem("users");
+      this.usergit = window.localStorage.getItem("usergit");
+      this.userintro = window.localStorage.getItem("userintro");
 
+    },500)
     // console.log("뭐냐고");
     console.log("팔로잉" + this.$store.state.userstore.followings);
     // console.log("팔로워");
@@ -78,9 +85,6 @@ export default {
     // this.$store.dispatch("getFollow");
     // this.$store.dispatch("getFollower");
   },
-
-  mounted: function () {},
-
   methods: {
     getClasses(index) {
       var remainder = index % 3;

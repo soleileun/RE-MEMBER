@@ -1,21 +1,23 @@
 <template>
   <div class="project1">
-    <h1>{{targetId}}님의 프로젝트 페이지</h1>
-    <hr />
+    <div v-if="userId.length>0">
+      <h1>{{userId}}님의 프로젝트 페이지</h1>
+      <hr />
 
-    <button
-      @click="movePage"
-      class="btn btn-info btn-round"
-    >새로운 프로젝트 생성하기</button>
+      <button @click="movePage" class="btn btn-info btn-round">새로운 프로젝트 생성하기</button>
 
-    <br />
-    <br />
-    <div class="row">
-      <div class="col-4" v-if="projects.length<1">프로젝트가 없습니다.</div>
-      <div class="col-4" v-for="project in projects" :key="project.pid">
-        <project :project="project" />
-        <!-- @delete-project="deleteComment" -->
+      <br />
+      <br />
+      <div class="row">
+        <div class="col-4" v-if="projects.length<1">프로젝트가 없습니다.</div>
+        <div class="col-4" v-for="project in projects" :key="project.pid">
+          <project :project="project" />
+          <!-- @delete-project="deleteComment" -->
+        </div>
       </div>
+    </div>
+    <div v-else>
+      <h1>로그인이 필요합니다.</h1>
     </div>
   </div>
 </template>
@@ -35,7 +37,6 @@ export default {
       index: 0,
       userNick: storage.getItem("userNick"),
       userId: storage.getItem("userid"),
-      targetId: this.$store.state.userstore.userid,
     };
   },
 
@@ -47,7 +48,14 @@ export default {
   },
   created() {
     //console.log(userId);
-    this.$store.dispatch(Constant.GET_PROJECTLIST_BY_PMEMBER, { userId:this.$store.state.userstore.userid });
+    if (storage.getItem("userid") === "") {
+      document.querySelector('.login').classList.remove('active')
+      document.querySelector('.login').classList.add('active')
+    } else {
+      this.$store.dispatch(Constant.GET_PROJECTLIST_BY_PMEMBER, {
+        userId: storage.getItem('userid'),
+      });
+    }
   },
   mounted() {
     // console.log(targetId + " : " + userId);
@@ -56,7 +64,6 @@ export default {
     // getPmemberList(userId) {
     //   console.log("과정1");
 
-      
     // },
     movePage() {
       this.$router.push("/project/makeproject");

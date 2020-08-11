@@ -70,6 +70,11 @@ export default {
       this.phone2 = this.phone2.replace(/[^0-9]/g, "");
     },
   },
+  mounted(){
+    if (window.localStorage.getItem('userid').length>0){
+      this.$router.push('/')
+    }
+  },
   methods: {
     search() {
       http
