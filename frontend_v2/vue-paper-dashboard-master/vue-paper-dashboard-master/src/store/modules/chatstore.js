@@ -72,15 +72,33 @@ const chatstore = {
             },config)
             .then(response => {
                 if(response.data == 'success') {
-                    console.log('추가하였습니다.');
+                    //console.log('추가하였습니다.');
+                    http.post('/api/chat/', {   // 입장했다는 메시지
+                        roomName : payload.roomName,
+                        id : 'system',
+                        nickname : 'system',
+                        content : payload.uid + "님께서 입장하셨습니다.",
+                        makedate : payload.makedate,
+                    },config)
+                    .then(() => {   //채팅창 정보 다시 요청
+                        //console.log("참가했습니다 메시지 발송");
+                        http.get('/api/chat/chat/name='+ payload.roomName,config)
+                        .then(response => {
+                            store.commit(Constant.GET_CHATLIST, { chats: response.data })
+                            console.log("불러왔음." + payload.roomName)
+                      })
+                        .catch(exp => alert('getchatList처리에 실패하였습니다!!' + exp));
+                    })
                     store.dispatch(Constant.GET_CHATROOMLIST);//, {rooms : payload.bstate});
-                    
-                    return "성공";
+                }
+                else {
+                    //console.log("success가 아님" + response.data);
+                    alert("이미 참여중이거나 존재하지 않는 ID입니다.");
                 };
             })
             .catch(exp => {
                 console.log('추가 실패 확인 로그' + exp);
-                alert('이미 참가중인 유저입니다.');
+                //alert('이미 참가중인 유저입니다.');
             })
     },
     
