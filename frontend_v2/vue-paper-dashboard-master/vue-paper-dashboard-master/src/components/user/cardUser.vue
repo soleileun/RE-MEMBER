@@ -15,11 +15,7 @@
           </a>
         </h4>
       </div>
-      <p class="description text-center">
-        "I like the way you work it
-        <br />No diggity
-        <br />I wanna bag it up"
-      </p>
+      <p class="description text-center">{{userintro}}</p>
     </div>
     <hr />
     <div class="text-center">
@@ -59,6 +55,7 @@ export default {
       userId: storage.getItem("userId"),
       users: storage.getItem("users"),
       usergit: storage.getItem("usergit"),
+      userintro: storage.getItem("userintro"),
     };
   },
   computed: {
