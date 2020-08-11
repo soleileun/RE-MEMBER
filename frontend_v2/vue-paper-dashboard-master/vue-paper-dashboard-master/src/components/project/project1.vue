@@ -12,7 +12,7 @@
           {{project.pjtName}}
           <br />
           <a href="#">
-            <small>현재 프로젝트 인원 : {{pjtcnt[project.pid]}} / {{project.pjtMemberCnt}}</small>
+            <small>현재 프로젝트 인원 : {{pjtcnt}} / {{project.pjtMemberCnt}}</small>
           </a>
         </h4>
       </div>
@@ -82,17 +82,10 @@ export default {
      userNick: storage.getItem("userNick"),
       // userId: storage.getItem("userid"),
       targetId: this.$route.params.userId,
+      pjtcnt:this.$store.state.projectstore.pjtcnt[this.project.pid],
     };
   },
   computed: {
-    pjtcnt() {
-      console.log(
-        this.project.pid +
-          "번 프로젝트 : " +
-          this.$store.state.projectstore.pjtcnt
-      );
-      return this.$store.state.projectstore.pjtcnt;
-    },
     pmlist() {
       console.log("pm test" + this.project.pid);
       return this.$store.state.projectstore.pmlist;
@@ -100,14 +93,12 @@ export default {
   },
   mounted() {
    // console.log(this.project.pid);
-    this.$store.dispatch(Constant.GET_CURRENT_MEMBER_COUNT, {
-      pid: this.project.pid,
-    });
+   setTimeout(()=>{
+     this.pjtcnt = this.$store.state.projectstore.pjtcnt[this.project.pid]
+
+   },500) 
   },
     created() {
-    //console.log(userId);
-    this.getPmemberList(this.$route.params.userId);
-    this.getProjectListByPmember(this.$route.params.userId);
   },
   props: {
     project: {

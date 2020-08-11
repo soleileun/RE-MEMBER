@@ -48,22 +48,19 @@ export default {
   },
   created() {
     //console.log(userId);
-    this.getPmemberList(this.$route.params.userId);
-    this.getProjectListByPmember(this.$route.params.userId);
+    this.$store.dispatch(Constant.GET_PROJECTLIST_BY_PMEMBER, { userId:this.$route.params.userId });
   },
   mounted() {
     // console.log(targetId + " : " + userId);
   },
   methods: {
-    getPmemberList(userId) {
-      console.log("과정1");
+    // getPmemberList(userId) {
+    //   console.log("과정1");
 
-      this.$store.dispatch(Constant.GET_PROJECTLIST_BY_PMEMBER, { userId });
-    },
+      
+    // },
     movePage() {
       this.$router.push("/project/makeproject");
-      // console.log(userid);
-      // console.log(userId);
     },
   },
 };

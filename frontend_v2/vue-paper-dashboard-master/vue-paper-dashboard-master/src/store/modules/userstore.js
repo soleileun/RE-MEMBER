@@ -38,6 +38,7 @@ const userstore = {
         })
         store.dispatch("update")
         store.dispatch("getFollow");
+        store.dispatch(Constant.GET_PROJECTLIST_BY_PMEMBER, { userId:storage.getItem("userid") });
       } else if (window.localStorage.getItem("autologin") === 't') {
         store.dispatch("login", {
           id: window.localStorage.getItem("id"),

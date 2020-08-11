@@ -27,6 +27,9 @@ const projectstore = {
           store.commit(Constant.GET_PROJECTLIST_BY_PMEMBER, {
             projects: response.data
           })
+          response.data.forEach(item=>{
+            store.dispatch(Constant.GET_CURRENT_MEMBER_COUNT,{pid:item.pid})
+          })
         })
         .catch(exp => alert('getPmemberList처리에 실패하였습니다.' + exp));
     },
