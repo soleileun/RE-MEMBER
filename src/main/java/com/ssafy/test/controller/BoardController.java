@@ -45,9 +45,10 @@ public class BoardController {
 	@GetMapping("getcomments/{bno}")
 	public ResponseEntity<List<Comments>> getComments(@PathVariable int bno) {
 
-		if (bService.read(bno) != 0) {
-			System.out.println("읽음처리 실패");
-		}
+		bService.read(bno);
+		//if (bService.read(bno) != 0) {
+		//	System.out.println("읽음처리 실패");
+		//}
 		
 		return new ResponseEntity<List<Comments>>(bService.getComments(bno), HttpStatus.OK);
 	}
@@ -62,7 +63,7 @@ public class BoardController {
 	@ApiOperation(value = "특정 속성을 가진 글을 조회한다. EX) 공지사항", response = List.class)
 	@GetMapping("statesearching/{bstate}")
 	public ResponseEntity<List<Board>> detailstateBoard(@PathVariable String bstate) {
-		System.out.println("bstats : " + bstate);
+		//System.out.println("bstats : " + bstate);
 		return new ResponseEntity<List<Board>>(bService.search(bstate), HttpStatus.OK);
 	}
 
