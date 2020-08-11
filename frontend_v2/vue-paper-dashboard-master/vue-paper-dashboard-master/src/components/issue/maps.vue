@@ -342,10 +342,11 @@ export default {
 </script>
 
 <style scoped lang="scss">
+
 .map_wrap {
   position: relative;
   width: 100%;
-  height: 350px;
+  height: 500px;
 }
 
 .title {

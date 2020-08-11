@@ -1,7 +1,5 @@
 <template>
-  <div>   
-	
-	
+  <div>
     <div class="wrapper">
       <div class="sidebar" data-color="purple" data-image="./assets/issue_img/sidebar-5.jpg">
         <div class="sidebar-wrapper">
@@ -36,7 +34,7 @@
 
       <div class="content">
         <div class="container-fluid">
-          <div class="row">
+            <div class="row">
             <div class="col-5">
               <div class="card">
                 <div class="header">
@@ -59,7 +57,7 @@
             <div class="col-7">
               <div class="card">
                 <div class="header">
-                  <h4 class="title">최근 프로젝트 이슈</h4>
+                  <h4 class="card-title">최근 프로젝트 이슈</h4>
                   <p class="category">날짜순</p>
                 </div>
                 <div class="content">
@@ -99,13 +97,14 @@
               </div>
             </div>
 
-            <div class="col-4">
+            <!-- <div class="col-4">
               <div class="card">
                 <div class="header">
                   <h4 class="title" style="color: skyblue">생성된 이슈</h4>
                   <p class="category">날짜순</p>
                   <p align="right">
-                    <button @click="openModal"
+                    <button
+                      @click="openModal"
                       type="button"
                       rel="tooltip"
                       title="Add"
@@ -119,7 +118,7 @@
                 </div>
                 <div class="content">
                   <div class="overflow-auto table-responsive">
-                    <table class="table">
+                    <table class="table" ref="left" id="createdTable">
                       <tbody>
                         <tr>
                           <td>2020-08-01 10:01</td>
@@ -161,9 +160,9 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </div>-->
 
-            <div class="col-4">
+            <!-- <div class="col-4">
               <div class="card">
                 <div class="header">
                   <h4 class="title" style="color: red">진행중인 이슈</h4>
@@ -183,10 +182,10 @@
                 </div>
                 <div class="content">
                   <div class="overflow-auto table-responsive">
-                    <table class="table" id="ongoingTable">
+                    <table class="table" id="ongoingTable" ref="right">
                       <tbody class="t_sortable">
                         <tr>
-                          <td style="width: 40%; font-size: 80%">2020-08-03</td>
+                          <td style="width: 40%; font-size: 8	0%">2020-08-03</td>
                           <td
                             style="width: 100%; font-size: 100%; overflow: hidden; text-overflow: ellipsis;"
                           >
@@ -257,17 +256,55 @@
                       </tbody>
                     </table>
                   </div>
-
-                  <div class="footer">
-                    <hr />
-                    <div class="stats">
-                      <i class="fa fa-history"></i> Updated 3 minutes ago
-                    </div>
+                </div>
+                <div class="footer">
+                  <hr />
+                  <div class="stats">
+                    <i class="fa fa-history"></i> Updated 3 minutes ago
                   </div>
                 </div>
               </div>
-            </div>
+            </div>-->
+            
           </div>
+          <!-- drag and drop -->
+            <div class="row col-14 card" v-drag-and-drop:options="options">
+              <ul class="drag-list content">
+                <li class="drag-column" v-for="group in groups" :key="group.id">
+                  <span class="card-title">
+                    <h2 v-if="group.name == 'To Do'" style="color:skyblue">생성된 이슈</h2>
+                    <h2 v-if="group.name == 'In Progress'" style="color:red">진행중 이슈</h2>
+                    <h2 v-if="group.name == 'Done'" style="color:yellowgreen">완성된 이슈</h2>
+                    <!-- <feather-icon type="more-vertical"></feather-icon> -->
+                  </span>
+                  <vue-draggable-group
+                    v-model="group.items"
+                    :groups="groups"
+                    :data-id="group.id"
+                    @change="onGroupsChange"
+                  >
+                    <ul class="drag-inner-list" :data-id="group.id">
+                      <li
+                        class="drag-item"
+                        v-for="item in group.items"
+                        :key="item.id"
+                        :data-id="item.id"
+                      >
+                        <div class="drag-item-text">{{ item.name }}</div>
+                      </li>
+                    </ul>
+                  </vue-draggable-group>
+                </li>
+              </ul>
+              <div class="footer">
+                  <hr />
+                  <div class="stats">
+                    <i class="fa fa-history"></i> Updated 3 minutes ago
+                  </div>
+                </div>
+            </div>
+            <!-- drag and drop -->
+            
         </div>
       </div>
     </div>
@@ -275,11 +312,76 @@
 </template>
 
 <script>
+import { VueDraggableDirective } from "vue-draggable";
+
 export default {
+  directives: {
+    //dragAndDrop: VueDraggableDirective,
+  },
   name: "issue1",
   data() {
+    const componentInstance = this;
     return {
       data: [],
+      left: {},
+      right: {},
+      issues : [],
+      issues_done : [], 
+      issues_ongoig : [],
+      issues_created : [],
+      groups: [
+        {
+          id: 1,
+          name: "To Do",
+          items: [
+            { id: 1, name: "Item 1", groupId: 1 },
+            { id: 2, name: "Item 2", groupId: 1 },
+            { id: 3, name: "Item 3", groupId: 1 },
+          ],
+
+        },
+        {
+          id: 2,
+          name: "In Progress",
+          items: [
+            { id: 4, name: "Item 4", groupId: 2 },
+            { id: 5, name: "Item 5", groupId: 2 },
+            { id: 6, name: "Item 6", groupId: 2 },
+          ],
+        },
+        {
+          id: 3,
+          name: "Done",
+          items: [
+            { id: 7, name: "Item 7", groupId: 3 },
+            { id: 8, name: "Item 8", groupId: 3 },
+            { id: 9, name: "Item 9", groupId: 3 },
+            { id: 10, name: "Item 10", groupId: 3 },
+          ],
+        },
+      ],
+      options: {
+        dropzoneSelector: ".drag-inner-list",
+        draggableSelector: ".drag-item",
+        reactivityEnabled: true,
+        showDropzoneAreas: true,
+        multipleDropzonesItemsDraggingEnabled: true,
+        onDrop(event) {
+          console.log(event.items[0].innerHTML);
+          console.log(event.items[0]);
+        },
+        // onDragstart(event) {
+        //   event.stop();
+        // },
+        onDragend(event) {
+          componentInstance.someDummyMethod();
+          if (!event.droptarget) {
+            console.log("event is dropped out");
+          } else {
+            console.log("success!");
+          }
+        },
+      },
     };
   },
 
@@ -322,10 +424,41 @@ export default {
         options: donutOptions,
       });
     }
+
+    /*  // dragula
+    this.left = document.getElementById("createdTable");
+    this.right = document.getElementById("ongoingTable");
+    dragula(
+      [
+        this.left,
+        this.right, //어디서 어디로 옮기는지
+      ],
+      {
+        revertOnSpill: true, //클릭한 요소 컨테이너 밖으로 보내도 순서유지.
+      }
+    ).on("drop", (el) => {
+      console.log("moved!");
+    });
+
+    dragula(
+      [
+        this.right,
+        this.left, //어디서 어디로 옮기는지
+      ],
+      {
+        revertOnSpill: true, //클릭한 요소 컨테이너 밖으로 보내도 순서유지.
+      }
+    ).on("drop", (el) => {
+      console.log("moved!");
+    }); */
   },
 
   methods: {
-	  openModal() {
+    someDummyMethod() {
+      console.log("Hello");
+    },
+
+    openModal() {
       // Get the modal
       var modal = document.getElementById("myModal");
 
@@ -347,9 +480,145 @@ export default {
         }
       };
     },
+
+    onGroupsChange(e) {
+      console.log({ e });
+    },
   },
 };
 </script>
 
-<style>
+<style lang="scss" scoped>
+$ease-out: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+$to-do: #f4ce46;
+$in-progress: #2a92bf;
+$approved: #00b961;
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: #33363d;
+  color: white;
+  font-family: "Roboto Mono", serif;
+  font-weight: 300;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.drag-container {
+  max-width: 1000px;
+  margin: 20px auto;
+}
+
+.drag-list {
+  display: flex;
+  align-items: flex-start;
+
+  @media (max-width: 500px) {
+    display: block;
+  }
+}
+
+.drag-column {
+  flex: 1;
+  margin: 0 10px;
+  position: relative;
+  background: rgba(white, 0.2);
+  overflow: hidden;
+
+  @media (max-width: 690px) {
+    margin-bottom: 30px;
+  }
+
+  h2 {
+    font-size: 0.8rem;
+    margin: 0;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  &-to-do {
+    .drag-column-header,
+    .drag-options {
+      background: $to-do;
+    }
+  }
+
+  &-in-progress {
+    .drag-column-header,
+    .drag-options {
+      background: $in-progress;
+    }
+  }
+
+  &-approved {
+    .drag-column-header,
+    .drag-options {
+      background: $approved;
+    }
+  }
+}
+
+.drag-column-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  user-select: none;
+}
+
+.drag-inner-list {
+  height: 43vh;
+  overflow: auto;
+}
+
+.drag-item {
+  margin: 10px;
+  height: 50px;
+  background: rgba(black, 0.4);
+  transition: $ease-out;
+
+  /* items grabbed state */
+  &[aria-grabbed="true"] {
+    background: #5cc1a6;
+    color: #fff;
+  }
+
+  .drag-item-text {
+    font-size: 1rem;
+    padding-left: 1rem;
+    padding-top: 1rem;
+  }
+}
+
+.drag-header-more {
+  cursor: pointer;
+}
+
+@keyframes nodeInserted {
+  from {
+    opacity: 0.2;
+  }
+  to {
+    opacity: 0.8;
+  }
+}
+
+.item-dropzone-area {
+  height: 6rem;
+  background: #888;
+  opacity: 0.8;
+  animation-duration: 0.5s;
+  animation-name: nodeInserted;
+  margin-left: 0.6rem;
+  margin-right: 0.6rem;
+}
 </style>

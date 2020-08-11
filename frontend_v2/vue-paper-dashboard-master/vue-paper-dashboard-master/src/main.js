@@ -14,6 +14,7 @@
 
  */
 import Vue from "vue";
+import VueDraggable from 'vue-draggable'
 import App from "./App";
 import router from "./router/index";
 import store from '@/store/index.js'
@@ -30,9 +31,12 @@ Vue.use(PaperDashboard);
 //부트스트랩-뷰
 Vue.use(BootstrapVue);
 
+// dragula
+Vue.use(VueDraggable);
+
 /* eslint-disable no-new */
 new Vue({
-  router,
-  store,
-  render: h => h(App)
+    router,
+    store,
+    render: h => h(App)
 }).$mount("#app");

@@ -22,6 +22,7 @@
     "vue": "^2.6.11",
     "vue-clickaway": "^2.1.0",
     "vue-daum-map": "^1.0.15",
+    "vue-draggable": "^2.0.6",
     "vue-notifyjs": "^0.3.0",
     "vue-router": "^3.0.1",
     "vue2-editor": "^2.10.2",
