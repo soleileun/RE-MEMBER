@@ -14,21 +14,22 @@ import poolstore from '@/store/modules/poolstore.js';
 import recruitstore from '@/store/modules/recruitstore.js';
 import chatstore from '@/store/modules/chatstore.js';
 import stackstore from '@/store/modules/stackstore.js';
-
+import issuestore from '@/store/modules/issuestore.js';
 
 const store = new Vuex.Store({
-  modules: {
-    // 키: 값 형태로 저장됩니다.
-    // 이런형태로 저장!
-    boardstore,
-    userstore,
-    commentstore,
-    projectstore,
-    poolstore,
-    recruitstore,
-    chatstore,
-    stackstore
-  }
+    modules: {
+        // 키: 값 형태로 저장됩니다.
+        // 이런형태로 저장!
+        boardstore,
+        userstore,
+        commentstore,
+        projectstore,
+        poolstore,
+        recruitstore,
+        chatstore,
+        stackstore,
+        issuestore
+    }
 });
 
 export default store;

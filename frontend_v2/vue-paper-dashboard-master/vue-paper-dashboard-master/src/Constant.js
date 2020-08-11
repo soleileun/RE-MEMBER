@@ -25,29 +25,29 @@ export default {
     ADD_PROJECT: 'addProject',
     //인재풀
     GET_POOLLIST: 'getPoolList',
-    SEARCH_POOLIST:'searchPoolist',
+    SEARCH_POOLIST: 'searchPoolist',
 
     //리쿠르트
     GET_RECRUITLIST: 'getRecruitList',
     GET_RECRUIT: 'getRecruit',
     ADD_RECRUIT: 'addRecruit',
-    ADD_PINTEREST : 'addPinterest',
-    SEARCH_RECRUIT_BY_TAG_ADDR : 'searchRecruitByTagAddr',
-    SEARCH_RECRUIT_BY_TAG : 'searchRecruitByTag',
-    SEARCH_RECRUIT_BY_ADDR : 'searchRecruitByAddr',
+    ADD_PINTEREST: 'addPinterest',
+    SEARCH_RECRUIT_BY_TAG_ADDR: 'searchRecruitByTagAddr',
+    SEARCH_RECRUIT_BY_TAG: 'searchRecruitByTag',
+    SEARCH_RECRUIT_BY_ADDR: 'searchRecruitByAddr',
     REMOVE_RECRUIT: 'removeRecruit',
-    SEARCH_RECRUIT:'searchRecruit',
+    SEARCH_RECRUIT: 'searchRecruit',
 
 
     //인재풀, 모집 공용스택
     GET_FILTERED_POOLLIST: 'getFilteredPoolList',
     GET_SIDOLIST: 'getSidoList',
     GET_GUGUNLIST: 'getGugunList',
-    GET_DONGLIST : 'getDongList',
-    SEARCH_POOL_BY_TAG_ADDR : 'searchPoolByTagAddr',
-    SEARCH_POOL_BY_TAG : 'searchPoolByTag',
-    SEARCH_POOL_BY_ADDR : 'searchPoolByAddr',
-   
+    GET_DONGLIST: 'getDongList',
+    SEARCH_POOL_BY_TAG_ADDR: 'searchPoolByTagAddr',
+    SEARCH_POOL_BY_TAG: 'searchPoolByTag',
+    SEARCH_POOL_BY_ADDR: 'searchPoolByAddr',
+
 
 
 
@@ -60,5 +60,14 @@ export default {
     REMOVE_CHATROOM: 'removeChatroom',
     REMOVE_CHAT: 'removeChat',
     CHAT_READ: 'chatRead',
-    GET_CHATROOMONETOONE : 'getChatroomOneToOne',
+    GET_CHATROOMONETOONE: 'getChatroomOneToOne',
+
+
+    // 이슈 관련
+    GET_ISSUELIST: 'getIssueList',
+    GET_ISSUELIST_BY_STATE: 'getIssueListByState',
+    GET_ISSUE: 'getIssue',
+    ADD_ISSUE: 'addIssue',
+    MODIFY_ISSUE: 'modifyIssue',
+    REMOVE_ISSUE: 'removeIssue',
 }
