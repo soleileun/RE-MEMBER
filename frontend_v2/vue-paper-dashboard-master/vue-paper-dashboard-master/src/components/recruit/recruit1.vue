@@ -202,12 +202,13 @@
             <label for="subject">내용</label>
           </div>
           <div class="col-75">
-            <textarea cols="30" rows="10" v-model="wrecruit.contents" placeholder="내용을 입력하세요"></textarea>
+            <vue-editor class="viewEditor" v-model="wrecruit.contents" ></vue-editor>
+
           </div>
         </div>
 
         <div class="row">
-          <button @click="addRecruit">등록</button>
+          <button class="btn btn-info" @click="addRecruit">등록</button>
         </div>
       </div>
     </div>
@@ -265,6 +266,7 @@
 </template>
 
 <script>
+import { VueEditor } from "vue2-editor";
 import Constant from "../../Constant";
 import recruitcomponent from "@/components/recruit/recruitcomponent.vue";
 const storage = window.sessionStorage;
@@ -272,6 +274,7 @@ export default {
   name: "recruit1",
   components: {
     recruitcomponent,
+    VueEditor
   },
   computed: {
     recruits() {
@@ -1008,15 +1011,25 @@ body {
 .modal {
   box-sizing: border-box;
 }
-
+.modal-content{
+  width: 80%;
+  padding-left: 50px;
+}
 .modal input[type="text"],
-.modal select,
-.modal textarea {
+.modal select {
   width: 80%;
   padding: 12px;
   border: 1px solid #ccc;
   border-radius: 4px;
   resize: vertical;
+}
+.quillWrapper.viewEditor{
+  width: 80%;
+  height: 500px;
+  max-height: 45vh;
+  border-radius: 4px;
+  resize: vertical;
+  margin-bottom: 100px;
 }
 
 .modal label {
