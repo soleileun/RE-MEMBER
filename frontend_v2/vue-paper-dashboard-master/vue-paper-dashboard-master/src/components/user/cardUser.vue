@@ -10,7 +10,8 @@
           {{userNick}}
           <br />
           <a href="#">
-            <small>@chetfaker</small>
+            <small>@Not complete</small>
+            <!-- <small>@{{usergit}}</small> -->
           </a>
         </h4>
       </div>
@@ -56,6 +57,7 @@ export default {
       ],
       userNick: storage.getItem("userNick"),
       users: storage.getItem("users"),
+      // usergit: storage.getItem("git"),
     };
   },
   computed: {
@@ -67,15 +69,15 @@ export default {
     },
   },
   created() {
-    // // this.$store.dispatch("getFollow");
+    this.$store.dispatch("getFollower");
     // console.log("뭐냐고");
-    // console.log(this.$store.state.userstore.followings);
+    console.log("팔로잉" + this.$store.state.userstore.followings);
     // console.log("팔로워");
-    // console.log(this.$store.state.userstore.followers);
+    console.log("팔로워" + this.$store.state.userstore.followers);
   },
   beforeCreate: function () {
     // this.$store.dispatch("getFollow");
-    this.$store.dispatch("getFollower");
+    // this.$store.dispatch("getFollower");
   },
 
   mounted: function () {},

@@ -54,6 +54,9 @@ export default {
     followings: function () {
       return this.$store.state.userstore.followings;
     },
+    followers: function () {
+      return this.$store.state.userstore.followers;
+    },
     rooms() {
       let tmp = [];
       this.$store.state.chatstore.rooms.forEach((item) => {
