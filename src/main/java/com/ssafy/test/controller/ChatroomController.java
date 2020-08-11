@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.test.model.dto.Chatroom;
 import com.ssafy.test.model.dto.ChatroomChat;
+import com.ssafy.test.model.service.ChatService;
 import com.ssafy.test.model.service.ChatroomService;
 import com.ssafy.test.model.service.UserInfoService;
 
@@ -38,6 +39,9 @@ public class ChatroomController {
 
 	@Autowired
 	private UserInfoService uService;
+	
+	@Autowired
+	private ChatService chService;
 
 	@ApiOperation(value = "특정 유저가 속한 모든 roomName을 반환한다", response = List.class)
 	@GetMapping("chat/name={uid}")
@@ -103,7 +107,16 @@ public class ChatroomController {
 		v.setRoomName(roomName);
 		v.setUid(uid);
 		
-		if (Service.delete(v) != 0) {
+		if (Service.delete(v) != 0) { //해당 유저가 방에서 나감
+			
+			System.out.println("모두 나감??" + Service.selectMember(v.getRoomName()));
+			System.out.println("사이즈는" + Service.selectMember(v.getRoomName()).size());
+			if(Service.selectMember(v.getRoomName()).size() == 0) { // 만약 모든 사람이 방에서 나가면
+				System.out.println("다 나갔다 null이당");
+				chService.delete(v.getRoomName()); // 해당 방의 모든 채팅 정보를 지운다.
+				
+				
+			}
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		}
 		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);

@@ -72,6 +72,17 @@ const chatstore = {
             },config)
             .then(response => {
                 if(response.data == 'success') {
+                    
+                    //읽음 표시 해주고
+                    http.put('/api/chat/change/roomName=' + payload.roomName + '&id=' + storage.getItem("userid"), {
+                        roomName : payload.roomName,
+                        id : payload.uid,
+                    },config)
+                        .then(() => {
+                            console.log('Is Read');
+                        })
+                        .catch(exp => alert('[FAIL] CHAT_READ is not working' + exp));
+
                     //console.log('추가하였습니다.');
                     http.post('/api/chat/', {   // 입장했다는 메시지
                         roomName : payload.roomName,

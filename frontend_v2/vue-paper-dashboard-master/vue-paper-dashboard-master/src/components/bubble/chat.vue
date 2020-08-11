@@ -370,6 +370,7 @@ beforeDestroy:function(){
     if(this.stompClient !== null) {
         console.log("disconnect");
         this.stompClient.disconnect();
+        this.$store.dispatch(Constant.GET_CHATLIST, {roomName : null, id:null});
       }
   },
   
