@@ -499,52 +499,10 @@
 
 			});
 
-	// ajax 로 불러오기 메소드
-
-	function loadIssueList() {
-		$
-				.ajax({
-					type : "get",
-					url : "http://localhost:8080/api/project",
-					success : function(result) {
-						var htmlTxt = '<table class="table table-bordered table-condensed"><tr><th>제목</th><th>이름</th><th>내용</th></tr>';
-						$("#projectList").empty();
-						$.each(result, function(idx, item) {
-							htmlTxt += '<tr>' + '<td>' + item.pjtName + '</td>'
-									+ '<td>' + item.pid + '</td>' + '<td>'
-									+ item.pjtContent + '</td></tr>';
-						});
-						htmlTxt += '</table>'
-						$('#projectList').html(htmlTxt);
-					},
-					error : function() {
-						alert("서버 이상으로 목록 조회에 실패하였습니다. 잠시후 다시 시도해주세요.");
-
-					}
-				});
-
-	}
 
 	// url에서 값 읽어오기
 
-	var getUrlParameter = function getUrlParameter(sParam) {
-		var sPageURL = window.location.search.substring(1), sURLVariables = sPageURL
-				.split('&'), sParameterName, i;
 
-		for (i = 0; i < sURLVariables.length; i++) {
-			sParameterName = sURLVariables[i].split('=');
-
-			if (sParameterName[0] === sParam) {
-				return sParameterName[1] === undefined ? true
-						: decodeURIComponent(sParameterName[1]);
-			}
-		}
-	};
-
-	//loadProjectList();
-	var pid = getUrlParameter('pid');
-	var userId = getUrlParameter('userId');
-	/* alert(pid); */
 </script>
 
 </html>
