@@ -5,7 +5,7 @@
         <sidebar-link to="/main" name="홈" icon="ti-home" />
         <sidebar-link to="/pool" name="인재풀" icon="ti-face-smile" />
         <sidebar-link to="/recruit" name="모집" icon="ti-search" />
-        <sidebar-link :to="`/project/myproject/${userId}`" name="내 프로젝트" icon="ti-search" />
+        <sidebar-link to="/project/myproject/" name="내 프로젝트" icon="ti-search" />
         <sidebar-link to="/freeboard" name="자유게시판" icon="ti-clipboard" />
         <sidebar-link to="/qaboard" name="질문게시판" icon="ti-help-alt" />
         <sidebar-link to="/notice" name="공지사항" icon="ti-announcement" />

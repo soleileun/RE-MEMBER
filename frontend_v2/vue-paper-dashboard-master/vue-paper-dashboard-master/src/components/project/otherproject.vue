@@ -3,15 +3,9 @@
     <h1>{{targetId}}님의 프로젝트 페이지</h1>
     <hr />
 
-    <button
-      @click="movePage"
-      class="btn btn-info btn-round"
-    >새로운 프로젝트 생성하기</button>
-
-    <br />
     <br />
     <div class="row">
-      <div class="col-4" v-if="projects.length<1">프로젝트가 없습니다.</div>
+      <div class="col-4" v-if="projects.length<1">이 사용자는 아직 참여하는 프로젝트가 없습니다.</div>
       <div class="col-4" v-for="project in projects" :key="project.pid">
         <project :project="project" />
         <!-- @delete-project="deleteComment" -->
@@ -35,19 +29,17 @@ export default {
       index: 0,
       userNick: storage.getItem("userNick"),
       userId: storage.getItem("userid"),
-      targetId: this.$store.state.userstore.userid,
+      targetId: this.$route.params.userid,
     };
   },
 
   computed: {
     projects() {
-      console.log("확인2" + this.$store.state.projectstore.projects);
       return this.$store.state.projectstore.projects;
     },
   },
   created() {
-    //console.log(userId);
-    this.$store.dispatch(Constant.GET_PROJECTLIST_BY_PMEMBER, { userId:this.$store.state.userstore.userid });
+    this.$store.dispatch(Constant.GET_PROJECTLIST_BY_PMEMBER, { userId:this.$route.params.userid });
   },
   mounted() {
     // console.log(targetId + " : " + userId);
