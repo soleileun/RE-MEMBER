@@ -102,9 +102,10 @@
             <div class="card-body">
               <h4 class="card-title">자유게시판</h4>
               <div class="col-1">
-                <select name="standard" id="standard">
-                  <option value="t" selected>제목</option>
-                  <option value="w">작성자</option>
+                <select id="showcnt" @change="changeShowCnt">
+                  <option value="5">5개씩 보기</option>
+                  <option value="10" selected>10개씩 보기</option>
+                  <option value="20">20개씩 보기</option>
                 </select>
               </div>
               <br />
@@ -117,7 +118,22 @@
                   :current-page="currentPage"
                   small
                   :fields="fields"
-                ></b-table>
+                >
+                  <template v-slot:cell(bstate)="data">
+                    <div v-if="data.item.bstate == 'free'">자유</div>
+                    <div v-if="data.item.bstate == 'notice'">공지</div>
+                    <div v-if="data.item.bstate == 'qa'">질문</div>
+                  </template>
+                  <template v-slot:cell(btitle)="data">
+                    <router-link :to="'/freeboard/detailfree/' + data.item.bno">{{data.item.btitle}}</router-link>
+                  </template>
+                  <template v-slot:cell(bwriter)="data">
+                    {{ data.item.bwriter}}
+                    <!-- <router-link :to="'/freeboard/detailfree/' + free.bno">{{free.btitle}}</router-link> -->
+                  </template>
+                  <template v-slot:cell(bview)="data">{{ data.item.bview}}</template>
+                  <template v-slot:cell(makeDay)="data">{{ data.item.makeDay.slice(0,10)}}</template>
+                </b-table>
                 <b-pagination
                   v-model="currentPage"
                   :total-rows="rows"
@@ -166,29 +182,38 @@ export default {
   name: "freeboard1",
   data() {
     return {
-      //몇개씩 보여줄것인가
       perPage: 10,
       currentPage: 1,
       fields: [
-        {
-          key: "bwriter",
-          label: "ID",
-          sortable: true,
+         {
+          key: "bstate",
+          label: "종류",
+          // sortable: true,
         },
+        // {
+        //   key: "bno",
+        //   label: "번호",
+        //   // sortable: true,
+        // },
         {
           key: "btitle",
           label: "제목",
-          sortable: true,
+          // sortable: true,
+        },
+        {
+          key: "bwriter",
+          label: "ID",
+          // sortable: true,
         },
         {
           key: "bview",
           label: "조회수",
-          sortable: true,
+          // sortable: true,
         },
         {
           key: "makeDay",
           label: "작성일",
-          sortable: true,
+          // sortable: true,
         },
       ],
     };
@@ -212,6 +237,9 @@ export default {
   },
 
   methods: {
+    changeShowCnt() {
+      this.perPage = parseInt(document.getElementById("showcnt").value);
+    },
     searchFree() {
       let val = document.getElementById("searchWord").value;
       let std = document.getElementById("standard").value;
