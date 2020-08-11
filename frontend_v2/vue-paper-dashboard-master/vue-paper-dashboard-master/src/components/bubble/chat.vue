@@ -6,21 +6,45 @@
       <i class="fa fa-chevron-left " style="float:left; margin-left:12px; margin-top: 5px;" ></i>
      이전
       </div>
-      {{ this.room }}
-<div style="float:right; margin-top:10px; margin-right:12px;" class="hand"  @click="exit()">
-<i class="fa fa-sign-out" style="float:left; margin-top: 5px;"></i>
-나가기
-</div>
       
-                <input v-model="target" type="text">
-                <button @click="invite()" >초대</button>
+        <b-button v-b-toggle.collapse-1 icon="fa fa-envelope hand" calss= "down" size="sm"> {{this.room}}<i class="fa fa-angle-double-down"></i></b-button>
+        <b-collapse id="collapse-1" class="mt-2">
+          <b-card class="row">
+            <div class="col-12">
+              <input v-model="target" type="text">
+              <button @click="invite()" >초대하기</button>
+            </div>
+            <div class="col-12">
+             <div style=" margin-top:10px; margin-right:12px; text-align:center" class="hand"  @click="exit()">
+              <i class="fa fa-sign-out" style=" margin-top: 5px;"></i>
+              나가기
+              </div>
+            </div>
+          </b-card>
+       </b-collapse>
+     <!-- {{ this.room }} -->
+       
+
+<!--
+      <div style="float:right; margin-top:10px; margin-right:12px;" class="hand"  @click="exit()">
+        <i class="fa fa-sign-out" style="float:left; margin-top: 5px;"></i>
+        나가기
+      </div>
+      -->
+      
+<!-------------------------------------------------------------------->
+    
+<!-------------------------------------------------------------------->
+                <!--
           <drop-down class="nav-item" title-classes="nav-link" icon="fa fa-envelope hand" title="초대">
             
 
+              <input v-model="target" type="text">
+              <button @click="invite()" >초대</button>
               <a class="dropdown-item" href="#">Notification 1</a>
               <a class="dropdown-item" href="#">Notification 2</a>
           </drop-down>
-
+          -->
 
 <!--
       <div class="btn-group dropdown" style="float:right;">
@@ -464,7 +488,12 @@ button {
   z-index: 1;
   text-align : center;
 }
-
+.down {
+  width:60px;
+  height:30px;
+  margin: 2px 2px 0px;
+  padding: 2px 4px;
+}
 .dropdown:hover .dropdown-content {
   display: block;
 }
