@@ -43,7 +43,7 @@
 	<!-- 로그인 회원 조회 -->
 	<select id="select" parameterType="string" resultType="userinfo">
 		select
-		id,nickname,name,pw,leaveUser
+		id,nickname,name,pw,leaveUser,git,intro
 		from userInfo where id=#{id}
 	</select>
 
