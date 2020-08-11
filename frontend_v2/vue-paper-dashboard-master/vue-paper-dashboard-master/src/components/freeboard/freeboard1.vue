@@ -128,8 +128,7 @@
                     <router-link :to="'/freeboard/detailfree/' + data.item.bno">{{data.item.btitle}}</router-link>
                   </template>
                   <template v-slot:cell(bwriter)="data">
-                    {{ data.item.bwriter}}
-                    <!-- <router-link :to="'/freeboard/detailfree/' + free.bno">{{free.btitle}}</router-link> -->
+                    <router-link :to="'/profile/' + data.item.bwriter">{{data.item.bwriter}}</router-link>
                   </template>
                   <template v-slot:cell(bview)="data">{{ data.item.bview}}</template>
                   <template v-slot:cell(makeDay)="data">{{ data.item.makeDay.slice(0,10)}}</template>

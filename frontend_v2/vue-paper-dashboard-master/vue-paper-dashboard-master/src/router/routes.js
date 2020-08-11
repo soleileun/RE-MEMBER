@@ -17,7 +17,7 @@ import leave from "../components/user/leave.vue";
 import editinfo from "../components/user/editinfo.vue";
 import editinterest from "../components/user/editinterest.vue";
 import signup from "./link/signup.vue";
-import emailcheck from "./link/emailcheck.vue";
+// import emailcheck from "./link/emailcheck.vue";
 import recruit1 from "../components/recruit/recruit1.vue";
 import recruitdetail from "../components/recruit/recruitdetail.vue";
 import writeqa from "../components/qaboard/writeqa.vue";
@@ -189,11 +189,12 @@ const routes = [{
         name: "회원 가입",
         component: signup,
       },
-      {
-        path: "/emailcheck",
-        name: "이메일 확인",
-        component: emailcheck,
-      }, {
+      // {
+      //   path: "/emailcheck",
+      //   name: "이메일 확인",
+      //   component: emailcheck,
+      // },
+       {
         path: "/user/findid",
         name: "아이디 /비밀번호 찾기",
         component: findIDPW,
