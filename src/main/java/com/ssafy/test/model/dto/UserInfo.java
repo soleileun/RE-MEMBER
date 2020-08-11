@@ -19,6 +19,14 @@ public class UserInfo {
 	private String responsibility;
 	private boolean isValid;
 	private boolean leaveUser;
+	private String intro;
+	
+	public String getIntro() {
+		return intro;
+	}
+	public void setIntro(String intro) {
+		this.intro = intro;
+	}
 	public String getId() {
 		return id;
 	}
@@ -92,8 +100,10 @@ public class UserInfo {
 		this.responsibility = responsibility;
 	}
 
+	
 	public UserInfo(String id, String nickname, String name, String pw, String address1, String address2, String phone,
-			String git, int points, Date lastDate, boolean state, String responsibility, boolean isValid) {
+			String git, int points, Date lastDate, boolean state, String responsibility, boolean isValid,
+			boolean leaveUser, String intro) {
 		super();
 		this.id = id;
 		this.nickname = nickname;
@@ -108,6 +118,8 @@ public class UserInfo {
 		this.state = state;
 		this.responsibility = responsibility;
 		this.isValid = isValid;
+		this.leaveUser = leaveUser;
+		this.intro = intro;
 	}
 	public UserInfo() {
 	}

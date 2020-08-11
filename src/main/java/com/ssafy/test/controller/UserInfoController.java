@@ -1,7 +1,7 @@
 package com.ssafy.test.controller;
 
 import java.io.UnsupportedEncodingException;
-
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,6 +33,7 @@ import com.ssafy.test.model.dto.Email;
 import com.ssafy.test.model.dto.SearchParameter;
 import com.ssafy.test.model.dto.User;
 import com.ssafy.test.model.dto.UserInfo;
+import com.ssafy.test.model.dto.UserSimple;
 import com.ssafy.test.model.service.BoardService;
 import com.ssafy.test.model.service.EmailService;
 import com.ssafy.test.model.service.JwtService;
@@ -163,9 +164,15 @@ public class UserInfoController {
 
     @ApiOperation(value = "모든 유저의 정보를 반환한다.", response = List.class)
 	@GetMapping
-	public ResponseEntity<List<UserInfo>> getAllUsers() throws Exception {
+	public ResponseEntity<List<UserSimple>> getAllUsers() throws Exception {
 		logger.debug("getAllUsers - 호출");
-		return new ResponseEntity<List<UserInfo>>(uiService.selectAll(), HttpStatus.OK);
+		List<UserInfo> all = uiService.selectAll();
+		List<UserSimple> users = new ArrayList<>();
+		for(int i=0;i<all.size();i++) {
+			UserInfo tmp = all.get(i);
+			users.add(new UserSimple(tmp.getId(), tmp.getNickname(), tmp.getGit(),tmp.getLastDate(), tmp.isState(), tmp.getResponsibility(), tmp.isLeaveUser()));
+		}
+		return new ResponseEntity<List<UserSimple>>(users, HttpStatus.OK);
 	}
     @ApiOperation(value = "모든 유저의 정보를 반환한다.", response = List.class)
 	@GetMapping("/search/{id}")
