@@ -3,8 +3,10 @@
     <h1>인재풀 샘플</h1>
     <hr />
 
-    <div class="col-md-10 ml-auto col-xl-6 mr-auto">
+    <div class="card col-md-10 ml-auto col-xl-6 mr-auto">
       <!-- 시군구동 검색 -->
+      
+        <div class="card-body">
       <div class="row">
         <label class="col-md-2" for="sido" style="margin-left:-20px;">
           <strong>
@@ -62,32 +64,51 @@
       </div>
 
       <hr />
-
-      <div class="selectform">
-        <div v-for="(pick,index) in picks" :key="index">
-          <button>{{pick}}</button>
-          <button v-on:click="deleteStack(index)">X</button>
-        </div>
-      </div>기술 태그 입력
-      <div class="searchform">
-        <div class="input">
-          <input id="stackWord" type="text" v-model="inputVal" @input="searchQuery()" @keyup.enter="enter()" placeholder="기술 태그 입력해주세요" />
-        </div>
-        <table class="autoComplete">
-          <tr v-for="list in lists" :key="list" @click="add(list)">
-            <td>{{list}}</td>
-          </tr>
-        </table>
-        <div class="row">
-          <div class="col-8">
-            <input type="text" placeholder="아이디를 입력하세요" id="keyword1" style="width:100%;" />
+          <div class="row">
+          <div class="selectform col-12" style="float:left;" >
+            <div v-for="(pick,index) in picks" :key="index" style="float:left; margin:10px;">
+              <div style="float:left;">
+              <button>{{pick}}</button>
+              <button v-on:click="deleteStack(index)">X</button>
+              </div>
+            </div>
           </div>
+          </div>
+          <p></p>
+          <div class="row">
+          <div class="searchform" style="width:100%;">
+            <div class="row" style="margin:8px;">
+              <div class="col-12">
+                ID : 
+                <input type="text" placeholder="아이디를 입력하세요" id="keyword1" style="width:80%;" />
+              </div>
+            </div>
+            <div class="input">
+              <div class="row">
+                <div class="col-12">
+                  기술 : 
+                  
+              <input id="stackWord" type="text" v-model="inputVal" @input="searchQuery()" @keyup.enter="enter()" placeholder="기술 태그 입력해주세요"  style="width:80%;"/>
+              
+                </div>
+                </div>
+            </div>
+            <table class="autoComplete" style="cursor: pointer;">
+              <tr v-for="list in lists" :key="list" @click="add(list)">
+                <td>{{list}}</td>
+              </tr>
+            </table>
+            
+          </div>
+            <div class="col-12" style="float:right;">
+              <button @click="searchPool()" style="border: 2px solid rgb(173, 203, 247); border-radius:10px; margin:20px; float:right;">프로젝트 검색</button>
+            </div>
+</div>
         </div>
-        <div class="col-2">
-          <button @click="searchPool()" style="border: 2px solid rgb(173, 203, 247); border-radius:10px;">프로젝트 검색</button>
-        </div>
-      </div>
+
     </div>
+
+
 
     <hr />
     <!-- card layout -->
@@ -494,4 +515,5 @@ img {
   line-height: 1.5;
   margin-bottom: 1.25rem;
 }
+
 </style>
