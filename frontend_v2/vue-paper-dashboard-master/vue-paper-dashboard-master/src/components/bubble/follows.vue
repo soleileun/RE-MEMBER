@@ -4,7 +4,11 @@
     <div v-if="followings.length===0">팔로우한 사람이 없습니다.</div>
     <div v-if="followings">
       <h4>활동중인 유저</h4>
-      <div class="dropdown" v-for="target in followings.filter(item=> item.state ===true)" :key="target.id">
+      <div
+        class="dropdown"
+        v-for="target in followings.filter(item=> item.state ===true)"
+        :key="target.id"
+      >
         <drop-down class="btn" :title="target.nickname+'님'">
           <div class="dropdown-item" @click="mes(target.id)">메세지</div>
           <div class="dropdown-item" v-if="sameroom[target.id]">채팅방 있음</div>
@@ -16,7 +20,11 @@
     </div>
     <div v-if="followings">
       <h4>휴면중인 유저</h4>
-      <div class="dropdown" v-for="target in followings.filter(item=> item.state ===false)" :key="target.id">
+      <div
+        class="dropdown"
+        v-for="target in followings.filter(item=> item.state ===false)"
+        :key="target.id"
+      >
         <drop-down class="btn" :title="target.nickname+'님'">
           <div class="dropdown-item" @click="mes(target.id)">메세지</div>
           <div class="dropdown-item" @click="viewProf(target.id)">프로필 보기</div>
@@ -40,10 +48,10 @@ export default {
   },
   beforeCreate: function () {
     this.$store.dispatch("getFollow");
+    this.$store.dispatch("getFollower");
   },
   computed: {
     followings: function () {
-      
       return this.$store.state.userstore.followings;
     },
     rooms() {
@@ -55,13 +63,11 @@ export default {
       });
       return tmp;
     },
-    sameroom(){
+    sameroom() {
       return this.$store.state.chatstore.sameroom;
-    }
+    },
   },
-  mounted() {
-      
-  },
+  mounted() {},
   methods: {
     mes: function (id) {
       this.$store.dispatch("sendMes", { toUser: id });
@@ -98,7 +104,10 @@ export default {
         content: `${id}님이 입장하셨습니다.`,
         date: new Date(),
       });
-      this.$store.commit(Constant.GET_CHATROOMONETOONE, { sameroom: "임시",uid:id  })
+      this.$store.commit(Constant.GET_CHATROOMONETOONE, {
+        sameroom: "임시",
+        uid: id,
+      });
     },
   },
 };
