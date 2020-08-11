@@ -77,7 +77,6 @@ export default {
   },
   computed: {
     recruits() {
-      this.$store.dispatch(Constant.GET_RECRUITLIST);
       return this.$store.state.recruitstore.recruits;
     },
     projects() {

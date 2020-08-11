@@ -9,17 +9,13 @@
         <h4 class="title">
           {{userNick}}
           <br />
-          <a href="#">
-            <small>@Not complete</small>
+          <a :href="'https://github.com/'+usergit">
+            <small>@{{usergit}}</small>
             <!-- <small>@{{usergit}}</small> -->
           </a>
         </h4>
       </div>
-      <p class="description text-center">
-        "I like the way you work it
-        <br />No diggity
-        <br />I wanna bag it up"
-      </p>
+      <p class="description text-center">{{userintro}}</p>
     </div>
     <hr />
     <div class="text-center">
@@ -32,7 +28,7 @@
           </h5>
         </div>
       </div>
-    </div>Not Completed
+    </div>
   </card>
 </template>
 <script>
@@ -56,8 +52,10 @@ export default {
         },
       ],
       userNick: storage.getItem("userNick"),
+      userId: storage.getItem("userId"),
       users: storage.getItem("users"),
-      // usergit: storage.getItem("git"),
+      usergit: storage.getItem("usergit"),
+      userintro: storage.getItem("userintro"),
     };
   },
   computed: {
@@ -70,6 +68,7 @@ export default {
   },
   created() {
     this.$store.dispatch("getFollower");
+
     // console.log("뭐냐고");
     console.log("팔로잉" + this.$store.state.userstore.followings);
     // console.log("팔로워");

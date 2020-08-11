@@ -21,7 +21,8 @@
 		address1=#{address1},
 		address2=#{address2}
 		,phone=#{phone},git=#{git},state=#{state}
-		,responsibility=#{responsibility},leaveUser=#{leaveUser}
+		,responsibility=#{responsibility},leaveUser=#{leaveUser},
+		intro=#{intro}
 		where id=#{id}
 	</update>
 	<!-- validation 수정 -->
@@ -42,7 +43,7 @@
 	<!-- 로그인 회원 조회 -->
 	<select id="select" parameterType="string" resultType="userinfo">
 		select
-		id,nickname,name,pw,leaveUser
+		id,nickname,name,pw,leaveUser,git,intro
 		from userInfo where id=#{id}
 	</select>
 
@@ -60,13 +61,13 @@
 
 	<select id="login" parameterType="string" resultType="userinfo">
 		select
-		id,nickname,name,pw,phone,git,points,lastDate,state,responsibility,leaveUser
+		id,nickname,name,pw,phone,git,points,lastDate,state,responsibility,leaveUser,intro
 		from userInfo where id=#{id} and pw=#{pw}
 	</select>
 
 	<select id="signin" parameterType="string" resultType="userinfo">
 		select
-		id,nickname,name,pw,phone,git,points,lastDate,state,address1,address2,responsibility,isValid,leaveUser
+		id,nickname,name,pw,phone,git,points,lastDate,state,address1,address2,responsibility,isValid,leaveUser,intro
 		from userInfo where id=#{id} and pw=#{pw}
 	</select>
 
@@ -76,7 +77,7 @@
 		resultType="userinfo">
 		select id, nickname, name, address2, git, lastDate, state,
 		responsibility,
-		isValid,leaveUser
+		isValid,leaveUser,intro
 		from userInfo
 		where address2 like
 		CONCAT('%',#{sido},'%')
@@ -90,7 +91,7 @@
 	<select id="searchAddr" parameterType="searchparameter"
 		resultType="userinfo">
 		select id, nickname, name, address2, git, lastDate, state, responsibility,
-		isValid,leaveUser
+		isValid,leaveUser,intro
 		from userInfo
 		where address2 like
 		CONCAT('%',#{sido},'%')
@@ -106,7 +107,7 @@
 		resultType="userinfo">
 		select id, nickname, name, address2, git, lastDate, state,
 		responsibility,
-		isValid
+		isValid,intro
 		from userInfo
 		where address2 like
 		CONCAT('%',#{sido},'%')
