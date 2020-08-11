@@ -77,16 +77,18 @@ const chatstore = {
                         roomName : payload.roomName,
                         id : 'system',
                         nickname : 'system',
-                        content : payload.uid + "님께서 입장하셨습니다.",
+                        content : payload.uid + "님이 입장하셨습니다.",
                         makedate : payload.makedate,
                     },config)
                     .then(() => {   //채팅창 정보 다시 요청
                         //console.log("참가했습니다 메시지 발송");
-                        http.get('/api/chat/chat/name='+ payload.roomName,config)
+                       
+                        http.get('/api/chat/chat/name='+ payload.roomName+'&id=' + payload.id, config)
                         .then(response => {
                             store.commit(Constant.GET_CHATLIST, { chats: response.data })
                             console.log("불러왔음." + payload.roomName)
-                      })
+                            //alert(payload.uid + "님을 초대했습니다.");
+                        })
                         .catch(exp => alert('getchatList처리에 실패하였습니다!!' + exp));
                     })
                     store.dispatch(Constant.GET_CHATROOMLIST);//, {rooms : payload.bstate});
@@ -107,7 +109,7 @@ const chatstore = {
         const config = {
             headers: {"jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")}
         }
-        http.get('/api/chat/chat/name='+ payload.roomName,config)
+        http.get('/api/chat/chat/name='+ payload.roomName+'&id=' + payload.id, config)
             .then(response => {
                 store.commit(Constant.GET_CHATLIST, { chats: response.data })
                 console.log("불러왔음." + payload.roomName)
