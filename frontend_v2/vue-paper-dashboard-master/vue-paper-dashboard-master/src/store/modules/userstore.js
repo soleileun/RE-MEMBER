@@ -12,6 +12,7 @@ const userstore = {
     userid: '',
     token: '',
     followings: [],
+    followers: [],
     messageList: [],
     users: [],
     news: [],
@@ -38,6 +39,7 @@ const userstore = {
         })
         store.dispatch("update")
         store.dispatch("getFollow");
+        store.dispatch(Constant.GET_PROJECTLIST_BY_PMEMBER, { userId:storage.getItem("userid") });
       } else if (window.localStorage.getItem("autologin") === 't') {
         store.dispatch("login", {
           id: window.localStorage.getItem("id"),
@@ -58,7 +60,9 @@ const userstore = {
       console.log("up")
       // 메세지
       const config = {
-        headers: { "jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token") }
+        headers: {
+          "jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")
+        }
       }
       http.get('/api/message/' + storage.getItem("userid"), config).then(res => {
         store.commit('loadMesList', {
@@ -78,9 +82,9 @@ const userstore = {
     // 유저 관련
     login: (store, payload) => {
       http.post('/api/userinfo/signin', {
-        id: payload.id,
-        pw: payload.pw
-      })
+          id: payload.id,
+          pw: payload.pw
+        })
         .then(response => {
           console.log(response)
           if (response.data.data) {
@@ -137,14 +141,16 @@ const userstore = {
         })
         .then((res) => {
           http.post('/api/userinfo/signin', {
-            id: payload.id,
-            pw: payload.pw
-          })
+              id: payload.id,
+              pw: payload.pw
+            })
             .then(response => {
               console.log(response)
               if (response.data.data) {
                 const config = {
-                  headers: { "jwt-auth-token": response.headers["jwt-auth-token"] }
+                  headers: {
+                    "jwt-auth-token": response.headers["jwt-auth-token"]
+                  }
                 }
                 storage.setItem("jwt-auth-token", response.headers["jwt-auth-token"]);
                 storage.setItem("userNick", response.data.data.nickname)
@@ -162,7 +168,7 @@ const userstore = {
                       id: payload.id,
                       interest: el,
                     }, config).then(res => {
-                      
+
                     }).catch(e => console.log(e))
                 })
                 router.push({
@@ -194,9 +200,12 @@ const userstore = {
         })
         .catch((e) => console.log(e));
     },
+
     getFollow: (store) => {
       const config = {
-        headers: { "jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token") }
+        headers: {
+          "jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")
+        }
       }
       http
         .get("/api/userinfo/", config)
@@ -214,31 +223,66 @@ const userstore = {
             res.data.forEach(item => {
               store.dispatch(Constant.GET_CHATROOMONETOONE, {
                 uid1: storage.getItem("userid"),
-                uid2: item.targetz,
+
+                uid2: item.target,
+
               });
             })
           }).catch(exp => console.log(exp))
         })
         .catch((exp) => alert("에러" + exp));
+    },
+    getFollower: (store) => {
+      const config = {
+        headers: {
+          "jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")
+        }
+      }
+      http
+        .get("/api/userinfo/", config)
+        .then((response) => {
 
+          http.get('/api/following/target/' + storage.getItem("userid"), {
+            headers: {
+              "jwt-auth-token": storage.getItem("jwt-auth-token")
+            }
+          }).then(res => {
+            console.log(res);
+            store.commit('loadfollowers', {
+              followers: res.data,
+              users: response.data
+            })
 
+            // res.data.forEach(item => {
+            //   store.dispatch(Constant.GET_CHATROOMONETOONE, {
+            //     uid1: storage.getItem("userid"),
+            //     uid2: item.target,
+            //   });
+            // })
+          }).catch(exp => console.log(exp))
+        })
+        .catch((exp) => alert("에러" + exp));
     },
     leave: (store, payload) => {
+
       let config = {
-        headers: { "jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token") }
+        headers: {
+          "jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")
+        }
       }
+
       http.post('/api/userinfo/signin', {
-        id: storage.getItem("userid"),
-        pw: payload.pw,
-      }, config)
+          id: storage.getItem("userid"),
+          pw: payload.pw,
+        }, config)
         .then(response => {
           console.log(response);
           if (response.data.data) {
             http.delete('api/userinfo/' + storage.getItem("userid"), config = {
-              headers: {
-                "jwt-auth-token": storage.getItem("jwt-auth-token")
-              }
-            })
+                headers: {
+                  "jwt-auth-token": storage.getItem("jwt-auth-token")
+                }
+              })
               .then(() => {
 
                 store.dispatch("logout");
@@ -257,7 +301,9 @@ const userstore = {
     },
     follow: (store, payload) => {
       const config = {
-        headers: { "jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token") }
+        headers: {
+          "jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")
+        }
       }
       http.post('/api/following/', {
         target: payload.target,
@@ -272,7 +318,9 @@ const userstore = {
     },
     delFollow: (store, payload) => {
       const config = {
-        headers: { "jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token") }
+        headers: {
+          "jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")
+        }
       }
       http.delete('/api/following/', {
         target: payload.target,
@@ -305,14 +353,16 @@ const userstore = {
         }
       } else if (payload.other) {
         const config = {
-          headers: { "jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token") }
+          headers: {
+            "jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")
+          }
         }
         http.post('/api/message/', {
-          content: payload.content,
-          fromUser: storage.getItem("userid"),
-          toUser: payload.other,
-          read: false,
-        }, config)
+            content: payload.content,
+            fromUser: storage.getItem("userid"),
+            toUser: payload.other,
+            read: false,
+          }, config)
           .then(response => {
             console.log(response)
             store.commit('pushDetailMes', {
@@ -332,7 +382,9 @@ const userstore = {
     },
     detailMes: (store, payload) => {
       const config = {
-        headers: { "jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token") }
+        headers: {
+          "jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")
+        }
       }
       http.get(`/api/message/message/${storage.getItem("userid")}/${payload.other}`, config).then(res => {
         store.commit('loadDetailMes', {
@@ -342,7 +394,9 @@ const userstore = {
     },
     delMes: (store, payload) => {
       const config = {
-        headers: { "jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token") }
+        headers: {
+          "jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")
+        }
       }
       http.delete(`/api/message/${payload.mnum}`, config).then(res => {
         alert("메세지가 삭제되었습니다." + res.data)
@@ -350,7 +404,9 @@ const userstore = {
     },
     mesRead: (store, payload) => {
       const config = {
-        headers: { "jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token") }
+        headers: {
+          "jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")
+        }
       }
       http.put(`/api/message/${payload.mnum}`, {
         read: true,
@@ -403,6 +459,15 @@ const userstore = {
         tmp.push(item.target)
       })
       state.followings = payload.users.filter(item => item.leaveUser === false).filter(item =>
+        (tmp.indexOf(item.id) > -1)
+      );
+    },
+    loadfollowers: (state, payload) => {
+      let tmp = [];
+      payload.followers.forEach(item => {
+        tmp.push(item.uid)
+      })
+      state.followers = payload.users.filter(item => item.leaveUser === false).filter(item =>
         (tmp.indexOf(item.id) > -1)
       );
     },

@@ -30,9 +30,6 @@
           <div class="card">
             <div class="card-body">
               <center class="m-t-30">
-                <router-link class="nav-link" :to="`project/myproject/${userId}`">
-                  <button class="profBtn btn btn-info">내 프로젝트 보기</button>
-                </router-link>
                 <router-link class="nav-link" to="/user/editinfo">
                   <button class="profBtn btn btn-info">개인정보 수정</button>
                 </router-link>
