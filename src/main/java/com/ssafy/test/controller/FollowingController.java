@@ -57,12 +57,12 @@ public class FollowingController {
 		return new ResponseEntity<List<Following>>(fService.selectById(id), HttpStatus.OK);
 	}
     
-//    @ApiOperation(value = "해당하는 following 정보를 반환한다.", response = Following.class)    
-//	@GetMapping("{target}")
-//	public ResponseEntity<List<Following>> getFollowers(@PathVariable String target) {
-//		logger.debug("getFollowers - 호출");
-//		return new ResponseEntity<List<Following>>(fService.selectByTarget(target), HttpStatus.OK);
-//	}
+    @ApiOperation(value = "해당하는 following 정보를 반환한다.", response = Following.class)    
+	@GetMapping("/target/{target}")
+	public ResponseEntity<List<Following>> getFollowers(@PathVariable String target) {
+		logger.debug("getFollowers - 호출");
+		return new ResponseEntity<List<Following>>(fService.selectByTarget(target), HttpStatus.OK);
+	}
 
     @ApiOperation(value = "새로운 following 정보를 입력한다. ", response = String.class)
 	@PostMapping
