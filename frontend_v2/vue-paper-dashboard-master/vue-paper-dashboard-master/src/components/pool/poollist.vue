@@ -12,12 +12,7 @@
             <span id="userid" class="text-danger"></span>
           </strong>
         </label>
-        <select
-          id="sido"
-          class="form-control col-md-2"
-          @change="changeSido(selectedSido)"
-          v-model="selectedSido"
-        >
+        <select id="sido" class="form-control col-md-2" @change="changeSido(selectedSido)" v-model="selectedSido">
           <option value="0">선택</option>
           <option v-for="(sido, index) in sidoList" :value="sido" :key="index">
             {{
@@ -32,13 +27,7 @@
             <span id="userid" class="text-danger"></span>
           </strong>
         </label>
-        <select
-          v-if="selectedSido!=0"
-          id="gugun"
-          class="form-control col-md-2"
-          @change="changeGugun(selectedSido, selectedGugun)"
-          v-model="selectedGugun"
-        >
+        <select v-if="selectedSido!=0" id="gugun" class="form-control col-md-2" @change="changeGugun(selectedSido, selectedGugun)" v-model="selectedGugun">
           <option value="0">선택</option>
           <option v-for="(gu, index) in gugunList" :value="gu" :key="index">
             {{
@@ -57,12 +46,7 @@
           </strong>
         </label>
 
-        <select
-          v-if="selectedGugun!=0"
-          id="dong"
-          class="form-control col-md-2"
-          v-model="selectedDong"
-        >
+        <select v-if="selectedGugun!=0" id="dong" class="form-control col-md-2" v-model="selectedDong">
           <!-- @change="changeDong(selectedDong)" -->
 
           <option value="0">선택</option>
@@ -87,14 +71,7 @@
       </div>기술 태그 입력
       <div class="searchform">
         <div class="input">
-          <input
-            id="stackWord"
-            type="text"
-            v-model="inputVal"
-            @input="searchQuery()"
-            @keyup.enter="enter()"
-            placeholder="기술 태그 입력해주세요"
-          />
+          <input id="stackWord" type="text" v-model="inputVal" @input="searchQuery()" @keyup.enter="enter()" placeholder="기술 태그 입력해주세요" />
         </div>
         <table class="autoComplete">
           <tr v-for="list in lists" :key="list" @click="add(list)">
@@ -107,10 +84,7 @@
           </div>
         </div>
         <div class="col-2">
-          <button
-            @click="searchPool()"
-            style="border: 2px solid rgb(173, 203, 247); border-radius:10px;"
-          >프로젝트 검색</button>
+          <button @click="searchPool()" style="border: 2px solid rgb(173, 203, 247); border-radius:10px;">프로젝트 검색</button>
         </div>
       </div>
     </div>
@@ -118,35 +92,23 @@
     <hr />
     <!-- card layout -->
     <ul class="cards">
-      <li class="cards__item" v-for="pool in pools" :key="pool.id">
-        <div class="card">
-          <div class="card__image card__image--fence"></div>
-          <div class="card__content">
-            <div class="card__title">{{pool.nickname}}</div>
-            <p class="card__text">
-              <br />
-              {{pool.responsibility}}
-            </p>
-            <!-- <button class="btn btn--block card__btn">Button</button> -->
-            <router-link
-              :to="'/project/myproject/' + pool.id"
-              tag="button"
-              class="btn btn--block card__btn"
-            >프로젝트 보기</router-link>
-            <router-link
-              :to="'/profile/' + pool.id"
-              tag="button"
-              class="btn btn--block card__btn"
-            >프로필 보기</router-link>
-            <a
-              class="btn btn--block card__btn"
-              v-if="pool.git"
-              :href="'https://github.com/'+pool.git"
-            >Git</a>
-            <button v-if="!follow.find(item=>item.id === pool.id)" class="btn btn-success" @click="fol(pool.id)">팔로우하기</button>
+        <li class="cards__item" v-for="pool in pools" :key="pool.id">
+          <div class="card">
+            <div class="card__image card__image--fence"></div>
+            <div class="card__content">
+              <div class="card__title">{{pool.nickname}}</div>
+              <p class="card__text">
+                <br />
+                {{pool.responsibility}}
+              </p>
+              <!-- <button class="btn btn--block card__btn">Button</button> -->
+              <router-link :to="'/project/' + pool.id" tag="button" class="btn btn--block card__btn">프로젝트 보기</router-link>
+              <router-link :to="'/profile/' + pool.id" tag="button" class="btn btn--block card__btn">프로필 보기</router-link>
+              <a class="btn btn--block card__btn" v-if="pool.git" :href="'https://github.com/'+pool.git">Git</a>
+              <button v-if="!follow.find(item=>item.id === pool.id)" class="btn btn-success" @click="fol(pool.id)">팔로우하기</button>
+            </div>
           </div>
-        </div>
-      </li>
+        </li>
     </ul>
   </div>
 </template>
@@ -222,9 +184,9 @@ export default {
     dongList() {
       return this.$store.state.stackstore.donglist;
     },
-    follow(){
-      return this.$store.state.userstore.followings;
-    }
+    follow() {
+      return this.$store.state.userstore.followings;
+    },
   },
   created() {
     this.$store.dispatch(Constant.GET_POOLLIST);
@@ -291,13 +253,13 @@ export default {
 
       console.log(sd + " " + gg + " " + dn);
       console.log("태그길이:" + this.picks.length);
-      console.log("stack is + "+ stacks);
+      console.log("stack is + " + stacks);
 
       //통합
       this.$store.dispatch(Constant.SEARCH_POOLIST, {
         addr,
         stacks,
-        keyword:document.getElementById('keyword1').value
+        keyword: document.getElementById("keyword1").value,
       });
 
       // //주소만
@@ -441,7 +403,8 @@ img {
 
 .cards {
   display: flex;
-  flex-wrap: wrap;
+  flex-flow: row wrap;
+  justify-content: stretch;
   list-style: none;
   margin: 0;
   padding: 0;
@@ -450,12 +413,9 @@ img {
 .cards__item {
   display: flex;
   padding: 1rem;
-  @media (min-width: 40rem) {
-    width: 50%;
-  }
-  @media (min-width: 56rem) {
-    width: 20%;
-  }
+  width: 20%;
+  min-width: 250px;
+  max-width: 400px;
 }
 
 .card {
