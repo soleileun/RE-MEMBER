@@ -41,11 +41,12 @@ export default {
     return {
       details: [
         {
-          title: "12",
+          // this.$store.state.userstore.followings
+          title: this.$store.state.userstore.followings.length,
           subTitle: "Following ",
         },
         {
-          title: "6",
+          title: this.$store.state.userstore.followers.length,
           subTitle: "Followers",
         },
         {
@@ -57,8 +58,27 @@ export default {
       users: storage.getItem("users"),
     };
   },
-  mounted: function () {
+  computed: {
+    followings: function () {
+      return this.$store.state.userstore.followings;
+    },
+    followers: function () {
+      return this.$store.state.userstore.followers;
+    },
   },
+  created() {
+    // // this.$store.dispatch("getFollow");
+    // console.log("뭐냐고");
+    // console.log(this.$store.state.userstore.followings);
+    // console.log("팔로워");
+    // console.log(this.$store.state.userstore.followers);
+  },
+  beforeCreate: function () {
+    // this.$store.dispatch("getFollow");
+    this.$store.dispatch("getFollower");
+  },
+
+  mounted: function () {},
 
   methods: {
     getClasses(index) {

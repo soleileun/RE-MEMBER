@@ -15,15 +15,21 @@
 
     <hr />
     <div v-if="this.loginId === '' ">
-      <h4>최근 모집글 보여주기</h4>
       <div class="container">
-        <!-- <div class="row row--top-40"></div> -->
+        <div class="row row--top-40">
+          <div class="col-md-12">
+            <h4 class="row__title">최근 모집글 보여주기</h4>
+          </div>
+        </div>
         <div class="row row--top-20">
           <div class="col-md-12">
             <div class="table-container">
               <table class="table">
                 <thead class="table__thead">
                   <tr>
+                    <th class="table__th">
+                      <input id="selectAll" type="checkbox" class="table__select-row" />
+                    </th>
                     <th class="table__th">제목</th>
                     <th class="table__th">게시인</th>
                     <th class="table__th">프로젝트명</th>
