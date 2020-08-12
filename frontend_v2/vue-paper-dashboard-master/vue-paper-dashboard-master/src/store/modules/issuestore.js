@@ -8,6 +8,9 @@ Vue.use(Vuex);
 const issuestore = {
     state: {
         issues: [],
+        issues_created: [],
+        issues_ongoing: [],
+        issues_done: [],
         issue: {}
     },
 
@@ -33,7 +36,7 @@ const issuestore = {
             http.get('/api/issue/search/pid=' + payload.pid + '&issuestate=' + payload.issuestate, config)
                 .then(response => {
                     // console.log(response)
-                    store.commit(Constant.GET_ISSUELIST, { issues: response.data })
+                    store.commit(Constant.GET_ISSUELIST_BY_STATE, { issues: response.data, issuestate: payload.issuestate })
                 })
                 .catch(exp => alert('getISSUEList처리에 실패하였습니다!!' + exp));
         },
@@ -108,7 +111,7 @@ const issuestore = {
         },
 
 
-        [Constant.READ_BOARD]: (store, payload) => {
+        [Constant.READ_BOARD]: (_store, payload) => {
             // console.log(payload);
             console.log("받아옴? : " + payload.bno);
             const config = {
@@ -122,46 +125,46 @@ const issuestore = {
                 .catch(exp => alert('읽음 처리에 실패하였습니다.' + exp));
         },
 
-        //이슈글 삭제
-        [Constant.REMOVE_BOARD]: (store, payload) => {
-            const config = {
-                headers: { "jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token") }
-            }
-            http.delete('/api/board/delete/' + payload.bno, config)
-                .then(() => {
-                    alert('삭제하였습니다.');
-                    store.dispatch(Constant.GET_BOARDLIST, { bstate: payload.bstate });
+        // //이슈글 삭제
+        // [Constant.REMOVE_BOARD]: (store, payload) => {
+        //     const config = {
+        //         headers: { "jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token") }
+        //     }
+        //     http.delete('/api/board/delete/' + payload.bno, config)
+        //         .then(() => {
+        //             alert('삭제하였습니다.');
+        //             store.dispatch(Constant.GET_BOARDLIST, { bstate: payload.bstate });
 
-                })
-                .catch(exp => alert('삭제 처리에 실패하였습니다.' + exp));
+        //         })
+        //         .catch(exp => alert('삭제 처리에 실패하였습니다.' + exp));
 
-        },
-        //제목으로 찾기
-        [Constant.SEARCH_BOARD_TITLE]: (store, payload) => {
-            console.log(payload);
-            const config = {
-                headers: { "jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token") }
-            }
-            http.get('/api/board/typesearch/btitle=' + payload.btitle + '&bstate=' + payload.bstate, config)
-                .then(response => {
-                    console.log(response.data);
-                    store.commit(Constant.GET_BOARDLIST, { boards: response.data })
-                })
-                .catch(exp => alert('search by title 처리에 실패하였습니다.' + exp));
-        },
-        //작성자로 찾기
-        [Constant.SEARCH_BOARD_WRITER]: (store, payload) => {
-            console.log(payload);
-            const config = {
-                headers: { "jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token") }
-            }
-            http.get('/api/board/typesearch/writer=' + payload.bwriter + '&bstate=' + payload.bstate, config)
-                .then(response => {
-                    console.log(response.data);
-                    store.commit(Constant.GET_BOARDLIST, { boards: response.data })
-                })
-                .catch(exp => alert('search by title 처리에 실패하였습니다.' + exp));
-        },
+        // },
+        // //제목으로 찾기
+        // [Constant.SEARCH_BOARD_TITLE]: (store, payload) => {
+        //     console.log(payload);
+        //     const config = {
+        //         headers: { "jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token") }
+        //     }
+        //     http.get('/api/board/typesearch/btitle=' + payload.btitle + '&bstate=' + payload.bstate, config)
+        //         .then(response => {
+        //             console.log(response.data);
+        //             store.commit(Constant.GET_BOARDLIST, { boards: response.data })
+        //         })
+        //         .catch(exp => alert('search by title 처리에 실패하였습니다.' + exp));
+        // },
+        // //작성자로 찾기
+        // [Constant.SEARCH_BOARD_WRITER]: (store, payload) => {
+        //     console.log(payload);
+        //     const config = {
+        //         headers: { "jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token") }
+        //     }
+        //     http.get('/api/board/typesearch/writer=' + payload.bwriter + '&bstate=' + payload.bstate, config)
+        //         .then(response => {
+        //             console.log(response.data);
+        //             store.commit(Constant.GET_BOARDLIST, { boards: response.data })
+        //         })
+        //         .catch(exp => alert('search by title 처리에 실패하였습니다.' + exp));
+        // },
 
 
 
@@ -171,6 +174,16 @@ const issuestore = {
         [Constant.GET_ISSUELIST]: (state, payload) => {
             // console.log('mutation' + payload.boards);
             state.issues = payload.issues;
+        },
+        [Constant.GET_ISSUELIST_BY_STATE]: (state, payload) => {
+            // console.log('mutation' + payload.boards);
+            if (payload.issuestate == 'done') {
+                state.issues_done = payload.issues;
+            } else if (payload.issuestate == 'ongoing') {
+                state.issues_ongoing = payload.issues;
+            } else if (payload.issuestate == 'created') {
+                state.issues_created = payload.issues;
+            }
         },
         [Constant.GET_ISSUE]: (state, payload) => {
             state.issue = payload.issue;

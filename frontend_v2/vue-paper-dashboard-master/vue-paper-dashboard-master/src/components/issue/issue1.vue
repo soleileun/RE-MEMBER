@@ -28,75 +28,69 @@
             </li>
           </ul>
         </div>
-      </div> -->
+    </div>-->
 
-      <div class="content">
-        <div class="container-fluid">
-            <div class="row">
-            <div class="col-5">
-              <div class="card">
-                <div class="header">
-                  <h4 class="card-title">이슈 처리 현황 그래프</h4>
+    <div class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-5">
+            <div class="card">
+              <div class="header">
+                <h4 class="card-title">이슈 처리 현황 그래프</h4>
+              </div>
+              <div class="content">
+                <div class="ct-chart">
+                  <canvas id="myChart" style="height: 50%; width: 50%;"></canvas>
                 </div>
-                <div class="content">
-                  <div class="ct-chart">
-                    <canvas id="myChart" style="height: 50%; width: 50%;"></canvas>
-                  </div>
-                  <div class="footer">
-                    <hr />
-                    <div class="stats">
-                      <i class="fa fa-history"></i> Updated 3 minutes ago
-                    </div>
+                <div class="footer">
+                  <hr />
+                  <div class="stats">
+                    <i class="fa fa-history"></i> Updated 3 minutes ago
                   </div>
                 </div>
               </div>
             </div>
+          </div>
 
-            <div class="col-7">
-              <div class="card">
-                <div class="header">
-                  <h4 class="card-title">최근 프로젝트 이슈</h4>
-                  <p class="category">날짜순</p>
+          <div class="col-7">
+            <div class="card">
+              <div class="header">
+                <h4 class="card-title">최근 프로젝트 이슈</h4>
+                <p class="category">날짜순</p>
+              </div>
+              <div class="content">
+                <div class="overflow-auto table-responsive">
+                  <table class="table">
+                    <thead>
+                      <th>날짜</th>
+                      <th>제목</th>
+                      <th class="td-actions text-right">상태</th>
+                    </thead>
+                    <tbody>
+                      <tr v-for="(issue, index) in issues" :key="index">
+                        <td>{{issue.changeDay}}</td>
+                        <td>{{issue.issuetitle}}</td>
+                        <td class="td-actions text-right">
+                          <div v-if="issue.issuestate == 'created'" style="color:skyblue">생성됨</div>
+                          <div v-if="issue.issuestate == 'ongoing'" style="color:red">진행중</div>
+                          <div v-if="issue.issuestate == 'done'" style="color:yellowgreen">완료</div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
-                <div class="content">
-                  <div class="overflow-auto table-responsive">
-                    <table class="table">
-                      <thead>
-                        <th>날짜</th>
-                        <th>제목</th>
-                        <th class="td-actions text-right">상태</th>
-                      </thead>
-                      <tbody>
-                        
-                        <!-- <tr>
-                          <td>2020-08-03 21:09</td>
-                          <td>이슈 테스팅1</td>
-                          <td class="td-actions text-right">
-                            <div style="color: red">진행중</div>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>2020-08-01 20:02</td>
-                          <td>이슈 테스팅2</td>
-                          <td class="td-actions text-right">
-                            <div style="color: yellowgreen">완료</div>
-                          </td>
-                        </tr> -->
-                      </tbody>
-                    </table>
-                  </div>
 
-                  <div class="footer">
-                    <hr />
-                    <div class="stats">
-                      <i class="fa fa-history"></i> Updated 3 minutes ago
-                    </div>
+                <div class="footer">
+                  <hr />
+                  <div class="stats">
+                    <i class="fa fa-history"></i> Updated 3 minutes ago
                   </div>
                 </div>
               </div>
             </div>
+          </div>
 
-            <!-- <div class="col-4">
+          <!-- <div class="col-4">
               <div class="card">
                 <div class="header">
                   <h4 class="title" style="color: skyblue">생성된 이슈</h4>
@@ -159,9 +153,9 @@
                   </div>
                 </div>
               </div>
-            </div>-->
+          </div>-->
 
-            <!-- <div class="col-4">
+          <!-- <div class="col-4">
               <div class="card">
                 <div class="header">
                   <h4 class="title" style="color: red">진행중인 이슈</h4>
@@ -263,73 +257,68 @@
                   </div>
                 </div>
               </div>
-            </div>-->
-            
-          </div>
-          <!-- drag and drop -->
-            <div class="content container-fluid row col-14 card" v-drag-and-drop:options="options">
-              <h4 class=" header card-title">이슈 현황</h4>
-              <p align="right" class="category">
-                    <button
-                      @click="openModal"
-                      type="button"
-                      rel="tooltip"
-                      title="Add"
-                      class="btn btn-info btn-simple btn-xs"
-                      data-toggle="modal"
-                      data-target="#myModal"
-                    >
-                      <i class="fa fa-edit"></i>
-                    </button>
-                  </p>
-              <hr>
-              <ul class="drag-list content">
-                
-                <li class="drag-column" v-for="group in groups" :key="group.id">
-                  
-                  <span class="card-title">
-                    <h2 v-if="group.name == 'To Do'" style="color:skyblue">생성된 이슈</h2>
-                    <h2 v-if="group.name == 'In Progress'" style="color:red">진행중 이슈</h2>
-                    <h2 v-if="group.name == 'Done'" style="color:yellowgreen">완성된 이슈</h2>
-                    <!-- <feather-icon type="more-vertical"></feather-icon> -->
-                  </span>
-                  <vue-draggable-group
-                    v-model="group.items"
-                    :groups="groups"
-                    :data-id="group.id"
-                    @change="onGroupsChange"
-                  >
-                    <ul class="drag-inner-list" :data-id="group.id">
-                      <li
-                        class="drag-item"
-                        v-for="item in group.items"
-                        :key="item.id"
-                        :data-id="item.id"
-                      >
-                        <div class="drag-item-text">{{ item.name }}</div>
-                      </li>
-                    </ul>
-                  </vue-draggable-group>
-                </li>
-              </ul>
-              <div class="footer">
-                  <hr />
-                  <div class="stats">
-                    <i class="fa fa-history"></i> Updated 3 minutes ago
-                  </div>
-                </div>
-            </div>
-            <!-- drag and drop -->
-            
+          </div>-->
         </div>
+        <!-- drag and drop -->
+        <div class="content container-fluid row col-14 card" v-drag-and-drop:options="options">
+          <h4 class="header card-title">이슈 현황</h4>
+          <p align="right" class="category">
+            <button
+              @click="openModal"
+              type="button"
+              rel="tooltip"
+              title="Add"
+              class="btn btn-info btn-simple btn-xs"
+              data-toggle="modal"
+              data-target="#myModal"
+            >
+              <i class="fa fa-edit"></i>
+            </button>
+          </p>
+          <hr />
+          <ul class="drag-list content">
+            <li class="drag-column" v-for="group in groups" :key="group.id">
+              <span class="card-title">
+                <h2 v-if="group.name == 'To Do'" style="color:skyblue">생성된 이슈</h2>
+                <h2 v-if="group.name == 'In Progress'" style="color:red">진행중 이슈</h2>
+                <h2 v-if="group.name == 'Done'" style="color:yellowgreen">완성된 이슈</h2>
+                <!-- <feather-icon type="more-vertical"></feather-icon> -->
+              </span>
+              <vue-draggable-group
+                v-model="group.items"
+                :groups="groups"
+                :data-id="group.id"
+                @change="onGroupsChange"
+              >
+                <ul class="drag-inner-list" :data-id="group.id">
+                  <li
+                    class="drag-item"
+                    v-for="item in group.items"
+                    :key="item.id"
+                    :data-id="item.id"
+                  >
+                    <div class="drag-item-text">{{ item.name }}</div>
+                  </li>
+                </ul>
+              </vue-draggable-group>
+            </li>
+          </ul>
+          <div class="footer">
+            <hr />
+            <div class="stats">
+              <i class="fa fa-history"></i> Updated 3 minutes ago
+            </div>
+          </div>
+        </div>
+        <!-- drag and drop -->
       </div>
     </div>
-  
+  </div>
 </template>
 
 <script>
 import { VueDraggableDirective } from "vue-draggable";
-import Constant from "../../Constant"; 
+import Constant from "../../Constant";
 
 export default {
   directives: {
@@ -342,40 +331,29 @@ export default {
       data: [],
       left: {},
       right: {},
-      
-      issues_created : [],
-      issues_ongoig : [],
-      issues_done : [],     
-      
       groups: [
         {
           id: 1,
           name: "To Do",
           items: [
-            { id: 1, name: "Item 1", groupId: 1 },
-            { id: 2, name: "Item 2", groupId: 1 },
-            { id: 3, name: "Item 3", groupId: 1 },
+            // {
+            //   id: 1,
+            //   name: {
+            //     pid : 1
+            //   },
+            //   groupId: 1,
+            // },
           ],
-
         },
         {
           id: 2,
           name: "In Progress",
-          items: [
-            { id: 4, name: "Item 4", groupId: 2 },
-            { id: 5, name: "Item 5", groupId: 2 },
-            { id: 6, name: "Item 6", groupId: 2 },
-          ],
+          items: [],
         },
         {
           id: 3,
           name: "Done",
-          items: [
-            { id: 7, name: "Item 7", groupId: 3 },
-            { id: 8, name: "Item 8", groupId: 3 },
-            { id: 9, name: "Item 9", groupId: 3 },
-            { id: 10, name: "Item 10", groupId: 3 },
-          ],
+          items: [],
         },
       ],
       options: {
@@ -388,7 +366,6 @@ export default {
           console.log(event.items[0].innerHTML);
           //console.log(event.items[0]);
           console.log(this.groups[0]);
-          console.log(this.issues);
         },
         // onDragstart(event) {
         //   event.stop();
@@ -405,13 +382,40 @@ export default {
     };
   },
   created() {
-    this.$store.dispatch(Constant.GET_ISSUELIST);
+    this.$store.dispatch(Constant.GET_ISSUELIST, {
+      pid: 1,
+    });
+    this.$store.dispatch(Constant.GET_ISSUELIST_BY_STATE, {
+      pid: 1,
+      issuestate: "done",
+    });
+    this.$store.dispatch(Constant.GET_ISSUELIST_BY_STATE, {
+      pid: 1,
+      issuestate: "ongoing",
+    });
+    this.$store.dispatch(Constant.GET_ISSUELIST_BY_STATE, {
+      pid: 1,
+      issuestate: "created",
+    });
+    this.loadIssues();
   },
 
   computed: {
-    issues(){
+    issues() {
       return this.$store.state.issuestore.issues;
-    }
+    },
+
+    issues_created() {
+      return this.$store.state.issuestore.issues_created;
+    },
+
+    issues_done() {
+      return this.$store.state.issuestore.issues_done;
+    },
+
+    issues_ongoing() {
+      return this.$store.state.issuestore.issues_ongoing;
+    },
   },
 
   mounted() {
@@ -435,31 +439,81 @@ export default {
         },
       },
     };
-    this.data = [30,71,11];
-    var chDonutData1 = {
-      labels: ["생성된 이슈", "진행중인 이슈", "완료된 이슈"],
-      datasets: [
-        {
-          backgroundColor: colors.slice(0, 3),
-          borderWidth: 0,
-          data: this.data,
-        },
-      ],
-    };
-    var chDonut1 = document.getElementById("myChart");
-    if (chDonut1) {
-      new Chart(chDonut1, {
-        type: "pie",
-        data: chDonutData1,
-        options: donutOptions,
-      });
-    }
-
+    //this.data = [30,71,11];
+    setTimeout(() => {
+      this.data = [
+        this.issues_created.length,
+        this.issues_ongoing.length,
+        this.issues_done.length,
+      ];
+      var chDonutData1 = {
+        labels: ["생성된 이슈", "진행중인 이슈", "완료된 이슈"],
+        datasets: [
+          {
+            backgroundColor: colors.slice(0, 3),
+            borderWidth: 0,
+            data: this.data,
+          },
+        ],
+      };
+      var chDonut1 = document.getElementById("myChart");
+      if (chDonut1) {
+        new Chart(chDonut1, {
+          type: "pie",
+          data: chDonutData1,
+          options: donutOptions,
+        });
+      }
+    }, 300);
   },
 
   methods: {
     someDummyMethod() {
       //
+    },
+
+    // {
+    //           id: 1,
+    //           name: {
+    //             pid : 1
+    //           },
+    //           groupId: 1,
+    //         },
+    loadIssues() {
+      let idx=1;
+      // this.groups[0].items = this.issues_created;
+      // this.groups[1].items = this.issues_ongoing;
+      // this.groups[2].items = this.issues_done;
+      this.issues_created.forEach(el => {
+        this.groups[0].items.push({
+          id : idx++,
+          name : el.issuetitle,
+          groupId : 1
+        });
+      });
+      
+      this.issues_ongoing.forEach(el => {
+        this.groups[1].items.push({
+          id : idx++,
+          name : el.issuetitle,
+          groupId : 2
+        });
+      });
+      // this.groups[0].items = [{
+      //   id: idx,
+      //   name: {
+      //     pid: 1,
+      //   },
+      //   groupId: 1,
+      // },
+      // {
+      //   id: 2,
+      //   name: {
+      //     pid: 1,
+      //   },
+      //   groupId: 2,
+      // }];
+      
     },
 
     openModal() {
