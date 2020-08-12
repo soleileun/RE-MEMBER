@@ -64,20 +64,20 @@ const routes = [{
         component: main
       },
       {
-        path: "freeboard",
+        path: "freeboard/type/:type",
         name: "자유게시판",
         component: freeboard,
       },
-      {
-        path: "notice",
-        name: "공지사항",
-        component: notice,
-      },
-      {
-        path: "qaboard",
-        name: "질문게시판",
-        component: qaboard,
-      },
+      // {
+      //   path: "notice",
+      //   name: "공지사항",
+      //   component: notice,
+      // },
+      // {
+      //   path: "qaboard",
+      //   name: "질문게시판",
+      //   component: qaboard,
+      // },
       {
         path: "/recruit",
         name: "모집",
@@ -259,7 +259,7 @@ const routes = [{
       },
       // issue testing
       {
-        path: "issuetest",
+        path: "issuetest/:userId/:pid",
         name: "issuetest",
         component: issuetest
       },

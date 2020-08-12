@@ -111,10 +111,10 @@ export default {
     popup() {
       //배포 주소로 바꾸기! 포트도
       var url =
-        "http://localhost:8081/projectdetail.jsp?pid=" +
-        this.project.pid +
-        "&userId=" +
-        storage.getItem('userid'); //여기 세션 아이디로 교체
+        "http://localhost:8081/issuetest/" +
+        this.myId + //여기 세션 아이디로 교체
+        "/" +
+        this.project.pid;
       var name = "project detail";
       var option =
         "width = 1000, height = 750, top = 100, left = 200, location = no";

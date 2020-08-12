@@ -108,6 +108,13 @@
                   <option value="20">20개씩 보기</option>
                 </select>
               </div>
+              <div class="container">
+                <div class="row">
+                  <div class="col text-right btndiv">
+                    <button class="btn btn-primary" @click="towrite">글쓰기</button>
+                  </div>
+                </div>
+              </div>
               <br />
               <div class="overflow-auto table-responsive">
                 <b-table
@@ -144,6 +151,7 @@
           </div>
         </div>
       </div>
+
       <!-- ============================================================== -->
       <!-- End PAge Content -->
       <!-- ============================================================== -->
@@ -184,7 +192,7 @@ export default {
       perPage: 10,
       currentPage: 1,
       fields: [
-         {
+        {
           key: "bstate",
           label: "종류",
           // sortable: true,
@@ -218,6 +226,9 @@ export default {
     };
   },
   computed: {
+    type() {
+      return this.$route.params.type;
+    },
     rows() {
       return this.frees.length;
     },
@@ -232,7 +243,11 @@ export default {
     },
   },
   created() {
-    this.$store.dispatch(Constant.GET_BOARDLIST, { bstate: "free" });
+    console.log(this.type);
+    this.$store.dispatch(Constant.GET_BOARDLIST, { bstate: this.type });
+  },
+  updated() {
+    this.$store.dispatch(Constant.GET_BOARDLIST, { bstate: this.type });
   },
 
   methods: {
@@ -251,7 +266,7 @@ export default {
           bstate: "free",
         });
       } else {
-        //작성자 검색
+        //작성자 검색.
         this.$store.dispatch(Constant.SEARCH_BOARD_WRITER, {
           bwriter: val,
           bstate: "free",
@@ -280,7 +295,14 @@ table, td, tr, th {
   border: 1px solid black;
 }
 */
-
+table#my-table {
+  td,
+  th {
+    border-color: #f3f1f1;
+    font-weight: 500;
+    border: 0px;
+  }
+}
 .table-box {
   display: table;
   width: 100%;
