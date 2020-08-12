@@ -1,8 +1,6 @@
 <template>
   <div>
-    <h4>(먼지모르지만 일단.... 팀원관리)</h4>
-
-    <h3>프로젝트 팀원</h3>
+    <h4>아직 어디 들어갈지 모르는 팀원관리 ^-^!!</h4>
 
     <ul>
       <li v-for="pm in pmlist" :key="pm.userId">{{ pm.userId }}</li>
@@ -11,9 +9,15 @@
 </template>
 
 <script>
+import Constant from "@/Constant.js";
+import http from "@/http-common.js";
+const storage = window.sessionStorage;
 export default {
   name: "partners",
   component: {},
+  data: function () {
+    return {};
+  },
   computed: {
     pmlist() {
       return this.$store.state.projectstore.pmlist;
@@ -21,7 +25,7 @@ export default {
   },
   created() {
     this.$store.dispatch(Constant.GET_PROJECT_MEMBER_BY_PID, {
-      pid: this.project.pid,
+      pid: this.$route.params.pid,
     });
   },
 };

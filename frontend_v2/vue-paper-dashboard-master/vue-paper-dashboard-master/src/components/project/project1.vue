@@ -27,8 +27,9 @@
     <div class="text-center">
       <div class="row justify-content-md-center">
         <div clss="col-lg-4">
-          <button id="myBtn" @click="openModal" class="btn btn-round btn-dark">팀원보기</button>
-        
+          <router-link class="nav-link" :to="'/project/partners/'+project.pid">
+          <button id="myBtn"  class="btn btn-round btn-dark" >팀원 보기</button>
+         </router-link>
         </div>
         <span></span>
         <div clss="col-lg-8">
@@ -52,8 +53,8 @@
   
   </card>
             <!-- The Modal -->
-        <div id="myModal" class="modal">
-          <!-- Modal content -->
+        <!-- <div id="myModal" class="modal">
+          Modal content
           <div class="modal-content">
             <span class="close">&times;</span>
             <h3>프로젝트 팀원</h3>
@@ -62,7 +63,7 @@
               <li v-for="pm in pmlist" :key="pm.userId">{{ pm.userId }}</li>
             </ul>
           </div>
-        </div>
+        </div> -->
   </div>
   <!-- <a href=""> 클릭 시 링크 설정 -->
   <!-- <router-link :to="'/project/projectdetail/'+project.pid"> -->
