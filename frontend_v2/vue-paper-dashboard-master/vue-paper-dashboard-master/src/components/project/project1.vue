@@ -89,7 +89,7 @@ export default {
      userNick: storage.getItem("userNick"),
       // userId: storage.getItem("userid"),
       targetId: this.$route.params.userId,
-      pjtcnt:this.$store.state.projectstore.pjtcnt[this.project.pid],
+      // pjtcnt:this.$store.state.projectstore.pjtcnt[this.project.pid],
     };
   },
   computed: {
@@ -99,10 +99,10 @@ export default {
   },
   mounted() {
    // console.log(this.project.pid);
-   setTimeout(()=>{
-     this.pjtcnt = this.$store.state.projectstore.pjtcnt[this.project.pid]
+  //  setTimeout(()=>{
+  //    this.pjtcnt = this.$store.state.projectstore.pjtcnt[this.project.pid]
 
-   },500) 
+  //  },500) 
   },
     created() {
   },

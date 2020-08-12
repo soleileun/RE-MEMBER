@@ -20,7 +20,7 @@ export default {
     //프로젝트 CRUD
     GET_PROJECTLIST_BY_PMEMBER: 'getProjectListByPmember',
     GET_PROJECT: 'getProject',
-    GET_CURRENT_MEMBER_COUNT: 'getCurrentMemberCount',
+    // GET_CURRENT_MEMBER_COUNT: 'getCurrentMemberCount',
     GET_PROJECT_MEMBER_BY_PID: 'getProjectMemberByPid',
     ADD_PROJECT: 'addProject',
     //인재풀
