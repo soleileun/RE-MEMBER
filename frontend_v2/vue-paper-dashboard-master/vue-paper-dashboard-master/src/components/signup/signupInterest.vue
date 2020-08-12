@@ -16,12 +16,12 @@
             </ul>
           </div>
           <div class="col-12 selectform">
-            <button
+            <div
               class="btn btn-primary btn-round"
               v-for="pick in picks"
               :key="pick"
               @click="del(pick)"
-            >{{pick}}</button>
+            >{{pick}}</div>
             <br />
           </div>
           <div class="col-12 searchform">
@@ -30,9 +30,9 @@
                 type="text"
                 v-model="inputVal"
                 @input="searchQuery()"
-                @keyup.up="up()"
-                @keyup.down="down()"
-                @keyup.enter="enter()"
+                @keyup.up="upQ()"
+                @keyup.down="downQ()"
+                @keyup.enter="enterQ()"
               />
             </div>
             <div class="autoComplete">
@@ -153,6 +153,14 @@ export default {
       const idx = this.picks.indexOf(x);
       if (idx > -1) this.picks.splice(idx, 1);
     },
+    upQ(){
+
+    },
+    downQ(){
+
+    },
+    enterQ(){
+    }
   },
 };
 </script>
