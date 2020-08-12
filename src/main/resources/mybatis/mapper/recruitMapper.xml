@@ -12,10 +12,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	 -->
 	
 	<select id="selectAll" resultType="recruitpjt">
-	select a.pid, a.title,a.contents,a.endDate,a.makeDay,a.changeDay,a.makeId,a.changeId, a.pjtName, b.cnt, b.pjtMemberCnt
+	select a.rnum,a.pid, a.title,a.contents,a.endDate,a.makeDay,a.changeDay,a.makeId,a.changeId, a.pjtName, b.cnt, b.pjtMemberCnt
 	from
 	(
-		select a.pid, a.title, a.contents, a.endDate, a.makeDay, a.changeDay,a.makeId,a.changeId, b.pjtName
+		select a.rnum, a.pid, a.title, a.contents, a.endDate, a.makeDay, a.changeDay,a.makeId,a.changeId, b.pjtName
 		from recruit as a, project as b
 		where a.pid = b.pid
 	) as a,
