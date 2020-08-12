@@ -102,4 +102,9 @@ public class UserInfoServiceImpl implements UserInfoService {
 		return uDao.getRecommendedPJT(id);
 	}
 
+	@Override
+	public List<UserInfo> getAddressList(int pid) {
+		return uDao.getAddressList(pid);
+	}
+
 }

@@ -107,4 +107,9 @@ public class UserInfoDaoImpl implements UserInfoDao {
 		return template.selectList(ns +"getRecommendedPJT",id);
 	}
 
+	@Override
+	public List<UserInfo> getAddressList(int pid) {
+		return template.selectList(ns + "getAddressList", pid);
+	}
+
 }
