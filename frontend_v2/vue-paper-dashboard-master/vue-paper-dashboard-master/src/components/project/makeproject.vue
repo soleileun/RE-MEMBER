@@ -1,65 +1,105 @@
 <template>
-  <div id="makepjt" class="container-contact100">
-    <div class="wrap-contact100">
-      <br />
-      <div class="contact100-form validate-form">
-        <span class="contact100-form-title">
-          <h2>프로젝트 생성페이지</h2>
-        </span>
-        <br />
-        <br />
-        <div class="wrap-input100 validate-input" data-validate="Name is required">
-          <h5>프로젝트 팀장 : {{userId}}</h5>
-          <span class="label-input100">Project Name</span>
+  <div>
+    <card class="makePJTcard">
+      <div class="row">
+        <div class="col-md-12 text-center">
+          <h3>새로운 프로젝트를 만듭니다!</h3>
           <br />
-          <input
-            v-model="wproject.pjtName"
-            class="input100"
+        </div>
+        <div class="col-md-12 text-center">
+          <h5>프로젝트 팀장 : {{userId}}</h5>
+          <br />
+        </div>
+        <br />
+        <div class="col-md-8">
+          프로젝트 이름
+          <span class="reddot">*</span>
+          <fg-input
             type="text"
             name="pjtname"
-            placeholder="Enter your project name"
-          />
-          <span class="focus-input100"></span>
+            placeholder="멋찐 이름으로 프로젝트를 만들어주세요!"
+            v-model="wproject.pjtName"
+          ></fg-input>
+        </div>
+        <br />
+
+        <div class="col-md-4">
+          <fg-input
+            type="number"
+            label="프로젝트 예상 인원"
+            placeholder="몇 명의 팀원이 필요할까요?"
+            v-model="wproject.pjtMemberCnt"
+          ></fg-input>
         </div>
 
-        <div class="wrap-input100 input100-select">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label>프로젝트 소개</label>
+            <textarea
+              rows="5"
+              class="form-control border-input"
+              placeholder="Here can be your description"
+              v-model="wproject.pjtContent"
+              name="contents"
+            ></textarea>
+          </div>
+        </div>
+        <card class="signupinterest card">
           <div>
-            <span class="label-input100">Member</span>
-
-            <select class="selection-2" name="service" v-model="wproject.pjtMemberCnt">
-              <option>2</option>
-              <option>3</option>
-              <option>4</option>
-              <option>5</option>
-              <option>6</option>
-            </select>
+            <h5>
+              <strong>관심 분야 및 스택</strong>
+            </h5>
+            <form @submit.prevent>
+              <div class="row">
+                <div class="col-12">
+                  <ul>
+                    (EXAMPLE)
+                    <li>+ Language : C / C++ / Java / Python / C#</li>
+                    <li>web FrontEnd / BackEnd / Spring / Jenkins</li>
+                    <li>Mobile -> Hybrid / Android / iOS /</li>
+                    <li>Javascript -> node.js / Angular.JS / React.js / Vue.js / jQuery</li>
+                    <li>IoT : Aduino / RaspberryPi / Embedded / Qt / MachineVision</li>
+                    <li>DB : Oracle / MSSQL / MySQL / MariaDB / MongoDB</li>
+                  </ul>
+                </div>
+                <div class="col-12 selectform">
+                  <button
+                    class="btn btn-primary btn-round"
+                    v-for="pick in picks"
+                    :key="pick"
+                    @click="del(pick)"
+                  >{{pick}}</button>
+                  <br />
+                </div>
+                <div class="col-12 searchform">
+                  <div class="input">
+                    <input
+                      type="text"
+                      v-model="inputVal"
+                      @input="searchQuery()"
+                      @keyup.up="up()"
+                      @keyup.down="down()"
+                      @keyup.enter="enter()"
+                    />
+                  </div>
+                  <div class="autoComplete">
+                    <div v-for="list in lists" :key="list" @click="add(list)">{{list}}</div>
+                  </div>
+                </div>
+                <div class="col-12 text-center">
+                  <br />
+                  <button
+                    class="gosignup btn btn-success"
+                    @click="addProject"
+                    :class="{submitable:submitable}"
+                  >생성하기!</button>
+                </div>
+              </div>
+            </form>
           </div>
-          <span class="focus-input100"></span>
-        </div>
-        <span class="label-input100">Content</span>
-        <div>
-          <textarea
-            class="input100"
-            v-model="wproject.pjtContent"
-            name="contents"
-            placeholder="Your Content here..."
-          ></textarea>
-          <span class="focus-input100"></span>
-        </div>
-
-        <div class="container-contact100-form-btn">
-          <div class="wrap-contact100-form-btn">
-            <div class="contact100-form-bgbtn"></div>
-            <button class="contact100-form-btn" @click="addProject">
-              <span>
-                Submit
-                <i class="fa fa-long-arrow-right m-l-7" aria-hidden="true"></i>
-              </span>
-            </button>
-          </div>
-        </div>
+        </card>
       </div>
-    </div>
+    </card>
   </div>
 </template>
 
@@ -98,15 +138,90 @@ export default {
         changeId: "",
         location: "",
       },
+      lists: [],
+      pints: [
+        "C",
+        "C++",
+        "Java",
+        "Python",
+        "C#",
+        "Frontend",
+        "Backend",
+        "Spring",
+        "Jenkins",
+        "Django",
+        "Android",
+        "iOS",
+        "Unity",
+        "Unreal",
+        "react-native",
+        "Javascript",
+        "node.js",
+        "node.express",
+        "Angular.js",
+        "jQuery",
+        "React.js",
+        "Vue.js",
+        "IoT",
+        "Arduino",
+        "RasberryPi",
+        "Embedded",
+        "Qt",
+        "MachineVision",
+        "BlockChain",
+        "MachinLearning",
+        "DB",
+        "Oracle",
+        "MySQL",
+        "MSSQL",
+        "MariaDB",
+        "MongoDB",
+        "GraphQL",
+      ],
+      picks: [],
+      submitable: false,
+      inputVal: "",
     };
   },
   methods: {
+    check: function () {
+      if (this.signup === 0) {
+        this.submitable = false;
+      } else {
+        this.submitable = this.picks.length > 0 ? true : false;
+      }
+    },
+    searchQuery: function () {
+      if (this.inputVal.trim() !== "") {
+        this.lists = this.pints.filter((el) => {
+          return el.toLowerCase().match(this.inputVal.toLowerCase());
+        });
+      } else {
+        this.lists = [];
+      }
+    },
+    add: function (x) {
+      if (x !== "") {
+        if (!this.picks.find((i) => i === x)) {
+          this.picks.push(x);
+        }
+      }
+      this.inputVal = "";
+      this.lists = [];
+    },
+    del: function (x) {
+      const idx = this.picks.indexOf(x);
+      if (idx > -1) this.picks.splice(idx, 1);
+    },
     addProject() {
+      this.$store.commit("pinterest", { picks: this.picks });
+      console.log(this.picks);
       if (
         this.wproject.pjtContent.trim() != "" &&
         this.wproject.pjtName.trim() != "" &&
         this.wproject.pjtMemberCnt != "0"
       ) {
+        console.log("여긴통과함");
         this.$store.dispatch(Constant.ADD_PROJECT, {
           // pid: "",
           pjtName: this.wproject.pjtName,
@@ -130,4 +245,59 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped lang="scss">
+.centered {
+  display: table;
+  margin-left: auto;
+  margin-right: auto;
+  display: inline-block;
+}
+
+.makePJTcard {
+  background-color: #ffffff;
+}
+.reddot {
+  color: red;
+}
+.signupinterest {
+  ul {
+    text-align: left;
+    li {
+      list-style-type: none;
+    }
+  }
+  .searchform {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    // height: 50px;
+    .autoComplete {
+      position: absolute;
+      max-height: 100px;
+      overflow: auto;
+      background-color: #f4f0fc;
+      width: 90%;
+      left: 5px;
+      bottom: 49px;
+      cursor: pointer;
+    }
+    .input {
+      height: 100%;
+      width: 100%;
+
+      font-size: 1.2rem;
+      border: 1px black solid;
+      padding: 5px;
+      input {
+        width: 100%;
+        height: 100%;
+        border: none;
+        outline: none;
+        &:focus {
+          border: none;
+        }
+      }
+    }
+  }
+}
+</style>
