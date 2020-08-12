@@ -67,7 +67,8 @@
                         <th class="td-actions text-right">상태</th>
                       </thead>
                       <tbody>
-                        <tr>
+                        
+                        <!-- <tr>
                           <td>2020-08-03 21:09</td>
                           <td>이슈 테스팅1</td>
                           <td class="td-actions text-right">
@@ -80,7 +81,7 @@
                           <td class="td-actions text-right">
                             <div style="color: yellowgreen">완료</div>
                           </td>
-                        </tr>
+                        </tr> -->
                       </tbody>
                     </table>
                   </div>
