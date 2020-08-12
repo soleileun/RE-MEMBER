@@ -34,7 +34,7 @@ import modifynotice from "../components/notice/modifynotice.vue";
 import writefree from "../components/freeboard/writefree.vue";
 import detailfree from "../components/freeboard/detailfree.vue";
 import modifyfree from "../components/freeboard/modifyfree.vue";
-import otherproject from "../components/project/otherproject.vue";
+// import otherproject from "../components/project/otherproject.vue";
 import partners from "../components/project/partners.vue";
 
 
@@ -145,11 +145,11 @@ const routes = [{
         name: "내 프로젝트",
         component: myproject,
       },
-      {
-        path: "/project/:userid",
-        name: "프로젝트 보기",
-        component: otherproject,
-      },
+      // {
+      //   path: "/project/:userid",
+      //   name: "프로젝트 보기",
+      //   component: otherproject,
+      // },
       {
         path: "/project/projectdetail/:pid",
         name: "프로젝트 상세",
