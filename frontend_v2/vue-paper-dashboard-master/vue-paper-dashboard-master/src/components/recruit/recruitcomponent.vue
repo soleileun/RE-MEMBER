@@ -418,7 +418,7 @@ body {
 }
 
 .table__select-row {
-  appearence: none;
+  appearance: none;
   -moz-appearance: none;
   -o-appearance: none;
   -webkit-appearance: none;

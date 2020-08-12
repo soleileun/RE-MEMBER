@@ -162,9 +162,25 @@
 
     </div>
     <p></p>
-    <div style="margin-left : 20px;">
-      내용: <input v-model="content" type="text" @keyup="sendMessage" style="width:70%; margin-left:12px;">
-          <button  @click="clickSend()" >입력</button>
+    
+    <div class="container-fluid">
+    <div class="row">
+      <div class="col-2" style="padding:0px; margin:0px; text-align:right;">
+        내용: 
+      </div>
+      <!--
+      <div class="col-6" style="padding-right:0px;margin-right:0px;">
+        내용: <input v-model="content" type="text" @keyup="sendMessage" style="width:70%; margin-left:12px;">
+      </div>
+      -->
+      <div class="col-6" style="padding:0px;margin:0px;">
+        <input v-model="content" type="text" @keyup="sendMessage" style="width:100%; margin-left:12px;">
+      </div>
+      <div class="col-4" style="text-align:right;">
+          <!--<button  @click="clickSend()" >입력</button>-->
+          <a class= "enter" @click="clickSend()"> 입력 </a>
+          </div>
+    </div>
     </div>
   </div>
 </template>
@@ -424,7 +440,14 @@ beforeDestroy:function(){
     color:black; 
     
   }
-
+.enter {
+  color : rgb(58, 106, 240);
+  cursor: pointer;
+  border :3px  solid rgb(58, 106, 240);
+  padding: 4px;
+  border-radius : 12px; 
+  margin : 4px;
+}
 
 .me {
   position:relative;

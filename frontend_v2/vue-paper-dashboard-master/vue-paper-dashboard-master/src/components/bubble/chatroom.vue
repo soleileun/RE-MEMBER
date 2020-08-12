@@ -96,6 +96,8 @@ export default {
     //box-shadow: 1px 1px 3px black ;
     */
     text-align: start;
+    max-height:120px;
+    overflow:hidden;
     h6 {
       display: flex;
       justify-content: space-between;
