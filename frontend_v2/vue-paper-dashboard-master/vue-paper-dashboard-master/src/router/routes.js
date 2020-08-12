@@ -106,35 +106,35 @@ const routes = [{
       /////////// 잎파리
 
       {
-        path: "/freeboard/writefree",
+        path: "/freeboard/writefree/:type",
         name: "자유게시판 글쓰기",
         component: writefree,
       },
       {
-        path: "/freeboard/detailfree/:bno",
+        path: "/freeboard/detailfree/:bno/:type",
         name: "자유게시판 글",
         component: detailfree,
       },
       {
-        path: "/freeboard/modifyfree/:bno",
+        path: "/freeboard/modifyfree/:bno/:type",
         name: "글 수정",
         component: modifyfree,
       },
-      {
-        path: "/notice/writenotice",
-        name: "공지 작성",
-        component: writenotice,
-      },
-      {
-        path: "/notice/detailnotice/:bno",
-        name: "공지사항 글",
-        component: detailnotice,
-      },
-      {
-        path: "/notice/modifynotice/:bno",
-        name: "공지사항 수정",
-        component: modifynotice,
-      },
+      // {
+      //   path: "/notice/writenotice",
+      //   name: "공지 작성",
+      //   component: writenotice,
+      // },
+      // {
+      //   path: "/notice/detailnotice/:bno",
+      //   name: "공지사항 글",
+      //   component: detailnotice,
+      // },
+      // {
+      //   path: "/notice/modifynotice/:bno",
+      //   name: "공지사항 수정",
+      //   component: modifynotice,
+      // },
 
       {
         path: "/pool/poollist",
@@ -165,21 +165,22 @@ const routes = [{
         path: "/project/makeproject",
         name: "프로젝트 작성",
         component: makeproject,
-      }, {
-        path: "/qaboard/writeqa",
-        name: "질문 작성",
-        component: writeqa,
       },
-      {
-        path: "/qaboard/detailqa/:bno",
-        name: "질문",
-        component: detailqa,
-      },
-      {
-        path: "/qaboard/modifyqa/:bno",
-        name: "질문 수정",
-        component: modifyqa,
-      },
+      // {
+      //   path: "/qaboard/writeqa",
+      //   name: "질문 작성",
+      //   component: writeqa,
+      // },
+      // {
+      //   path: "/qaboard/detailqa/:bno",
+      //   name: "질문",
+      //   component: detailqa,
+      // },
+      // {
+      //   path: "/qaboard/modifyqa/:bno",
+      //   name: "질문 수정",
+      //   component: modifyqa,
+      // },
       {
         path: "/recruit/recruit1",
         name: "모집 리스트",

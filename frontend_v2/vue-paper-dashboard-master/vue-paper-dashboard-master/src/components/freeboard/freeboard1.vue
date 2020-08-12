@@ -100,7 +100,9 @@
         <div class="col-12">
           <div class="card">
             <div class="card-body">
-              <h4 class="card-title">자유게시판</h4>
+              <h4 class="card-title" v-if="this.type==='free'">자유게시판</h4>
+              <h4 class="card-title" v-if="this.type==='notice'">공지사항</h4>
+              <h4 class="card-title" v-if="this.type==='qa'">질문게시판</h4>
               <div class="col-1">
                 <select id="showcnt" @change="changeShowCnt">
                   <option value="5">5개씩 보기</option>
@@ -132,7 +134,7 @@
                     <div v-if="data.item.bstate == 'qa'">질문</div>
                   </template>
                   <template v-slot:cell(btitle)="data">
-                    <router-link :to="'/freeboard/detailfree/' + data.item.bno">{{data.item.btitle}}</router-link>
+                    <router-link :to="'/freeboard/detailfree/' + data.item.bno + '/' + type">{{data.item.btitle}}</router-link>
                   </template>
                   <template v-slot:cell(bwriter)="data">
                     <router-link :to="'/profile/' + data.item.bwriter">{{data.item.bwriter}}</router-link>
@@ -263,13 +265,13 @@ export default {
         console.log(val);
         this.$store.dispatch(Constant.SEARCH_BOARD_TITLE, {
           btitle: val,
-          bstate: "free",
+          bstate: this.type,
         });
       } else {
         //작성자 검색.
         this.$store.dispatch(Constant.SEARCH_BOARD_WRITER, {
           bwriter: val,
-          bstate: "free",
+          bstate: this.type,
         });
       }
     },
@@ -277,8 +279,13 @@ export default {
       if (this.loginId == "") {
         alert("로그인이 필요한 서비스입니다.");
       } else {
-        let addr = "/freeboard/writefree";
-        this.$router.push(addr);
+        if(this.loginId !== 'admin' && this.type === 'notice'){
+           alert("관리자 권한이 필요한 서비스입니다.");
+        }
+        else{
+          let addr = "/freeboard/writefree/"+this.type;
+          this.$router.push(addr);
+        }
       }
     },
   },

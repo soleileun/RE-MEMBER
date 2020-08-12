@@ -171,6 +171,9 @@ export default {
     this.getBoard(this.$route.params.bno);
   },
   computed: {
+    type() {
+      return this.$route.params.type;
+    },
     loginId() {
       //this.$forceUpdate();
       return this.$store.state.userstore.userid;
@@ -212,10 +215,10 @@ export default {
       if (con_test == true) {
         this.$store.dispatch(Constant.REMOVE_BOARD, {
           bno: this.board.bno,
-          bstate: this.board.bstate,
+          bstate: this.type,
         });
         // console.log('삭제요청완료.' + this.board.bno);
-        this.$router.push("/freeboard");
+        this.$router.push("/freeboard/type/"+this.type);
       } else if (con_test == false) {
         console.log("");
       }
@@ -226,11 +229,11 @@ export default {
     },
 
     change() {
-      let addr = "/freeboard/modifyfree/" + this.board.bno;
+      let addr = "/freeboard/modifyfree/" + this.board.bno+"/"+this.type;
       this.$router.push(addr);
     },
     back() {
-      let addr = "/freeboard";
+      let addr = "/freeboard/type/"+ this.type;
       this.$router.push(addr);
     },
 
