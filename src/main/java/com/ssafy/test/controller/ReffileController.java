@@ -121,13 +121,13 @@ public class ReffileController {
 	
 	//파일업로드 예시
 		//////////////////////////////////////////////////////////////////////////////////////////////////////
-		@RequestMapping(path = "/files", method = RequestMethod.POST,
-		        consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+	
+		@RequestMapping(path = "/files", method = RequestMethod.POST, consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
 		public @ResponseBody ResponseEntity<String> add(
 		        @RequestParam("file") MultipartFile file,
 		        @RequestParam("fboardno") int fboardno,
 		        @RequestParam("makeId") String makeId) {
-		    System.out.println(file.getOriginalFilename()); //foname으로 들어가면 될듯.
+		    //System.out.println(file.getOriginalFilename()); //foname으로 들어가면 될듯.
 		    
 		    try {
 				//DB에 저장하는 작업
@@ -144,15 +144,15 @@ public class ReffileController {
 				//date 관련은 다 생성자에서 넣어주자.
 
 				saveUploadedFiles(Arrays.asList(file), v.getFsname());
-				System.out.println("업뎃 : " + Service.update(v));
-				System.out.println(v.getFboardno());
-				System.out.println(v.getFoname());
-				System.out.println(v.getFsname());
-				System.out.println(v.getFsize());
-				System.out.println(v.getMakeDay());
-				System.out.println(v.getMakeId());
-				if (Service.update(v) != 0) {
-					System.out.println("db에 저장 완료");
+				//System.out.println("업뎃 : " + Service.update(v));
+				//System.out.println(v.getFboardno());
+				//System.out.println(v.getFoname());
+				//System.out.println(v.getFsname());
+				//System.out.println(v.getFsize());
+				//System.out.println(v.getMakeDay());
+				//System.out.println(v.getMakeId());
+				if (Service.insert(v) != 0) {
+					//System.out.println("db에 저장 완료");
 				}
 
 			} catch (IOException e) {
@@ -162,23 +162,24 @@ public class ReffileController {
 		}
 		
 		private void saveUploadedFiles(List<MultipartFile> files, String fname) throws IOException {
-			System.out.println("업로드 파일 함수 실행");
+			//System.out.println("업로드 파일 함수 실행");
 			for (MultipartFile file : files) {
 
 				if (file.isEmpty()) {
-					System.out.println("파일 비어있음");
+					//System.out.println("파일 비어있음");
 					continue; // next pls
 				}
 
 				byte[] bytes = file.getBytes();
-				System.out.println("bytes에 받았고 : " + file.getBytes());
+				//System.out.println("bytes에 받았고 : " + file.getBytes());
 				Path path = Paths.get(UPLOADED_FOLDER + fname);
-				System.out.println("주소 : " + path);
+				//System.out.println("주소 : " + path);
 				Files.write(path, bytes);
-				System.out.println("write끝");
+				//System.out.println("write끝");
 
 			}
 		}
 
-		////////////////////////////////////////////
+		
+	
 }
