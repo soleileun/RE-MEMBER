@@ -58,6 +58,30 @@
 		resultType="userinfo">
 		select * from userInfo
 	</select>
+	
+	<select id="getRecommendedUser" parameterType="string"
+		resultType="userinfo">
+		select id, count(*) as cnt
+   from (
+      select *
+      from interest
+      where interest in  (select interest from interest where id=#{id})
+   ) as b
+   group by id
+   order by cnt desc limit 5;
+	</select>
+	
+	<select id="getRecommendedPJT" parameterType="string"
+		resultType="project">
+		   select pid, pjtName, pjtContent, pjtMemberCnt, count(*) as cnt
+   from (
+      select *
+      from pinterest
+      where interest in (select interest from interest where id=#{id}) and state
+   ) as b
+   group by pid
+   order by cnt desc limit 4;
+	</select>
 
 	<select id="login" parameterType="string" resultType="userinfo">
 		select

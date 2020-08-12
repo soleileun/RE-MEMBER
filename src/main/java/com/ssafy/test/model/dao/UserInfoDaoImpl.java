@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
 import com.ssafy.test.model.dto.Addr;
+import com.ssafy.test.model.dto.Project;
 import com.ssafy.test.model.dto.SearchParameter;
 import com.ssafy.test.model.dto.UserInfo;
 
@@ -92,6 +93,18 @@ public class UserInfoDaoImpl implements UserInfoDao {
 			return template.selectList(ns + "searchAll", sp);
 		}
 		
+	}
+
+	@Override
+	public List<UserInfo> getRecommendedUser(String id) {
+		// TODO Auto-generated method stub
+		return template.selectList(ns +"getRecommendedUser",id);
+	}
+
+	@Override
+	public List<Project> getRecommendedPJT(String id) {
+		// TODO Auto-generated method stub
+		return template.selectList(ns +"getRecommendedPJT",id);
 	}
 
 }

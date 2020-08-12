@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.test.model.dto.Addr;
 import com.ssafy.test.model.dto.Email;
+import com.ssafy.test.model.dto.Project;
 import com.ssafy.test.model.dto.SearchParameter;
 import com.ssafy.test.model.dto.User;
 import com.ssafy.test.model.dto.UserInfo;
@@ -39,6 +40,7 @@ import com.ssafy.test.model.service.EmailService;
 import com.ssafy.test.model.service.JwtService;
 import com.ssafy.test.model.service.MailHandler;
 import com.ssafy.test.model.service.MailTempKey;
+import com.ssafy.test.model.service.ProjectService;
 import com.ssafy.test.model.service.UserInfoService;
 
 
@@ -68,6 +70,9 @@ public class UserInfoController {
 	
 	@Autowired
 	private BoardService bService;
+	
+	@Autowired
+	private ProjectService pjtService;
 	
 	@ApiOperation(value = "모든 검색어 통합 검색하는 것.", response = UserInfo.class)
 	@GetMapping("searchAll/tag={tag}&addr={addr}&keyword={keyword}")
@@ -138,6 +143,32 @@ public class UserInfoController {
 	public ResponseEntity<List<UserInfo>> getCurrList(){
 		List<UserInfo> list = uiService.getCurrList();		
 		return new ResponseEntity<List<UserInfo>>(list, HttpStatus.OK);
+	}
+	
+	
+	@GetMapping("/getRecommended/User/{id}")
+	public ResponseEntity<List<UserSimple>> getRecommendedUser(@PathVariable String id){
+		List<UserInfo> list = uiService.getRecommendedUser(id);	
+		List<UserSimple> users = new ArrayList<>();
+		for(int i=0;i<list.size();i++) {
+			if(list.get(i).getId().equals(id)) continue;
+			UserInfo tmp = uiService.select(list.get(i).getId());
+			UserSimple us = new UserSimple(tmp.getId(), tmp.getNickname(), tmp.getGit(), tmp.getLastDate(), tmp.isState(), tmp.getResponsibility(), tmp.isLeaveUser());
+			users.add(us);
+		}
+		return new ResponseEntity<List<UserSimple>>(users, HttpStatus.OK);
+	}
+	
+	
+	@GetMapping("/getRecommended/PJT/{id}")
+	public ResponseEntity<List<Project>> getRecommendedPJT(@PathVariable String id){
+		List<Project> list = uiService.getRecommendedPJT(id);	
+		List<Project> projects = new ArrayList<>();
+		for(int i=0;i<list.size();i++) {
+			Project tmp = pjtService.select(list.get(i).getPid());
+			projects.add(tmp);
+		}
+		return new ResponseEntity<List<Project>>(projects, HttpStatus.OK);
 	}
 	
 	@PostMapping("/info")
