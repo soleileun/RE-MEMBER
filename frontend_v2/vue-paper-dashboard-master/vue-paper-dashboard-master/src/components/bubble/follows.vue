@@ -3,27 +3,22 @@
     <div v-if="followings.length===0">팔로우한 사람이 없습니다.</div>
     <div v-if="followings">
       <h4>활동중인 유저</h4>
-      <div
-        class="dropdown"
-        v-for="target in followings.filter(item=> item.state ===true)"
-        :key="target.id"
-      >
-        <drop-down class="btn" :title="target.nickname+'님'">
+      <div v-if="!followings.filter(item=> item.state ===true).length===0">활동중인 팔로우가 없습니다.</div>
+      <div class="follow" v-for="target in followings.filter(item=> item.state ===true)" :key="target.id">
+        <drop-down :title="target.nickname+'님'">
           <div class="dropdown-item" @click="mes(target.id)">메세지</div>
           <div class="dropdown-item" v-if="sameroom[target.id]">채팅방 있음</div>
           <div class="dropdown-item" v-else @click="doChat(target.id)">채팅방 개설</div>
           <div class="dropdown-item" @click="viewProf(target.id)">프로필 보기</div>
           <div class="dropdown-item" @click="delFollow(target.id)">팔로우 해제</div>
         </drop-down>
+        <div> 마지막 접속일 {{datee(target.lastDate)}}일 전</div>
       </div>
     </div>
     <div v-if="followings">
       <h4>휴면중인 유저</h4>
-      <div
-        class="dropdown"
-        v-for="target in followings.filter(item=> item.state ===false)"
-        :key="target.id"
-      >
+      <div v-if="followings.filter(item=> item.state ===false).length===0">휴면중인 팔로우가 없습니다.</div>
+      <div class="dropdown follow" v-for="target in followings.filter(item=> item.state ===false)" :key="target.id">
         <drop-down class="btn" :title="target.nickname+'님'">
           <div class="dropdown-item" @click="mes(target.id)">메세지</div>
           <div class="dropdown-item" @click="viewProf(target.id)">프로필 보기</div>
@@ -71,6 +66,14 @@ export default {
   },
   mounted() {},
   methods: {
+    datee(day) {
+      if (day) {
+        console.log();
+        return new Date().getDate() - new Date(day).getDate();
+      } else {
+        return "";
+      }
+    },
     mes: function (id) {
       this.$store.dispatch("sendMes", { toUser: id });
     },
@@ -120,7 +123,10 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 .follows {
+  padding: 10px;
+  height: 100%;
   padding-top: 15px;
+  
   display: flex;
   flex-direction: column;
   justify-items: flex-start;
@@ -129,13 +135,22 @@ export default {
   h4 {
     margin: 0;
   }
-  .dropdown {
+  .follow {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 98%;
+    height: 30px;
     margin: 5px;
-    padding: 0px 10px 0px 10px;
-    .dropdown-toggle {
-      background-color: #aae;
-      width: 100%;
-      height: 50px;
+    padding: 0px 15px 0px 10px;
+    border: 1px black solid;
+    border-radius: 8px;
+    li {
+      list-style: none;
+      span.notification {
+        color: white;
+      }
     }
   }
   &::-webkit-scrollbar {
