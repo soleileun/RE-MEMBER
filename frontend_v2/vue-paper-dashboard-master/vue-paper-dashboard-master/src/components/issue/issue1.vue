@@ -1,6 +1,6 @@
 <template>
   <div>
-    <!-- <div class="wrapper">
+    <!-- <div class="wrapper"> -->
       <div class="sidebar" data-color="purple" data-image="./assets/issue_img/sidebar-5.jpg">
         <div class="sidebar-wrapper">
           <div class="logo">
@@ -22,13 +22,14 @@
               </a>
             </li>
             <li>
-              <router-link :to="'/maps'">지도</router-link>
+              <router-link :to="'/maps/'+this.$route.params.userId+'/'+this.$route.params.pid">지도</router-link>
+
               <p>Maps</p>
               
             </li>
           </ul>
         </div>
-    </div>-->
+    </div>
 
     <div class="content">
       <div class="container-fluid">
@@ -298,9 +299,9 @@
                     :key="item.id"
                     :data-id="item.id"
                   >
-                    <div class="drag-item-text">
-                      {{ item.name.changeDay.slice(0,10) }} {{ item.name.issuetitle }}
-                    </div>
+                    <div
+                      class="drag-item-text"
+                    >{{ item.name.changeDay.slice(0,10) }} {{ item.name.issuetitle }}</div>
                   </li>
                 </ul>
               </vue-draggable-group>
@@ -386,19 +387,21 @@ export default {
   },
 
   created() {
+    let pid = this.$route.params.pid;
+
     this.$store.dispatch(Constant.GET_ISSUELIST, {
-      pid: 1,
+      pid: pid,
     });
     this.$store.dispatch(Constant.GET_ISSUELIST_BY_STATE, {
-      pid: 1,
+      pid: pid,
       issuestate: "done",
     });
     this.$store.dispatch(Constant.GET_ISSUELIST_BY_STATE, {
-      pid: 1,
+      pid: pid,
       issuestate: "ongoing",
     });
     this.$store.dispatch(Constant.GET_ISSUELIST_BY_STATE, {
-      pid: 1,
+      pid: pid,
       issuestate: "created",
     });
     setTimeout(() => {
@@ -477,6 +480,10 @@ export default {
   methods: {
     someDummyMethod() {},
 
+    loadAll(){
+      this.$router.go();
+    },
+
     updateIssueChange() {
       // 저장하기
 
@@ -487,16 +494,37 @@ export default {
       // 다르면 changeDay도 같이 변경
 
       //console.log(this.groups)
-      this.groups[0]; 
+
+      // this.groups[0];
+      // name.issuestate = 'created'
+      this.groups[0].items.forEach((el) => {
+        el.name.issuestate = "created";
+        this.$store.dispatch(Constant.UPDATE_ISSUE_BY_STATE, el.name);
+      });
+
+      this.groups[1].items.forEach((el) => {
+        el.name.issuestate = "ongoing";
+        this.$store.dispatch(Constant.UPDATE_ISSUE_BY_STATE, el.name);
+      });
+
+      this.groups[2].items.forEach((el) => {
+        el.name.issuestate = "done";
+        this.$store.dispatch(Constant.UPDATE_ISSUE_BY_STATE, el.name);
+      });
+
+      this.loadAll();
+      // -> 퀴리
+      alert("수정되었습니다!");
     },
 
-    // {
-    //           id: 1,
-    //           name: {
-    //             pid : 1
-    //           },
-    //           groupId: 1,
-    //         },
+    // this.issues_created.forEach((el) => {
+    //     this.groups[0].items.push({
+    //       id: idx++,
+    //       name: el,
+    //       groupId: 1,
+    //     });
+    //   });
+
     loadIssues() {
       let idx = 1;
       this.groups[0].items = [];
@@ -557,7 +585,7 @@ export default {
       // 변경된 경우
     },
   },
-}
+};
 </script>
 
 <style lang="scss" scoped>
@@ -648,7 +676,7 @@ ul {
 }
 
 .drag-inner-list {
-  height: 50vh;
+  height: 40vh;
   overflow: auto;
 }
 

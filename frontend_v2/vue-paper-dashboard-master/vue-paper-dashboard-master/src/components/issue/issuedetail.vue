@@ -1,7 +1,7 @@
 <template>
-  <div class="issuedetail card" title="여기에 프로젝트 이름 / 이슈 번호">
+  <div class="issuedetail card" title="여기에 프로젝트 이름 / 이슈 번호" style="overflow-x:hidden; overflow-y:hidden;">
     <i class="ti-close" @click="exit"></i>
-    <div class="biggest" style="">
+    <div class="biggest">
         <div class="card-header">
             <div style="font-size:12px;">
                 여기 프로젝트 이름 / 이슈번호
@@ -10,15 +10,26 @@
                 이슈 타이틀 그리고 priority 그림으로 넣어주자
             </div>
         </div>
-
-        <div class="card-body">
+        <div class="card-body" style="height:100%;">
+            
             <div class="icontent" >
                 여기에 이제 이슈 상세 내용이 들어감
                 네모나게 이쁘게 만들면 될듯
             </div>
           <div class="container-fluid">
             <div class="row">
-                <div class="col-8">
+                <div class="col-8" >
+
+
+        <div class="updateform" >
+        <b-collapse id="collapse-1" class="mt-2">
+     
+            수정하는 form을 작성해주세요
+       </b-collapse>
+
+        </div>
+
+
                   왼쪽
                     <div class="row">
                         <div class="col-5 form">
@@ -79,7 +90,7 @@
                   
                 <div class="col-12 btngroup">
                     <b-button-group>
-                        <b-button variant="outline-info" size="sm" class="btn">수정</b-button>
+                        <b-button v-b-toggle.collapse-1 variant="outline-info" size="sm" class="btn" @click="updateview">수정</b-button>
                         <b-button variant="outline-danger" size="sm" class="btn">삭제</b-button>
 
                         </b-button-group>
@@ -90,7 +101,6 @@
              
             </div>
             
-                      
                     
           </div>
 
@@ -122,6 +132,9 @@ export default {
     exit: function () {
       document.querySelector(".issuedetail").classList.remove("active");
     },
+    updateview: function () {
+      document.querySelector(".updateform").classList.toggle("active");
+    },
   },
 };
 </script>
@@ -145,8 +158,12 @@ export default {
     border-radius:12px;
     padding:8px;
 }
-.biggest{
-    
+.updateform{
+    overflow-y:auto;
+}
+.updateform.active{
+    margin-bottom:20px;
+    height:47vh;
 }
 .issuedetail {
   visibility: hidden;
