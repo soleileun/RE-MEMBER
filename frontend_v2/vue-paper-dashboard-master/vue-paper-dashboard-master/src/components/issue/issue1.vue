@@ -300,7 +300,7 @@
                     :data-id="item.id"
                   >
                     <div
-                      class="drag-item-text"
+                      class="drag-item-text" @click="issuedetail(item.name.issueid)"
                     >{{ item.name.changeDay.slice(0,10) }} {{ item.name.issuetitle }}</div>
                   </li>
                 </ul>
@@ -318,7 +318,6 @@
       </div>
     </div>
     <issuedetail />
-    <button class="btn btn-dark nav-link dropdown-item" @click="issuedetail">이슈</button>
   </div>
 </template>
 
@@ -489,7 +488,7 @@ export default {
     loadAll(){
       this.$router.go();
     },
-    issuedetail: function () {
+    issuedetail: function (issueid) {
       document.querySelector(".issuedetail").classList.toggle("active");
     },
 

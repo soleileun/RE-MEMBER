@@ -22,6 +22,8 @@
 </template>
 
 <script>
+import Constant from "../../Constant";
+
 export default {
   name: "dmap",
   data() {
@@ -38,7 +40,7 @@ export default {
       imageOption: {},
       imageSize: {},
       infowindow : {},
-      category : {}
+      category : {},
     };
   },
   methods: {
@@ -279,7 +281,7 @@ export default {
                 "<div>지번 주소 : " + result[0].address.address_name + "</div>";
 
               var content =
-                '<div class="bAddr">' +
+                '<div class="bAddr" style="padding: 5px;  text-overflow: ellipsis;  overflow: hidden;  white-space: nowrap;">' +
                 '<span class="title">법정동 주소정보</span>' +
                 detailAddr +
                 "</div>";
@@ -296,9 +298,24 @@ export default {
       });
     },
   },
+
+  created() {
+    let pid = this.$route.params.pid;
+    this.$store.dispatch(Constant.GET_ADDRESS_LIST, {
+      pid: pid,
+    });
+  },
+
+  computed: {
+    users(){
+      return this.$store.state.mapstore.users;
+    }
+  },
+
   mounted() {
-    
- 
+    console.log("map testing ");
+    console.log(this.users);
+    console.log("map testing")
     this.geocoder = new kakao.maps.services.Geocoder();
   
 

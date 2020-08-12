@@ -15,6 +15,7 @@ import recruitstore from '@/store/modules/recruitstore.js';
 import chatstore from '@/store/modules/chatstore.js';
 import stackstore from '@/store/modules/stackstore.js';
 import issuestore from '@/store/modules/issuestore.js';
+import mapstore from '@/store/modules/mapstore.js';
 
 const store = new Vuex.Store({
     modules: {
@@ -28,7 +29,8 @@ const store = new Vuex.Store({
         recruitstore,
         chatstore,
         stackstore,
-        issuestore
+        issuestore,
+        mapstore
     }
 });
 
