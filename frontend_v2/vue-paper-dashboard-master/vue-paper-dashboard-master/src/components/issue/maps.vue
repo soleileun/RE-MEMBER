@@ -1,10 +1,12 @@
 <template>
   <div id="dmap">
     <div>
+      <p class="category" align="center">근처 카페를 검색하고 싶으시면 카페 검색하기를 눌러주세요.</p>
+      <p align="center">
       <button class="btn btn-info btn-simple btn-xs"
        @click="findCafe()">카페 검색하기</button>
+      </p>
       
-      <br />
     </div>
 
     <!-- <div id="map" style="width: 700px; height: 500px;"></div> -->
@@ -252,16 +254,16 @@ export default {
         this.searchDetailAddrFromCoords(coords2, (result, status) => {
           if (status === kakao.maps.services.Status.OK) {
             var detailAddr = !!result[0].road_address
-              ? "<div>도로명주소 : " +
+              ? "<div>" +
                 result[0].road_address.address_name +
                 "</div>"
               : "";
             detailAddr +=
-              "<div>지번 주소 : " + result[0].address.address_name + "</div>";
+              "<div>" + result[0].address.address_name + "</div>";
 
             var content =
               '<div class="bAddr" style="padding: 5px;  text-overflow: ellipsis;  overflow: hidden;  white-space: nowrap;">' +
-              '<span class="title">법정동 주소정보</span>' +
+              '<span class="title" style="font-weight: bold;  display: block; text-align: center;">중간 지점</span>' + '<br/>' +
               detailAddr +
               "</div>";
 
@@ -412,7 +414,7 @@ export default {
     this.map = new kakao.maps.Map(this.mapContainer, this.mapOption);
 
     (this.imageSrc =
-      "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png"), // 마커이미지의 주소입니다
+      "https://cdn.pixabay.com/photo/2013/07/13/14/05/location-162102_960_720.png"), // 마커이미지의 주소입니다
       (this.imageSize = new kakao.maps.Size(64, 69)), // 마커이미지의 크기입니다
       (this.imageOption = {
         offset: new kakao.maps.Point(27, 69),
@@ -442,9 +444,9 @@ export default {
       }, 100);
     // this.mountedTesting();
     //
-    setTimeout(() => {
-      this.findCafe()
-    }, 500);
+    // setTimeout(() => {
+    //   this.findCafe()
+    // }, 500);
   },
 };
 </script>

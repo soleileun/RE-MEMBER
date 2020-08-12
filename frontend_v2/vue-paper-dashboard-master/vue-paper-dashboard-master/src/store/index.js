@@ -35,7 +35,7 @@ const store = new Vuex.Store({
     },
     plugins: [
         createPersistedState({
-            paths: ['mapstore'],
+            paths: ['mapstore', 'issuestore'],
         })
     ]
 });
