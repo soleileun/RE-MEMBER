@@ -17,7 +17,7 @@
       </div>
     </td>
     <td data-column="Policy status" class="table-row__td">
-      {{pjtName}}
+      {{recruit.pjtName}}
       <!-- <p class="table-row__p-status status--green status">Approved</p> -->
     </td>
     <!-- 1일 남을 시 붉은색 -->

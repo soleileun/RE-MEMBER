@@ -21,6 +21,7 @@ import com.ssafy.test.model.dto.AddrAndTag;
 import com.ssafy.test.model.dto.Interest;
 import com.ssafy.test.model.dto.Pinterest;
 import com.ssafy.test.model.dto.Recruit;
+import com.ssafy.test.model.dto.RecruitPjt;
 import com.ssafy.test.model.dto.SearchParameter;
 import com.ssafy.test.model.dto.TagList;
 import com.ssafy.test.model.dto.Usertag;
@@ -48,19 +49,19 @@ public class RecruitController {
 
 	@ApiOperation(value = "모든 구인구직 게시판의 정보를 반환한다.", response = List.class)
 	@GetMapping
-	public ResponseEntity<List<Recruit>> retrieveBoard() throws Exception {
-		return new ResponseEntity<List<Recruit>>(rService.selectAll(), HttpStatus.OK);
+	public ResponseEntity<List<RecruitPjt>> retrieveBoard() throws Exception {
+		return new ResponseEntity<List<RecruitPjt>>(rService.selectAll(), HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "모든 구인구직 게시판의 정보를 소팅해서 반환한다.", response = List.class)
 	@GetMapping("/sorting/{id}")
-	public ResponseEntity<List<Recruit>> retrieveBoard(@PathVariable String id) throws Exception {
-		List<Recruit> list = rService.selectAll();
+	public ResponseEntity<List<RecruitPjt>> retrieveBoard(@PathVariable String id) throws Exception {
+		List<RecruitPjt> list = rService.selectAll();
 		List<Interest> iList = iService.selectById(id);
-		list.sort(new Comparator<Recruit>() {
+		list.sort(new Comparator<RecruitPjt>() {
 
 			@Override
-			public int compare(Recruit o1, Recruit o2) {
+			public int compare(RecruitPjt o1, RecruitPjt o2) {
 				List<Pinterest> pi1 = piService.select(o1.getPid());
 				List<Pinterest> pi2 = piService.select(o2.getPid());
 				Integer cnt1 = 0, cnt2 = 0;
@@ -81,7 +82,7 @@ public class RecruitController {
 			}
 		});
 
-		return new ResponseEntity<List<Recruit>>(rService.selectAll(), HttpStatus.OK);
+		return new ResponseEntity<List<RecruitPjt>>(rService.selectAll(), HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "해당 지역에 거주하는 게시판의 정보를 반환한다..", response = List.class)

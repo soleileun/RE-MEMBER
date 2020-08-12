@@ -5,11 +5,12 @@ import java.util.List;
 import com.ssafy.test.model.dto.Addr;
 import com.ssafy.test.model.dto.AddrAndTag;
 import com.ssafy.test.model.dto.Recruit;
+import com.ssafy.test.model.dto.RecruitPjt;
 import com.ssafy.test.model.dto.SearchParameter;
 import com.ssafy.test.model.dto.TagList;
 
 public interface RecruitDAO {
-	public List<Recruit> selectAll();
+	public List<RecruitPjt> selectAll();
 
 	public Recruit select(int rnum);
 
