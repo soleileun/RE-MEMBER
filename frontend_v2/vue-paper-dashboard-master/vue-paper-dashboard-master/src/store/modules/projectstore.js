@@ -12,7 +12,9 @@ const projectstore = {
     project: {},
     pmlist: [],
     pjtcnt: {},
-    pinterest: []
+    pinterest: [],
+    pjtName : {}
+
   },
 
   actions: {
@@ -84,7 +86,8 @@ const projectstore = {
         }
       }
       http.get('/api/project/' + payload.pid, config)
-        .then(response => {
+      .then(response => {
+          // console.log("요기"+payload.pid);
           // console.log(response.data);
           store.commit(Constant.GET_PROJECT, {
             project: response.data
@@ -240,6 +243,8 @@ const projectstore = {
     },
     [Constant.GET_PROJECT]: (state, payload) => {
       state.project = payload.project;
+      state.pjtName[payload.project.pid] = payload.project.pjtName;
+
     },
     [Constant.GET_PROJECT_MEMBER_BY_PID]: (state, payload) => {
       state.pmlist = payload.pmlist;

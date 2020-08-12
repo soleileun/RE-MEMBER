@@ -95,30 +95,30 @@ export default {
         // 마커를 클릭하면 장소명이 인포윈도우에 표출됩니다
 
         var content =
-          '<div class="placeinfo">' +
-          '   <a class="title" href="' +
+          '<div style="width:300px;"><div class="placeinfo" style="position: relative; width: 100%; border-radius: 6px; border: 1px solid #ccc; border-bottom: 2px solid #ddd; padding-bottom: 10px; background: #fff;">' +
+          '   <a class="title" style="font-weight: bold; width:100%;font-size: 14px;  border-radius: 6px 6px 0 0;  margin: -1px -1px 0 -1px;  padding: 10px;   color: #fff;   background: #d95050;   background: #d95050 no-repeat right 14px center;" href="' +
           place.place_url +
           '" target="_blank" title="' +
           place.place_name +
           '">' +
           place.place_name +
-          "</a>";
+          "</a><br><br>";
 
         if (place.road_address_name) {
           content +=
-            '    <span title="' +
+            '    <span style="margin: 5px 5px 0 5px;  cursor: default;  font-size: 13px;"title="' +
             place.road_address_name +
             '">' +
             place.road_address_name +
             "</span>" +
-            '  <span class="jibun" title="' +
+            '  <span class="jibun" style = ""color: #999;  font-size: 11px;  margin-top: 0; title="' +
             place.address_name +
             '">(지번 : ' +
             place.address_name +
             ")</span>";
         } else {
           content +=
-            '    <span title="' +
+            '    <span style="margin: 5px 5px 0 5px;  cursor: default;  font-size: 13px;"title="' +
             place.address_name +
             '">' +
             place.address_name +
@@ -126,11 +126,11 @@ export default {
         }
 
         content +=
-          '    <span class="tel">' +
+          '    <span class="tel" style="color: #0f7833; margin: 5px 5px 0 5px;  cursor: default;  font-size: 13px;">' +
           place.phone +
           "</span>" +
           "</div>" +
-          '<div class="after"></div>';
+          '<div class="after" style="content: "";  position: relative; margin-left: -12px;  left: 50%;  width: 22px;  height: 12px;  background: url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png");"></div></div>';
         /* category
 																	.setContent('<div style="padding:5px;font-size:12px;">'
 																			+ place.place_name
@@ -434,7 +434,7 @@ export default {
   font-size: 13px;
 }
 
-.placeinfo .title {
+.placeinfo a.title {
   font-weight: bold;
   font-size: 14px;
   border-radius: 6px 6px 0 0;

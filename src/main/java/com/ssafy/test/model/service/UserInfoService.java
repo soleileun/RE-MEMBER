@@ -28,4 +28,6 @@ public interface UserInfoService {
 	public List<UserInfo> searchAll(SearchParameter sp);
 	public List<UserInfo> getRecommendedUser(String id);
 	public List<Project> getRecommendedPJT(String id);
+	
+	public List<UserInfo> getAddressList(int pid);
 }

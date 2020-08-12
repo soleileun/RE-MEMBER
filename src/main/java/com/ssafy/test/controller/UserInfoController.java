@@ -145,6 +145,11 @@ public class UserInfoController {
 		return new ResponseEntity<List<UserInfo>>(list, HttpStatus.OK);
 	}
 	
+	@GetMapping("/getAddressList/{pid}")
+	public ResponseEntity<List<UserInfo>> getAddressList(@PathVariable int pid){
+		List<UserInfo> list = uiService.getAddressList(pid);		
+		return new ResponseEntity<List<UserInfo>>(list, HttpStatus.OK);
+	}
 	
 	@GetMapping("/getRecommended/User/{id}")
 	public ResponseEntity<List<UserSimple>> getRecommendedUser(@PathVariable String id){
