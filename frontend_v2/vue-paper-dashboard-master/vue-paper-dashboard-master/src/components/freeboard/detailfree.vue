@@ -3,7 +3,6 @@
     <div class="card">
       <div class="card-header"></div>
 
-
       <div class="card-body">
         <div class="container-fluid">
           <div class="row">
@@ -63,8 +62,8 @@
           <div class="col-3">{{comment.cwriter}}</div>
           <div class="col-6">{{comment.ccontent}}</div>
           <div class="col-3">
-            {{comment.makeDay}}
-            <span class="ti-trash"></span>
+            {{comment.makeDay.slice(0,10)}}
+            <span class="ti-trash" v-if="comment.cwriter === loginId" @click="deleteComment(comment)"></span>
             <!-- @click 해서 삭제 넣어주시면 됩니다. -->
           </div>
         </div>
@@ -88,12 +87,13 @@
 
       <div class="card" v-for="comment in comments" :key="comment.cno">
         <div class="card-body">
-          <div class="row">
+          <div class="row anstitle">
             <div class="col-1 pics">사진</div>
-            <div class="col-3">
+            <div class="col-10">
               <div class="col-12 name">{{comment.cwriter}}</div>
               <div class="col-12 date">{{comment.makeDay.slice(0,16)}}</div>
             </div>
+            <div class="ti-trash" @click="deleteComment(comment)"></div>
           </div>
           <hr />
 
@@ -218,32 +218,37 @@ export default {
           bstate: this.type,
         });
         // console.log('삭제요청완료.' + this.board.bno);
-        this.$router.push("/freeboard/type/"+this.type);
+        this.$router.push("/freeboard/type/" + this.type);
       } else if (con_test == false) {
         console.log("");
       }
     },
 
-    deleteComment(cno) {
-      this.$emit("delete-comment", cno);
+    // deleteComment(cno) {
+    //   this.$emit("delete-comment", cno);
+    // },
+    deleteComment(comment) {
+      this.$store.dispatch(Constant.REMOVE_COMMENT, {
+        cno: comment.cno,
+        bno: comment.bno,
+      });
     },
 
     change() {
-      let addr = "/freeboard/modifyfree/" + this.board.bno+"/"+this.type;
+      let addr = "/freeboard/modifyfree/" + this.board.bno + "/" + this.type;
       this.$router.push(addr);
     },
     back() {
-      let addr = "/freeboard/type/"+ this.type;
+      let addr = "/freeboard/type/" + this.type;
       this.$router.push(addr);
     },
 
     addComment() {
-      if(this.loginId == '') {
+      if (this.loginId == "") {
         document.querySelector(".login").classList.remove("active");
         document.querySelector(".login").classList.add("active");
         alert("로그인이 필요한 서비스입니다.");
-      }
-      else if (this.loginId != '' && this.comment2.ccontent.trim() != "") {
+      } else if (this.loginId != "" && this.comment2.ccontent.trim() != "") {
         this.$store.dispatch(Constant.ADD_COMMENT, {
           // cno :this.comment2.cno,
           // cwriter:this.comment2.cwriter,
@@ -269,6 +274,12 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
+div.row.anstitle{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-right: 10px;
+}
 table,
 td,
 tr,

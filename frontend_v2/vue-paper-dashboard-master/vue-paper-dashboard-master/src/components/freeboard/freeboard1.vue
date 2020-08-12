@@ -248,10 +248,12 @@ export default {
     console.log(this.type);
     this.$store.dispatch(Constant.GET_BOARDLIST, { bstate: this.type });
   },
-  updated() {
-    this.$store.dispatch(Constant.GET_BOARDLIST, { bstate: this.type });
+  
+  watch:{
+    type(){
+      this.$store.dispatch(Constant.GET_BOARDLIST, { bstate: this.type });
+    }
   },
-
   methods: {
     changeShowCnt() {
       this.perPage = parseInt(document.getElementById("showcnt").value);

@@ -8,8 +8,8 @@
 
     <div class="container">
       <div class="row row--top-40">
-        <div class="col-md-9">
-          <h2 class="row__title">프로젝트 팀원관리</h2>
+        <div class="col-md-12">
+          <h2 class="row__title">프로젝트 팀원</h2>
         </div>
       </div>
       <div class="row row--top-20">

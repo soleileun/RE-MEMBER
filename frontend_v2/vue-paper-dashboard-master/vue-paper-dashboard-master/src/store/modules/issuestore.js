@@ -33,10 +33,13 @@ const issuestore = {
             const config = {
                 headers: { "jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token") }
             }
+            window.localStorage.setItem('issueTarget', payload.pid)
+            window.localStorage.setItem('issueLoad', "false")
             http.get('/api/issue/search/pid=' + payload.pid + '&issuestate=' + payload.issuestate, config)
                 .then(response => {
                     // console.log(response)
                     store.commit(Constant.GET_ISSUELIST_BY_STATE, { issues: response.data, issuestate: payload.issuestate })
+
                 })
                 .catch(exp => alert('getISSUEList처리에 실패하였습니다!!' + exp));
         },
@@ -125,6 +128,18 @@ const issuestore = {
                 .catch(exp => alert('읽음 처리에 실패하였습니다.' + exp));
         },
 
+        [Constant.UPDATE_ISSUE_BY_STATE]: (_store, payload) => {
+            const config = {
+                headers: { "jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token") }
+            }
+            http.put('/api/issue/updateByState', payload, config)
+                .then((response) => {
+                    console.log('수정하였습니다.' + response.data);
+                    //store.dispatch(Constant.READ_BOARD, {bno : payload.bno});
+                })
+                .catch(exp => alert('수정 처리에 실패하였습니다.' + exp));
+        },
+
         // //이슈글 삭제
         // [Constant.REMOVE_BOARD]: (store, payload) => {
         //     const config = {
@@ -184,6 +199,7 @@ const issuestore = {
             } else if (payload.issuestate == 'created') {
                 state.issues_created = payload.issues;
             }
+            window.localStorage.setItem('issueLoad', 'true')
         },
         [Constant.GET_ISSUE]: (state, payload) => {
             state.issue = payload.issue;

@@ -263,7 +263,7 @@
         <div class="content container-fluid row col-14 card" v-drag-and-drop:options="options">
           <h4 class="header card-title">이슈 현황</h4>
           <p align="right" class="category">
-            <button
+            <!-- <button
               @click="openModal"
               type="button"
               rel="tooltip"
@@ -273,7 +273,8 @@
               data-target="#myModal"
             >
               <i class="fa fa-edit"></i>
-            </button>
+            </button>-->
+            <button v-on:click="updateIssueChange()" class="btn btn-info btn-simple btn-xs">이슈 저장하기</button>
           </p>
           <hr />
           <ul class="drag-list content">
@@ -297,7 +298,9 @@
                     :key="item.id"
                     :data-id="item.id"
                   >
-                    <div class="drag-item-text">{{ item.name }}</div>
+                    <div class="drag-item-text">
+                      {{ item.name.changeDay.slice(0,10) }} {{ item.name.issuetitle }}
+                    </div>
                   </li>
                 </ul>
               </vue-draggable-group>
@@ -381,6 +384,7 @@ export default {
       },
     };
   },
+
   created() {
     this.$store.dispatch(Constant.GET_ISSUELIST, {
       pid: 1,
@@ -397,7 +401,9 @@ export default {
       pid: 1,
       issuestate: "created",
     });
-    this.loadIssues();
+    setTimeout(() => {
+      this.loadIssues();
+    }, 300);
   },
 
   computed: {
@@ -441,6 +447,7 @@ export default {
     };
     //this.data = [30,71,11];
     setTimeout(() => {
+      this.data = [];
       this.data = [
         this.issues_created.length,
         this.issues_ongoing.length,
@@ -468,8 +475,19 @@ export default {
   },
 
   methods: {
-    someDummyMethod() {
-      //
+    someDummyMethod() {},
+
+    updateIssueChange() {
+      // 저장하기
+
+      // this.groups에는 변경사항이 적용 되어있고
+      // 각각의 생성 / 진행 / 완성 이슈 수만큼
+      // 반복하여 post로 수정
+      // 만일 원래의 issuestate와 같다면 아무것도 변경하지 않음
+      // 다르면 changeDay도 같이 변경
+
+      //console.log(this.groups)
+      this.groups[0]; 
     },
 
     // {
@@ -480,40 +498,36 @@ export default {
     //           groupId: 1,
     //         },
     loadIssues() {
-      let idx=1;
+      let idx = 1;
+      this.groups[0].items = [];
+      this.groups[1].items = [];
+      this.groups[2].items = [];
       // this.groups[0].items = this.issues_created;
       // this.groups[1].items = this.issues_ongoing;
       // this.groups[2].items = this.issues_done;
-      this.issues_created.forEach(el => {
+      this.issues_created.forEach((el) => {
         this.groups[0].items.push({
-          id : idx++,
-          name : el.issuetitle,
-          groupId : 1
+          id: idx++,
+          name: el,
+          groupId: 1,
         });
       });
-      
-      this.issues_ongoing.forEach(el => {
+
+      this.issues_ongoing.forEach((el) => {
         this.groups[1].items.push({
-          id : idx++,
-          name : el.issuetitle,
-          groupId : 2
+          id: idx++,
+          name: el,
+          groupId: 1,
         });
       });
-      // this.groups[0].items = [{
-      //   id: idx,
-      //   name: {
-      //     pid: 1,
-      //   },
-      //   groupId: 1,
-      // },
-      // {
-      //   id: 2,
-      //   name: {
-      //     pid: 1,
-      //   },
-      //   groupId: 2,
-      // }];
-      
+
+      this.issues_done.forEach((el) => {
+        this.groups[2].items.push({
+          id: idx++,
+          name: el,
+          groupId: 1,
+        });
+      });
     },
 
     openModal() {
@@ -540,10 +554,10 @@ export default {
     },
 
     onGroupsChange(e) {
-      console.log("onGroupChange!!!!!!");
+      // 변경된 경우
     },
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>

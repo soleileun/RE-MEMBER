@@ -53,6 +53,12 @@
         </div>
       </div>
     </div>
+
+    <div v-if="this.loginId != '' ">
+      <div>
+        <h3>{{userId}}님께 추천드리는 프로젝트입니다!</h3>
+      </div>
+    </div>
   </div>
 </template>
 
