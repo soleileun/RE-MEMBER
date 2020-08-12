@@ -8,7 +8,7 @@ public class Reffile {
 	private int fboardno; // update no
 	private String foname;
 	private String fsname;
-	private int fsize;
+	private long fsize;
 
 	private Date makeDay; // update no
 	private Date changeDay;
@@ -51,11 +51,11 @@ public class Reffile {
 		this.fsname = fsname;
 	}
 
-	public int getFsize() {
+	public long getFsize() {
 		return fsize;
 	}
 
-	public void setFsize(int fsize) {
+	public void setFsize(long fsize) {
 		this.fsize = fsize;
 	}
 

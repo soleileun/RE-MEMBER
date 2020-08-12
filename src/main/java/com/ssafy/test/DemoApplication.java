@@ -34,6 +34,7 @@ public class DemoApplication implements WebMvcConfigurer {
 				"/api/comments","/api/recruit/**","/api/pinterest/**", 
 				 "/api/project/","/api/project/searchByUserId/**","/api/project/**"
 				 //, "/api/message/**"
+				 ,"/api/reffile/**"
 //										"/api/pmember/**","/api/following/**"
 //										 "/api/project/**",,
 //										 "/api/comments/**","/api/issue/**","/api/interest/**",
