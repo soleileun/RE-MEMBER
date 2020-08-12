@@ -25,4 +25,6 @@ public interface IssueService {
 	public int updateResponse(Issue v); // 담당자를 업데이트함.
 	
 	public int updatePriority(Issue v); // 해당 이슈의 중요도를 업데이트함.
+	
+	public int updateByState(Issue v);
 }

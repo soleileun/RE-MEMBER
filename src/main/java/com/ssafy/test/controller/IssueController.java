@@ -45,7 +45,7 @@ public class IssueController {
 	public ResponseEntity<List<Issue>> selectStateAll(@PathVariable int pid,@PathVariable String issuestate) throws Exception {
 		Issue v = new Issue();
 		v.setPid(pid);
-		v.setIssuestate(issuestate);
+		v.setIssuestate(issuestate);	
 		return new ResponseEntity<List<Issue>>(Service.selectStateAll(v), HttpStatus.OK);
 	}
 
@@ -56,7 +56,7 @@ public class IssueController {
 	}
 
 	
-	@ApiOperation(value = "새로운 채팅 정보를 입력한다. 그리고 DB입력 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
+	@ApiOperation(value = "새로운 이슈 정보를 입력한다. 그리고 DB입력 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
 	@PostMapping
 	public ResponseEntity<String> writeIssue(@RequestBody Issue v) {
 		if (Service.insert(v) != 0) {
@@ -95,6 +95,16 @@ public class IssueController {
 		v.setChangeDay(new Date());
 		
 		if (Service.updateState(v) != 0) {
+			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+		}
+		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
+	}
+	
+	@ApiOperation(value = "이슈번호에 해당하는 이슈의 상태정보를 수정한다. 그리고 DB수정 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
+	@PutMapping("updateByState")
+	public ResponseEntity<String> updateByState(@RequestBody Issue v) {
+			
+		if (Service.updateByState(v) != 0) {
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		}
 		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
