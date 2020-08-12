@@ -243,7 +243,7 @@ const projectstore = {
     },
     [Constant.GET_PROJECT]: (state, payload) => {
       state.project = payload.project;
-      state.pjtName[payload.project.pid] = payload.project.pjtName;
+      // state.pjtName[payload.project.pid] = payload.project.pjtName;
 
     },
     [Constant.GET_PROJECT_MEMBER_BY_PID]: (state, payload) => {

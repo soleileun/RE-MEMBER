@@ -28,12 +28,12 @@ const recruitstore = {
             recruits: response.data
           })
           
-          response.data.forEach(item => {
-              console.log('실험중 : ' + item.pid);
-              store.dispatch(Constant.GET_PROJECT, {
-              pid: item.pid
-            })
-          })
+          // response.data.forEach(item => {
+          //     console.log('실험중 : ' + item.pid);
+          //     store.dispatch(Constant.GET_PROJECT, {
+          //     pid: item.pid
+          //   })
+          // })
         })
         .catch(exp => alert('getRecruitList처리에 실패하였습니다!.' + exp));
     },
