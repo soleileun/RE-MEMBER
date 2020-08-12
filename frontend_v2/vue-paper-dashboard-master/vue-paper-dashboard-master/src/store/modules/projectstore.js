@@ -32,31 +32,31 @@ const projectstore = {
           store.commit(Constant.GET_PROJECTLIST_BY_PMEMBER, {
             projects: response.data
           })
-          response.data.forEach(item => {
-            store.dispatch(Constant.GET_CURRENT_MEMBER_COUNT, {
-              pid: item.pid
-            })
-          })
+          // response.data.forEach(item => {
+          //   store.dispatch(Constant.GET_CURRENT_MEMBER_COUNT, {
+          //     pid: item.pid
+          //   })
+          // })
         })
         .catch(exp => alert('getPmemberList처리에 실패하였습니다.' + exp));
     },
     //pid으로 현재 프로젝트 멤버수 가져오기
-    [Constant.GET_CURRENT_MEMBER_COUNT]: (store, payload) => {
-      const config = {
-        headers: {
-          "jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")
-        }
-      }
-      http.get('/api/pmember/selectCntByPid/' + payload.pid, config)
-        .then(response => {
-          // console.log(response.data);
-          store.commit(Constant.GET_CURRENT_MEMBER_COUNT, {
-            pjtcnt: response.data,
-            pid: payload.pid
-          })
-        })
-        .catch(exp => alert('getTodo처리에 실패하였습니다.' + exp));
-    },
+    // [Constant.GET_CURRENT_MEMBER_COUNT]: (store, payload) => {
+    //   const config = {
+    //     headers: {
+    //       "jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")
+    //     }
+    //   }
+    //   http.get('/api/pmember/selectCntByPid/' + payload.pid, config)
+    //     .then(response => {
+    //       // console.log(response.data);
+    //       store.commit(Constant.GET_CURRENT_MEMBER_COUNT, {
+    //         pjtcnt: response.data,
+    //         pid: payload.pid
+    //       })
+    //     })
+    //     .catch(exp => alert('getTodo처리에 실패하였습니다.' + exp));
+    // },
 
     //pid으로 현재 프로젝트 멤버 정보 가져오기
     [Constant.GET_PROJECT_MEMBER_BY_PID]: (store, payload) => {
@@ -238,9 +238,9 @@ const projectstore = {
     [Constant.GET_PROJECTLIST_BY_PMEMBER]: (state, payload) => {
       state.projects = payload.projects;
     },
-    [Constant.GET_CURRENT_MEMBER_COUNT]: (state, payload) => {
-      state.pjtcnt[payload.pid] = payload.pjtcnt;
-    },
+    // [Constant.GET_CURRENT_MEMBER_COUNT]: (state, payload) => {
+    //   state.pjtcnt[payload.pid] = payload.pjtcnt;
+    // },
     [Constant.GET_PROJECT]: (state, payload) => {
       state.project = payload.project;
       // state.pjtName[payload.project.pid] = payload.project.pjtName;
