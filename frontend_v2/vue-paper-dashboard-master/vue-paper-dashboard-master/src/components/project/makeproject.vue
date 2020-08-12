@@ -235,7 +235,7 @@ export default {
           //location: this.wproject.location,
         });
         //userid 수정해야됨!
-        this.$router.push("/project/myproject/" + this.userId);
+        this.$router.push("/project/myproject/");
         console.log(this.userId);
       } else {
         console.log("공백입력.");
