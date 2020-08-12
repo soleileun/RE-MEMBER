@@ -1,12 +1,9 @@
 <template>
   <div id="dmap">
     <div>
-      <input type="text" name="address" size="12" id="address" />
-      <!-- <button onclick="javascript:testing()" type="submit">위치 입력</button> -->
-      <button @click="testing()">위치 입력</button>
-      <!-- <button onclick="javascript:address()" type="submit">주소 검색
-      api</button>-->
-      <button @click="address()">주소 검색 api</button>
+      <button class="btn btn-info btn-simple btn-xs"
+       @click="findCafe()">카페 검색하기</button>
+      
       <br />
     </div>
 
@@ -39,14 +36,11 @@ export default {
       imageSrc: {},
       imageOption: {},
       imageSize: {},
-      infowindow : {},
-      category : {},
+      infowindow: {},
+      category: {},
     };
   },
   methods: {
-
-    
-
     address() {
       new daum.Postcode({
         oncomplete: function (data) {
@@ -58,14 +52,13 @@ export default {
 
     // 키워드 검색 완료 시 호출되는 콜백함수 입니다
     placesSearchCB(data, status, pagination) {
-      if (status === kakao.maps.services.Status.OK) {
-        this.tmpData = [];
-        this.tmpData.push(data[i]);
+      if (status === kakao.maps.services.Status.OK) {        
         for (var i = 0; i < data.length; i++) {
           this.displayMarker(data[i]);
         }
       } else {
-        alert("주위 검색 실패!");
+        //alert("주위 검색 실패!");
+        console.log("실패");
       }
     },
 
@@ -139,9 +132,8 @@ export default {
 																			+ '</div>'); */
         this.category.setContent(content);
         this.category.open(this.map, marker2);
-      });
+      });//
     },
-
     addMarker(position) {
       // 마커를 생성합니다
 
@@ -192,8 +184,112 @@ export default {
       }
     },
 
-    
-    
+    mountedTesting() {
+      let len = this.users.length;
+
+      for (var i = 0; i < len; i++) {
+        //console.log(this.users[i].address2);
+        let address = this.users[i].address1;
+        console.log(address);
+        this.geocoder.addressSearch(address, (result, status) => {
+          if (status === kakao.maps.services.Status.OK) {
+            console.log("sucess!");
+            //this.markerCenter.setMap(null);
+            var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+            var marker = new kakao.maps.Marker({
+              position: coords,
+            });
+            this.markers.push(marker);
+          }
+        });
+      }
+
+      setTimeout(() => {
+        var totalX = 0;
+        var totalY = 0;
+        var leng = this.markers.length;
+        console.log("leng is " + leng);
+
+        for (var i = 0; i < leng; i++) {
+          totalX += this.markers[i].getPosition().Ha;
+          totalY += this.markers[i].getPosition().Ga;
+        }
+        totalX /= leng;
+        totalY /= leng;
+        console.log(totalX, totalY);
+
+        var coords2 = new kakao.maps.LatLng(totalX, totalY);
+        this.markers = [];
+        this.markerCenter = new kakao.maps.Marker({
+          map: this.map,
+          position: coords2,
+          image: this.markerImage,
+        });
+
+        //this.markerCenter.setMap(this.map);
+        this.map.setCenter(coords2);
+
+        var iwContent = '<div style="padding:5px;">Center</div>';
+
+        // 인포윈도우를 생성합니다
+        this.infowindow = new kakao.maps.InfoWindow({
+          content: iwContent,
+        });
+
+        // 마커에 마우스오버 이벤트를 등록합니다
+        kakao.maps.event.addListener(this.markerCenter, "mouseover", () => {
+          // 마커에 마우스오버 이벤트가 발생하면 인포윈도우를 마커위에 표시합니다
+          this.infowindow.open(this.map, this.markerCenter);
+        });
+
+        // 마커에 마우스아웃 이벤트를 등록합니다
+        kakao.maps.event.addListener(this.markerCenter, "mouseout", () => {
+          // 마커에 마우스아웃 이벤트가 발생하면 인포윈도우를 제거합니다
+          this.infowindow.close();
+        });
+
+        //markerCenter 에 대한 주소 상세
+        this.searchDetailAddrFromCoords(coords2, (result, status) => {
+          if (status === kakao.maps.services.Status.OK) {
+            var detailAddr = !!result[0].road_address
+              ? "<div>도로명주소 : " +
+                result[0].road_address.address_name +
+                "</div>"
+              : "";
+            detailAddr +=
+              "<div>지번 주소 : " + result[0].address.address_name + "</div>";
+
+            var content =
+              '<div class="bAddr" style="padding: 5px;  text-overflow: ellipsis;  overflow: hidden;  white-space: nowrap;">' +
+              '<span class="title">법정동 주소정보</span>' +
+              detailAddr +
+              "</div>";
+
+            // 인포윈도우에 클릭한 위치에 대한 법정동 상세 주소정보를 표시합니다
+            this.infowindow.setContent(content);
+          }
+        });
+      }, 300);
+      // 주소 검색 후 markers 배열에 담기
+    },
+
+    findCafe() {
+      setTimeout(() => {
+        this.category = new kakao.maps.InfoWindow({
+          zIndex: 1,
+          removable: true,
+        });
+
+        // 주변 카페 검색
+        // 장소 검색 객체를 생성합니다
+        var ps = new kakao.maps.services.Places(this.map);
+
+        ps.categorySearch("CE7", this.placesSearchCB, {
+          useMapBounds: true,
+        });
+      }, 100);
+    },
+
     testing() {
       var input = document.getElementById("address").value;
 
@@ -209,7 +305,6 @@ export default {
           var totalX = 0;
           var totalY = 0;
           var len = this.markers.length;
-          //   console.log("len is " + len);
           for (var i = 0; i < len; i++) {
             totalX += this.markers[i].getPosition().Ha;
             totalY += this.markers[i].getPosition().Ga;
@@ -241,7 +336,6 @@ export default {
             useMapBounds: true,
           });
 
-         
           var iwContent = '<div style="padding:5px;">Center</div>';
 
           // 인포윈도우를 생성합니다
@@ -250,24 +344,16 @@ export default {
           });
 
           // 마커에 마우스오버 이벤트를 등록합니다
-          kakao.maps.event.addListener(
-            this.markerCenter,
-            "mouseover",
-            () => {
-              // 마커에 마우스오버 이벤트가 발생하면 인포윈도우를 마커위에 표시합니다
-              this.infowindow.open(this.map, this.markerCenter);
-            }
-          );
+          kakao.maps.event.addListener(this.markerCenter, "mouseover", () => {
+            // 마커에 마우스오버 이벤트가 발생하면 인포윈도우를 마커위에 표시합니다
+            this.infowindow.open(this.map, this.markerCenter);
+          });
 
           // 마커에 마우스아웃 이벤트를 등록합니다
-          kakao.maps.event.addListener(
-            this.markerCenter,
-            "mouseout",
-            () => {
-              // 마커에 마우스아웃 이벤트가 발생하면 인포윈도우를 제거합니다
-              this.infowindow.close();
-            }
-          );
+          kakao.maps.event.addListener(this.markerCenter, "mouseout", () => {
+            // 마커에 마우스아웃 이벤트가 발생하면 인포윈도우를 제거합니다
+            this.infowindow.close();
+          });
 
           //markerCenter 에 대한 주소 상세
           this.searchDetailAddrFromCoords(coords, (result, status) => {
@@ -291,7 +377,7 @@ export default {
               /* infowindow
 															.open(map, marker); */
             }
-          })
+          });
         } else {
           alert("검색 실패!");
         }
@@ -304,29 +390,23 @@ export default {
     this.$store.dispatch(Constant.GET_ADDRESS_LIST, {
       pid: pid,
     });
+    this.markerCenter = new kakao.maps.LatLng(33.450701, 126.570667);
   },
 
   computed: {
-    users(){
+    users() {
       return this.$store.state.mapstore.users;
-    }
+    },
   },
-
   mounted() {
-    console.log("map testing ");
-    console.log(this.users);
-    console.log("map testing")
     this.geocoder = new kakao.maps.services.Geocoder();
-  
 
     (this.mapContainer = document.getElementById("map")), // 지도를 표시할 div
       (this.mapOption = {
         center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
-        level: 3,
+        level: 4,
         // 지도의 확대 레벨
       });
-
-    //this.markerCenter = new kakao.maps.LatLng(33.450701, 126.570667);
 
     // 지도를 생성합니다
     this.map = new kakao.maps.Map(this.mapContainer, this.mapOption);
@@ -345,24 +425,31 @@ export default {
       this.imageOption
     );
 
-    // 마커를 생성합니다
-    this.markerCenter = new kakao.maps.Marker({
-      position: new kakao.maps.LatLng(33.450701, 126.570667),
-      image: this.markerImage,
-      // 마커이미지 설정
-    });
+    // // 마커를 생성합니다
+    // this.markerCenter = new kakao.maps.Marker({
+    //   position: new kakao.maps.LatLng(33.450701, 126.570667),
+    //   image: this.markerImage,
+    //   // 마커이미지 설정
+    // });
 
-  
     // 중심 좌표나 확대 수준이 변경됐을 때 지도 중심 좌표에 대한 주소 정보를 표시하도록 이벤트를 등록합니다
     kakao.maps.event.addListener(this.map, "idle", () => {
-      this.searchAddrFromCoords(this.map.getCenter(), this. displayCenterInfo);
+      this.searchAddrFromCoords(this.map.getCenter(), this.displayCenterInfo);
     });
+
+     setTimeout(() => {
+        this.mountedTesting();
+      }, 100);
+    // this.mountedTesting();
+    //
+    setTimeout(() => {
+      this.findCafe()
+    }, 500);
   },
 };
 </script>
 
 <style scoped lang="scss">
-
 .map_wrap {
   position: relative;
   width: 100%;
