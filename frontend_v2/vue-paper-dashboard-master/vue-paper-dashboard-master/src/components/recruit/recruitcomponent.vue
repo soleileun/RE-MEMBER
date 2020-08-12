@@ -24,9 +24,9 @@
     <td data-column="Destination" class="table-row__td">{{times(recruit.endDate)}}</td>
     <td data-column="Status" class="table-row__td">
       <!-- 구인 완료 시 붉은색 -->
-      <p class="table-row__status status--green status">모집중</p>
-      <p class="table-row__status status--red status">모집완료</p>
-      <p class="table-row__status status--red status">기한만료</p>
+      <p v-if="recruit.rstate === '모집중'" class="table-row__status status--green status">모집중 {{recruit.cnt}}/{{recruit.pjtMemberCnt}}</p>
+      <p v-if="recruit.rstate === '모집완료'" class="table-row__status status--red status">모집완료</p>
+      <p v-if="recruit.rstate === '기한만료'" class="table-row__status status--red status">기한만료</p>
     </td>
     <!-- <td data-column="Progress" class="table-row__td">
                   <p class="table-row__progress status--blue status">On Track</p>

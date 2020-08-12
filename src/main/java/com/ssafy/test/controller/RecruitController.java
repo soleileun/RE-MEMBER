@@ -1,6 +1,7 @@
 package com.ssafy.test.controller;
 
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +51,25 @@ public class RecruitController {
 	@ApiOperation(value = "모든 구인구직 게시판의 정보를 반환한다.", response = List.class)
 	@GetMapping
 	public ResponseEntity<List<RecruitPjt>> retrieveBoard() throws Exception {
-		return new ResponseEntity<List<RecruitPjt>>(rService.selectAll(), HttpStatus.OK);
+
+		List<RecruitPjt> v = rService.selectAll();
+
+		for (int i = 0; i < v.size(); i++) {
+			int result = new Date().compareTo(v.get(i).getEndDate());
+
+			if (result >= 0) { // 앞에 있는게 뒤에있는거보다 더 느리다는 뜻
+
+				v.get(i).setRstate("기한만료");
+			} else if (result == -1) { // 앞에 있는게 뒤에있는거보다 더 빠르다는 뜻
+				if (v.get(i).getPjtMemberCnt() <= v.get(i).getCnt()) {
+					v.get(i).setRstate("모집완료");
+				} else
+					v.get(i).setRstate("모집중");
+
+			}
+		}
+
+		return new ResponseEntity<List<RecruitPjt>>(v, HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "모든 구인구직 게시판의 정보를 소팅해서 반환한다.", response = List.class)

@@ -3,9 +3,32 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ssafy.test.Recruit">
+<!-- 
 	<select id="selectAll" resultType="recruitpjt">
 	select a.pid, a.title, a.contents, a.endDate, a.makeDay, a.changeDay,a.makeId,a.changeId, b.pjtName
 	from recruit as a, project as b
+	where a.pid = b.pid;
+	</select>
+	 -->
+	
+	<select id="selectAll" resultType="recruitpjt">
+	select a.pid, a.title,a.contents,a.endDate,a.makeDay,a.changeDay,a.makeId,a.changeId, a.pjtName, b.cnt, b.pjtMemberCnt
+	from
+	(
+		select a.pid, a.title, a.contents, a.endDate, a.makeDay, a.changeDay,a.makeId,a.changeId, b.pjtName
+		from recruit as a, project as b
+		where a.pid = b.pid
+	) as a,
+	(
+		select a.cnt, a.pid, pjtMemberCnt
+		from project,
+		(
+			select count(*) as cnt, pid
+			from pmember
+			group by pid
+		) as a
+		where a.pid = project.pid
+	) as b
 	where a.pid = b.pid;
 	</select>
 
