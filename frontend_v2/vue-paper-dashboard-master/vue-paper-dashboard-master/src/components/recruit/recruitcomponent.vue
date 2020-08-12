@@ -166,25 +166,23 @@ export default {
       type: Object,
       required: true,
     },
-    pid: {
-      type: Number,
+    // pid: {
+    //   type: Number,
+    //   required: true,
+    // },
+    pjtName: {
+      type: String,
       required: true,
     },
   },
-  data() {
-    return {
-      pjtName : this.$store.state.projectstore.pjtName,
-    }
-  },
   created() {
-    this.$store.dispatch(Constant.GET_PROJECT, { pid: this.pid });
+    // this.$store.dispatch(Constant.GET_PROJECT, { pid: this.pid });
 
     
   },
   computed: {
-    // pjtName() {
-    //   // console.log(this.$store.state.recruitstore.pjtName);
-    //   return this.$store.state.projectstore.pjtName;
+    // project() {
+    //   return this.$store.state.projectstore.project;
     // },
      loginId(){
       return storage.getItem("userid");
