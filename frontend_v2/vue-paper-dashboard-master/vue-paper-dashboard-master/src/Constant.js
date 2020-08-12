@@ -72,4 +72,5 @@ export default {
     REMOVE_ISSUE: 'removeIssue',
     CHANGE_RESPONSE: 'changeResponse',
     REMOVE_ISSUE: 'removeIssue',
+    UPDATE_ISSUE_BY_STATE: 'updateIssueByState',
 }

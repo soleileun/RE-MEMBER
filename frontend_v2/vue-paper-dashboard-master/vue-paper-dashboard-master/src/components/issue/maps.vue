@@ -42,6 +42,9 @@ export default {
     };
   },
   methods: {
+
+    
+
     address() {
       new daum.Postcode({
         oncomplete: function (data) {

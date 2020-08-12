@@ -72,4 +72,9 @@ public class IssueServiceImpl implements IssueService{
 		// TODO Auto-generated method stub
 		return Dao.deleteByProject(k);
 	}
+
+	@Override
+	public int updateByState(Issue v) {
+		return Dao.updateByState(v);
+	}
 }

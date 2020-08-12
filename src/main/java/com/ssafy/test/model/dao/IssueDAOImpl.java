@@ -69,4 +69,9 @@ public class IssueDAOImpl implements IssueDAO{
 	public int deleteByProject(int k) {
 		return template.delete(ns + "deleteByProject", k);
 	}
+
+	@Override
+	public int updateByState(Issue v) {
+		return template.update(ns + "updateByState", v);
+	}
 }

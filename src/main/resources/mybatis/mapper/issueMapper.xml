@@ -66,6 +66,10 @@
 		where issueid=#{issueid}
 	</update>
 	
-
+	<update id="updateByState" parameterType="issue">
+		update issue
+		set issuestate=#{issuestate}, changeDay=now()
+		where issueid=#{issueid}
+	</update>
 
 </mapper>
