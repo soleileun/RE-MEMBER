@@ -27,15 +27,16 @@
     <div class="text-center">
       <div class="row justify-content-md-center">
         <div clss="col-lg-4">
-          <button id="myBtn"  v-if="myId===targetId" @click="openModal" class="btn btn-round btn-dark">팀원관리</button>
+          <button id="myBtn" @click="openModal" class="btn btn-round btn-dark">팀원보기</button>
         
         </div>
         <span></span>
         <div clss="col-lg-8">
-          <button  v-if="myId===targetId" v-on:click="popup()" class="btn btn-round btn-success">일정관리페이지</button>
+          <button  v-on:click="popup()" class="btn btn-round btn-success">일정관리페이지</button>
         </div>
         <div clss="col-lg-8">
           <!-- <button class="btn btn-round btn-success">다른사람이 볼때 보이는 버튼</button> -->
+         
         </div>
 
         <!-- <div v-for="(info, index) in details" :key="index" :class="getClasses(index)">
@@ -55,7 +56,7 @@
           <!-- Modal content -->
           <div class="modal-content">
             <span class="close">&times;</span>
-            <h3>프로젝트 팀원 관리</h3>
+            <h3>프로젝트 팀원</h3>
 
             <ul>
               <li v-for="pm in pmlist" :key="pm.userId">{{ pm.userId }}</li>

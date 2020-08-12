@@ -35,6 +35,7 @@ import writefree from "../components/freeboard/writefree.vue";
 import detailfree from "../components/freeboard/detailfree.vue";
 import modifyfree from "../components/freeboard/modifyfree.vue";
 import otherproject from "../components/project/otherproject.vue";
+import partners from "../components/project/partners.vue";
 
 
 
@@ -155,6 +156,12 @@ const routes = [{
         component: projectdetail,
       },
       {
+        path: "/project/partners/:pid",
+        name: "프로젝트 팀원",
+        component: partners,
+      },
+
+      {
         path: "/project/makeproject",
         name: "프로젝트 작성",
         component: makeproject,
@@ -194,7 +201,7 @@ const routes = [{
       //   name: "이메일 확인",
       //   component: emailcheck,
       // },
-       {
+      {
         path: "/user/findid",
         name: "아이디 /비밀번호 찾기",
         component: findIDPW,
