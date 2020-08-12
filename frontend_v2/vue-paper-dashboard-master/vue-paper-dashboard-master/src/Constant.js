@@ -70,4 +70,6 @@ export default {
     ADD_ISSUE: 'addIssue',
     MODIFY_ISSUE: 'modifyIssue',
     REMOVE_ISSUE: 'removeIssue',
+    CHANGE_RESPONSE: 'changeResponse',
+    REMOVE_ISSUE: 'removeIssue',
 }

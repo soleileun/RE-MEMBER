@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.test.model.dto.Board;
 import com.ssafy.test.model.dto.Issue;
 import com.ssafy.test.model.service.IssueService;
 
@@ -101,7 +102,7 @@ public class IssueController {
 	}
 
 	@ApiOperation(value = "이슈번호에 해당하는 이슈의 담당자정 보를 수정한다. 그리고 DB수정 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
-	@PutMapping("changestate/issueid={issueid}&response={response}")
+	@PutMapping("changeresponse/issueid={issueid}&response={response}")
 	public ResponseEntity<String> updateResponse(@PathVariable int issueid, @PathVariable String response) {
 
 		Issue v = new Issue();
@@ -110,6 +111,17 @@ public class IssueController {
 		v.setChangeDay(new Date());
 		
 		if (Service.updateResponse(v) != 0) {
+			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+		}
+		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
+	}
+	
+	@ApiOperation(value = "이슈 수정. 그리고 DB수정 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
+	@PutMapping("update/{issueid}")
+	public ResponseEntity<String> update(@RequestBody Issue v) {
+
+		
+		if (Service.update(v) != 0) {
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		}
 		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
