@@ -317,14 +317,20 @@
         <!-- drag and drop -->
       </div>
     </div>
+    <issuedetail />
+    <button class="btn btn-dark nav-link dropdown-item" @click="issuedetail">이슈</button>
   </div>
 </template>
 
 <script>
 import { VueDraggableDirective } from "vue-draggable";
 import Constant from "../../Constant";
+import issuedetail from "./issuedetail.vue";
 
 export default {
+  components: {
+    issuedetail,
+  },
   directives: {
     //dragAndDrop: VueDraggableDirective,
   },
@@ -482,6 +488,9 @@ export default {
 
     loadAll(){
       this.$router.go();
+    },
+    issuedetail: function () {
+      document.querySelector(".issuedetail").classList.toggle("active");
     },
 
     updateIssueChange() {
