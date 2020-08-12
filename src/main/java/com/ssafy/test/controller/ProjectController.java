@@ -17,8 +17,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.test.model.dto.Pinterest;
 import com.ssafy.test.model.dto.Pmember;
 import com.ssafy.test.model.dto.Project;
+import com.ssafy.test.model.dto.Projectcnt;
+import com.ssafy.test.model.service.PinterestService;
 import com.ssafy.test.model.service.PmemberService;
 import com.ssafy.test.model.service.ProjectService;
 
@@ -39,6 +42,9 @@ public class ProjectController {
 	@Autowired
 	private PmemberService pmService;
 
+	@Autowired
+	private PinterestService Service;
+
 	@ApiOperation(value = "모든 프로젝트의 정보를 반환한다.", response = List.class)
 	@GetMapping
 	public ResponseEntity<List<Project>> retrieveBoard() throws Exception {
@@ -53,8 +59,22 @@ public class ProjectController {
 	
 	@ApiOperation(value = "UserId에 해당하는 프로젝트의 정보를 반환한다.", response = Project.class)
 	@GetMapping("/searchByUserId/{userId}")
-	public ResponseEntity<List<Project>> searchByUserId(@PathVariable String userId) throws Exception {
-		return new ResponseEntity<List<Project>>(pService.searchByUserId(userId), HttpStatus.OK);
+	public ResponseEntity<List<Projectcnt>> searchByUserId(@PathVariable String userId) throws Exception {
+		
+		List<Projectcnt> v = pService.searchByUserId(userId);
+		
+		for(int i = 0; i < v.size(); i++) {
+			List<Pinterest> v2 = Service.select(v.get(i).getPid());
+			int size = v2.size();
+			if(size > 0) v.get(i).setTag1(v2.get(0).getInterest());
+			if(size > 1) v.get(i).setTag2(v2.get(1).getInterest());
+			if(size > 2) v.get(i).setTag3(v2.get(2).getInterest());
+			if(size > 3) v.get(i).setTag4(v2.get(3).getInterest());
+			if(size > 4) v.get(i).setTag5(v2.get(4).getInterest());
+		}
+		
+		//<List<Pinterest>>(Service.select(pid)
+		return new ResponseEntity<List<Projectcnt>>(v, HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "새로운 프로젝트 정보를 입력한다. 그리고 DB입력 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
