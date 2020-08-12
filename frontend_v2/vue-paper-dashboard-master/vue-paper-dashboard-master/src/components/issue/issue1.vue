@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="wrapper">
+    <!-- <div class="wrapper">
       <div class="sidebar" data-color="purple" data-image="./assets/issue_img/sidebar-5.jpg">
         <div class="sidebar-wrapper">
           <div class="logo">
@@ -17,20 +17,18 @@
 
             <li>
               <a href="teamInfo.html">
-                <i class="pe-7s-note2"></i>
+                <i class="pe-7s-note2"></i> 
                 <p>Team Info</p>
               </a>
             </li>
             <li>
               <router-link :to="'/maps'">지도</router-link>
-
-              <!-- <a href="maps.html"> <i class="pe-7s-map-marker"></i> -->
               <p>Maps</p>
-              <!-- </a> -->
+              
             </li>
           </ul>
         </div>
-      </div>
+      </div> -->
 
       <div class="content">
         <div class="container-fluid">
@@ -268,9 +266,26 @@
             
           </div>
           <!-- drag and drop -->
-            <div class="row col-14 card" v-drag-and-drop:options="options">
+            <div class="content container-fluid row col-14 card" v-drag-and-drop:options="options">
+              <h4 class=" header card-title">이슈 현황</h4>
+              <p align="right" class="category">
+                    <button
+                      @click="openModal"
+                      type="button"
+                      rel="tooltip"
+                      title="Add"
+                      class="btn btn-info btn-simple btn-xs"
+                      data-toggle="modal"
+                      data-target="#myModal"
+                    >
+                      <i class="fa fa-edit"></i>
+                    </button>
+                  </p>
+              <hr>
               <ul class="drag-list content">
+                
                 <li class="drag-column" v-for="group in groups" :key="group.id">
+                  
                   <span class="card-title">
                     <h2 v-if="group.name == 'To Do'" style="color:skyblue">생성된 이슈</h2>
                     <h2 v-if="group.name == 'In Progress'" style="color:red">진행중 이슈</h2>
@@ -308,11 +323,12 @@
         </div>
       </div>
     </div>
-  </div>
+  
 </template>
 
 <script>
 import { VueDraggableDirective } from "vue-draggable";
+import Constant from "../../Constant"; 
 
 export default {
   directives: {
@@ -325,10 +341,11 @@ export default {
       data: [],
       left: {},
       right: {},
-      issues : [],
-      issues_done : [], 
-      issues_ongoig : [],
+      
       issues_created : [],
+      issues_ongoig : [],
+      issues_done : [],     
+      
       groups: [
         {
           id: 1,
@@ -368,7 +385,9 @@ export default {
         multipleDropzonesItemsDraggingEnabled: true,
         onDrop(event) {
           console.log(event.items[0].innerHTML);
-          console.log(event.items[0]);
+          //console.log(event.items[0]);
+          console.log(this.groups[0]);
+          console.log(this.issues);
         },
         // onDragstart(event) {
         //   event.stop();
@@ -383,6 +402,15 @@ export default {
         },
       },
     };
+  },
+  created() {
+    this.$store.dispatch(Constant.GET_ISSUELIST);
+  },
+
+  computed: {
+    issues(){
+      return this.$store.state.issuestore.issues;
+    }
   },
 
   mounted() {
@@ -406,13 +434,14 @@ export default {
         },
       },
     };
+    this.data = [30,71,11];
     var chDonutData1 = {
       labels: ["생성된 이슈", "진행중인 이슈", "완료된 이슈"],
       datasets: [
         {
           backgroundColor: colors.slice(0, 3),
           borderWidth: 0,
-          data: [30, 71, 11],
+          data: this.data,
         },
       ],
     };
@@ -425,37 +454,11 @@ export default {
       });
     }
 
-    /*  // dragula
-    this.left = document.getElementById("createdTable");
-    this.right = document.getElementById("ongoingTable");
-    dragula(
-      [
-        this.left,
-        this.right, //어디서 어디로 옮기는지
-      ],
-      {
-        revertOnSpill: true, //클릭한 요소 컨테이너 밖으로 보내도 순서유지.
-      }
-    ).on("drop", (el) => {
-      console.log("moved!");
-    });
-
-    dragula(
-      [
-        this.right,
-        this.left, //어디서 어디로 옮기는지
-      ],
-      {
-        revertOnSpill: true, //클릭한 요소 컨테이너 밖으로 보내도 순서유지.
-      }
-    ).on("drop", (el) => {
-      console.log("moved!");
-    }); */
   },
 
   methods: {
     someDummyMethod() {
-      console.log("Hello");
+      //
     },
 
     openModal() {
@@ -482,7 +485,7 @@ export default {
     },
 
     onGroupsChange(e) {
-      console.log({ e });
+      console.log("onGroupChange!!!!!!");
     },
   },
 };
@@ -576,7 +579,7 @@ ul {
 }
 
 .drag-inner-list {
-  height: 43vh;
+  height: 50vh;
   overflow: auto;
 }
 
