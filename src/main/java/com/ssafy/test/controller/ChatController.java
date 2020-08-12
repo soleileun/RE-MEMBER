@@ -32,6 +32,8 @@ public class ChatController {
 
 	@Autowired
 	private ChatService Service;
+	
+	
 /*
 	@ApiOperation(value = "특정 roomName의 모든 채팅 정보를 반환한다", response = List.class)
 	@GetMapping("chat/name={roomName}")
@@ -98,4 +100,9 @@ public class ChatController {
 		resultMap.put("data", e.getMessage());
 		return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
+	
+	
+	
+	
+	
 }

@@ -11,24 +11,29 @@ const projectstore = {
     projects: [],
     project: {},
     pmlist: [],
-    pjtcnt: {}
+    pjtcnt: {},
+    pinterest: []
   },
 
   actions: {
     //userId에 맞는 project 리스트 가져오기
     [Constant.GET_PROJECTLIST_BY_PMEMBER]: (store, payload) => {
       const config = {
-        headers: {"jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")}
-    }
+        headers: {
+          "jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")
+        }
+      }
       // console.log('토큰 : '+ storage.getItem("jwt-auth-token"));
-      http.get('/api/project/searchByUserId/' + payload.userId,config)
+      http.get('/api/project/searchByUserId/' + payload.userId, config)
         .then(response => {
           console.log('과정2' + response.data);
           store.commit(Constant.GET_PROJECTLIST_BY_PMEMBER, {
             projects: response.data
           })
-          response.data.forEach(item=>{
-            store.dispatch(Constant.GET_CURRENT_MEMBER_COUNT,{pid:item.pid})
+          response.data.forEach(item => {
+            store.dispatch(Constant.GET_CURRENT_MEMBER_COUNT, {
+              pid: item.pid
+            })
           })
         })
         .catch(exp => alert('getPmemberList처리에 실패하였습니다.' + exp));
@@ -36,9 +41,11 @@ const projectstore = {
     //pid으로 현재 프로젝트 멤버수 가져오기
     [Constant.GET_CURRENT_MEMBER_COUNT]: (store, payload) => {
       const config = {
-        headers: {"jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")}
-    }
-      http.get('/api/pmember/selectCntByPid/' + payload.pid,config)
+        headers: {
+          "jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")
+        }
+      }
+      http.get('/api/pmember/selectCntByPid/' + payload.pid, config)
         .then(response => {
           // console.log(response.data);
           store.commit(Constant.GET_CURRENT_MEMBER_COUNT, {
@@ -52,9 +59,11 @@ const projectstore = {
     //pid으로 현재 프로젝트 멤버 정보 가져오기
     [Constant.GET_PROJECT_MEMBER_BY_PID]: (store, payload) => {
       const config = {
-        headers: {"jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")}
-    }
-      http.get('/api/pmember/selectByPid/' + payload.pid,config)
+        headers: {
+          "jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")
+        }
+      }
+      http.get('/api/pmember/selectByPid/' + payload.pid, config)
         .then(response => {
           console.log(response.data);
           //console.log("궁금해 ㅠ");
@@ -70,9 +79,11 @@ const projectstore = {
     //pid으로 프로젝트 하나 가져오기
     [Constant.GET_PROJECT]: (store, payload) => {
       const config = {
-        headers: {"jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")}
-    }
-      http.get('/api/project/' + payload.pid,config)
+        headers: {
+          "jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")
+        }
+      }
+      http.get('/api/project/' + payload.pid, config)
         .then(response => {
           // console.log(response.data);
           store.commit(Constant.GET_PROJECT, {
@@ -87,8 +98,10 @@ const projectstore = {
     [Constant.ADD_PROJECT]: (store, payload) => {
       // console.log(payload.bstate);
       const config = {
-        headers: {"jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")}
-    }
+        headers: {
+          "jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")
+        }
+      }
       http.post('/api/project/', {
           // bno : payload.bno,
           pjtName: payload.pjtName,
@@ -101,12 +114,22 @@ const projectstore = {
 
           //changeId: payload.changeId,
           //location: payload.location,
-        },config)
-        .then(() => {
-          console.log('추가하였습니다.');
+        }, config)
+        .then((response) => {
+          console.log(response);
           store.dispatch(Constant.GET_PROJECTLIST_BY_PMEMBER, {
             userId: payload.makeId
           });
+          store.state.pinterest.forEach((el) => {
+            http
+              .post("/api/pinterest/", {
+                pid: response.data,
+                interest: el,
+              }, config).then(res => {
+                console.log(res);
+              }).catch(e => console.log(e))
+          })
+          console.log("과연 플젝관심사 추가해줬을까");
 
         })
         .catch(exp => {
@@ -220,6 +243,9 @@ const projectstore = {
     },
     [Constant.GET_PROJECT_MEMBER_BY_PID]: (state, payload) => {
       state.pmlist = payload.pmlist;
+    },
+    pinterest: (state, payload) => {
+      state.pinterest = payload.picks
     },
     // [Constant.CLEAR_TODO]: (state, payload) => {
     //     state.board = payload.todo;

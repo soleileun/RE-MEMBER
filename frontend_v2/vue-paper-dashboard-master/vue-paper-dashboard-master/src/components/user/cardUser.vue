@@ -67,7 +67,6 @@ export default {
     },
   },
   mounted() {
-    this.$store.dispatch("getFollower");
     setTimeout(()=>{
       this.userNick = storage.getItem("userNick");
       this.userId = storage.getItem("userId");

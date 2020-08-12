@@ -1,6 +1,5 @@
 <template>
   <div class="follows">
-    {{sameroom}}
     <div v-if="followings.length===0">팔로우한 사람이 없습니다.</div>
     <div v-if="followings">
       <h4>활동중인 유저</h4>
@@ -126,6 +125,7 @@ export default {
   flex-direction: column;
   justify-items: flex-start;
   align-content: stretch;
+  overflow-y: auto;
   h4 {
     margin: 0;
   }

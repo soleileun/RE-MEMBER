@@ -100,13 +100,22 @@
         <div class="col-12">
           <div class="card">
             <div class="card-body">
-              <h4 class="card-title">자유게시판</h4>
+              <h4 class="card-title" v-if="this.type==='free'">자유게시판</h4>
+              <h4 class="card-title" v-if="this.type==='notice'">공지사항</h4>
+              <h4 class="card-title" v-if="this.type==='qa'">질문게시판</h4>
               <div class="col-1">
                 <select id="showcnt" @change="changeShowCnt">
                   <option value="5">5개씩 보기</option>
                   <option value="10" selected>10개씩 보기</option>
                   <option value="20">20개씩 보기</option>
                 </select>
+              </div>
+              <div class="container">
+                <div class="row">
+                  <div class="col text-right btndiv">
+                    <button class="btn btn-primary" @click="towrite">글쓰기</button>
+                  </div>
+                </div>
               </div>
               <br />
               <div class="overflow-auto table-responsive">
@@ -125,11 +134,10 @@
                     <div v-if="data.item.bstate == 'qa'">질문</div>
                   </template>
                   <template v-slot:cell(btitle)="data">
-                    <router-link :to="'/freeboard/detailfree/' + data.item.bno">{{data.item.btitle}}</router-link>
+                    <router-link :to="'/freeboard/detailfree/' + data.item.bno + '/' + type">{{data.item.btitle}}</router-link>
                   </template>
                   <template v-slot:cell(bwriter)="data">
-                    {{ data.item.bwriter}}
-                    <!-- <router-link :to="'/freeboard/detailfree/' + free.bno">{{free.btitle}}</router-link> -->
+                    <router-link :to="'/profile/' + data.item.bwriter">{{data.item.bwriter}}</router-link>
                   </template>
                   <template v-slot:cell(bview)="data">{{ data.item.bview}}</template>
                   <template v-slot:cell(makeDay)="data">{{ data.item.makeDay.slice(0,10)}}</template>
@@ -145,6 +153,7 @@
           </div>
         </div>
       </div>
+
       <!-- ============================================================== -->
       <!-- End PAge Content -->
       <!-- ============================================================== -->
@@ -185,7 +194,7 @@ export default {
       perPage: 10,
       currentPage: 1,
       fields: [
-         {
+        {
           key: "bstate",
           label: "종류",
           // sortable: true,
@@ -219,6 +228,9 @@ export default {
     };
   },
   computed: {
+    type() {
+      return this.$route.params.type;
+    },
     rows() {
       return this.frees.length;
     },
@@ -233,9 +245,15 @@ export default {
     },
   },
   created() {
-    this.$store.dispatch(Constant.GET_BOARDLIST, { bstate: "free" });
+    console.log(this.type);
+    this.$store.dispatch(Constant.GET_BOARDLIST, { bstate: this.type });
   },
-
+  
+  watch:{
+    type(){
+      this.$store.dispatch(Constant.GET_BOARDLIST, { bstate: this.type });
+    }
+  },
   methods: {
     changeShowCnt() {
       this.perPage = parseInt(document.getElementById("showcnt").value);
@@ -249,13 +267,13 @@ export default {
         console.log(val);
         this.$store.dispatch(Constant.SEARCH_BOARD_TITLE, {
           btitle: val,
-          bstate: "free",
+          bstate: this.type,
         });
       } else {
-        //작성자 검색
+        //작성자 검색.
         this.$store.dispatch(Constant.SEARCH_BOARD_WRITER, {
           bwriter: val,
-          bstate: "free",
+          bstate: this.type,
         });
       }
     },
@@ -263,8 +281,13 @@ export default {
       if (this.loginId == "") {
         alert("로그인이 필요한 서비스입니다.");
       } else {
-        let addr = "/freeboard/writefree";
-        this.$router.push(addr);
+        if(this.loginId !== 'admin' && this.type === 'notice'){
+           alert("관리자 권한이 필요한 서비스입니다.");
+        }
+        else{
+          let addr = "/freeboard/writefree/"+this.type;
+          this.$router.push(addr);
+        }
       }
     },
   },
@@ -281,7 +304,14 @@ table, td, tr, th {
   border: 1px solid black;
 }
 */
-
+table#my-table {
+  td,
+  th {
+    border-color: #f3f1f1;
+    font-weight: 500;
+    border: 0px;
+  }
+}
 .table-box {
   display: table;
   width: 100%;

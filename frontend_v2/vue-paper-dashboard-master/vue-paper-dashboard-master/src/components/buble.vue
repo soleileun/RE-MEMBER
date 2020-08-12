@@ -1,5 +1,5 @@
 <template>
-  <div class="bubble" :style="{height:`${bubbleY+4}px`,width:`${bubbleX+4}px`}">
+  <div class="bubble" :style="{height:`${bubbleY+4}px`,width:`${bubbleX+4}px`}" >
     <div class="con" :style="{height:`${bubbleY}px`,width:`${bubbleX}px`}">
       <div class="icon" draggable="false">
         <i class="ti-comments" @click="act">
@@ -45,6 +45,20 @@ export default {
       bubbleY: 60,
     };
   },
+  created(){
+    window.addEventListener('keyup',(e)=>{
+      if (e.key === "Escape"){
+        document.querySelector(".bubble").classList.remove("active");
+      this.bubbleSizing()
+      this.$store.dispatch("update");
+      this.$store.commit("bubbleState", { st: "1" });
+      this.$store.commit("viewMes", { id: "", view: false });
+      }
+    })
+  },
+  beforeDestroy(){
+    window.removeEventListener('keyup')
+  },
   computed: {
     bubbleS: function () {
       return this.$store.state.userstore.bubbleS;
@@ -83,15 +97,15 @@ export default {
           .indexOf("active") >= 0
       ) {
         this.bubbleX =
-          storage.getItem("bubbleX") * 1 > 450 &&
+          storage.getItem("bubbleX") * 1 > 300 &&
           storage.getItem("bubbleX") * 1 <= window.innerWidth - 50
             ? storage.getItem("bubbleX") * 1
-            : 450;
+            : 300;
         this.bubbleY =
-          storage.getItem("bubbleY") * 1 > 550 &&
-          storage.getItem("bubbleY") * 1 <= window.innerHeight - 100
+          storage.getItem("bubbleY") * 1 > 300 &&
+          storage.getItem("bubbleY") * 1 <= window.innerHeight - 30
             ? storage.getItem("bubbleY") * 1
-            : 550;
+            : 300;
       } else {
         this.bubbleX = 60;
         this.bubbleY = 60;
@@ -103,22 +117,22 @@ export default {
     },
     drag: function (e) {
       this.bubbleX = Math.min(
-        Math.max(window.innerWidth - e.pageX - 25, 400),
+        Math.max(window.innerWidth - e.pageX - 25, 300),
         window.innerWidth - 50
       );
       this.bubbleY = Math.min(
-        Math.max(window.innerHeight - (e.pageY - window.scrollY) - 25, 500),
-        window.innerHeight - 100
+        Math.max(window.innerHeight - (e.pageY - window.scrollY) - 25, 300),
+        window.innerHeight - 30
       );
     },
     dragend: function (e) {
       this.bubbleX = Math.min(
-        Math.max(window.innerWidth - e.pageX - 25, 400),
+        Math.max(window.innerWidth - e.pageX - 25, 300),
         window.innerWidth - 50
       );
       this.bubbleY = Math.min(
-        Math.max(window.innerHeight - (e.pageY - window.scrollY) - 25, 500),
-        window.innerHeight - 100
+        Math.max(window.innerHeight - (e.pageY - window.scrollY) - 25, 300),
+        window.innerHeight - 30
       );
       storage.setItem("bubbleX", this.bubbleX);
       storage.setItem("bubbleY", this.bubbleY);
@@ -226,6 +240,7 @@ export default {
             box-sizing: border-box;
             border: none;
             outline: none;
+            font-size: .8rem;
             &.act {
               border-bottom: 5px solid blue;
             }

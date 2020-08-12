@@ -27,15 +27,17 @@
     <div class="text-center">
       <div class="row justify-content-md-center">
         <div clss="col-lg-4">
-          <button id="myBtn"  v-if="myId===targetId" @click="openModal" class="btn btn-round btn-dark">팀원관리</button>
-        
+          <router-link class="nav-link" :to="'/project/partners/'+project.pid">
+          <button id="myBtn"  class="btn btn-round btn-dark" >팀원 보기</button>
+         </router-link>
         </div>
         <span></span>
         <div clss="col-lg-8">
-          <button  v-if="myId===targetId" v-on:click="popup()" class="btn btn-round btn-success">일정관리페이지</button>
+          <button  v-on:click="popup()" class="btn btn-round btn-success">일정관리페이지</button>
         </div>
         <div clss="col-lg-8">
           <!-- <button class="btn btn-round btn-success">다른사람이 볼때 보이는 버튼</button> -->
+         
         </div>
 
         <!-- <div v-for="(info, index) in details" :key="index" :class="getClasses(index)">
@@ -51,17 +53,17 @@
   
   </card>
             <!-- The Modal -->
-        <div id="myModal" class="modal">
-          <!-- Modal content -->
+        <!-- <div id="myModal" class="modal">
+          Modal content
           <div class="modal-content">
             <span class="close">&times;</span>
-            <h3>프로젝트 팀원 관리</h3>
+            <h3>프로젝트 팀원</h3>
 
             <ul>
               <li v-for="pm in pmlist" :key="pm.userId">{{ pm.userId }}</li>
             </ul>
           </div>
-        </div>
+        </div> -->
   </div>
   <!-- <a href=""> 클릭 시 링크 설정 -->
   <!-- <router-link :to="'/project/projectdetail/'+project.pid"> -->
@@ -109,10 +111,10 @@ export default {
     popup() {
       //배포 주소로 바꾸기! 포트도
       var url =
-        "http://localhost:8081/projectdetail.jsp?pid=" +
-        this.project.pid +
-        "&userId=" +
-        storage.getItem('userid'); //여기 세션 아이디로 교체
+        "http://localhost:8081/issuetest/" +
+        this.myId + //여기 세션 아이디로 교체
+        "/" +
+        this.project.pid;
       var name = "project detail";
       var option =
         "width = 1000, height = 750, top = 100, left = 200, location = no";

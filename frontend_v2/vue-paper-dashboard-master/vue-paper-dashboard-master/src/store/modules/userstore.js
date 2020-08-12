@@ -48,6 +48,7 @@ const userstore = {
         storage.setItem("intro", window.localStorage.getItem("intro"));
         store.dispatch("update")
         store.dispatch("getFollow");
+        store.dispatch("getFollower");
       } else if (window.localStorage.getItem("autologin") === 't') {
         store.dispatch("login", {
           id: window.localStorage.getItem("id"),

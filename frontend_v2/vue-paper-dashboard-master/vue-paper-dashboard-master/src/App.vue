@@ -20,23 +20,23 @@ export default {
   mounted: function () {
     console.log(storage);
     this.$store.dispatch("init", {});
-    if (
-      storage.getItem("jwt-auth-token").length > 0 &&
-      storage.getItem("idvalid") !== "true"
-    ) {
-      this.$router.push({ name: "emailcheck" });
-    }
+    // if (
+    //   storage.getItem("jwt-auth-token").length > 0 &&
+    //   storage.getItem("idvalid") !== "true"
+    // ) {
+    //   this.$router.push({ name: "emailcheck" });
+    // }
   },
   beforeUpdate: function () {
     if (this.userNick) {
       this.$store.dispatch("update", {});
     }
-    if (
-      storage.getItem("jwt-auth-token").length > 0 &&
-      storage.getItem("idvalid") !== "true"
-    ) {
-      this.$router.push({ name: "emailcheck" });
-    }
+    // if (
+    //   storage.getItem("jwt-auth-token").length > 0 &&
+    //   storage.getItem("idvalid") !== "true"
+    // ) {
+    //   this.$router.push({ name: "emailcheck" });
+    // }
   },
   computed: {
     userNick: function () {

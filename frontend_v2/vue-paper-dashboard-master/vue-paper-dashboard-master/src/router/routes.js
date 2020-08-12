@@ -17,7 +17,7 @@ import leave from "../components/user/leave.vue";
 import editinfo from "../components/user/editinfo.vue";
 import editinterest from "../components/user/editinterest.vue";
 import signup from "./link/signup.vue";
-import emailcheck from "./link/emailcheck.vue";
+// import emailcheck from "./link/emailcheck.vue";
 import recruit1 from "../components/recruit/recruit1.vue";
 import recruitdetail from "../components/recruit/recruitdetail.vue";
 import writeqa from "../components/qaboard/writeqa.vue";
@@ -34,7 +34,8 @@ import modifynotice from "../components/notice/modifynotice.vue";
 import writefree from "../components/freeboard/writefree.vue";
 import detailfree from "../components/freeboard/detailfree.vue";
 import modifyfree from "../components/freeboard/modifyfree.vue";
-import otherproject from "../components/project/otherproject.vue";
+// import otherproject from "../components/project/otherproject.vue";
+import partners from "../components/project/partners.vue";
 
 
 
@@ -63,20 +64,20 @@ const routes = [{
         component: main
       },
       {
-        path: "freeboard",
+        path: "freeboard/type/:type",
         name: "자유게시판",
         component: freeboard,
       },
-      {
-        path: "notice",
-        name: "공지사항",
-        component: notice,
-      },
-      {
-        path: "qaboard",
-        name: "질문게시판",
-        component: qaboard,
-      },
+      // {
+      //   path: "notice",
+      //   name: "공지사항",
+      //   component: notice,
+      // },
+      // {
+      //   path: "qaboard",
+      //   name: "질문게시판",
+      //   component: qaboard,
+      // },
       {
         path: "/recruit",
         name: "모집",
@@ -105,35 +106,35 @@ const routes = [{
       /////////// 잎파리
 
       {
-        path: "/freeboard/writefree",
+        path: "/freeboard/writefree/:type",
         name: "자유게시판 글쓰기",
         component: writefree,
       },
       {
-        path: "/freeboard/detailfree/:bno",
+        path: "/freeboard/detailfree/:bno/:type",
         name: "자유게시판 글",
         component: detailfree,
       },
       {
-        path: "/freeboard/modifyfree/:bno",
+        path: "/freeboard/modifyfree/:bno/:type",
         name: "글 수정",
         component: modifyfree,
       },
-      {
-        path: "/notice/writenotice",
-        name: "공지 작성",
-        component: writenotice,
-      },
-      {
-        path: "/notice/detailnotice/:bno",
-        name: "공지사항 글",
-        component: detailnotice,
-      },
-      {
-        path: "/notice/modifynotice/:bno",
-        name: "공지사항 수정",
-        component: modifynotice,
-      },
+      // {
+      //   path: "/notice/writenotice",
+      //   name: "공지 작성",
+      //   component: writenotice,
+      // },
+      // {
+      //   path: "/notice/detailnotice/:bno",
+      //   name: "공지사항 글",
+      //   component: detailnotice,
+      // },
+      // {
+      //   path: "/notice/modifynotice/:bno",
+      //   name: "공지사항 수정",
+      //   component: modifynotice,
+      // },
 
       {
         path: "/pool/poollist",
@@ -144,35 +145,42 @@ const routes = [{
         name: "내 프로젝트",
         component: myproject,
       },
-      {
-        path: "/project/:userid",
-        name: "프로젝트 보기",
-        component: otherproject,
-      },
+      // {
+      //   path: "/project/:userid",
+      //   name: "프로젝트 보기",
+      //   component: otherproject,
+      // },
       {
         path: "/project/projectdetail/:pid",
         name: "프로젝트 상세",
         component: projectdetail,
       },
       {
+        path: "/project/partners/:pid",
+        name: "프로젝트 팀원",
+        component: partners,
+      },
+
+      {
         path: "/project/makeproject",
         name: "프로젝트 작성",
         component: makeproject,
-      }, {
-        path: "/qaboard/writeqa",
-        name: "질문 작성",
-        component: writeqa,
       },
-      {
-        path: "/qaboard/detailqa/:bno",
-        name: "질문",
-        component: detailqa,
-      },
-      {
-        path: "/qaboard/modifyqa/:bno",
-        name: "질문 수정",
-        component: modifyqa,
-      },
+      // {
+      //   path: "/qaboard/writeqa",
+      //   name: "질문 작성",
+      //   component: writeqa,
+      // },
+      // {
+      //   path: "/qaboard/detailqa/:bno",
+      //   name: "질문",
+      //   component: detailqa,
+      // },
+      // {
+      //   path: "/qaboard/modifyqa/:bno",
+      //   name: "질문 수정",
+      //   component: modifyqa,
+      // },
       {
         path: "/recruit/recruit1",
         name: "모집 리스트",
@@ -189,11 +197,12 @@ const routes = [{
         name: "회원 가입",
         component: signup,
       },
+      // {
+      //   path: "/emailcheck",
+      //   name: "이메일 확인",
+      //   component: emailcheck,
+      // },
       {
-        path: "/emailcheck",
-        name: "이메일 확인",
-        component: emailcheck,
-      }, {
         path: "/user/findid",
         name: "아이디 /비밀번호 찾기",
         component: findIDPW,
@@ -251,7 +260,7 @@ const routes = [{
       },
       // issue testing
       {
-        path: "issuetest",
+        path: "issuetest/:userId/:pid",
         name: "issuetest",
         component: issuetest
       },

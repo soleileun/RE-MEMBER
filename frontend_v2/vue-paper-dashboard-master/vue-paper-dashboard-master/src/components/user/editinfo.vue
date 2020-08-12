@@ -150,16 +150,10 @@ export default {
     },
     phone0: function () {
       this.phone0 = this.phone0.replace(/[^0-9]/g, "");
-      if (this.phone0.length === 3) {
-        document.querySelector("#p1").focus();
-      }
       this.checker();
     },
     phone1: function () {
       this.phone1 = this.phone1.replace(/[^0-9]/g, "");
-      if (this.phone1.length === 4) {
-        document.querySelector("#p2").focus();
-      }
       this.checker();
     },
     phone2: function () {
