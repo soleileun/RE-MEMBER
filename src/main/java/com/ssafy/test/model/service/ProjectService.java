@@ -3,6 +3,7 @@ package com.ssafy.test.model.service;
 import java.util.List;
 
 import com.ssafy.test.model.dto.Project;
+import com.ssafy.test.model.dto.Projectcnt;
 
 public interface ProjectService {
 
@@ -16,6 +17,6 @@ public interface ProjectService {
 
 	public int update(Project p);
 	
-	public List<Project> searchByUserId(String userId);
+	public List<Projectcnt> searchByUserId(String userId);
 	public Project searchByPJT(Project p);
 }

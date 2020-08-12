@@ -1,62 +1,73 @@
 <template>
   <div class="mains">
-    <div class="text-center">
-      <h3>
-        Find Your Partner, HERE, WITH
-        <strong>RE:MEMBER!</strong>
-      </h3>
-    </div>
-    <div class="search open">
-      <input type="search" class="search-box" />
-      <span class="search-button">
-        <span class="search-icon" @click="toggle"></span>
-      </span>
-    </div>
+    <div class="container">
+      <div class="text-center">
+        <h3>
+          Find Your Partner, HERE, WITH
+          <strong>RE:MEMBER!</strong>
+        </h3>
+      </div>
+      <div class="search open">
+        <input type="search" class="search-box" placeholder="RE:cruit your MEMBER" />
+        <span class="search-button">
+          <span class="search-icon" @click="toggle"></span>
+        </span>
+      </div>
 
-    <hr />
-    <div v-if="this.loginId === '' ">
-      <div class="container">
-        <div class="row row--top-40">
-          <div class="col-md-12">
-            <h4 class="row__title">최근 모집글 보여주기</h4>
+      <hr />
+      <div v-if="this.loginId === '' ">
+        <div class="container">
+          <div class="row row--top-40">
+            <div class="col-md-12">
+              <h4 class="row__title">최근 모집글 보여주기</h4>
+            </div>
           </div>
-        </div>
-        <div class="row row--top-20">
-          <div class="col-md-12">
-            <div class="table-container">
-              <table class="table">
-                <thead class="table__thead">
-                  <tr>
-                    <th class="table__th">
-                      <input id="selectAll" type="checkbox" class="table__select-row" />
-                    </th>
-                    <th class="table__th">제목</th>
-                    <th class="table__th">게시인</th>
-                    <th class="table__th">프로젝트명</th>
-                    <th class="table__th">마감일시</th>
-                    <th class="table__th">구인현황</th>
-                    <!-- <th class="table__th">Progress</th> -->
-                    <th class="table__th"></th>
-                  </tr>
-                </thead>
-                <tbody class="table__tbody">
-                  <recruitcomponent
-                    v-for="(recruit,index) in recruits"
-                    :key="index"
-                    :recruit="recruit"
-                    :pid="recruit.pid"
-                  />
-                </tbody>
-              </table>
+          <div class="row row--top-20">
+            <div class="col-md-12">
+              <div class="table-container">
+                <table class="table">
+                  <thead class="table__thead">
+                    <tr>
+                      <th class="table__th">
+                        <input id="selectAll" type="checkbox" class="table__select-row" />
+                      </th>
+                      <th class="table__th">제목</th>
+                      <th class="table__th">게시인</th>
+                      <th class="table__th">프로젝트명</th>
+                      <th class="table__th">마감일시</th>
+                      <th class="table__th">구인현황</th>
+                      <!-- <th class="table__th">Progress</th> -->
+                      <th class="table__th"></th>
+                    </tr>
+                  </thead>
+                  <tbody class="table__tbody">
+                    <recruitcomponent
+                      v-for="(recruit,index) in recruits"
+                      :key="index"
+                      :recruit="recruit"
+                      :pid="recruit.pid"
+                    />
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+      <h3 v-if="this.loginId != '' ">
+        <strong>{{userNick}}</strong>님께 추천드리는 프로젝트입니다!
+      </h3>
+      <div class="dmswjdWKdWkd" v-if="this.loginId != '' ">
+        <div class="col-4" name="rpjt" v-for="project in projects" :key="project.pid">
+          <project :project="project" />
+        </div>
 
-    <div v-if="this.loginId != '' ">
-      <div>
-        <h3>{{userId}}님께 추천드리는 프로젝트입니다!</h3>
+        <hr />
+        <div>
+          <h3>
+            <strong>{{userNick}}</strong>님께 추천드리는 팀원입니다!
+          </h3>
+        </div>
       </div>
     </div>
   </div>
@@ -64,13 +75,15 @@
 
 <script>
 import Constant from "../../Constant";
-
+import project from "../../components/project/project1";
+import http from "@/http-common.js";
 import recruitcomponent from "../../components/recruit/recruitcomponent.vue";
 const storage = window.sessionStorage;
 export default {
   name: "mains",
   components: {
     recruitcomponent,
+    project,
   },
   data: function () {
     return {
@@ -78,6 +91,7 @@ export default {
       isLoading: false,
       errorClass: "search",
       userId: storage.getItem("userid"),
+      userNick: storage.getItem("userNick"),
       //  loginId: "",
     };
   },
@@ -86,11 +100,16 @@ export default {
       return this.$store.state.recruitstore.recruits;
     },
     projects() {
-      return this.$store.state.projectstore.projects;
+      console.log("유저스토어세ㅓ 꺼내보기..");
+      console.log(this.$store.state.userstore.recommendedPJT);
+      return this.$store.state.userstore.recommendedPJT;
     },
     loginId() {
       return this.$store.state.userstore.userid;
     },
+    // rusers() {
+    //   //return this.$store.state.userstore.recommendedUser;
+    // },
   },
   methods: {
     toggle() {
@@ -98,8 +117,10 @@ export default {
     },
   },
 
-  created() {
+  beforeCreate() {
     this.$store.dispatch(Constant.GET_RECRUITLIST);
+    this.$store.dispatch("getRecommendedUser");
+    this.$store.dispatch("getRecommendedPJT");
   },
 };
 </script>
@@ -117,7 +138,10 @@ $transition: all 0.5s ease;
 body {
   background: $background-color;
 }
-
+.dmswjdWKdWkd {
+  display: flex;
+  flex-flow: row wrap;
+}
 .search {
   width: 100px;
   height: 100px;
@@ -136,7 +160,7 @@ body {
     transition: $transition;
   }
   &.open {
-    width: 420px;
+    width: 600px;
     &:before {
       height: 60px;
       margin: 20px 0 20px 30px;

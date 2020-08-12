@@ -56,6 +56,10 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			alias="addrandtag" />
 			<typeAlias type="com.ssafy.test.model.dto.SearchParameter"
 			alias="searchparameter" />
+			<typeAlias type="com.ssafy.test.model.dto.RecruitPjt"
+			alias="recruitpjt" />
+			<typeAlias type="com.ssafy.test.model.dto.Projectcnt"
+			alias="projectcnt" />
 			
 	</typeAliases>
 

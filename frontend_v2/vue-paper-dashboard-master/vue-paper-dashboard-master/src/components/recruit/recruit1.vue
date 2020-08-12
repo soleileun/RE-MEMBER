@@ -246,7 +246,7 @@
                   v-for="(recruit,index) in recruits"
                   :key="index"
                   :recruit="recruit"
-                  :pjtName="pjtName[recruit.pid]"
+                  :pid="recruit.pid"
                   @delete-recruit="deleteRecruit"
                 />
               </tbody>
@@ -314,7 +314,7 @@ export default {
   },
   data() {
     return {
-      pjtName:this.$store.state.projectstore.pjtName,
+      // pjtName:this.$store.state.projectstore.pjtName,
       wrecruit: {
         rnum: "",
         pid: "",

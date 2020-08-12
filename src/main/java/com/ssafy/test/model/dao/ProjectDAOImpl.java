@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.ssafy.test.model.dto.Project;
+import com.ssafy.test.model.dto.Projectcnt;
 
 @Repository
 public class ProjectDAOImpl implements ProjectDAO {
@@ -46,7 +47,7 @@ public class ProjectDAOImpl implements ProjectDAO {
 	}
 
 	@Override
-	public List<Project> searchByUserId(String userId) {
+	public List<Projectcnt> searchByUserId(String userId) {
 		return template.selectList(ns + "searchByUserId", userId);
 	}
 

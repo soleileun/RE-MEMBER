@@ -9,6 +9,7 @@ import com.ssafy.test.model.dao.RecruitDAO;
 import com.ssafy.test.model.dto.Addr;
 import com.ssafy.test.model.dto.AddrAndTag;
 import com.ssafy.test.model.dto.Recruit;
+import com.ssafy.test.model.dto.RecruitPjt;
 import com.ssafy.test.model.dto.SearchParameter;
 import com.ssafy.test.model.dto.TagList;
 
@@ -19,7 +20,7 @@ public class RecruitServiceImpl implements RecruitService {
 	RecruitDAO rDao;
 
 	@Override
-	public List<Recruit> selectAll() {
+	public List<RecruitPjt> selectAll() {
 		return rDao.selectAll();
 	}
 

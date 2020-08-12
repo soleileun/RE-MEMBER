@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.ssafy.test.model.dao.ProjectDAO;
 import com.ssafy.test.model.dto.Project;
+import com.ssafy.test.model.dto.Projectcnt;
 
 @Service
 public class ProjectServiceImpl implements ProjectService {
@@ -41,7 +42,7 @@ public class ProjectServiceImpl implements ProjectService {
 	}
 
 	@Override
-	public List<Project> searchByUserId(String userId) {
+	public List<Projectcnt> searchByUserId(String userId) {
 		return pDao.searchByUserId(userId);
 	}
 

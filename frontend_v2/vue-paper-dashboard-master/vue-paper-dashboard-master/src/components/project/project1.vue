@@ -12,13 +12,18 @@
           {{project.pjtName}}
           <br />
           <a href="#">
-            <small>현재 프로젝트 인원 : {{pjtcnt}} / {{project.pjtMemberCnt}}</small>
+            <small>현재 프로젝트 인원 : {{project.cnt}} / {{project.pjtMemberCnt}}</small>
           </a>
         </h4>
       </div>
       <p class="description text-center">
         팀장: {{project.makeId}}
-        <br />#이슈태그
+        <br />
+        <a class="hash" v-if="project.tag1 != null"> #{{project.tag1}} </a>
+        <a class="hash" v-if="project.tag2 != null"> #{{project.tag2}} </a>
+        <a class="hash" v-if="project.tag3 != null"> #{{project.tag3}} </a>
+        <a class="hash" v-if="project.tag4 != null"> #{{project.tag4}} </a>
+        <a class="hash" v-if="project.tag5 != null"> #{{project.tag5}} </a>
         <br />
         {{project.pjtContent}}
       </p>
@@ -502,5 +507,10 @@ export default {
   color: black;
   text-decoration: none;
   cursor: pointer;
+}
+.hash {
+  font-size:12px;
+  color:rgb(142, 118, 248);
+  margin: 4px;
 }
 </style>

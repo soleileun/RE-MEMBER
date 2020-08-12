@@ -12,12 +12,30 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		project where pid=#{pid}
 	</select>
 
+<!-- 
 	<select id="searchByUserId" parameterType="string"
 		resultType="project">
 		select p.pid, pjtName, pjtContent, pjtState, pjtMemberCnt, makeDay, changeDay,makeId, changeId, location from project as p
 		left join pmember as pm on pm.pid = p.pid
 		where pm.userId=#{userId};
 	</select>
+	 -->
+	 
+	 <select id="searchByUserId" parameterType="string"
+		resultType="projectcnt">
+		select a.*, pmember.userId, pmember.priority, pmember.state
+		from pmember,
+		(
+			select project.*,  count(*) as cnt
+			from project, pmember
+			where project.pid = pmember.pid
+			group by project.pid
+		) as a
+		where pmember.pid = a.pid and pmember.userId = 'ssafy'
+		group by pmember.pid;
+	</select>
+	 
+	 
 	<select id="searchByPJT" parameterType="project"
 		resultType="project">
 		select * from project

@@ -26,7 +26,9 @@ const userstore = {
     bubbleNew: false,
     interest: [],
     usergit: '',
-    userintro: ''
+    userintro: '',
+    recommendedPJT: [],
+    recommendedUser: []
   },
 
 
@@ -82,9 +84,9 @@ const userstore = {
     // 유저 관련
     login: (store, payload) => {
       http.post('/api/userinfo/signin', {
-        id: payload.id,
-        pw: payload.pw
-      })
+          id: payload.id,
+          pw: payload.pw
+        })
         .then(response => {
           // console.log(response.data.data)
 
@@ -132,7 +134,9 @@ const userstore = {
       window.localStorage.setItem("autologin", "f")
       setTimeout(() => {
         store.dispatch("init")
-        router.go({path:'/main'});
+        router.go({
+          path: '/main'
+        });
       }, 100)
     },
     signup: (store, payload) => {
@@ -150,9 +154,9 @@ const userstore = {
         })
         .then((res) => {
           http.post('/api/userinfo/signin', {
-            id: payload.id,
-            pw: payload.pw
-          })
+              id: payload.id,
+              pw: payload.pw
+            })
             .then(response => {
               console.log(response)
               if (response.data.data) {
@@ -245,6 +249,7 @@ const userstore = {
         })
         .catch((exp) => alert("에러" + exp));
     },
+
     getFollower: (store) => {
       const config = {
         headers: {
@@ -276,6 +281,70 @@ const userstore = {
         })
         .catch((exp) => alert("에러" + exp));
     },
+    getRecommendedUser: (store) => {
+      const config = {
+        headers: {
+          "jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")
+        }
+      }
+      http
+        .get("/api/userinfo/", config)
+        .then((response) => {
+
+          http.get('/api/userinfo/getRecommended/User/' + storage.getItem("userid"), {
+            headers: {
+              "jwt-auth-token": storage.getItem("jwt-auth-token")
+            }
+          }).then(res => {
+            console.log("유저추천...");
+            console.log(res);
+            store.commit('loadRecommendedUser', {
+              recommendedUser: res.data,
+              users: response.data
+            })
+
+            // res.data.forEach(item => {
+            //   store.dispatch(Constant.GET_CHATROOMONETOONE, {
+            //     uid1: storage.getItem("userid"),
+            //     uid2: item.target,
+            //   });
+            // })
+          }).catch(exp => console.log(exp))
+        })
+        .catch((exp) => alert("에러" + exp));
+    },
+    getRecommendedPJT: (store) => {
+      const config = {
+        headers: {
+          "jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")
+        }
+      }
+      http
+        .get("/api/userinfo/", config)
+        .then((response) => {
+
+          http.get('/api/userinfo/getRecommended/PJT/' + storage.getItem("userid"), {
+            headers: {
+              "jwt-auth-token": storage.getItem("jwt-auth-token")
+            }
+          }).then(res => {
+            console.log("프로젝트추천...");
+            console.log(res);
+            store.commit('loadRecommendedPJT', {
+              recommendedPJT: res.data,
+              users: response.data
+            })
+
+            // res.data.forEach(item => {
+            //   store.dispatch(Constant.GET_CHATROOMONETOONE, {
+            //     uid1: storage.getItem("userid"),
+            //     uid2: item.target,
+            //   });
+            // })
+          }).catch(exp => console.log(exp))
+        })
+        .catch((exp) => alert("에러" + exp));
+    },
     leave: (store, payload) => {
 
       let config = {
@@ -285,17 +354,17 @@ const userstore = {
       }
 
       http.post('/api/userinfo/signin', {
-        id: storage.getItem("userid"),
-        pw: payload.pw,
-      }, config)
+          id: storage.getItem("userid"),
+          pw: payload.pw,
+        }, config)
         .then(response => {
           console.log(response);
           if (response.data.data) {
             http.delete('api/userinfo/' + storage.getItem("userid"), config = {
-              headers: {
-                "jwt-auth-token": storage.getItem("jwt-auth-token")
-              }
-            })
+                headers: {
+                  "jwt-auth-token": storage.getItem("jwt-auth-token")
+                }
+              })
               .then(() => {
 
                 store.dispatch("logout");
@@ -371,11 +440,11 @@ const userstore = {
           }
         }
         http.post('/api/message/', {
-          content: payload.content,
-          fromUser: storage.getItem("userid"),
-          toUser: payload.other,
-          read: false,
-        }, config)
+            content: payload.content,
+            fromUser: storage.getItem("userid"),
+            toUser: payload.other,
+            read: false,
+          }, config)
           .then(response => {
             console.log(response)
             store.commit('pushDetailMes', {
@@ -483,6 +552,25 @@ const userstore = {
       state.followers = payload.users.filter(item => item.leaveUser === false).filter(item =>
         (tmp.indexOf(item.id) > -1)
       );
+    },
+    loadRecommendedUser: (state, payload) => {
+      let tmp = [];
+      payload.recommendedUser.forEach(item => {
+        tmp.push(item.id)
+      })
+      state.recommendedUser = payload.users.filter(item => item.leaveUser === false).filter(item =>
+        (tmp.indexOf(item.id) > -1)
+      );
+    },
+    loadRecommendedPJT: (state, payload) => {
+      // let tmp = [];
+      // payload.recommendedPJT.forEach(item => {
+      //   tmp.push(item)
+      // })
+      state.recommendedPJT = payload.recommendedPJT;
+      // state.recommendedUser = payload.users.filter(item => item.leaveUser === false).filter(item =>
+      //   (tmp.indexOf(item.id) > -1)
+      // );
     },
     newFollow: (state, payload) => {
       state.followings.push(payload.followings);

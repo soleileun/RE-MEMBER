@@ -3,6 +3,7 @@ package com.ssafy.test.model.dao;
 import java.util.List;
 
 import com.ssafy.test.model.dto.Project;
+import com.ssafy.test.model.dto.Projectcnt;
 
 public interface ProjectDAO {
 
@@ -16,7 +17,7 @@ public interface ProjectDAO {
 
 	public int update(Project p);
 	
-	public List<Project> searchByUserId(String userId);
+	public List<Projectcnt> searchByUserId(String userId);
 	public Project searchByPJT(Project p);
 
 }
