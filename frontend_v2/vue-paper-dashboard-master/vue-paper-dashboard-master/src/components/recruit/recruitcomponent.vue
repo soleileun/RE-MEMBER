@@ -166,14 +166,14 @@ export default {
       type: Object,
       required: true,
     },
-    // pid: {
-    //   type: Number,
-    //   required: true,
-    // },
-    pjtName: {
-      type: String,
+    pid: {
+      type: Number,
       required: true,
     },
+    // pjtName: {
+    //   type: String,
+    //   required: true,
+    // },
   },
   created() {
     // this.$store.dispatch(Constant.GET_PROJECT, { pid: this.pid });
