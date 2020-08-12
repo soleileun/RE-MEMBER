@@ -1,6 +1,7 @@
 package com.ssafy.test.controller;
 
 import java.io.IOException;
+import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -95,11 +96,13 @@ public class ReffileController {
 	}
 
 	@ApiOperation(value = "fno에 해당하는 reffile의 정보를 삭제한다. 그리고 DB삭제 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
-	@DeleteMapping("{fno}")
+	@DeleteMapping("delete/{fno}")
 	public ResponseEntity<String> deleteBoard(@PathVariable int fno) {
-
-		if (Service.delete(fno) != 0) {
-			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+		Reffile v = Service.select(fno);
+		if(deleteFile(UPLOADED_FOLDER, v.getFsname()) != false) {
+			if (Service.delete(fno) != 0) {
+				return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+			}
 		}
 		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
 	}
@@ -180,6 +183,23 @@ public class ReffileController {
 			}
 		}
 
+	    public static boolean deleteFile(String path, String name) {
+
+	        Path filePath = FileSystems.getDefault().getPath(path, name);
+
+	        try {
+
+	            Files.delete(filePath);
+
+	        } catch (IOException | SecurityException e) {
+
+	            return false;
+
+	        }
+
+	        return true;
+
+	    }
 		
 	
 }
