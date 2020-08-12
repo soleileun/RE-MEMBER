@@ -17,14 +17,16 @@
       </div>
     </td>
     <td data-column="Policy status" class="table-row__td">
-      {{project.pjtName}}
+      {{pjtName}}
       <!-- <p class="table-row__p-status status--green status">Approved</p> -->
     </td>
     <!-- 1일 남을 시 붉은색 -->
     <td data-column="Destination" class="table-row__td">{{times(recruit.endDate)}}</td>
     <td data-column="Status" class="table-row__td">
       <!-- 구인 완료 시 붉은색 -->
-      <p class="table-row__status status--green status">구인현황</p>
+      <p class="table-row__status status--green status">모집중</p>
+      <p class="table-row__status status--red status">모집완료</p>
+      <p class="table-row__status status--red status">기한만료</p>
     </td>
     <!-- <td data-column="Progress" class="table-row__td">
                   <p class="table-row__progress status--blue status">On Track</p>
@@ -100,6 +102,7 @@
         style="enable-background:new 0 0 512 512;"
         xml:space="preserve"
         @click="deleteRecruit()"
+        v-if="recruit.makeId === loginId"
       >
         <g>
           <g>
@@ -155,6 +158,7 @@
 
 <script>
 import Constant from "../../Constant";
+const storage = window.sessionStorage;
 
 export default {
   props: {
@@ -167,15 +171,24 @@ export default {
       required: true,
     },
   },
+  data() {
+    return {
+      pjtName : this.$store.state.projectstore.pjtName,
+    }
+  },
   created() {
     this.$store.dispatch(Constant.GET_PROJECT, { pid: this.pid });
 
     
   },
   computed: {
-    project() {
-      return this.$store.state.projectstore.project;
-    },
+    // pjtName() {
+    //   // console.log(this.$store.state.recruitstore.pjtName);
+    //   return this.$store.state.projectstore.pjtName;
+    // },
+     loginId(){
+      return storage.getItem("userid");
+    }
   },
   methods:{
     times (str){

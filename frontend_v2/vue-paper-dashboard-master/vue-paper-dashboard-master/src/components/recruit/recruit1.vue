@@ -444,7 +444,9 @@ export default {
           });
         }
 
-        this.$router.push("/recruit/recruit1");
+        var modal = document.getElementById("myModal");
+        modal.style.display = "none";
+        // this.$router.push("/recruit/recruit1");
       } else {
         console.log("공백입력.");
       }

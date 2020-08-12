@@ -99,12 +99,15 @@ export default {
     type() {
       return this.$route.params.type;
     },
+    loginId(){
+      return storage.getItem("userid");
+    }
   },
   data: function () {
     return {
       board: {
         //bno : '',// 자동 증가라 필요가 없음
-        bwriter: storage.getItem("userid"), //writer를 닉네임으로 할건지 메일로 할건지에 대해서
+        bwriter: this.loginId, //writer를 닉네임으로 할건지 메일로 할건지에 대해서
         btitle: "", // 됐음
         bcontent: "", //됐음
         bview: 0, // 초기 0임
@@ -112,18 +115,24 @@ export default {
         bstate: "", // 됐음
         makeDay: "", // 현재 자동으로 들어가게 할거임
         changeDay: "", //null
-        makeId: storage.getItem("userid"),
-        changeId: storage.getItem("userid"),
+        makeId: this.loginId,
+        changeId: this.loginId,
       },
     };
   },
   methods: {
     addFree() {
-      if (this.board.bcontent.trim() != "") {
+      if(this.board.btitle.trim() === ""){
+        alert('제목을 입력해주세요.');
+      }
+      // else if (this.board.bcontent.trim() === "") {
+      //   alert('내용을 입력해주세요.');
+      // } 
+      else {
         this.$store.dispatch(Constant.ADD_BOARD, {
           //bno : auto increase
           // bwriter : this.board.bwriter, 임시로 ssafy foreign key때문
-          bwriter: this.board.bwriter,
+          bwriter: this.loginId,
           btitle: this.board.btitle,
           bcontent: this.board.bcontent,
           bview: this.board.bview,
@@ -135,8 +144,6 @@ export default {
           // changeId : this.board.changeid
         });
         this.$router.push("/freeboard/type/"+this.type); // mainboard 뺐음.
-      } else {
-        console.log("공백입력.");
       }
       this.clear();
     },
