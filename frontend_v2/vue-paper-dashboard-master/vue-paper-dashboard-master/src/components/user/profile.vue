@@ -2,7 +2,7 @@
   <div class="profile text-center">
     <h3>내 소개</h3>
     <div class="ql-editor profileContainer" v-html="content" v-if="!profileEdit"></div>
-    <vue-editor v-show="profileEdit" v-model="content" :editorToolbar="customToolbar"></vue-editor>
+    <vue-editor id="editor" v-show="profileEdit" v-model="content" :useCustomImageHandler="true" @imageAdded="handleImageAdded"></vue-editor>
     <!-- 에디터를 v-show로 숨겨두지 않으면 일부 꾸밈 코드가 안먹힘 -->
     <div v-if="myprofile">
       <button class="btn btn-round btn-success" v-if="!profileEdit" @click="edit">프로필 수정하기</button>
@@ -16,11 +16,30 @@ import { VueEditor } from "vue2-editor";
 import Constant from "@/Constant.js";
 import http from "@/http-common.js";
 const storage = window.sessionStorage;
-
+import axios from "axios";
 export default {
   name: "profile",
   components: {
     VueEditor,
+  },
+  data() {
+    return {
+      content: "불러오는 중입니다.",
+      profileEdit: false,
+      customToolbar: [],
+      bno: "0",
+      myprofile: true,
+      board: {
+        btitle: "profile",
+        bview: "",
+        bfile: "",
+        bstate: "",
+        makeDay: "",
+        changeDay: "",
+        makeId: "",
+        changeId: "",
+      },
+    };
   },
   mounted: function () {
     if (storage.getItem("jwt-auth-token").length > 10) {
@@ -65,46 +84,70 @@ export default {
       alert("로그인이 필요합니다.");
     }
   },
-  data() {
-    return {
-      content: "불러오는 중입니다.",
-      profileEdit: false,
-      customToolbar: [],
-      bno: "0",
-      myprofile: true,
-      board: {
-        btitle: "profile",
-        bview: "",
-        bfile: "",
-        bstate: "",
-        makeDay: "",
-        changeDay: "",
-        makeId: "",
-        changeId: "",
-      },
-    };
-  },
   methods: {
+    handleImageAdded(file, Editor, cursorLocation) {
+      let formData = new FormData();
+      formData.append("file", file);
+      formData.append("fboardno", this.bno);
+      formData.append("makeId", storage.getItem("userid"));
+      axios
+        .post("http://localhost:8080/api/reffile/files", formData, {
+          headers: {
+            accept: "application/json",
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then(function () {
+          console.log("SUCCESS!!");
+          let url = result.data.data.link;
+          Editor.insertEmbed(cursorLocation, "image", url);
+        })
+        .catch(function () {
+          console.log("FAILURE!!");
+        });
+      // ////////////////////////-================
+      // var formData = new FormData();
+      // formData.append("image", file);
+
+      // axios({
+      //   url: "https://fakeapi.yoursite.com/images",
+      //   method: "POST",
+      //   data: formData,
+      // })
+      //   .then((result) => {
+      //     let url = result.data.url; // Get url from response
+      //     Editor.insertEmbed(cursorLocation, "image", url);
+      //     resetUploader();
+      //   })
+      //   .catch((err) => {
+      //     console.log(err);
+      //   });
+    },
     edit: function () {
-      console.log(this.content);
       this.profileEdit = true;
     },
     complete: function () {
       const config = {
-            headers: {"jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")}
-        }
+        headers: {
+          "jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token"),
+        },
+      };
       this.profileEdit = false;
       http
-        .put("/api/board/change/" + this.bno, {
-          bno: this.bno,
-          bwriter: storage.getItem("userid"),
-          btitle: "profile",
-          bcontent: this.content,
-          bstate: "profile",
-          changeDay: new Date(),
-          makeId: storage.getItem("userid"),
-          changeId: storage.getItem("userid"), //세션 id
-        },config)
+        .put(
+          "/api/board/change/" + this.bno,
+          {
+            bno: this.bno,
+            bwriter: storage.getItem("userid"),
+            btitle: "profile",
+            bcontent: this.content,
+            bstate: "profile",
+            changeDay: new Date(),
+            makeId: storage.getItem("userid"),
+            changeId: storage.getItem("userid"), //세션 id
+          },
+          config
+        )
         .then((response) => {
           console.log("수정하였습니다." + response.data);
         })
