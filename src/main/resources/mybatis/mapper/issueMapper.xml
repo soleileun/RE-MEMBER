@@ -9,13 +9,13 @@
 	<select id="selectAll" parameterType="int" resultType="issue">
 		select *
 		from issue
-		where pid=#{pid}
+		where pid=#{pid} order by changeDay desc
 	</select>
 	
 	<select id="selectStateAll" parameterType="issue" resultType="issue">
 		select *
 		from issue
-		where pid=#{pid} and issuestate=#{issuestate}
+		where pid=#{pid} and issuestate=#{issuestate} order by changeDay desc
 	</select>
 	
 
@@ -29,7 +29,7 @@
 		insert into issue(pid, uid, response, issuetype, issuestate,issuetitle ,issuecontent ,prework,priority,
 		makeDay,startDay ,endDay ,changeDay  )
 		values (#{pid},#{uid},#{response},#{issuetype},#{issuestate},#{issuetitle},#{issuecontent},#{prework},#{priority},
-		#{makeDay}, #{startDay},#{endDay},#{changeDay})
+		now(), now(), DATE_ADD(NOW(), INTERVAL 7 DAY) ,now())
 	</insert>
 	
 	<delete id="delete" parameterType="int">
@@ -68,8 +68,8 @@
 	
 	<update id="updateByState" parameterType="issue">
 		update issue
-		set issuestate=#{issuestate}, changeDay=now()
-		where issueid=#{issueid}
+		set changeDay = if (issuestate != #{issuestate}, now() , changeDay), issuestate=#{issuestate}
+		where issueid=#{issueid};
 	</update>
 
 </mapper>
