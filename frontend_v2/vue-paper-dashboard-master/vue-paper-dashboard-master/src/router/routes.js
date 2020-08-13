@@ -146,6 +146,11 @@ const routes = [{
                 component: myproject,
             },
             {
+                path: "/project/makeproject",
+                name: "프로젝트 작성",
+                component: makeproject,
+            },
+            {
               path: "/project/:userid",
               name: "프로젝트 보기",
               component: otherproject,
@@ -161,11 +166,6 @@ const routes = [{
                 component: partners,
             },
 
-            {
-                path: "/project/makeproject",
-                name: "프로젝트 작성",
-                component: makeproject,
-            },
             // {
             //   path: "/qaboard/writeqa",
             //   name: "질문 작성",
