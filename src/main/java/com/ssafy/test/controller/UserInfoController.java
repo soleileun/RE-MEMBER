@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.test.model.dto.Addr;
 import com.ssafy.test.model.dto.Email;
+import com.ssafy.test.model.dto.Inter;
 import com.ssafy.test.model.dto.PidPjt;
 import com.ssafy.test.model.dto.Pinterest;
 import com.ssafy.test.model.dto.Pmember;
@@ -96,18 +97,21 @@ public class UserInfoController {
 	@GetMapping("pools")
 	public ResponseEntity<List<Pools>> getPools() throws Exception {
 		List<Pools> v = uiService.getPools();
-		
 		for (int i = 0; i < v.size(); i++) {
 			List<PidPjt> ptmp = new ArrayList<PidPjt>();
-			List<String> itmp = new ArrayList<String>();
+			List<Inter> itmp = new ArrayList<Inter>();
 			String a = v.get(i).getProjects();
 			String b = v.get(i).getInterests();
 			if (a != null) {
 				String[] atmp = a.split(",");
 				for (int j = 0; j < atmp.length; j++) {
-					String[] s = atmp[j].split("|");
+					//System.out.println("atmp : " + atmp[j]);
+					String[] s = atmp[j].split(";");
 					int pid = Integer.parseInt(s[0]);
 					String name = s[1];
+					//System.out.println("s : " + s.length);
+					//System.out.println("pid : " + pid);
+					//System.out.println("name : " + name);
 					PidPjt p = new PidPjt(pid, name);
 					ptmp.add(p);
 				}
@@ -115,7 +119,8 @@ public class UserInfoController {
 			if (b != null) {
 				String[] btmp = b.split(",");
 				for (int j = 0; j < btmp.length; j++) {
-					itmp.add(btmp[j]);
+					Inter it = new Inter(btmp[j]);
+					itmp.add(it);
 				}
 			}
 			

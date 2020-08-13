@@ -175,7 +175,7 @@
 		from(
 		SELECT jointwo.userId, GROUP_CONCAT(jointwo.pjt) AS projects 
 		FROM (
-		select concat(joinone.pid,'|',joinone.pjtName) as pjt,joinone.userId
+		select concat(joinone.pid,';',joinone.pjtName) as pjt,joinone.userId
 		from(
 		select project.pid, project.pjtName, pmember.userId from pmember join project
 		on project.pid = pmember.pid
@@ -194,7 +194,8 @@
 		on userInfo.id = a.id
 		) as b
 		) as b
-		on a.userId = b.id;
+		on a.userId = b.id
+		where b.leaveUser != 1;
 	</select>
 
 </mapper>

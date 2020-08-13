@@ -8,6 +8,7 @@ Vue.use(Vuex);
 const poolstore = {
   state: {
     pools: [],
+    extendpools:[],
     // pool: {}
   },
  
@@ -20,6 +21,14 @@ const poolstore = {
               store.commit(Constant.GET_POOLLIST, { pools: response.data })
         })
           .catch(exp => alert('getPoolList처리에 실패하였습니다!.' + exp));
+    },
+    [Constant.GET_EXTENDPOOLLIST]: (store) => {
+      http.get('/api/userinfo/pools')
+          .then(response => {
+            // console.log(response)
+              store.commit(Constant.GET_EXTENDPOOLLIST, { extendpools: response.data })
+        })
+          .catch(exp => alert('getExtendPoolList처리에 실패하였습니다!.' + exp));
     },
    
     //통합 검색
@@ -93,7 +102,11 @@ const poolstore = {
         console.log('mutation' + payload.pools);
         state.pools = payload.pools.filter(item=>item.responsibility!=="admin");
     },
-    
+    [Constant.GET_EXTENDPOOLLIST]: (state, payload) => {
+      console.log('mutation' + payload.extendpools);
+      state.extendpools = payload.extendpools;
+  },
+
   },
 
   modules: {
