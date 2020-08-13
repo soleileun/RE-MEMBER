@@ -57,4 +57,10 @@ public class ProjectDAOImpl implements ProjectDAO {
 		return template.selectOne(ns + "searchByPJT", p);
 	}
 
+	@Override
+	public Projectcnt searchByPID(int pid) {
+		// TODO Auto-generated method stub
+		return template.selectOne(ns+"searchByPID", pid);
+	}
+
 }

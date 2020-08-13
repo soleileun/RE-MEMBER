@@ -52,4 +52,10 @@ public class ProjectServiceImpl implements ProjectService {
 		return pDao.searchByPJT(p);
 	}
 
+	@Override
+	public Projectcnt searchByPID(int pid) {
+		// TODO Auto-generated method stub
+		return pDao.searchByPID(pid);
+	}
+
 }

@@ -30,7 +30,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.test.model.dto.Addr;
 import com.ssafy.test.model.dto.Email;
+import com.ssafy.test.model.dto.Pinterest;
+import com.ssafy.test.model.dto.Pmember;
 import com.ssafy.test.model.dto.Project;
+import com.ssafy.test.model.dto.Projectcnt;
 import com.ssafy.test.model.dto.SearchParameter;
 import com.ssafy.test.model.dto.User;
 import com.ssafy.test.model.dto.UserInfo;
@@ -40,6 +43,8 @@ import com.ssafy.test.model.service.EmailService;
 import com.ssafy.test.model.service.JwtService;
 import com.ssafy.test.model.service.MailHandler;
 import com.ssafy.test.model.service.MailTempKey;
+import com.ssafy.test.model.service.PinterestService;
+import com.ssafy.test.model.service.PmemberService;
 import com.ssafy.test.model.service.ProjectService;
 import com.ssafy.test.model.service.UserInfoService;
 
@@ -73,6 +78,11 @@ public class UserInfoController {
 	
 	@Autowired
 	private ProjectService pjtService;
+	
+	@Autowired
+	private PinterestService pinterService;
+	@Autowired
+	private PmemberService pmservice;
 	
 	@ApiOperation(value = "모든 검색어 통합 검색하는 것.", response = UserInfo.class)
 	@GetMapping("searchAll/tag={tag}&addr={addr}&keyword={keyword}")
@@ -167,14 +177,32 @@ public class UserInfoController {
 	
 	
 	@GetMapping("/getRecommended/PJT/{id}")
-	public ResponseEntity<List<Project>> getRecommendedPJT(@PathVariable String id){
+	public ResponseEntity<List<Projectcnt>> getRecommendedPJT(@PathVariable String id){
 		List<Project> list = uiService.getRecommendedPJT(id);	
-		List<Project> projects = new ArrayList<>();
+		List<Projectcnt> projects = new ArrayList<>();
+		List<Pmember> myprojects = pmservice.selectByUserId(id);
+		
 		for(int i=0;i<list.size();i++) {
-			Project tmp = pjtService.select(list.get(i).getPid());
+			boolean flag =false;
+			int thispid = list.get(i).getPid();
+			for(int mp=0;mp<myprojects.size();mp++) {
+				if(thispid == myprojects.get(mp).getPid())
+					{flag=true;break;}
+			}
+			if(flag) continue;
+			
+			
+			Projectcnt tmp = pjtService.searchByPID(thispid);
+			List<Pinterest> pinter = pinterService.select(thispid);
+			int size = pinter.size();
+			if(size>0) tmp.setTag1(pinter.get(0).getInterest());
+			if(size>1) tmp.setTag1(pinter.get(1).getInterest());
+			if(size>2) tmp.setTag1(pinter.get(2).getInterest());
+			if(size>3) tmp.setTag1(pinter.get(3).getInterest());
+			if(size>4) tmp.setTag1(pinter.get(4).getInterest());
 			projects.add(tmp);
 		}
-		return new ResponseEntity<List<Project>>(projects, HttpStatus.OK);
+		return new ResponseEntity<List<Projectcnt>>(projects, HttpStatus.OK);
 	}
 	
 	@PostMapping("/info")
