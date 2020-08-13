@@ -128,6 +128,10 @@ public class UserInfo {
 		this.id = id;
 		this.pw = pw;
 	}
+	
+	public UserInfo(String address1) {
+		this.address1 = address1;
+	}
 
 	@Override
 	public String toString() {

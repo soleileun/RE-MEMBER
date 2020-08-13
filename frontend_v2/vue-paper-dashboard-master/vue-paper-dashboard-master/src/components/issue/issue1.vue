@@ -1,7 +1,53 @@
 <template>
   <div>
+    <div class="scroll-sidebar">
+      <!-- Sidebar navigation-->
+      <div class="sidebar-nav" >
+    <div class="sidebar " data-color="purple" data-image="./assets/issue_img/sidebar-5.jpg">
+        <div class="sidebar-wrapper" style="background-color: #212120;">
+          <div class="logo">
+            <a href class="simple-text navbar-brand" style="font-weight:800; font-size: 18px;">Project Info</a>
+          </div>
+          
+          <ul class="nav">
+            <li class="active test nav-item" @click="issue">
+              <div class="navtest">
+                <i class="fa fa-exclamation"></i>
+                <span> 이슈목록</span>
+              </div>
+            </li>
+            <li class="active test nav-item" @click="maps" >
+              <div class="navtest">
+                    
+                <i class="fa fa-map-o"></i>
+                <span> 지도</span>
+                
+              </div>
+            </li>
+             <li class="active test nav-item" >
+              <div class="navtest">
+            
+                <i class="fa fa-tasks"></i>
+                <span> 프로젝트</span>
+              </div>
+            </li>
+             <li class="active test nav-item" @click="teaminfo" >
+              <div class="navtest">
+                <i class="fa fa-id-card-o"></i>
+                <span> 팀 정보</span>
+              </div>
+            </li>
+          
+          </ul>
+          
+        </div>
+    </div>
+    
+      </div>
+    </div>
     <!-- <div class="wrapper"> -->
-      <div class="sidebar" data-color="purple" data-image="./assets/issue_img/sidebar-5.jpg">
+      <!--
+      <div class="sidebar " data-color="purple" data-image="./assets/issue_img/sidebar-5.jpg">
         <div class="sidebar-wrapper">
           <div class="logo">
             <a href class="simple-text">Project Info</a>
@@ -30,6 +76,7 @@
           </ul>
         </div>
     </div>
+    -->
 
     <div class="content">
       <div class="container-fluid">
@@ -486,6 +533,18 @@ export default {
     createIssue(){
       document.querySelector(".issuecreate").classList.toggle("active");
     },
+    issue() {
+      let addr = "/issuetest/"+this.$route.params.userId + '/' + this.$route.params.pid;
+      this.$router.push(addr);
+    },
+    teaminfo() {
+      this.$router.push("teamInfo.html");
+    },
+    maps() {
+      let addr = "/maps/"+this.$route.params.userId+'/'+this.$route.params.pid;
+      this.$router.push(addr);
+
+    },
 
 
     loadAll(){
@@ -733,5 +792,21 @@ ul {
   animation-name: nodeInserted;
   margin-left: 0.6rem;
   margin-right: 0.6rem;
+}
+.test {
+  margin: 10px 0px;
+    padding-left: 25px;
+    padding-right: 25px;
+    opacity: .7;
+}
+.navtest {
+  display: block; 
+  padding: 0.5rem 1rem; 
+  color:rgba(255, 255, 255, 0.7); 
+  font-weight:600;
+  cursor:pointer;
+}
+.navtest:hover {
+  color:#FFFFFF;
 }
 </style>
