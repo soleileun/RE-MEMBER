@@ -1,5 +1,5 @@
 <template>
-  <div class="issuedetail card" title="여기에 프로젝트 이름 / 이슈 번호" style="overflow-x:hidden; overflow-y:hidden;">
+  <div class="issuecreate card" title="여기에 프로젝트 이름 / 이슈 번호" style="overflow-x:hidden; overflow-y:hidden;">
     <i class="ti-close" @click="exit"></i>
     <div class="biggest">
         <div class="card-header">
@@ -62,7 +62,6 @@
                             대기중인 작업:
                         </div>
                         <div class="col-7 data">
-                            {{num}}
                             쿼리로 이 이슈를 선행작업으로 가지는 이슈들 보여줌 
                         </div>
                     </div>
@@ -107,7 +106,7 @@
 
         </div>
         <div style="text-align:right;">
-            최근 수정일 : chageday  
+            최근 수정일 : chageday
         </div>
     </div>
   </div>
@@ -119,24 +118,24 @@
 const storage = window.sessionStorage;
 
 export default {
-  name: "issuedetail",
-  props:{
-    num : Number
-  },
+  name: "issuecreate",
   data: function () {
     return {
       autologin: false,
       id: "",
       pw: "",
-      testing : "",
     };
   },
   computed: {
   },
 
+  mounted() {
+    
+  },
+
   methods: {
     exit: function () {
-      document.querySelector(".issuedetail").classList.remove("active");
+      document.querySelector(".issuecreate").classList.remove("active");
     },
     updateview: function () {
       document.querySelector(".updateform").classList.toggle("active");
@@ -171,7 +170,7 @@ export default {
     margin-bottom:20px;
     height:47vh;
 }
-.issuedetail {
+.issuecreate {
   visibility: hidden;
   height: 0;
   width: 0;
@@ -179,7 +178,7 @@ export default {
   top: 0;
   left: 0;
 }
-.issuedetail.active {
+.issuecreate.active {
   padding: 5vh;
   visibility: visible;
   position: fixed;
@@ -222,7 +221,7 @@ export default {
   }
 }
 @media (max-width: 768px) {
-  .issuedetail.active {
+  .issuecreate.active {
     box-sizing: border-box;
     width: 100vw;
     height: 100vh;
@@ -234,7 +233,7 @@ export default {
     }
   }
 }
-.issuedetail.turn {
+.issuecreate.turn {
   animation-name: turn;
   animation-duration: 0.5s;
 }

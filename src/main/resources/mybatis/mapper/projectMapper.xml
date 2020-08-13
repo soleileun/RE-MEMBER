@@ -31,7 +31,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			where project.pid = pmember.pid
 			group by project.pid
 		) as a
-		where pmember.pid = a.pid and pmember.userId = 'ssafy'
+		where pmember.pid = a.pid and pmember.userId =#{userId}
 		group by pmember.pid;
 	</select>
 	 
