@@ -5,16 +5,7 @@
         <ul class="list-unstyled team-members">
           <li>
             <div class="row" v-for="pm in pmlist" :key="pm.userId">
-              <div class="col-1 center">
-                <div class="avatar">
-                  <img
-                    src="@/assets/img/faces/face-1.jpg"
-                    alt="Circle Image"
-                    class="rounded img-fluid"
-                  />
-                </div>
-              </div>
-              <div class="col-2 center">
+              <div class="col-2">
                 <div class="avatar">
                   <template v-if="pm.priority === 1">
                     <img src="@/assets/img/crown.png" alt="Circle Image" class="rounded img-fluid" />
@@ -22,6 +13,15 @@
                   <template v-if="pm.priority != 1">
                     <img src="@/assets/img/shield.png" alt="Circle Image" class="rounded img-fluid" />
                   </template>
+                </div>
+              </div>
+              <div class="col-2">
+                <div class="avatar">
+                  <img
+                    src="@/assets/img/faces/face-1.jpg"
+                    alt="Circle Image"
+                    class="rounded img-fluid"
+                  />
                 </div>
               </div>
               <div class="col-4 text-center">
@@ -55,8 +55,19 @@
           </li>
         </ul>
       </div>
-      <div class="col-12">
-        <button class="btn btn-info" @click="openModal">+ INVITE NEW TEAM MEMBER</button>
+
+      <div class="row" v-for="pm in pmlist" :key="pm.userId">
+        <template v-if="pm.priority === 1">
+          <template v-if="pm.userId === userId">
+            <div class="col-6">
+              <button class="btn btn-info" @click="openModal">+ INVITE NEW TEAM MEMBER</button>
+            </div>
+            <div class="col-4">
+              <button class="btn btn-warning" @click="openModal2">Change Leader</button>
+            </div>
+          </template>
+        </template>
+
         <!-- The Modal -->
       </div>
       <div id="myModal" class="modal">
@@ -91,6 +102,28 @@
           </div>
         </div>
       </div>
+      <div id="myModal2" class="modal">
+        프로젝트 리더 위임하기
+        <div class="modal-content">
+          <span class="close">&times;</span>
+          <div class="col-12">
+            <h3>프로젝트 리더 위임하기</h3>
+            <br />
+
+            <h5>프로젝트의 새로운 리더가 될 유저의 아이디를 입력해주세요</h5>
+            <fg-input type="text" placeholder="example@naver.com" v-model="newleaderID"></fg-input>
+            <small>고생하셨습니다, 팀장님! 멋찐 리더였어요 :)</small>
+            <div>
+              <br />
+              <br />
+              <br />
+            </div>
+            <button class="btn btn-info btn-round" @click="changeLeader">리더 위임하기</button>
+            <br />
+            <br />
+          </div>
+        </div>
+      </div>
     </card>
   </div>
 </template>
@@ -106,9 +139,11 @@ export default {
   data() {
     return {
       newid: "",
+      newleaderID: "",
       state: "",
       title: "Team members",
       pid: this.$route.params.pid,
+      userId: storage.getItem("userid"),
     };
   },
   computed: {
@@ -125,7 +160,7 @@ export default {
     openModal() {
       // console.log("눌린다");
       this.pid = this.$route.params.pid;
-      console.log(this.$store.state.projectstore.pmlist);
+      // console.log(this.$store.state.projectstore.pmlist);
       // Get the modal
       var modal = document.getElementById("myModal");
       // Get the <span> element that closes the modal
@@ -143,6 +178,31 @@ export default {
         }
       };
     },
+    openModal2: function () {
+      var modal = document.getElementById("myModal2");
+      // Get the <span> element that closes the modal
+      var span = document.getElementsByClassName("close")[0];
+      // When the user clicks on the button, open the modal
+      modal.style.display = "block";
+      // When the user clicks on <span> (x), close the modal
+      span.onclick = function () {
+        modal.style.display = "none";
+      };
+      // When the user clicks anywhere outside of the modal, close it
+      window.onclick = function (event) {
+        if (event.target == modal) {
+          modal.style.display = "none";
+        }
+      };
+    },
+    changeLeader: function () {
+      if (this.newleaderID != "") {
+        this.$store.dispatch("changeLeader", {
+          userId: this.newleaderID,
+          pid: this.$route.params.pid,
+        });
+      }
+    },
     addnewpm: function () {
       // console.log("프로젝트 아이디 확인하고싶어 ㅠ");
       //console.log(this.$route.params.pid);
@@ -154,6 +214,7 @@ export default {
         });
       }
     },
+
     checkstate: function (a) {
       this.state = a;
     },

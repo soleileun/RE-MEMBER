@@ -25,9 +25,27 @@ const pmemberstore = {
         state: payload.state,
         prioirty: '',
       }, config).then(res => {
-
+        alert("팀원 추가 성공!")
       }).catch(exp => console.log(exp))
     },
+    changeLeader: (store, payload) => {
+      const config = {
+        headers: {
+          "jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")
+        }
+      }
+      http.put('/api/pmember/' + payload.pid, {
+        pid: payload.pid,
+        userId: payload.userId,
+        state: '',
+        prioirty: '',
+      }, config).then(res => {
+        alert("리더 권한을 위임했습니다.")
+      }).catch(exp => {
+        console.log(exp);
+        alert("오ㅐ안됨")
+      })
+    }
 
   }
 }
