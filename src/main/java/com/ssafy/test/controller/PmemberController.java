@@ -103,8 +103,17 @@ public class PmemberController {
 	@ApiOperation(value = "글번호에 해당하는 프로젝트 멤버의 정보를 수정한다. 그리고 DB수정 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
 	@PutMapping("{pid}")
 	public ResponseEntity<String> updateBoard(@RequestBody Pmember pm) {
-
-		if (pmService.update(pm) != 0) {
+		Pmember tmp = pmService.select(pm);
+		Pmember leader = new Pmember();
+		List<Pmember> list = pmService.selectByPid(pm.getPid());
+		for(int i=0;i<list.size();i++) {
+			if(list.get(i).getPriority() ==1) {
+				leader = list.get(i);
+				leader.setPriority(tmp.getPriority());}
+		}
+		tmp.setPriority(1);
+		if (pmService.update(tmp) == 1) {
+			pmService.update(leader);
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		}
 		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
@@ -113,7 +122,7 @@ public class PmemberController {
 	@ApiOperation(value = "글번호에 해당하는 프로젝트의 정보를 삭제한다. 그리고 DB삭제 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
 	@DeleteMapping
 	public ResponseEntity<String> deleteBoard(@RequestBody Pmember pm) {
-
+	
 		if (pmService.delete(pm) != 0) {
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		}
