@@ -112,4 +112,10 @@ public class UserInfoDaoImpl implements UserInfoDao {
 		return template.selectList(ns + "getAddressList", pid);
 	}
 
+	@Override
+	public int updateLastDate(UserInfo user) {
+		// TODO Auto-generated method stub
+		return template.update(ns+"updateDate",user);
+	}
+
 }
