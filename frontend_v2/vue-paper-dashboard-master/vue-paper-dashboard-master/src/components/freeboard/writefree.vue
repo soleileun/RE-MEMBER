@@ -24,13 +24,8 @@
                   <option value="free">자유게시판</option>
                   <option value="qa">질문게시판</option>
                   <option value="notice" v-show="this.board.bwriter === 'admin'">공지게시판</option>
-<<<<<<< HEAD
-                </select>
-              </div>-->
-=======
-                </select>-->
-              </div>
->>>>>>> d2dd24c0164700e07dc22056db18b418ed674ee8
+                </select> -->
+              </div> 
             </div>
           </div>
 
@@ -112,12 +107,9 @@ export default {
     loginId() {
       return storage.getItem("userid");
     },
-<<<<<<< HEAD
   },
   created() {
     this.$store.commit("delTempFiles");
-=======
->>>>>>> d2dd24c0164700e07dc22056db18b418ed674ee8
   },
   data: function () {
     return {

@@ -101,7 +101,7 @@
         <div class="container-fluid">
           <div class="row" style="min-height:300px;">
             <div class="col-12">
-              <vue-editor v-model="comment2.ccontent" style="height:60%;"></vue-editor>
+              <vue-editor v-model="comment2.ccontent" style="height:60%;" useCustomImageHandler @imageAdded="handleImageAdded"></vue-editor>
               <!--<textarea name="" id="" cols="30" rows="10" v-model="board.bcontent" placeholder="내용을 입력하세요"></textarea><br>-->
             </div>
           </div>
@@ -197,6 +197,26 @@ export default {
     },
   },
   methods: {
+    handleImageAdded(file, Editor, cursorLocation) {
+      if (file) {
+        const fileName = new Date().getTime() - 1597262625477;
+        const file2 = new File(
+          [file],
+          `${fileName}.${file.name.split(".")[1]}`,
+          {
+            type: file.type,
+          }
+        );
+        this.$store.dispatch("upFiledirect", {
+          file: file2,
+          bno: this.board.bno,
+        });
+        let url = this.$store.state.filestore.fileUrl + file2.name;
+        setTimeout(() => {
+          Editor.insertEmbed(cursorLocation, "image", url);
+        }, 500);
+      }
+    },
     makeDay(x){
       if (x){
         
