@@ -72,10 +72,12 @@ public class PmemberController {
 	@ApiOperation(value = "새로운 프로젝트 멤버정보를 입력한다. 그리고 DB입력 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
 	@PostMapping
 	public ResponseEntity<String> addNewMember(@RequestBody Pmember pm) {
+		List<Pmember> list = pmService.selectByPid(pm.getPid());
+		pm.setPriority(list.get(list.size()-1).getPriority()+1);
 		int cnt = pmService.insert(pm);
 		if (cnt ==1) {
 			int pid = pm.getPid();
-			List<Pmember> list = pmService.selectByPid(pid);
+			
 			System.out.println(list.size());
 			for(int i=0;i<list.size();i++) {
 				Message msg = new Message();
