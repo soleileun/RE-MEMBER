@@ -18,7 +18,7 @@ import stackstore from '@/store/modules/stackstore.js';
 import issuestore from '@/store/modules/issuestore.js';
 import mapstore from '@/store/modules/mapstore.js';
 import filestore from '@/store/modules/filestore.js';
-import pmemberstore from '@/store/modules/ pmemberstore.js';
+import pmemberstore from '@/store/modules/pmemberstore.js';
 
 const store = new Vuex.Store({
   modules: {
