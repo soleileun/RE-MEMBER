@@ -48,6 +48,7 @@ const userstore = {
         storage.setItem("userid", window.localStorage.getItem("userid"));
         storage.setItem("userNick", window.localStorage.getItem("userNick"));
         storage.setItem("intro", window.localStorage.getItem("intro"));
+        storage.setItem("usergit", window.localStorage.getItem("usergit"));
         store.dispatch("update")
         store.dispatch("getFollow");
         store.dispatch("getFollower");
@@ -97,6 +98,7 @@ const userstore = {
             window.localStorage.setItem("idvalid", "true"); //response.data.data.valid);
             window.localStorage.setItem("userState", response.data.data.state);
             window.localStorage.setItem("userintro", response.data.data.intro);
+            window.localStorage.setItem("usergit", response.data.data.git);
             document.querySelector(".login").classList.remove('active')
             store.commit('loginError', {
               e: ''

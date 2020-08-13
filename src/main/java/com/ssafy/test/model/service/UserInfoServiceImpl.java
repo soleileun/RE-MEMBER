@@ -107,4 +107,10 @@ public class UserInfoServiceImpl implements UserInfoService {
 		return uDao.getAddressList(pid);
 	}
 
+	@Override
+	public int updateLastDate(UserInfo user) {
+		// TODO Auto-generated method stub
+		return uDao.updateLastDate(user);
+	}
+
 }
