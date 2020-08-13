@@ -31,7 +31,7 @@ export default {
     GET_RECRUITLIST: 'getRecruitList',
     GET_RECRUIT: 'getRecruit',
     ADD_RECRUIT: 'addRecruit',
-    ADD_PINTEREST: 'addPinterest',
+    // ADD_PINTEREST: 'addPinterest',
     SEARCH_RECRUIT_BY_TAG_ADDR: 'searchRecruitByTagAddr',
     SEARCH_RECRUIT_BY_TAG: 'searchRecruitByTag',
     SEARCH_RECRUIT_BY_ADDR: 'searchRecruitByAddr',

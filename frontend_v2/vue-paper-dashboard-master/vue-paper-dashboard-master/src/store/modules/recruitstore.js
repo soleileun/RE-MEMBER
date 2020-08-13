@@ -77,6 +77,8 @@ const recruitstore = {
         }, config)
         .then(() => {
           console.log('구인글 추가하였습니다.');
+          store.dispatch(Constant.GET_RECRUITLIST);
+
         })
         .catch(exp => {
           console.log('추가 실패 확인 로그');
@@ -84,27 +86,27 @@ const recruitstore = {
         })
     },
 
-    [Constant.ADD_PINTEREST]: (store, payload) => {
-      const config = {
-        headers: {
-          "jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")
-        }
-      }
-      console.log(payload);
-      http.post('/api/pinterest/', {
-          pid: payload.pid,
-          interest: payload.interest,
-        }, config)
-        .then(() => {
-          console.log('핀인터 추가하였습니다.');
-          store.dispatch(Constant.GET_RECRUITLIST);
+    // [Constant.ADD_PINTEREST]: (store, payload) => {
+    //   const config = {
+    //     headers: {
+    //       "jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")
+    //     }
+    //   }
+    //   console.log(payload);
+    //   http.post('/api/pinterest/', {
+    //       pid: payload.pid,
+    //       interest: payload.interest,
+    //     }, config)
+    //     .then(() => {
+    //       console.log('핀인터 추가하였습니다.');
+    //       store.dispatch(Constant.GET_RECRUITLIST);
 
-        })
-        .catch(exp => {
-          console.log('추가 실패 확인 로그');
-          alert('피인터레스트 추가 처리에 실패하였습니다.' + exp);
-        })
-    },
+    //     })
+    //     .catch(exp => {
+    //       console.log('추가 실패 확인 로그');
+    //       alert('피인터레스트 추가 처리에 실패하였습니다.' + exp);
+    //     })
+    // },
 
     //주소, 태그로 풀리스트 반환
     [Constant.SEARCH_RECRUIT_BY_TAG_ADDR]: (store, payload) => {

@@ -142,6 +142,7 @@ const userstore = {
       }, 100)
     },
     signup: (store, payload) => {
+      document.querySelector('.spinner').classList.add('active')
       http
         .post("/api/userinfo/", {
           id: payload.id,
@@ -202,9 +203,11 @@ const userstore = {
                 store.commit('loginError', {
                   e: '회원가입에 오류가 있습니다 문의해주세요'
                 })
+                document.querySelector('.spinner').classList.remove('active')
               }
             })
             .catch(exp => {
+              document.querySelector('.spinner').classList.remove('active')
               store.commit('loginError', {
                 e: '오류 발생' + exp
               })

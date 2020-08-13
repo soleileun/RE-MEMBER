@@ -113,6 +113,7 @@ const projectstore = {
           pjtMemberCnt: payload.pjtMemberCnt,
           makeDay: payload.makeDay,
           makeId: payload.makeId,
+          location:payload.location,
           //changeDay: payload.changeDay,
 
           //changeId: payload.changeId,
