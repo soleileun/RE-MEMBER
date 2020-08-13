@@ -12,6 +12,15 @@ public class SearchParameter {
 	private int cnt;
 	private String by;
 	private String keyword;
+	
+	
+
+	@Override
+	public String toString() {
+		return "SearchParameter [sido=" + sido + ", gugun=" + gugun + ", dong=" + dong + ", tag1=" + tag1 + ", tag2="
+				+ tag2 + ", tag3=" + tag3 + ", tag4=" + tag4 + ", tag5=" + tag5 + ", cnt=" + cnt + ", by=" + by
+				+ ", keyword=" + keyword + "]";
+	}
 
 	public SearchParameter() {
 		super();

@@ -65,7 +65,15 @@ public class RecruitDAOImpl implements RecruitDAO {
 	@Override
 	public List<Recruit> searchAll(SearchParameter sp) {
 		String by = sp.getBy();
-		System.out.println("by is " + by);
+		
+		if(sp.getSido().equals(" ") && sp.getGugun().equals(" ") && sp.getDong().equals(" ") && sp.getKeyword().equals("")) {
+			return template.selectList(ns + "selectAll");
+		}else if(sp.getSido().equals(" ") && sp.getGugun().equals(" ") && sp.getDong().equals(" ") && !sp.getKeyword().equals("")) {
+			sp.setSido("");
+			sp.setGugun("");
+			sp.setDong("");
+		}
+		
 		if (by == null) {
 			AddrAndTag aat = new AddrAndTag();
 			aat.setCnt(sp.getCnt());
@@ -79,7 +87,7 @@ public class RecruitDAOImpl implements RecruitDAO {
 			aat.setTag5(sp.getTag5());
 			return template.selectList(ns + "selectAddrAndTag", aat);
 		} else if (by.equals("writer")) {
-			if (sp.getCnt() == 0) {
+			if (sp.getCnt() == 0) {				
 				return template.selectList(ns + "selectByAddrWriter", sp);
 			} else {
 				return template.selectList(ns + "selectAllByWriter", sp);
