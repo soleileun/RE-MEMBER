@@ -24,8 +24,13 @@
                   <option value="free">자유게시판</option>
                   <option value="qa">질문게시판</option>
                   <option value="notice" v-show="this.board.bwriter === 'admin'">공지게시판</option>
+<<<<<<< HEAD
+                </select>
+              </div>-->
+=======
                 </select>-->
               </div>
+>>>>>>> d2dd24c0164700e07dc22056db18b418ed674ee8
             </div>
           </div>
 
@@ -59,7 +64,7 @@
               <div class="col-2 write-left">내용</div>
 
               <div class="col-10 write-right">
-                <vue-editor v-model="board.bcontent" style="height:80%;"></vue-editor>
+                <vue-editor v-model="board.bcontent" style="height:80%;" useCustomImageHandler @imageAdded="handleImageAdded"></vue-editor>
                 <!--<textarea name="" id="" cols="30" rows="10" v-model="board.bcontent" placeholder="내용을 입력하세요"></textarea><br>-->
               </div>
             </div>
@@ -92,6 +97,8 @@
 <script>
 import Constant from "../../Constant";
 import { VueEditor } from "vue2-editor";
+import axios from "axios";
+
 const storage = window.sessionStorage;
 export default {
   name: "writefree",
@@ -105,6 +112,12 @@ export default {
     loginId() {
       return storage.getItem("userid");
     },
+<<<<<<< HEAD
+  },
+  created() {
+    this.$store.commit("delTempFiles");
+=======
+>>>>>>> d2dd24c0164700e07dc22056db18b418ed674ee8
   },
   data: function () {
     return {
@@ -124,6 +137,21 @@ export default {
     };
   },
   methods: {
+    handleImageAdded(file, Editor, cursorLocation) {
+      if (file) {
+        const fileName = new Date().getTime() - 1597262625477;
+        const file2 = new File(
+          [file],
+          `${fileName}.${file.name.split(".")[1]}`,
+          {
+            type: file.type,
+          }
+        );
+        this.$store.commit('upBoardFiles',{file:file2})
+        let url = this.$store.state.filestore.fileUrl + file2.name;
+        Editor.insertEmbed(cursorLocation, "image", url);
+      }
+    },
     addFree() {
       if (this.board.btitle.trim() === "") {
         alert("제목을 입력해주세요.");

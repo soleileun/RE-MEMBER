@@ -1,8 +1,10 @@
 <template>
   <div class="profile text-center">
     <h3>내 소개</h3>
-    <div class="ql-editor profileContainer" v-html="content" v-if="!profileEdit"></div>
-    <vue-editor id="editor" v-show="profileEdit" v-model="content" :useCustomImageHandler="true" @imageAdded="handleImageAdded"></vue-editor>
+    <div id="editor" class="container ql-snow" v-if="!profileEdit">
+      <div class="ql-editor profileContainer" v-html="content"></div>
+    </div>
+    <vue-editor id="editor" v-if="profileEdit" v-model="content" useCustomImageHandler @imageAdded="handleImageAdded"></vue-editor>
     <!-- 에디터를 v-show로 숨겨두지 않으면 일부 꾸밈 코드가 안먹힘 -->
     <div v-if="myprofile">
       <button class="btn btn-round btn-success" v-if="!profileEdit" @click="edit">프로필 수정하기</button>
@@ -13,9 +15,11 @@
 
 <script>
 import { VueEditor } from "vue2-editor";
+
 import Constant from "@/Constant.js";
 import http from "@/http-common.js";
 const storage = window.sessionStorage;
+
 import axios from "axios";
 export default {
   name: "profile",
@@ -39,6 +43,7 @@ export default {
         makeId: "",
         changeId: "",
       },
+      files: [],
     };
   },
   mounted: function () {
@@ -86,42 +91,25 @@ export default {
   },
   methods: {
     handleImageAdded(file, Editor, cursorLocation) {
-      let formData = new FormData();
-      formData.append("file", file);
-      formData.append("fboardno", this.bno);
-      formData.append("makeId", storage.getItem("userid"));
-      axios
-        .post("http://localhost:8080/api/reffile/files", formData, {
-          headers: {
-            accept: "application/json",
-            "Content-Type": "multipart/form-data",
-          },
-        })
-        .then(function () {
-          console.log("SUCCESS!!");
-          let url = result.data.data.link;
-          Editor.insertEmbed(cursorLocation, "image", url);
-        })
-        .catch(function () {
-          console.log("FAILURE!!");
+      if (file) {
+        const fileName = new Date().getTime() - 1597262625477;
+        const file2 = new File(
+          [file],
+          `${fileName}.${file.name.split(".")[1]}`,
+          {
+            type: file.type,
+          }
+        );
+        this.$store.dispatch("upFiledirect", {
+          file: file2,
+          bno: this.bno,
         });
-      // ////////////////////////-================
-      // var formData = new FormData();
-      // formData.append("image", file);
-
-      // axios({
-      //   url: "https://fakeapi.yoursite.com/images",
-      //   method: "POST",
-      //   data: formData,
-      // })
-      //   .then((result) => {
-      //     let url = result.data.url; // Get url from response
-      //     Editor.insertEmbed(cursorLocation, "image", url);
-      //     resetUploader();
-      //   })
-      //   .catch((err) => {
-      //     console.log(err);
-      //   });
+        let url = this.$store.state.filestore.fileUrl + file2.name;
+        console.log(url);
+        setTimeout(() => {
+          Editor.insertEmbed(cursorLocation, "image", url);
+        }, 500);
+      }
     },
     edit: function () {
       this.profileEdit = true;
@@ -161,12 +149,15 @@ export default {
 <style scoped lang="scss">
 .profile {
   font: 100;
-  .profileContainer {
+  .ql-editor.profileContainer {
     min-height: 400px;
     border: 1px gray solid;
     padding: 20px;
     margin-bottom: 50px;
     border-radius: 10px;
   }
+}
+#editor > div > ol > li > img {
+  width: 100px;
 }
 </style>
