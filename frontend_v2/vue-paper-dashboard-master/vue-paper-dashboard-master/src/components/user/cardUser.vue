@@ -54,7 +54,7 @@ export default {
       userNick: storage.getItem("userNick"),
       userId: storage.getItem("userId"),
       users: storage.getItem("users"),
-      usergit: window.localStorage.getItem("usergit"),
+      usergit: storage.getItem("usergit"),
       userintro: window.localStorage.getItem("userintro"),
     };
   },
@@ -67,14 +67,13 @@ export default {
     },
   },
   mounted() {
-    setTimeout(()=>{
+    setTimeout(() => {
       this.userNick = storage.getItem("userNick");
       this.userId = storage.getItem("userId");
       this.users = storage.getItem("users");
       this.usergit = window.localStorage.getItem("usergit");
       this.userintro = window.localStorage.getItem("userintro");
-
-    },500)
+    }, 500);
     // console.log("뭐냐고");
     console.log("팔로잉" + this.$store.state.userstore.followings);
     // console.log("팔로워");
