@@ -196,10 +196,10 @@ public class UserInfoController {
 			List<Pinterest> pinter = pinterService.select(thispid);
 			int size = pinter.size();
 			if(size>0) tmp.setTag1(pinter.get(0).getInterest());
-			if(size>1) tmp.setTag1(pinter.get(1).getInterest());
-			if(size>2) tmp.setTag1(pinter.get(2).getInterest());
-			if(size>3) tmp.setTag1(pinter.get(3).getInterest());
-			if(size>4) tmp.setTag1(pinter.get(4).getInterest());
+			if(size>1) tmp.setTag2(pinter.get(1).getInterest());
+			if(size>2) tmp.setTag3(pinter.get(2).getInterest());
+			if(size>3) tmp.setTag4(pinter.get(3).getInterest());
+			if(size>4) tmp.setTag5(pinter.get(4).getInterest());
 			projects.add(tmp);
 		}
 		return new ResponseEntity<List<Projectcnt>>(projects, HttpStatus.OK);
