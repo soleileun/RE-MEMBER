@@ -31,7 +31,7 @@
             title-classes="nav-link"
             v-if="userNick"
           >
-            <router-link to="/user" class="nav-link">
+            <router-link to="/mypage" class="nav-link">
               <i class="ti-user"></i>
               <p>마이페이지</p>
             </router-link>

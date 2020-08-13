@@ -16,28 +16,20 @@
           <div class="col-1 pics">사진</div>
           <div class="col-3">
             <div class="col-12 name">{{board.bwriter}}</div>
-            <div class="col-12 date">{{board.makeDay.slice(0,16)}}</div>
+            <div class="col-12 date">{{makeDay(board.makeDay)}}</div>
           </div>
         </div>
         <hr />
 
-        <div class="col-12 contents ql-editor" v-html="board.bcontent">
-          <vue-editor v-show="false" style="height:80%;"></vue-editor>
+        <div id="editor" class="container ql-snow">
+          <div class="ql-editor profileContainer" v-html="board.bcontent"></div>
         </div>
 
         <div class="container">
           <div class="row">
             <div class="col text-center btndiv">
-              <button
-                v-if="board.bwriter === loginId || loginId === 'admin' "
-                class="btn btn-outline-warning"
-                @click="change"
-              >수정하기</button>
-              <button
-                v-if="board.bwriter === loginId || loginId === 'admin' "
-                class="btn btn-outline-danger"
-                @click="deleteFree"
-              >삭제하기</button>
+              <button v-if="board.bwriter === loginId || loginId === 'admin' " class="btn btn-outline-warning" @click="change">수정하기</button>
+              <button v-if="board.bwriter === loginId || loginId === 'admin' " class="btn btn-outline-danger" @click="deleteFree">삭제하기</button>
               <button class="btn btn-outline-primary" @click="back">목록으로</button>
             </div>
           </div>
@@ -205,6 +197,15 @@ export default {
     },
   },
   methods: {
+    makeDay(x){
+      if (x){
+        
+        return x.slice(0,16);
+        }
+        else{
+          return ''
+        }
+    },
     getBoard(bno) {
       this.$store.dispatch(Constant.GET_BOARD, { bno });
       this.$store.dispatch(Constant.GET_COMMENTLIST, { bno });
@@ -274,7 +275,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-div.row.anstitle{
+div.row.anstitle {
   display: flex;
   justify-content: space-between;
   align-items: center;

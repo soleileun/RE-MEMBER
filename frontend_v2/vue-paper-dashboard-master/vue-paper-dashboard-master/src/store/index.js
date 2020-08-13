@@ -17,6 +17,7 @@ import chatstore from '@/store/modules/chatstore.js';
 import stackstore from '@/store/modules/stackstore.js';
 import issuestore from '@/store/modules/issuestore.js';
 import mapstore from '@/store/modules/mapstore.js';
+import filestore from '@/store/modules/filestore.js';
 
 const store = new Vuex.Store({
     modules: {
@@ -31,7 +32,8 @@ const store = new Vuex.Store({
         chatstore,
         stackstore,
         issuestore,
-        mapstore
+        mapstore,
+        filestore,
     },
     plugins: [
         createPersistedState({

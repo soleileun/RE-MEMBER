@@ -57,10 +57,10 @@ const boardstore = {
                 makeId : payload.makeId,
                 // changeId : payload.changeId
             },config)
-            .then(() => {
+            .then((res) => {
                 console.log('추가하였습니다.');
                 store.dispatch(Constant.GET_BOARDLIST, {bstate : payload.bstate});
-
+                store.dispatch('upFileForBoard',{bno:res.data})
             })
             .catch(exp => {
                 console.log('추가 실패 확인 로그');

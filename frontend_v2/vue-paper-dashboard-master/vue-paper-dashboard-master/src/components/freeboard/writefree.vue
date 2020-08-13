@@ -22,7 +22,7 @@
                   <option value="qa">질문게시판</option>
                   <option value="notice" v-show="this.board.bwriter === 'admin'">공지게시판</option>
                 </select>
-              </div> -->
+              </div>-->
             </div>
           </div>
 
@@ -56,7 +56,7 @@
               <div class="col-2 write-left">내용</div>
 
               <div class="col-10 write-right">
-                <vue-editor v-model="board.bcontent" style="height:80%;"></vue-editor>
+                <vue-editor v-model="board.bcontent" style="height:80%;" useCustomImageHandler @imageAdded="handleImageAdded"></vue-editor>
                 <!--<textarea name="" id="" cols="30" rows="10" v-model="board.bcontent" placeholder="내용을 입력하세요"></textarea><br>-->
               </div>
             </div>
@@ -89,6 +89,8 @@
 <script>
 import Constant from "../../Constant";
 import { VueEditor } from "vue2-editor";
+import axios from "axios";
+
 const storage = window.sessionStorage;
 export default {
   name: "writefree",
@@ -99,9 +101,12 @@ export default {
     type() {
       return this.$route.params.type;
     },
-    loginId(){
+    loginId() {
       return storage.getItem("userid");
-    }
+    },
+  },
+  created() {
+    this.$store.commit("delTempFiles");
   },
   data: function () {
     return {
@@ -121,13 +126,28 @@ export default {
     };
   },
   methods: {
+    handleImageAdded(file, Editor, cursorLocation) {
+      if (file) {
+        const fileName = new Date().getTime() - 1597262625477;
+        const file2 = new File(
+          [file],
+          `${fileName}.${file.name.split(".")[1]}`,
+          {
+            type: file.type,
+          }
+        );
+        this.$store.commit('upBoardFiles',{file:file2})
+        let url = this.$store.state.filestore.fileUrl + file2.name;
+        Editor.insertEmbed(cursorLocation, "image", url);
+      }
+    },
     addFree() {
-      if(this.board.btitle.trim() === ""){
-        alert('제목을 입력해주세요.');
+      if (this.board.btitle.trim() === "") {
+        alert("제목을 입력해주세요.");
       }
       // else if (this.board.bcontent.trim() === "") {
       //   alert('내용을 입력해주세요.');
-      // } 
+      // }
       else {
         this.$store.dispatch(Constant.ADD_BOARD, {
           //bno : auto increase
@@ -143,7 +163,7 @@ export default {
           makeId: this.board.makeid,
           // changeId : this.board.changeid
         });
-        this.$router.push("/freeboard/type/"+this.type); // mainboard 뺐음.
+        this.$router.push("/freeboard/type/" + this.type); // mainboard 뺐음.
       }
       this.clear();
     },
