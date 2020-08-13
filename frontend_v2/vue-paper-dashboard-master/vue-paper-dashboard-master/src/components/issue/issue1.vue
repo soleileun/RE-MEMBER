@@ -39,6 +39,7 @@
             </li>
           
           </ul>
+          
         </div>
     </div>
     
@@ -533,7 +534,7 @@ export default {
       document.querySelector(".issuecreate").classList.toggle("active");
     },
     issue() {
-      let addr = "/main"
+      let addr = "/issuetest/"+this.$route.params.userId + '/' + this.$route.params.pid;
       this.$router.push(addr);
     },
     teaminfo() {
