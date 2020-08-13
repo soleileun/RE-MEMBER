@@ -163,9 +163,7 @@
 
 	<select id="getAddressList" parameterType="int"
 		resultType="userinfo">
-		select id, nickname, name, address2, git, lastDate,
-		responsibility,
-		isValid,intro
+		select address1
 		from userInfo as ui
 		left join pmember as p
 		on ui.id = p.userId

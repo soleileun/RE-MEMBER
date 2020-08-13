@@ -89,12 +89,11 @@
     <div class="chatlist"  >
 
       <div class="base" ref="base">
-        <div v-for="chat in chats" :key="chat.chno">
+        <div v-for="chat in chats" :key="chat.chno" style="overflow:auto; margin:10px;">
           <div v-if="chat.id === id">
             <span >
             <div  class="me">{{ chat.content }}</div>
             </span>
-            <p> </p>
           </div>
 
           
@@ -123,12 +122,11 @@
 
         </div>
 
-        <div v-for="(item, idx) in recvList" :key="idx">
+        <div v-for="(item, idx) in recvList" :key="idx" style="overflow:auto; margin:10px;">
           <div v-if="item.id === id">
             <span >
             <div  class="me">{{ item.content }}</div>
             </span>
-            <p> </p>
           </div>
 
           <div v-else-if="item.id === 'system'">

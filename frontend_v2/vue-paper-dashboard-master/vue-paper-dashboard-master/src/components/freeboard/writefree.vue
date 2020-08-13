@@ -11,8 +11,11 @@
             <div class="row">
               <div class="col-2 write-left">글머리</div>
 
-              <!-- <div class="col-10 write-right">
-                <select
+              <div class="col-10 write-right">
+                <p class="card-title" v-if="this.type==='free'">자유</p>
+                <p class="card-title" v-if="this.type==='notice'">공지사항</p>
+                <p class="card-title" v-if="this.type==='qa'">질문</p>
+                <!-- <select
                   name="option"
                   id="statetag"
                   style="width:20%; padding-left:2px;"
@@ -21,8 +24,13 @@
                   <option value="free">자유게시판</option>
                   <option value="qa">질문게시판</option>
                   <option value="notice" v-show="this.board.bwriter === 'admin'">공지게시판</option>
+<<<<<<< HEAD
                 </select>
               </div>-->
+=======
+                </select>-->
+              </div>
+>>>>>>> d2dd24c0164700e07dc22056db18b418ed674ee8
             </div>
           </div>
 
@@ -104,9 +112,12 @@ export default {
     loginId() {
       return storage.getItem("userid");
     },
+<<<<<<< HEAD
   },
   created() {
     this.$store.commit("delTempFiles");
+=======
+>>>>>>> d2dd24c0164700e07dc22056db18b418ed674ee8
   },
   data: function () {
     return {
