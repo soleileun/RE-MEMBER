@@ -32,7 +32,7 @@
     <div class="text-center">
       <div class="row justify-content-md-center">
         <div clss="col-lg-4">
-          <router-link class="nav-link" :to="'/project/partners/'+project.pid">
+          <router-link  :to="'/project/partners/'+project.pid">
           <button id="myBtn"  class="btn btn-round btn-dark" >팀원 보기</button>
          </router-link>
         </div>

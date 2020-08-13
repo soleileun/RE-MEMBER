@@ -5,131 +5,168 @@
 
     <div class="card col-md-10 ml-auto col-xl-6 mr-auto">
       <!-- 시군구동 검색 -->
-      
-        <div class="card-body">
-      <div class="row">
-        <label class="col-md-2" for="sido" style="margin-left:-20px;">
-          <strong>
-            시도
-            <span id="userid" class="text-danger"></span>
-          </strong>
-        </label>
-        <select id="sido" class="form-control col-md-2" @change="changeSido(selectedSido)" v-model="selectedSido">
-          <option value="0">선택</option>
-          <option v-for="(sido, index) in sidoList" :value="sido" :key="index">
-            {{
-            sido
-            }}
-          </option>
-        </select>
 
-        <label class="col-md-2" for="gugun">
-          <strong>
-            구군
-            <span id="userid" class="text-danger"></span>
-          </strong>
-        </label>
-        <select v-if="selectedSido!=0" id="gugun" class="form-control col-md-2" @change="changeGugun(selectedSido, selectedGugun)" v-model="selectedGugun">
-          <option value="0">선택</option>
-          <option v-for="(gu, index) in gugunList" :value="gu" :key="index">
-            {{
-            gu
-            }}
-          </option>
-        </select>
-        <select v-else id="gugun" class="form-control col-md-2" disabled>
-          <option value="0">선택</option>
-        </select>
+      <div class="card-body">
+        <div class="row">
+          <label class="col-md-2" for="sido" style="margin-left:-20px;">
+            <strong>
+              시도
+              <span id="userid" class="text-danger"></span>
+            </strong>
+          </label>
+          <select
+            id="sido"
+            class="form-control col-md-2"
+            @change="changeSido(selectedSido)"
+            v-model="selectedSido"
+          >
+            <option value="0">선택</option>
+            <option v-for="(sido, index) in sidoList" :value="sido" :key="index">
+              {{
+              sido
+              }}
+            </option>
+          </select>
 
-        <label class="col-md-2" for="dong">
-          <strong>
-            읍면동
-            <span id="userid" class="text-danger"></span>
-          </strong>
-        </label>
+          <label class="col-md-2" for="gugun">
+            <strong>
+              구군
+              <span id="userid" class="text-danger"></span>
+            </strong>
+          </label>
+          <select
+            v-if="selectedSido!=0"
+            id="gugun"
+            class="form-control col-md-2"
+            @change="changeGugun(selectedSido, selectedGugun)"
+            v-model="selectedGugun"
+          >
+            <option value="0">선택</option>
+            <option v-for="(gu, index) in gugunList" :value="gu" :key="index">
+              {{
+              gu
+              }}
+            </option>
+          </select>
+          <select v-else id="gugun" class="form-control col-md-2" disabled>
+            <option value="0">선택</option>
+          </select>
 
-        <select v-if="selectedGugun!=0" id="dong" class="form-control col-md-2" v-model="selectedDong">
-          <!-- @change="changeDong(selectedDong)" -->
+          <label class="col-md-2" for="dong">
+            <strong>
+              읍면동
+              <span id="userid" class="text-danger"></span>
+            </strong>
+          </label>
 
-          <option value="0">선택</option>
-          <option v-for="(don, index) in dongList" :value="don" :key="index">
-            {{
-            don
-            }}
-          </option>
-        </select>
-        <select v-else id="dong" class="form-control col-md-2" disabled>
-          <option value="0">선택</option>
-        </select>
-      </div>
+          <select
+            v-if="selectedGugun!=0"
+            id="dong"
+            class="form-control col-md-2"
+            v-model="selectedDong"
+          >
+            <!-- @change="changeDong(selectedDong)" -->
 
-      <hr />
-          <div class="row">
-          <div class="selectform col-12" style="float:left;" >
+            <option value="0">선택</option>
+            <option v-for="(don, index) in dongList" :value="don" :key="index">
+              {{
+              don
+              }}
+            </option>
+          </select>
+          <select v-else id="dong" class="form-control col-md-2" disabled>
+            <option value="0">선택</option>
+          </select>
+        </div>
+
+        <hr />
+        <div class="row">
+          <div class="selectform col-12" style="float:left;">
             <div v-for="(pick,index) in picks" :key="index" style="float:left; margin:10px;">
               <div style="float:left;">
-              <button>{{pick}}</button>
-              <button v-on:click="deleteStack(index)">X</button>
+                <button>{{pick}}</button>
+                <button v-on:click="deleteStack(index)">X</button>
               </div>
             </div>
           </div>
-          </div>
-          <p></p>
-          <div class="row">
+        </div>
+        <p></p>
+        <div class="row">
           <div class="searchform" style="width:100%;">
             <div class="row" style="margin:8px;">
               <div class="col-12">
-                ID : 
+                ID :
                 <input type="text" placeholder="아이디를 입력하세요" id="keyword1" style="width:80%;" />
               </div>
             </div>
             <div class="input">
               <div class="row">
                 <div class="col-12">
-                  기술 : 
-                  
-              <input id="stackWord" type="text" v-model="inputVal" @input="searchQuery()" @keyup.enter="enter()" placeholder="기술 태그 입력해주세요"  style="width:80%;"/>
-              
+                  기술 :
+                  <input
+                    id="stackWord"
+                    type="text"
+                    v-model="inputVal"
+                    @input="searchQuery()"
+                    @keyup.enter="enter()"
+                    placeholder="기술 태그 입력해주세요"
+                    style="width:80%;"
+                  />
                 </div>
-                </div>
+              </div>
             </div>
             <table class="autoComplete" style="cursor: pointer;">
               <tr v-for="list in lists" :key="list" @click="add(list)">
                 <td>{{list}}</td>
               </tr>
             </table>
-            
           </div>
-            <div class="col-12" style="float:right;">
-              <button @click="searchPool()" style="border: 2px solid rgb(173, 203, 247); border-radius:10px; margin:20px; float:right;">프로젝트 검색</button>
-            </div>
-</div>
+          <div class="col-12" style="float:right;">
+            <button
+              @click="searchPool()"
+              style="border: 2px solid rgb(173, 203, 247); border-radius:10px; margin:20px; float:right;"
+            >프로젝트 검색</button>
+          </div>
         </div>
-
+      </div>
     </div>
-
-
 
     <hr />
     <!-- card layout -->
     <ul class="cards">
-        <li class="cards__item" v-for="pool in pools" :key="pool.id">
-          <div class="card">
-            <div class="card__image card__image--fence"></div>
-            <div class="card__content">
-              <div class="card__title">{{pool.nickname}}</div>
-              <p class="card__text">
-                <br />
-                {{pool.responsibility}}
-              </p>
-              <!-- <button class="btn btn--block card__btn">Button</button> -->
-              <router-link :to="'/project/' + pool.id" tag="button" class="btn btn--block card__btn">프로젝트 보기</router-link>
-              <router-link :to="'/profile/' + pool.id" tag="button" class="btn btn--block card__btn">프로필 보기</router-link>
-              <a class="btn btn--block card__btn" v-if="pool.git" :href="'https://github.com/'+pool.git">Git</a>
-              <button v-if="!follow.find(item=>item.id === pool.id)" class="btn btn-success" @click="fol(pool.id)">팔로우하기</button>
-            </div>
+      <li class="cards__item" v-for="pool in pools" :key="pool.id">
+        <div class="card">
+          <div class="card__image card__image--fence"></div>
+          <div class="card__content">
+            <div class="card__title">{{pool.nickname}}</div>
+            <p class="card__text">
+              <br />
+              {{pool.responsibility}}
+            </p>
+            <!-- <button class="btn btn--block card__btn">Button</button> -->
+            <router-link
+              :to="'/project/' + pool.id"
+              tag="button"
+              class="btn btn--block card__btn"
+            >프로젝트 보기</router-link>
+            <router-link
+              :to="'/profile/' + pool.id"
+              tag="button"
+              class="btn btn--block card__btn"
+            >프로필 보기</router-link>
+            <a
+              class="btn btn--block card__btn"
+              v-if="pool.git"
+              :href="'https://github.com/'+pool.git"
+            >Git</a>
+            <button
+              v-if="!follow.find(item=>item.id === pool.id)"
+              class="btn btn-success"
+              @click="fol(pool.id)"
+            >팔로우하기</button>
           </div>
-        </li>
+        </div>
+      </li>
     </ul>
   </div>
 </template>
@@ -276,56 +313,22 @@ export default {
       console.log("태그길이:" + this.picks.length);
       console.log("stack is + " + stacks);
 
-      //통합
-      this.$store.dispatch(Constant.SEARCH_POOLIST, {
-        addr,
-        stacks,
-        keyword: document.getElementById("keyword1").value,
-      });
-
-      // //주소만
-      // if (this.picks.length == 0 && sd != " ") {
-      //   this.$store.dispatch(Constant.SEARCH_RECRUIT_BY_ADDR, {
-      //     sido: sd,
-      //     gugun: gg,
-      //     dong: dn,
-      //   });
-      // }
-      // //태그만
-      // else if (this.picks.length != 0 && sd == " ") {
-      //   let stacks = "";
-      //   if (this.picks.length != 0) {
-      //     for (let i = 0; i < this.picks.length; i++) {
-      //       stacks += this.picks[i] + ",";
-      //     }
-      //   } else {
-      //     stacks = null;
-      //   }
-      //   this.$store.dispatch(Constant.SEARCH_RECRUIT_BY_TAG, { stacks });
-      // }
-      // //둘다 o
-      // else if (this.picks.length != 0 && sd != " ") {
-      //   let addr = sd + "," + gg + "," + dn + ",";
-      //   let stacks = "";
-      //   if (this.picks.length != 0) {
-      //     for (let i = 0; i < this.picks.length; i++) {
-      //       stacks += this.picks[i] + ",";
-      //     }
-      //   } else {
-      //     stacks = null;
-      //   }
-
-      //   // console.log(addr + "/" + stacks);
-      //   //시 구 동 미선택 시 " " 로 보내고 picks
-      //   this.$store.dispatch(Constant.SEARCH_RECRUIT_BY_TAG_ADDR, {
-      //     addr,
-      //     stacks,
-      //   });
-      // }
-      // //둘다 x
-      // else if (this.picks.length == 0 && sd == " ") {
-      //   this.$store.dispatch(Constant.GET_RECRUITLIST);
-      // }
+      if (
+        this.selectedSido == 0 &&
+        this.selectedGugun == 0 &&
+        this.selectedDong == 0 &&
+        this.picks.length == 0 &&
+        document.getElementById("keyword1").value == ""
+      ) {
+        this.$store.dispatch(Constant.GET_POOLLIST);
+      } else {
+        //통합
+        this.$store.dispatch(Constant.SEARCH_POOLIST, {
+          addr,
+          stacks,
+          keyword: document.getElementById("keyword1").value,
+        });
+      }
     },
 
     deleteStack(idx) {
@@ -515,5 +518,4 @@ img {
   line-height: 1.5;
   margin-bottom: 1.25rem;
 }
-
 </style>

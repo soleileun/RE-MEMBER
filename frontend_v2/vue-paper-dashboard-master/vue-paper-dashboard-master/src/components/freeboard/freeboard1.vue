@@ -304,7 +304,7 @@ table, td, tr, th {
   border: 1px solid black;
 }
 */
-table#my-table {
+.card-body table {
   td,
   th {
     border-color: #f3f1f1;

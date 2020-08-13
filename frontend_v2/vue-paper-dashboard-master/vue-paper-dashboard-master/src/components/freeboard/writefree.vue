@@ -11,8 +11,11 @@
             <div class="row">
               <div class="col-2 write-left">글머리</div>
 
-              <!-- <div class="col-10 write-right">
-                <select
+              <div class="col-10 write-right">
+                <p class="card-title" v-if="this.type==='free'">자유</p>
+                <p class="card-title" v-if="this.type==='notice'">공지사항</p>
+                <p class="card-title" v-if="this.type==='qa'">질문</p>
+                <!-- <select
                   name="option"
                   id="statetag"
                   style="width:20%; padding-left:2px;"
@@ -21,8 +24,8 @@
                   <option value="free">자유게시판</option>
                   <option value="qa">질문게시판</option>
                   <option value="notice" v-show="this.board.bwriter === 'admin'">공지게시판</option>
-                </select>
-              </div> -->
+                </select>-->
+              </div>
             </div>
           </div>
 
@@ -99,9 +102,9 @@ export default {
     type() {
       return this.$route.params.type;
     },
-    loginId(){
+    loginId() {
       return storage.getItem("userid");
-    }
+    },
   },
   data: function () {
     return {
@@ -122,12 +125,12 @@ export default {
   },
   methods: {
     addFree() {
-      if(this.board.btitle.trim() === ""){
-        alert('제목을 입력해주세요.');
+      if (this.board.btitle.trim() === "") {
+        alert("제목을 입력해주세요.");
       }
       // else if (this.board.bcontent.trim() === "") {
       //   alert('내용을 입력해주세요.');
-      // } 
+      // }
       else {
         this.$store.dispatch(Constant.ADD_BOARD, {
           //bno : auto increase
@@ -143,7 +146,7 @@ export default {
           makeId: this.board.makeid,
           // changeId : this.board.changeid
         });
-        this.$router.push("/freeboard/type/"+this.type); // mainboard 뺐음.
+        this.$router.push("/freeboard/type/" + this.type); // mainboard 뺐음.
       }
       this.clear();
     },

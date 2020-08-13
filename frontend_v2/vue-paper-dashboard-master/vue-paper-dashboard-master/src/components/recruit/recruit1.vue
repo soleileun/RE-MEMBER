@@ -165,45 +165,14 @@
             <input type="text" v-model="wrecruit.title" placeholder="제목을 입력하세요" />
           </div>
         </div>
-        <div class="row">
-          <div class="col-25">
-            <label for="lname">기술 태그 입력</label>
-          </div>
-          <div class="col-75">
-            <!-- 기술 스택 필터 추가 -->
-            <div class="selectform">
-              <div v-for="(pick,index) in picks2" :key="index">
-                <button>{{pick}}</button>
-                <button v-on:click="deleteStack2(index)">X</button>
-              </div>
-            </div>
-            <div class="searchform">
-              <div class="input">
-                <input
-                  id="stackWord2"
-                  type="text"
-                  v-model="inputVal2"
-                  @input="searchQuery2()"
-                  @keyup.enter="enter()"
-                  placeholder="기술 태그 입력해주세요"
-                />
-              </div>
-              <table class="autoComplete">
-                <tr v-for="list in lists2" :key="list" @click="add2(list)">
-                  <td>{{list}}</td>
-                </tr>
-              </table>
-            </div>
-          </div>
-        </div>
+        
 
         <div class="row">
           <div class="col-25">
             <label for="subject">내용</label>
           </div>
           <div class="col-75">
-            <vue-editor class="viewEditor" v-model="wrecruit.contents" ></vue-editor>
-
+            <vue-editor class="viewEditor" v-model="wrecruit.contents"></vue-editor>
           </div>
         </div>
 
@@ -221,6 +190,13 @@
       <div class="row row--top-40">
         <div class="col-md-12">
           <h2 class="row__title">구인중인 프로젝트</h2>
+          <!-- <div class="col-1">
+            <select id="showcnt" @change="changeShowCnt">
+              <option value="5">5개씩 보기</option>
+              <option value="10" selected>10개씩 보기</option>
+              <option value="20">20개씩 보기</option>
+            </select>
+          </div> -->
         </div>
       </div>
       <div class="row row--top-20">
@@ -274,7 +250,7 @@ export default {
   name: "recruit1",
   components: {
     recruitcomponent,
-    VueEditor
+    VueEditor,
   },
   computed: {
     recruits() {
@@ -326,14 +302,13 @@ export default {
         makeId: "",
         changeId: "",
       },
-     
+
       //스택 필터링
       selectedSido: 0,
       selectedGugun: 0,
       selectedDong: 0,
 
       lists: [],
-      lists2: [],
       pints: [
         "C",
         "C++",
@@ -374,31 +349,12 @@ export default {
         "GraphQL",
       ],
       picks: [],
-      picks2: [],
       inputVal: "",
-      inputVal2: "",
     };
   },
 
   methods: {
-    searchRecruit() {
-      let val = document.getElementById("searchWord").value;
-      let std = document.getElementById("standard").value;
-      //제목 검색
-      if (std == "t") {
-        console.log(val);
-        this.$store.dispatch(Constant.SEARCH_BOARD_TITLE, {
-          btitle: val,
-          bstate: "free",
-        });
-      } else {
-        //작성자 검색
-        this.$store.dispatch(Constant.SEARCH_BOARD_WRITER, {
-          bwriter: val,
-          bstate: "free",
-        });
-      }
-    },
+    
     openModal() {
       // Get the modal
       var modal = document.getElementById("myModal");
@@ -438,12 +394,7 @@ export default {
           changeId: this.loginId,
         });
 
-        for (let i = 0; i < this.picks2.length; i++) {
-          this.$store.dispatch(Constant.ADD_PINTEREST, {
-            pid: ppid,
-            interest: this.picks2[i],
-          });
-        }
+        
 
         var modal = document.getElementById("myModal");
         modal.style.display = "none";
@@ -476,8 +427,6 @@ export default {
 
     // },
 
-  
-
     searchPool() {
       let sd = "";
       let gg = "";
@@ -498,7 +447,7 @@ export default {
       } else {
         dn = this.selectedDong;
       }
-let addr = sd + "," + gg + "," + dn + ",";
+      let addr = sd + "," + gg + "," + dn + ",";
       let stacks = "";
       if (this.picks.length != 0) {
         for (let i = 0; i < this.picks.length; i++) {
@@ -510,67 +459,23 @@ let addr = sd + "," + gg + "," + dn + ",";
 
       console.log(sd + " " + gg + " " + dn);
       console.log("태그길이:" + this.picks.length);
-      console.log("stack is + "+ this.stacks);
+      console.log("stack is + " + this.stacks);
 
       //통합
       this.$store.dispatch(Constant.SEARCH_RECRUIT, {
         addr,
         stacks,
-        by:document.getElementById("std").value,
-        keyword:document.getElementById('keyword').value
+        by: document.getElementById("std").value,
+        keyword: document.getElementById("keyword").value,
       });
 
-      // //주소만
-      // if (this.picks.length == 0 && sd != " ") {
-      //   this.$store.dispatch(Constant.SEARCH_RECRUIT_BY_ADDR, {
-      //     sido: sd,
-      //     gugun: gg,
-      //     dong: dn,
-      //   });
-      // }
-      // //태그만
-      // else if (this.picks.length != 0 && sd == " ") {
-      //   let stacks = "";
-      //   if (this.picks.length != 0) {
-      //     for (let i = 0; i < this.picks.length; i++) {
-      //       stacks += this.picks[i] + ",";
-      //     }
-      //   } else {
-      //     stacks = null;
-      //   }
-      //   this.$store.dispatch(Constant.SEARCH_RECRUIT_BY_TAG, { stacks });
-      // }
-      // //둘다 o
-      // else if (this.picks.length != 0 && sd != " ") {
-      //   let addr = sd + "," + gg + "," + dn + ",";
-      //   let stacks = "";
-      //   if (this.picks.length != 0) {
-      //     for (let i = 0; i < this.picks.length; i++) {
-      //       stacks += this.picks[i] + ",";
-      //     }
-      //   } else {
-      //     stacks = null;
-      //   }
-
-      //   // console.log(addr + "/" + stacks);
-      //   //시 구 동 미선택 시 " " 로 보내고 picks
-      //   this.$store.dispatch(Constant.SEARCH_RECRUIT_BY_TAG_ADDR, {
-      //     addr,
-      //     stacks,
-      //   });
-      // }
-      // //둘다 x
-      // else if (this.picks.length == 0 && sd == " ") {
-      //   this.$store.dispatch(Constant.GET_RECRUITLIST);
-      // }
+      
     },
 
     deleteStack(idx) {
       this.picks.splice(idx, 1);
     },
-    deleteStack2(idx) {
-      this.picks2.splice(idx, 1);
-    },
+    
 
     searchQuery: function () {
       if (this.inputVal.trim() !== "") {
@@ -581,15 +486,7 @@ let addr = sd + "," + gg + "," + dn + ",";
         this.lists = [];
       }
     },
-    searchQuery2: function () {
-      if (this.inputVal2.trim() !== "") {
-        this.lists2 = this.pints.filter((el) => {
-          return el.toLowerCase().match(this.inputVal2.toLowerCase());
-        });
-      } else {
-        this.lists2 = [];
-      }
-    },
+   
     add: function (x) {
       if (this.picks.length == 5) {
         alert("검색 스택은 5개까지만 입력 가능합니다.");
@@ -605,21 +502,7 @@ let addr = sd + "," + gg + "," + dn + ",";
         this.lists = [];
       }
     },
-    add2: function (x) {
-      if (this.picks2.length == 5) {
-        alert("검색 스택은 5개까지만 입력 가능합니다.");
-        this.lists2 = [];
-        this.inputVal2 = "";
-      } else {
-        if (x !== "") {
-          if (!this.picks2.find((i) => i === x)) {
-            this.picks2.push(x);
-          }
-        }
-        this.inputVal2 = "";
-        this.lists2 = [];
-      }
-    },
+   
 
     deleteRecruit(rnum) {
       this.$emit("delete-recruit", rnum);
@@ -1014,7 +897,7 @@ body {
 .modal {
   box-sizing: border-box;
 }
-.modal-content{
+.modal-content {
   width: 80%;
   padding-left: 50px;
 }
@@ -1026,7 +909,7 @@ body {
   border-radius: 4px;
   resize: vertical;
 }
-.quillWrapper.viewEditor{
+.quillWrapper.viewEditor {
   width: 80%;
   height: 500px;
   max-height: 45vh;

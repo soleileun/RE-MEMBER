@@ -32,6 +32,20 @@
           ></fg-input>
         </div>
 
+
+          <div class="col-md-10">
+            프로젝트 희망 지역<span class="reddot">*</span>
+            <fg-input type="text" placeholder="검색 버튼을 눌러주세요" v-model="address1" :disabled="true"></fg-input>
+          </div>
+          
+          <div class="col-md-2">
+            <br />
+            <button class="btn btn-primary" @click="postActive">주소</button>
+          </div>
+          <div class="col-12 postcode" v-if="postAct">
+            <DaumPostcode :on-complete="handleAddress" />
+          </div>
+
         <div class="col-md-12">
           <div class="form-group">
             <label>프로젝트 소개</label>
@@ -105,10 +119,14 @@
 
 <script>
 import Constant from "../../Constant";
+import DaumPostcode from "vuejs-daum-postcode";
 const storage = window.sessionStorage;
 //import project from "../project/project1";
 export default {
   name: "makeproject",
+  components: {
+    DaumPostcode,
+  },
   computed: {
     projects() {
       return this.$store.state.projectstore.projects;
@@ -125,6 +143,8 @@ export default {
     return {
       userNick: storage.getItem("userNick"),
       userId: storage.getItem("userid"),
+      address1: "",
+      postAct: false,
 
       wproject: {
         pid: "",
@@ -191,6 +211,23 @@ export default {
         this.submitable = this.picks.length > 0 ? true : false;
       }
     },
+    postActive: function () {
+      this.postAct = true;
+    },
+    handleAddress: function (data) {
+      let fullAddress = data.address;
+      let extraAddress = "";
+      if (data.addressType === "R") {
+        if (data.bname !== "") {
+          extraAddress += data.bname;
+        }
+        // fullAddress += extraAddress !== "" ? ` (${extraAddress})` : "";
+      }
+      this.address1 = fullAddress;
+      this.wproject.location =
+        fullAddress.split(" ").slice(0, -2).join(" ") + " " + extraAddress;
+      this.postAct = false;
+    },
     searchQuery: function () {
       if (this.inputVal.trim() !== "") {
         this.lists = this.pints.filter((el) => {
@@ -231,6 +268,7 @@ export default {
           makeDay: new Date(),
           //changeDay: this.wproject.title,
           makeId: this.userId,
+          location: this.wproject.location,
           //changeId: this.wproject.title,
           //location: this.wproject.location,
         });
