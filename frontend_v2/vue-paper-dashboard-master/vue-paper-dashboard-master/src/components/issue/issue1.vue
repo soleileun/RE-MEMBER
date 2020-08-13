@@ -365,7 +365,7 @@
         <!-- drag and drop -->
       </div>
     </div>
-    <issuedetail v-bind:num="issueid"/>
+    <issuedetail v-bind:issueid="issueid"/>
     <issuecreate />
   </div>
 </template>
@@ -551,9 +551,24 @@ export default {
       this.$router.go();
     },
     issuedetail: function (issueid) {
-      console.log(issueid);
+      
       this.issueid = issueid;
-      document.querySelector(".issuedetail").classList.toggle("active");
+      // this.$store.dispatch(Constant.GET_ISSUE, {
+      //   issueid : this.issueid
+      // });
+      // this.$store.dispatch(Constant.GET_PROJECT,{
+      //   pid : this.$route.params.pid
+      // });
+      // console.log("pid is " + this.$route.params.pid);
+
+      // let val = this.$store.state.issuestore.issue;
+      // let val2 = this.$store.state.projectstore.project;
+      // console.log(val2);
+      //document.getElementById("title").innerHTML = val.issuetitle;
+      // document.getElementById("projectTitle").innerHTML = project.pjtName;
+      setTimeout(() => {
+        document.querySelector(".issuedetail").classList.toggle("active");
+      }, 300);
     },
 
     updateIssueChange() {

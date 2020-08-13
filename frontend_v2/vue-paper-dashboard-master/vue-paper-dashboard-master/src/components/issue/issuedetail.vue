@@ -3,11 +3,11 @@
     <i class="ti-close" @click="exit"></i>
     <div class="biggest">
         <div class="card-header">
-            <div style="font-size:12px;">
+            <div id="projectTitle" style="font-size:12px;">
                 여기 프로젝트 이름 / 이슈번호
             </div>
-            <div style=" font-weight:bold; font-size:18px;">
-                이슈 타이틀 그리고 priority 그림으로 넣어주자
+            <div style=" font-weight:bold; font-size:18px;" id="title">
+                이슈 타이틀
             </div>
         </div>
         <div class="card-body" style="height:100%;">
@@ -62,7 +62,8 @@
                             대기중인 작업:
                         </div>
                         <div class="col-7 data">
-                            {{num}}
+                            {{this.issueid}}
+                            {{issues[issueid].issuetitle}}
                             쿼리로 이 이슈를 선행작업으로 가지는 이슈들 보여줌 
                         </div>
                     </div>
@@ -116,25 +117,52 @@
 
 
 <script>
+import Constant from "../../Constant";
 const storage = window.sessionStorage;
 
 export default {
   name: "issuedetail",
   props:{
-    num : Number
+    issueid : Number
   },
   data: function () {
     return {
       autologin: false,
       id: "",
       pw: "",
-      testing : "",
+      issueid : 0,
     };
   },
   computed: {
+    issue () {
+      return this.$store.state.issuestore.issue;
+    },
+    issues(){
+      return this.$store.state.issuestore.issues;
+    }
+  },
+
+  created() {
+    this.getIssue();
+    this.$store.dispatch(Constant.GET_ISSUELIST, {
+      pid : this.$route.params.pid
+    })
+  },
+
+  mounted() {
+    // document.getElementById("title").innerHTML = this.issue.issuetitle;  
   },
 
   methods: {
+
+    getIssue(){
+      console.log("getIssue!")
+      console.log(this.issue);
+      return this.$store.dispatch(Constant.GET_ISSUE, {
+        issueid : this.issueid
+      })
+    },
+
     exit: function () {
       document.querySelector(".issuedetail").classList.remove("active");
     },
