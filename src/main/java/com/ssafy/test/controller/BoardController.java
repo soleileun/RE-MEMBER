@@ -144,11 +144,16 @@ public class BoardController {
 
 	@ApiOperation(value = "새로운 글 정보를 입력한다. 그리고 DB입력 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
 	@PostMapping
-	public ResponseEntity<String> writeBoard(@RequestBody Board v) {
+	public ResponseEntity<Integer> writeBoard(@RequestBody Board v) {
 		if (bService.insert(v) != 0) {
-			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+			Board v2;
+			v2 = new Board();
+			v2.setBstate(v.getBstate());
+			v2.setBwriter(v.getBwriter());
+			List<Board> x = bService.typesearchById(v2);
+			return new ResponseEntity<Integer>(x.get(x.size() - 1).getBno(), HttpStatus.OK);
 		}
-		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
+		return new ResponseEntity<Integer>(400, HttpStatus.NO_CONTENT);
 	}
 
 	@ApiOperation(value = "글번호에 해당하는 게시글의 정보를 수정한다. 그리고 DB수정 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)

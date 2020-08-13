@@ -157,11 +157,10 @@ public class ReffileController {
 				//DB에 저장하는 작업
 				Reffile v = new Reffile();
 				SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
-				Date now = new Date();
 				//System.out.println(format1.format(now));
 				v.setFboardno(fboardno);
 				v.setFoname(file.getOriginalFilename());
-				v.setFsname("file_set" + format1.format(now) + file.getOriginalFilename() ); // 이름 바꿔주자
+				v.setFsname("file"  + file.getOriginalFilename() ); // 이름 바꿔주자
 				v.setFsize(file.getSize());
 				v.setMakeId(makeId);
 				v.setMakeDay(new Date());
