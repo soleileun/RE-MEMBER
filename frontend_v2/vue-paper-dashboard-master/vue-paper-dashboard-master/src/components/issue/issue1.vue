@@ -57,7 +57,8 @@
             <div class="card">
               <div class="header">
                 <h4 class="card-title">최근 프로젝트 이슈</h4>
-                <p class="category">날짜순</p>
+                <p align="right" class="category"><button v-on:click="createIssue()" class="btn btn-info btn-simple btn-xs">이슈 생성하기</button></p>
+                
               </div>
               <div class="content">
                 <div class="overflow-auto table-responsive">
@@ -275,7 +276,7 @@
             >
               <i class="fa fa-edit"></i>
             </button>-->
-            <button v-on:click="updateIssueChange()" class="btn btn-info btn-simple btn-xs">이슈 저장하기</button>
+            <button v-on:click="updateIssueChange()" class="btn btn-info btn-simple btn-xs">변경사항 저장하기</button>
           </p>
           <hr />
           <ul class="drag-list content">
@@ -317,7 +318,8 @@
         <!-- drag and drop -->
       </div>
     </div>
-    <issuedetail />
+    <issuedetail v-bind:num="issueid"/>
+    <issuecreate />
   </div>
 </template>
 
@@ -325,11 +327,14 @@
 import { VueDraggableDirective } from "vue-draggable";
 import Constant from "../../Constant";
 import issuedetail from "./issuedetail.vue";
+import issuecreate from "./issuecreate.vue";
 
 export default {
   components: {
     issuedetail,
+    issuecreate,
   },
+
   directives: {
     //dragAndDrop: VueDraggableDirective,
   },
@@ -337,6 +342,7 @@ export default {
   data() {
     const componentInstance = this;
     return {
+      issueid : 0,
       data: [],
       left: {},
       right: {},
@@ -344,15 +350,7 @@ export default {
         {
           id: 1,
           name: "To Do",
-          items: [
-            // {
-            //   id: 1,
-            //   name: {
-            //     pid : 1
-            //   },
-            //   groupId: 1,
-            // },
-          ],
+          items: [],
         },
         {
           id: 2,
@@ -485,10 +483,17 @@ export default {
   methods: {
     someDummyMethod() {},
 
+    createIssue(){
+      document.querySelector(".issuecreate").classList.toggle("active");
+    },
+
+
     loadAll(){
       this.$router.go();
     },
     issuedetail: function (issueid) {
+      console.log(issueid);
+      this.issueid = issueid;
       document.querySelector(".issuedetail").classList.toggle("active");
     },
 
@@ -522,7 +527,7 @@ export default {
 
       this.loadAll();
       // -> 퀴리
-      alert("수정되었습니다!");
+      alert("변경되었습니다!");
     },
 
     // this.issues_created.forEach((el) => {
