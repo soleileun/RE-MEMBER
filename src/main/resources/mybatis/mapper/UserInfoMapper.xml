@@ -169,5 +169,32 @@
 		on ui.id = p.userId
 		where p.pid = #{pid};
 	</select>
+	
+	<select id="getPools" resultType="pools">
+		select b.*, a.projects
+		from(
+		SELECT jointwo.userId, GROUP_CONCAT(jointwo.pjt) AS projects 
+		FROM (
+		select concat(joinone.pid,'|',joinone.pjtName) as pjt,joinone.userId
+		from(
+		select project.pid, project.pjtName, pmember.userId from pmember join project
+		on project.pid = pmember.pid
+		)as joinone
+		) as jointwo
+		group by jointwo.userId
+		) as a right join
+		(
+		select * from(
+		select  userInfo.id,userInfo.nickname, userInfo.address2 ,userInfo.git ,userInfo.lastDate ,userInfo.state
+		,userInfo.responsibility ,userInfo.isValid ,userInfo.leaveUser ,userInfo.intro
+		,a.interests
+		from userInfo left join(
+		SELECT id, GROUP_CONCAT(interest) AS interests FROM interest group by id
+		) as a
+		on userInfo.id = a.id
+		) as b
+		) as b
+		on a.userId = b.id;
+	</select>
 
 </mapper>

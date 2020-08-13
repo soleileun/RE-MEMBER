@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.ssafy.test.model.dao.UserInfoDao;
 import com.ssafy.test.model.dto.Addr;
+import com.ssafy.test.model.dto.Pools;
 import com.ssafy.test.model.dto.Project;
 import com.ssafy.test.model.dto.SearchParameter;
 import com.ssafy.test.model.dto.UserInfo;
@@ -111,6 +112,11 @@ public class UserInfoServiceImpl implements UserInfoService {
 	public int updateLastDate(UserInfo user) {
 		// TODO Auto-generated method stub
 		return uDao.updateLastDate(user);
+	}
+
+	@Override
+	public List<Pools> getPools() {
+		return uDao.getPools();
 	}
 
 }
