@@ -279,7 +279,7 @@ export default {
               this.jungboks = true;
             }
           })
-          .catch((exp) => console.log("서버가 불안정합니다." + exp));
+          .catch((exp) => alert("서버가 불안정합니다." + exp));
       }
     },
     chek: function (a) {
