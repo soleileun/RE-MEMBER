@@ -785,6 +785,7 @@ img {
   line-height: 50px;
   transition: all 0.5s ease;
   z-index: 2;
+  color: white;
   position: relative;
 }
 .eff-7 {
