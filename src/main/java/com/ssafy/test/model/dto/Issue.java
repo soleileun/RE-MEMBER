@@ -20,6 +20,14 @@ public class Issue {
 	public Issue() {
 		super();
 	}
+	
+	@Override
+	public String toString() {
+		return "Issue [issueid=" + issueid + ", pid=" + pid + ", uid=" + uid + ", response=" + response + ", issuetype="
+				+ issuetype + ", issuestate=" + issuestate + ", issuetitle=" + issuetitle + ", issuecontent="
+				+ issuecontent + ", prework=" + prework + ", priority=" + priority + ", makeDay=" + makeDay
+				+ ", startDay=" + startDay + ", endDay=" + endDay + ", changeDay=" + changeDay + "]";
+	}
 	public Issue(int issueid, int pid, String uid, String response, String issuetype, String issuestate,
 			String issuetitle, String issuecontent, int prework, String priority) {
 		super();

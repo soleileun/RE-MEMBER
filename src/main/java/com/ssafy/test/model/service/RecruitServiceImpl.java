@@ -10,6 +10,7 @@ import com.ssafy.test.model.dto.Addr;
 import com.ssafy.test.model.dto.AddrAndTag;
 import com.ssafy.test.model.dto.Recruit;
 import com.ssafy.test.model.dto.RecruitPjt;
+import com.ssafy.test.model.dto.RecruitPjtPinterest;
 import com.ssafy.test.model.dto.SearchParameter;
 import com.ssafy.test.model.dto.TagList;
 
@@ -62,6 +63,11 @@ public class RecruitServiceImpl implements RecruitService {
 	@Override
 	public List<Recruit> searchAll(SearchParameter sp) {
 		return rDao.searchAll(sp);
+	}
+
+	@Override
+	public List<RecruitPjtPinterest> selectAllRecruitPjtPinterest() {
+		return rDao.selectAllRecruitPjtPinterest();
 	}
 
 }

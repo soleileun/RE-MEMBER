@@ -168,7 +168,7 @@ public class UserInfoController {
 			sp.setGugun(b[1]);
 			sp.setSido(b[2]);
 			sp.setCnt(0);
-
+			System.out.println(sp.toString());
 			return new ResponseEntity<List<UserInfo>>(uiService.searchAll(sp), HttpStatus.OK);
 
 		} else {
@@ -190,6 +190,7 @@ public class UserInfoController {
 			sp.setDong(b[2]);
 			sp.setKeyword(keyword);
 			// 어차피 널이 들어감.
+			System.out.println(sp.toString());
 			return new ResponseEntity<List<UserInfo>>(uiService.searchAll(sp), HttpStatus.OK);
 
 		}
