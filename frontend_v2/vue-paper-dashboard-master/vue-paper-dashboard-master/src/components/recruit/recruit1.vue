@@ -225,6 +225,7 @@
                   :recruit="recruit"
                   :pid="recruit.pid"
                   @delete-recruit="deleteRecruit"
+                  @open-modify="openModify"
                 />
               </tbody>
             </table>
@@ -507,6 +508,9 @@ export default {
 
     deleteRecruit(rnum) {
       this.$emit("delete-recruit", rnum);
+    },
+     openModify() {
+      this.$emit("open-modify");
     },
   },
 };

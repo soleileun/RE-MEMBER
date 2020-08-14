@@ -55,7 +55,7 @@
         data-toggle="tooltip"
         data-placement="bottom"
         title="Edit"
-        @click="modifyRecruit()"
+        @click="openModify()"
         v-if="recruit.makeId === loginId"
       >
         <g>
@@ -164,14 +164,71 @@
         <g />
       </svg>
     </td>
+
+
+    <!-- The Modal -->
+    <div class="modal" id="myModal2">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <div class="row">
+          <div class="col-25">
+            <label for="fname">아이디</label>
+          </div>
+          <div class="col-75">
+            <label for="fname">{{loginId}}</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-25">
+            <label for="country">프로젝트</label>
+          </div>
+          <div class="col-75">
+            <select id="myproject" name="myproject" disabled>
+              <option
+                 selected
+                :value="recruit.pid"
+              >{{recruit.pjtName}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-25">
+            <label for="lname">게시글 제목</label>
+          </div>
+          <div class="col-75">
+            <input type="text" v-model="recruit.title" placeholder="제목을 입력하세요" />
+          </div>
+        </div>
+        
+
+        <div class="row">
+          <div class="col-25">
+            <label for="subject">내용</label>
+          </div>
+          <div class="col-75">
+            <vue-editor class="viewEditor" :value="recruit.contents"></vue-editor>
+          </div>
+        </div>
+
+        <div class="row">
+          <button class="btn btn-info" @click="modifyRecruit">수정</button>
+        </div>
+      </div>
+    </div>
+    <!-- Modal end  -->
+
   </tr>
 </template>
 
 <script>
 import Constant from "../../Constant";
 const storage = window.sessionStorage;
+import { VueEditor } from "vue2-editor";
 
 export default {
+  components:{
+    VueEditor
+  },
   props: {
     recruit: {
       type: Object,
@@ -186,6 +243,7 @@ export default {
     //   required: true,
     // },
   },
+  
   created() {
     // this.$store.dispatch(Constant.GET_PROJECT, { pid: this.pid });
   },
@@ -213,9 +271,31 @@ export default {
         rnum: this.recruit.rnum,
       });
     },
+    openModify(){
+      // Get the modal
+      var modal = document.getElementById("myModal2");
+
+      // Get the <span> element that closes the modal
+      var span = document.getElementsByClassName("close")[0];
+
+      // When the user clicks on the button, open the modal
+      modal.style.display = "block";
+
+      // When the user clicks on <span> (x), close the modal
+      span.onclick = function () {
+        modal.style.display = "none";
+      };
+
+      // When the user clicks anywhere outside of the modal, close it
+      window.onclick = function (event) {
+        if (event.target == modal) {
+          modal.style.display = "none";
+        }
+      };
+    },
     modifyRecruit() {
       // console.log("삭제 rnum : " + this.recruit.rnum);
-      this.$store.dispatch(Constant.REMOVE_RECRUIT, {
+      this.$store.dispatch(Constant.MODIFY_RECRUIT, {
         rnum: this.recruit.rnum,
       });
     },
@@ -556,5 +636,110 @@ body {
   .table-row {
     width: 100%;
   }
+}
+
+
+//모달 인풋 css
+.modal {
+  box-sizing: border-box;
+}
+.modal-content {
+  width: 80%;
+  padding-left: 50px;
+}
+.modal input[type="text"],
+.modal select {
+  width: 80%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+}
+.quillWrapper.viewEditor {
+  width: 80%;
+  height: 500px;
+  max-height: 45vh;
+  border-radius: 4px;
+  resize: vertical;
+  margin-bottom: 100px;
+}
+
+.modal label {
+  padding: 12px 12px 12px 0;
+  display: inline-block;
+}
+
+.modal input[type="submit"] {
+  background-color: #4caf50;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  float: right;
+}
+
+.modal input[type="submit"]:hover {
+  background-color: #45a049;
+}
+
+// .container2 {
+//   border-radius: 5px;
+//   background-color: #f2f2f2;
+//   padding: 20px;
+// }
+
+.col-25 {
+  float: left;
+  width: 25%;
+  margin-top: 6px;
+}
+
+.col-75 {
+  float: left;
+  width: 75%;
+  margin-top: 6px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0, 0, 0); /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 50%; /* Could be more or less, depending on screen size */
+}
+/* The Close Button */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
 }
 </style>
