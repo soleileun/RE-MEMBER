@@ -195,7 +195,7 @@
 		) as b
 		) as b
 		on a.userId = b.id
-		where b.leaveUser != 1;
+		where b.leaveUser != 1 and b.id != 'admin';
 	</select>
 
 </mapper>
