@@ -62,7 +62,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</update>
 
 
-	<update id="pick" parameterType="comments">
+	<update id="pick" parameterType="int">
 		update comments set
 		isSelected =
 		1

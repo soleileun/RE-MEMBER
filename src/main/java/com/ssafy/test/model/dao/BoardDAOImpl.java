@@ -113,4 +113,10 @@ public class BoardDAOImpl implements BoardDAO{
 		return template.update(ns + "read", k);
 	}
 
+	@Override
+	public String isSelect(int k) {
+		// TODO Auto-generated method stub
+		return template.selectOne(ns + "isSelect", k);
+	}
+
 }

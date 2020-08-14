@@ -116,9 +116,10 @@
 		and state = 1
 	</select>
 
-
-	<select id="searchAddr" parameterType="searchparameter"
-		resultType="userinfo">
+<!-- 
+<select id="searchAddr" parameterType="searchparameter"
+		resultType="userinfo"> 
+		
 		select id, nickname, name, address2, git, lastDate, state,
 		responsibility,
 		isValid,leaveUser,intro
@@ -131,10 +132,12 @@
 		and state = 1
 		and id like
 		CONCAT('%',#{keyword},'%');
-	</select>
-
-	<select id="searchAll" parameterType="searchparameter"
+</select>
+		-->
+		<!-- 
+		<select id="searchAll" parameterType="searchparameter"
 		resultType="userinfo">
+		
 		select id, nickname, name, address2, git, lastDate, state,
 		responsibility,
 		isValid,intro
@@ -159,23 +162,19 @@
 		id
 		having count(interest) >= #{cnt}
 		);
-	</select>
+		</select>
+		-->
 
-	<select id="getAddressList" parameterType="int"
-		resultType="userinfo">
-		select address1
-		from userInfo as ui
-		left join pmember as p
-		on ui.id = p.userId
-		where p.pid = #{pid};
-	</select>
-	
-	<select id="getPools" resultType="pools">
-		select b.*, a.projects
+
+	<select id="searchAddr" parameterType="searchparameter"
+		resultType="pools">
+		
+		select a.* from(
+        select b.*, a.projects
 		from(
 		SELECT jointwo.userId, GROUP_CONCAT(jointwo.pjt) AS projects 
 		FROM (
-		select concat(joinone.pid,'|',joinone.pjtName) as pjt,joinone.userId
+		select concat(joinone.pid,';',joinone.pjtName) as pjt,joinone.userId
 		from(
 		select project.pid, project.pjtName, pmember.userId from pmember join project
 		on project.pid = pmember.pid
@@ -194,7 +193,116 @@
 		on userInfo.id = a.id
 		) as b
 		) as b
-		on a.userId = b.id;
+		on a.userId = b.id
+		where b.leaveUser != 1 and b.id != 'admin'
+        ) as a
+where a.id in (
+select id
+		from userInfo
+		where address2 like
+		CONCAT('%',#{sido},'%')
+		and address2 like CONCAT('%',#{gugun},'%')
+		and
+		address2 like CONCAT('%',#{dong},'%')
+		and state = 1
+		and id like
+		CONCAT('%',#{keyword},'%')
+        )
+        
+        
+	</select>
+
+	<select id="searchAll" parameterType="searchparameter"
+		resultType="pools"> 
+		
+		select a.* from(
+        select b.*, a.projects
+		from(
+		SELECT jointwo.userId, GROUP_CONCAT(jointwo.pjt) AS projects 
+		FROM (
+		select concat(joinone.pid,';',joinone.pjtName) as pjt,joinone.userId
+		from(
+		select project.pid, project.pjtName, pmember.userId from pmember join project
+		on project.pid = pmember.pid
+		)as joinone
+		) as jointwo
+		group by jointwo.userId
+		) as a right join
+		(
+		select * from(
+		select  userInfo.id,userInfo.nickname, userInfo.address2 ,userInfo.git ,userInfo.lastDate ,userInfo.state
+		,userInfo.responsibility ,userInfo.isValid ,userInfo.leaveUser ,userInfo.intro
+		,a.interests
+		from userInfo left join(
+		SELECT id, GROUP_CONCAT(interest) AS interests FROM interest group by id
+		) as a
+		on userInfo.id = a.id
+		) as b
+		) as b
+		on a.userId = b.id
+		where b.leaveUser != 1 and b.id != 'admin'
+        ) as a
+where a.id in (
+select id
+		from userInfo
+		where address2 like
+		CONCAT('%',#{sido},'%')
+		and address2 like CONCAT('%',#{gugun},'%')
+		and
+		address2 like CONCAT('%',#{dong},'%')
+		and state = 1
+		and id like
+		CONCAT('%',#{keyword},'%')
+		and id in (
+		select id
+		from (
+		select * from
+		interest
+		where interest in (#{tag1},#{tag2},#{tag3},#{tag4},#{tag5})
+		)
+		as b
+		group by
+		id
+		having count(interest) >= #{cnt}
+		)
+        )
+	</select>
+
+	<select id="getAddressList" parameterType="int"
+		resultType="userinfo">
+		select address1
+		from userInfo as ui
+		left join pmember as p
+		on ui.id = p.userId
+		where p.pid = #{pid};
+	</select>
+	
+	<select id="getPools" resultType="pools">
+		select b.*, a.projects
+		from(
+		SELECT jointwo.userId, GROUP_CONCAT(jointwo.pjt) AS projects 
+		FROM (
+		select concat(joinone.pid,';',joinone.pjtName) as pjt,joinone.userId
+		from(
+		select project.pid, project.pjtName, pmember.userId from pmember join project
+		on project.pid = pmember.pid
+		)as joinone
+		) as jointwo
+		group by jointwo.userId
+		) as a right join
+		(
+		select * from(
+		select  userInfo.id,userInfo.nickname, userInfo.address2 ,userInfo.git ,userInfo.lastDate ,userInfo.state
+		,userInfo.responsibility ,userInfo.isValid ,userInfo.leaveUser ,userInfo.intro
+		,a.interests
+		from userInfo left join(
+		SELECT id, GROUP_CONCAT(interest) AS interests FROM interest group by id
+		) as a
+		on userInfo.id = a.id
+		) as b
+		) as b
+		on a.userId = b.id
+		where b.leaveUser != 1 and b.id != 'admin';
 	</select>
 
 </mapper>

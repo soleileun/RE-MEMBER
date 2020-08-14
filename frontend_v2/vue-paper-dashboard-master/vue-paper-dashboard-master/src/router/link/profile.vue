@@ -8,7 +8,7 @@
       </div>
       <div class="row">
         <div class="col-lg-4 col-xlg-3 col-md-5">
-          <card-user></card-user>
+          <card-user :bno="bno"></card-user>
           <br />
           <div class="card">
             <div class="card-body">
@@ -48,7 +48,7 @@
         <div class="col-lg-8 col-xlg-9 col-md-7">
           <div class="card">
             <div class="card-body">
-              <profile />
+              <profile :foo="bno" @bno="val=>bno = val" />
             </div>
           </div>
         </div>
@@ -90,6 +90,7 @@ export default {
       userNick: storage.getItem("userNick"),
       userId: storage.getItem("userid"),
       inters: [],
+      bno:0,
     };
   },
   computed:{

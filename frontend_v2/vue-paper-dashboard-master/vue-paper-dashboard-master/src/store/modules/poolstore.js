@@ -8,6 +8,7 @@ Vue.use(Vuex);
 const poolstore = {
   state: {
     pools: [],
+    extendpools:[],
     // pool: {}
   },
  
@@ -21,6 +22,14 @@ const poolstore = {
         })
           .catch(exp => alert('getPoolList처리에 실패하였습니다!.' + exp));
     },
+    [Constant.GET_EXTENDPOOLLIST]: (store) => {
+      http.get('/api/userinfo/pools')
+          .then(response => {
+            // console.log(response)
+              store.commit(Constant.GET_EXTENDPOOLLIST, { extendpools: response.data })
+        })
+          .catch(exp => alert('getExtendPoolList처리에 실패하였습니다!.' + exp));
+    },
    
     //통합 검색
     [Constant.SEARCH_POOLIST]: (store, payload) => {
@@ -31,9 +40,12 @@ const poolstore = {
       http.get('/api/userinfo/searchAll/tag=' + payload.stacks + '&addr=' + payload.addr+ '&keyword='+payload.keyword,config)
         .then(response => {
           console.log('통합 검색 조건 유저리스트 반환: ' + response.status);
-          store.commit(Constant.GET_POOLLIST, {
-            pools: response.data
+          store.commit(Constant.GET_EXTENDPOOLLIST, {
+            extendpools: response.data
           })
+          //store.commit(Constant.GET_POOLLIST, {
+          //  pools: response.data
+          //})
         })
         .catch(exp => alert('풀리스트 반환 처리에 실패하였습니다.' + exp));
     },
@@ -93,7 +105,11 @@ const poolstore = {
         console.log('mutation' + payload.pools);
         state.pools = payload.pools.filter(item=>item.responsibility!=="admin");
     },
-    
+    [Constant.GET_EXTENDPOOLLIST]: (state, payload) => {
+      console.log('mutation' + payload.extendpools);
+      state.extendpools = payload.extendpools;
+  },
+
   },
 
   modules: {

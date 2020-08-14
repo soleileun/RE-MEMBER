@@ -16,6 +16,7 @@ export default {
     ADD_COMMENT: 'addComment',
     REMOVE_COMMENT: 'removeComment',
     CLEAR_COMMENT: 'clearComment',
+    PICK_COMMENTS: 'pickComment',
 
     //프로젝트 CRUD
     GET_PROJECTLIST_BY_PMEMBER: 'getProjectListByPmember',
@@ -47,7 +48,7 @@ export default {
     SEARCH_POOL_BY_TAG_ADDR: 'searchPoolByTagAddr',
     SEARCH_POOL_BY_TAG: 'searchPoolByTag',
     SEARCH_POOL_BY_ADDR: 'searchPoolByAddr',
-
+    GET_EXTENDPOOLLIST: 'extendPoolList',
 
 
 

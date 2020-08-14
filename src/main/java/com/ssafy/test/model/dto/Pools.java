@@ -5,6 +5,7 @@ import java.util.List;
 
 public class Pools {
 
+	
 	private String id;
 	private String nickname;
 	private String name;
@@ -20,12 +21,12 @@ public class Pools {
 	private String interests;
 	
 	private List<PidPjt> project;
-	private List<String> interest;
+	private List<Inter> interest;
 	private List<String> repository;
 	
 	public Pools(String id, String nickname, String name, String address2, String git, Date lastDate, boolean state,
 			String responsibility, boolean isValid, boolean leaveUser, String intro, String projects, String interests,
-			List<PidPjt> project, List<String> interest, List<String> repository) {
+			List<PidPjt> project, List<Inter> interest, List<String> repository) {
 		super();
 		this.id = id;
 		this.nickname = nickname;
@@ -52,7 +53,7 @@ public class Pools {
 	}
 	public Pools(String id, String nickname, String name, String address2, String git, Date lastDate, boolean state,
 			String responsibility, boolean isValid, boolean leaveUser, String intro, String projects, String interests,
-			List<PidPjt> project, List<String> interest) {
+			List<PidPjt> project, List<Inter> interest) {
 		super();
 		this.id = id;
 		this.nickname = nickname;
@@ -87,7 +88,7 @@ public class Pools {
 	}
 	public Pools(String id, String nickname, String name, String address2, String git, Date lastDate, boolean state,
 			String responsibility, boolean isValid, boolean leaveUser, String intro, List<PidPjt> project,
-			List<String> interest) {
+			List<Inter> interest) {
 		super();
 		this.id = id;
 		this.nickname = nickname;
@@ -175,10 +176,10 @@ public class Pools {
 	public void setProject(List<PidPjt> project) {
 		this.project = project;
 	}
-	public List<String> getInterest() {
+	public List<Inter> getInterest() {
 		return interest;
 	}
-	public void setInterest(List<String> interest) {
+	public void setInterest(List<Inter> interest) {
 		this.interest = interest;
 	}
 }
