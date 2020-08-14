@@ -267,7 +267,7 @@ export default {
       // console.log(userId);
       if (this.bye === "z") {
         this.$store.dispatch("leaveTeam", {
-          userId: window.localstorage.getItem("userid"),
+          userId: window.localStorage.getItem("userid"),
           pid: this.$route.params.pid,
         });
       }
