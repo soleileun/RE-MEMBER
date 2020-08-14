@@ -3,6 +3,20 @@ package com.ssafy.test.model.dto;
 public class PidPjt {
 	private int pid;
 	private String pjtName;
+	private String pjtContent;
+	
+	public PidPjt(int pid, String pjtName, String pjtContent) {
+		super();
+		this.pid = pid;
+		this.pjtName = pjtName;
+		this.pjtContent = pjtContent;
+	}
+	public String getPjtContent() {
+		return pjtContent;
+	}
+	public void setPjtContent(String pjtContent) {
+		this.pjtContent = pjtContent;
+	}
 	public PidPjt() {
 		super();
 	}
