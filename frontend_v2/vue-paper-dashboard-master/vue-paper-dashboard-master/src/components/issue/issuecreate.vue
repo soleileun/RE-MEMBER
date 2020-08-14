@@ -140,7 +140,7 @@ export default {
       }
       this.$store.dispatch(Constant.ADD_ISSUE, {
         pid: this.$route.params.pid,
-        uid: this.$route.params.uid,
+        uid: this.$route.params.userId,
         response: "",
         issuetype: this.issuetype,
         issuestate: this.issuestateSelected,

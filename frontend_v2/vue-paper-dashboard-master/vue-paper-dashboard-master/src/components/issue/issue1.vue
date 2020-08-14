@@ -98,15 +98,17 @@
             </div>
           </div>
 
-          <div class="col-7" >
-            <div class="card" >
+          <div class="col-7">
+            <div class="card">
               <div class="header">
                 <h4 class="card-title">최근 프로젝트 이슈</h4>
                 <p align="right" class="category">
-                  <button v-on:click="createIssue()" class="btn btn-info btn-simple btn-xs"><i class="fa fa-edit"></i>이슈 생성하기</button>
+                  <button v-on:click="createIssue()" class="btn btn-info btn-simple btn-xs">
+                    <i class="fa fa-edit"></i>이슈 생성하기
+                  </button>
                 </p>
               </div>
-              <div class="content"  style="height:37vh; overflow:scroll;">
+              <div class="content" style="height:37vh; overflow:scroll;">
                 <div class="overflow-auto table-responsive">
                   <table class="table">
                     <thead>
@@ -368,7 +370,7 @@
         <!-- drag and drop -->
       </div>
     </div>
-    <issuedetail v-bind:issueid="issueid" />
+    <issuedetail :issue="issue" :project="project" />
     <issuecreate />
   </div>
 </template>
@@ -457,6 +459,13 @@ export default {
       pid: pid,
       issuestate: "created",
     });
+    this.$store.dispatch(Constant.GET_PROJECT, {
+      pid: this.$route.params.pid
+    });
+
+    this.$store.dispatch(Constant.GET_ISSUE, {
+        issueid: 1,
+    });
     setTimeout(() => {
       this.loadIssues();
     }, 300);
@@ -477,6 +486,15 @@ export default {
 
     issues_ongoing() {
       return this.$store.state.issuestore.issues_ongoing;
+    },
+    project(){
+      console.log(this.$store.state.projectstore.project);
+      return this.$store.state.projectstore.project;
+    },
+    issue() {
+      // console.log("computed");
+      // console.log(this.$store.state.issuestore.issue);
+      return this.$store.state.issuestore.issue;
     },
   },
 
@@ -555,23 +573,17 @@ export default {
     },
 
     loadAll() {
+      // let addr = "/issuetest/" + this.$route.params.userId + "/" + this.$route.params.pid;
+      // this.$router.push(addr);
       this.$router.go();
     },
     issuedetail: function (issueid) {
+      console.log(issueid);
       this.issueid = issueid;
-      // this.$store.dispatch(Constant.GET_ISSUE, {
-      //   issueid : this.issueid
-      // });
-      // this.$store.dispatch(Constant.GET_PROJECT,{
-      //   pid : this.$route.params.pid
-      // });
-      // console.log("pid is " + this.$route.params.pid);
+      this.$store.dispatch(Constant.GET_ISSUE, {
+        issueid: this.issueid,
+      });
 
-      // let val = this.$store.state.issuestore.issue;
-      // let val2 = this.$store.state.projectstore.project;
-      // console.log(val2);
-      //document.getElementById("title").innerHTML = val.issuetitle;
-      // document.getElementById("projectTitle").innerHTML = project.pjtName;
       setTimeout(() => {
         document.querySelector(".issuedetail").classList.toggle("active");
       }, 300);
@@ -586,26 +598,31 @@ export default {
       // 만일 원래의 issuestate와 같다면 아무것도 변경하지 않음
       // 다르면 changeDay도 같이 변경
 
-      //console.log(this.groups)
-
-      // this.groups[0];
-      // name.issuestate = 'created'
+      console.log("update");
       this.groups[0].items.forEach((el) => {
         el.name.issuestate = "created";
+        console.log("created");
+        console.log(el.name);
         this.$store.dispatch(Constant.UPDATE_ISSUE_BY_STATE, el.name);
       });
 
       this.groups[1].items.forEach((el) => {
         el.name.issuestate = "ongoing";
+        console.log("ongoing");
+        console.log(el.name);
         this.$store.dispatch(Constant.UPDATE_ISSUE_BY_STATE, el.name);
       });
 
       this.groups[2].items.forEach((el) => {
         el.name.issuestate = "done";
+        console.log("done");
+        console.log(el.name);
         this.$store.dispatch(Constant.UPDATE_ISSUE_BY_STATE, el.name);
       });
 
-      this.loadAll();
+      setTimeout(() => {
+        this.loadAll();
+      }, 500);
       // -> 퀴리
       alert("변경되었습니다!");
     },
@@ -650,7 +667,6 @@ export default {
         });
       });
     },
-   
 
     onGroupsChange(e) {
       // 변경된 경우
