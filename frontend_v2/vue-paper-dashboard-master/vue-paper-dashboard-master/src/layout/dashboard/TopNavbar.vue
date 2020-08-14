@@ -60,7 +60,7 @@ export default {
   data() {
     return {
       activeNotifications: false,
-      url: this.$store.state.filestore.fileUrl + storage.getItem("userNick"),
+      url: this.$store.state.filestore.fileUrl + storage.getItem("userid"),
     };
   },
   mounted(){
@@ -76,7 +76,7 @@ export default {
             this.url = this.url + ".jpg";
           })
           .catch((e) => {
-            this.url = "@/assets/img/profile.png"
+            this.url = this.$store.state.filestore.fileUrl+"default.png"
           });
       });
   },

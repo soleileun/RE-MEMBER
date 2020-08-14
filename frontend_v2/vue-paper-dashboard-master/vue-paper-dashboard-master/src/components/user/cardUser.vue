@@ -5,7 +5,7 @@
     </div>
     <div>
       <div class="author">
-        <img class="avatar border-gray" :src="url" />
+        <img class="avatar border-white" :src="url" />
         <h4 class="title">
           {{userNick}}
           <br />
@@ -68,7 +68,7 @@ export default {
       users: storage.getItem("users"),
       usergit: storage.getItem("usergit"),
       userintro: window.localStorage.getItem("userintro"),
-      url: this.$store.state.filestore.fileUrl + storage.getItem("userNick"),
+      url: this.$store.state.filestore.fileUrl + storage.getItem("userid"),
     };
   },
   computed: {
@@ -99,7 +99,7 @@ export default {
             this.url = this.url + ".jpg";
           })
           .catch((e) => {
-            this.url = "@/assets/img/profile.png"
+            this.url = this.$store.state.filestore.fileUrl+"default.png"
           });
       });
   },
@@ -110,7 +110,7 @@ export default {
   methods: {
     previewFiles(event) {
       if (event.target.files[0]) {
-        const fileName = window.localStorage.getItem("userNick");
+        const fileName = window.localStorage.getItem("userid");
         const file2 = new File(
           [event.target.files[0]],
           `${fileName}.${event.target.files[0].name.split(".")[1]}`,

@@ -141,8 +141,6 @@ export default {
         const config = {
             headers: {"jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")}
         }
-        console.log("추가할거" + this.picks);
-        console.log("뺄거" + dels);
         dels.forEach((el) => {
           http
             .delete("/api/interest/", {
