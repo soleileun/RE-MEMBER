@@ -77,14 +77,42 @@
     <div v-if="board.bstate == 'qa'">
       <h3 style=" margin:20px;">답변 내역</h3>
 
+      <div class="card" v-for="comment1 in comments" :key="comment1.cno">
+        <div v-if="comment1.isSelected==1" class="card-body">
+          <div class="row anstitle">
+            <div class="col-1 pics">사진 </div>
+            <div class="col-8">
+              <div class="col-12 name" style="font-weight:800;">{{comment1.cwriter}} <i class="fa fa-bookmark"> </i></div>
+              <div class="col-12 date">{{comment1.makeDay.slice(0,16)}}</div>
+              
+            </div>
+            <div class="col-2" style="color:red; font-size:16px; font-weight:800">
+              
+               채택됨
+              </div>
+            <div class="ti-trash" @click="deleteComment(comment1)"></div>
+          </div>
+          <hr />
+
+          <div class="col-12 ql-editor" style="min-height:200px;" v-html="comment1.ccontent">
+            <vue-editor v-show="false" style="height:80%;"></vue-editor>
+          </div>
+        </div>
+      </div>
+
       <div class="card" v-for="comment in comments" :key="comment.cno">
-        <div class="card-body">
+        <div v-if="comment.isSelected!=1" class="card-body">
           <div class="row anstitle">
             <div class="col-1 pics">사진</div>
-            <div class="col-10">
+            <div class="col-8">
               <div class="col-12 name">{{comment.cwriter}}</div>
               <div class="col-12 date">{{comment.makeDay.slice(0,16)}}</div>
+              
             </div>
+            <div class="col-2">
+              
+                <button v-if="board.isSelect==0 && board.bwriter === id" class="btn btn-primary" @click="select(comment.cno)">채택하기</button>
+              </div>
             <div class="ti-trash" @click="deleteComment(comment)"></div>
           </div>
           <hr />
@@ -146,6 +174,8 @@ export default {
   name: "detailfree",
   data() {
     return {
+      id:storage.getItem("userid"),
+      //bno:board.bno,
       comment2: {
         cno: "",
         cwriter: "",
@@ -216,6 +246,16 @@ export default {
           Editor.insertEmbed(cursorLocation, "image", url);
         }, 500);
       }
+    },
+    select(e) {
+      //선태갛자
+      this.$store.dispatch(Constant.PICK_COMMENTS, {
+          // cno :this.comment2.cno,
+          // cwriter:this.comment2.cwriter,
+          cno: e,
+          bno: this.board.bno,
+          type: this.board.bstate,
+        });
     },
     makeDay(x){
       if (x){

@@ -65,4 +65,10 @@ public class CommentsDAOImpl implements CommentsDAO{
 		return template.selectList(ns + "searchSelectedComments", s);
 	}
 
+	@Override
+	public int pick(int k) {
+		// TODO Auto-generated method stub
+		return template.update(ns + "pick", k);
+	}
+
 }

@@ -51,6 +51,26 @@ const commentstore = {
                 alert('추가 처리에 실패하였습니다.' + exp);
             })
     },
+
+    //채택
+    [Constant.PICK_COMMENTS]: (store, payload) => {
+      console.log(payload.cno);
+      // console.log(payload);
+      const config = {
+          headers: { "jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token") }
+      }
+      http.put('/api/comments/select/' + payload.cno, {
+              cno: payload.cno,
+          }, config)
+          .then(() => {
+              // console.log('수정하였습니다.'+ response.data);
+              store.dispatch(Constant.GET_COMMENTLIST, { bno: payload.bno });
+              alert("채택하셨습니다.");
+              //let addr = "/freeboard/detailfree/" + payload.bno + "/" + payload.bstate;
+              //this.$router.push(addr);
+          })
+          .catch(exp => alert('채택 처리에 실패하였습니다.' + exp));
+  },
    
     //댓글 삭제
     [Constant.REMOVE_COMMENT]: (store, payload) => {

@@ -16,6 +16,32 @@ public class Board {
 	private Date changeDay;
 	private String makeId; // update no
 	private String changeId;
+	private int isSelect; // 어떤 코멘트를 채택했는지.
+
+	public Board(int bno, String bwriter, String btitle, String bcontent, int bview, String bfile, String bstate,
+			Date makeDay, Date changeDay, String makeId, String changeId, int isSelect) {
+		super();
+		this.bno = bno;
+		this.bwriter = bwriter;
+		this.btitle = btitle;
+		this.bcontent = bcontent;
+		this.bview = bview;
+		this.bfile = bfile;
+		this.bstate = bstate;
+		this.makeDay = makeDay;
+		this.changeDay = changeDay;
+		this.makeId = makeId;
+		this.changeId = changeId;
+		this.isSelect = isSelect;
+	}
+
+	public int getIsSelect() {
+		return isSelect;
+	}
+
+	public void setIsSelect(int isSelect) {
+		this.isSelect = isSelect;
+	}
 
 	public int getBno() {
 		return bno;

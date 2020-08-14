@@ -55,4 +55,10 @@ public class CommentsServiceImpl implements CommentsService{
 	public List<Comments> searchSelectedComments(String s) {
 		return Dao.searchSelectedComments(s);
 	}
+
+	@Override
+	public int pick(int k) {
+		// TODO Auto-generated method stub
+		return Dao.pick(k);
+	}
 }
