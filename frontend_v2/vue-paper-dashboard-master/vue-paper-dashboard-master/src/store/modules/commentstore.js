@@ -65,6 +65,7 @@ const commentstore = {
           .then(() => {
               // console.log('수정하였습니다.'+ response.data);
               store.dispatch(Constant.GET_COMMENTLIST, { bno: payload.bno });
+              store.dispatch(Constant.GET_BOARD, { bno: payload.bno });
               alert("채택하셨습니다.");
               //let addr = "/freeboard/detailfree/" + payload.bno + "/" + payload.bstate;
               //this.$router.push(addr);
