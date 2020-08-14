@@ -213,6 +213,7 @@
                       <div v-if="pool.project != null">
                         <div v-for="(pjt, idx) in pool.project" :key="idx" style="font-size:20px; font-weight:bold;">
                           <div style="cursor:pointer;" @click="toProject(pjt.pid)">{{pjt.pjtName}}</div>
+                          <p> {{pjt.pjtContent}} </p>
                         </div>
                       </div>
                       <div v-if="pool.projects == null">아직 참여한 프로젝트가 없습니다. 이번 기회에 함께 해보는건 어떨까요?</div>
