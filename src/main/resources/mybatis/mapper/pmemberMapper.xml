@@ -22,13 +22,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="selectCntByPid" parameterType="int" resultType="int">
 		select count(*)
 		from pmember
-		where pid = #{pid}
+		where pid = #{pid} 
 	</select>
 	
 		<select id="selectByPid" parameterType="int" resultType="pmember">
 		select *
 		from pmember
-		where pid = #{pid}
+		where pid = #{pid} order by priority 
 	</select>
 
 	<insert id="insert" parameterType="pmember">

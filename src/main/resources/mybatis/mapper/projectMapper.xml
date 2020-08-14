@@ -41,6 +41,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select * from project
 		where pjtName=#{pjtName} and pjtContent=#{pjtContent} and makeId=#{makeId}
 	</select>
+	
+	<select id="searchByPID" parameterType="int"
+		resultType="projectcnt">
+			select project.*,  count(*) as cnt
+			from project, pmember
+			where project.pid = pmember.pid and project.pid =#{pid}
+			group by project.pid;
+	</select>
 
 	<insert id="insert" parameterType="project">
 		insert into project

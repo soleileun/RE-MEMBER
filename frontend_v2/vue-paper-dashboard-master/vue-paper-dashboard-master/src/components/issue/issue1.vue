@@ -2,51 +2,49 @@
   <div>
     <div class="scroll-sidebar">
       <!-- Sidebar navigation-->
-      <div class="sidebar-nav" >
-    <div class="sidebar " data-color="purple" data-image="./assets/issue_img/sidebar-5.jpg">
-        <div class="sidebar-wrapper" style="background-color: #212120;">
-          <div class="logo">
-            <a href class="simple-text navbar-brand" style="font-weight:800; font-size: 18px;">Project Info</a>
+      <div class="sidebar-nav">
+        <div class="sidebar" data-color="purple" data-image="./assets/issue_img/sidebar-5.jpg">
+          <div class="sidebar-wrapper" style="background-color: #212120;">
+            <div class="logo">
+              <a
+                href
+                class="simple-text navbar-brand"
+                style="font-weight:800; font-size: 18px;"
+              >Project Info</a>
+            </div>
+
+            <ul class="nav">
+              <li class="active test nav-item" @click="issue">
+                <div class="navtest">
+                  <i class="fa fa-exclamation"></i>
+                  <span>이슈목록</span>
+                </div>
+              </li>
+              <li class="active test nav-item" @click="maps">
+                <div class="navtest">
+                  <i class="fa fa-map-o"></i>
+                  <span>지도</span>
+                </div>
+              </li>
+              <li class="active test nav-item">
+                <div class="navtest">
+                  <i class="fa fa-tasks"></i>
+                  <span>프로젝트</span>
+                </div>
+              </li>
+              <li class="active test nav-item" @click="teaminfo">
+                <div class="navtest">
+                  <i class="fa fa-id-card-o"></i>
+                  <span>팀 정보</span>
+                </div>
+              </li>
+            </ul>
           </div>
-          
-          <ul class="nav">
-            <li class="active test nav-item" @click="issue">
-              <div class="navtest">
-                <i class="fa fa-exclamation"></i>
-                <span> 이슈목록</span>
-              </div>
-            </li>
-            <li class="active test nav-item" @click="maps" >
-              <div class="navtest">
-                    
-                <i class="fa fa-map-o"></i>
-                <span> 지도</span>
-                
-              </div>
-            </li>
-             <li class="active test nav-item" >
-              <div class="navtest">
-            
-                <i class="fa fa-tasks"></i>
-                <span> 프로젝트</span>
-              </div>
-            </li>
-             <li class="active test nav-item" @click="teaminfo" >
-              <div class="navtest">
-                <i class="fa fa-id-card-o"></i>
-                <span> 팀 정보</span>
-              </div>
-            </li>
-          
-          </ul>
-          
         </div>
-    </div>
-    
       </div>
     </div>
     <!-- <div class="wrapper"> -->
-      <!--
+    <!--
       <div class="sidebar " data-color="purple" data-image="./assets/issue_img/sidebar-5.jpg">
         <div class="sidebar-wrapper">
           <div class="logo">
@@ -100,14 +98,15 @@
             </div>
           </div>
 
-          <div class="col-7">
-            <div class="card">
+          <div class="col-7" >
+            <div class="card" >
               <div class="header">
                 <h4 class="card-title">최근 프로젝트 이슈</h4>
-                <p align="right" class="category"><button v-on:click="createIssue()" class="btn btn-info btn-simple btn-xs">이슈 생성하기</button></p>
-                
+                <p align="right" class="category">
+                  <button v-on:click="createIssue()" class="btn btn-info btn-simple btn-xs"><i class="fa fa-edit"></i>이슈 생성하기</button>
+                </p>
               </div>
-              <div class="content">
+              <div class="content"  style="height:37vh; overflow:scroll;">
                 <div class="overflow-auto table-responsive">
                   <table class="table">
                     <thead>
@@ -323,7 +322,10 @@
             >
               <i class="fa fa-edit"></i>
             </button>-->
-            <button v-on:click="updateIssueChange()" class="btn btn-info btn-simple btn-xs">변경사항 저장하기</button>
+            <button
+              v-on:click="updateIssueChange()"
+              class="btn btn-info btn-simple btn-xs"
+            >변경사항 저장하기</button>
           </p>
           <hr />
           <ul class="drag-list content">
@@ -348,7 +350,8 @@
                     :data-id="item.id"
                   >
                     <div
-                      class="drag-item-text" @click="issuedetail(item.name.issueid)"
+                      class="drag-item-text"
+                      @click="issuedetail(item.name.issueid)"
                     >{{ item.name.changeDay.slice(0,10) }} {{ item.name.issuetitle }}</div>
                   </li>
                 </ul>
@@ -365,7 +368,7 @@
         <!-- drag and drop -->
       </div>
     </div>
-    <issuedetail v-bind:num="issueid"/>
+    <issuedetail v-bind:issueid="issueid" />
     <issuecreate />
   </div>
 </template>
@@ -389,7 +392,7 @@ export default {
   data() {
     const componentInstance = this;
     return {
-      issueid : 0,
+      issueid: 0,
       data: [],
       left: {},
       right: {},
@@ -530,30 +533,48 @@ export default {
   methods: {
     someDummyMethod() {},
 
-    createIssue(){
+    createIssue() {
       document.querySelector(".issuecreate").classList.toggle("active");
     },
+
     issue() {
-      let addr = "/issuetest/"+this.$route.params.userId + '/' + this.$route.params.pid;
+      let addr =
+        "/issuetest/" +
+        this.$route.params.userId +
+        "/" +
+        this.$route.params.pid;
       this.$router.push(addr);
     },
     teaminfo() {
       this.$router.push("teamInfo.html");
     },
     maps() {
-      let addr = "/maps/"+this.$route.params.userId+'/'+this.$route.params.pid;
+      let addr =
+        "/maps/" + this.$route.params.userId + "/" + this.$route.params.pid;
       this.$router.push(addr);
-
     },
 
-
-    loadAll(){
+    loadAll() {
       this.$router.go();
     },
     issuedetail: function (issueid) {
-      console.log(issueid);
       this.issueid = issueid;
-      document.querySelector(".issuedetail").classList.toggle("active");
+      // this.$store.dispatch(Constant.GET_ISSUE, {
+      //   issueid : this.issueid
+      // });
+      // this.$store.dispatch(Constant.GET_PROJECT,{
+      //   pid : this.$route.params.pid
+      // });
+      // console.log("pid is " + this.$route.params.pid);
+
+      // let val = this.$store.state.issuestore.issue;
+      // let val2 = this.$store.state.projectstore.project;
+      // console.log(val2);
+      //document.getElementById("title").innerHTML = val.issuetitle;
+      // document.getElementById("projectTitle").innerHTML = project.pjtName;
+      setTimeout(() => {
+        document.querySelector(".issuedetail").classList.toggle("active");
+      }, 300);
     },
 
     updateIssueChange() {
@@ -629,29 +650,7 @@ export default {
         });
       });
     },
-
-    openModal() {
-      // Get the modal
-      var modal = document.getElementById("myModal");
-
-      // Get the <span> element that closes the modal
-      var span = document.getElementsByClassName("close")[0];
-
-      // When the user clicks on the button, open the modal
-      modal.style.display = "block";
-
-      // When the user clicks on <span> (x), close the modal
-      span.onclick = function () {
-        modal.style.display = "none";
-      };
-
-      // When the user clicks anywhere outside of the modal, close it
-      window.onclick = function (event) {
-        if (event.target == modal) {
-          modal.style.display = "none";
-        }
-      };
-    },
+   
 
     onGroupsChange(e) {
       // 변경된 경우
@@ -795,18 +794,18 @@ ul {
 }
 .test {
   margin: 10px 0px;
-    padding-left: 25px;
-    padding-right: 25px;
-    opacity: .7;
+  padding-left: 25px;
+  padding-right: 25px;
+  opacity: 0.7;
 }
 .navtest {
-  display: block; 
-  padding: 0.5rem 1rem; 
-  color:rgba(255, 255, 255, 0.7); 
-  font-weight:600;
-  cursor:pointer;
+  display: block;
+  padding: 0.5rem 1rem;
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 600;
+  cursor: pointer;
 }
 .navtest:hover {
-  color:#FFFFFF;
+  color: #ffffff;
 }
 </style>

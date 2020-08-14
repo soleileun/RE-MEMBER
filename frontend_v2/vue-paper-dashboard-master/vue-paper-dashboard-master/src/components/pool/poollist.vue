@@ -133,6 +133,7 @@
 
     <hr />
     <!-- card layout -->
+    <!--
     <ul class="cards">
       <li class="cards__item" v-for="pool in pools" :key="pool.id">
         <div class="card">
@@ -143,7 +144,6 @@
               <br />
               {{pool.responsibility}}
             </p>
-            <!-- <button class="btn btn--block card__btn">Button</button> -->
             <router-link
               :to="'/project/' + pool.id"
               tag="button"
@@ -167,6 +167,92 @@
           </div>
         </div>
       </li>
+    </ul>
+    -->
+        <ul class="cards">
+      <li class="cards__item" v-for="pool in extendpools" :key="pool.id">
+        <div class="card">
+          <div class="card__image card__image--fence"></div>
+          <div class="card__content">
+            <div class="card__title">
+              {{pool.nickname}} 
+              <p v-if="pool.isValid ===1" style="display:inline-block; color:rgb(79, 245, 154); font-size:10px; text-align:right;">인증 </p>
+              <p v-else style="display:inline-block; color:red;font-size:10px;text-align:right;">미인증 </p>
+              </div>
+            <p class="card__text">
+              {{pool.responsibility}}
+            </p>
+            <div>
+              {{pool.intro}}
+              </div>
+              <div>
+              지역 : {{pool.address2}}
+              </div>
+              
+              <div>
+                <!--  관심사로 사용하기
+                   <div v-for="(interest, idx) in pool.interest" :key="idx">
+                    {{interest.interest}}
+                    
+                  </div>
+                  -->
+                  <!-- 수행한 프로젝트
+                     <div v-for="(pjt, idx) in pool.project" :key="idx">
+                    {{pjt.pid}}
+                    
+                    {{pjt.pjtName}}
+                  </div>
+                  -->
+              </div>
+
+          <div class="container-fluid">
+            <div class="row">
+              
+            <div class="col-3" style="font-size:22px; text-align:center;">
+            <i class="fa fa-github emo" v-if="pool.git != null"> </i>
+            </div>
+            <div class="col-3" style="font-size:22px; text-align:center;">
+            <i class="fa fa-user-plus emo"  v-if="!follow.find(item=>item.id === pool.id)" @click="fol(pool.id)"> </i>
+            <!-- v-else로 친구라고 넘겨줘도 될듯 -->
+            </div>
+            <div class="col-3" style="font-size:22px; text-align:center;">
+             <i class="fa fa-id-card emo" > </i>
+            </div>
+            
+            <div class="col-3" style="font-size:22px; text-align:center;">
+                <i class="fa fa-tasks emo"></i>
+            </div>
+            </div>
+            </div>
+            
+
+
+            <!--
+            <router-link
+              :to="'/project/' + pool.id"
+              tag="button"
+              class="btn btn--block card__btn"
+            >프로젝트 보기</router-link>
+            <router-link
+              :to="'/profile/' + pool.id"
+              tag="button"
+              class="btn btn--block card__btn"
+            >프로필 보기</router-link>
+            <a
+              class="btn btn--block card__btn"
+              v-if="pool.git"
+              :href="'https://github.com/'+pool.git"
+            >Git</a>
+            <button
+              v-if="!follow.find(item=>item.id === pool.id)"
+              class="btn btn-success"
+              @click="fol(pool.id)"
+            >팔로우하기</button>
+            -->
+          </div>
+        </div>
+      </li>
+      
     </ul>
   </div>
 </template>
@@ -230,7 +316,12 @@ export default {
   },
   computed: {
     pools() {
+      console.log("pool 호출")
       return this.$store.state.poolstore.pools;
+    },
+    extendpools() {
+      console.log("extendpools 호출")
+      return this.$store.state.poolstore.extendpools;
     },
     sidoList() {
       // console.log("확인" + this.$store.state.stackstore.sidolist);
@@ -248,6 +339,8 @@ export default {
   },
   created() {
     this.$store.dispatch(Constant.GET_POOLLIST);
+    this.$store.dispatch(Constant.GET_EXTENDPOOLLIST);
+    console.log("디스패치 완료");
 
     // sido리스트 불러오기
     this.$store.dispatch(Constant.GET_SIDOLIST);
@@ -279,7 +372,7 @@ export default {
 
     // },
 
-    searchPool() {
+    searchPool() { // extendpools 반영 안 됨
       let sd = "";
       let gg = "";
       let dn = "";
@@ -321,6 +414,7 @@ export default {
         document.getElementById("keyword1").value == ""
       ) {
         this.$store.dispatch(Constant.GET_POOLLIST);
+        //this.$store.dispatch(Constant.GET_EXTENDPOOLLIST);
       } else {
         //통합
         this.$store.dispatch(Constant.SEARCH_POOLIST, {
@@ -517,5 +611,8 @@ img {
   font-size: 0.875rem;
   line-height: 1.5;
   margin-bottom: 1.25rem;
+}
+.emo{
+  cursor:pointer;
 }
 </style>

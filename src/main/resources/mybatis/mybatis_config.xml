@@ -60,6 +60,10 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			alias="recruitpjt" />
 			<typeAlias type="com.ssafy.test.model.dto.Projectcnt"
 			alias="projectcnt" />
+			<typeAlias type="com.ssafy.test.model.dto.PidPjt"
+			alias="pidpjt" />
+			<typeAlias type="com.ssafy.test.model.dto.Pools"
+			alias="pools" />
 			
 	</typeAliases>
 

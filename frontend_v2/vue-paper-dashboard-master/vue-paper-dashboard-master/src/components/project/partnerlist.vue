@@ -1,34 +1,33 @@
 <template>
-  <tr class="table-row table-row--chris">
-    <td class="table-row__td">
-      <div class>
-        <p class="table-row__policy">
-          <!-- <router-link :to="'/recruit/recruitdetail/' + recruit.rnum + '&'+recruit.pid">머래진짜</router-link> -->
-          <router-link :to="'/profile/' + pm.userId">{{pm.userId}}</router-link>
-        </p>
-        <!-- <span class="table-row__small">Basic Policy</span> 프로젝트 분야 넣을 것-->
-      </div>
-    </td>
-    <td class="table-row__td">
-      <div class="table-row__info">
-        <p class="table-row__name">
-          <template v-if="pm.priority === 1">
-            <p>팀장!</p>
-          </template>
-          <template v-if="pm.priority != 1">
-            <p>팀원!</p>
-          </template>
+  <card class="card" :title="title">
+    <div>
+      <ul class="list-unstyled team-members">
+        <li>
+          <div class="row" v-for="member in members" :key="member.name">
+            <div class="col-3">
+              <div class="avatar">
+                <img :src="member.image" alt="Circle Image" class="rounded img-fluid" />
+              </div>
+            </div>
+            <div class="col-6">
+              {{member.name}}
+              <br />
+              <span :class="getStatusClass(member.status)">
+                <small>{{member.responsibility}}</small>
+              </span>
+            </div>
 
-          <!-- <router-link :to="'/profile/' + recruit.makeId">{{recruit.makeId}}</router-link> -->
-        </p>
-        <!-- <span class="table-row__small">CFO</span>  부직위 -->
-      </div>
-    </td>
-    <td data-column="Policy status" class="table-row__td">
-      <!-- {{project.pjtName}} -->
-      <!-- <p class="table-row__p-status status--green status">Approved</p> -->
-    </td>
-  </tr>
+            <div class="col-3">
+              <p-button type="success" outline icon>
+                <i class="fa fa-envelope"></i>
+              </p-button>
+              <i class="fa fa-address-card"></i>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </card>
 </template>
 
 <script>

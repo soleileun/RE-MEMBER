@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
 import com.ssafy.test.model.dto.Addr;
+import com.ssafy.test.model.dto.Pools;
 import com.ssafy.test.model.dto.Project;
 import com.ssafy.test.model.dto.SearchParameter;
 import com.ssafy.test.model.dto.UserInfo;
@@ -116,6 +117,11 @@ public class UserInfoDaoImpl implements UserInfoDao {
 	public int updateLastDate(UserInfo user) {
 		// TODO Auto-generated method stub
 		return template.update(ns+"updateDate",user);
+	}
+
+	@Override
+	public List<Pools> getPools() {
+		return template.selectList(ns+"getPools");
 	}
 
 }

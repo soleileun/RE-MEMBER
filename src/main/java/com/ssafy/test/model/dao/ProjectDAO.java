@@ -18,6 +18,7 @@ public interface ProjectDAO {
 	public int update(Project p);
 	
 	public List<Projectcnt> searchByUserId(String userId);
+	public Projectcnt searchByPID(int pid);
 	public Project searchByPJT(Project p);
 
 }
