@@ -58,6 +58,7 @@ export default {
           if (response.data.length > 0) {
             this.content = response.data[0].bcontent;
             this.bno = response.data[0].bno;
+            this.$emit('bno',response.data[0].bno)
             this.board.bview = response.data[0].bview;
           } else {
             if (storage.getItem("userid").length > 0) {

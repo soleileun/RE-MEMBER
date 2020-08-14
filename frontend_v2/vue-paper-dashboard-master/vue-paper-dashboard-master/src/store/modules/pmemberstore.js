@@ -45,8 +45,24 @@ const pmemberstore = {
         console.log(exp);
         alert("오ㅐ안됨")
       })
-    }
-
+    },
+    leaveTeam: (store, payload) => {
+      const config = {
+        headers: {
+          "jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")
+        }
+      }
+      http.delete('/api/pmember/delete/' + payload.pid + "/" + payload.userId, {
+        data: {
+          pid: payload.pid,
+          userId: payload.userId,
+          state: '',
+          prioirty: '',
+        },
+      }, config).then(res => {
+        alert("delete")
+      }).catch(exp => console.log(exp))
+    },
   }
 }
 export default pmemberstore;

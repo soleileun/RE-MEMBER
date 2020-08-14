@@ -1,11 +1,11 @@
 <template>
   <card class="card-user">
     <div slot="image">
-      <img src="@/assets/img/whiteBg.png" alt="..." />
+      <!-- <img src="@/assets/img/whiteBg.png" alt="..." /> -->
     </div>
     <div>
       <div class="author">
-        <img class="avatar border-white" src="@/assets/img/faces/face-2.jpg" alt="..." />
+        <img class="avatar border-white" :src="url" />
         <h4 class="title">
           {{userNick}}
           <br />
@@ -15,7 +15,15 @@
           </a>
         </h4>
       </div>
-      <p class="description text-center">{{userintro}}</p>
+      <div class="filebox">
+        <label for="ex_file">프로필변경</label>
+        <input type="file" id="ex_file" @change="previewFiles" accept="image/png, image/jpeg, image/jpg" />
+      </div>
+      <p class="description text-center">
+        {{bno}} | {{userintro}}
+        <br />
+        <span style="color:red" v-if="userintro === '한 줄 자기소개를 입력해주세요'">개인정보 수정을 이용해 바꿔주세요</span>
+      </p>
     </div>
     <hr />
     <div class="text-center">
@@ -32,8 +40,12 @@
   </card>
 </template>
 <script>
+import http from "../../http-common.js";
 const storage = window.sessionStorage;
 export default {
+  props: {
+    bno: Number,
+  },
   data() {
     return {
       details: [
@@ -56,6 +68,7 @@ export default {
       users: storage.getItem("users"),
       usergit: storage.getItem("usergit"),
       userintro: window.localStorage.getItem("userintro"),
+      url: this.$store.state.filestore.fileUrl + storage.getItem("userid"),
     };
   },
   computed: {
@@ -74,16 +87,46 @@ export default {
       this.usergit = window.localStorage.getItem("usergit");
       this.userintro = window.localStorage.getItem("userintro");
     }, 500);
-    // console.log("뭐냐고");
-    console.log("팔로잉" + this.$store.state.userstore.followings);
-    // console.log("팔로워");
-    console.log("팔로워" + this.$store.state.userstore.followers);
+    http
+      .get(this.url + ".png")
+      .then((res) => {
+        this.url = this.url + ".png";
+      })
+      .catch((e) => {
+        http
+          .get(this.url + ".jpg")
+          .then((res) => {
+            this.url = this.url + ".jpg";
+          })
+          .catch((e) => {
+            this.url = this.$store.state.filestore.fileUrl+"default.png"
+          });
+      });
   },
   beforeCreate: function () {
     // this.$store.dispatch("getFollow");
     // this.$store.dispatch("getFollower");
   },
   methods: {
+    previewFiles(event) {
+      if (event.target.files[0]) {
+        const fileName = window.localStorage.getItem("userid");
+        const file2 = new File(
+          [event.target.files[0]],
+          `${fileName}.${event.target.files[0].name.split(".")[1]}`,
+          {
+            type: event.target.files[0].type,
+          }
+        );
+        this.$store.dispatch("upFiledirect", {
+          file: file2,
+          bno: this.bno,
+          reload:true,
+        });
+        let url = this.$store.state.filestore.fileUrl + file2.name;
+        this.url = url
+      }
+    },
     getClasses(index) {
       var remainder = index % 3;
       if (remainder === 0) {
@@ -98,4 +141,35 @@ export default {
 };
 </script>
 <style>
+.filebox {
+  display: flex;
+  justify-content: center;
+  margin-top: -25px;
+}
+.filebox label {
+  display: inline-block;
+  padding: 0.5em 0.75em;
+  margin-top: 20px;
+  margin-bottom: -70px;
+  color: #999;
+  font-size: inherit;
+  line-height: normal;
+  vertical-align: middle;
+  background-color: #fdfdfd;
+  cursor: pointer;
+  border: 1px solid #ebebeb;
+  border-bottom-color: #e2e2e2;
+  border-radius: 0.25em;
+}
+.filebox input[type="file"] {
+  /* 파일 필드 숨기기 */
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
 </style>

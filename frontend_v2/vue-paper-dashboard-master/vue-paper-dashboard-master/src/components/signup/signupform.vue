@@ -9,8 +9,8 @@
             <br />
           </div>
           <div class="col-md-8">
-            이메일(아이디)
             <span class="reddot">*</span>
+            이메일(아이디)
             <fg-input type="text" placeholder="example@naver.com" v-model="id"></fg-input>
           </div>
           <div class="col-md-4">
@@ -23,30 +23,32 @@
             <br />
           </div>
           <div class="col-md-6">
-            비밀번호
             <span class="reddot">*</span>
+            비밀번호
             <fg-input type="password" placeholder="영문/숫자로 구성된 8-20자" v-model="pw"></fg-input>
             {{error.pw}}
             <br />
             <br />
           </div>
           <div class="col-md-6">
-            비밀번호 확인
             <span class="reddot">*</span>
+            비밀번호 확인
             <fg-input type="password" placeholder="비밀번호를 한번 더 입력해주세요" v-model="pw2"></fg-input>
             {{error.pw2}}
             <br />
             <br />
           </div>
           <div class="col-md-6">
-            이름
             <span class="reddot">*</span>
+            이름
             <fg-input type="text" placeholder="실명" v-model="name"></fg-input>
           </div>
           <div class="col-md-6">
-            닉네임
             <span class="reddot">*</span>
-            <fg-input type="text" placeholder="영문/한글/숫자만 입력 가능" v-model="nickname"></fg-input>
+            닉네임(별명)
+            {{nickname.length}}/12
+            :
+            <fg-input type="text" placeholder="영문/한글/숫자만 입력 가능" maxlength="12" v-model="nickname"></fg-input>
           </div>
           <div class="col-md-6">
             {{error.name}}
@@ -60,8 +62,8 @@
           </div>
 
           <div class="col-md-5">
-            주소
             <span class="reddot">*</span>
+            주소
             <fg-input type="text" placeholder="검색 버튼을 눌러주세요" v-model="address1" :disabled="true"></fg-input>
           </div>
           <div class="col-md-5">
@@ -70,7 +72,10 @@
           </div>
           <div class="col-md-2">
             <br />
-            <button class="btn btn-primary" @click="postActive">주소</button>
+            <button class="btn btn-primary" @click="postActive">
+              <span v-if="!postAct">주소</span>
+              <span v-else>X</span>
+            </button>
           </div>
           <div class="col-12 postcode" v-if="postAct">
             <DaumPostcode :on-complete="handleAddress" />
@@ -81,8 +86,8 @@
             <br />
           </div>
           <div class="col-4">
-            전화번호
             <span class="reddot">*</span>
+            전화번호
             <fg-input type="text" maxlength="3" placeholder="010" v-model="phone0"></fg-input>
             {{error.phone}}
             <br />
@@ -106,8 +111,8 @@
             <fg-input type="text" placeholder="example" v-model="git"></fg-input>
           </div>
           <div class="col-12">
-            포지션
             <span class="reddot">*</span>
+            포지션
             <br />
             <div class="checks">
               <span class="btn btn-primary" @click="chek('개발')">
@@ -380,7 +385,7 @@ export default {
       }
     },
     postActive: function () {
-      this.postAct = true;
+      this.postAct = !this.postAct;
     },
   },
 };
@@ -388,21 +393,21 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-.spinner{
+.spinner {
   display: none;
 }
-.spinner.active{
+.spinner.active {
   display: block;
   position: fixed;
   z-index: 999;
   width: 40vw;
   height: 30vw;
-  top:30vh;
+  top: 30vh;
   left: 30vw;
   animation-name: spinner;
-  animation-iteration-count:infinite;
+  animation-iteration-count: infinite;
   // animation-timing-function: linear;
-  animation-duration:1.2s ;
+  animation-duration: 1.2s;
 }
 .signupform {
   background-color: #bbb;
@@ -438,11 +443,11 @@ export default {
     }
   }
 }
-@keyframes spinner{
-  0%{
+@keyframes spinner {
+  0% {
     transform: rotate(0deg);
   }
-  100%{
+  100% {
     transform: rotate(360deg);
   }
 }

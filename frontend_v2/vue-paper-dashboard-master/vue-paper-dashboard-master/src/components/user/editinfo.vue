@@ -18,18 +18,25 @@
     <div v-else>
       <h4>개인정보 수정</h4>
       <card class="card text-center">
-
         <span class="form">
-          한줄 자기 소개:
-          <input v-model="intro" type="text" />
+          <span>
+            한줄 자기 소개
+            {{intro.length}}/100
+            :
+          </span>
+          <textarea style="resize:none;width:300px" rows="5" cols="20" v-model="intro" maxlength="100" type="text" />
           비밀번호 :
           <input v-model="pw" type="password" />
           {{error.pw}}
           비밀번호 확인 :
           <input v-model="pw2" type="password" />
           {{error.pw2}}
-          닉네임(별명) :
-          <input v-model="nickname" maxlength="10" type="text" />
+          <span>
+            닉네임(별명)
+            {{nickname.length}}/12
+            :
+          </span>
+          <input v-model="nickname" maxlength="12" type="text" />
           {{error.nickname}}
           주소 :
           <input v-model="address1" type="text" disabled />
@@ -39,7 +46,10 @@
             <br />
             <input v-model="address3" type="text" />
           </span>
-          <button @click="postActive" class="btn btn-info btn-round">주소 검색</button>
+          <button class="btn btn-primary" @click="postActive">
+            <span v-if="!postAct">주소</span>
+            <span v-else>X</span>
+          </button>
           <div class="postcode" v-if="postAct">
             <DaumPostcode :on-complete="handleAddress" />
           </div>
@@ -108,7 +118,7 @@ export default {
   },
   data: function () {
     return {
-      address3:"",
+      address3: "",
       oldpw: "",
       pw: "",
       pwvalid: false,
@@ -122,7 +132,7 @@ export default {
       phone1: "",
       phone2: "",
       git: "",
-      intro:'',
+      intro: "",
       submitable: false,
       postAct: false,
       error: {
@@ -132,7 +142,6 @@ export default {
         address: "",
         phone: "",
         responsibility: "",
-        
       },
       responsibility: "",
     };
@@ -297,7 +306,7 @@ export default {
               git: this.git,
               responsibility: this.responsibility,
               state: this.st,
-              intro:this.intro
+              intro: this.intro,
             },
             config
           )

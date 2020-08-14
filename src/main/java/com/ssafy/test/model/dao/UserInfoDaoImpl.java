@@ -84,7 +84,7 @@ public class UserInfoDaoImpl implements UserInfoDao {
 	}
 
 	@Override
-	public List<UserInfo> searchAll(SearchParameter sp) {
+	public List<Pools> searchAll(SearchParameter sp) {
 		int cnt = sp.getCnt();
 		if(cnt == 0) {
 			// tag 없음

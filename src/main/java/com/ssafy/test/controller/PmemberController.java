@@ -2,6 +2,7 @@ package com.ssafy.test.controller;
 
 import java.util.List;
 
+import org.apache.tomcat.util.net.jsse.PEMFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -120,10 +121,20 @@ public class PmemberController {
 	}
 
 	@ApiOperation(value = "글번호에 해당하는 프로젝트의 정보를 삭제한다. 그리고 DB삭제 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
-	@DeleteMapping
-	public ResponseEntity<String> deleteBoard(@RequestBody Pmember pm) {
-	
-		if (pmService.delete(pm) != 0) {
+	@DeleteMapping("delete/{pid}/{userId}")	
+	public ResponseEntity<String> deleteBoard(@PathVariable int pid, @PathVariable String userId) {
+		Pmember pm = new Pmember(pid, userId, "", 0);
+	Pmember member = pmService.select(pm);
+	List<Pmember> list = pmService.selectByPid(pm.getPid());
+	if(member.getPriority() ==1) {
+		for(int i=0;i<list.size();i++) {
+			if(member.getUserId().equals(list.get(i).getUserId())) continue;
+			Pmember tmp = list.get(i);
+			tmp.setPriority(tmp.getPriority()-1);
+			pmService.update(tmp);
+		}
+	}
+		if (pmService.delete(member) != 0) { 
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		}
 		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);

@@ -162,7 +162,7 @@ public class UserInfoController {
 
 	@ApiOperation(value = "모든 검색어 통합 검색하는 것.", response = UserInfo.class)
 	@GetMapping("searchAll/tag={tag}&addr={addr}&keyword={keyword}")
-	public ResponseEntity<List<UserInfo>> search(@PathVariable String tag, @PathVariable String addr,
+	public ResponseEntity<List<Pools>> search(@PathVariable String tag, @PathVariable String addr,
 			@PathVariable String keyword) {
 		SearchParameter sp = new SearchParameter();
 		String b[] = addr.split(",");
@@ -173,29 +173,116 @@ public class UserInfoController {
 			sp.setGugun(b[1]);
 			sp.setSido(b[2]);
 			sp.setCnt(0);
+			
+			//System.out.println("주소만 넣었으니까 일로 왔겠지?");
+			
+			List<Pools> v = uiService.searchAll(sp);
+			//System.out.println("v하나만 찍어보자 : " +v.get(0));
+			for (int i = 0; i < v.size(); i++) {
+				List<PidPjt> ptmp = new ArrayList<PidPjt>();
+				List<Inter> itmp = new ArrayList<Inter>();
+				String aa = v.get(i).getProjects();
+				String bb = v.get(i).getInterests();
+				if (aa != null) {
+					String[] atmp = aa.split(",");
+					for (int j = 0; j < atmp.length; j++) {
+						//System.out.println("atmp : " + atmp[j]);
+						String[] s = atmp[j].split(";");
+						int pid = Integer.parseInt(s[0]);
+						String name = s[1];
+						//System.out.println("s : " + s.length);
+						//System.out.println("pid : " + pid);
+						//System.out.println("name : " + name);
+						PidPjt p = new PidPjt(pid, name);
+						ptmp.add(p);
+					}
+				}
+				if (bb != null) {
+					String[] btmp = bb.split(",");
+					for (int j = 0; j < btmp.length; j++) {
+						Inter it = new Inter(btmp[j]);
+						itmp.add(it);
+					}
+				}
 
-			return new ResponseEntity<List<UserInfo>>(uiService.searchAll(sp), HttpStatus.OK);
+				v.get(i).setInterest(itmp);
+				v.get(i).setProject(ptmp);
+			}
+
+			return new ResponseEntity<List<Pools>>(v, HttpStatus.OK);
 
 		} else {
 			// 기술 스택 태그가 있는 경우
 			String a[] = tag.split(",");
-			if (a.length > 0)
+			if (a.length > 0) {
 				sp.setTag1(a[0]);
-			if (a.length > 1)
+				//System.out.println("tag1 : " + sp.getTag1());
+			}
+			if (a.length > 1) {
 				sp.setTag2(a[1]);
-			if (a.length > 2)
+			//System.out.println("tag2 : " + sp.getTag2());
+			}
+			if (a.length > 2) {
 				sp.setTag3(a[2]);
-			if (a.length > 3)
+			//System.out.println("tag3 : " + sp.getTag3());
+			}
+			if (a.length > 3) {
 				sp.setTag4(a[3]);
+			//System.out.println("tag4 : " + sp.getTag4());
+			}
 			if (a.length > 4)
 				sp.setTag5(a[4]);
 			sp.setCnt(a.length);
+			//System.out.println("cnt : " + sp.getCnt());
 			sp.setSido(b[0]);
+			//System.out.println("b[0] : " + sp.getSido());
 			sp.setGugun(b[1]);
+			//System.out.println("b[0] : " + sp.getGugun());
 			sp.setDong(b[2]);
+			//System.out.println("b[0] : " +sp.getDong());
 			sp.setKeyword(keyword);
+			//System.out.println("b[0] : " + sp.getKeyword());
+			//System.out.println("오잉잉이용????");
+			
+			
+			
+			List<Pools> v = uiService.searchAll(sp);
+			System.out.println("searchall 했고");
+			//System.out.println("v 하나 받아보자 : " + v.get(0));
+			for (int i = 0; i < v.size(); i++) {
+				List<PidPjt> ptmp = new ArrayList<PidPjt>();
+				List<Inter> itmp = new ArrayList<Inter>();
+				String aa = v.get(i).getProjects();
+				String bb = v.get(i).getInterests();
+				if (aa != null) {
+					String[] atmp = aa.split(",");
+					for (int j = 0; j < atmp.length; j++) {
+						//System.out.println("atmp : " + atmp[j]);
+						String[] s = atmp[j].split(";");
+						int pid = Integer.parseInt(s[0]);
+						String name = s[1];
+						//System.out.println("s : " + s.length);
+						//System.out.println("pid : " + pid);
+						//System.out.println("name : " + name);
+						PidPjt p = new PidPjt(pid, name);
+						ptmp.add(p);
+					}
+				}
+				if (bb != null) {
+					String[] btmp = bb.split(",");
+					for (int j = 0; j < btmp.length; j++) {
+						Inter it = new Inter(btmp[j]);
+						itmp.add(it);
+					}
+				}
+
+				v.get(i).setInterest(itmp);
+				v.get(i).setProject(ptmp);
+			}
+
+			
 			// 어차피 널이 들어감.
-			return new ResponseEntity<List<UserInfo>>(uiService.searchAll(sp), HttpStatus.OK);
+			return new ResponseEntity<List<Pools>>(v, HttpStatus.OK);
 
 		}
 	}

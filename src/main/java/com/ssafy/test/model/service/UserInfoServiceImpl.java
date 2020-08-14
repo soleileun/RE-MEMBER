@@ -87,7 +87,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 	}
 
 	@Override
-	public List<UserInfo> searchAll(SearchParameter sp) {
+	public List<Pools> searchAll(SearchParameter sp) {
 		return uDao.searchAll(sp);
 	}
 

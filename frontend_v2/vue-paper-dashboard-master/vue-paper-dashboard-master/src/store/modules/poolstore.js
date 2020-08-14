@@ -40,9 +40,12 @@ const poolstore = {
       http.get('/api/userinfo/searchAll/tag=' + payload.stacks + '&addr=' + payload.addr+ '&keyword='+payload.keyword,config)
         .then(response => {
           console.log('통합 검색 조건 유저리스트 반환: ' + response.status);
-          store.commit(Constant.GET_POOLLIST, {
-            pools: response.data
+          store.commit(Constant.GET_EXTENDPOOLLIST, {
+            extendpools: response.data
           })
+          //store.commit(Constant.GET_POOLLIST, {
+          //  pools: response.data
+          //})
         })
         .catch(exp => alert('풀리스트 반환 처리에 실패하였습니다.' + exp));
     },
