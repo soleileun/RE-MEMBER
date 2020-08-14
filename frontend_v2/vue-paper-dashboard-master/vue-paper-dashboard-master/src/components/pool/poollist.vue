@@ -14,7 +14,12 @@
               <span id="userid" class="text-danger"></span>
             </strong>
           </label>
-          <select id="sido" class="form-control col-md-2" @change="changeSido(selectedSido)" v-model="selectedSido">
+          <select
+            id="sido"
+            class="form-control col-md-2"
+            @change="changeSido(selectedSido)"
+            v-model="selectedSido"
+          >
             <option value="0">선택</option>
             <option v-for="(sido, index) in sidoList" :value="sido" :key="index">
               {{
@@ -29,7 +34,13 @@
               <span id="userid" class="text-danger"></span>
             </strong>
           </label>
-          <select v-if="selectedSido!=0" id="gugun" class="form-control col-md-2" @change="changeGugun(selectedSido, selectedGugun)" v-model="selectedGugun">
+          <select
+            v-if="selectedSido!=0"
+            id="gugun"
+            class="form-control col-md-2"
+            @change="changeGugun(selectedSido, selectedGugun)"
+            v-model="selectedGugun"
+          >
             <option value="0">선택</option>
             <option v-for="(gu, index) in gugunList" :value="gu" :key="index">
               {{
@@ -48,7 +59,12 @@
             </strong>
           </label>
 
-          <select v-if="selectedGugun!=0" id="dong" class="form-control col-md-2" v-model="selectedDong">
+          <select
+            v-if="selectedGugun!=0"
+            id="dong"
+            class="form-control col-md-2"
+            v-model="selectedDong"
+          >
             <!-- @change="changeDong(selectedDong)" -->
 
             <option value="0">선택</option>
@@ -62,32 +78,38 @@
             <option value="0">선택</option>
           </select>
         </div>
-
         <hr />
         <div class="row">
-          <div class="selectform col-12" style="float:left;">
-            <div v-for="(pick,index) in picks" :key="index" style="float:left; margin:10px;">
-              <div style="float:left;">
-                <button>{{pick}}</button>
-                <button v-on:click="deleteStack(index)">X</button>
-              </div>
-            </div>
+          <div class="col-12 selectform">
+            <div
+              class="btn btn-primary btn-round"
+              v-for="(pick,index) in picks"
+              :key="index"
+              @click="deleteStack(index)"
+            >{{pick}}</div>
           </div>
         </div>
-        <p></p>
         <div class="row">
           <div class="searchform" style="width:100%;">
             <div class="row" style="margin:8px;">
               <div class="col-12">
-                ID :
-                <input type="text" placeholder="아이디를 입력하세요" id="keyword1" style="width:80%;" />
+                <p>ID :</p>
+                <fg-input type="text" placeholder="아이디를 입력하세요" id="keyword1" style="width:85%;" />
               </div>
             </div>
             <div class="input">
-              <div class="row">
+              <div class="row" style="margin:8px;">
                 <div class="col-12">
-                  기술 :
-                  <input id="stackWord" type="text" v-model="inputVal" @input="searchQuery()" @keyup.enter="enter()" placeholder="기술 태그 입력해주세요" style="width:80%;" />
+                  <p>기술 :</p>
+                  <fg-input
+                    id="stackWord"
+                    type="text"
+                    v-model="inputVal"
+                    @input="searchQuery()"
+                    @keyup.enter="enter()"
+                    placeholder="기술 태그 입력해주세요"
+                    style="width:85%;"
+                  />
                 </div>
               </div>
             </div>
@@ -97,8 +119,11 @@
               </tr>
             </table>
           </div>
-          <div class="col-12" style="float:right;">
-            <button @click="searchPool()" style="border: 2px solid rgb(173, 203, 247); border-radius:10px; margin:20px; float:right;">프로젝트 검색</button>
+          <div class="col-12">
+            <div class="button-7" style="float: none; margin: 0 auto;">
+              <div class="eff-7"></div>
+              <a @click="searchPool()">프로젝트 검색</a>
+            </div>
           </div>
         </div>
       </div>
@@ -145,26 +170,55 @@
     <ul class="cards">
       <li class="cards__item" v-for="pool in extendpools" :key="pool.id">
         <div class="card">
-          <div v-if="pool.responsibility === '디자인'" class="card__image card__image--designer" style="position:relative">
+          <div
+            v-if="pool.responsibility === '디자인'"
+            class="card__image card__image--designer"
+            style="position:relative"
+          >
             <!-- <img class="avatar border-white" :src="urls(pool.id)" style="position:absolute;z-index:9;bottom:0;left:0" /> -->
           </div>
-          <div v-if="pool.responsibility === '개발'" class="card__image card__image--developer" style="position:relative">
+          <div
+            v-if="pool.responsibility === '개발'"
+            class="card__image card__image--developer"
+            style="position:relative"
+          >
             <!-- <img class="avatar border-white" :src="urls(pool.id)" style="position:absolute;z-index:1;bottom:0;left:0" /> -->
           </div>
-          <div v-if="pool.responsibility === '기획'" class="card__image card__image--head" style="position:relative">
+          <div
+            v-if="pool.responsibility === '기획'"
+            class="card__image card__image--head"
+            style="position:relative"
+          >
             <!-- <img class="avatar border-white" :src="urls(pool.id)" style="position:absolute;z-index:1;bottom:0;left:0" /> -->
           </div>
           <div class="card__content">
             <div class="card__title">
-              <div style="font-weight:800; display:inline-block; margin-right:4px;">{{pool.nickname}}</div>
-              <p v-if="pool.isValid ===1" style="display:inline-block; color:rgb(79, 245, 154); font-size:10px; text-align:right; margin-bottom:3px;">인증</p>
-              <p v-else style="display:inline-block; color:red;font-size:10px;text-align:right; margin-bottom:3px; ">미인증</p>
-              <div style="padding-top:0px;margin-top:0px; font-size:10px; margin-bottom:16px;">{{pool.id}}</div>
+              <div
+                style="font-weight:800; display:inline-block; margin-right:4px;"
+              >{{pool.nickname}}</div>
+              <p
+                v-if="pool.isValid ===1"
+                style="display:inline-block; color:rgb(79, 245, 154); font-size:10px; text-align:right; margin-bottom:3px;"
+              >인증</p>
+              <p
+                v-else
+                style="display:inline-block; color:red;font-size:10px;text-align:right; margin-bottom:3px; "
+              >미인증</p>
+              <div
+                style="padding-top:0px;margin-top:0px; font-size:10px; margin-bottom:16px;"
+              >{{pool.id}}</div>
             </div>
 
-            <p class="card__text" style="font-weight:bold; margin-bottom:4px;">{{pool.responsibility}}</p>
+            <p
+              class="card__text"
+              style="font-weight:bold; margin-bottom:4px;"
+            >{{pool.responsibility}}</p>
             <div class="inter">
-              <div v-for="(interest, idx) in pool.interest" :key="idx" style="margin:2px; display:inline-block">#{{interest.interest}},</div>
+              <div
+                v-for="(interest, idx) in pool.interest"
+                :key="idx"
+                style="margin:2px; display:inline-block"
+              >#{{interest.interest}},</div>
               <div></div>
             </div>
             {{pool.intro}}
@@ -193,27 +247,50 @@
             <div class="container-fluid">
               <div class="row">
                 <div class="col-3" style="font-size:22px; text-align:center;">
-                  <i class="fa fa-github emo" v-b-tooltip.hover title="Github" v-if="pool.git != null"></i>
+                  <i
+                    class="fa fa-github emo"
+                    v-b-tooltip.hover
+                    title="Github"
+                    v-if="pool.git != null"
+                  ></i>
                 </div>
                 <div class="col-3" style="font-size:22px; text-align:center;">
-                  <i class="fa fa-user-plus emo" v-b-tooltip.hover title="팔로우" v-if="!follow.find(item=>item.id === pool.id)" @click="fol(pool.id)"></i>
+                  <i
+                    class="fa fa-user-plus emo"
+                    v-b-tooltip.hover
+                    title="팔로우"
+                    v-if="!follow.find(item=>item.id === pool.id)"
+                    @click="fol(pool.id)"
+                  ></i>
                   <!-- v-else로 친구라고 넘겨줘도 될듯 -->
                 </div>
                 <div class="col-3" style="font-size:22px; text-align:center;">
-                  <i class="fa fa-id-card emo" v-b-tooltip.hover title="프로필" @click="toProfile(pool.id)"></i>
+                  <i
+                    class="fa fa-id-card emo"
+                    v-b-tooltip.hover
+                    title="프로필"
+                    @click="toProfile(pool.id)"
+                  ></i>
                 </div>
 
                 <div class="col-3" style="font-size:22px; text-align:center;">
                   <div>
-                    <button v-b-modal="'test-'+pool.id" style="margin:0px; padding:0px; border:0; outline:0; font-size:22px; background-color:white;">
+                    <button
+                      v-b-modal="'test-'+pool.id"
+                      style="margin:0px; padding:0px; border:0; outline:0; font-size:22px; background-color:white;"
+                    >
                       <i class="fa fa-tasks emo" v-b-tooltip.hover title="프로젝트 목록"></i>
                     </button>
 
                     <b-modal :id="'test-'+pool.id" title="참여한 프로젝트 목록" hide-footer>
                       <div v-if="pool.project != null">
-                        <div v-for="(pjt, idx) in pool.project" :key="idx" style="font-size:20px; font-weight:bold;">
+                        <div
+                          v-for="(pjt, idx) in pool.project"
+                          :key="idx"
+                          style="font-size:20px; font-weight:bold;"
+                        >
                           <div style="cursor:pointer;" @click="toProject(pjt.pid)">{{pjt.pjtName}}</div>
-                          <p> {{pjt.pjtContent}} </p>
+                          <p>{{pjt.pjtContent}}</p>
                         </div>
                       </div>
                       <div v-if="pool.projects == null">아직 참여한 프로젝트가 없습니다. 이번 기회에 함께 해보는건 어떨까요?</div>
@@ -358,7 +435,7 @@ export default {
     },
   },
   created() {
-    console.log(this.urls('abb'));
+    console.log(this.urls("abb"));
     this.$store.dispatch(Constant.GET_POOLLIST);
     this.$store.dispatch(Constant.GET_EXTENDPOOLLIST);
     console.log("디스패치 완료");
@@ -687,5 +764,58 @@ img {
   max-height: 50px;
   overflow-x: hidden;
   overflow-y: auto;
+}
+.button-7 {
+  width: 140px;
+  height: 50px;
+  border: 2px solid #34495e;
+  float: left;
+  text-align: center;
+  cursor: pointer;
+  position: relative;
+  box-sizing: border-box;
+  overflow: hidden;
+  margin: 0 0 40px 50px;
+}
+.button-7 a {
+  font-family: arial;
+  font-size: 16px;
+  color: #34495e;
+  text-decoration: none;
+  line-height: 50px;
+  transition: all 0.5s ease;
+  z-index: 2;
+  position: relative;
+}
+.eff-7 {
+  width: 140px;
+  height: 50px;
+  border: 0px solid #34495e;
+  position: absolute;
+  transition: all 0.5s ease;
+  z-index: 1;
+  box-sizing: border-box;
+}
+.button-7:hover .eff-7 {
+  border: 70px solid #34495e;
+}
+.button-7:hover a {
+  color: #fff;
+}
+.searchform {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  // height: 50px;
+  .autoComplete {
+    position: absolute;
+    max-height: 100px;
+    overflow: auto;
+    background-color: white;
+    width: 85%;
+    left: 5px;
+    bottom: 49px;
+    cursor: pointer;
+  }
 }
 </style>
