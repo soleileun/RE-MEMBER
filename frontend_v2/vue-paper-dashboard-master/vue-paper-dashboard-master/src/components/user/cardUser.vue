@@ -17,7 +17,12 @@
       </div>
       <div class="filebox">
         <label for="ex_file">프로필변경</label>
-        <input type="file" id="ex_file" @change="previewFiles" accept="image/png, image/jpeg, image/jpg" />
+        <input
+          type="file"
+          id="ex_file"
+          @change="previewFiles"
+          accept="image/png, image/jpeg, image/jpg"
+        />
       </div>
       <p class="description text-center">
         {{bno}} | {{userintro}}
@@ -28,11 +33,25 @@
     <hr />
     <div class="text-center">
       <div class="row">
-        <div v-for="(info, index) in details" :key="index" :class="getClasses(index)">
+        <div class="col-lg-3 offset-lg-1">
           <h5>
-            {{info.title}}
+            {{Myfollows}}
             <br />
-            <small>{{info.subTitle}}</small>
+            <small>Follows</small>
+          </h5>
+        </div>
+        <div class="col-lg-3 offset-mg-1">
+          <h5>
+            {{Myfollowers}}
+            <br />
+            <small>Followers</small>
+          </h5>
+        </div>
+        <div class="col-lg-4">
+          <h5>
+            7
+            <br />
+            <small>Like PJT</small>
           </h5>
         </div>
       </div>
@@ -48,6 +67,9 @@ export default {
   },
   data() {
     return {
+      Myfollows: this.$store.state.userstore.followings.length,
+      Myfollowers: this.$store.state.userstore.followers.length,
+      MyPJT: 7,
       details: [
         {
           // this.$store.state.userstore.followings
@@ -99,7 +121,7 @@ export default {
             this.url = this.url + ".jpg";
           })
           .catch((e) => {
-            this.url = this.$store.state.filestore.fileUrl+"default.png"
+            this.url = this.$store.state.filestore.fileUrl + "default.png";
           });
       });
   },
@@ -121,10 +143,10 @@ export default {
         this.$store.dispatch("upFiledirect", {
           file: file2,
           bno: this.bno,
-          reload:true,
+          reload: true,
         });
         let url = this.$store.state.filestore.fileUrl + file2.name;
-        this.url = url
+        this.url = url;
       }
     },
     getClasses(index) {
