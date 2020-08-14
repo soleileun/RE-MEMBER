@@ -4,7 +4,11 @@
     <div v-if="followings">
       <h4>활동중인 유저</h4>
       <div v-if="!followings.filter(item=> item.state ===true).length===0">활동중인 팔로우가 없습니다.</div>
-      <div class="follow" v-for="target in followings.filter(item=> item.state ===true)" :key="target.id">
+      <div
+        class="follow"
+        v-for="target in followings.filter(item=> item.state ===true)"
+        :key="target.id"
+      >
         <drop-down :title="target.nickname+'님'">
           <div class="dropdown-item" @click="mes(target.id)">메세지</div>
           <div class="dropdown-item" v-if="sameroom[target.id]">채팅방 있음</div>
@@ -12,13 +16,17 @@
           <div class="dropdown-item" @click="viewProf(target.id)">프로필 보기</div>
           <div class="dropdown-item" @click="delFollow(target.id)">팔로우 해제</div>
         </drop-down>
-        <div> 마지막 접속일 {{datee(target.lastDate)}}일 전</div>
+        <div>마지막 접속일 {{datee(target.lastDate)}}일 전</div>
       </div>
     </div>
     <div v-if="followings">
       <h4>휴면중인 유저</h4>
       <div v-if="followings.filter(item=> item.state ===false).length===0">휴면중인 팔로우가 없습니다.</div>
-      <div class="dropdown follow" v-for="target in followings.filter(item=> item.state ===false)" :key="target.id">
+      <div
+        class="dropdown follow"
+        v-for="target in followings.filter(item=> item.state ===false)"
+        :key="target.id"
+      >
         <drop-down class="btn" :title="target.nickname+'님'">
           <div class="dropdown-item" @click="mes(target.id)">메세지</div>
           <div class="dropdown-item" @click="viewProf(target.id)">프로필 보기</div>
@@ -84,7 +92,11 @@ export default {
       this.$router.push("/profile/" + id);
     },
     delFollow(id) {
-      this.$store.dispatch("delFollow", { target: id });
+      // console.log(id);
+      this.$store.dispatch("delFollow", {
+        uid: storage.getItem("userid"),
+        target: id,
+      });
     },
     doChat(id) {
       this.$store.dispatch(Constant.ADD_CHATROOM, {
@@ -126,7 +138,7 @@ export default {
   padding: 10px;
   height: 100%;
   padding-top: 15px;
-  
+
   display: flex;
   flex-direction: column;
   justify-items: flex-start;

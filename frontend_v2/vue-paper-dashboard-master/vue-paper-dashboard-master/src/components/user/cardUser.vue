@@ -34,19 +34,24 @@
     <div class="text-center">
       <div class="row">
         <div class="col-lg-3 offset-lg-1">
-          <h5>
-            {{Myfollows}}
-            <br />
-            <small>Follows</small>
-          </h5>
+          <router-link :to="'/buddy/'+id">
+            <h5>
+              {{Myfollows}}
+              <br />
+              <small>Follows</small>
+            </h5>
+          </router-link>
         </div>
         <div class="col-lg-3 offset-mg-1">
-          <h5>
-            {{Myfollowers}}
-            <br />
-            <small>Followers</small>
-          </h5>
+          <router-link :to="'/buddy/' + id">
+            <h5>
+              {{Myfollowers}}
+              <br />
+              <small>Followers</small>
+            </h5>
+          </router-link>
         </div>
+
         <div class="col-lg-4">
           <h5>
             7
@@ -67,24 +72,11 @@ export default {
   },
   data() {
     return {
+      // userId: storage.getItem("userid"),
       Myfollows: this.$store.state.userstore.followings.length,
       Myfollowers: this.$store.state.userstore.followers.length,
       MyPJT: 7,
-      details: [
-        {
-          // this.$store.state.userstore.followings
-          title: this.$store.state.userstore.followings.length,
-          subTitle: "Following ",
-        },
-        {
-          title: this.$store.state.userstore.followers.length,
-          subTitle: "Followers",
-        },
-        {
-          title: "7",
-          subTitle: "Like PJT",
-        },
-      ],
+      id: window.localStorage.getItem("userid"),
       userNick: storage.getItem("userNick"),
       userId: storage.getItem("userId"),
       users: storage.getItem("users"),
@@ -126,8 +118,8 @@ export default {
       });
   },
   beforeCreate: function () {
-    // this.$store.dispatch("getFollow");
-    // this.$store.dispatch("getFollower");
+    this.$store.dispatch("getFollow");
+    this.$store.dispatch("getFollower");
   },
   methods: {
     previewFiles(event) {

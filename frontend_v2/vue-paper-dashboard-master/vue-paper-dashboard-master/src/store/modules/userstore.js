@@ -223,7 +223,7 @@ const userstore = {
         .catch((e) => console.log(e));
     },
 
-    getFollow: (store) => {
+    getFollow: (store, payload) => {
       const config = {
         headers: {
           "jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")
@@ -243,12 +243,12 @@ const userstore = {
               users: response.data
             })
             res.data.forEach(item => {
-              store.dispatch(Constant.GET_CHATROOMONETOONE, {
-                uid1: storage.getItem("userid"),
+              // store.dispatch(Constant.GET_CHATROOMONETOONE, {
+              //   uid1: storage.getItem("userid"),
 
-                uid2: item.target,
+              //   uid2: item.target,
 
-              });
+              // });
             })
           }).catch(exp => console.log(exp))
         })
@@ -409,10 +409,9 @@ const userstore = {
           "jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")
         }
       }
-      http.delete('/api/following/', {
-        target: payload.target,
-        uid: storage.getItem("userid")
-      }, config).then(res => {
+      // console.log(config + " " + payload.target + " " + window.localStorage.getItem('userid'));
+      http.delete('/api/following/delete/' + payload.uid + "/" + payload.target, config).then(res => {
+        console.log("여기?");
         store.dispatch('getFollow')
       }).catch(exp => console.log(exp))
     },
