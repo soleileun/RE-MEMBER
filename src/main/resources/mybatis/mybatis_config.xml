@@ -64,6 +64,8 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			alias="pidpjt" />
 			<typeAlias type="com.ssafy.test.model.dto.Pools"
 			alias="pools" />
+			<typeAlias type="com.ssafy.test.model.dto.RecruitPjtPinterest"
+			alias="recruitpjtpinterest" />
 			
 	</typeAliases>
 

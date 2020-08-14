@@ -75,8 +75,18 @@ public class CommentsController {
 	@ApiOperation(value = "글번호에 해당하는 커멘트의 정보를 수정한다. 그리고 DB수정 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
 	@PutMapping("change/{cno}")
 	public ResponseEntity<String> updateBoard(@RequestBody Comments v) {
-
+		
 		if (Service.update(v) != 0) {
+			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+		}
+		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
+	}
+	
+
+	@ApiOperation(value = "글번호에 해당하는 커멘트의 정보를 수정한다. 그리고 DB수정 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
+	@PutMapping("select/{cno}")
+	public ResponseEntity<String> pick(@PathVariable int cno) {
+		if (Service.pick(cno) != 0) {
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		}
 		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);

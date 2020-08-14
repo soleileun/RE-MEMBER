@@ -11,7 +11,8 @@ const issuestore = {
         issues_created: [],
         issues_ongoing: [],
         issues_done: [],
-        issue: {}
+        issue: {},
+        issue_prework: {},
     },
 
     actions: {
@@ -48,15 +49,33 @@ const issuestore = {
             const config = {
                 headers: { "jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token") }
             }
+            console.log("확인")
+            console.log(payload);
             http.get('/api/issue/no/' + payload.issueid, config)
                 .then(response => {
-                    // console.log("success");
-                    // console.log(response.data);
+                    console.log("success");
+                    console.log(response.data);
                     store.commit(Constant.GET_ISSUE, { issue: response.data })
                 })
                 .catch(exp => alert('getTodo처리에 실패하였습니다.' + exp));
 
         },
+
+        //issueid로 게시글 하나 가져오기
+        [Constant.GET_ISSUE_PREWORK]: (store, payload) => {
+            const config = {
+                headers: { "jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token") }
+            }
+            console.log("확인")
+            console.log(payload);
+            http.get('/api/issue/no/' + payload.issueid, config)
+                .then(response => {
+                    store.commit(Constant.GET_ISSUE_PREWORK, { issue_prework: response.data })
+                })
+                .catch(exp => alert('getTodo처리에 실패하였습니다.' + exp));
+
+        },
+
         //이슈 추가
         [Constant.ADD_ISSUE]: (store, payload) => {
             // console.log(payload.bstate);
@@ -88,31 +107,7 @@ const issuestore = {
                     alert('추가 처리에 실패하였습니다.' + exp);
                 })
         },
-        //이슈 수정
-        [Constant.MODIFY_ISSUE]: (store, payload) => {
-            // console.log(payload);
-            const config = {
-                headers: { "jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token") }
-            }
-            http.put('/api/issue/change/' + payload.board.bno, {
-                    bno: payload.board.bno,
-                    bwriter: payload.board.bwriter,
-                    btitle: payload.board.btitle,
-                    bcontent: payload.board.bcontent,
-                    bview: payload.board.bview,
-                    bfile: payload.board.bfile,
-                    bstate: payload.board.bstate,
-                    makeDay: payload.board.makeDay,
-                    changeDay: new Date(),
-                    makeId: payload.board.makeId,
-                    changeId: payload.board.changeId //세션 id
-                }, config)
-                .then(() => {
-                    // console.log('수정하였습니다.'+ response.data);
-                    store.dispatch(Constant.GET_BOARD, { bno: payload.board.bno });
-                })
-                .catch(exp => alert('수정 처리에 실패하였습니다.' + exp));
-        },
+
 
         //이슈 수정
         [Constant.MODIFY_ISSUE]: (store, payload) => {
@@ -120,7 +115,8 @@ const issuestore = {
             const config = {
                 headers: { "jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token") }
             }
-            http.put('/api/issue/update/' + payload.issueid, {
+            http.put('/api/issue/update/', {
+                    issueid: payload.issueid,
                     pid: payload.pid,
                     uid: payload.uid,
                     response: payload.response,
@@ -136,9 +132,7 @@ const issuestore = {
                     changeDay: payload.changeDay,
                 }, config)
                 .then(() => {
-                    // console.log('수정하였습니다.'+ response.data);
-                    store.dispatch(Constant.GET_ISSUELIST, { pid: payload.pid });
-                    alert("수정이 완료되었습니다.");
+                    //console.log("성공함");
                 })
                 .catch(exp => alert('수정 처리에 실패하였습니다.' + exp));
         },
@@ -167,8 +161,8 @@ const issuestore = {
                     }, config)
                 .then(response => {
                     // console.log('수정하였습니다.'+ response.data);
-                    store.dispatch(Constant.GET_ISSUELIST, { pid: payload.pid });
-                    alert("변경되었습니다.");
+                    //store.dispatch(Constant.GET_ISSUELIST, { pid: payload.pid });
+                    //alert("변경되었습니다.");
                 })
                 .catch(exp => alert('수정 처리에 실패하였습니다.' + exp));
         },
@@ -194,6 +188,10 @@ const issuestore = {
         [Constant.GET_ISSUELIST]: (state, payload) => {
             // console.log('mutation' + payload.boards);
             state.issues = payload.issues;
+        },
+        [Constant.GET_ISSUE_PREWORK]: (state, payload) => {
+            // console.log('mutation' + payload.boards);
+            state.issue_prework = payload.issue_prework;
         },
         [Constant.GET_ISSUELIST_BY_STATE]: (state, payload) => {
             // console.log('mutation' + payload.boards);

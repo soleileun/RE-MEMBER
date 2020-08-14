@@ -11,6 +11,8 @@ public interface BoardDAO {
 
 	public Board select(int k);
 
+	public String isSelect(int k);
+
 	public int insert(Board v);
 
 	public int delete(int k);

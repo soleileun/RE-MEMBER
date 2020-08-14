@@ -205,15 +205,16 @@
             <table class="table">
               <thead class="table__thead">
                 <tr>
-                  <th class="table__th">
+                  <!-- <th class="table__th">
                     <input id="selectAll" type="checkbox" class="table__select-row" />
-                  </th>
+                  </th> -->
                   <th class="table__th">제목</th>
                   <th class="table__th">게시인</th>
                   <th class="table__th">프로젝트명</th>
                   <th class="table__th">마감일시</th>
                   <th class="table__th">구인현황</th>
                   <!-- <th class="table__th">Progress</th> -->
+                  <th class="table__th">모집분야</th>
                   <th class="table__th"></th>
                 </tr>
               </thead>
@@ -224,6 +225,7 @@
                   :recruit="recruit"
                   :pid="recruit.pid"
                   @delete-recruit="deleteRecruit"
+                  @open-modify="openModify"
                 />
               </tbody>
             </table>
@@ -506,6 +508,9 @@ export default {
 
     deleteRecruit(rnum) {
       this.$emit("delete-recruit", rnum);
+    },
+     openModify() {
+      this.$emit("open-modify");
     },
   },
 };

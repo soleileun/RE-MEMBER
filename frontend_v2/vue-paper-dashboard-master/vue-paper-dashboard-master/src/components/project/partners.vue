@@ -145,12 +145,8 @@
             <h3>팀 나가기</h3>
             <br />
 
-            <h5>프로젝트를 떠나려면 아래 문장을 똑같이 입력해주세요</h5>
-            <h4>
-              안녕히 계세요 여러분 ~!
-              <br />저는 이 세상의 모든 굴레와 속박을 벗어던지고
-              <br />제 행복을 찾아 떠납니다~~~!
-            </h4>
+            <h5>프로젝트를 떠나려면 본인의 아이디를 한 번 더 입력해주세요</h5>
+
             <fg-input type="text" placeholder="example@naver.com" v-model="bye"></fg-input>
             <small>정말 팀을 떠나실건가요? 하지만 언제든 지원해 다시 팀에 들어올 수 있어요!</small>
             <div>
@@ -265,9 +261,9 @@ export default {
     },
     leaveTeam: function () {
       // console.log(userId);
-      if (this.bye === "z") {
+      if (this.bye === this.userId) {
         this.$store.dispatch("leaveTeam", {
-          userId: window.localstorage.getItem("userid"),
+          userId: window.localStorage.getItem("userid"),
           pid: this.$route.params.pid,
         });
       }

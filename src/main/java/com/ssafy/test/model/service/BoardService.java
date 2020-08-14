@@ -11,6 +11,8 @@ public interface BoardService {
 
 	public Board select(int k);
 
+	public String isSelect(int k);
+
 	public int insert(Board v);
 
 	public int delete(int k);

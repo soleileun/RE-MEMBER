@@ -10,6 +10,8 @@ public interface CommentsService {
 
 	public Comments select(int k);
 
+	public int pick(int k);
+
 	public int insert(Comments v);
 
 	public int delete(int k);

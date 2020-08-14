@@ -56,8 +56,15 @@ public class BoardController {
 	@ApiOperation(value = "글번호에 해당하는 게시글의 정보를 반환한다.", response = Board.class)
 	@GetMapping("no/{bno}")
 	public ResponseEntity<Board> detailnoBoard(@PathVariable int bno) {
+		String a = bService.isSelect(bno);
+		Board v = bService.select(bno);
+		if( a != null) {
+			v.setIsSelect(Integer.parseInt(a));
+		}
+		else v.setIsSelect(0);
 		
-		return new ResponseEntity<Board>(bService.select(bno), HttpStatus.OK);
+		
+		return new ResponseEntity<Board>(v, HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "특정 속성을 가진 글을 조회한다. EX) 공지사항", response = List.class)

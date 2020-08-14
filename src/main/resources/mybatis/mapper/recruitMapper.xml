@@ -31,6 +31,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	) as b
 	where a.pid = b.pid;
 	</select>
+	
+	<select id="selectAllRecruitPjtPinterest" resultType="recruitpjtpinterest">
+		select r.rnum, r.pid, r.title, r.contents, r.endDate, r.makeDay, r.changeDay, r.makeId, r.changeId, p.pjtName, pi.interest
+ from recruit as r left join project as p
+ on r.pid = p.pid
+ left join pinterest as pi
+ on r.pid = pi.pid
+ order by rnum;
+	</select>
 
 	<select id="selectByAddr" resultType="recruit"
 		parameterType="addr">

@@ -49,17 +49,11 @@ const pmemberstore = {
     leaveTeam: (store, payload) => {
       const config = {
         headers: {
-          "jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")
+          "jwt-auth-token": window.localStorage.getItem("jwt-auth-token")
         }
       }
-      http.delete('/api/pmember/delete/' + payload.pid + "/" + payload.userId, {
-        data: {
-          pid: payload.pid,
-          userId: payload.userId,
-          state: '',
-          prioirty: '',
-        },
-      }, config).then(res => {
+      console.log(config);
+      http.delete('/api/pmember/delete/' + payload.pid + "/" + payload.userId,config).then(res => {
         alert("delete")
       }).catch(exp => console.log(exp))
     },

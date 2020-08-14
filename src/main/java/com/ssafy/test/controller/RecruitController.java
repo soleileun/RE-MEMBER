@@ -1,5 +1,6 @@
 package com.ssafy.test.controller;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
@@ -23,6 +24,7 @@ import com.ssafy.test.model.dto.Interest;
 import com.ssafy.test.model.dto.Pinterest;
 import com.ssafy.test.model.dto.Recruit;
 import com.ssafy.test.model.dto.RecruitPjt;
+import com.ssafy.test.model.dto.RecruitPjtPinterest;
 import com.ssafy.test.model.dto.SearchParameter;
 import com.ssafy.test.model.dto.TagList;
 import com.ssafy.test.model.dto.Usertag;
@@ -70,6 +72,42 @@ public class RecruitController {
 		}
 
 		return new ResponseEntity<List<RecruitPjt>>(v, HttpStatus.OK);
+	}
+	
+	@ApiOperation(value = "모든 구인구직 게시판의 정보를 pjtName과 pinterest도 함께 반환한다.", response = List.class)
+	@GetMapping("/selectAllRecruitPjtPinterest")
+	public ResponseEntity<List<RecruitPjtPinterest>> selectAllRecruitPjtPinterest() throws Exception {
+		List<RecruitPjtPinterest> original = rService.selectAllRecruitPjtPinterest();
+		List<RecruitPjtPinterest> ret = new ArrayList<RecruitPjtPinterest>();
+		int len = original.size();
+		// 원본 리스트에서 rnum이 겹치는 부분은 pinterest를 "",""로 합치기
+		int index = 0;
+		outer : while(true) {
+			int firstRnum = original.get(index).getRnum();
+			RecruitPjtPinterest tmp = original.get(index);
+			while(true) {
+				String tmpInterest = tmp.getInterest();
+				index++;
+				if(index == len) {
+					ret.add(tmp);
+					break outer;
+				}
+				if(firstRnum != original.get(index).getRnum()) {
+					ret.add(tmp);
+					break;
+				}else {
+					// 다음번 요소가 겹침
+					tmpInterest += ("," + original.get(index).getInterest());
+					tmp.setInterest(tmpInterest);
+				}
+			}
+			//index++;			
+		}
+		System.out.println("testing");
+		for(RecruitPjtPinterest r : ret) {
+			System.out.println(r.toString());
+		}
+		return new ResponseEntity<List<RecruitPjtPinterest>>(ret, HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "모든 구인구직 게시판의 정보를 소팅해서 반환한다.", response = List.class)

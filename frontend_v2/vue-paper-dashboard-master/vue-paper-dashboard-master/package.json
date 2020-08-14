@@ -23,6 +23,7 @@
     "vue-clickaway": "^2.1.0",
     "vue-daum-map": "^1.0.15",
     "vue-draggable": "^2.0.6",
+    "vue-infinite-loading": "^2.4.5",
     "vue-notifyjs": "^0.3.0",
     "vue-router": "^3.0.1",
     "vue2-editor": "^2.0.42-images",

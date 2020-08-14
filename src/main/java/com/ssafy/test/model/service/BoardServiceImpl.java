@@ -106,4 +106,10 @@ public class BoardServiceImpl implements BoardService{
 		return Dao.read(k);
 	}
 
+	@Override
+	public String isSelect(int k) {
+		// TODO Auto-generated method stub
+		return Dao.isSelect(k);
+	}
+
 }

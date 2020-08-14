@@ -149,6 +149,10 @@ const boardstore = {
             .catch(exp => alert('search by title 처리에 실패하였습니다.' + exp));
       },
 
+
+
+
+
     // [Constant.COMPLETE_TODO]: (store, payload) => {
     //     http.put('/api/qna/' + payload.qna_no)
     //         .then(() => {

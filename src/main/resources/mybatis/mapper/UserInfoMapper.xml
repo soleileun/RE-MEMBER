@@ -73,7 +73,7 @@
 		where interest in (select interest from interest where id=#{id})
 		) as b
 		group by id
-		order by cnt desc limit 5;
+		order by cnt desc limit 15;
 	</select>
 
 	<select id="getRecommendedPJT" parameterType="string"
@@ -85,7 +85,7 @@
 		where interest in (select interest from interest where id=#{id})
 		) as b
 		group by pid
-		order by cnt desc limit 4;
+		order by cnt desc limit 15;
 	</select>
 
 	<select id="login" parameterType="string" resultType="userinfo">
@@ -280,11 +280,11 @@ select id
 	<select id="getPools" resultType="pools">
 		select b.*, a.projects
 		from(
-		SELECT jointwo.userId, GROUP_CONCAT(jointwo.pjt) AS projects 
+		SELECT jointwo.userId, GROUP_CONCAT(jointwo.pjt  SEPARATOR  '-._') AS projects 
 		FROM (
-		select concat(joinone.pid,';',joinone.pjtName) as pjt,joinone.userId
+		select concat(joinone.pid,'-./',joinone.pjtName,'-.>',joinone.pjtContent) as pjt,joinone.userId
 		from(
-		select project.pid, project.pjtName, pmember.userId from pmember join project
+		select project.pid, project.pjtName, project.pjtContent, pmember.userId from pmember join project
 		on project.pid = pmember.pid
 		)as joinone
 		) as jointwo

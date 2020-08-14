@@ -8,11 +8,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		order by bno desc
 	</select>
 	
+	<select id="isSelect" parameterType="int" resultType="string">
+		select cno from comments
+		where isSelected = 1 and bno =#{bno} ;
+	
+	</select>
+	
 	<select id="select" parameterType="int" resultType="board">
 		select * from board
 		where bno =#{bno}
 	
 	</select>
+	
 
 	<select id="getComments" parameterType="int" resultType="comments">
 		select * from comments

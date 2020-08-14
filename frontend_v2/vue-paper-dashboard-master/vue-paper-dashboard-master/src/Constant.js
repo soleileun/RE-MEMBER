@@ -16,6 +16,7 @@ export default {
     ADD_COMMENT: 'addComment',
     REMOVE_COMMENT: 'removeComment',
     CLEAR_COMMENT: 'clearComment',
+    PICK_COMMENTS: 'pickComment',
 
     //프로젝트 CRUD
     GET_PROJECTLIST_BY_PMEMBER: 'getProjectListByPmember',
@@ -36,6 +37,7 @@ export default {
     SEARCH_RECRUIT_BY_TAG: 'searchRecruitByTag',
     SEARCH_RECRUIT_BY_ADDR: 'searchRecruitByAddr',
     REMOVE_RECRUIT: 'removeRecruit',
+    MODIFY_RECRUIT: 'modifyRecruit',
     SEARCH_RECRUIT: 'searchRecruit',
 
 
@@ -73,6 +75,7 @@ export default {
     CHANGE_RESPONSE: 'changeResponse',
     REMOVE_ISSUE: 'removeIssue',
     UPDATE_ISSUE_BY_STATE: 'updateIssueByState',
+    GET_ISSUE_PREWORK: 'getIssuePrework',
 
     //맵 관련
     GET_ADDRESS_LIST: 'getAddressList'

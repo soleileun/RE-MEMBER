@@ -34,6 +34,9 @@ Vue.use(BootstrapVue);
 // dragula
 Vue.use(VueDraggable);
 
+
+
+
 /* eslint-disable no-new */
 new Vue({
     router,
