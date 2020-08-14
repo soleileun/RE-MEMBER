@@ -34,10 +34,7 @@ Vue.use(BootstrapVue);
 // dragula
 Vue.use(VueDraggable);
 
-//무한스크롤
-import InfiniteLoading from 'vue-infinite-loading';
 
-Vue.use(InfiniteLoading, { /* options */ });
 
 
 /* eslint-disable no-new */
