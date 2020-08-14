@@ -13,6 +13,7 @@ const issuestore = {
         issues_done: [],
         issue: {},
         issue_prework: {},
+        issue_by_prework: [],
     },
 
     actions: {
@@ -71,6 +72,20 @@ const issuestore = {
             http.get('/api/issue/no/' + payload.issueid, config)
                 .then(response => {
                     store.commit(Constant.GET_ISSUE_PREWORK, { issue_prework: response.data })
+                })
+                .catch(exp => alert('getTodo처리에 실패하였습니다.' + exp));
+
+        },
+
+        [Constant.GET_ISSUE_BY_PREWORK]: (store, payload) => {
+            const config = {
+                headers: { "jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token") }
+            }
+            console.log("확인")
+            console.log(payload);
+            http.get('/api/issue/byprework/' + payload.prework, config)
+                .then(response => {
+                    store.commit(Constant.GET_ISSUE_BY_PREWORK, { issue_by_prework: response.data })
                 })
                 .catch(exp => alert('getTodo처리에 실패하였습니다.' + exp));
 
@@ -192,6 +207,10 @@ const issuestore = {
         [Constant.GET_ISSUE_PREWORK]: (state, payload) => {
             // console.log('mutation' + payload.boards);
             state.issue_prework = payload.issue_prework;
+        },
+        [Constant.GET_ISSUE_BY_PREWORK]: (state, payload) => {
+            // console.log('mutation' + payload.boards);
+            state.issue_by_prework = payload.issue_by_prework;
         },
         [Constant.GET_ISSUELIST_BY_STATE]: (state, payload) => {
             // console.log('mutation' + payload.boards);

@@ -35,11 +35,12 @@
                 value
               />-->
               <select id="myIssues" class="form-control">
+                <option value="">설정 안함</option>
                 <option
                   v-for="(issue,index) in issues"
                   :key="index"
                   :value="issue.issueid"
-                >{{issue.issuetitle}}</option>
+                >{{issue.issuetitle}} / {{issue.changeDay.slice(0,10)}} {{issue.changeDay.slice(11,19)}}</option>
               </select>
             </div>
           </div>
@@ -141,7 +142,8 @@ export default {
     register() {
       //alert(this.issuetitle);
       //alert(this.issuestateSelected);
-      if (this.issuestateSelected == "생성") {
+      if(confirm("해당 이슈를 생성하시겠습니까?")){
+        if (this.issuestateSelected == "생성") {
         this.issuestateSelected = "created";
       } else if (this.issuestateSelected == "진행중") {
         this.issuestateSelected = "ongoing";
@@ -151,6 +153,12 @@ export default {
         alert("에러입니다");
         return;
       }
+      if(this.issuetitle == "" || this.issuecontent == ""){
+        alert("이슈 제목과 이슈 내용은 필수 항목입니다.");
+        return;
+      }
+      let prework = document.getElementById("myIssues").value;
+      
       this.$store.dispatch(Constant.ADD_ISSUE, {
         pid: this.$route.params.pid,
         uid: this.$route.params.userId,
@@ -166,8 +174,10 @@ export default {
         endDay: "",
         changeDay: "",
       });
+      alert("생성되었습니다!");
       this.exit();
       this.$router.go();
+      }
     },
 
     exit: function () {

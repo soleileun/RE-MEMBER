@@ -76,6 +76,7 @@ export default {
     REMOVE_ISSUE: 'removeIssue',
     UPDATE_ISSUE_BY_STATE: 'updateIssueByState',
     GET_ISSUE_PREWORK: 'getIssuePrework',
+    GET_ISSUE_BY_PREWORK: 'getIssueByPrework',
 
     //맵 관련
     GET_ADDRESS_LIST: 'getAddressList'
