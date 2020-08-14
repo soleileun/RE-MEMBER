@@ -9,8 +9,10 @@
       </button>
       <div class="collapse navbar-collapse">
         <ul class="navbar-nav ml-auto">
-          <li class="nav-item" v-if="userNick">
-            <img class="nav-link" src="@/assets/img/vue-logo.png" />
+          <li class="nav-item card-user" v-if="userNick">
+            <div style="margin-top:20px">
+              <img v-if="!hasProfile" class="avatar" :src="url" style="width:40px;height:40px"/>
+            </div>
           </li>
           <drop-down class="nav-item" :title="userNick+'님'" title-classes="nav-link" v-if="userNick">
             <router-link to="/mypage" class="nav-link">
@@ -40,10 +42,13 @@
   </nav>
 </template>
 <script>
-// const storage = window.sessionStorage;
-
+const storage = window.localStorage;
+import http from "../../http-common.js";
 export default {
   computed: {
+    hasProfile(){
+      return false
+    },
     routeName() {
       const { name } = this.$route;
       return this.capitalizeFirstLetter(name);
@@ -55,7 +60,25 @@ export default {
   data() {
     return {
       activeNotifications: false,
+      url: this.$store.state.filestore.fileUrl + storage.getItem("userNick"),
     };
+  },
+  mounted(){
+    http
+      .get(this.url + ".png")
+      .then((res) => {
+        this.url = this.url + ".png";
+      })
+      .catch((e) => {
+        http
+          .get(this.url + ".jpg")
+          .then((res) => {
+            this.url = this.url + ".jpg";
+          })
+          .catch((e) => {
+            this.url = "@/assets/img/profile.png"
+          });
+      });
   },
   methods: {
     login() {
@@ -90,7 +113,7 @@ img.nav-link {
   border-radius: 40px;
   background-color: #555;
 }
-a.navbar-brand{
+a.navbar-brand {
   font-size: 1.5rem;
 }
 </style>
