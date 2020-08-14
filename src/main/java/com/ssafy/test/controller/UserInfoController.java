@@ -108,12 +108,20 @@ public class UserInfoController {
                //System.out.println("atmp : " + atmp[j]);
                String[] s = atmp[j].split(";");
                int pid = Integer.parseInt(s[0]);
-               String name = s[1];
+               System.out.println("s[1] : " + s[1]);
+               String[] s2 = s[1].split("->");
+               if(s2.length == 2) {
+               System.out.println("프로젝트 이름 : " + s2[0]);
+               System.out.println("내용 : " + s2[1]);
+               String name = s2[0];
+               String content = s2[1];
+               
                //System.out.println("s : " + s.length);
                //System.out.println("pid : " + pid);
                //System.out.println("name : " + name);
-               PidPjt p = new PidPjt(pid, name);
+               PidPjt p = new PidPjt(pid, name,content);
                ptmp.add(p);
+               }
             }
          }
          if (b != null) {

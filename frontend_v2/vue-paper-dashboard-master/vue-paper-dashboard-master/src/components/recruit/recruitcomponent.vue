@@ -1,18 +1,24 @@
 <template>
   <tr class="table-row table-row--chris">
-    <td class="table-row__td">
+    <!-- <td class="table-row__td">
       <input id type="checkbox" class="table__select-row" />
-    </td>
+    </td>-->
     <td data-column="Policy" class="table-row__td">
       <div class>
-        <p class="table-row__policy"> <router-link :to="'/recruit/recruitdetail/' + recruit.rnum + '&'+recruit.pid">{{recruit.title}}</router-link></p>
+        <p class="table-row__policy">
+          <router-link
+            :to="'/recruit/recruitdetail/' + recruit.rnum + '&'+recruit.pid"
+          >{{recruit.title}}</router-link>
+        </p>
         <!-- <span class="table-row__small">Basic Policy</span> 프로젝트 분야 넣을 것-->
       </div>
     </td>
     <td class="table-row__td">
       <div class="table-row__img"></div>
       <div class="table-row__info">
-        <p class="table-row__name"><router-link :to="'/profile/' + recruit.makeId">{{recruit.makeId}}</router-link></p>
+        <p class="table-row__name">
+          <router-link :to="'/profile/' + recruit.makeId">{{recruit.makeId}}</router-link>
+        </p>
         <!-- <span class="table-row__small">CFO</span>  부직위 -->
       </div>
     </td>
@@ -24,14 +30,17 @@
     <td data-column="Destination" class="table-row__td">{{times(recruit.endDate)}}</td>
     <td data-column="Status" class="table-row__td">
       <!-- 구인 완료 시 붉은색 -->
-      <p v-if="recruit.rstate === '모집중'" class="table-row__status status--green status">모집중 {{recruit.cnt}}/{{recruit.pjtMemberCnt}}</p>
+      <p
+        v-if="recruit.rstate === '모집중'"
+        class="table-row__status status--green status"
+      >모집중 {{recruit.cnt}}/{{recruit.pjtMemberCnt}}</p>
       <p v-if="recruit.rstate === '모집완료'" class="table-row__status status--red status">모집완료</p>
       <p v-if="recruit.rstate === '기한만료'" class="table-row__status status--red status">기한만료</p>
     </td>
     <!-- <td data-column="Progress" class="table-row__td">
                   <p class="table-row__progress status--blue status">On Track</p>
     </td>-->
-
+    <td class="table-row__td">스택보기</td>
     <td class="table-row__td">
       <svg
         version="1.1"
@@ -46,6 +55,8 @@
         data-toggle="tooltip"
         data-placement="bottom"
         title="Edit"
+        @click="openModify()"
+        v-if="recruit.makeId === loginId"
       >
         <g>
           <g>
@@ -153,14 +164,71 @@
         <g />
       </svg>
     </td>
+
+
+    <!-- The Modal -->
+    <div class="modal" id="myModal2">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <div class="row">
+          <div class="col-25">
+            <label for="fname">아이디</label>
+          </div>
+          <div class="col-75">
+            <label for="fname">{{loginId}}</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-25">
+            <label for="country">프로젝트</label>
+          </div>
+          <div class="col-75">
+            <select id="myproject" name="myproject" disabled>
+              <option
+                 selected
+                :value="recruit.pid"
+              >{{recruit.pjtName}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-25">
+            <label for="lname">게시글 제목</label>
+          </div>
+          <div class="col-75">
+            <input type="text" v-model="recruit.title" placeholder="제목을 입력하세요" />
+          </div>
+        </div>
+        
+
+        <div class="row">
+          <div class="col-25">
+            <label for="subject">내용</label>
+          </div>
+          <div class="col-75">
+            <vue-editor :id="`editor${recruit.pid}`" class="viewEditor" :value="recruit.contents"></vue-editor>
+          </div>
+        </div>
+
+        <div class="row">
+          <button class="btn btn-info" @click="modifyRecruit">수정</button>
+        </div>
+      </div>
+    </div>
+    <!-- Modal end  -->
+
   </tr>
 </template>
 
 <script>
 import Constant from "../../Constant";
 const storage = window.sessionStorage;
+import { VueEditor } from "vue2-editor";
 
 export default {
+  components:{
+    VueEditor
+  },
   props: {
     recruit: {
       type: Object,
@@ -175,34 +243,63 @@ export default {
     //   required: true,
     // },
   },
+  
   created() {
     // this.$store.dispatch(Constant.GET_PROJECT, { pid: this.pid });
-
-    
   },
   computed: {
     // project() {
     //   return this.$store.state.projectstore.project;
     // },
-     loginId(){
+    loginId() {
       return storage.getItem("userid");
-    }
-  },
-  methods:{
-    times (str){
-      const year = str.slice(0, 4),
-          month = str.slice(5, 7),
-          day = str.slice(8, 10),
-          si = str.slice(11, 13),
-          boon = str.slice(14, 16),
-          cho = str.slice(17, 19);
-        return `${year}/${month}/${day}`;
     },
-    deleteRecruit(){
-      console.log("삭제 rnum : "+this.recruit.rnum);
-      this.$store.dispatch(Constant.REMOVE_RECRUIT, { rnum: this.recruit.rnum });
-    }
-  }
+  },
+  methods: {
+    times(str) {
+      const year = str.slice(0, 4),
+        month = str.slice(5, 7),
+        day = str.slice(8, 10),
+        si = str.slice(11, 13),
+        boon = str.slice(14, 16),
+        cho = str.slice(17, 19);
+      return `${year}/${month}/${day}`;
+    },
+    deleteRecruit() {
+      // console.log("삭제 rnum : " + this.recruit.rnum);
+      this.$store.dispatch(Constant.REMOVE_RECRUIT, {
+        rnum: this.recruit.rnum,
+      });
+    },
+    openModify(){
+      // Get the modal
+      var modal = document.getElementById("myModal2");
+
+      // Get the <span> element that closes the modal
+      var span = document.getElementsByClassName("close")[0];
+
+      // When the user clicks on the button, open the modal
+      modal.style.display = "block";
+
+      // When the user clicks on <span> (x), close the modal
+      span.onclick = function () {
+        modal.style.display = "none";
+      };
+
+      // When the user clicks anywhere outside of the modal, close it
+      window.onclick = function (event) {
+        if (event.target == modal) {
+          modal.style.display = "none";
+        }
+      };
+    },
+    modifyRecruit() {
+      // console.log("삭제 rnum : " + this.recruit.rnum);
+      this.$store.dispatch(Constant.MODIFY_RECRUIT, {
+        rnum: this.recruit.rnum,
+      });
+    },
+  },
 };
 </script>
 
@@ -539,5 +636,110 @@ body {
   .table-row {
     width: 100%;
   }
+}
+
+
+//모달 인풋 css
+.modal {
+  box-sizing: border-box;
+}
+.modal-content {
+  width: 80%;
+  padding-left: 50px;
+}
+.modal input[type="text"],
+.modal select {
+  width: 80%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+}
+.quillWrapper.viewEditor {
+  width: 80%;
+  height: 500px;
+  max-height: 45vh;
+  border-radius: 4px;
+  resize: vertical;
+  margin-bottom: 100px;
+}
+
+.modal label {
+  padding: 12px 12px 12px 0;
+  display: inline-block;
+}
+
+.modal input[type="submit"] {
+  background-color: #4caf50;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  float: right;
+}
+
+.modal input[type="submit"]:hover {
+  background-color: #45a049;
+}
+
+// .container2 {
+//   border-radius: 5px;
+//   background-color: #f2f2f2;
+//   padding: 20px;
+// }
+
+.col-25 {
+  float: left;
+  width: 25%;
+  margin-top: 6px;
+}
+
+.col-75 {
+  float: left;
+  width: 75%;
+  margin-top: 6px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0, 0, 0); /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 50%; /* Could be more or less, depending on screen size */
+}
+/* The Close Button */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
 }
 </style>

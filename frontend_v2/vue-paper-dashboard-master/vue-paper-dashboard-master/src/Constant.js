@@ -37,6 +37,7 @@ export default {
     SEARCH_RECRUIT_BY_TAG: 'searchRecruitByTag',
     SEARCH_RECRUIT_BY_ADDR: 'searchRecruitByAddr',
     REMOVE_RECRUIT: 'removeRecruit',
+    MODIFY_RECRUIT: 'modifyRecruit',
     SEARCH_RECRUIT: 'searchRecruit',
 
 
