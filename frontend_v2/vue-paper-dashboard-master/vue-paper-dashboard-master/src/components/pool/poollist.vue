@@ -178,9 +178,12 @@
           <div class="card__content">
             <div class="card__title">
               <div style="font-weight:800; display:inline-block; margin-right:4px;">{{pool.nickname}}</div> 
-              <p v-if="pool.isValid ===1" style="display:inline-block; color:rgb(79, 245, 154); font-size:10px; text-align:right;">인증 </p>
-              <p v-else style="display:inline-block; color:red;font-size:10px;text-align:right;">미인증 </p>
+              <p v-if="pool.isValid ===1" style="display:inline-block; color:rgb(79, 245, 154); font-size:10px; text-align:right; margin-bottom:3px;">인증 </p>
+              <p v-else style="display:inline-block; color:red;font-size:10px;text-align:right; margin-bottom:3px; ">미인증 </p>
+              <div style="padding-top:0px;margin-top:0px; font-size:10px; margin-bottom:16px;"> {{pool.id}} </div>
+
               </div>
+
             <p class="card__text" style="font-weight:bold; margin-bottom:4px;">
               {{pool.responsibility}}
             </p>
@@ -226,7 +229,7 @@
             <!-- v-else로 친구라고 넘겨줘도 될듯 -->
             </div>
             <div class="col-3" style="font-size:22px; text-align:center;">
-             <i class="fa fa-id-card emo" v-b-tooltip.hover title="프로필"> </i>
+             <i class="fa fa-id-card emo" v-b-tooltip.hover title="프로필" @click="toProfile(pool.id)"> </i>
             </div>
             
             <div class="col-3" style="font-size:22px; text-align:center;">
@@ -238,7 +241,9 @@
   <b-modal :id="'test-'+pool.id" title="참여한 프로젝트 목록" hide-footer>
     <div  v-if="pool.project != null">
     <div v-for="(pjt, idx) in pool.project" :key="idx" style="font-size:20px; font-weight:bold;">
+      <div style="cursor:pointer;" @click="toProject(pjt.pid)">
       {{pjt.pjtName}}
+      </div>
     </div>
     </div>
     <div v-if="pool.projects == null">
@@ -408,6 +413,17 @@ export default {
       this.selectedDong = 0;
       this.$store.dispatch(Constant.GET_GUGUNLIST, { sido: selectedSido });
     },
+    toProfile(e) {
+      //this.btitle = this.inputtitle;
+      let addr = "/profile/" + e;
+      this.$router.push(addr);
+    },
+    toProject(e) {
+     
+      //this.btitle = this.inputtitle;
+      let addr = "/project/" + e;
+      this.$router.push(addr);
+    },
     changeGugun(selectedSido, selectedGugun) {
       // dong
       // console.log(selectedSido + selectedGugun);
@@ -464,8 +480,8 @@ export default {
         this.picks.length == 0 &&
         document.getElementById("keyword1").value == ""
       ) {
-        this.$store.dispatch(Constant.GET_POOLLIST);
-        //this.$store.dispatch(Constant.GET_EXTENDPOOLLIST);
+        //this.$store.dispatch(Constant.GET_POOLLIST);
+        this.$store.dispatch(Constant.GET_EXTENDPOOLLIST);
       } else {
         //통합
         this.$store.dispatch(Constant.SEARCH_POOLIST, {
