@@ -1,18 +1,24 @@
 <template>
   <tr class="table-row table-row--chris">
-    <td class="table-row__td">
+    <!-- <td class="table-row__td">
       <input id type="checkbox" class="table__select-row" />
-    </td>
+    </td>-->
     <td data-column="Policy" class="table-row__td">
       <div class>
-        <p class="table-row__policy"> <router-link :to="'/recruit/recruitdetail/' + recruit.rnum + '&'+recruit.pid">{{recruit.title}}</router-link></p>
+        <p class="table-row__policy">
+          <router-link
+            :to="'/recruit/recruitdetail/' + recruit.rnum + '&'+recruit.pid"
+          >{{recruit.title}}</router-link>
+        </p>
         <!-- <span class="table-row__small">Basic Policy</span> 프로젝트 분야 넣을 것-->
       </div>
     </td>
     <td class="table-row__td">
       <div class="table-row__img"></div>
       <div class="table-row__info">
-        <p class="table-row__name"><router-link :to="'/profile/' + recruit.makeId">{{recruit.makeId}}</router-link></p>
+        <p class="table-row__name">
+          <router-link :to="'/profile/' + recruit.makeId">{{recruit.makeId}}</router-link>
+        </p>
         <!-- <span class="table-row__small">CFO</span>  부직위 -->
       </div>
     </td>
@@ -24,14 +30,17 @@
     <td data-column="Destination" class="table-row__td">{{times(recruit.endDate)}}</td>
     <td data-column="Status" class="table-row__td">
       <!-- 구인 완료 시 붉은색 -->
-      <p v-if="recruit.rstate === '모집중'" class="table-row__status status--green status">모집중 {{recruit.cnt}}/{{recruit.pjtMemberCnt}}</p>
+      <p
+        v-if="recruit.rstate === '모집중'"
+        class="table-row__status status--green status"
+      >모집중 {{recruit.cnt}}/{{recruit.pjtMemberCnt}}</p>
       <p v-if="recruit.rstate === '모집완료'" class="table-row__status status--red status">모집완료</p>
       <p v-if="recruit.rstate === '기한만료'" class="table-row__status status--red status">기한만료</p>
     </td>
     <!-- <td data-column="Progress" class="table-row__td">
                   <p class="table-row__progress status--blue status">On Track</p>
     </td>-->
-
+    <td class="table-row__td">스택보기</td>
     <td class="table-row__td">
       <svg
         version="1.1"
@@ -46,6 +55,8 @@
         data-toggle="tooltip"
         data-placement="bottom"
         title="Edit"
+        @click="modifyRecruit()"
+        v-if="recruit.makeId === loginId"
       >
         <g>
           <g>
@@ -177,32 +188,38 @@ export default {
   },
   created() {
     // this.$store.dispatch(Constant.GET_PROJECT, { pid: this.pid });
-
-    
   },
   computed: {
     // project() {
     //   return this.$store.state.projectstore.project;
     // },
-     loginId(){
+    loginId() {
       return storage.getItem("userid");
-    }
-  },
-  methods:{
-    times (str){
-      const year = str.slice(0, 4),
-          month = str.slice(5, 7),
-          day = str.slice(8, 10),
-          si = str.slice(11, 13),
-          boon = str.slice(14, 16),
-          cho = str.slice(17, 19);
-        return `${year}/${month}/${day}`;
     },
-    deleteRecruit(){
-      console.log("삭제 rnum : "+this.recruit.rnum);
-      this.$store.dispatch(Constant.REMOVE_RECRUIT, { rnum: this.recruit.rnum });
-    }
-  }
+  },
+  methods: {
+    times(str) {
+      const year = str.slice(0, 4),
+        month = str.slice(5, 7),
+        day = str.slice(8, 10),
+        si = str.slice(11, 13),
+        boon = str.slice(14, 16),
+        cho = str.slice(17, 19);
+      return `${year}/${month}/${day}`;
+    },
+    deleteRecruit() {
+      // console.log("삭제 rnum : " + this.recruit.rnum);
+      this.$store.dispatch(Constant.REMOVE_RECRUIT, {
+        rnum: this.recruit.rnum,
+      });
+    },
+    modifyRecruit() {
+      // console.log("삭제 rnum : " + this.recruit.rnum);
+      this.$store.dispatch(Constant.REMOVE_RECRUIT, {
+        rnum: this.recruit.rnum,
+      });
+    },
+  },
 };
 </script>
 
