@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -334,8 +335,10 @@ public class UserInfoController {
 
    @GetMapping("/getRecommended/User/{id}")
    public ResponseEntity<List<UserSimple>> getRecommendedUser(@PathVariable String id) {
+	
       List<UserInfo> list = uiService.getRecommendedUser(id);
       List<UserSimple> users = new ArrayList<>();
+     
       for (int i = 0; i < list.size(); i++) {
          if (list.get(i).getId().equals(id))
             continue;
@@ -344,18 +347,42 @@ public class UserInfoController {
                tmp.isState(), tmp.getResponsibility(), tmp.isLeaveUser());
          users.add(us);
       }
-      return new ResponseEntity<List<UserSimple>>(users, HttpStatus.OK);
+      List<UserSimple> simple = new ArrayList<>();
+      if(users.size() <3) {
+    	  int num = 3-users.size();
+    	  for(int i=0;i<num;i++)
+    		  users.add(users.get(i));
+      }else {
+    	  boolean[] visit = new boolean [users.size()];
+    	  int idx = 0;
+    	  Random rand = new Random();
+    	  while(true) {
+    		  if(idx ==3) break;
+    		  int n = rand.nextInt(users.size());
+    		  if(!visit[n]) {
+    			  simple.add(users.get(n));
+    			  visit[n] =true;
+    			  idx++;
+    		  }
+    		  
+    	  }
+      }
+      
+      
+      
+      return new ResponseEntity<List<UserSimple>>(simple, HttpStatus.OK);
    }
 
    @GetMapping("/getRecommended/PJT/{id}")
    public ResponseEntity<List<Projectcnt>> getRecommendedPJT(@PathVariable String id) {
-      List<Project> list = uiService.getRecommendedPJT(id);
+      List<Project> list = uiService.getRecommendedPJT(id); // 추천 15개 받아옴 
+      List<Projectcnt> finallist = new ArrayList<>();
       List<Projectcnt> projects = new ArrayList<>();
-      List<Pmember> myprojects = pmservice.selectByUserId(id);
+      List<Pmember> myprojects = pmservice.selectByUserId(id); 
 
       for (int i = 0; i < list.size(); i++) {
          boolean flag = false;
-         int thispid = list.get(i).getPid();
+         int thispid = list.get(i).getPid(); 
          for (int mp = 0; mp < myprojects.size(); mp++) {
             if (thispid == myprojects.get(mp).getPid()) {
                flag = true;
@@ -364,7 +391,7 @@ public class UserInfoController {
          }
          if (flag)
             continue;
-
+         
          Projectcnt tmp = pjtService.searchByPID(thispid);
          List<Pinterest> pinter = pinterService.select(thispid);
          int size = pinter.size();
@@ -379,8 +406,34 @@ public class UserInfoController {
          if (size > 4)
             tmp.setTag5(pinter.get(4).getInterest());
          projects.add(tmp);
+      
       }
-      return new ResponseEntity<List<Projectcnt>>(projects, HttpStatus.OK);
+      System.out.println(projects.size());
+      
+      if(projects.size() <3) {
+    	  for(int i=0;i<projects.size();i++) {
+    		  finallist.add(projects.get(i));
+    	  }
+    	  int num = 3-projects.size();
+    	  for(int i=0;i<num;i++)
+    		  finallist.add(projects.get(0));
+      }else {
+    	  boolean[] visit = new boolean [projects.size()];
+    	  int idx = 0;
+    	  Random rand = new Random();
+    	  while(true) {
+    		  if(idx ==3) break;
+    		  int n = rand.nextInt(projects.size());
+    		  if(!visit[n]) {
+    			  finallist.add(projects.get(n));
+    			  visit[n] =true;
+    			  idx++;
+    		  }
+    		  
+    	  }
+      }
+      
+      return new ResponseEntity<List<Projectcnt>>(finallist, HttpStatus.OK);
    }
 
    @PostMapping("/info")
