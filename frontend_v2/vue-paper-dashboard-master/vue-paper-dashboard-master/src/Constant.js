@@ -74,6 +74,7 @@ export default {
     CHANGE_RESPONSE: 'changeResponse',
     REMOVE_ISSUE: 'removeIssue',
     UPDATE_ISSUE_BY_STATE: 'updateIssueByState',
+    GET_ISSUE_PREWORK: 'getIssuePrework',
 
     //맵 관련
     GET_ADDRESS_LIST: 'getAddressList'

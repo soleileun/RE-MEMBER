@@ -7,8 +7,8 @@
     <i class="ti-close" @click="exit"></i>
     <div class="biggest">
       <div class="card-header">
-        <div id="projectTitle" style="font-size:12px;">{{project.pjtName}}</div>
-        <div style=" font-weight:bold; font-size:18px;" id="title">{{issue.issuetitle}}</div>
+        <div id="projectTitle" style="font-size:12px;">프로젝트 명 : {{project.pjtName}}</div>
+        <div style=" font-weight:bold; font-size:18px;" id="title">제목 : {{issue.issuetitle}}</div>
       </div>
       <div class="card-body" style="height:100%;">
         <div class="icontent">{{issue.issuecontent}}</div>
@@ -32,7 +32,7 @@
                               type="text"
                               v-model="issuetitle"
                               class="form-control"
-                              placeholder="이슈 제목을 적으세요"
+                              :placeholder="issue.issuetitle"
                               value
                             />
                           </div>
@@ -59,7 +59,7 @@
                           <div class="form-group">
                             <label>이슈 상태</label>
                             <!-- <input type="text" v-model="issuestate" class="form-control" placeholder="생성/진행/완료" /> -->
-                            <select v-model="issuestateSelected" class="form-control">
+                            <select v-model="issuestateSelected" class="form-control" >
                               <option>생성</option>
                               <option>진행중</option>
                               <option>완료</option>
@@ -98,7 +98,7 @@
                               rows="5"
                               v-model="issuecontent"
                               class="form-control"
-                              placeholder="이슈 내용을 적으세요"
+                              :placeholder="issue.issuecontent"
                               value="Mike"
                             ></textarea>
                           </div>
@@ -117,16 +117,19 @@
               </div>
               <div class="row">
                 <div class="col-5 form">이슈 타입 :</div>
-                <div class="col-7 data">{{issue.issuetitle}}</div>
+                <div class="col-7 data">{{issue.issuetype}}</div>
               </div>
               <div class="row">
                 <div class="col-5 form">상태:</div>
-                <div class="col-7 data">{{issue.issuestate}}</div>
+                <div class="col-7 data" v-if="issue.issuestate == 'done'" style="color:yellowgreen">완료</div>
+                <div class="col-7 data" v-if="issue.issuestate == 'created'" style="color:skyblue">생성</div>
+                <div class="col-7 data" v-if="issue.issuestate == 'ongoing'" style="color:red">진행중</div>
               </div>
 
               <div class="row">
                 <div class="col-5 form">앞선 작업:</div>
-                <div class="col-7 data">{{issue.prework}}</div>
+                <div class="col-7 data" v-if="issue_prework">{{issue_prework.issuetitle}}</div>
+                <div class="col-7 data" v-else>없음</div>
               </div>
 
               <div class="row">
@@ -140,7 +143,7 @@
               <hr />
               <div class="row">
                 <div class="col-5 form" style="text-align:right;">{{issue.uid}}가</div>
-                <div class="col-7 data">{{issue.startDay}} 에 작성하였음.</div>
+                <div class="col-7 data">{{issue.startDay.slice(0,10)}}   {{issue.startDay.slice(11,19)}} 에 작성하였음.</div>
               </div>
             </div>
 
@@ -202,6 +205,14 @@ export default {
       type: Object,
       required: true,
     },
+    issue_prework : {
+      type: Object,
+      //required : true,
+    },
+    issues : {
+      type : Array,
+      required : true,
+    }
   },
   data: function () {
     return {

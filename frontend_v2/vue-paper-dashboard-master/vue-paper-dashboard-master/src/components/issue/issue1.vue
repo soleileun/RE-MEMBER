@@ -118,7 +118,7 @@
                     </thead>
                     <tbody>
                       <tr v-for="(issue, index) in issues" :key="index">
-                        <td>{{issue.changeDay}}</td>
+                        <td>{{issue.changeDay.slice(0,10)}} {{issue.changeDay.slice(11,19)}}</td>
                         <td>{{issue.issuetitle}}</td>
                         <td class="td-actions text-right">
                           <div v-if="issue.issuestate == 'created'" style="color:skyblue">생성됨</div>
@@ -370,8 +370,8 @@
         <!-- drag and drop -->
       </div>
     </div>
-    <issuedetail :issue="issue" :project="project" />
-    <issuecreate />
+    <issuedetail :issue="issue" :project="project" :issue_prework="issue_prework" :issues="issues"/>
+    <issuecreate :issues="issues"/>
   </div>
 </template>
 
@@ -466,6 +466,10 @@ export default {
     this.$store.dispatch(Constant.GET_ISSUE, {
         issueid: 1,
     });
+    this.$store.dispatch(Constant.GET_ISSUE_PREWORK, {
+        issueid: 1,
+    });
+
     setTimeout(() => {
       this.loadIssues();
     }, 300);
@@ -496,6 +500,9 @@ export default {
       // console.log(this.$store.state.issuestore.issue);
       return this.$store.state.issuestore.issue;
     },
+    issue_prework(){
+      return this.$store.state.issuestore.issue_prework;
+    }
   },
 
   mounted() {
@@ -583,10 +590,15 @@ export default {
       this.$store.dispatch(Constant.GET_ISSUE, {
         issueid: this.issueid,
       });
+      setTimeout(() => {
+        this.$store.dispatch(Constant.GET_ISSUE_PREWORK, {
+        issueid: this.issue.prework,
+      });
+      }, 300);
 
       setTimeout(() => {
         document.querySelector(".issuedetail").classList.toggle("active");
-      }, 300);
+      }, 100);
     },
 
     updateIssueChange() {

@@ -27,13 +27,20 @@
           <div class="col-md-12">
             <div class="form-group">
               <label>선제 작업</label>
-              <input
+              <!-- <input
                 type="text"
                 v-model="prework"
                 class="form-control"
                 placeholder="등록하려는 이슈 전 선제되야 하는 작업을 고르시오"
                 value
-              />
+              />-->
+              <select id="myIssues" class="form-control">
+                <option
+                  v-for="(issue,index) in issues"
+                  :key="index"
+                  :value="issue.issueid"
+                >{{issue.issuetitle}}</option>
+              </select>
             </div>
           </div>
         </div>
@@ -107,6 +114,12 @@ const storage = window.sessionStorage;
 
 export default {
   name: "issuecreate",
+  props: {
+    issues: {
+      type: Array,
+      required: true,
+    },
+  },
   data: function () {
     return {
       autologin: false,
@@ -135,8 +148,8 @@ export default {
       } else if (this.issuestateSelected == "완료") {
         this.issuestateSelected = "done";
       } else {
-          alert("에러입니다");
-          return;
+        alert("에러입니다");
+        return;
       }
       this.$store.dispatch(Constant.ADD_ISSUE, {
         pid: this.$route.params.pid,
@@ -146,7 +159,7 @@ export default {
         issuestate: this.issuestateSelected,
         issuetitle: this.issuetitle,
         issuecontent: this.issuecontent,
-        prework: this.prework,
+        prework: document.getElementById("myIssues").value,
         priority: this.priority,
         makeDay: "",
         startDay: "",
