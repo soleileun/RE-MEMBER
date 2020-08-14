@@ -206,7 +206,7 @@
             <label for="subject">내용</label>
           </div>
           <div class="col-75">
-            <vue-editor class="viewEditor" :value="recruit.contents"></vue-editor>
+            <vue-editor :id="`editor${recruit.pid}`" class="viewEditor" :value="recruit.contents"></vue-editor>
           </div>
         </div>
 
