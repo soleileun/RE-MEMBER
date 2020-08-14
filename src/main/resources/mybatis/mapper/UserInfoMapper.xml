@@ -280,9 +280,9 @@ select id
 	<select id="getPools" resultType="pools">
 		select b.*, a.projects
 		from(
-		SELECT jointwo.userId, GROUP_CONCAT(jointwo.pjt) AS projects 
+		SELECT jointwo.userId, GROUP_CONCAT(jointwo.pjt  SEPARATOR  '-._') AS projects 
 		FROM (
-		select concat(joinone.pid,';',joinone.pjtName,'->',joinone.pjtContent) as pjt,joinone.userId
+		select concat(joinone.pid,'-./',joinone.pjtName,'-.>',joinone.pjtContent) as pjt,joinone.userId
 		from(
 		select project.pid, project.pjtName, project.pjtContent, pmember.userId from pmember join project
 		on project.pid = pmember.pid

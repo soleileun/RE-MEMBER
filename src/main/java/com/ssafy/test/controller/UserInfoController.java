@@ -104,16 +104,16 @@ public class UserInfoController {
          String a = v.get(i).getProjects();
          String b = v.get(i).getInterests();
          if (a != null) {
-            String[] atmp = a.split(",");
+            String[] atmp = a.split("-._");
             for (int j = 0; j < atmp.length; j++) {
                //System.out.println("atmp : " + atmp[j]);
-               String[] s = atmp[j].split(";");
+               String[] s = atmp[j].split("-./");
                int pid = Integer.parseInt(s[0]);
-               System.out.println("s[1] : " + s[1]);
-               String[] s2 = s[1].split("->");
+               //System.out.println("s[1] : " + s[1]);
+               String[] s2 = s[1].split("-.>");
                if(s2.length == 2) {
-               System.out.println("프로젝트 이름 : " + s2[0]);
-               System.out.println("내용 : " + s2[1]);
+               //System.out.println("프로젝트 이름 : " + s2[0]);
+               //System.out.println("내용 : " + s2[1]);
                String name = s2[0];
                String content = s2[1];
                
