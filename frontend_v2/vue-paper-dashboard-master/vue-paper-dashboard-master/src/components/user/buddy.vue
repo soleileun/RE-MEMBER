@@ -21,7 +21,13 @@
                   </td>
                   <td>{{item.responsibility}}</td>
                   <td>
-                    <img src="@/assets/img/close-bl.png" @click="delFollow(item.id)" tag="button" />
+                    <!-- <img src="@/assets/img/close-bl.png" @click="delFollow(item.id)" tag="button" /> -->
+                    <i
+                      class="fa fa-times"
+                      v-b-tooltip.hover
+                      title="팔로우 취소"
+                      @click="delFollow(item.id)"
+                    ></i>
                   </td>
                 </slot>
               </tr>

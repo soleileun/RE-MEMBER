@@ -411,7 +411,7 @@ const userstore = {
       }
       // console.log(config + " " + payload.target + " " + window.localStorage.getItem('userid'));
       http.delete('/api/following/delete/' + payload.uid + "/" + payload.target, config).then(res => {
-        console.log("여기?");
+        alert("팔로우가 취소되었습니다");
         store.dispatch('getFollow')
       }).catch(exp => console.log(exp))
     },
