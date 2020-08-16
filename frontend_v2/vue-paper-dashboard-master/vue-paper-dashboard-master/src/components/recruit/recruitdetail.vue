@@ -3,18 +3,20 @@
     <div class="card">
       <div class="card-body container">
         <!-- 게시물 번호로 게시물 search 후 id 꺼내기 -->
-        <div class="row ">
+        <div class="row">
           <div class="col-11 title">{{recruit.title}}</div>
-          <div class="col-6 ">주소 : {{project.location}} </div>
-          <div class="col-2 pid"> 프로젝트번호 : {{recruit.pid}} </div>
+          <div class="col-6">주소 : {{project.location}}</div>
+          <div class="col-2 pid">프로젝트번호 : {{recruit.pid}}</div>
           <div class="col-4 day">등록날짜 : {{recTime(recruit.makeDay)}}</div>
           <hr />
         </div>
         <div class="row">
           <div class="col-12 ql-editor" v-html="recruit.contents"></div>
-          <vue-editor v-show="edit"  v-model="con" :editorToolbar="customToolbar"></vue-editor>
+          <vue-editor v-show="edit" v-model="con" :editorToolbar="customToolbar"></vue-editor>
           <hr />
-          <router-link to="/recruit/recruit1" tag="button">목록으로</router-link>
+          <router-link to="/recruit/recruit1">
+            <button class="btn btn-info">목록으로</button>
+          </router-link>
         </div>
       </div>
     </div>
@@ -43,12 +45,12 @@ export default {
   components: {
     VueEditor,
   },
-  data(){
-    return{
+  data() {
+    return {
       edit: false,
       customToolbar: [],
-      con:'',
-    }
+      con: "",
+    };
   },
   created() {
     // console.log(this.$route.params.bno);
@@ -128,17 +130,17 @@ export default {
   padding: 10px;
 }
 hr {
-  color:  gray;
+  color: gray;
   width: 100%;
 }
-div.day{
+div.day {
   text-align: right;
 }
-div.title{
+div.title {
   font-size: 1.5rem;
   font-weight: 800;
 }
-div.pid{
+div.pid {
   border-left: 1px solid #cdcdcd;
   border-right: 1px solid #cdcdcd;
 }

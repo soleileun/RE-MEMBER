@@ -4,21 +4,25 @@
     <div>
       <form @submit.prevent>
         <div class="row">
-          <div class="col-md-12"  @keyup.enter="goLogin">
+          <div class="col-md-12" @keyup.enter="goLogin">
             <fg-input type="text" label="아이디" placeholder="E-mail" v-model="id"></fg-input>
           </div>
         </div>
         <div class="row">
-          <div class="col-md-12"  @keyup.enter="goLogin">
-            <fg-input type="password" label="비밀번호" placeholder="password" v-model="pw"
-            ></fg-input>
+          <div class="col-md-12" @keyup.enter="goLogin">
+            <fg-input type="password" label="비밀번호" placeholder="password" v-model="pw"></fg-input>
           </div>
         </div>
-        {{error}}<br>
+        {{error}}
+        <br />
         <div class="row">
           <div class="col-md-12">
             자동 로그인 :
-            <input type="checkbox" v-model="autologin" data-tooltip-text="비밀번호가 브라우저에 저장되어 취약하므로 개인 PC에서만 사용하세요" />
+            <input
+              type="checkbox"
+              v-model="autologin"
+              data-tooltip-text="비밀번호가 브라우저에 저장되어 취약하므로 개인 PC에서만 사용하세요"
+            />
           </div>
         </div>
         <div @click="loginexit">
@@ -30,6 +34,21 @@
         <div class="text-center">
           <p-button type="info" round @click.native.prevent="goLogin">로그인</p-button>
         </div>
+        <div>
+          <KakaoLogin
+            api-key="8e0034110bcf020d70bf38e4fe0f3fb7"
+            image="kakao_account_login_btn_medium_narrow_ov"
+            :on-success="onSuccess"
+            :on-failure="onFailure"
+          />
+        </div>
+        <!-- <GoogleLogin
+          class="big-button"
+          :params="params"
+          :onSuccess="GoogleLoingSuccess"
+          :onFailure="GoogleLoginFailure"
+        >구글 로그인</GoogleLogin>-->
+
         <div class="clearfix"></div>
       </form>
     </div>
@@ -53,14 +72,30 @@
 
 <script>
 const storage = window.sessionStorage;
+import KakaoLogin from "vue-kakao-login";
+
+let onSuccess = (data) => {
+  console.log(data);
+  console.log("success");
+};
+let onFailure = (data) => {
+  console.log(data);
+  console.log("failure");
+};
 
 export default {
   name: "login",
+  components: {
+    KakaoLogin,
+  },
   data: function () {
     return {
       autologin: false,
       id: "",
       pw: "",
+      params: {
+        client_id: process.env.VUE_APP_GOOGLE_CLIENT_ID,
+      },
     };
   },
   computed: {
@@ -71,6 +106,15 @@ export default {
       return this.$store.state.userstore.loginError;
     },
   },
+  mounted() {
+    let that = this;
+    let checkGauthLoad = setInterval(function () {
+      that.isInit = that.$gAuth.isInit;
+      that.isSignIn = that.$gAuth.isAuthorized;
+      if (that.isInit) clearInterval(checkGauthLoad);
+    }, 1000);
+  },
+  props: {},
   methods: {
     goLogin: function () {
       if (this.id === "" || this.pw === "") {
@@ -79,7 +123,7 @@ export default {
         });
       } else if (!this.$store.state.userstore.logining) {
         if (this.autologin) {
-          window.localStorage.setItem("id",this.id)
+          window.localStorage.setItem("id", this.id);
           window.localStorage.setItem("autologin", "t");
           window.localStorage.setItem("pw", this.pw);
         } else {

@@ -24,6 +24,8 @@
     "vue-clickaway": "^2.1.0",
     "vue-daum-map": "^1.0.15",
     "vue-draggable": "^2.0.6",
+    "vue-google-login": "^2.0.5",
+    "vue-google-oauth2": "^1.5.5",
     "vue-infinite-loading": "^2.4.5",
     "vue-kakao-login": "^1.0.5",
     "vue-notifyjs": "^0.3.0",
