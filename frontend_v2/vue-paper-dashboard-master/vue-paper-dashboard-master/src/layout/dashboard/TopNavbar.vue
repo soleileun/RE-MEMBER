@@ -14,6 +14,7 @@
               <img v-if="!hasProfile" class="avatar" :src="url" style="width:40px;height:40px" />
             </div>
           </li>
+          {{abc()}}
           <drop-down class="nav-item" :title="userNick+'님'" title-classes="nav-link" v-if="userNick">
             <router-link to="/mypage" class="nav-link">
               <i class="ti-user"></i>
@@ -44,6 +45,7 @@
 <script>
 const storage = window.localStorage;
 import http from "../../http-common.js";
+import JWT from 'jwt-decode';
 export default {
   computed: {
     hasProfile() {
@@ -82,6 +84,8 @@ export default {
     };
   },
   methods: {
+    abc(){
+    },
     login() {
       document.querySelector(".login").classList.remove("active");
       document.querySelector(".login").classList.add("active");
