@@ -149,31 +149,38 @@ public class UserInfoController {
             }
          }
          
-         
-         /*
+         // 너무 오래 걸림. 각각 호출하도록 바꿔야할듯.
+         /* 
          if (v.get(i).getGit() != null) {
             
             try {
                // 웹에서 내용을 가져온다.
-               //Document doc = Jsoup.connect("https://github.com/" + v.get(i).getGit() + "?tab=repositories").get();
-               Document doc = Jsoup.connect("https://www.naver.com").get();
-               System.out.println(Jsoup.connect("https://github.com/호로롱"+ "?tab=repositories").execute().statusCode());
-               Response response = Jsoup.connect("https://github.com/호로롱"+ "?tab=repositories").execute();
-               System.out.println("커넥트 : " + Jsoup.connect("https://github.com/호로롱"+ "?tab=repositories"));
-                       System.out.println("커넥트 : " + Jsoup.connect("https://github.com/호로롱"+ "?tab=repositories").ignoreHttpErrors(true));
-
-                       System.out.println("겟" + response.statusMessage());
-               //System.out.println(Jsoup.connect("https://github.com/" + v.get(i).getGit() + "?tab=repositories").get());
-               //System.out.println("커넥트 : " + Jsoup.connect("https://github.com/호로롱"+ "?tab=repositories").ignoreHttpErrors(true));
-               //System.out.println("code : " + code);
+            	int status =  Jsoup.connect("https://github.com/" + v.get(i).getGit() + "?tab=repositories").ignoreHttpErrors(true).execute().statusCode();
+            	//int status =  Jsoup.connect("https://github.com/kyhoon001" + "?tab=repositories").ignoreHttpErrors(true).execute().statusCode();
+            	if(status == 200) {
+            		System.out.println("정상쓰");
+            		List<Two<String,String>> rtmp = new ArrayList<Two<String,String>>();
+            		
+            		Document doc = Jsoup.connect("https://github.com/" + v.get(i).getGit() + "?tab=repositories").get();
                // 내용 중에서 원하는 부분을 가져온다.
-               Elements contents = doc.select(".wb-break-all a");
+            		Elements contents = doc.select(".wb-break-all a");
                // 원하는 부분은 Elements형태로 되어 있으므로 이를 String 형태로 바꾸어 준다.
-               String text = contents.text();
-               String[] reposit = text.split(" ");
-               for (int j = 0; j < reposit.length; j++)
-                  v.get(i).getRepository().add(reposit[j]);
+            		String text = contents.text();
+            		String[] reposit = text.split(" ");
+            		//System.out.println("스플릿까지 했음");
+            		//System.out.println("text : " + text);
+            		//System.out.println("resposit : " + reposit[0]);
+               for (int j = 0; j < reposit.length; j++) {
+           			Two<String,String> r = new Two<String,String>();
+            	   System.out.println(j + " 번째 추가 : " + reposit[j]);
+            	   r.setFirst(reposit[j]);
+            	   r.setSecond("https://github.com/" +  v.get(i).getGit() +'/' + reposit[j]);
+            	   rtmp.add(r);
+            	   //v.get(i).getRepository().add(reposit[j]);
+               }
+               v.get(i).setRepository(rtmp);
                // System.out.println("reposit" + i + " : " + reposit[i]);
+            	}
             } catch (IOException e) { // Jsoup의 connect 부분에서 IOException 오류가 날 수 있으므로 사용한다.
                e.printStackTrace();
                System.out.println("에러 떴다");
