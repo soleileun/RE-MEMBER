@@ -11,6 +11,7 @@
 import login from "./components/login.vue";
 import buble from "./components/buble.vue";
 const storage = window.sessionStorage;
+
 export default {
   name: "App",
   components: {
@@ -20,6 +21,7 @@ export default {
   mounted: function () {
     console.log(storage);
     this.$store.dispatch("init", {});
+    
     // if (
     //   storage.getItem("jwt-auth-token").length > 0 &&
     //   storage.getItem("idvalid") !== "true"

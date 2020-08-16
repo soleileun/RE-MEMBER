@@ -54,7 +54,7 @@ public class RecruitController {
 	@ApiOperation(value = "모든 구인구직 게시판의 정보를 반환한다.", response = List.class)
 	@GetMapping("/all/{paging}&cnt={cnt}")
 	public ResponseEntity<List<RecruitPjt>> retrieveBoard(@PathVariable int paging, @PathVariable int cnt) throws Exception {
-		   Two<Integer, Integer> two = new Two<Integer,Integer>(paging, cnt);
+		   Two<Integer, Integer> two = new Two<Integer,Integer>(paging* cnt, cnt);
 
 		List<RecruitPjt> v = rService.selectAll(two);
 
@@ -79,7 +79,7 @@ public class RecruitController {
 	@ApiOperation(value = "모든 구인구직 게시판의 정보를 pjtName과 pinterest도 함께 반환한다.", response = List.class)
 	@GetMapping("/selectAllRecruitPjtPinterest/{paging}&cnt={cnt}")
 	public ResponseEntity<List<RecruitPjtPinterest>> selectAllRecruitPjtPinterest(@PathVariable int paging, @PathVariable int cnt) throws Exception {
-		Two<Integer, Integer> two = new Two<Integer,Integer>(paging, cnt);
+		Two<Integer, Integer> two = new Two<Integer,Integer>(paging* cnt, cnt);
 		List<RecruitPjtPinterest> original = rService.selectAllRecruitPjtPinterest(two);
 		List<RecruitPjtPinterest> ret = new ArrayList<RecruitPjtPinterest>();
 		int len = original.size();
@@ -154,7 +154,7 @@ public class RecruitController {
 		v.setGugun(gugun);
 		v.setSido(sido);
 		v.setPcnt(cnt);
-		v.setPaging(paging);
+		v.setPaging(paging* cnt);
 		return new ResponseEntity<List<Recruit>>(rService.selectByAddr(v), HttpStatus.OK);
 	}
 
@@ -187,7 +187,7 @@ public class RecruitController {
 	public ResponseEntity<List<Recruit>> selectAddrAndTag(@PathVariable String tag, @PathVariable String addr,@PathVariable int paging, @PathVariable int cnt) {
 		AddrAndTag v = new AddrAndTag();
 		v.setPcnt(cnt);
-		v.setPaging(paging);
+		v.setPaging(paging* cnt);
 		String b[] = addr.split(",");
 		if (tag == null) {
 			v.setDong(b[0]);
@@ -234,7 +234,7 @@ public class RecruitController {
 	public ResponseEntity<List<RecruitPjtPinterest>> search(@PathVariable String tag, @PathVariable String addr,
 			@PathVariable String by, @PathVariable String keyword,@PathVariable int paging,@PathVariable int cnt) {
 		SearchParameter sp = new SearchParameter();
-	      sp.setPaging(paging);
+	      sp.setPaging(paging* cnt);
 	      sp.setPcnt(cnt);
 		
 		
