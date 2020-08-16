@@ -175,21 +175,21 @@
             class="card__image card__image--designer"
             style="position:relative"
           >
-            <!-- <img class="avatar border-white" :src="urls(pool.id)" style="position:absolute;z-index:9;bottom:0;left:0" /> -->
+            <img class="avatar border-white" :src="urls(pool.id)" style="position:absolute;z-index:9;bottom:0;left:0" />
           </div>
           <div
             v-if="pool.responsibility === '개발'"
             class="card__image card__image--developer"
             style="position:relative"
           >
-            <!-- <img class="avatar border-white" :src="urls(pool.id)" style="position:absolute;z-index:1;bottom:0;left:0" /> -->
+            <img class="avatar border-white" :src="urls(pool.id)" style="position:absolute;z-index:1;bottom:0;left:0" />
           </div>
           <div
             v-if="pool.responsibility === '기획'"
             class="card__image card__image--head"
             style="position:relative"
           >
-            <!-- <img class="avatar border-white" :src="urls(pool.id)" style="position:absolute;z-index:1;bottom:0;left:0" /> -->
+            <img class="avatar border-white" :src="urls(pool.id)" style="position:absolute;z-index:1;bottom:0;left:0" />
           </div>
           <div class="card__content">
             <div class="card__title">
@@ -378,7 +378,6 @@ export default {
         "C++",
         "Java",
         "Python",
-        "C#",
         "Frontend",
         "Backend",
         "Spring",
@@ -450,30 +449,8 @@ export default {
   },
   methods: {
     urls(id) {
-      let url = this.$store.state.filestore.fileUrl + id;
-      http
-        .get(url + ".png")
-        .then((res) => {
-          url = url + ".png";
-          console.log(url);
-
-          return url;
-        })
-        .catch((e) => {
-          http
-            .get(url + ".jpg")
-            .then((res) => {
-              url = url + ".jpg";
-              console.log(url);
-
-              return url;
-            })
-            .catch((e) => {
-              url = this.$store.state.filestore.fileUrl + "default.png";
-              console.log(url);
-              return url;
-            });
-        });
+      let url = this.$store.state.filestore.fileUrl + id +".png";
+      return url;
     },
     fol: function (id) {
       this.$store.dispatch("follow", { target: id });

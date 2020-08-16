@@ -17,12 +17,7 @@
       </div>
       <div class="filebox">
         <label for="ex_file">프로필변경</label>
-        <input
-          type="file"
-          id="ex_file"
-          @change="previewFiles"
-          accept="image/png, image/jpeg, image/jpg"
-        />
+        <input type="file" id="ex_file" @change="previewFiles" accept="image/png" />
       </div>
       <p class="description text-center">
         {{bno}} | {{userintro}}
@@ -82,7 +77,7 @@ export default {
       users: storage.getItem("users"),
       usergit: storage.getItem("usergit"),
       userintro: window.localStorage.getItem("userintro"),
-      url: this.$store.state.filestore.fileUrl + storage.getItem("userid"),
+      url: this.$store.state.filestore.fileUrl + window.localStorage.getItem("userid") +".png",
     };
   },
   computed: {
@@ -101,21 +96,6 @@ export default {
       this.usergit = window.localStorage.getItem("usergit");
       this.userintro = window.localStorage.getItem("userintro");
     }, 500);
-    http
-      .get(this.url + ".png")
-      .then((res) => {
-        this.url = this.url + ".png";
-      })
-      .catch((e) => {
-        http
-          .get(this.url + ".jpg")
-          .then((res) => {
-            this.url = this.url + ".jpg";
-          })
-          .catch((e) => {
-            this.url = this.$store.state.filestore.fileUrl + "default.png";
-          });
-      });
   },
   beforeCreate: function () {
     this.$store.dispatch("getFollow");
@@ -132,13 +112,14 @@ export default {
             type: event.target.files[0].type,
           }
         );
-        this.$store.dispatch("upFiledirect", {
-          file: file2,
-          bno: this.bno,
-          reload: true,
-        });
-        let url = this.$store.state.filestore.fileUrl + file2.name;
-        this.url = url;
+        console.log(file2);
+        // this.$store.dispatch("upFiledirect", {
+        //   file: file2,
+        //   bno: this.bno,
+        //   reload: true,
+        // });
+        // let url = this.$store.state.filestore.fileUrl + file2.name;
+        // this.url = url;
       }
     },
     getClasses(index) {
