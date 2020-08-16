@@ -208,6 +208,7 @@ select id
 		and id like
 		CONCAT('%',#{keyword},'%')
         )
+        limit #{paging}, #{pcnt}
         
         
 	</select>
@@ -266,6 +267,7 @@ select id
 		having count(interest) >= #{cnt}
 		)
         )
+        limit #{paging}, #{pcnt}
 	</select>
 
 	<select id="getAddressList" parameterType="int"

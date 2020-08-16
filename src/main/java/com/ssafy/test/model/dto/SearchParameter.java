@@ -12,8 +12,44 @@ public class SearchParameter {
 	private int cnt;
 	private String by;
 	private String keyword;
+	private int paging;
+	private int pcnt;
 	
 	
+
+	public SearchParameter(String sido, String gugun, String dong, String tag1, String tag2, String tag3, String tag4,
+			String tag5, int cnt, String by, String keyword, int paging, int pcnt) {
+		super();
+		this.sido = sido;
+		this.gugun = gugun;
+		this.dong = dong;
+		this.tag1 = tag1;
+		this.tag2 = tag2;
+		this.tag3 = tag3;
+		this.tag4 = tag4;
+		this.tag5 = tag5;
+		this.cnt = cnt;
+		this.by = by;
+		this.keyword = keyword;
+		this.paging = paging;
+		this.pcnt = pcnt;
+	}
+
+	public int getPaging() {
+		return paging;
+	}
+
+	public void setPaging(int paging) {
+		this.paging = paging;
+	}
+
+	public int getPcnt() {
+		return pcnt;
+	}
+
+	public void setPcnt(int pcnt) {
+		this.pcnt = pcnt;
+	}
 
 	@Override
 	public String toString() {

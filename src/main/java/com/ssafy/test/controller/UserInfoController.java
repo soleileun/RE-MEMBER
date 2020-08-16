@@ -172,10 +172,12 @@ public class UserInfoController {
    }
 
    @ApiOperation(value = "모든 검색어 통합 검색하는 것.", response = UserInfo.class)
-   @GetMapping("searchAll/tag={tag}&addr={addr}&keyword={keyword}")
+   @GetMapping("searchAll/tag={tag}&addr={addr}&keyword={keyword}/{paging}&cnt={cnt}")
    public ResponseEntity<List<Pools>> search(@PathVariable String tag, @PathVariable String addr,
-         @PathVariable String keyword) {
+         @PathVariable String keyword,@PathVariable int paging,@PathVariable int cnt) {
       SearchParameter sp = new SearchParameter();
+      sp.setPaging(paging);
+      sp.setPcnt(cnt);
       String b[] = addr.split(",");
       if (tag.equals("null")) {
          // tag 기술 스택이 없는 경우
