@@ -18,11 +18,7 @@
         <div class="row">
           <div class="col-md-12">
             자동 로그인 :
-            <input
-              type="checkbox"
-              v-model="autologin"
-              data-tooltip-text="비밀번호가 브라우저에 저장되어 취약하므로 개인 PC에서만 사용하세요"
-            />
+            <input type="checkbox" v-model="autologin" data-tooltip-text="비밀번호가 브라우저에 저장되어 취약하므로 개인 PC에서만 사용하세요" />
           </div>
         </div>
         <div @click="loginexit">
@@ -35,12 +31,7 @@
           <p-button type="info" round @click.native.prevent="goLogin">로그인</p-button>
         </div>
         <div>
-          <KakaoLogin
-            api-key="8e0034110bcf020d70bf38e4fe0f3fb7"
-            image="kakao_account_login_btn_medium_narrow_ov"
-            :on-success="onSuccess"
-            :on-failure="onFailure"
-          />
+          <KakaoLogin api-key="8e0034110bcf020d70bf38e4fe0f3fb7" image="kakao_account_login_btn_medium_narrow_ov" :on-success="onSuccess" :on-failure="onFailure" />
         </div>
         <!-- <GoogleLogin
           class="big-button"
@@ -73,15 +64,6 @@
 <script>
 const storage = window.sessionStorage;
 import KakaoLogin from "vue-kakao-login";
-
-let onSuccess = (data) => {
-  console.log(data);
-  console.log("success");
-};
-let onFailure = (data) => {
-  console.log(data);
-  console.log("failure");
-};
 
 export default {
   name: "login",
@@ -116,6 +98,15 @@ export default {
   },
   props: {},
   methods: {
+    onSuccess: (data) => {
+      console.log(data);
+      console.log("success");
+    },
+    onFailure: (data) => {
+      console.log(data);
+      console.log("failure");
+    },
+
     goLogin: function () {
       if (this.id === "" || this.pw === "") {
         this.$store.commit("loginError", {
