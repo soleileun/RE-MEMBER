@@ -6,6 +6,7 @@ import com.ssafy.test.model.dto.Addr;
 import com.ssafy.test.model.dto.Pools;
 import com.ssafy.test.model.dto.Project;
 import com.ssafy.test.model.dto.SearchParameter;
+import com.ssafy.test.model.dto.Two;
 import com.ssafy.test.model.dto.UserInfo;
 
 
@@ -33,6 +34,6 @@ public interface UserInfoDao {
 	
 	public List<UserInfo> getAddressList(int pid);
 	
-	public List<Pools> getPools();
+	public List<Pools> getPools(Two<Integer,Integer> v);
 	
 }

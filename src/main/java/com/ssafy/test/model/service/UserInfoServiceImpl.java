@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
+import com.ssafy.test.model.dto.Two;
 import com.ssafy.test.model.dao.UserInfoDao;
 import com.ssafy.test.model.dto.Addr;
 import com.ssafy.test.model.dto.Pools;
@@ -115,8 +116,8 @@ public class UserInfoServiceImpl implements UserInfoService {
 	}
 
 	@Override
-	public List<Pools> getPools() {
-		return uDao.getPools();
+	public List<Pools> getPools(Two<Integer,Integer> v) {
+		return uDao.getPools(v);
 	}
 
 }

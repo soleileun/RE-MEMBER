@@ -40,6 +40,7 @@ import com.ssafy.test.model.dto.Pools;
 import com.ssafy.test.model.dto.Project;
 import com.ssafy.test.model.dto.Projectcnt;
 import com.ssafy.test.model.dto.SearchParameter;
+import com.ssafy.test.model.dto.Two;
 import com.ssafy.test.model.dto.User;
 import com.ssafy.test.model.dto.UserInfo;
 import com.ssafy.test.model.dto.UserSimple;
@@ -95,9 +96,10 @@ public class UserInfoController {
    private PmemberService pmservice;
 
    @ApiOperation(value = "유저풀에서 사용", response = List.class)
-   @GetMapping("pools")
-   public ResponseEntity<List<Pools>> getPools() throws Exception {
-      List<Pools> v = uiService.getPools();
+   @GetMapping("pools/{paging}&cnt={cnt}")
+   public ResponseEntity<List<Pools>> getPools(@PathVariable int paging, @PathVariable int cnt) throws Exception {
+	   Two<Integer, Integer> two = new Two<Integer,Integer>(paging, cnt);
+      List<Pools> v = uiService.getPools(two);
       for (int i = 0; i < v.size(); i++) {
          List<PidPjt> ptmp = new ArrayList<PidPjt>();
          List<Inter> itmp = new ArrayList<Inter>();

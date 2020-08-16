@@ -20,6 +20,7 @@ public class Pools {
 	private String projects;
 	private String interests;
 	
+	
 	private List<PidPjt> project;
 	private List<Inter> interest;
 	private List<String> repository;

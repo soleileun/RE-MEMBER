@@ -277,7 +277,7 @@ select id
 		where p.pid = #{pid};
 	</select>
 	
-	<select id="getPools" resultType="pools">
+	<select id="getPools" parameterType="two" resultType="pools">
 		select b.*, a.projects
 		from(
 		SELECT jointwo.userId, GROUP_CONCAT(jointwo.pjt  SEPARATOR  '-._') AS projects 
@@ -302,7 +302,8 @@ select id
 		) as b
 		) as b
 		on a.userId = b.id
-		where b.leaveUser != 1 and b.id != 'admin';
+		where b.leaveUser != 1 and b.id != 'admin'
+		limit #{first}, #{second};
 	</select>
 
 </mapper>
