@@ -194,7 +194,7 @@
 		) as b
 		) as b
 		on a.userId = b.id
-		where b.leaveUser != 1 and b.id != 'admin'
+		where b.leaveUser != 1 and state==1 and b.id != 'admin'
         ) as a
 where a.id in (
 select id
@@ -304,7 +304,7 @@ select id
 		) as b
 		) as b
 		on a.userId = b.id
-		where b.leaveUser != 1 and b.id != 'admin'
+		where b.leaveUser != 1 and b.id != 'admin' and b.state = true
 		limit #{first}, #{second};
 	</select>
 
