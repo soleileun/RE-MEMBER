@@ -43,40 +43,8 @@
         </div>
       </div>
     </div>
-    <!-- <div class="wrapper"> -->
-    <!--
-      <div class="sidebar " data-color="purple" data-image="./assets/issue_img/sidebar-5.jpg">
-        <div class="sidebar-wrapper">
-          <div class="logo">
-            <a href class="simple-text">Project Info</a>
-          </div>
 
-          <ul class="nav">
-            <li class="active">
-              <a href="/main">
-                <i class="pe-7s-graph"></i>
-                <p>Issue Board</p>
-              </a>
-            </li>
-
-            <li>
-              <a href="teamInfo.html">
-                <i class="pe-7s-note2"></i> 
-                <p>Team Info</p>
-              </a>
-            </li>
-            <li>
-              <router-link :to="'/maps/'+this.$route.params.userId+'/'+this.$route.params.pid">지도</router-link>
-
-              <p>Maps</p>
-              
-            </li>
-          </ul>
-        </div>
-    </div>
-    -->
-
-    <div class="content">
+    <div class="content" v-if="issues.length != 0">
       <div class="container-fluid">
         <div class="row">
           <div class="col-5">
@@ -91,7 +59,8 @@
                 <div class="footer">
                   <hr />
                   <div class="stats">
-                    <i class="fa fa-history"></i> Updated 3 minutes ago
+                    <i class="fa fa-history"></i>
+                    Last Update {{issues[0].changeDay.slice(0,10)}} {{issues[0].changeDay.slice(11,19)}}
                   </div>
                 </div>
               </div>
@@ -112,7 +81,7 @@
                 <div class="overflow-auto table-responsive">
                   <table class="table">
                     <thead>
-                      <th>날짜</th>
+                      <th>마지막 수정 시간</th>
                       <th>제목</th>
                       <th class="td-actions text-right">상태</th>
                     </thead>
@@ -133,197 +102,18 @@
                 <div class="footer">
                   <hr />
                   <div class="stats">
-                    <i class="fa fa-history"></i> Updated 3 minutes ago
+                    <i class="fa fa-history"></i>
+                    Last Update {{issues[0].changeDay.slice(0,10)}} {{issues[0].changeDay.slice(11,19)}}
                   </div>
                 </div>
               </div>
             </div>
           </div>
-
-          <!-- <div class="col-4">
-              <div class="card">
-                <div class="header">
-                  <h4 class="title" style="color: skyblue">생성된 이슈</h4>
-                  <p class="category">날짜순</p>
-                  <p align="right">
-                    <button
-                      @click="openModal"
-                      type="button"
-                      rel="tooltip"
-                      title="Add"
-                      class="btn btn-info btn-simple btn-xs"
-                      data-toggle="modal"
-                      data-target="#myModal"
-                    >
-                      <i class="fa fa-edit"></i>
-                    </button>
-                  </p>
-                </div>
-                <div class="content">
-                  <div class="overflow-auto table-responsive">
-                    <table class="table" ref="left" id="createdTable">
-                      <tbody>
-                        <tr>
-                          <td>2020-08-01 10:01</td>
-                          <td>생성된 이슈 테스팅1</td>
-                          <td class="td-actions text-right">
-                            <button
-                              type="button"
-                              rel="tooltip"
-                              title="Remove"
-                              class="btn btn-danger btn-simple btn-xs"
-                            >
-                              <i class="fa fa-times"></i>
-                            </button>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>2020-08-01 20:09</td>
-                          <td>생성된 이슈 테스팅2</td>
-                          <td class="td-actions text-right">
-                            <button
-                              type="button"
-                              rel="tooltip"
-                              title="Remove"
-                              class="btn btn-danger btn-simple btn-xs"
-                            >
-                              <i class="fa fa-times"></i>
-                            </button>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-
-                  <div class="footer">
-                    <hr />
-                    <div class="stats">
-                      <i class="fa fa-history"></i> Updated 3 minutes ago
-                    </div>
-                  </div>
-                </div>
-              </div>
-          </div>-->
-
-          <!-- <div class="col-4">
-              <div class="card">
-                <div class="header">
-                  <h4 class="title" style="color: red">진행중인 이슈</h4>
-                  <p class="category">날짜순</p>
-                  <p align="right">
-                    <button
-                      type="button"
-                      rel="tooltip"
-                      title="Add"
-                      data-toggle="modal"
-                      data-target="#myModal"
-                      class="btn btn-info btn-simple btn-xs"
-                    >
-                      <i class="fa fa-edit"></i>
-                    </button>
-                  </p>
-                </div>
-                <div class="content">
-                  <div class="overflow-auto table-responsive">
-                    <table class="table" id="ongoingTable" ref="right">
-                      <tbody class="t_sortable">
-                        <tr>
-                          <td style="width: 40%; font-size: 8	0%">2020-08-03</td>
-                          <td
-                            style="width: 100%; font-size: 100%; overflow: hidden; text-overflow: ellipsis;"
-                          >
-                            진행중
-                            이슈1
-                          </td>
-                          <td class="td-actions text-right">
-                            <button
-                              type="button"
-                              rel="tooltip"
-                              title="Remove"
-                              class="btn btn-danger btn-simple btn-xs"
-                            >
-                              <i class="fa fa-times"></i>
-                            </button>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-
-                  <div class="footer">
-                    <hr />
-                    <div class="stats">
-                      <i class="fa fa-history"></i> Updated 3 minutes ago
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-md-4">
-              <div class="card">
-                <div class="header">
-                  <h4 class="title" style="color: yellowgreen">완료된 이슈</h4>
-                  <p class="category">날짜순</p>
-                  <p align="right">
-                    <button
-                      type="button"
-                      rel="tooltip"
-                      title="Add"
-                      data-toggle="modal"
-                      data-target="#myModal"
-                      class="btn btn-info btn-simple btn-xs"
-                    >
-                      <i class="fa fa-edit"></i>
-                    </button>
-                  </p>
-                </div>
-                <div class="content">
-                  <div class="table-full-width">
-                    <table class="table" id="doneTable">
-                      <tbody class="t_sortable">
-                        <tr>
-                          <td>2020-08-03 23:02</td>
-                          <td>완료 이슈 테스팅1</td>
-                          <td class="td-actions text-right">
-                            <button
-                              type="button"
-                              rel="tooltip"
-                              title="Remove"
-                              class="btn btn-danger btn-simple btn-xs"
-                            >
-                              <i class="fa fa-times"></i>
-                            </button>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-                <div class="footer">
-                  <hr />
-                  <div class="stats">
-                    <i class="fa fa-history"></i> Updated 3 minutes ago
-                  </div>
-                </div>
-              </div>
-          </div>-->
         </div>
         <!-- drag and drop -->
         <div class="content container-fluid row col-14 card" v-drag-and-drop:options="options">
           <h4 class="header card-title">이슈 현황</h4>
           <p align="right" class="category">
-            <!-- <button
-              @click="openModal"
-              type="button"
-              rel="tooltip"
-              title="Add"
-              class="btn btn-info btn-simple btn-xs"
-              data-toggle="modal"
-              data-target="#myModal"
-            >
-              <i class="fa fa-edit"></i>
-            </button>-->
             <button
               v-on:click="updateIssueChange()"
               class="btn btn-info btn-simple btn-xs"
@@ -363,15 +153,26 @@
           <div class="footer">
             <hr />
             <div class="stats">
-              <i class="fa fa-history"></i> Updated 3 minutes ago
+              <i class="fa fa-history"></i>
+              Last Update {{issues[0].changeDay.slice(0,10)}} {{issues[0].changeDay.slice(11,19)}}
             </div>
           </div>
         </div>
         <!-- drag and drop -->
       </div>
     </div>
-    <issuedetail :issue="issue" :project="project" :issue_prework="issue_prework" :issues="issues"/>
-    <issuecreate :issues="issues"/>
+    <div v-else>
+      <div class="content">
+        <h3>해당 프로젝트의 이슈가 없습니다</h3>
+        <p align="right" class="category">
+          <button v-on:click="createIssue()" class="btn btn-info btn-simple btn-xs">
+            <i class="fa fa-edit"></i>이슈 생성하기
+          </button>
+        </p>
+      </div>
+    </div>
+    <issuedetail :issue="issue" :project="project" :issue_prework="issue_prework" :issues="issues" :issue_by_prework="issue_by_prework"/>
+    <issuecreate :issues="issues" />
   </div>
 </template>
 
@@ -422,9 +223,9 @@ export default {
         showDropzoneAreas: true,
         multipleDropzonesItemsDraggingEnabled: true,
         onDrop(event) {
-          console.log(event.items[0].innerHTML);
-          //console.log(event.items[0]);
-          console.log(this.groups[0]);
+          // console.log(event.items[0].innerHTML);
+          // //console.log(event.items[0]);
+          // console.log(this.groups[0]);
         },
         // onDragstart(event) {
         //   event.stop();
@@ -460,14 +261,18 @@ export default {
       issuestate: "created",
     });
     this.$store.dispatch(Constant.GET_PROJECT, {
-      pid: this.$route.params.pid
+      pid: this.$route.params.pid,
     });
 
     this.$store.dispatch(Constant.GET_ISSUE, {
-        issueid: 1,
+      issueid: 1,
     });
     this.$store.dispatch(Constant.GET_ISSUE_PREWORK, {
-        issueid: 1,
+      issueid: 1,
+    });
+
+    this.$store.dispatch(Constant.GET_ISSUE_BY_PREWORK, {
+      prework: 1,
     });
 
     setTimeout(() => {
@@ -491,7 +296,7 @@ export default {
     issues_ongoing() {
       return this.$store.state.issuestore.issues_ongoing;
     },
-    project(){
+    project() {
       console.log(this.$store.state.projectstore.project);
       return this.$store.state.projectstore.project;
     },
@@ -500,9 +305,12 @@ export default {
       // console.log(this.$store.state.issuestore.issue);
       return this.$store.state.issuestore.issue;
     },
-    issue_prework(){
+    issue_prework() {
       return this.$store.state.issuestore.issue_prework;
-    }
+    },
+    issue_by_prework() {
+      return this.$store.state.issuestore.issue_by_prework;
+    },
   },
 
   mounted() {
@@ -592,8 +400,11 @@ export default {
       });
       setTimeout(() => {
         this.$store.dispatch(Constant.GET_ISSUE_PREWORK, {
-        issueid: this.issue.prework,
-      });
+          issueid: this.issue.prework,
+        });
+        this.$store.dispatch(Constant.GET_ISSUE_BY_PREWORK, {
+          prework: this.issue.issueid,
+        });
       }, 300);
 
       setTimeout(() => {

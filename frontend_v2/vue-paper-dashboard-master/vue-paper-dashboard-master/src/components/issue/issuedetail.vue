@@ -1,7 +1,7 @@
 <template>
   <div
     class="issuedetail card"
-    title="여기에 프로젝트 이름 / 이슈 번호"
+    title=""
     style="overflow-x:hidden; overflow-y:hidden;"
   >
     <i class="ti-close" @click="exit"></i>
@@ -20,7 +20,7 @@
                   <div class="biggest">
                     <div class="modal-header">
                       <h5 class="modal-title">이슈 수정하기</h5>
-                      <button type="button" class="close" @click="updateview()">x</button>
+                      <!-- <button type="button" class="close" @click="updateview()">x</button> -->
                     </div>
 
                     <div class="card-body" style="height:100%;">
@@ -43,13 +43,14 @@
                         <div class="col-md-12">
                           <div class="form-group">
                             <label>선제 작업</label>
-                            <input
-                              type="text"
-                              v-model="prework"
-                              class="form-control"
-                              placeholder="등록하려는 이슈 전 선제되야 하는 작업을 고르시오"
-                              value
-                            />
+                            <select id="myIssues2" class="form-control">
+                              <option value>설정 안함</option>
+                              <option
+                                v-for="(issue,index) in issues"
+                                :key="index"
+                                :value="issue.issueid"
+                              >{{issue.issuetitle}} / {{issue.changeDay.slice(0,10)}} {{issue.changeDay.slice(11,19)}}</option>
+                            </select>
                           </div>
                         </div>
                       </div>
@@ -59,7 +60,7 @@
                           <div class="form-group">
                             <label>이슈 상태</label>
                             <!-- <input type="text" v-model="issuestate" class="form-control" placeholder="생성/진행/완료" /> -->
-                            <select v-model="issuestateSelected" class="form-control" >
+                            <select v-model="issuestateSelected" class="form-control">
                               <option>생성</option>
                               <option>진행중</option>
                               <option>완료</option>
@@ -115,35 +116,53 @@
                   </div>
                 </b-collapse>
               </div>
+              <hr>
               <div class="row">
                 <div class="col-5 form">이슈 타입 :</div>
                 <div class="col-7 data">{{issue.issuetype}}</div>
               </div>
+              <hr>
               <div class="row">
                 <div class="col-5 form">상태:</div>
-                <div class="col-7 data" v-if="issue.issuestate == 'done'" style="color:yellowgreen">완료</div>
-                <div class="col-7 data" v-if="issue.issuestate == 'created'" style="color:skyblue">생성</div>
+                <div
+                  class="col-7 data"
+                  v-if="issue.issuestate == 'done'"
+                  style="color:yellowgreen"
+                >완료</div>
+                <div
+                  class="col-7 data"
+                  v-if="issue.issuestate == 'created'"
+                  style="color:skyblue"
+                >생성</div>
                 <div class="col-7 data" v-if="issue.issuestate == 'ongoing'" style="color:red">진행중</div>
               </div>
-
+              <hr>
               <div class="row">
                 <div class="col-5 form">앞선 작업:</div>
                 <div class="col-7 data" v-if="issue_prework">{{issue_prework.issuetitle}}</div>
                 <div class="col-7 data" v-else>없음</div>
               </div>
-
+              <hr>
               <div class="row">
                 <div class="col-5 form">대기중인 작업:</div>
-                <div class="col-7 data">
-                  {{issue.issuetitle}}
-                  쿼리로 이 이슈를 선행작업으로 가지는 이슈들 보여줌
+                <div class="col-7 data" v-if="issue_by_prework.length != 0">
+                  <select id="byprework" class="form-control">
+                    <option
+                      v-for="(issue,index) in issue_by_prework"
+                      :key="index"
+                      :value="issue.issueid"
+                    >{{issue.issuetitle}} / {{issue.changeDay.slice(0,10)}} {{issue.changeDay.slice(11,19)}}</option>
+                  </select>
                 </div>
+                <div v-else class="col-7 data">없음</div>
               </div>
               <br />
               <hr />
               <div class="row">
                 <div class="col-5 form" style="text-align:right;">{{issue.uid}}가</div>
-                <div class="col-7 data">{{issue.startDay.slice(0,10)}}   {{issue.startDay.slice(11,19)}} 에 작성하였음.</div>
+                <div
+                  class="col-7 data"
+                >{{issue.startDay.slice(0,10)}} {{issue.startDay.slice(11,19)}} 에 작성하였음.</div>
               </div>
             </div>
 
@@ -205,20 +224,23 @@ export default {
       type: Object,
       required: true,
     },
-    issue_prework : {
+    issue_prework: {
       type: Object,
       //required : true,
     },
-    issues : {
-      type : Array,
-      required : true,
-    }
+    issues: {
+      type: Array,
+      required: true,
+    },
+    issue_by_prework: {
+      type: Array,
+      required: true,
+    },
   },
   data: function () {
     return {
       autologin: false,
       issuetitle: "",
-      prework: 0,
       issuestateSelected: "",
       issuetype: "",
       priority: "",
@@ -246,8 +268,10 @@ export default {
           alert("에러입니다");
           return;
         }
+        let prework = document.getElementById("myIssues2").value;
+
         this.$store.dispatch(Constant.MODIFY_ISSUE, {
-          issueid : this.issue.issueid,
+          issueid: this.issue.issueid,
           pid: this.$route.params.pid,
           uid: this.$route.params.userId,
           response: this.issue.response,
@@ -255,7 +279,7 @@ export default {
           issuestate: this.issuestateSelected,
           issuetitle: this.issuetitle,
           issuecontent: this.issuecontent,
-          prework: this.prework,
+          prework: prework,
           priority: this.priority,
           makeDay: this.issue.makeDay,
           startDay: this.issue.startDay,

@@ -1,4 +1,48 @@
 <template>
+<div>
+  <div class="scroll-sidebar">
+      <!-- Sidebar navigation-->
+      <div class="sidebar-nav">
+        <div class="sidebar" data-color="purple" data-image="./assets/issue_img/sidebar-5.jpg">
+          <div class="sidebar-wrapper" style="background-color: #212120;">
+            <div class="logo">
+              <a
+                href
+                class="simple-text navbar-brand"
+                style="font-weight:800; font-size: 18px;"
+              >Project Info</a>
+            </div>
+
+            <ul class="nav">
+              <li class="active test nav-item" @click="issue">
+                <div class="navtest">
+                  <i class="fa fa-exclamation"></i>
+                  <span>이슈목록</span>
+                </div>
+              </li>
+              <li class="active test nav-item" @click="maps">
+                <div class="navtest">
+                  <i class="fa fa-map-o"></i>
+                  <span>지도</span>
+                </div>
+              </li>
+              <li class="active test nav-item">
+                <div class="navtest">
+                  <i class="fa fa-tasks"></i>
+                  <span>프로젝트</span>
+                </div>
+              </li>
+              <li class="active test nav-item" @click="teaminfo">
+                <div class="navtest">
+                  <i class="fa fa-id-card-o"></i>
+                  <span>팀 정보</span>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
   <div id="dmap">
     <div>
       <p class="category" align="center">근처 카페를 검색하고 싶으시면 카페 검색하기를 눌러주세요.</p>
@@ -18,6 +62,7 @@
       </div>
     </div>
   </div>
+</div>
 </template>
 
 <script>
@@ -62,6 +107,23 @@ export default {
         //alert("주위 검색 실패!");
         console.log("실패");
       }
+    },
+
+    issue() {
+      let addr =
+        "/issuetest/" +
+        this.$route.params.userId +
+        "/" +
+        this.$route.params.pid;
+      this.$router.push(addr);
+    },
+    teaminfo() {
+      this.$router.push("teamInfo.html");
+    },
+    maps() {
+      let addr =
+        "/maps/" + this.$route.params.userId + "/" + this.$route.params.pid;
+      this.$router.push(addr);
     },
 
     displayMarker(place) {
@@ -560,4 +622,59 @@ export default {
   font-size: 11px;
   margin-top: 0;
 }
+
+
+
+
+$ease-out: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+$to-do: #f4ce46;
+$in-progress: #2a92bf;
+$approved: #00b961;
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: #33363d;
+  color: white;
+  font-family: "Roboto Mono", serif;
+  font-weight: 300;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+
+.item-dropzone-area {
+  height: 6rem;
+  background: #888;
+  opacity: 0.8;
+  animation-duration: 0.5s;
+  animation-name: nodeInserted;
+  margin-left: 0.6rem;
+  margin-right: 0.6rem;
+}
+.test {
+  margin: 10px 0px;
+  padding-left: 25px;
+  padding-right: 25px;
+  opacity: 0.7;
+}
+.navtest {
+  display: block;
+  padding: 0.5rem 1rem;
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 600;
+  cursor: pointer;
+}
+.navtest:hover {
+  color: #ffffff;
+}
+
 </style>

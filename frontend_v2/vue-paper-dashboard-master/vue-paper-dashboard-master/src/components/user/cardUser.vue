@@ -17,7 +17,12 @@
       </div>
       <div class="filebox">
         <label for="ex_file">프로필변경</label>
-        <input type="file" id="ex_file" @change="previewFiles" accept="image/png, image/jpeg, image/jpg" />
+        <input
+          type="file"
+          id="ex_file"
+          @change="previewFiles"
+          accept="image/png, image/jpeg, image/jpg"
+        />
       </div>
       <p class="description text-center">
         {{bno}} | {{userintro}}
@@ -28,11 +33,30 @@
     <hr />
     <div class="text-center">
       <div class="row">
-        <div v-for="(info, index) in details" :key="index" :class="getClasses(index)">
+        <div class="col-lg-3 offset-lg-1">
+          <router-link :to="'/buddy/'+id">
+            <h5>
+              {{Myfollows}}
+              <br />
+              <small>Follows</small>
+            </h5>
+          </router-link>
+        </div>
+        <div class="col-lg-3 offset-mg-1">
+          <router-link :to="'/buddy/' + id">
+            <h5>
+              {{Myfollowers}}
+              <br />
+              <small>Followers</small>
+            </h5>
+          </router-link>
+        </div>
+
+        <div class="col-lg-4">
           <h5>
-            {{info.title}}
+            7
             <br />
-            <small>{{info.subTitle}}</small>
+            <small>Like PJT</small>
           </h5>
         </div>
       </div>
@@ -48,21 +72,11 @@ export default {
   },
   data() {
     return {
-      details: [
-        {
-          // this.$store.state.userstore.followings
-          title: this.$store.state.userstore.followings.length,
-          subTitle: "Following ",
-        },
-        {
-          title: this.$store.state.userstore.followers.length,
-          subTitle: "Followers",
-        },
-        {
-          title: "7",
-          subTitle: "Like PJT",
-        },
-      ],
+      // userId: storage.getItem("userid"),
+      Myfollows: this.$store.state.userstore.followings.length,
+      Myfollowers: this.$store.state.userstore.followers.length,
+      MyPJT: 7,
+      id: window.localStorage.getItem("userid"),
       userNick: storage.getItem("userNick"),
       userId: storage.getItem("userId"),
       users: storage.getItem("users"),
@@ -99,13 +113,13 @@ export default {
             this.url = this.url + ".jpg";
           })
           .catch((e) => {
-            this.url = this.$store.state.filestore.fileUrl+"default.png"
+            this.url = this.$store.state.filestore.fileUrl + "default.png";
           });
       });
   },
   beforeCreate: function () {
-    // this.$store.dispatch("getFollow");
-    // this.$store.dispatch("getFollower");
+    this.$store.dispatch("getFollow");
+    this.$store.dispatch("getFollower");
   },
   methods: {
     previewFiles(event) {
@@ -121,10 +135,10 @@ export default {
         this.$store.dispatch("upFiledirect", {
           file: file2,
           bno: this.bno,
-          reload:true,
+          reload: true,
         });
         let url = this.$store.state.filestore.fileUrl + file2.name;
-        this.url = url
+        this.url = url;
       }
     },
     getClasses(index) {

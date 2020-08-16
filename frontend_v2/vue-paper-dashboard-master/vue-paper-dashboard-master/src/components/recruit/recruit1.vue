@@ -226,6 +226,7 @@
                   :pid="recruit.pid"
                   @delete-recruit="deleteRecruit"
                   @open-modify="openModify"
+                  @modify-recruit="modifyRecruit"
                 />
               </tbody>
             </table>
@@ -240,6 +241,7 @@
     </select>
     <input type="text" placeholder="검색어를 입력하세요" id="searchWord" />
     <button v-on:click="searchRecruit">검색</button>-->
+    
   </div>
 </template>
 
@@ -508,6 +510,9 @@ export default {
 
     deleteRecruit(rnum) {
       this.$emit("delete-recruit", rnum);
+    },
+    modifyRecruit() {
+      this.$emit("modify-recruit");
     },
      openModify() {
       this.$emit("open-modify");

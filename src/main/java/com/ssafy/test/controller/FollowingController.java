@@ -87,12 +87,16 @@ public class FollowingController {
 //	}
 
     @ApiOperation(value = "following 해당하는 게시글의 정보를 삭제한다.", response = String.class)
-	@DeleteMapping
-	public ResponseEntity<String> deleteBoard(@RequestBody Following f) {
-		logger.debug("deleteBoard - 호출");
-		if (fService.delete(f) == 1) {
-			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
-		}
-		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
-	}
+ 	@DeleteMapping("/delete/{uid}/{target}")
+ 	public ResponseEntity<String> deleteBoard(@PathVariable String uid, @PathVariable String target) {
+ 		Following f = new Following();
+ 		f.setUid(uid);
+ 		f.setTarget(target);
+     	logger.debug("deleteBoard - 호출");
+ 		if (fService.delete(f) == 1) {
+ 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+ 		}
+ 		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
+ 	}
+ 
 }
