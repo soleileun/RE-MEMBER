@@ -79,6 +79,8 @@ public class RecruitDAOImpl implements RecruitDAO {
 			aat.setTag3(sp.getTag3());
 			aat.setTag4(sp.getTag4());
 			aat.setTag5(sp.getTag5());
+			aat.setPaging(sp.getPaging());
+			aat.setPcnt(sp.getCnt());
 			return template.selectList(ns + "selectAddrAndTag", aat);
 		} else if (by.equals("writer")) {
 			if (sp.getCnt() == 0) {				

@@ -221,10 +221,12 @@ public class RecruitController {
 	}
 
 	@ApiOperation(value = "모든 검색어 통합 검색하는 것.", response = Recruit.class)
-	@GetMapping("search/tag={tag}&addr={addr}&by={by}&keyword={keyword}")
+	@GetMapping("search/tag={tag}&addr={addr}&by={by}&keyword={keyword}/{paging}&cnt={cnt}")
 	public ResponseEntity<List<RecruitPjtPinterest>> search(@PathVariable String tag, @PathVariable String addr,
-			@PathVariable String by, @PathVariable String keyword) {
+			@PathVariable String by, @PathVariable String keyword,@PathVariable int paging,@PathVariable int cnt) {
 		SearchParameter sp = new SearchParameter();
+	      sp.setPaging(paging);
+	      sp.setPcnt(cnt);
 		
 		
 		List<RecruitPjtPinterest> ret = new ArrayList<RecruitPjtPinterest>();
@@ -234,7 +236,7 @@ public class RecruitController {
 		if (tag.equals("null")) {
 			
 			// tag 기술 스택이 없는 경우
-			System.out.println("asdasdasd");
+			//System.out.println("asdasdasd");
 			sp.setBy(by);
 			sp.setKeyword(keyword);
 			sp.setDong(b[0]);
@@ -242,16 +244,16 @@ public class RecruitController {
 			sp.setSido(b[2]);
 			sp.setCnt(0);
 			
-			System.out.println("sp 확인");
-			System.out.println(sp.toString());
+			//System.out.println("sp 확인");
+			//System.out.println(sp.toString());
 			
 			List<RecruitPjtPinterest> original = rService.searchAll(sp);
 			
 			int len = original.size();
-			System.out.println("size is "+ len);
+			//System.out.println("size is "+ len);
 			
 			for(int i = 0 ; i < len; i++) {
-				System.out.println(original.get(i).toString());
+				//System.out.println(original.get(i).toString());
 			}
 			
 			// 원본 리스트에서 rnum이 겹치는 부분은 pinterest를 "",""로 합치기
@@ -285,8 +287,8 @@ public class RecruitController {
 		} else {
 			// 기술 스택 태그가 있는 경우
 			String a[] = tag.split(",");
-			System.out.println("tag is " + tag);
-			System.out.println("a 길이는 " + a.length);
+			//System.out.println("tag is " + tag);
+			//System.out.println("a 길이는 " + a.length);
 
 			if (a.length > 0)
 				sp.setTag1(a[0]);

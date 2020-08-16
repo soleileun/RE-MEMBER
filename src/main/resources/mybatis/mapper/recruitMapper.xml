@@ -70,7 +70,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		CONCAT('%',#{sido},'%')
 		and p.location like CONCAT('%',#{gugun},'%')
 		and p.location like CONCAT('%',#{dong},'%')
-		and r.makeId like CONCAT('%', #{keyword}, '%');
+		and r.makeId like CONCAT('%', #{keyword}, '%')
+        limit #{paging}, #{pcnt};
 
 	</select>
 	
@@ -87,7 +88,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		CONCAT('%',#{sido},'%')
 		and p.location like CONCAT('%',#{gugun},'%')
 		and p.location like CONCAT('%',#{dong},'%')
-		and r.title like CONCAT('%', #{keyword}, '%');
+		and r.title like CONCAT('%', #{keyword}, '%')
+        limit #{paging}, #{pcnt};
 
 	</select>
 
@@ -116,7 +118,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		group by pid
 		having
 		count(interest) >= #{cnt}
-		);
+		)
+        limit #{paging}, #{pcnt};
 	</select>
 
 	<select id="selectAllByTitle" resultType="recruitpjtpinterest"
@@ -149,7 +152,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		group by pid
 		having
 		count(interest) >= #{cnt}
-		);
+		)
+        limit #{paging}, #{pcnt};
 	</select>
 
 	<select id="selectSame" resultType="recruit"
@@ -194,7 +198,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		group by pid
 		having
 		count(interest) >= #{cnt}
-		);
+		)
+        limit #{paging}, #{pcnt};
 
 	</select>
 

@@ -5,7 +5,36 @@ public class AddrAndTag {
 	private String sido;
 	private String gugun;
 	private String dong;
+	private int paging;
+	private int pcnt;
 	
+	public AddrAndTag(String sido, String gugun, String dong, int paging, int pcnt, String tag1, String tag2,
+			String tag3, String tag4, String tag5, int cnt) {
+		super();
+		this.sido = sido;
+		this.gugun = gugun;
+		this.dong = dong;
+		this.paging = paging;
+		this.pcnt = pcnt;
+		this.tag1 = tag1;
+		this.tag2 = tag2;
+		this.tag3 = tag3;
+		this.tag4 = tag4;
+		this.tag5 = tag5;
+		this.cnt = cnt;
+	}
+	public int getPaging() {
+		return paging;
+	}
+	public void setPaging(int paging) {
+		this.paging = paging;
+	}
+	public int getPcnt() {
+		return pcnt;
+	}
+	public void setPcnt(int pcnt) {
+		this.pcnt = pcnt;
+	}
 	public AddrAndTag() {
 		super();
 	}
