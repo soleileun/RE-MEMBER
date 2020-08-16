@@ -33,6 +33,8 @@
         <div>
           <KakaoLogin api-key="8e0034110bcf020d70bf38e4fe0f3fb7" image="kakao_account_login_btn_medium_narrow_ov" :on-success="onSuccess" :on-failure="onFailure" />
         </div>
+<!-- <a id="kakao-login-btn"></a> -->
+        
         <!-- <GoogleLogin
           class="big-button"
           :params="params"
@@ -44,27 +46,13 @@
       </form>
     </div>
   </card>
-  <!-- 
-    <div>
-      <input type="checkbox" v-model="autologin" data-tooltip-text="비밀번호가 브라우저에 저장되어 취약하므로 개인 PC에서만 사용하세요" />
-      <br />
-      <button @click="goLogin">로그인</button>
-      <br />
-      <span @click="loginexit">
-        <router-link to="/signup">회원가입</router-link>
-        <br />
-        <router-link to="/user/findid">아이디 / 비밀번호 찾기</router-link>
-      </span>
-      <div>
-      </div>
-  </div>-->
 </template>
+
 
 
 <script>
 const storage = window.sessionStorage;
 import KakaoLogin from "vue-kakao-login";
-
 export default {
   name: "login",
   components: {
@@ -101,6 +89,15 @@ export default {
     onSuccess: (data) => {
       console.log(data);
       console.log("success");
+      Kakao.API.request({
+        url: "/v2/user/me",
+        success: function (response) {
+          console.log(response);
+        },
+        fail: function (error) {
+          console.log(error);
+        },
+      });
     },
     onFailure: (data) => {
       console.log(data);

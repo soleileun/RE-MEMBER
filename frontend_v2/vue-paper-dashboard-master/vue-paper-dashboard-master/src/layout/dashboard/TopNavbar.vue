@@ -85,6 +85,7 @@ export default {
   },
   methods: {
     abc(){
+      return JWT("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoi7Zmp7IiY7ZiEIiwiYWRtaW4iOiJmYWxzZSIsIlVzZXJfSUQiOjE0Mzg0NDQzODZ9.QgzlVW7DrjwN5NvYtSYLgXF8z0moSN_j4WYY_pl_XmY")
     },
     login() {
       document.querySelector(".login").classList.remove("active");
