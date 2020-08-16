@@ -64,16 +64,9 @@ public class RecruitDAOImpl implements RecruitDAO {
 	}
 
 	@Override
-	public List<Recruit> searchAll(SearchParameter sp) {
-		String by = sp.getBy();
-		
-		if(sp.getSido().equals(" ") && sp.getGugun().equals(" ") && sp.getDong().equals(" ") && sp.getKeyword().equals("")) {
-			return template.selectList(ns + "selectAll");
-		}else if(sp.getSido().equals(" ") && sp.getGugun().equals(" ") && sp.getDong().equals(" ") && !sp.getKeyword().equals("")) {
-			sp.setSido("");
-			sp.setGugun("");
-			sp.setDong("");
-		}
+	public List<RecruitPjtPinterest> searchAll(SearchParameter sp) {
+		String by = sp.getBy();		
+		System.out.println("by is " + by);
 		
 		if (by == null) {
 			AddrAndTag aat = new AddrAndTag();

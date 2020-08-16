@@ -34,20 +34,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<select id="selectAllRecruitPjtPinterest" resultType="recruitpjtpinterest">
 		select r.rnum, r.pid, r.title, r.contents, r.endDate, r.makeDay, r.changeDay, r.makeId, r.changeId, p.pjtName, pi.interest
- from recruit as r left join project as p
- on r.pid = p.pid
- left join pinterest as pi
- on r.pid = pi.pid
- order by rnum;
+ 		from recruit as r left join project as p
+ 		on r.pid = p.pid
+ 		left join pinterest as pi
+ 		on r.pid = pi.pid
+ 		order by rnum;
 	</select>
 
-	<select id="selectByAddr" resultType="recruit"
+	<select id="selectByAddr" resultType="recruitpjtpinterest"
 		parameterType="addr">
-		select r.rnum, r.pid, r.title, r.contents, r.endDate,
-		r.makeDay, r.changeDay, r.makeId, r.changeId from recruit as r
+		select r.rnum, r.pid, r.title, r.contents, r.endDate, r.makeDay, r.changeDay, r.makeId, r.changeId, p.pjtName, pi.interest 
+		from recruit as r
 		left
 		join project as p
 		on r.pid = p.pid
+		left join pinterest as pi
+		on r.pid = pi.pid
 		where p.location like
 		CONCAT('%',#{sido},'%')
 		and p.location like CONCAT('%',#{gugun},'%')
@@ -55,13 +57,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	</select>
 	
-	<select id="selectByAddrWriter" resultType="recruit"
+	<select id="selectByAddrWriter" resultType="recruitpjtpinterest"
 		parameterType="searchparameter">
-		select r.rnum, r.pid, r.title, r.contents, r.endDate,
-		r.makeDay, r.changeDay, r.makeId, r.changeId from recruit as r
+		select r.rnum, r.pid, r.title, r.contents, r.endDate, r.makeDay, r.changeDay, r.makeId, r.changeId, p.pjtName, pi.interest 
+		from recruit as r
 		left
 		join project as p
 		on r.pid = p.pid
+		left join pinterest as pi
+		on r.pid = pi.pid
 		where p.location like
 		CONCAT('%',#{sido},'%')
 		and p.location like CONCAT('%',#{gugun},'%')
@@ -70,13 +74,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	</select>
 	
-	<select id="selectByAddrTitle" resultType="recruit"
+	<select id="selectByAddrTitle" resultType="recruitpjtpinterest"
 		parameterType="searchparameter">
-		select r.rnum, r.pid, r.title, r.contents, r.endDate,
-		r.makeDay, r.changeDay, r.makeId, r.changeId from recruit as r
+		select r.rnum, r.pid, r.title, r.contents, r.endDate, r.makeDay, r.changeDay, r.makeId, r.changeId, p.pjtName, pi.interest
+		from recruit as r
 		left
 		join project as p
 		on r.pid = p.pid
+		left join pinterest as pi
+		on r.pid = pi.pid
 		where p.location like
 		CONCAT('%',#{sido},'%')
 		and p.location like CONCAT('%',#{gugun},'%')
@@ -85,13 +91,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	</select>
 
-	<select id="selectAllByWriter" resultType="recruit"
+	<select id="selectAllByWriter" resultType="recruitpjtpinterest"
 		parameterType="searchparameter">
-		select r.rnum, r.pid, r.title, r.contents, r.endDate,
-		r.makeDay, r.changeDay, r.makeId, r.changeId from recruit as r
+		select r.rnum, r.pid, r.title, r.contents, r.endDate, r.makeDay, r.changeDay, r.makeId, r.changeId, p.pjtName, pi.interest
+		from recruit as r
 		left
 		join project as p
 		on r.pid = p.pid
+		left join pinterest as pi
+		on r.pid = pi.pid
 		where p.location like
 		CONCAT('%',#{sido},'%')
 		and p.location like CONCAT('%',#{gugun},'%')
@@ -111,16 +119,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		);
 	</select>
 
-	<select id="selectAllByTitle" resultType="recruit"
+	<select id="selectAllByTitle" resultType="recruitpjtpinterest"
 		parameterType="searchparameter">
-		select r.rnum, r.pid, r.title, r.contents, r.endDate,
-		r.makeDay, r.changeDay,
-		r.makeId, r.changeId from recruit as r
+		select r.rnum, r.pid, r.title, r.contents, r.endDate, r.makeDay, r.changeDay, r.makeId, r.changeId, p.pjtName, pi.interest
+		from recruit as r
 		left
 		join
 		project as p
 		on r.pid =
 		p.pid
+		left join pinterest as pi
+		on r.pid = pi.pid
 		where p.location like
 		CONCAT('%',#{sido},'%')
 		and p.location like

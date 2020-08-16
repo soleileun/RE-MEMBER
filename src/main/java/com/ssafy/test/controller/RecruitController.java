@@ -222,11 +222,17 @@ public class RecruitController {
 
 	@ApiOperation(value = "모든 검색어 통합 검색하는 것.", response = Recruit.class)
 	@GetMapping("search/tag={tag}&addr={addr}&by={by}&keyword={keyword}")
-	public ResponseEntity<List<Recruit>> search(@PathVariable String tag, @PathVariable String addr,
+	public ResponseEntity<List<RecruitPjtPinterest>> search(@PathVariable String tag, @PathVariable String addr,
 			@PathVariable String by, @PathVariable String keyword) {
 		SearchParameter sp = new SearchParameter();
+		
+		
+		List<RecruitPjtPinterest> ret = new ArrayList<RecruitPjtPinterest>();
+		
+		
 		String b[] = addr.split(",");
 		if (tag.equals("null")) {
+			
 			// tag 기술 스택이 없는 경우
 			System.out.println("asdasdasd");
 			sp.setBy(by);
@@ -235,8 +241,46 @@ public class RecruitController {
 			sp.setGugun(b[1]);
 			sp.setSido(b[2]);
 			sp.setCnt(0);
-
-			return new ResponseEntity<List<Recruit>>(rService.searchAll(sp), HttpStatus.OK);
+			
+			System.out.println("sp 확인");
+			System.out.println(sp.toString());
+			
+			List<RecruitPjtPinterest> original = rService.searchAll(sp);
+			
+			int len = original.size();
+			System.out.println("size is "+ len);
+			
+			for(int i = 0 ; i < len; i++) {
+				System.out.println(original.get(i).toString());
+			}
+			
+			// 원본 리스트에서 rnum이 겹치는 부분은 pinterest를 "",""로 합치기
+			int index = 0;
+			if(original.size() == 0) {
+				return new ResponseEntity<List<RecruitPjtPinterest>>(ret, HttpStatus.OK);
+			}
+			outer : while(true) {
+				int firstRnum = original.get(index).getRnum();
+				RecruitPjtPinterest tmp = original.get(index);
+				while(true) {
+					String tmpInterest = tmp.getInterest();
+					index++;
+					if(index == len) {
+						ret.add(tmp);
+						break outer;
+					}
+					if(firstRnum != original.get(index).getRnum()) {
+						ret.add(tmp);
+						break;
+					}else {
+						// 다음번 요소가 겹침
+						tmpInterest += ("," + original.get(index).getInterest());
+						tmp.setInterest(tmpInterest);
+					}
+				}
+				//index++;			
+			}
+			return new ResponseEntity<List<RecruitPjtPinterest>>(ret, HttpStatus.OK);
 
 		} else {
 			// 기술 스택 태그가 있는 경우
@@ -261,8 +305,37 @@ public class RecruitController {
 			sp.setBy(by);
 			sp.setKeyword(keyword);
 			// 어차피 널이 들어감.
-			System.out.println(by);
-			return new ResponseEntity<List<Recruit>>(rService.searchAll(sp), HttpStatus.OK);
+			
+			List<RecruitPjtPinterest> original = rService.searchAll(sp);
+			
+			int len = original.size();
+			if(original.size() == 0) {
+				return new ResponseEntity<List<RecruitPjtPinterest>>(ret, HttpStatus.OK);
+			}
+			// 원본 리스트에서 rnum이 겹치는 부분은 pinterest를 "",""로 합치기
+			int index = 0;
+			outer : while(true) {
+				int firstRnum = original.get(index).getRnum();
+				RecruitPjtPinterest tmp = original.get(index);
+				while(true) {
+					String tmpInterest = tmp.getInterest();
+					index++;
+					if(index == len) {
+						ret.add(tmp);
+						break outer;
+					}
+					if(firstRnum != original.get(index).getRnum()) {
+						ret.add(tmp);
+						break;
+					}else {
+						// 다음번 요소가 겹침
+						tmpInterest += ("," + original.get(index).getInterest());
+						tmp.setInterest(tmpInterest);
+					}
+				}
+				//index++;			
+			}
+			return new ResponseEntity<List<RecruitPjtPinterest>>(ret, HttpStatus.OK);
 
 		}
 	}
