@@ -40,7 +40,10 @@
     <!-- <td data-column="Progress" class="table-row__td">
                   <p class="table-row__progress status--blue status">On Track</p>
     </td>-->
-    <td class="table-row__td">스택보기</td>
+    <td class="table-row__td">
+      
+      <a href="javascript:void(0)" on v-b-tooltip.click :title="recruit.interest">보기</a>
+    </td>
     <td class="table-row__td">
       <svg
         version="1.1"
@@ -165,9 +168,8 @@
       </svg>
     </td>
 
-
     <!-- The Modal -->
-    <div class="modal" id="myModal2">
+    <div class="modal" :id="`myModal${recruit.pid}`">
       <div class="modal-content">
         <span class="close">&times;</span>
         <div class="row">
@@ -184,10 +186,7 @@
           </div>
           <div class="col-75">
             <select id="myproject" name="myproject" disabled>
-              <option
-                 selected
-                :value="recruit.pid"
-              >{{recruit.pjtName}}</option>
+              <option selected :value="recruit.pid">{{recruit.pjtName}}</option>
             </select>
           </div>
         </div>
@@ -199,14 +198,18 @@
             <input type="text" v-model="recruit.title" placeholder="제목을 입력하세요" />
           </div>
         </div>
-        
 
         <div class="row">
           <div class="col-25">
             <label for="subject">내용</label>
           </div>
           <div class="col-75">
-            <vue-editor :id="`editor${recruit.pid}`" class="viewEditor" :value="recruit.contents"></vue-editor>
+            <vue-editor
+              :id="`editor${recruit.pid}`"
+              class="viewEditor"
+              v-model="recruit.contents"
+              style="height:80%;"
+            ></vue-editor>
           </div>
         </div>
 
@@ -216,7 +219,6 @@
       </div>
     </div>
     <!-- Modal end  -->
-
   </tr>
 </template>
 
@@ -226,8 +228,8 @@ const storage = window.sessionStorage;
 import { VueEditor } from "vue2-editor";
 
 export default {
-  components:{
-    VueEditor
+  components: {
+    VueEditor,
   },
   props: {
     recruit: {
@@ -243,7 +245,7 @@ export default {
     //   required: true,
     // },
   },
-  
+
   created() {
     // this.$store.dispatch(Constant.GET_PROJECT, { pid: this.pid });
   },
@@ -271,9 +273,10 @@ export default {
         rnum: this.recruit.rnum,
       });
     },
-    openModify(){
+    openModify() {
       // Get the modal
-      var modal = document.getElementById("myModal2");
+      let mid = "myModal" + this.recruit.pid;
+      var modal = document.getElementById(mid);
 
       // Get the <span> element that closes the modal
       var span = document.getElementsByClassName("close")[0];
@@ -294,10 +297,22 @@ export default {
       };
     },
     modifyRecruit() {
-      // console.log("삭제 rnum : " + this.recruit.rnum);
+      console.log("contents : " + this.recruit.contents);
       this.$store.dispatch(Constant.MODIFY_RECRUIT, {
         rnum: this.recruit.rnum,
+        // pid: this.recruit.rnum,
+        title: this.recruit.title,
+        contents: this.recruit.contents,
+        // endDate: this.recruit.endDate,
+        // makeDay: this.recruit.makeDay,
+        // changeDay: this.recruit.changeDay,
+        // makeId: this.loginId,
+        changeId: this.loginId,
       });
+
+      let mid = "myModal" + this.recruit.pid;
+      var modal = document.getElementById(mid);
+      modal.style.display = "none";
     },
   },
 };
@@ -637,7 +652,6 @@ body {
     width: 100%;
   }
 }
-
 
 //모달 인풋 css
 .modal {

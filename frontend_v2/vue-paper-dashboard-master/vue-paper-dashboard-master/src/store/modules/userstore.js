@@ -1,7 +1,6 @@
 import Vuex from 'vuex';
 import Vue from 'vue';
 import router from '../../router';
-
 import Constant from '../../Constant.js';
 import http from '../../http-common.js';
 Vue.use(Vuex);
@@ -85,9 +84,9 @@ const userstore = {
     // 유저 관련
     login: (store, payload) => {
       http.post('/api/userinfo/signin', {
-          id: payload.id,
-          pw: payload.pw
-        })
+        id: payload.id,
+        pw: payload.pw
+      })
         .then(response => {
           // console.log(response.data.data)
 
@@ -142,7 +141,14 @@ const userstore = {
       }, 100)
     },
     signup: (store, payload) => {
-      document.querySelector('.spinner').classList.add('active')
+      const file2= new File(
+        [file],
+        `${payload.id}.png`,
+        {
+          type: file.type,
+        }
+      );
+      store.commit('upBoardFiles',{file:file2})
       http
         .post("/api/userinfo/", {
           id: payload.id,
@@ -157,9 +163,9 @@ const userstore = {
         })
         .then((res) => {
           http.post('/api/userinfo/signin', {
-              id: payload.id,
-              pw: payload.pw
-            })
+            id: payload.id,
+            pw: payload.pw
+          })
             .then(response => {
               console.log(response)
               if (response.data.data) {
@@ -192,6 +198,21 @@ const userstore = {
                 router.push({
                   path: "/main"
                 })
+                /////// 프로필 페이지 생성
+                this.$store.dispatch(Constant.ADD_BOARD, {
+                  //bno : auto increase
+                  // bwriter : this.board.bwriter, 임시로 ssafy foreign key때문
+                  bwriter: response.data.data.id,
+                  btitle: "profile",
+                  bcontent: "프로필 초기",
+                  bview: "",
+                  bfile: "",
+                  bstate: "profile",
+                  makeDay: new Date(),
+                  // changeDay : this.board.changeday,
+                  makeId: response.data.data.id,
+                  // changeId : this.board.changeid
+                });
               } else {
                 window.localStorage.setItem("jwt-auth-token", "");
                 window.localStorage.setItem("userNick", "")
@@ -359,17 +380,17 @@ const userstore = {
       }
 
       http.post('/api/userinfo/signin', {
-          id: storage.getItem("userid"),
-          pw: payload.pw,
-        }, config)
+        id: storage.getItem("userid"),
+        pw: payload.pw,
+      }, config)
         .then(response => {
           console.log(response);
           if (response.data.data) {
             http.delete('api/userinfo/' + storage.getItem("userid"), config = {
-                headers: {
-                  "jwt-auth-token": storage.getItem("jwt-auth-token")
-                }
-              })
+              headers: {
+                "jwt-auth-token": storage.getItem("jwt-auth-token")
+              }
+            })
               .then(() => {
 
                 store.dispatch("logout");
@@ -444,11 +465,11 @@ const userstore = {
           }
         }
         http.post('/api/message/', {
-            content: payload.content,
-            fromUser: storage.getItem("userid"),
-            toUser: payload.other,
-            read: false,
-          }, config)
+          content: payload.content,
+          fromUser: storage.getItem("userid"),
+          toUser: payload.other,
+          read: false,
+        }, config)
           .then(response => {
             console.log(response)
             store.commit('pushDetailMes', {

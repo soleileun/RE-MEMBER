@@ -37,7 +37,7 @@
 
               <div class="col-1">
                 <p-button type="success" outline icon>
-                  <i class="fa fa-envelope"></i>
+                  <i class="fa fa-envelope" @click="mes(pm.userId)"></i>
                 </p-button>
               </div>
 
@@ -140,7 +140,7 @@
       <div id="myModal3" class="modal">
         프로젝트를 떠나요
         <div class="modal-content">
-          <span class="close">&times;</span>
+          <span class="close" id="modal3Close">&times;</span>
           <div class="col-12">
             <h3>팀 나가기</h3>
             <br />
@@ -195,14 +195,17 @@ export default {
     });
   },
   methods: {
+    mes: function (id) {
+      this.$store.dispatch("sendMes", { toUser: id });
+    },
     openModal() {
       // console.log("눌린다");
       this.pid = this.$route.params.pid;
       // console.log(this.$store.state.projectstore.pmlist);
       // Get the modal
-      var modal = document.getElementById("myModal");
+      let modal = document.getElementById("myModal");
       // Get the <span> element that closes the modal
-      var span = document.getElementsByClassName("close")[0];
+      let span = document.getElementsByClassName("close")[0];
       // When the user clicks on the button, open the modal
       modal.style.display = "block";
       // When the user clicks on <span> (x), close the modal
@@ -217,9 +220,9 @@ export default {
       };
     },
     openModal2: function () {
-      var modal = document.getElementById("myModal2");
+      let modal = document.getElementById("myModal2");
       // Get the <span> element that closes the modal
-      var span = document.getElementsByClassName("close")[0];
+      let span = document.getElementsByClassName("close")[0];
       // When the user clicks on the button, open the modal
       modal.style.display = "block";
       // When the user clicks on <span> (x), close the modal
@@ -235,15 +238,15 @@ export default {
     },
     openModal3: function () {
       console.log(this.userId);
-      var modal = document.getElementById("myModal3");
+      let modal = document.getElementById("myModal3");
       // Get the <span> element that closes the modal
-      var span = document.getElementsByClassName("close")[0];
+      let span = document.querySelector("#modal3Close");
       // When the user clicks on the button, open the modal
       modal.style.display = "block";
       // When the user clicks on <span> (x), close the modal
-      span.onclick = function () {
+      span.addEventListener('click', function () {
         modal.style.display = "none";
-      };
+      });
       // When the user clicks anywhere outside of the modal, close it
       window.onclick = function (event) {
         if (event.target == modal) {
@@ -301,26 +304,31 @@ export default {
 </script>
 
 <style>
-.modal {
+#myModal,
+#myModal2,
+#myModal3{
   display: none; /* Hidden by default */
   position: fixed; /* Stay in place */
   z-index: 1; /* Sit on top */
   left: 0;
   top: 0;
-  width: 50%; /* Full width */
-  height: 75%; /* Full height */
+  height: 100vh;
   overflow: auto; /* Enable scroll if needed */
   background-color: rgb(0, 0, 0); /* Fallback color */
   background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
 }
 
 /* Modal Content/Box */
-.modal-content {
+#myModal .modal-content ,
+#myModal2 .modal-content ,
+#myModal3 .modal-content {
+  width: 50%; /* Full width */
+  height: 50%; /* Full height */
   background-color: #fefefe;
   margin: 15% auto; /* 15% from the top and centered */
+  margin-bottom: 0;
   padding: 20px;
   border: 1px solid #888;
-  width: 50%; /* Could be more or less, depending on screen size */
 }
 /* The Close Button */
 .close {

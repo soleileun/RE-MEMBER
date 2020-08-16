@@ -61,7 +61,7 @@ public class RecruitServiceImpl implements RecruitService {
 	}
 
 	@Override
-	public List<Recruit> searchAll(SearchParameter sp) {
+	public List<RecruitPjtPinterest> searchAll(SearchParameter sp) {
 		return rDao.searchAll(sp);
 	}
 

@@ -28,7 +28,7 @@ public interface RecruitService {
 	
 	public List<Recruit> selectAddrAndTag(AddrAndTag aat);
 	
-	public List<Recruit> searchAll(SearchParameter sp);
+	public List<RecruitPjtPinterest> searchAll(SearchParameter sp);
 	
 	public List<RecruitPjtPinterest> selectAllRecruitPjtPinterest();
 }

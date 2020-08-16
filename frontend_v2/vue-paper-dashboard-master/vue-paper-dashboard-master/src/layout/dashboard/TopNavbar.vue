@@ -60,25 +60,8 @@ export default {
   data() {
     return {
       activeNotifications: false,
-      url: this.$store.state.filestore.fileUrl + storage.getItem("userid"),
+      url: this.$store.state.filestore.fileUrl + storage.getItem("userid") +".png",
     };
-  },
-  mounted(){
-    http
-      .get(this.url + ".png")
-      .then((res) => {
-        this.url = this.url + ".png";
-      })
-      .catch((e) => {
-        http
-          .get(this.url + ".jpg")
-          .then((res) => {
-            this.url = this.url + ".jpg";
-          })
-          .catch((e) => {
-            this.url = this.$store.state.filestore.fileUrl+"default.png"
-          });
-      });
   },
   methods: {
     login() {

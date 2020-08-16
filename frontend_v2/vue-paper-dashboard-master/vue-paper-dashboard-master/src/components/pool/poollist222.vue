@@ -167,147 +167,154 @@
       </li>
     </ul>
     -->
-    <ul class="cards">
-      <li class="cards__item" v-for="pool in extendpools" :key="pool.id">
-        <div class="card">
-          <div
-            v-if="pool.responsibility === '디자인'"
-            class="card__image card__image--designer"
-            style="position:relative"
-          >
-            <img class="avatar border-white" :src="urls(pool.id)" style="position:absolute;z-index:9;bottom:0;left:0" />
+    <div class="container" id="app">
+      <div class="list-group-wrapper">
+        <transition name="fade">
+          <div class="loading" v-show="loading">
+            <span class="fa fa-spinner fa-spin"></span> Loading
           </div>
-          <div
-            v-if="pool.responsibility === '개발'"
-            class="card__image card__image--developer"
-            style="position:relative"
-          >
-            <img class="avatar border-white" :src="urls(pool.id)" style="position:absolute;z-index:1;bottom:0;left:0" />
-          </div>
-          <div
-            v-if="pool.responsibility === '기획'"
-            class="card__image card__image--head"
-            style="position:relative"
-          >
-            <img class="avatar border-white" :src="urls(pool.id)" style="position:absolute;z-index:1;bottom:0;left:0" />
-          </div>
-          <div class="card__content">
-            <div class="card__title">
+        </transition>
+        <ul class="cards">
+          <li class="cards__item" v-for="pool in extendpools" :key="pool.id">
+            <div class="card">
               <div
-                style="font-weight:800; display:inline-block; margin-right:4px;"
-              >{{pool.nickname}}</div>
-              <p
-                v-if="pool.isValid ===1"
-                style="display:inline-block; color:rgb(79, 245, 154); font-size:10px; text-align:right; margin-bottom:3px;"
-              >인증</p>
-              <p
-                v-else
-                style="display:inline-block; color:red;font-size:10px;text-align:right; margin-bottom:3px; "
-              >미인증</p>
+                v-if="pool.responsibility === '디자인'"
+                class="card__image card__image--designer"
+                style="position:relative"
+              >
+                <!-- <img class="avatar border-white" :src="urls(pool.id)" style="position:absolute;z-index:9;bottom:0;left:0" /> -->
+              </div>
               <div
-                style="padding-top:0px;margin-top:0px; font-size:10px; margin-bottom:16px;"
-              >{{pool.id}}</div>
-            </div>
+                v-if="pool.responsibility === '개발'"
+                class="card__image card__image--developer"
+                style="position:relative"
+              >
+                <!-- <img class="avatar border-white" :src="urls(pool.id)" style="position:absolute;z-index:1;bottom:0;left:0" /> -->
+              </div>
+              <div
+                v-if="pool.responsibility === '기획'"
+                class="card__image card__image--head"
+                style="position:relative"
+              >
+                <!-- <img class="avatar border-white" :src="urls(pool.id)" style="position:absolute;z-index:1;bottom:0;left:0" /> -->
+              </div>
+              <div class="card__content">
+                <div class="card__title">
+                  <div
+                    style="font-weight:800; display:inline-block; margin-right:4px;"
+                  >{{pool.nickname}}</div>
+                  <p
+                    v-if="pool.isValid ===1"
+                    style="display:inline-block; color:rgb(79, 245, 154); font-size:10px; text-align:right; margin-bottom:3px;"
+                  >인증</p>
+                  <p
+                    v-else
+                    style="display:inline-block; color:red;font-size:10px;text-align:right; margin-bottom:3px; "
+                  >미인증</p>
+                  <div
+                    style="padding-top:0px;margin-top:0px; font-size:10px; margin-bottom:16px;"
+                  >{{pool.id}}</div>
+                </div>
 
-            <p
-              class="card__text"
-              style="font-weight:bold; margin-bottom:4px;"
-            >{{pool.responsibility}}</p>
-            <div class="inter">
-              <div
-                v-for="(interest, idx) in pool.interest"
-                :key="idx"
-                style="margin:2px; display:inline-block"
-              >#{{interest.interest}},</div>
-              <div></div>
-            </div>
-            {{pool.intro}}
-            <hr />
-            <div style="font-size: 12px;">
-              <i class="fa fa-map-marker emo"></i>
-              {{pool.address2}}
-            </div>
+                <p
+                  class="card__text"
+                  style="font-weight:bold; margin-bottom:4px;"
+                >{{pool.responsibility}}</p>
+                <div class="inter">
+                  <div
+                    v-for="(interest, idx) in pool.interest"
+                    :key="idx"
+                    style="margin:2px; display:inline-block"
+                  >#{{interest.interest}},</div>
+                  <div></div>
+                </div>
+                {{pool.intro}}
+                <hr />
+                <div style="font-size: 12px;">
+                  <i class="fa fa-map-marker emo"></i>
+                  {{pool.address2}}
+                </div>
 
-            <div>
-              <!--  관심사로 사용하기
+                <div>
+                  <!--  관심사로 사용하기
                    <div v-for="(interest, idx) in pool.interest" :key="idx">
                     {{interest.interest}}
                     
                   </div>
-              -->
-              <!-- 수행한 프로젝트
+                  -->
+                  <!-- 수행한 프로젝트
                      <div v-for="(pjt, idx) in pool.project" :key="idx">
                     {{pjt.pid}}
                     
                     {{pjt.pjtName}}
                   </div>
-              -->
-            </div>
-
-            <div class="container-fluid">
-              <div class="row">
-                <div class="col-3" style="font-size:22px; text-align:center;">
-                  <i
-                    class="fa fa-github emo"
-                    v-b-tooltip.hover
-                    title="Github"
-                    v-if="pool.git != null"
-                  ></i>
-                </div>
-                <div class="col-3" style="font-size:22px; text-align:center;">
-                  <i
-                    class="fa fa-user-plus emo"
-                    v-b-tooltip.hover
-                    title="팔로우"
-                    v-if="!follow.find(item=>item.id === pool.id)"
-                    @click="fol(pool.id)"
-                  ></i>
-                  <!-- v-else로 친구라고 넘겨줘도 될듯 -->
-                </div>
-                <div class="col-3" style="font-size:22px; text-align:center;">
-                  <i
-                    class="fa fa-id-card emo"
-                    v-b-tooltip.hover
-                    title="프로필"
-                    @click="toProfile(pool.id)"
-                  ></i>
+                  -->
                 </div>
 
-                <div class="col-3" style="font-size:22px; text-align:center;">
-                  <div>
-                    <button
-                      v-b-modal="'test-'+pool.id"
-                      style="margin:0px; padding:0px; border:0; outline:0; font-size:22px; background-color:white;"
-                    >
-                      <i class="fa fa-tasks emo" v-b-tooltip.hover title="프로젝트 목록"></i>
-                    </button>
+                <div class="container-fluid">
+                  <div class="row">
+                    <div class="col-3" style="font-size:22px; text-align:center;">
+                      <i
+                        class="fa fa-github emo"
+                        v-b-tooltip.hover
+                        title="Github"
+                        v-if="pool.git != null"
+                      ></i>
+                    </div>
+                    <div class="col-3" style="font-size:22px; text-align:center;">
+                      <i
+                        class="fa fa-user-plus emo"
+                        v-b-tooltip.hover
+                        title="팔로우"
+                        v-if="!follow.find(item=>item.id === pool.id)"
+                        @click="fol(pool.id)"
+                      ></i>
+                      <!-- v-else로 친구라고 넘겨줘도 될듯 -->
+                    </div>
+                    <div class="col-3" style="font-size:22px; text-align:center;">
+                      <i
+                        class="fa fa-id-card emo"
+                        v-b-tooltip.hover
+                        title="프로필"
+                        @click="toProfile(pool.id)"
+                      ></i>
+                    </div>
 
-                    <b-modal :id="'test-'+pool.id" title="참여한 프로젝트 목록" hide-footer>
-                      <div v-if="pool.project != null">
-                        <div
-                          v-for="(pjt, idx) in pool.project"
-                          :key="idx"
-                          style="font-size:20px; font-weight:bold;"
+                    <div class="col-3" style="font-size:22px; text-align:center;">
+                      <div>
+                        <button
+                          v-b-modal="'test-'+pool.id"
+                          style="margin:0px; padding:0px; border:0; outline:0; font-size:22px; background-color:white;"
                         >
-                        <div class="card" >
-                          <div class="card-header" style="cursor:pointer;" >{{pjt.pjtName}}</div>
-                          <div class="card-body">
-                            <hr>
-                          <p>{{pjt.pjtContent}}</p>
-                          </div>
-                        </div>
-                        </div>
-                      </div>
-                      <div v-if="pool.projects == null">아직 참여한 프로젝트가 없습니다. 이번 기회에 함께 해보는건 어떨까요?</div>
-                    </b-modal>
-                  </div>
+                          <i class="fa fa-tasks emo" v-b-tooltip.hover title="프로젝트 목록"></i>
+                        </button>
 
-                  <!--  <i class="fa fa-tasks emo"></i> -->
+                        <b-modal :id="'test-'+pool.id" title="참여한 프로젝트 목록" hide-footer>
+                          <div v-if="pool.project != null">
+                            <div
+                              v-for="(pjt, idx) in pool.project"
+                              :key="idx"
+                              style="font-size:20px; font-weight:bold;"
+                            >
+                              <div class="card">
+                                <div class="card-header" style="cursor:pointer;">{{pjt.pjtName}}</div>
+                                <div class="card-body">
+                                  <hr />
+                                  <p>{{pjt.pjtContent}}</p>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div v-if="pool.projects == null">아직 참여한 프로젝트가 없습니다. 이번 기회에 함께 해보는건 어떨까요?</div>
+                        </b-modal>
+                      </div>
+
+                      <!--  <i class="fa fa-tasks emo"></i> -->
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-            <div>
-              <!--
+                <div>
+                  <!--
             <router-link
               :to="'/project/' + pool.id"
               tag="button"
@@ -328,18 +335,18 @@
               class="btn btn-success"
               @click="fol(pool.id)"
             >팔로우하기</button>
-              -->
-            </div>
-          </div>
-          <!--
+                  -->
+                </div>
+              </div>
+              <!--
       <b-btn v-b-toggle="'test-'+pool.id"  style="none;">
     Toggle Collapse
   </b-btn>
   <b-collapse :id="'test-'+pool.id" class="mt-2">
     오우오우오오우
   </b-collapse>
-          -->
-          <!--
+              -->
+              <!--
 <div>
   <b-button v-b-modal="'test-'+pool.id">Launch demo modal</b-button>
 
@@ -352,10 +359,12 @@
                   </div>
   </b-modal>
 </div>
-          -->
-        </div>
-      </li>
-    </ul>
+              -->
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -378,6 +387,7 @@ export default {
         "C++",
         "Java",
         "Python",
+        "C#",
         "Frontend",
         "Backend",
         "Spring",
@@ -449,8 +459,30 @@ export default {
   },
   methods: {
     urls(id) {
-      let url = this.$store.state.filestore.fileUrl + id +".png";
-      return url;
+      let url = this.$store.state.filestore.fileUrl + id;
+      http
+        .get(url + ".png")
+        .then((res) => {
+          url = url + ".png";
+          console.log(url);
+
+          return url;
+        })
+        .catch((e) => {
+          http
+            .get(url + ".jpg")
+            .then((res) => {
+              url = url + ".jpg";
+              console.log(url);
+
+              return url;
+            })
+            .catch((e) => {
+              url = this.$store.state.filestore.fileUrl + "default.png";
+              console.log(url);
+              return url;
+            });
+        });
     },
     fol: function (id) {
       this.$store.dispatch("follow", { target: id });

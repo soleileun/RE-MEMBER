@@ -21,13 +21,13 @@ const recruitstore = {
           "jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")
         }
       }
-      http.get('/api/recruit', config)
+      http.get('/api/recruit/selectAllRecruitPjtPinterest', config)
         .then(response => {
           // console.log(response)
           store.commit(Constant.GET_RECRUITLIST, {
             recruits: response.data
           })
-          
+
           // response.data.forEach(item => {
           //     console.log('실험중 : ' + item.pid);
           //     store.dispatch(Constant.GET_PROJECT, {
@@ -194,15 +194,31 @@ const recruitstore = {
         })
         .catch(exp => alert('풀리스트 반환 처리에 실패하였습니다.' + exp));
     },
-    // //댓글 클리어
-    // [Constant.CLEAR_COMMENT]: (store, payload) => {
-    //     http.delete('/api//' + 'java')
-    //         .then(() => {
-    //             // console.log('할일 목록을 삭제 처리하였습니다.');
-    //             // store.commit(Constant.CLEAR_TODO, { todoItems: [], todo: {} });
-    //         })
-    //         .catch(exp => alert('댓글 클리어 실패하였습니다.' + exp));
-    // },
+
+    [Constant.MODIFY_RECRUIT]: (store, payload) => {
+      // console.log(payload);
+      const config = {
+        headers: {
+          "jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")
+        }
+      }
+      http.put('/api/recruit/' + payload.rnum, {
+          rnum: payload.rnum,
+          // pid: this.recruit.rnum,
+          title: payload.title,
+          contents: payload.contents,
+          // endDate: this.recruit.endDate,
+          // makeDay: this.recruit.makeDay,
+          // changeDay: this.recruit.changeDay,
+          // makeId: this.loginId,
+          changeId: payload.changeId,
+        }, config)
+        .then(() => {
+          // console.log('수정하였습니다.'+ response.data);
+          alert('수정 완료하였습니다');
+        })
+        .catch(exp => alert('수정 처리에 실패하였습니다.' + exp));
+    },
 
 
 
@@ -216,7 +232,7 @@ const recruitstore = {
     [Constant.GET_RECRUIT]: (state, payload) => {
       state.recruit = payload.recruit;
     },
-   
+
   },
 
   modules: {}

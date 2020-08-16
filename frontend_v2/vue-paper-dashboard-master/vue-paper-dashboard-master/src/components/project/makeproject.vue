@@ -164,7 +164,6 @@ export default {
         "C++",
         "Java",
         "Python",
-        "C#",
         "Frontend",
         "Backend",
         "Spring",

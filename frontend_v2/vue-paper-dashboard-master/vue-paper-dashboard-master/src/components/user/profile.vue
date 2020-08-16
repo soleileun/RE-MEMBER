@@ -58,28 +58,10 @@ export default {
           if (response.data.length > 0) {
             this.content = response.data[0].bcontent;
             this.bno = response.data[0].bno;
-            this.$emit('bno',response.data[0].bno)
+            this.$emit("bno", response.data[0].bno);
             this.board.bview = response.data[0].bview;
           } else {
-            if (storage.getItem("userid").length > 0) {
-              this.$store.dispatch(Constant.ADD_BOARD, {
-                //bno : auto increase
-                // bwriter : this.board.bwriter, 임시로 ssafy foreign key때문
-                bwriter: storage.getItem("userid"),
-                btitle: this.board.btitle,
-                bcontent: "프로필 초기",
-                bview: this.board.bview,
-                bfile: this.board.bfile,
-                bstate: "profile",
-                makeDay: new Date(),
-                // changeDay : this.board.changeday,
-                makeId: this.board.makeid,
-                // changeId : this.board.changeid
-              });
-              setTimeout(() => {
-                this.$router.go();
-              }, 500);
-            }
+            alert("내 프로필을 로드하는데에 실패하였습니다." + exp);
           }
         })
         .catch((exp) =>

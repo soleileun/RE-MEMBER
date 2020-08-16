@@ -111,15 +111,15 @@ export default {
   visibility: visible;
   position: fixed;
   z-index: 99999;
-  top: 25vh;
+  top: 10%;
   left: 25vw;
   width: 50vw;
-  height: 60vh;
+  height: 500px;
   background-color: white;
   border: black 1.5px solid;
   i {
     position: fixed;
-    top: 29vh;
+    top: 13%;
     right: 28vw;
     width: 1rem;
     font-size: 1rem;

@@ -31,7 +31,7 @@ export default {
   data() {
     return {
       inters: [],
-      url: this.$store.state.filestore.fileUrl + this.userid,
+      url: this.$store.state.filestore.fileUrl + this.userid +".png",
     };
   },
   watch: {
