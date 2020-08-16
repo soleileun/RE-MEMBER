@@ -20,7 +20,7 @@
         <input type="file" id="ex_file" @change="previewFiles" accept="image/png" />
       </div>
       <p class="description text-center">
-        {{bno}} | {{userintro}}
+        {{userintro}}
         <br />
         <span style="color:red" v-if="userintro === '한 줄 자기소개를 입력해주세요'">개인정보 수정을 이용해 바꿔주세요</span>
       </p>
@@ -105,6 +105,9 @@ export default {
     previewFiles(event) {
       if (event.target.files[0]) {
         const fileName = window.localStorage.getItem("userid");
+        if (event.target.files[0].type!=='image/png'){
+          alert("확장자가 PNG인 파일만 업로드 가능합니다.")
+        }
         const file2 = new File(
           [event.target.files[0]],
           `${fileName}.${event.target.files[0].name.split(".")[1]}`,
@@ -112,14 +115,13 @@ export default {
             type: event.target.files[0].type,
           }
         );
-        console.log(file2);
-        // this.$store.dispatch("upFiledirect", {
-        //   file: file2,
-        //   bno: this.bno,
-        //   reload: true,
-        // });
-        // let url = this.$store.state.filestore.fileUrl + file2.name;
-        // this.url = url;
+        this.$store.dispatch("upFiledirect", {
+          file: file2,
+          bno: this.bno,
+          reload: true,
+        });
+        let url = this.$store.state.filestore.fileUrl + file2.name;
+        this.url = url;
       }
     },
     getClasses(index) {

@@ -1,6 +1,6 @@
 <template>
   <card class="signupform card">
-    <img class="spinner" src="@/assets/img/spinner.png" />
+    <img id="spinner" src="@/assets/img/spinner.png" />
     <div>
       <form @submit.prevent class="forms">
         <div class="row">
@@ -371,6 +371,7 @@ export default {
       if (!this.jungboks) {
         alert("아이디 중복조회를 하세요");
       } else if (this.submitable) {
+        document.querySelectorAll("#spinner")[0].classList.add("active");
         this.$store.dispatch("signup", {
           id: this.id,
           pw: this.pw,
@@ -393,10 +394,10 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-.spinner {
+#spinner {
   display: none;
 }
-.spinner.active {
+#spinner.active {
   display: block;
   position: fixed;
   z-index: 999;

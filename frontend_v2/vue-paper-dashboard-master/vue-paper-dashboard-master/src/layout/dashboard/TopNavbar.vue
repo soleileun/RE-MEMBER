@@ -11,7 +11,7 @@
         <ul class="navbar-nav ml-auto">
           <li class="nav-item card-user" v-if="userNick">
             <div style="margin-top:20px">
-              <img v-if="!hasProfile" class="avatar" :src="url" style="width:40px;height:40px"/>
+              <img v-if="!hasProfile" class="avatar" :src="url" style="width:40px;height:40px" />
             </div>
           </li>
           <drop-down class="nav-item" :title="userNick+'님'" title-classes="nav-link" v-if="userNick">
@@ -46,8 +46,8 @@ const storage = window.localStorage;
 import http from "../../http-common.js";
 export default {
   computed: {
-    hasProfile(){
-      return false
+    hasProfile() {
+      return false;
     },
     routeName() {
       const { name } = this.$route;
@@ -57,10 +57,28 @@ export default {
       return this.$store.state.userstore.userNick;
     },
   },
+  beforeUpdate() {
+    http
+      .get(this.$store.state.filestore.fileUrl +
+          storage.getItem("userid") +
+          ".png")
+      .then((res) => {
+        this.url =
+          this.$store.state.filestore.fileUrl +
+          storage.getItem("userid") +
+          ".png";
+      })
+      .catch(
+        (e) => (this.url = this.$store.state.filestore.fileUrl + "default.png")
+      );
+  },
   data() {
     return {
       activeNotifications: false,
-      url: this.$store.state.filestore.fileUrl + storage.getItem("userid") +".png",
+      url:
+        this.$store.state.filestore.fileUrl +
+        storage.getItem("userid") +
+        ".png",
     };
   },
   methods: {
