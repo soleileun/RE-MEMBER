@@ -13,6 +13,7 @@ import com.ssafy.test.model.dto.RecruitPjt;
 import com.ssafy.test.model.dto.RecruitPjtPinterest;
 import com.ssafy.test.model.dto.SearchParameter;
 import com.ssafy.test.model.dto.TagList;
+import com.ssafy.test.model.dto.Two;
 
 @Service
 public class RecruitServiceImpl implements RecruitService {
@@ -21,8 +22,8 @@ public class RecruitServiceImpl implements RecruitService {
 	RecruitDAO rDao;
 
 	@Override
-	public List<RecruitPjt> selectAll() {
-		return rDao.selectAll();
+	public List<RecruitPjt> selectAll(Two<Integer,Integer> v) {
+		return rDao.selectAll(v);
 	}
 
 	@Override
@@ -66,8 +67,8 @@ public class RecruitServiceImpl implements RecruitService {
 	}
 
 	@Override
-	public List<RecruitPjtPinterest> selectAllRecruitPjtPinterest() {
-		return rDao.selectAllRecruitPjtPinterest();
+	public List<RecruitPjtPinterest> selectAllRecruitPjtPinterest(Two<Integer,Integer> v) {
+		return rDao.selectAllRecruitPjtPinterest(v);
 	}
 
 }

@@ -7,6 +7,31 @@ public class TagList {
 	private String tag4;
 	private String tag5;
 	private int cnt;
+	private int paging;
+	private int pcnt;
+	public TagList(String tag1, String tag2, String tag3, String tag4, String tag5, int cnt, int paging, int pcnt) {
+		super();
+		this.tag1 = tag1;
+		this.tag2 = tag2;
+		this.tag3 = tag3;
+		this.tag4 = tag4;
+		this.tag5 = tag5;
+		this.cnt = cnt;
+		this.paging = paging;
+		this.pcnt = pcnt;
+	}
+	public int getPaging() {
+		return paging;
+	}
+	public void setPaging(int paging) {
+		this.paging = paging;
+	}
+	public int getPcnt() {
+		return pcnt;
+	}
+	public void setPcnt(int pcnt) {
+		this.pcnt = pcnt;
+	}
 	public TagList(String tag1, String tag2, String tag3, String tag4, String tag5, int cnt) {
 		//super();
 		this.tag1 = tag1;

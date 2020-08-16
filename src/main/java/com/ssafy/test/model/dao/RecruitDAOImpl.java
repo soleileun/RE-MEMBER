@@ -13,6 +13,7 @@ import com.ssafy.test.model.dto.RecruitPjt;
 import com.ssafy.test.model.dto.RecruitPjtPinterest;
 import com.ssafy.test.model.dto.SearchParameter;
 import com.ssafy.test.model.dto.TagList;
+import com.ssafy.test.model.dto.Two;
 
 @Repository
 public class RecruitDAOImpl implements RecruitDAO {
@@ -23,9 +24,9 @@ public class RecruitDAOImpl implements RecruitDAO {
 	SqlSessionTemplate template;
 
 	@Override
-	public List<RecruitPjt> selectAll() {
+	public List<RecruitPjt> selectAll(Two<Integer,Integer> v) {
 
-		return template.selectList(ns + "selectAll");
+		return template.selectList(ns + "selectAll",v);
 	}
 
 	@Override
@@ -101,8 +102,8 @@ public class RecruitDAOImpl implements RecruitDAO {
 	}
 
 	@Override
-	public List<RecruitPjtPinterest> selectAllRecruitPjtPinterest() {
-		return template.selectList(ns + "selectAllRecruitPjtPinterest");
+	public List<RecruitPjtPinterest> selectAllRecruitPjtPinterest(Two<Integer,Integer> v) {
+		return template.selectList(ns + "selectAllRecruitPjtPinterest",v);
 	}
 
 }

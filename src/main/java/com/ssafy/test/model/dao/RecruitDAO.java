@@ -9,9 +9,10 @@ import com.ssafy.test.model.dto.RecruitPjt;
 import com.ssafy.test.model.dto.RecruitPjtPinterest;
 import com.ssafy.test.model.dto.SearchParameter;
 import com.ssafy.test.model.dto.TagList;
+import com.ssafy.test.model.dto.Two;
 
 public interface RecruitDAO {
-	public List<RecruitPjt> selectAll();
+	public List<RecruitPjt> selectAll(Two<Integer,Integer> v);
 
 	public Recruit select(int rnum);
 
@@ -29,5 +30,5 @@ public interface RecruitDAO {
 	
 	public List<RecruitPjtPinterest> searchAll(SearchParameter sp);
 	
-	public List<RecruitPjtPinterest> selectAllRecruitPjtPinterest();
+	public List<RecruitPjtPinterest> selectAllRecruitPjtPinterest(Two<Integer,Integer> v);
 }

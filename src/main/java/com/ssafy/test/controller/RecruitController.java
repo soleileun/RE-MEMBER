@@ -27,6 +27,7 @@ import com.ssafy.test.model.dto.RecruitPjt;
 import com.ssafy.test.model.dto.RecruitPjtPinterest;
 import com.ssafy.test.model.dto.SearchParameter;
 import com.ssafy.test.model.dto.TagList;
+import com.ssafy.test.model.dto.Two;
 import com.ssafy.test.model.dto.Usertag;
 import com.ssafy.test.model.service.InterestService;
 import com.ssafy.test.model.service.PinterestService;
@@ -51,10 +52,11 @@ public class RecruitController {
 	private PinterestService piService;
 
 	@ApiOperation(value = "모든 구인구직 게시판의 정보를 반환한다.", response = List.class)
-	@GetMapping
-	public ResponseEntity<List<RecruitPjt>> retrieveBoard() throws Exception {
+	@GetMapping("/all/{paging}&cnt={cnt}")
+	public ResponseEntity<List<RecruitPjt>> retrieveBoard(@PathVariable int paging, @PathVariable int cnt) throws Exception {
+		   Two<Integer, Integer> two = new Two<Integer,Integer>(paging, cnt);
 
-		List<RecruitPjt> v = rService.selectAll();
+		List<RecruitPjt> v = rService.selectAll(two);
 
 		for (int i = 0; i < v.size(); i++) {
 			int result = new Date().compareTo(v.get(i).getEndDate());
@@ -75,9 +77,10 @@ public class RecruitController {
 	}
 	
 	@ApiOperation(value = "모든 구인구직 게시판의 정보를 pjtName과 pinterest도 함께 반환한다.", response = List.class)
-	@GetMapping("/selectAllRecruitPjtPinterest")
-	public ResponseEntity<List<RecruitPjtPinterest>> selectAllRecruitPjtPinterest() throws Exception {
-		List<RecruitPjtPinterest> original = rService.selectAllRecruitPjtPinterest();
+	@GetMapping("/selectAllRecruitPjtPinterest/{paging}&cnt={cnt}")
+	public ResponseEntity<List<RecruitPjtPinterest>> selectAllRecruitPjtPinterest(@PathVariable int paging, @PathVariable int cnt) throws Exception {
+		Two<Integer, Integer> two = new Two<Integer,Integer>(paging, cnt);
+		List<RecruitPjtPinterest> original = rService.selectAllRecruitPjtPinterest(two);
 		List<RecruitPjtPinterest> ret = new ArrayList<RecruitPjtPinterest>();
 		int len = original.size();
 		// 원본 리스트에서 rnum이 겹치는 부분은 pinterest를 "",""로 합치기
@@ -109,7 +112,7 @@ public class RecruitController {
 		}
 		return new ResponseEntity<List<RecruitPjtPinterest>>(ret, HttpStatus.OK);
 	}
-
+/*
 	@ApiOperation(value = "모든 구인구직 게시판의 정보를 소팅해서 반환한다.", response = List.class)
 	@GetMapping("/sorting/{id}")
 	public ResponseEntity<List<RecruitPjt>> retrieveBoard(@PathVariable String id) throws Exception {
@@ -141,22 +144,26 @@ public class RecruitController {
 
 		return new ResponseEntity<List<RecruitPjt>>(rService.selectAll(), HttpStatus.OK);
 	}
-
+*/
 	@ApiOperation(value = "해당 지역에 거주하는 게시판의 정보를 반환한다..", response = List.class)
-	@GetMapping("/addr/sido={sido}&gugun={gugun}&dong={dong}")
+	@GetMapping("/addr/sido={sido}&gugun={gugun}&dong={dong}/{paging}&cnt={cnt}")
 	public ResponseEntity<List<Recruit>> selectByAddr(@PathVariable String sido, @PathVariable String gugun,
-			@PathVariable String dong) throws Exception {
+			@PathVariable String dong,@PathVariable int paging, @PathVariable int cnt) throws Exception {
 		Addr v = new Addr();
 		v.setDong(dong);
 		v.setGugun(gugun);
 		v.setSido(sido);
+		v.setPcnt(cnt);
+		v.setPaging(paging);
 		return new ResponseEntity<List<Recruit>>(rService.selectByAddr(v), HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "완전히 일치하는 유저의 id를 반환한다.", response = Usertag.class)
-	@GetMapping("selectSame/{tag}")
-	public ResponseEntity<List<Recruit>> selectSame(@PathVariable String tag) {
+	@GetMapping("selectSame/{tag}/{paging}&cnt={cnt}")
+	public ResponseEntity<List<Recruit>> selectSame(@PathVariable String tag,@PathVariable int paging, @PathVariable int cnt) {
 		TagList v = new TagList();
+		v.setPcnt(cnt);
+		v.setPaging(paging);
 		String a[] = tag.split(",");
 		int b = a.length;
 		if (a.length > 0)
@@ -176,9 +183,11 @@ public class RecruitController {
 	}
 
 	@ApiOperation(value = "태그와 주소 혼합해서 검색하는 것.", response = Usertag.class)
-	@GetMapping("selectAddrAndTag/tag={tag}&addr={addr}")
-	public ResponseEntity<List<Recruit>> selectAddrAndTag(@PathVariable String tag, @PathVariable String addr) {
+	@GetMapping("selectAddrAndTag/tag={tag}&addr={addr}/{paging}&cnt={cnt}")
+	public ResponseEntity<List<Recruit>> selectAddrAndTag(@PathVariable String tag, @PathVariable String addr,@PathVariable int paging, @PathVariable int cnt) {
 		AddrAndTag v = new AddrAndTag();
+		v.setPcnt(cnt);
+		v.setPaging(paging);
 		String b[] = addr.split(",");
 		if (tag == null) {
 			v.setDong(b[0]);
