@@ -47,17 +47,30 @@
       <!-- ============================================================== -->
       <!-- Start Page Content -->
       <!-- ============================================================== -->
-      <!-- <div class="row">
-        column 
+      <div class="row">
+        <!-- column  -->
         <div class="col-12">
           <div class="card">
             <div class="card-body">
               <h4 class="card-title">자유게시판</h4>
-              
-                <h6 class="card-subtitle">Add class <code>.table</code></h6>
+               <div class="col-1">
+                <select id="showcnt" @change="changeShowCnt">
+                  <option value="5">5개씩 보기</option>
+                  <option value="10" selected>10개씩 보기</option>
+                  <option value="20">20개씩 보기</option>
+                </select>
+              </div>
+               <div class="container">
+                <div class="row">
+                  <div class="col text-right btndiv">
+                    <button class="btn btn-primary" @click="towrite">글쓰기</button>
+                  </div>
+                </div>
+              </div>
+                <!-- <h6 class="card-subtitle">Add class <code>.table</code></h6> -->
               
               <div class="table-responsive">
-                <table class="table">
+                <table class="table overflow-auto">
                   <thead>
                     <tr>
                        <th style="width:2%;">No</th> 
@@ -68,35 +81,38 @@
                       <th>작성일</th>
                     </tr>
                   </thead>
-                  <tbody>
-                    <tr v-for="free in frees" :key="free.bno">
+                  <tbody id="boardpage">
+                    <tr v-for="(free,index) in frees.slice(this.perPage*(currentPage-1),perPage*(currentPage))" :key="index">
                       <td>{{free.bno}}</td>  
                       <td>자유</td>
-                       bno 쿼리스트링 달아서 분기  
+                       <!-- bno 쿼리스트링 달아서 분기   -->
                       <td style="text-align:left;">
-                        <router-link :to="'/freeboard/detailfree/' + free.bno">{{free.btitle}}</router-link>
+                        <router-link :to="'/freeboard/detailfree/' + free.bno + '/' + type">{{free.btitle}}</router-link>
                       </td>
-                      <td>{{free.bwriter}}</td>
+                      <td><router-link :to="'/profile/' + free.bwriter">{{free.bwriter}}</router-link></td>
                       <td>{{free.bview}}</td>
                       <td>{{free.makeDay.slice(0,10)}}</td>
                     </tr>
                   </tbody>
                 </table>
+                 <b-pagination
+                  v-model="currentPage"
+                  :total-rows="rows"
+                  :per-page="perPage"
+                  aria-controls="boardpage"
+                  align="center"
+                ></b-pagination>
               </div>
             </div>
           </div>
 
-          <div class="container">
-            <div class="row">
-              <div class="col text-right btndiv">
-                <button class="btn btn-primary" @click="towrite">글쓰기</button>
-              </div>
-            </div>
-          </div>
         </div>
-      </div>-->
-      <div class="row">
-        <!-- column -->
+      </div>
+
+<!-- ////////////////b-table 사용한거 //////////////// -->
+
+      <!-- <div class="row">
+        column
         <div class="col-12">
           <div class="card">
             <div class="card-body">
@@ -152,7 +168,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
 
       <!-- ============================================================== -->
       <!-- End PAge Content -->
@@ -193,38 +209,38 @@ export default {
     return {
       perPage: 10,
       currentPage: 1,
-      fields: [
-        {
-          key: "bstate",
-          label: "종류",
-          // sortable: true,
-        },
-        // {
-        //   key: "bno",
-        //   label: "번호",
-        //   // sortable: true,
-        // },
-        {
-          key: "btitle",
-          label: "제목",
-          // sortable: true,
-        },
-        {
-          key: "bwriter",
-          label: "ID",
-          // sortable: true,
-        },
-        {
-          key: "bview",
-          label: "조회수",
-          // sortable: true,
-        },
-        {
-          key: "makeDay",
-          label: "작성일",
-          // sortable: true,
-        },
-      ],
+      // fields: [
+      //   {
+      //     key: "bstate",
+      //     label: "종류",
+      //     // sortable: true,
+      //   },
+      //   // {
+      //   //   key: "bno",
+      //   //   label: "번호",
+      //   //   // sortable: true,
+      //   // },
+      //   {
+      //     key: "btitle",
+      //     label: "제목",
+      //     // sortable: true,
+      //   },
+      //   {
+      //     key: "bwriter",
+      //     label: "ID",
+      //     // sortable: true,
+      //   },
+      //   {
+      //     key: "bview",
+      //     label: "조회수",
+      //     // sortable: true,
+      //   },
+      //   {
+      //     key: "makeDay",
+      //     label: "작성일",
+      //     // sortable: true,
+      //   },
+      // ],
     };
   },
   computed: {
