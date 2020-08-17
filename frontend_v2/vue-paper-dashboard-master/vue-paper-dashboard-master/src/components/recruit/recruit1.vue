@@ -1,5 +1,5 @@
 <template>
-  <div class="recruit1">
+ <div class="recruit1">
     <h1>모집게시판 샘플</h1>
     <hr />
 
@@ -132,7 +132,7 @@
     <button id="myBtn" @click="openModal">구인글 등록</button>
 
     <!-- The Modal -->
-    <div class="modal" id="myModal">
+    <div class="modal" id="momo">
       <div class="modal-content">
         <span class="close">&times;</span>
         <div class="row">
@@ -243,6 +243,7 @@
     <button v-on:click="searchRecruit">검색</button>-->
     
   </div>
+
 </template>
 
 <script>
@@ -360,7 +361,7 @@ export default {
     
     openModal() {
       // Get the modal
-      var modal = document.getElementById("myModal");
+      var modal = document.getElementById("momo");
 
       // Get the <span> element that closes the modal
       var span = document.getElementsByClassName("close")[0];
@@ -399,7 +400,7 @@ export default {
 
         
 
-        var modal = document.getElementById("myModal");
+        var modal = document.getElementById("momo");
         modal.style.display = "none";
         // this.$router.push("/recruit/recruit1");
       } else {
@@ -540,7 +541,7 @@ export default {
   left: 0;
   top: 0;
   width: 100%; /* Full width */
-  height: 100%; /* Full height */
+  height: 100vh; /* Full height */
   overflow: auto; /* Enable scroll if needed */
   background-color: rgb(0, 0, 0); /* Fallback color */
   background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
@@ -549,7 +550,7 @@ export default {
 /* Modal Content/Box */
 .modal-content {
   background-color: #fefefe;
-  margin: 15% auto; /* 15% from the top and centered */
+  margin: 5% auto; /* 15% from the top and centered */
   padding: 20px;
   border: 1px solid #888;
   width: 50%; /* Could be more or less, depending on screen size */

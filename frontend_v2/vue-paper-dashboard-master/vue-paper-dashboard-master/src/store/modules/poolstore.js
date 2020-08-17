@@ -14,18 +14,18 @@ const poolstore = {
  
   actions: {
 
-    [Constant.GET_POOLLIST]: (store) => {
-      http.get('/api/userinfo/getCurrList')
-          .then(response => {
-            // console.log(response)
-              store.commit(Constant.GET_POOLLIST, { pools: response.data })
-        })
-          .catch(exp => alert('getPoolList처리에 실패하였습니다!.' + exp));
-    },
+    // [Constant.GET_POOLLIST]: (store) => {
+    //   http.get('/api/userinfo/getCurrList')
+    //       .then(response => {
+    //         // console.log(response)
+    //           store.commit(Constant.GET_POOLLIST, { pools: response.data })
+    //     })
+    //       .catch(exp => alert('getPoolList처리에 실패하였습니다!.' + exp));
+    // },
     [Constant.GET_EXTENDPOOLLIST]: (store) => {
       http.get('/api/userinfo/pools')
           .then(response => {
-            // console.log(response)
+            console.log("지금 온 내용 :" +response.data)
               store.commit(Constant.GET_EXTENDPOOLLIST, { extendpools: response.data })
         })
           .catch(exp => alert('getExtendPoolList처리에 실패하였습니다!.' + exp));
@@ -101,10 +101,10 @@ const poolstore = {
   },
 
   mutations: {
-    [Constant.GET_POOLLIST]: (state, payload) => {
-        console.log('mutation' + payload.pools);
-        state.pools = payload.pools.filter(item=>item.responsibility!=="admin");
-    },
+    // [Constant.GET_POOLLIST]: (state, payload) => {
+    //     console.log('mutation' + payload.pools);
+    //     state.pools = payload.pools.filter(item=>item.responsibility!=="admin");
+    // },
     [Constant.GET_EXTENDPOOLLIST]: (state, payload) => {
       console.log('mutation' + payload.extendpools);
       state.extendpools = payload.extendpools;

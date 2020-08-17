@@ -13,7 +13,9 @@ import com.ssafy.test.model.dto.Two;
 
 public interface RecruitService {
 
-	public List<RecruitPjt> selectAll(Two<Integer,Integer> v);
+	public List<RecruitPjt> selectAll();
+
+	public List<RecruitPjt> selectAllLater(Two<Integer,Integer> v);
 
 	public Recruit select(int rnum);
 
@@ -31,5 +33,7 @@ public interface RecruitService {
 	
 	public List<RecruitPjtPinterest> searchAll(SearchParameter sp);
 	
-	public List<RecruitPjtPinterest> selectAllRecruitPjtPinterest(Two<Integer,Integer> v);
+	public List<RecruitPjtPinterest> selectAllRecruitPjtPinterest();
+	
+	public List<RecruitPjtPinterest> selectAllRecruitPjtPinterestLimit(Two<Integer,Integer> v);
 }
