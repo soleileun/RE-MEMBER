@@ -23,11 +23,11 @@ public class Pools {
 	
 	private List<PidPjt> project;
 	private List<Inter> interest;
-	private List<String> repository;
+	private List<Two<String,String>> repository;
 	
 	public Pools(String id, String nickname, String name, String address2, String git, Date lastDate, boolean state,
 			String responsibility, boolean isValid, boolean leaveUser, String intro, String projects, String interests,
-			List<PidPjt> project, List<Inter> interest, List<String> repository) {
+			List<PidPjt> project, List<Inter> interest, List<Two<String,String>> repository) {
 		super();
 		this.id = id;
 		this.nickname = nickname;
@@ -46,10 +46,10 @@ public class Pools {
 		this.interest = interest;
 		this.repository = repository;
 	}
-	public List<String> getRepository() {
+	public List<Two<String,String>> getRepository() {
 		return repository;
 	}
-	public void setRepository(List<String> repository) {
+	public void setRepository(List<Two<String,String>> repository) {
 		this.repository = repository;
 	}
 	public Pools(String id, String nickname, String name, String address2, String git, Date lastDate, boolean state,

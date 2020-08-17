@@ -19,6 +19,7 @@ import App from "./App";
 import router from "./router/index";
 import store from '@/store/index.js'
 import BootstrapVue from 'bootstrap-vue'
+import GAuth from 'vue-google-oauth2'
 
 import PaperDashboard from "./plugins/paperDashboard";
 import "vue-notifyjs/themes/default.css";
@@ -33,13 +34,18 @@ Vue.use(BootstrapVue);
 
 // dragula
 Vue.use(VueDraggable);
+Vue.use(GAuth, {
+  clientId: '1037334804608-n8oulm1omlcln4r870bbckk31n09nifi.apps.googleusercontent.com',
+  scope: 'profile email https://www.googleapis.com/auth/plus.login'
+})
+
 
 
 
 
 /* eslint-disable no-new */
 new Vue({
-    router,
-    store,
-    render: h => h(App)
+  router,
+  store,
+  render: h => h(App)
 }).$mount("#app");

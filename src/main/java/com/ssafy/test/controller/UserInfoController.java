@@ -2,6 +2,8 @@ package com.ssafy.test.controller;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -11,6 +13,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.mail.MessagingException;
+import javax.net.ssl.HttpsURLConnection;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -54,6 +57,8 @@ import com.ssafy.test.model.service.PmemberService;
 import com.ssafy.test.model.service.ProjectService;
 import com.ssafy.test.model.service.UserInfoService;
 
+import org.jsoup.Connection;
+import org.jsoup.Connection.Response;
 //jsoup part
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -62,11 +67,16 @@ import org.jsoup.select.Elements;
 
 import io.swagger.annotations.ApiOperation;
 
+
 //http://localhost:9999/vue/swagger-ui.html
 @CrossOrigin(origins = { "*" }, maxAge = 6000)
 @RestController
 @RequestMapping("/api/userinfo")
 public class UserInfoController {
+	
+	
+	
+	
 
    private static final Logger logger = LoggerFactory.getLogger(UserInfoController.class);
    private static final String SUCCESS = "success";
@@ -98,7 +108,11 @@ public class UserInfoController {
    @ApiOperation(value = "유저풀에서 사용", response = List.class)
    @GetMapping("pools/{paging}&cnt={cnt}")
    public ResponseEntity<List<Pools>> getPools(@PathVariable int paging, @PathVariable int cnt) throws Exception {
-	   Two<Integer, Integer> two = new Two<Integer,Integer>(paging, cnt);
+	   Two<Integer, Integer> two = new Two<Integer,Integer>();
+	   two.setFirst(paging * cnt);
+	   two.setSecond(cnt);
+	   System.out.println("first : " + two.getFirst());
+	   System.out.println("second : " + two.getSecond());
       List<Pools> v = uiService.getPools(two);
       for (int i = 0; i < v.size(); i++) {
          List<PidPjt> ptmp = new ArrayList<PidPjt>();
@@ -135,21 +149,38 @@ public class UserInfoController {
             }
          }
          
-         
-         /*
+         // 너무 오래 걸림. 각각 호출하도록 바꿔야할듯.
+         /* 
          if (v.get(i).getGit() != null) {
             
             try {
                // 웹에서 내용을 가져온다.
-               Document doc = Jsoup.connect("https://github.com/" + v.get(i).getGit() + "?tab=repositories").get();
+            	int status =  Jsoup.connect("https://github.com/" + v.get(i).getGit() + "?tab=repositories").ignoreHttpErrors(true).execute().statusCode();
+            	//int status =  Jsoup.connect("https://github.com/kyhoon001" + "?tab=repositories").ignoreHttpErrors(true).execute().statusCode();
+            	if(status == 200) {
+            		System.out.println("정상쓰");
+            		List<Two<String,String>> rtmp = new ArrayList<Two<String,String>>();
+            		
+            		Document doc = Jsoup.connect("https://github.com/" + v.get(i).getGit() + "?tab=repositories").get();
                // 내용 중에서 원하는 부분을 가져온다.
-               Elements contents = doc.select(".wb-break-all a");
+            		Elements contents = doc.select(".wb-break-all a");
                // 원하는 부분은 Elements형태로 되어 있으므로 이를 String 형태로 바꾸어 준다.
-               String text = contents.text();
-               String[] reposit = text.split(" ");
-               for (int j = 0; j < reposit.length; j++)
-                  v.get(i).getRepository().add(reposit[j]);
+            		String text = contents.text();
+            		String[] reposit = text.split(" ");
+            		//System.out.println("스플릿까지 했음");
+            		//System.out.println("text : " + text);
+            		//System.out.println("resposit : " + reposit[0]);
+               for (int j = 0; j < reposit.length; j++) {
+           			Two<String,String> r = new Two<String,String>();
+            	   System.out.println(j + " 번째 추가 : " + reposit[j]);
+            	   r.setFirst(reposit[j]);
+            	   r.setSecond("https://github.com/" +  v.get(i).getGit() +'/' + reposit[j]);
+            	   rtmp.add(r);
+            	   //v.get(i).getRepository().add(reposit[j]);
+               }
+               v.get(i).setRepository(rtmp);
                // System.out.println("reposit" + i + " : " + reposit[i]);
+            	}
             } catch (IOException e) { // Jsoup의 connect 부분에서 IOException 오류가 날 수 있으므로 사용한다.
                e.printStackTrace();
                System.out.println("에러 떴다");
@@ -176,7 +207,7 @@ public class UserInfoController {
    public ResponseEntity<List<Pools>> search(@PathVariable String tag, @PathVariable String addr,
          @PathVariable String keyword,@PathVariable int paging,@PathVariable int cnt) {
       SearchParameter sp = new SearchParameter();
-      sp.setPaging(paging);
+      sp.setPaging(paging* cnt);
       sp.setPcnt(cnt);
       String b[] = addr.split(",");
       if (tag.equals("null")) {

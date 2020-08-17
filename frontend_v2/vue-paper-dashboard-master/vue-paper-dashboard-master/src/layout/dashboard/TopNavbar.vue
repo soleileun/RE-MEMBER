@@ -11,9 +11,10 @@
         <ul class="navbar-nav ml-auto">
           <li class="nav-item card-user" v-if="userNick">
             <div style="margin-top:20px">
-              <img v-if="!hasProfile" class="avatar" :src="url" style="width:40px;height:40px"/>
+              <img v-if="!hasProfile" class="avatar" :src="url" style="width:40px;height:40px" />
             </div>
           </li>
+          {{abc()}}
           <drop-down class="nav-item" :title="userNick+'님'" title-classes="nav-link" v-if="userNick">
             <router-link to="/mypage" class="nav-link">
               <i class="ti-user"></i>
@@ -44,10 +45,11 @@
 <script>
 const storage = window.localStorage;
 import http from "../../http-common.js";
+import JWT from 'jwt-decode';
 export default {
   computed: {
-    hasProfile(){
-      return false
+    hasProfile() {
+      return false;
     },
     routeName() {
       const { name } = this.$route;
@@ -57,13 +59,34 @@ export default {
       return this.$store.state.userstore.userNick;
     },
   },
+  beforeUpdate() {
+    http
+      .get(this.$store.state.filestore.fileUrl +
+          storage.getItem("userid") +
+          ".png")
+      .then((res) => {
+        this.url =
+          this.$store.state.filestore.fileUrl +
+          storage.getItem("userid") +
+          ".png";
+      })
+      .catch(
+        (e) => (this.url = this.$store.state.filestore.fileUrl + "default.png")
+      );
+  },
   data() {
     return {
       activeNotifications: false,
-      url: this.$store.state.filestore.fileUrl + storage.getItem("userid") +".png",
+      url:
+        this.$store.state.filestore.fileUrl +
+        storage.getItem("userid") +
+        ".png",
     };
   },
   methods: {
+    abc(){
+      return JWT("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoi7Zmp7IiY7ZiEIiwiYWRtaW4iOiJmYWxzZSIsIlVzZXJfSUQiOjE0Mzg0NDQzODZ9.QgzlVW7DrjwN5NvYtSYLgXF8z0moSN_j4WYY_pl_XmY")
+    },
     login() {
       document.querySelector(".login").classList.remove("active");
       document.querySelector(".login").classList.add("active");

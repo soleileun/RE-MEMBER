@@ -23,14 +23,11 @@
             </div>
           </div>
           <div class="row row--top-20">
-            <div class="col-md-12">
+            <div class="col-md-12 text-center">
               <div class="table-container">
                 <table class="table">
                   <thead class="table__thead">
                     <tr>
-                      <th class="table__th">
-                        <input id="selectAll" type="checkbox" class="table__select-row" />
-                      </th>
                       <th class="table__th">제목</th>
                       <th class="table__th">게시인</th>
                       <th class="table__th">프로젝트명</th>

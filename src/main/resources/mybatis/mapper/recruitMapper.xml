@@ -11,7 +11,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	 -->
 	
-	<select id="selectAll" resultType="recruitpjt">
+	<select id="selectAll" parameterType="two" resultType="recruitpjt">
+	<!-- 
 	select a.rnum,a.pid, a.title,a.contents,a.endDate,a.makeDay,a.changeDay,a.makeId,a.changeId, a.pjtName, b.cnt, b.pjtMemberCnt
 	from
 	(
@@ -29,16 +30,53 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		) as a
 		where a.pid = project.pid
 	) as b
-	where a.pid = b.pid;
+	where a.pid = b.pid
+	order by a.rnum desc;
+	-->
+			select a.*, b.cnt
+        from
+        (
+		select a.cnt, a.pid, pjtMemberCnt
+		from project,
+		(
+			select count(*) as cnt, pid
+			from pmember
+			group by pid
+		) as a
+		where a.pid = project.pid
+        ) as b,
+(
+select r.rnum, r.pid, r.title, r.contents, r.endDate, r.makeDay, r.changeDay, r.makeId, r.changeId, p.pjtName, pi.interest
+ 		from recruit as r left join project as p
+ 		on r.pid = p.pid
+ 		left join pinterest as pi
+ 		on r.pid = pi.pid
+        ) as a
+        where a.pid = b.pid
+		order by a.rnum desc
+		limit #{first}, #{second};
 	</select>
 	
-	<select id="selectAllRecruitPjtPinterest" resultType="recruitpjtpinterest">
+	<select id="selectAllRecruitPjtPinterest" parameterType="two" resultType="recruitpjtpinterest">
+	
+		select b
+		
+		select a.cnt, a.pid, pjtMemberCnt
+		from project,
+		(
+			select count(*) as cnt, pid
+			from pmember
+			group by pid
+		) as a
+	
 		select r.rnum, r.pid, r.title, r.contents, r.endDate, r.makeDay, r.changeDay, r.makeId, r.changeId, p.pjtName, pi.interest
  		from recruit as r left join project as p
  		on r.pid = p.pid
  		left join pinterest as pi
  		on r.pid = pi.pid
- 		order by rnum;
+		order by r.rnum desc
+		limit #{first}, #{second};
+		
 	</select>
 
 	<select id="selectByAddr" resultType="recruitpjtpinterest"
@@ -53,7 +91,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where p.location like
 		CONCAT('%',#{sido},'%')
 		and p.location like CONCAT('%',#{gugun},'%')
-		and p.location like CONCAT('%',#{dong},'%');
+		and p.location like CONCAT('%',#{dong},'%')
+		order by r.rnum desc
+        limit #{paging}, #{pcnt};
 
 	</select>
 	
@@ -71,6 +111,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		and p.location like CONCAT('%',#{gugun},'%')
 		and p.location like CONCAT('%',#{dong},'%')
 		and r.makeId like CONCAT('%', #{keyword}, '%')
+        limit #{paging}, #{pcnt}
+		order by r.rnum desc
         limit #{paging}, #{pcnt};
 
 	</select>
@@ -89,6 +131,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		and p.location like CONCAT('%',#{gugun},'%')
 		and p.location like CONCAT('%',#{dong},'%')
 		and r.title like CONCAT('%', #{keyword}, '%')
+        limit #{paging}, #{pcnt}
+		order by r.rnum desc
         limit #{paging}, #{pcnt};
 
 	</select>
@@ -119,6 +163,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		having
 		count(interest) >= #{cnt}
 		)
+        limit #{paging}, #{pcnt}
+		order by r.rnum desc
         limit #{paging}, #{pcnt};
 	</select>
 
@@ -153,6 +199,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		having
 		count(interest) >= #{cnt}
 		)
+        limit #{paging}, #{pcnt}
+		order by r.rnum desc
         limit #{paging}, #{pcnt};
 	</select>
 
@@ -170,7 +218,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		group by pid
 		having
 		count(interest) >= #{cnt}
-		);
+		)
+        limit #{paging}, #{pcnt};
+		
 
 	</select>
 	
@@ -199,6 +249,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		having
 		count(interest) >= #{cnt}
 		)
+        limit #{paging}, #{pcnt}
+		order by r.rnum desc
         limit #{paging}, #{pcnt};
 
 	</select>

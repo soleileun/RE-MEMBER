@@ -5,6 +5,30 @@ public class Addr {
 	private String sido;
 	private String gugun;
 	private String dong;
+	private int paging;
+	private int pcnt;
+
+	public Addr(int anum, String sido, String gugun, String dong, int paging, int pcnt) {
+		super();
+		this.anum = anum;
+		this.sido = sido;
+		this.gugun = gugun;
+		this.dong = dong;
+		this.paging = paging;
+		this.pcnt = pcnt;
+	}
+	public int getPaging() {
+		return paging;
+	}
+	public void setPaging(int paging) {
+		this.paging = paging;
+	}
+	public int getPcnt() {
+		return pcnt;
+	}
+	public void setPcnt(int pcnt) {
+		this.pcnt = pcnt;
+	}
 	public Addr() {
 		super();
 	}
