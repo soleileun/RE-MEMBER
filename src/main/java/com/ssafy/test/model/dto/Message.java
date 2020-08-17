@@ -69,6 +69,15 @@ public class Message {
 		this.isRead = isRead;
 	}
 
+	public Message(String toUser, String fromUser, String content, Date time, boolean isRead) {
+		super();
+		this.toUser = toUser;
+		this.fromUser = fromUser;
+		this.content = content;
+		this.time = time;
+		this.isRead = isRead;
+	}
+
 	public Message() {
 	}
 

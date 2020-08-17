@@ -167,29 +167,86 @@
       </li>
     </ul>
     -->
-    <ul class="cards">
-      <li class="cards__item" v-for="pool in extendpools" :key="pool.id">
+    <select id="showcnt" @change="changeShowCnt">
+      <option value="8" selected>8개씩 보기</option>
+      <option value="12">12개씩 보기</option>
+      <option value="16">16개씩 보기</option>
+    </select>
+    <!-- 여기서 -->
+    <!-- <div class="overflow-auto table-responsive">
+      <b-table
+        class="table"
+        id="my-table"
+        :items="frees"
+        :per-page="perPage"
+        :current-page="currentPage"
+        small
+        :fields="fields"
+      >
+        <template v-slot:cell(bstate)="data">
+          <div v-if="data.item.bstate == 'free'">자유</div>
+          <div v-if="data.item.bstate == 'notice'">공지</div>
+          <div v-if="data.item.bstate == 'qa'">질문</div>
+        </template>
+        <template v-slot:cell(btitle)="data">
+          <router-link
+            :to="'/freeboard/detailfree/' + data.item.bno + '/' + type"
+          >{{data.item.btitle}}</router-link>
+        </template>
+        <template v-slot:cell(bwriter)="data">
+          <router-link :to="'/profile/' + data.item.bwriter">{{data.item.bwriter}}</router-link>
+        </template>
+        <template v-slot:cell(bview)="data">{{ data.item.bview}}</template>
+        <template v-slot:cell(makeDay)="data">{{ data.item.makeDay.slice(0,10)}}</template>
+      </b-table>
+      <b-pagination
+        v-model="currentPage"
+        :total-rows="rows"
+        :per-page="perPage"
+        aria-controls="my-table"
+      ></b-pagination>
+    </div>-->
+    <!-- 여기까지 가져온거 -->
+
+    <ul
+      class="cards overflow-auto"
+      id="poolpage"
+     
+    >
+      <li class="cards__item" v-for="(pool,index) in extendpools.slice(this.perPage*(currentPage-1),perPage*(currentPage))" :key="index">
         <div class="card">
           <div
             v-if="pool.responsibility === '디자인'"
             class="card__image card__image--designer"
             style="position:relative"
           >
-            <img class="avatar border-white" :src="urls(pool.id)" style="position:absolute;z-index:9;bottom:0;left:0" />
+            <img
+              class="avatar border-white"
+              :src="urls(pool.id)"
+              style="position:absolute;z-index:9;bottom:0;left:0"
+            />
           </div>
           <div
             v-if="pool.responsibility === '개발'"
             class="card__image card__image--developer"
             style="position:relative"
           >
-            <img class="avatar border-white" :src="urls(pool.id)" style="position:absolute;z-index:1;bottom:0;left:0" />
+            <img
+              class="avatar border-white"
+              :src="urls(pool.id)"
+              style="position:absolute;z-index:1;bottom:0;left:0"
+            />
           </div>
           <div
             v-if="pool.responsibility === '기획'"
             class="card__image card__image--head"
             style="position:relative"
           >
-            <img class="avatar border-white" :src="urls(pool.id)" style="position:absolute;z-index:1;bottom:0;left:0" />
+            <img
+              class="avatar border-white"
+              :src="urls(pool.id)"
+              style="position:absolute;z-index:1;bottom:0;left:0"
+            />
           </div>
           <div class="card__content">
             <div class="card__title">
@@ -289,13 +346,13 @@
                           :key="idx"
                           style="font-size:20px; font-weight:bold;"
                         >
-                        <div class="card" >
-                          <div class="card-header" style="cursor:pointer;" >{{pjt.pjtName}}</div>
-                          <div class="card-body">
-                            <hr>
-                          <p>{{pjt.pjtContent}}</p>
+                          <div class="card">
+                            <div class="card-header" style="cursor:pointer;">{{pjt.pjtName}}</div>
+                            <div class="card-body">
+                              <hr />
+                              <p>{{pjt.pjtContent}}</p>
+                            </div>
                           </div>
-                        </div>
                         </div>
                       </div>
                       <div v-if="pool.projects == null">아직 참여한 프로젝트가 없습니다. 이번 기회에 함께 해보는건 어떨까요?</div>
@@ -306,30 +363,7 @@
                 </div>
               </div>
             </div>
-            <div>
-              <!--
-            <router-link
-              :to="'/project/' + pool.id"
-              tag="button"
-              class="btn btn--block card__btn"
-            >프로젝트 보기</router-link>
-            <router-link
-              :to="'/profile/' + pool.id"
-              tag="button"
-              class="btn btn--block card__btn"
-            >프로필 보기</router-link>
-            <a
-              class="btn btn--block card__btn"
-              v-if="pool.git"
-              :href="'https://github.com/'+pool.git"
-            >Git</a>
-            <button
-              v-if="!follow.find(item=>item.id === pool.id)"
-              class="btn btn-success"
-              @click="fol(pool.id)"
-            >팔로우하기</button>
-              -->
-            </div>
+            <div></div>
           </div>
           <!--
       <b-btn v-b-toggle="'test-'+pool.id"  style="none;">
@@ -356,6 +390,13 @@
         </div>
       </li>
     </ul>
+    <b-pagination
+      v-model="currentPage"
+      :total-rows="rows"
+      :per-page="perPage"
+      aria-controls="poolpage"
+      align="center"
+    ></b-pagination>
   </div>
 </template>
 
@@ -368,6 +409,42 @@ export default {
   name: "poollist1",
   data() {
     return {
+      //페이징
+      perPage: 8,
+      currentPage: 1,
+      // fields: [
+      //   {
+      //     key: "bstate",
+      //     label: "종류",
+      //     // sortable: true,
+      //   },
+      //   // {
+      //   //   key: "bno",
+      //   //   label: "번호",
+      //   //   // sortable: true,
+      //   // },
+      //   {
+      //     key: "btitle",
+      //     label: "제목",
+      //     // sortable: true,
+      //   },
+      //   {
+      //     key: "bwriter",
+      //     label: "ID",
+      //     // sortable: true,
+      //   },
+      //   {
+      //     key: "bview",
+      //     label: "조회수",
+      //     // sortable: true,
+      //   },
+      //   {
+      //     key: "makeDay",
+      //     label: "작성일",
+      //     // sortable: true,
+      //   },
+      // ],
+      //////
       selectedSido: 0,
       selectedGugun: 0,
       selectedDong: 0,
@@ -416,6 +493,9 @@ export default {
     };
   },
   computed: {
+    rows() {
+      return this.extendpools.length;
+    },
     pools() {
       console.log("pool 호출");
       return this.$store.state.poolstore.pools;
@@ -440,7 +520,7 @@ export default {
   },
   created() {
     console.log(this.urls("abb"));
-    this.$store.dispatch(Constant.GET_POOLLIST);
+    // this.$store.dispatch(Constant.GET_POOLLIST);
     this.$store.dispatch(Constant.GET_EXTENDPOOLLIST);
     console.log("디스패치 완료");
 
@@ -448,8 +528,13 @@ export default {
     this.$store.dispatch(Constant.GET_SIDOLIST);
   },
   methods: {
+    //페이징
+    changeShowCnt() {
+      this.perPage = parseInt(document.getElementById("showcnt").value);
+    },
+
     urls(id) {
-      let url = this.$store.state.filestore.fileUrl + id +".png";
+      let url = this.$store.state.filestore.fileUrl + id + ".png";
       return url;
     },
     fol: function (id) {

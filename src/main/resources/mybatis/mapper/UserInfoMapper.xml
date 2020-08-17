@@ -94,6 +94,12 @@
 		from userInfo where id=#{id} and pw=#{pw}
 	</select>
 
+   <select id="loginForKakao" parameterType="string" resultType="userinfo">
+      select
+      id,nickname,name,pw,phone,git,points,lastDate,state,responsibility,leaveUser,intro
+      from userInfo where kakaoId=#{kakaoId}
+   </select>
+   
 	<select id="signin" parameterType="string" resultType="userinfo">
 		select
 		id,nickname,name,pw,phone,git,points,lastDate,state,address1,address2,responsibility,isValid,leaveUser,intro
@@ -194,7 +200,7 @@
 		) as b
 		) as b
 		on a.userId = b.id
-		where b.leaveUser != 1 and state==1 and b.id != 'admin' and b.state = true
+		where b.leaveUser != 1 and b.id != 'admin' and b.state = true
         ) as a
 where a.id in (
 select id
@@ -208,7 +214,7 @@ select id
 		and id like
 		CONCAT('%',#{keyword},'%')
         )
-        limit #{paging}, #{pcnt}
+        <!-- limit #{paging}, #{pcnt};  -->
         
         
 	</select>
@@ -267,7 +273,7 @@ select id
 		having count(interest) >= #{cnt}
 		)
         )
-        limit #{paging}, #{pcnt}
+        <!-- limit #{paging}, #{pcnt};  -->
 	</select>
 
 	<select id="getAddressList" parameterType="int"
@@ -279,7 +285,7 @@ select id
 		where p.pid = #{pid};
 	</select>
 	
-	<select id="getPools" parameterType="two" resultType="pools">
+	<select id="getPools"  resultType="pools"> <!--  parameterType="two"-->
 		select b.*, a.projects
 		from(
 		SELECT jointwo.userId, GROUP_CONCAT(jointwo.pjt  SEPARATOR  '-._') AS projects 
@@ -305,7 +311,7 @@ select id
 		) as b
 		on a.userId = b.id
 		where b.leaveUser != 1 and b.id != 'admin' and b.state = true
-		limit #{first}, #{second};
+        <!-- limit #{paging}, #{pcnt};  -->
 	</select>
 
 </mapper>

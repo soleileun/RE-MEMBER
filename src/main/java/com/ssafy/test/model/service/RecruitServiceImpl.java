@@ -22,8 +22,8 @@ public class RecruitServiceImpl implements RecruitService {
 	RecruitDAO rDao;
 
 	@Override
-	public List<RecruitPjt> selectAll(Two<Integer,Integer> v) {
-		return rDao.selectAll(v);
+	public List<RecruitPjt> selectAll() {
+		return rDao.selectAll();
 	}
 
 	@Override
@@ -67,8 +67,20 @@ public class RecruitServiceImpl implements RecruitService {
 	}
 
 	@Override
-	public List<RecruitPjtPinterest> selectAllRecruitPjtPinterest(Two<Integer,Integer> v) {
-		return rDao.selectAllRecruitPjtPinterest(v);
+	public List<RecruitPjtPinterest> selectAllRecruitPjtPinterest() {
+		return rDao.selectAllRecruitPjtPinterest();
+	}
+
+	@Override
+	public List<RecruitPjt> selectAllLater(Two<Integer, Integer> v) {
+		// TODO Auto-generated method stub
+		return rDao.selectAllLater(v);
+	}
+
+	@Override
+	public List<RecruitPjtPinterest> selectAllRecruitPjtPinterestLimit(Two<Integer, Integer> v) {
+		// TODO Auto-generated method stub
+		return rDao.selectAllRecruitPjtPinterestLimit(v);
 	}
 
 }

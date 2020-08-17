@@ -4,7 +4,10 @@
     <router-view></router-view>
     <login />
     <buble v-if="userNick" />
+
+    
   </div>
+  
 </template>
 
 <script>

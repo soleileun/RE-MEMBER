@@ -22,8 +22,8 @@ const poolstore = {
     //     })
     //       .catch(exp => alert('getPoolList처리에 실패하였습니다!.' + exp));
     // },
-    [Constant.GET_EXTENDPOOLLIST]: (store, payload) => {
-      http.get('/api/userinfo/pools/'+payload.paging + '&cnt=' + payload.cnt)
+    [Constant.GET_EXTENDPOOLLIST]: (store) => {
+      http.get('/api/userinfo/pools')
           .then(response => {
             console.log("지금 온 내용 :" +response.data)
               store.commit(Constant.GET_EXTENDPOOLLIST, { extendpools: response.data })

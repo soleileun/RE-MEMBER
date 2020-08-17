@@ -1,27 +1,23 @@
 <template>
+    <div class="container-fluid">
   
-      <div class="card col-5" style="text-align:left; margin:8px; padding:5px;">
+      <div class="card col-6" style="text-align:left;">
       <img class="card-img-top" src="img_avatar1.png" alt="아무거나 이미지 넣고">
-      
-        <div class="card-body" >
+        <div class="card-header" >
           <div class="row" >
             <div class="col-12" >
-              <span v-if="recruit.rstate === '모집중'" class="badge badge-pill badge-success" >모집중</span>
-              <span v-if="recruit.rstate === '모집완료'" class="badge badge-pill badge-secondary">모집완료</span>
-              <span v-if="recruit.rstate === '기간만료'" class="badge badge-pill badge-warning">기간만료</span>
+              <span class="badge badge-pill badge-success" >모집중</span>
+              <span class="badge badge-pill badge-secondary">모집완료</span>
+              <span class="badge badge-pill badge-warning">기간만료</span>
             </div>
               <div class="col-12">
           <h3 style="display:block;"> {{recruit.pjtName}} </h3>
               </div>
-          <div class="col-12">
-            
-            <div class="container-fluid">
-              <div class="row">
-                <div class="col-8" style="padding-left:0;padding-right:0">
-            
-              <div class="col-12" style="padding:0px;">
+              <div class="col-12">
           <a style="display:block;">by {{recruit.makeId}} </a>
           </div>
+          <div class="col-12">
+            {{recruit.location}}
             <div class="inter">
 
               <div
@@ -31,35 +27,26 @@
               >#{{interest.interest}},</div>
               <div></div>
             </div>
-            
-          <div class="col-12"  style="padding-left:0;padding-right:0">
+          </div>
+              <div class="col-12">
+          <a style="display:block;">모집인원 : {{recruit.pjtMemberCnt}} </a>
+          <a style="display:block;">현재인원 : {{recruit.cnt}} </a>
+          </div>
+          
+           
+          <div class="col-12">
           {{recruit.pjtContent}}
           </div>
           </div>
-          <div class="col-4" style="padding-right:0">
-      <p v-if="recruit.rstate === '모집중'" class="table-row__status status--green status">모집중 {{recruit.cnt}}/{{recruit.pjtMemberCnt}}</p>
-      <p v-if="recruit.rstate === '모집완료'" class="table-row__status status--red status">모집완료</p>
-      <p v-if="recruit.rstate === '기한만료'" class="table-row__status status--red status">기한만료</p>
-          <a style="display:block;">지역 : {{recruit.location}} </a>
           </div>
-          
-          </div>
-          
+          <div class="card-body">
+  
+  
             </div>
-            </div>
-          
-              
-          
-           
-          </div>
-          <div class="col-12"  style=" text-align:right; margin-top:10px; padding-top:4px;">
-          <hr>
-          {{recruit.makeDay.slice(0,10)}} ~ {{recruit.endDate.slice(0,10)}}
-          </div>
-          </div>
       </div>
   
   
+      </div>
   </template>
   
   <script>
