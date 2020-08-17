@@ -1,5 +1,8 @@
 <template>
   <div>
+    <h1>인재풀 샘플</h1>
+    <hr />
+
     <div class="card col-md-10 ml-auto col-xl-6 mr-auto">
       <!-- 시군구동 검색 -->
 
@@ -169,12 +172,48 @@
       <option value="12">12개씩 보기</option>
       <option value="16">16개씩 보기</option>
     </select>
-    <ul class="cards overflow-auto" id="poolpage">
-      <li
-        class="cards__item"
-        v-for="(pool,index) in extendpools.slice(this.perPage*(currentPage-1),perPage*(currentPage))"
-        :key="index"
+    <!-- 여기서 -->
+    <!-- <div class="overflow-auto table-responsive">
+      <b-table
+        class="table"
+        id="my-table"
+        :items="frees"
+        :per-page="perPage"
+        :current-page="currentPage"
+        small
+        :fields="fields"
       >
+        <template v-slot:cell(bstate)="data">
+          <div v-if="data.item.bstate == 'free'">자유</div>
+          <div v-if="data.item.bstate == 'notice'">공지</div>
+          <div v-if="data.item.bstate == 'qa'">질문</div>
+        </template>
+        <template v-slot:cell(btitle)="data">
+          <router-link
+            :to="'/freeboard/detailfree/' + data.item.bno + '/' + type"
+          >{{data.item.btitle}}</router-link>
+        </template>
+        <template v-slot:cell(bwriter)="data">
+          <router-link :to="'/profile/' + data.item.bwriter">{{data.item.bwriter}}</router-link>
+        </template>
+        <template v-slot:cell(bview)="data">{{ data.item.bview}}</template>
+        <template v-slot:cell(makeDay)="data">{{ data.item.makeDay.slice(0,10)}}</template>
+      </b-table>
+      <b-pagination
+        v-model="currentPage"
+        :total-rows="rows"
+        :per-page="perPage"
+        aria-controls="my-table"
+      ></b-pagination>
+    </div>-->
+    <!-- 여기까지 가져온거 -->
+
+    <ul
+      class="cards overflow-auto"
+      id="poolpage"
+     
+    >
+      <li class="cards__item" v-for="(pool,index) in extendpools.slice(this.perPage*(currentPage-1),perPage*(currentPage))" :key="index">
         <div class="card">
           <div
             v-if="pool.responsibility === '디자인'"
@@ -217,27 +256,20 @@
               <p
                 v-if="pool.isValid ===1"
                 style="display:inline-block; color:rgb(79, 245, 154); font-size:10px; text-align:right; margin-bottom:3px;"
-              >
-                <img v-if="pool.isValid ===1" src="@/assets/img/checklist.png" title="인증된 유저입니다" />
-              </p>
-
+              >인증</p>
               <p
                 v-else
                 style="display:inline-block; color:red;font-size:10px;text-align:right; margin-bottom:3px; "
-              >
-                <img src="@/assets/img/error.png" title="미인증된 유저입니다" />
-              </p>
+              >미인증</p>
               <div
                 style="padding-top:0px;margin-top:0px; font-size:10px; margin-bottom:16px;"
               >{{pool.id}}</div>
             </div>
 
-            <p class="card__text" style="font-weight:bold; margin-bottom:4px;">
-              <img v-if="pool.responsibility === '디자인'" src="@/assets/img/paint-palette.png" />
-              <img v-if="pool.responsibility === '개발'" src="@/assets/img/programming.png" />
-              <img v-if="pool.responsibility === '기획'" src="@/assets/img/procedure.png" />
-              {{pool.responsibility}}
-            </p>
+            <p
+              class="card__text"
+              style="font-weight:bold; margin-bottom:4px;"
+            >{{pool.responsibility}}</p>
             <div class="inter">
               <div
                 v-for="(interest, idx) in pool.interest"
@@ -249,7 +281,7 @@
             {{pool.intro}}
             <hr />
             <div style="font-size: 12px;">
-              <img src="@/assets/img/map-location.png" title="위치는 여기!" />
+              <i class="fa fa-map-marker emo"></i>
               {{pool.address2}}
             </div>
 
@@ -331,30 +363,7 @@
                 </div>
               </div>
             </div>
-            <div>
-              <!--
-            <router-link
-              :to="'/project/' + pool.id"
-              tag="button"
-              class="btn btn--block card__btn"
-            >프로젝트 보기</router-link>
-            <router-link
-              :to="'/profile/' + pool.id"
-              tag="button"
-              class="btn btn--block card__btn"
-            >프로필 보기</router-link>
-            <a
-              class="btn btn--block card__btn"
-              v-if="pool.git"
-              :href="'https://github.com/'+pool.git"
-            >Git</a>
-            <button
-              v-if="!follow.find(item=>item.id === pool.id)"
-              class="btn btn-success"
-              @click="fol(pool.id)"
-            >팔로우하기</button>
-              -->
-            </div>
+            <div></div>
           </div>
           <!--
       <b-btn v-b-toggle="'test-'+pool.id"  style="none;">
@@ -403,7 +412,39 @@ export default {
       //페이징
       perPage: 8,
       currentPage: 1,
-
+      // fields: [
+      //   {
+      //     key: "bstate",
+      //     label: "종류",
+      //     // sortable: true,
+      //   },
+      //   // {
+      //   //   key: "bno",
+      //   //   label: "번호",
+      //   //   // sortable: true,
+      //   // },
+      //   {
+      //     key: "btitle",
+      //     label: "제목",
+      //     // sortable: true,
+      //   },
+      //   {
+      //     key: "bwriter",
+      //     label: "ID",
+      //     // sortable: true,
+      //   },
+      //   {
+      //     key: "bview",
+      //     label: "조회수",
+      //     // sortable: true,
+      //   },
+      //   {
+      //     key: "makeDay",
+      //     label: "작성일",
+      //     // sortable: true,
+      //   },
+      // ],
+      //////
       selectedSido: 0,
       selectedGugun: 0,
       selectedDong: 0,
@@ -479,7 +520,7 @@ export default {
   },
   created() {
     console.log(this.urls("abb"));
-    this.$store.dispatch(Constant.GET_POOLLIST);
+    // this.$store.dispatch(Constant.GET_POOLLIST);
     this.$store.dispatch(Constant.GET_EXTENDPOOLLIST);
     console.log("디스패치 완료");
 
@@ -491,6 +532,7 @@ export default {
     changeShowCnt() {
       this.perPage = parseInt(document.getElementById("showcnt").value);
     },
+
     urls(id) {
       let url = this.$store.state.filestore.fileUrl + id + ".png";
       return url;
@@ -618,13 +660,6 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-@font-face {
-  font-family: "NanumGothic";
-  src: url("/fonts/NanumGothic.eot");
-  src: url("/fonts/NanumGothic.eot") format("embedded-opentype"),
-    url("/fonts/NanumGothic.woff") format("woff");
-}
-
 td,
 tr,
 th {
@@ -653,13 +688,16 @@ html {
 }
 
 body {
-  font-family: "NanumGothic", "serif";
   color: #999999;
-  //font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-style: normal;
   font-weight: 400;
   letter-spacing: 0;
   padding: 1rem;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -moz-font-feature-settings: "liga" on;
 }
 
 img {
@@ -669,12 +707,12 @@ img {
 }
 
 .btn {
-  // background-color: white;
+  background-color: white;
   border: 1px solid #cccccc;
   //border-radius: 1rem;
-  // color: #696969;
-  // padding: 0.5rem;
-  // text-transform: lowercase;
+  color: #696969;
+  padding: 0.5rem;
+  text-transform: lowercase;
 }
 
 .btn--block {
