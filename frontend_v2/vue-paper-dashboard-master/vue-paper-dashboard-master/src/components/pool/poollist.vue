@@ -175,21 +175,33 @@
             class="card__image card__image--designer"
             style="position:relative"
           >
-            <img class="avatar border-white" :src="urls(pool.id)" style="position:absolute;z-index:9;bottom:0;left:0" />
+            <img
+              class="avatar border-white"
+              :src="urls(pool.id)"
+              style="position:absolute;z-index:9;bottom:0;left:0"
+            />
           </div>
           <div
             v-if="pool.responsibility === '개발'"
             class="card__image card__image--developer"
             style="position:relative"
           >
-            <img class="avatar border-white" :src="urls(pool.id)" style="position:absolute;z-index:1;bottom:0;left:0" />
+            <img
+              class="avatar border-white"
+              :src="urls(pool.id)"
+              style="position:absolute;z-index:1;bottom:0;left:0"
+            />
           </div>
           <div
             v-if="pool.responsibility === '기획'"
             class="card__image card__image--head"
             style="position:relative"
           >
-            <img class="avatar border-white" :src="urls(pool.id)" style="position:absolute;z-index:1;bottom:0;left:0" />
+            <img
+              class="avatar border-white"
+              :src="urls(pool.id)"
+              style="position:absolute;z-index:1;bottom:0;left:0"
+            />
           </div>
           <div class="card__content">
             <div class="card__title">
@@ -199,20 +211,27 @@
               <p
                 v-if="pool.isValid ===1"
                 style="display:inline-block; color:rgb(79, 245, 154); font-size:10px; text-align:right; margin-bottom:3px;"
-              >인증</p>
+              >
+                <img v-if="pool.isValid ===1" src="@/assets/img/checklist.png" title="인증된 유저입니다" />
+              </p>
+
               <p
                 v-else
                 style="display:inline-block; color:red;font-size:10px;text-align:right; margin-bottom:3px; "
-              >미인증</p>
+              >
+                <img src="@/assets/img/error.png" title="미인증된 유저입니다" />
+              </p>
               <div
                 style="padding-top:0px;margin-top:0px; font-size:10px; margin-bottom:16px;"
               >{{pool.id}}</div>
             </div>
 
-            <p
-              class="card__text"
-              style="font-weight:bold; margin-bottom:4px;"
-            >{{pool.responsibility}}</p>
+            <p class="card__text" style="font-weight:bold; margin-bottom:4px;">
+              <img v-if="pool.responsibility === '디자인'" src="@/assets/img/paint-palette.png" />
+              <img v-if="pool.responsibility === '개발'" src="@/assets/img/programming.png" />
+              <img v-if="pool.responsibility === '기획'" src="@/assets/img/procedure.png" />
+              {{pool.responsibility}}
+            </p>
             <div class="inter">
               <div
                 v-for="(interest, idx) in pool.interest"
@@ -224,7 +243,7 @@
             {{pool.intro}}
             <hr />
             <div style="font-size: 12px;">
-              <i class="fa fa-map-marker emo"></i>
+              <img src="@/assets/img/map-location.png" title="위치는 여기!" />
               {{pool.address2}}
             </div>
 
@@ -289,13 +308,13 @@
                           :key="idx"
                           style="font-size:20px; font-weight:bold;"
                         >
-                        <div class="card" >
-                          <div class="card-header" style="cursor:pointer;" >{{pjt.pjtName}}</div>
-                          <div class="card-body">
-                            <hr>
-                          <p>{{pjt.pjtContent}}</p>
+                          <div class="card">
+                            <div class="card-header" style="cursor:pointer;">{{pjt.pjtName}}</div>
+                            <div class="card-body">
+                              <hr />
+                              <p>{{pjt.pjtContent}}</p>
+                            </div>
                           </div>
-                        </div>
                         </div>
                       </div>
                       <div v-if="pool.projects == null">아직 참여한 프로젝트가 없습니다. 이번 기회에 함께 해보는건 어떨까요?</div>
@@ -449,7 +468,7 @@ export default {
   },
   methods: {
     urls(id) {
-      let url = this.$store.state.filestore.fileUrl + id +".png";
+      let url = this.$store.state.filestore.fileUrl + id + ".png";
       return url;
     },
     fol: function (id) {
@@ -575,6 +594,13 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
+@font-face {
+  font-family: "NanumGothic";
+  src: url("/fonts/NanumGothic.eot");
+  src: url("/fonts/NanumGothic.eot") format("embedded-opentype"),
+    url("/fonts/NanumGothic.woff") format("woff");
+}
+
 td,
 tr,
 th {
@@ -603,16 +629,13 @@ html {
 }
 
 body {
+  font-family: "NanumGothic", "serif";
   color: #999999;
-  font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  //font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-style: normal;
   font-weight: 400;
   letter-spacing: 0;
   padding: 1rem;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  -moz-font-feature-settings: "liga" on;
 }
 
 img {
@@ -622,12 +645,12 @@ img {
 }
 
 .btn {
-  background-color: white;
+  // background-color: white;
   border: 1px solid #cccccc;
   //border-radius: 1rem;
-  color: #696969;
-  padding: 0.5rem;
-  text-transform: lowercase;
+  // color: #696969;
+  // padding: 0.5rem;
+  // text-transform: lowercase;
 }
 
 .btn--block {
