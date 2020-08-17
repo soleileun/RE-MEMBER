@@ -41,4 +41,10 @@ public class WaitMemberDAOImpl implements WaitMemberDAO {
 		return template.selectList(ns+"selectbyuserId",userId);
 	}
 
+	@Override
+	public WaitMember selectbyCode(String code) {
+		// TODO Auto-generated method stub
+		return template.selectOne(ns+"selectByCode",code);
+	}
+
 }

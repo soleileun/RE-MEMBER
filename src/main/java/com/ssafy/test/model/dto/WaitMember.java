@@ -7,7 +7,24 @@ public class WaitMember {
 	private String comment;
 	private String type;
 	private String code;
+	private String state;
 	
+	public WaitMember(int wno, int pid, String userId, String comment, String type, String code, String state) {
+		super();
+		this.wno = wno;
+		this.pid = pid;
+		this.userId = userId;
+		this.comment = comment;
+		this.type = type;
+		this.code = code;
+		this.state = state;
+	}
+	public String getState() {
+		return state;
+	}
+	public void setState(String state) {
+		this.state = state;
+	}
 	public String getCode() {
 		return code;
 	}

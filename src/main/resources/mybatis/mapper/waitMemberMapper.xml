@@ -5,8 +5,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="com.ssafy.test.WaitMember">
 
 	<insert id="insert" parameterType="waitmember">
-		insert into waitMember(pid,userId,comment,type,code)
-		values (#{pid}, #{userId}, #{comment}, #{type}, #{code})
+		insert into waitMember(pid,userId,comment,type,code,state)
+		values (#{pid}, #{userId}, #{comment}, #{type}, #{code},#{state})
 	</insert>
 
 
@@ -14,6 +14,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="selectbyuserId" parameterType="string" resultType="waitmember">
 		select * from waitMember
 		where userId = #{userId};
+	</select>
+	<select id="selectByCode" parameterType="string" resultType="waitmember">
+		select * from waitMember
+		where code = #{code};
 	</select>
 	<select id="selectbyPid" parameterType="int" resultType="waitmember">
 		select * from waitMember
@@ -26,7 +30,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<delete id="delete" parameterType="pmember">
 		delete from waitMember
 		where
-		pid=#{pid} and userId=#{userId} and type="Apply"
+		pid=#{pid} and userId=#{userId} 
 	</delete>
 
 </mapper>

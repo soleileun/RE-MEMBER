@@ -37,6 +37,7 @@ import com.ssafy.test.model.dto.Addr;
 import com.ssafy.test.model.dto.Email;
 import com.ssafy.test.model.dto.Following;
 import com.ssafy.test.model.dto.Inter;
+import com.ssafy.test.model.dto.Message;
 import com.ssafy.test.model.dto.PidPjt;
 import com.ssafy.test.model.dto.Pinterest;
 import com.ssafy.test.model.dto.Pmember;
@@ -54,6 +55,7 @@ import com.ssafy.test.model.service.EmailService;
 import com.ssafy.test.model.service.JwtService;
 import com.ssafy.test.model.service.MailHandler;
 import com.ssafy.test.model.service.MailTempKey;
+import com.ssafy.test.model.service.MessageService;
 import com.ssafy.test.model.service.PinterestService;
 import com.ssafy.test.model.service.PmemberService;
 import com.ssafy.test.model.service.ProjectService;
@@ -98,6 +100,8 @@ public class WaitMemberController {
    
    @Autowired
    private PmemberService pmService;
+   @Autowired
+   private MessageService mService;
 
    @ApiOperation(value = "대기 인원을 등록한다", response = String.class)
    @PostMapping
@@ -108,33 +112,31 @@ public class WaitMemberController {
       if(wm.getType().equals("Apply")) {
     	 //멤버가 지원한거라면 -> 대기열에 추가해준다 
     	  num = wmService.addWaitMember(wm);
-    	 //*****구현부분
-    	  //프로젝트멤버에게 쪽지보내줌 새로운 멤버가 지원을 했다 
-    	  
-    	  
+    	  List<Pmember> pmlist = pmService.selectByPid(wm.getPid());
+    	  for(int i=0;i<pmlist.size();i++) {
+    		  Message msg = new Message();
+    		  msg.setToUser(pmlist.get(i).getUserId());
+    		  msg.setFromUser(wm.getUserId());
+    		  msg.setContent(wm.getUserId()+"님이 "+wm.getPid()+"번 프로젝트에 지원했습니다 :)");
+        	  mService.insertAlert(msg);
+    	  }
       }else if( wm.getType().equals("Invite")) {
-    	//멤버가 초대한거라면 
-    	  //초대받은 멤버에게 쪽지를 보내준다 어디에서 초대를 받았다고 
+
+    	 String key = new MailTempKey().getKey(50, false);
+    	 wm.setCode(key);
+    	MailHandler sendMail = new MailHandler(mailSender);
+    	sendMail.setSubject("[이메일 인증]");
+        sendMail.setText(new StringBuffer().append("<h1>"+wm.getPid()+"번 프로젝트에서 "+wm.getUserId()+"님을 초대했습니다.</h1>")
+        		.append("<h2>제안하는 팀의 포지션은 " +wm.getState()+"입니다! </h2>")
+        		.append("<p>팀에 참여하시려면 아래 링크를 눌러주세요!</p><br>")
+              .append("<a href='https://localhost:8080/api/waitMember/invite/key=").append(key)
+              .append("' target='_blenk'>팀에 참여하기</a>").toString());
+        sendMail.setFrom("ADIM@REMEMBER.COM", "RE:MEMBER");
+        sendMail.setTo(wm.getUserId());
+        sendMail.send();
     	num=  wmService.addWaitMember(wm);
       }
      
-      
-//      if (test == 1) {
-//            // 이메일 인증
-//            String key = new MailTempKey().getKey(50, false);
-//            Email e = new Email(q.getId(), key);
-//            eService.insert(e);
-//            MailHandler sendMail = new MailHandler(mailSender);
-//            sendMail.setSubject("[이메일 인증]");
-//            sendMail.setText(new StringBuffer().append("<h1>메일인증</h1>")
-//                  .append("<a href='https://localhost:8080/api/email/validKey=").append(key)
-//                  .append("' target='_blenk'>이메일 인증 확인</a>").toString());
-//            sendMail.setFrom("test@gmail.com", "admin");
-//            sendMail.setTo(q.getId());
-//            sendMail.send();
-//
-//           
-//         }
       if(num ==1)  return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
       return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT); // 에러를 바꿔줘야할것같아여 ㅠㅠ
 }
@@ -145,7 +147,6 @@ public class WaitMemberController {
 	
 		return new ResponseEntity<List<WaitMember>>(wmService.selectbyuserId(id), HttpStatus.OK);
 	}
-   
 
    @ApiOperation(value = "해당하는 pid의 지원 유저 정보를 반환한다.", response = Following.class)    
 	@GetMapping("/searchByPid/{id}")
@@ -153,15 +154,44 @@ public class WaitMemberController {
 	
 		return new ResponseEntity<List<WaitMember>>(wmService.selectbyPid(pid), HttpStatus.OK);
 	}
+   
+   @ApiOperation(value = "해당하는 id의 지원 정보를 반환한다.", response = Following.class)    
+	@GetMapping("/invite/{key}")
+	public ResponseEntity<String> AcceptInvite(@PathVariable String key) {
+	   WaitMember wm = wmService.selectbyCode(key);
+	   int result = wmService.deleteWM(wm.getPid(), wm.getUserId());
+	   Pmember pm = new Pmember();
+	   pm.setPid(wm.getPid());pm.setUserId(wm.getUserId());pm.setState(wm.getState());
+	   int result2=pmService.insert(pm);
+	   if(result * result2 ==1 ) {
+		   List<Pmember> list = pmService.selectByPid(wm.getPid());
+		   for(int i=0;i<list.size();i++) {
+			   Message msg = new Message();
+			   msg.setFromUser("admin"); msg.setToUser(list.get(i).getUserId());
+			   if(list.get(i).getUserId().equals(wm.getUserId())) {
+				   msg.setContent(wm.getPid()+"에 초대되었습니다!");
+			   }else {
+
+				   msg.setContent(wm.getPid()+"에 새로운 팀원이 추가되었습니다!");
+				   
+			   }
+			   mService.insert(msg);
+		   }
+		return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);}
+	   else
+		   return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT); 
+		   
+	}
 
    @ApiOperation(value = "대기열에서 삭제하는 기능", response = String.class)
    @DeleteMapping("/delete/{id}/{pid}")
    public ResponseEntity<String> deleteUser(@PathVariable int pid, @PathVariable String id) {
-      logger.debug("deleteUser - 호출");
-      
-      //type이 apply 인것만 지우기! 
-      //##당사자에게는 Apply가 삭제되었다고 알림을 줘야한다 
+      logger.debug("deleteUser - 호출");  
       if (wmService.deleteWM(pid, id) == 1) {
+    	  Message msg = new Message();
+    	  msg.setFromUser("admin"); msg.setToUser(id);
+    	  msg.setContent("지원이 거절되었습니다 ㅠ_ㅠ 우리 새로운 프로젝트를 찾아봐요!");
+    	  mService.insert(msg);
          return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
       }
       return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);

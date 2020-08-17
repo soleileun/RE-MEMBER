@@ -37,4 +37,10 @@ public class WaitMemberServiceImpl implements WaitMemberService {
 		return wDao.selectbyuserId(userId);
 	}
 
+	@Override
+	public WaitMember selectbyCode(String code) {
+		// TODO Auto-generated method stub
+		return wDao.selectbyCode(code);
+	}
+
 }
