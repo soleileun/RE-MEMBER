@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.test.model.dto.Addr;
 import com.ssafy.test.model.dto.AddrAndTag;
+import com.ssafy.test.model.dto.Inter;
 import com.ssafy.test.model.dto.Interest;
 import com.ssafy.test.model.dto.Pinterest;
 import com.ssafy.test.model.dto.Recruit;
@@ -104,6 +105,38 @@ public class RecruitController {
 	@ApiOperation(value = "모든 구인구직 게시판의 정보를 pjtName과 pinterest도 함께 반환한다.", response = List.class)
 	@GetMapping("/selectAllRecruitPjtPinterest")
 	public ResponseEntity<List<RecruitPjtPinterest>> selectAllRecruitPjtPinterest() throws Exception {
+		List<RecruitPjtPinterest> v = rService.selectAllRecruitPjtPinterest();
+
+		for (int i = 0; i < v.size(); i++) {
+			int result = new Date().compareTo(v.get(i).getEndDate());
+
+			if (result >= 0) { // 앞에 있는게 뒤에있는거보다 더 느리다는 뜻
+
+				v.get(i).setRstate("기한만료");
+			} else if (result == -1) { // 앞에 있는게 뒤에있는거보다 더 빠르다는 뜻
+				if (v.get(i).getPjtMemberCnt() <= v.get(i).getCnt()) {
+					v.get(i).setRstate("모집완료");
+				} else
+					v.get(i).setRstate("모집중");
+
+			}
+			List<Inter> v2 =  new ArrayList<Inter>();
+			String a = v.get(i).getInterest();
+			
+            if (a != null) {
+               String[] atmp = a.split(",");
+               for (int j = 0; j < atmp.length; j++) {
+                  Inter it = new Inter(atmp[j]);
+                  v2.add(it);
+               }
+               v.get(i).setInterests(v2);
+            }
+		}
+
+    		return new ResponseEntity<List<RecruitPjtPinterest>>(v, HttpStatus.OK);
+		}
+
+		/*
 		List<RecruitPjtPinterest> original = rService.selectAllRecruitPjtPinterest();
 		List<RecruitPjtPinterest> ret = new ArrayList<RecruitPjtPinterest>();
 		int len = original.size();
@@ -135,7 +168,7 @@ public class RecruitController {
 			System.out.println(r.toString());
 		}
 		return new ResponseEntity<List<RecruitPjtPinterest>>(ret, HttpStatus.OK);
-	}
+		*/
 	
 
 	@ApiOperation(value = "모든 구인구직 게시판의 정보를 pjtName과 pinterest도 함께 반환한다.", response = List.class)

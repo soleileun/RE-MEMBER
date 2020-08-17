@@ -104,6 +104,23 @@ select r.rnum, r.pid, r.title, r.contents, r.endDate, r.makeDay, r.changeDay, r.
 	</select>
 	
 	<select id="selectAllRecruitPjtPinterest"  resultType="recruitpjtpinterest">
+		select a.*, b.cnt from(
+		select pid,count(*) as cnt from pmember group by pid
+		) as b right join (
+		        
+		select r.rnum, r.pid, r.title, r.contents, r.endDate, 
+		r.makeDay, r.changeDay, r.makeId, r.changeId,
+		p.pjtName, p.pjtMemberCnt, p.pjtContent, p.location, p.pjtState, p.interest
+		from recruit as r left join (
+			select pjt.*, bb.interest from project as pjt left join 
+			(SELECT pid, GROUP_CONCAT(interest) AS interest FROM pinterest group by pid
+			) as bb
+			on pjt.pid = bb.pid
+		) as p
+		on r.pid = p.pid
+		) as a
+		on b.pid = a.pid;
+	<!-- 
 	select distinct a.cnt, b.*
 		from project,
 		(
@@ -113,8 +130,8 @@ select r.rnum, r.pid, r.title, r.contents, r.endDate, r.makeDay, r.changeDay, r.
 		) as a,
 		(
 		select r.rnum, r.pid, r.title, r.contents, r.endDate, 
-        r.makeDay, r.changeDay, r.makeId, r.changeId, 
-        p.pjtName, pi.interest, p.pjtMemberCnt
+        r.makeDay, r.changeDay, r.makeId, r.changeId,
+        p.pjtName, pi.interest, p.pjtMemberCnt, p.pjtContent, p.location, p.state
  		from recruit as r left join project as p
  		on r.pid = p.pid
  		left join pinterest as pi
@@ -122,7 +139,7 @@ select r.rnum, r.pid, r.title, r.contents, r.endDate, r.makeDay, r.changeDay, r.
         ) as b
         where a.pid = b.pid
 		order by b.rnum desc;
-        
+        -->
         <!-- 원본 
         select r.rnum, r.pid, r.title, r.contents, r.endDate, r.makeDay, r.changeDay, r.makeId, r.changeId, p.pjtName, pi.interest
  		from recruit as r left join project as p

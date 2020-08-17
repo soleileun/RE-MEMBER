@@ -14,14 +14,28 @@
           <h3 style="display:block;"> {{recruit.pjtName}} </h3>
               </div>
               <div class="col-12">
-          <a style="display:block;">by {{recruit.makeId}}  {{recruit.cnt}}/pjtMemberCnt</a>
+          <a style="display:block;">by {{recruit.makeId}} </a>
           </div>
           <div class="col-12">
-          필요 스택 관련 기술 
+            {{recruit.location}}
+            <div class="inter">
+
+              <div
+                v-for="(interest, idx) in recruit.interests"
+                :key="idx"
+                style="margin:2px; display:inline-block"
+              >#{{interest.interest}},</div>
+              <div></div>
+            </div>
+          </div>
+              <div class="col-12">
+          <a style="display:block;">모집인원 : {{recruit.pjtMemberCnt}} </a>
+          <a style="display:block;">현재인원 : {{recruit.cnt}} </a>
           </div>
           
+           
           <div class="col-12">
-          프로젝트 관련 내용들 뿌려주기
+          {{recruit.pjtContent}}
           </div>
           </div>
           </div>
@@ -574,4 +588,11 @@
     text-decoration: none;
     cursor: pointer;
   }
+.inter {
+  display: inline-block;
+  color: slateblue;
+  max-height: 50px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
   </style>
