@@ -35,5 +35,6 @@ public interface UserInfoDao {
 	public List<UserInfo> getAddressList(int pid);
 	
 	public List<Pools> getPools(Two<Integer,Integer> v);
+	public UserInfo loginForKakao(String kakaoId);
 	
 }

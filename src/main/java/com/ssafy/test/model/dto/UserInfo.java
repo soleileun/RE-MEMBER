@@ -20,7 +20,35 @@ public class UserInfo {
 	private boolean isValid;
 	private boolean leaveUser;
 	private String intro;
+	private String kakaoId;
 	
+	public String getKakaoId() {
+		return kakaoId;
+	}
+	public void setKakaoId(String kakaoId) {
+		this.kakaoId = kakaoId;
+	}
+	public UserInfo(String id, String nickname, String name, String pw, String address1, String address2, String phone,
+			String git, int points, Date lastDate, boolean state, String responsibility, boolean isValid,
+			boolean leaveUser, String intro, String kakaoId) {
+		super();
+		this.id = id;
+		this.nickname = nickname;
+		this.name = name;
+		this.pw = pw;
+		this.address1 = address1;
+		this.address2 = address2;
+		this.phone = phone;
+		this.git = git;
+		this.points = points;
+		this.lastDate = lastDate;
+		this.state = state;
+		this.responsibility = responsibility;
+		this.isValid = isValid;
+		this.leaveUser = leaveUser;
+		this.intro = intro;
+		this.kakaoId = kakaoId;
+	}
 	public String getIntro() {
 		return intro;
 	}

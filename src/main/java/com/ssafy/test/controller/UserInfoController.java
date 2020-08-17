@@ -331,6 +331,32 @@ public class UserInfoController {
       }
    }
 
+   @ApiOperation(value = "카카오로 로그인 ", response = String.class)
+   @PostMapping("/login/kakao")
+   public ResponseEntity<Map<String, Object>> loginUserForKakao(@RequestBody String kakaoId ,HttpServletResponse response)
+         throws MessagingException, UnsupportedEncodingException {
+     
+      Map<String, Object> resultMap = new HashMap<>();
+         HttpStatus status = null;
+         try {
+             UserInfo loginUser = uiService.loginForKakao(kakaoId);
+             uiService.updateLastDate(loginUser);
+             // 로그인했다면 토큰생성
+             String token = jwtService.create(loginUser);
+             // 토큰 정보는 request 헤더로 보내고 나머지는 map에 담음
+             response.setHeader("jwt-auth-token", token);
+             resultMap.put("status", true);
+             resultMap.put("data", loginUser);
+             status = HttpStatus.ACCEPTED;
+          } catch (RuntimeException e) {
+             logger.error("로그인 안됨", e);
+             resultMap.put("message", e.getMessage());
+             status = HttpStatus.INTERNAL_SERVER_ERROR;
+          }
+          return new ResponseEntity<Map<String, Object>>(resultMap, status);
+         
+         // 에러를 바꿔줘야할것같아여 ㅠㅠ
+   }
    @PostMapping("/signin")
    public ResponseEntity<Map<String, Object>> signin(@RequestBody User user, HttpServletResponse response) {
       // System.out.println("test1 : " + user.getId() + " : " + user.getPw());

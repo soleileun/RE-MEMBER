@@ -125,4 +125,10 @@ public class UserInfoDaoImpl implements UserInfoDao {
 		return template.selectList(ns+"getPools", v);
 	}
 
+	@Override
+	public UserInfo loginForKakao(String kakaoId) {
+		// TODO Auto-generated method stub
+		return template.selectOne(ns+"loginForKakao",kakaoId);
+	}
+
 }

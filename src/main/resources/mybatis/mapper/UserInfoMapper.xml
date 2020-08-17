@@ -94,6 +94,12 @@
 		from userInfo where id=#{id} and pw=#{pw}
 	</select>
 
+   <select id="loginForKakao" parameterType="string" resultType="userinfo">
+      select
+      id,nickname,name,pw,phone,git,points,lastDate,state,responsibility,leaveUser,intro
+      from userInfo where kakaoId=#{kakaoId}
+   </select>
+   
 	<select id="signin" parameterType="string" resultType="userinfo">
 		select
 		id,nickname,name,pw,phone,git,points,lastDate,state,address1,address2,responsibility,isValid,leaveUser,intro

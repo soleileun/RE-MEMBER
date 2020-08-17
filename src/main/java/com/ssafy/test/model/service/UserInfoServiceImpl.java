@@ -120,4 +120,10 @@ public class UserInfoServiceImpl implements UserInfoService {
 		return uDao.getPools(v);
 	}
 
+	@Override
+	public UserInfo loginForKakao(String kakaoId) {
+		// TODO Auto-generated method stub
+		return uDao.loginForKakao(kakaoId);
+	}
+
 }
