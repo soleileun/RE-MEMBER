@@ -24,9 +24,9 @@ public class RecruitDAOImpl implements RecruitDAO {
 	SqlSessionTemplate template;
 
 	@Override
-	public List<RecruitPjt> selectAll(Two<Integer,Integer> v) {
+	public List<RecruitPjt> selectAll() {
 
-		return template.selectList(ns + "selectAll",v);
+		return template.selectList(ns + "selectAll");
 	}
 
 	@Override
@@ -102,7 +102,19 @@ public class RecruitDAOImpl implements RecruitDAO {
 	}
 
 	@Override
-	public List<RecruitPjtPinterest> selectAllRecruitPjtPinterest(Two<Integer,Integer> v) {
+	public List<RecruitPjtPinterest> selectAllRecruitPjtPinterest() {
+		return template.selectList(ns + "selectAllRecruitPjtPinterest");
+	}
+
+	@Override
+	public List<RecruitPjt> selectAllLater(Two<Integer, Integer> v) {
+		// TODO Auto-generated method stub
+		return template.selectList(ns + "selectAllLater",v);
+	}
+
+	@Override
+	public List<RecruitPjtPinterest> selectAllRecruitPjtPinterestLimit(Two<Integer, Integer> v) {
+		// TODO Auto-generated method stub
 		return template.selectList(ns + "selectAllRecruitPjtPinterest",v);
 	}
 

@@ -53,10 +53,35 @@ public class RecruitController {
 
 	@ApiOperation(value = "모든 구인구직 게시판의 정보를 반환한다.", response = List.class)
 	@GetMapping("/all/{paging}&cnt={cnt}")
-	public ResponseEntity<List<RecruitPjt>> retrieveBoard(@PathVariable int paging, @PathVariable int cnt) throws Exception {
+	public ResponseEntity<List<RecruitPjt>> retrieveBoardPaging(@PathVariable int paging, @PathVariable int cnt) throws Exception {
 		   Two<Integer, Integer> two = new Two<Integer,Integer>(paging* cnt, cnt);
 
-		List<RecruitPjt> v = rService.selectAll(two);
+		List<RecruitPjt> v = rService.selectAllLater(two);
+
+		for (int i = 0; i < v.size(); i++) {
+			int result = new Date().compareTo(v.get(i).getEndDate());
+
+			if (result >= 0) { // 앞에 있는게 뒤에있는거보다 더 느리다는 뜻
+
+				v.get(i).setRstate("기한만료");
+			} else if (result == -1) { // 앞에 있는게 뒤에있는거보다 더 빠르다는 뜻
+				if (v.get(i).getPjtMemberCnt() <= v.get(i).getCnt()) {
+					v.get(i).setRstate("모집완료");
+				} else
+					v.get(i).setRstate("모집중");
+
+			}
+		}
+
+		return new ResponseEntity<List<RecruitPjt>>(v, HttpStatus.OK);
+	}
+	
+
+	@ApiOperation(value = "모든 구인구직 게시판의 정보를 반환한다.", response = List.class)
+	@GetMapping
+	public ResponseEntity<List<RecruitPjt>> retrieveBoard() throws Exception {
+
+		List<RecruitPjt> v = rService.selectAll();
 
 		for (int i = 0; i < v.size(); i++) {
 			int result = new Date().compareTo(v.get(i).getEndDate());
@@ -77,10 +102,47 @@ public class RecruitController {
 	}
 	
 	@ApiOperation(value = "모든 구인구직 게시판의 정보를 pjtName과 pinterest도 함께 반환한다.", response = List.class)
+	@GetMapping("/selectAllRecruitPjtPinterest")
+	public ResponseEntity<List<RecruitPjtPinterest>> selectAllRecruitPjtPinterest() throws Exception {
+		List<RecruitPjtPinterest> original = rService.selectAllRecruitPjtPinterest();
+		List<RecruitPjtPinterest> ret = new ArrayList<RecruitPjtPinterest>();
+		int len = original.size();
+		// 원본 리스트에서 rnum이 겹치는 부분은 pinterest를 "",""로 합치기
+		int index = 0;
+		outer : while(true) {
+			int firstRnum = original.get(index).getRnum();
+			RecruitPjtPinterest tmp = original.get(index);
+			while(true) {
+				String tmpInterest = tmp.getInterest();
+				index++;
+				if(index == len) {
+					ret.add(tmp);
+					break outer;
+				}
+				if(firstRnum != original.get(index).getRnum()) {
+					ret.add(tmp);
+					break;
+				}else {
+					// 다음번 요소가 겹침
+					tmpInterest += ("," + original.get(index).getInterest());
+					tmp.setInterest(tmpInterest);
+				}
+			}
+			//index++;			
+		}
+		System.out.println("testing");
+		for(RecruitPjtPinterest r : ret) {
+			System.out.println(r.toString());
+		}
+		return new ResponseEntity<List<RecruitPjtPinterest>>(ret, HttpStatus.OK);
+	}
+	
+
+	@ApiOperation(value = "모든 구인구직 게시판의 정보를 pjtName과 pinterest도 함께 반환한다.", response = List.class)
 	@GetMapping("/selectAllRecruitPjtPinterest/{paging}&cnt={cnt}")
-	public ResponseEntity<List<RecruitPjtPinterest>> selectAllRecruitPjtPinterest(@PathVariable int paging, @PathVariable int cnt) throws Exception {
+	public ResponseEntity<List<RecruitPjtPinterest>> selectAllRecruitPjtPinterestLimit(@PathVariable int paging, @PathVariable int cnt) throws Exception {
 		Two<Integer, Integer> two = new Two<Integer,Integer>(paging* cnt, cnt);
-		List<RecruitPjtPinterest> original = rService.selectAllRecruitPjtPinterest(two);
+		List<RecruitPjtPinterest> original = rService.selectAllRecruitPjtPinterestLimit(two);
 		List<RecruitPjtPinterest> ret = new ArrayList<RecruitPjtPinterest>();
 		int len = original.size();
 		// 원본 리스트에서 rnum이 겹치는 부분은 pinterest를 "",""로 합치기

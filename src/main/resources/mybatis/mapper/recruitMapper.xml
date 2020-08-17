@@ -11,7 +11,53 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	 -->
 	
-	<select id="selectAll" parameterType="two" resultType="recruitpjt">
+	<select id="selectAll"  resultType="recruitpjt">
+	<!-- 
+	select a.rnum,a.pid, a.title,a.contents,a.endDate,a.makeDay,a.changeDay,a.makeId,a.changeId, a.pjtName, b.cnt, b.pjtMemberCnt
+	from
+	(
+		select a.rnum, a.pid, a.title, a.contents, a.endDate, a.makeDay, a.changeDay,a.makeId,a.changeId, b.pjtName
+		from recruit as a, project as b
+		where a.pid = b.pid
+	) as a,
+	(
+		select a.cnt, a.pid, pjtMemberCnt
+		from project,
+		(
+			select count(*) as cnt, pid
+			from pmember
+			group by pid
+		) as a
+		where a.pid = project.pid
+	) as b
+	where a.pid = b.pid
+	order by a.rnum desc;
+	-->
+			select a.*, b.cnt
+        from
+        (
+		select a.cnt, a.pid, pjtMemberCnt
+		from project,
+		(
+			select count(*) as cnt, pid
+			from pmember
+			group by pid
+		) as a
+		where a.pid = project.pid
+        ) as b,
+(
+select r.rnum, r.pid, r.title, r.contents, r.endDate, r.makeDay, r.changeDay, r.makeId, r.changeId, p.pjtName, pi.interest
+ 		from recruit as r left join project as p
+ 		on r.pid = p.pid
+ 		left join pinterest as pi
+ 		on r.pid = pi.pid
+        ) as a
+        where a.pid = b.pid
+		order by a.rnum desc;
+	</select>
+	
+	
+	<select id="selectAllLater" parameterType="two" resultType="recruitpjt">
 	<!-- 
 	select a.rnum,a.pid, a.title,a.contents,a.endDate,a.makeDay,a.changeDay,a.makeId,a.changeId, a.pjtName, b.cnt, b.pjtMemberCnt
 	from
@@ -57,27 +103,65 @@ select r.rnum, r.pid, r.title, r.contents, r.endDate, r.makeDay, r.changeDay, r.
 		limit #{first}, #{second};
 	</select>
 	
-	<select id="selectAllRecruitPjtPinterest" parameterType="two" resultType="recruitpjtpinterest">
-	
-		select b
-		
-		select a.cnt, a.pid, pjtMemberCnt
+	<select id="selectAllRecruitPjtPinterest"  resultType="recruitpjtpinterest">
+	select distinct a.cnt, b.*
 		from project,
 		(
 			select count(*) as cnt, pid
 			from pmember
 			group by pid
-		) as a
-	
-		select r.rnum, r.pid, r.title, r.contents, r.endDate, r.makeDay, r.changeDay, r.makeId, r.changeId, p.pjtName, pi.interest
+		) as a,
+		(
+		select r.rnum, r.pid, r.title, r.contents, r.endDate, 
+        r.makeDay, r.changeDay, r.makeId, r.changeId, 
+        p.pjtName, pi.interest, p.pjtMemberCnt
  		from recruit as r left join project as p
  		on r.pid = p.pid
  		left join pinterest as pi
  		on r.pid = pi.pid
-		order by r.rnum desc
+        ) as b
+        where a.pid = b.pid
+		order by b.rnum desc;
+        
+        <!-- 원본 
+        select r.rnum, r.pid, r.title, r.contents, r.endDate, r.makeDay, r.changeDay, r.makeId, r.changeId, p.pjtName, pi.interest
+ 		from recruit as r left join project as p
+ 		on r.pid = p.pid
+ 		left join pinterest as pi
+ 		on r.pid = pi.pid
+ 		order by rnum;
+        
+        
+        
+        -->
+		
+	</select>
+
+
+	<select id="selectAllRecruitPjtPinterestLimit" parameterType="two" resultType="recruitpjtpinterest">
+	
+		select distinct a.cnt, b.*
+		from project,
+		(
+			select count(*) as cnt, pid
+			from pmember
+			group by pid
+		) as a,
+		(
+		select r.rnum, r.pid, r.title, r.contents, r.endDate, 
+        r.makeDay, r.changeDay, r.makeId, r.changeId, 
+        p.pjtName, pi.interest, p.pjtMemberCnt
+ 		from recruit as r left join project as p
+ 		on r.pid = p.pid
+ 		left join pinterest as pi
+ 		on r.pid = pi.pid
+        ) as b
+        where a.pid = b.pid
+		order by b.rnum desc
 		limit #{first}, #{second};
 		
 	</select>
+
 
 	<select id="selectByAddr" resultType="recruitpjtpinterest"
 		parameterType="addr">
