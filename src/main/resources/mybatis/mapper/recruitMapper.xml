@@ -177,7 +177,7 @@ select r.rnum, r.pid, r.title, r.contents, r.endDate, r.makeDay, r.changeDay, r.
 		and p.location like CONCAT('%',#{gugun},'%')
 		and p.location like CONCAT('%',#{dong},'%')
 		order by r.rnum desc
-        limit #{paging}, #{pcnt};
+        <!-- limit #{paging}, #{pcnt};  -->
 
 	</select>
 	
@@ -197,7 +197,7 @@ select r.rnum, r.pid, r.title, r.contents, r.endDate, r.makeDay, r.changeDay, r.
 		and r.makeId like CONCAT('%', #{keyword}, '%')
         limit #{paging}, #{pcnt}
 		order by r.rnum desc
-        limit #{paging}, #{pcnt};
+        <!-- limit #{paging}, #{pcnt};  -->
 
 	</select>
 	
@@ -217,7 +217,7 @@ select r.rnum, r.pid, r.title, r.contents, r.endDate, r.makeDay, r.changeDay, r.
 		and r.title like CONCAT('%', #{keyword}, '%')
         limit #{paging}, #{pcnt}
 		order by r.rnum desc
-        limit #{paging}, #{pcnt};
+        <!-- limit #{paging}, #{pcnt};  -->
 
 	</select>
 
@@ -249,7 +249,7 @@ select r.rnum, r.pid, r.title, r.contents, r.endDate, r.makeDay, r.changeDay, r.
 		)
         limit #{paging}, #{pcnt}
 		order by r.rnum desc
-        limit #{paging}, #{pcnt};
+        <!-- limit #{paging}, #{pcnt};  -->
 	</select>
 
 	<select id="selectAllByTitle" resultType="recruitpjtpinterest"
@@ -285,7 +285,7 @@ select r.rnum, r.pid, r.title, r.contents, r.endDate, r.makeDay, r.changeDay, r.
 		)
         limit #{paging}, #{pcnt}
 		order by r.rnum desc
-        limit #{paging}, #{pcnt};
+        <!-- limit #{paging}, #{pcnt};  -->
 	</select>
 
 	<select id="selectSame" resultType="recruit"
@@ -303,7 +303,7 @@ select r.rnum, r.pid, r.title, r.contents, r.endDate, r.makeDay, r.changeDay, r.
 		having
 		count(interest) >= #{cnt}
 		)
-        limit #{paging}, #{pcnt};
+        <!-- limit #{paging}, #{pcnt};  -->
 		
 
 	</select>
@@ -335,7 +335,7 @@ select r.rnum, r.pid, r.title, r.contents, r.endDate, r.makeDay, r.changeDay, r.
 		)
         limit #{paging}, #{pcnt}
 		order by r.rnum desc
-        limit #{paging}, #{pcnt};
+        <!-- limit #{paging}, #{pcnt};  -->
 
 	</select>
 

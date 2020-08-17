@@ -11,7 +11,6 @@ import com.ssafy.test.model.dto.Addr;
 import com.ssafy.test.model.dto.Pools;
 import com.ssafy.test.model.dto.Project;
 import com.ssafy.test.model.dto.SearchParameter;
-import com.ssafy.test.model.dto.Two;
 import com.ssafy.test.model.dto.UserInfo;
 
 
@@ -121,8 +120,8 @@ public class UserInfoDaoImpl implements UserInfoDao {
 	}
 
 	@Override
-	public List<Pools> getPools(Two<Integer,Integer> v) {
-		return template.selectList(ns+"getPools", v);
+	public List<Pools> getPools() { // Two<Integer,Integer> v
+		return template.selectList(ns+"getPools");
 	}
 
 	@Override

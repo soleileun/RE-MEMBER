@@ -43,7 +43,6 @@ import com.ssafy.test.model.dto.Pools;
 import com.ssafy.test.model.dto.Project;
 import com.ssafy.test.model.dto.Projectcnt;
 import com.ssafy.test.model.dto.SearchParameter;
-import com.ssafy.test.model.dto.Two;
 import com.ssafy.test.model.dto.User;
 import com.ssafy.test.model.dto.UserInfo;
 import com.ssafy.test.model.dto.UserSimple;
@@ -106,14 +105,12 @@ public class UserInfoController {
    private PmemberService pmservice;
 
    @ApiOperation(value = "유저풀에서 사용", response = List.class)
-   @GetMapping("pools/{paging}&cnt={cnt}")
-   public ResponseEntity<List<Pools>> getPools(@PathVariable int paging, @PathVariable int cnt) throws Exception {
-	   Two<Integer, Integer> two = new Two<Integer,Integer>();
-	   two.setFirst(paging * cnt);
-	   two.setSecond(cnt);
-	   System.out.println("first : " + two.getFirst());
-	   System.out.println("second : " + two.getSecond());
-      List<Pools> v = uiService.getPools(two);
+   @GetMapping("pools")
+   public ResponseEntity<List<Pools>> getPools() throws Exception {
+	   //Two<Integer, Integer> two = new Two<Integer,Integer>();
+	   //two.setFirst(paging * cnt);
+	   //two.setSecond(cnt);
+      List<Pools> v = uiService.getPools();
       for (int i = 0; i < v.size(); i++) {
          List<PidPjt> ptmp = new ArrayList<PidPjt>();
          List<Inter> itmp = new ArrayList<Inter>();
@@ -203,12 +200,12 @@ public class UserInfoController {
    }
 
    @ApiOperation(value = "모든 검색어 통합 검색하는 것.", response = UserInfo.class)
-   @GetMapping("searchAll/tag={tag}&addr={addr}&keyword={keyword}/{paging}&cnt={cnt}")
+   @GetMapping("searchAll/tag={tag}&addr={addr}&keyword={keyword}")
    public ResponseEntity<List<Pools>> search(@PathVariable String tag, @PathVariable String addr,
-         @PathVariable String keyword,@PathVariable int paging,@PathVariable int cnt) {
+         @PathVariable String keyword) {
       SearchParameter sp = new SearchParameter();
-      sp.setPaging(paging* cnt);
-      sp.setPcnt(cnt);
+      //sp.setPaging(paging* cnt);
+      //sp.setPcnt(cnt);
       String b[] = addr.split(",");
       if (tag.equals("null")) {
          // tag 기술 스택이 없는 경우

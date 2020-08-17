@@ -214,7 +214,7 @@ select id
 		and id like
 		CONCAT('%',#{keyword},'%')
         )
-        limit #{paging}, #{pcnt}
+        <!-- limit #{paging}, #{pcnt};  -->
         
         
 	</select>
@@ -273,7 +273,7 @@ select id
 		having count(interest) >= #{cnt}
 		)
         )
-        limit #{paging}, #{pcnt}
+        <!-- limit #{paging}, #{pcnt};  -->
 	</select>
 
 	<select id="getAddressList" parameterType="int"
@@ -285,7 +285,7 @@ select id
 		where p.pid = #{pid};
 	</select>
 	
-	<select id="getPools" parameterType="two" resultType="pools">
+	<select id="getPools"  resultType="pools"> <!--  parameterType="two"-->
 		select b.*, a.projects
 		from(
 		SELECT jointwo.userId, GROUP_CONCAT(jointwo.pjt  SEPARATOR  '-._') AS projects 
@@ -311,7 +311,7 @@ select id
 		) as b
 		on a.userId = b.id
 		where b.leaveUser != 1 and b.id != 'admin' and b.state = true
-		limit #{first}, #{second};
+        <!-- limit #{paging}, #{pcnt};  -->
 	</select>
 
 </mapper>

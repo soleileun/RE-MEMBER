@@ -208,24 +208,24 @@ public class RecruitController {
 	}
 */
 	@ApiOperation(value = "해당 지역에 거주하는 게시판의 정보를 반환한다..", response = List.class)
-	@GetMapping("/addr/sido={sido}&gugun={gugun}&dong={dong}/{paging}&cnt={cnt}")
+	@GetMapping("/addr/sido={sido}&gugun={gugun}&dong={dong}")
 	public ResponseEntity<List<Recruit>> selectByAddr(@PathVariable String sido, @PathVariable String gugun,
-			@PathVariable String dong,@PathVariable int paging, @PathVariable int cnt) throws Exception {
+			@PathVariable String dong) throws Exception {
 		Addr v = new Addr();
 		v.setDong(dong);
 		v.setGugun(gugun);
 		v.setSido(sido);
-		v.setPcnt(cnt);
-		v.setPaging(paging* cnt);
+		//v.setPcnt(cnt);
+		//v.setPaging(paging* cnt);
 		return new ResponseEntity<List<Recruit>>(rService.selectByAddr(v), HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "완전히 일치하는 유저의 id를 반환한다.", response = Usertag.class)
-	@GetMapping("selectSame/{tag}/{paging}&cnt={cnt}")
-	public ResponseEntity<List<Recruit>> selectSame(@PathVariable String tag,@PathVariable int paging, @PathVariable int cnt) {
+	@GetMapping("selectSame/{tag}")
+	public ResponseEntity<List<Recruit>> selectSame(@PathVariable String tag) {
 		TagList v = new TagList();
-		v.setPcnt(cnt);
-		v.setPaging(paging);
+		//v.setPcnt(cnt);
+		//v.setPaging(paging);
 		String a[] = tag.split(",");
 		int b = a.length;
 		if (a.length > 0)
@@ -245,11 +245,11 @@ public class RecruitController {
 	}
 
 	@ApiOperation(value = "태그와 주소 혼합해서 검색하는 것.", response = Usertag.class)
-	@GetMapping("selectAddrAndTag/tag={tag}&addr={addr}/{paging}&cnt={cnt}")
-	public ResponseEntity<List<Recruit>> selectAddrAndTag(@PathVariable String tag, @PathVariable String addr,@PathVariable int paging, @PathVariable int cnt) {
+	@GetMapping("selectAddrAndTag/tag={tag}&addr={addr}")
+	public ResponseEntity<List<Recruit>> selectAddrAndTag(@PathVariable String tag, @PathVariable String addr) {
 		AddrAndTag v = new AddrAndTag();
-		v.setPcnt(cnt);
-		v.setPaging(paging* cnt);
+		//v.setPcnt(cnt);
+		//v.setPaging(paging* cnt);
 		String b[] = addr.split(",");
 		if (tag == null) {
 			v.setDong(b[0]);
@@ -292,12 +292,12 @@ public class RecruitController {
 	}
 
 	@ApiOperation(value = "모든 검색어 통합 검색하는 것.", response = Recruit.class)
-	@GetMapping("search/tag={tag}&addr={addr}&by={by}&keyword={keyword}/{paging}&cnt={cnt}")
+	@GetMapping("search/tag={tag}&addr={addr}&by={by}&keyword={keyword}")
 	public ResponseEntity<List<RecruitPjtPinterest>> search(@PathVariable String tag, @PathVariable String addr,
-			@PathVariable String by, @PathVariable String keyword,@PathVariable int paging,@PathVariable int cnt) {
+			@PathVariable String by, @PathVariable String keyword) {
 		SearchParameter sp = new SearchParameter();
-	      sp.setPaging(paging* cnt);
-	      sp.setPcnt(cnt);
+	      //sp.setPaging(paging* cnt);
+	      //sp.setPcnt(cnt);
 		
 		
 		List<RecruitPjtPinterest> ret = new ArrayList<RecruitPjtPinterest>();
