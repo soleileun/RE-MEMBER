@@ -2,6 +2,7 @@
   <card class="signupform card">
     <img id="spinner" src="@/assets/img/spinner.png" />
     <div>
+      <span style="position:fixed;top:-100px">{{nothing}}</span>
       <form @submit.prevent class="forms">
         <div class="row">
           <h2>회원 정보 입력</h2>
@@ -11,7 +12,7 @@
           <div class="col-md-8">
             <span class="reddot">*</span>
             이메일(아이디)
-            <fg-input type="text" placeholder="example@naver.com" v-model="id"></fg-input>
+            <fg-input id="emailid" type="text" placeholder="example@naver.com" v-model="id"></fg-input>
           </div>
           <div class="col-md-4">
             <br />
@@ -42,6 +43,11 @@
             <span class="reddot">*</span>
             이름
             <fg-input type="text" placeholder="실명" v-model="name"></fg-input>
+            
+            <br />
+            {{error.name}}
+            <br />
+            <br />
           </div>
           <div class="col-md-6">
             <span class="reddot">*</span>
@@ -49,18 +55,11 @@
             {{nickname.length}}/12
             :
             <fg-input type="text" placeholder="영문/한글/숫자만 입력 가능" maxlength="12" v-model="nickname"></fg-input>
-          </div>
-          <div class="col-md-6">
-            {{error.name}}
             <br />
-            <br />
-          </div>
-          <div class="col-md-6">
             {{error.nickname}}
             <br />
             <br />
           </div>
-
           <div class="col-md-5">
             <span class="reddot">*</span>
             주소
@@ -85,30 +84,31 @@
             <br />
             <br />
           </div>
-          <div class="col-4">
+          <div class="col-12">
             <span class="reddot">*</span>
             전화번호
-            <fg-input type="text" maxlength="3" placeholder="010" v-model="phone0"></fg-input>
+            <span style="display:flex; align-items: center">
+
+            <fg-input type="text" maxlength="3" placeholder="010" v-model="phone0"></fg-input>  
+            <i class="ti-minus" style="margin:0px 10px 10px 10px"></i>
+            <fg-input id="p1" type="text" maxlength="4" placeholder="0000" v-model="phone1"></fg-input>
+            <i class="ti-minus" style="margin:0px 10px 10px 10px"></i>
+            <fg-input id="p2" type="text" maxlength="4" placeholder="0000" v-model="phone2"></fg-input>
+            </span>
             {{error.phone}}
             <br />
             <br />
           </div>
-          <div class="col-4">
-            <br />
-            <fg-input id="p1" type="text" maxlength="4" placeholder="0000" v-model="phone1"></fg-input>
-          </div>
-          <div class="col-4">
-            <br />
-            <fg-input id="p2" type="text" maxlength="4" placeholder="0000" v-model="phone2"></fg-input>
-          </div>
-          <div class="col-3">
+          <div class="col-12">
             깃 주소
             <br />
-            <button class="btn">https://github.com/</button>
-          </div>
-          <div class="col-9">
-            <br />
-            <fg-input type="text" placeholder="example" v-model="git"></fg-input>
+            <span style="display:flex">
+            <input class="form-control" type="text" value="https://github.com/" disabled/>
+            &nbsp;
+            <input class="form-control" type="text" placeholder="example" v-model="git"/>
+
+            </span>
+            <br>
           </div>
           <div class="col-12">
             <span class="reddot">*</span>
@@ -130,6 +130,10 @@
               <br />
               <br />
             </div>
+          </div>
+          <div v-if="kakao" class="col-md-12">
+            카카오 아이디 : &nbsp;
+            <input type="text" :value="kakaosignupID" disabled />
           </div>
         </div>
       </form>
@@ -217,7 +221,36 @@ export default {
       },
       jungboks: false,
       responsibility: "",
+      kakao: false,
+      kakaosignupID: "",
+      nothing:0
     };
+  },
+  beforeUpdate() {
+    if (window.sessionStorage.getItem("kakaosignup") === "true") {
+      this.kakao = true;
+      this.id = window.sessionStorage.getItem("kakaosignupEmail");
+      this.kakaosignupID = window.sessionStorage.getItem("kakaosignupID");
+    }
+    setTimeout(() => {
+      window.sessionStorage.setItem("kakaosignup", "false");
+      window.sessionStorage.setItem("kakaosignupID", "");
+      window.sessionStorage.setItem("kakaosignupEmail", "");
+    }, 500);
+  },
+  mounted() {
+    document.querySelector('div.main-panel').scrollTop = 0;
+    // document.querySelector('html').sc = 0
+    if (window.sessionStorage.getItem("kakaosignup") === "true") {
+      this.kakao = true;
+      this.id = window.sessionStorage.getItem("kakaosignupEmail");
+      this.kakaosignupID = window.sessionStorage.getItem("kakaosignupID");
+    }
+    setTimeout(() => {
+      window.sessionStorage.setItem("kakaosignup", "false");
+      window.sessionStorage.setItem("kakaosignupID", "");
+      window.sessionStorage.setItem("kakaosignupEmail", "");
+    }, 500);
   },
   watch: {
     pw: function () {
@@ -267,25 +300,28 @@ export default {
   },
   methods: {
     jungbok() {
-      if (this.error.id === "" && this.id !== "") {
-        http
-          .get("/api/userinfo/")
-          .then((res) => {
-            if (
-              !res.data.find((item) => {
-                if (item.id === this.id) {
-                  alert(`이미 가입된 이메일입니다.`);
-                  this.jungboks = false;
-                  return true;
-                }
-              })
-            ) {
-              alert("사용 가능한 이메일입니다.");
-              this.jungboks = true;
-            }
-          })
-          .catch((exp) => alert("서버가 불안정합니다." + exp));
-      }
+      this.nothing+=1;
+       setTimeout(() => {
+         if (this.error.id === "" && this.id !== "") {
+           http
+             .get("/api/userinfo/")
+             .then((res) => {
+               if (
+                 !res.data.find((item) => {
+                   if (item.id === this.id) {
+                     alert(`이미 가입된 이메일입니다.`);
+                     this.jungboks = false;
+                     return true;
+                   }
+                 })
+               ) {
+                 alert("사용 가능한 이메일입니다.");
+                 this.jungboks = true;
+               }
+             })
+             .catch((exp) => alert("서버가 불안정합니다." + exp));
+         }
+    }, 100);
     },
     chek: function (a) {
       this.responsibility = a;
@@ -371,7 +407,7 @@ export default {
       if (!this.jungboks) {
         alert("아이디 중복조회를 하세요");
       } else if (this.submitable) {
-        document.querySelectorAll("#spinner")[0].classList.add("active");
+        document.querySelector("#spinner").classList.add("active");
         this.$store.dispatch("signup", {
           id: this.id,
           pw: this.pw,
@@ -382,6 +418,7 @@ export default {
           phone: `${this.phone0}-${this.phone1}-${this.phone2}`,
           git: this.git,
           responsibility: this.responsibility,
+          kakaoId: this.kakaosignupID,
         });
       }
     },

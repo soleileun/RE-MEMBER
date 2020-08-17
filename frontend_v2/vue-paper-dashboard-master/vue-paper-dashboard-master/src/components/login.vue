@@ -5,7 +5,7 @@
       <form @submit.prevent>
         <div class="row">
           <div class="col-md-12" @keyup.enter="goLogin">
-            <fg-input type="text" label="아이디" placeholder="E-mail" v-model="id"></fg-input>
+            <fg-input id="mi" type="text" label="아이디" placeholder="E-mail" v-model="id"></fg-input>
           </div>
         </div>
         <div class="row">
@@ -13,7 +13,9 @@
             <fg-input type="password" label="비밀번호" placeholder="password" v-model="pw"></fg-input>
           </div>
         </div>
+        <strong>
         {{error}}
+        </strong>
         <br />
         <div class="row">
           <div class="col-md-12">
@@ -30,7 +32,7 @@
         <div class="text-center">
           <p-button type="info" round @click.native.prevent="goLogin">로그인</p-button>
         </div>
-        <div>
+        <div @click="kakao">
           <KakaoLogin api-key="8e0034110bcf020d70bf38e4fe0f3fb7" image="kakao_account_login_btn_medium_narrow_ov" :on-success="onSuccess" :on-failure="onFailure" />
         </div>
 <!-- <a id="kakao-login-btn"></a> -->
@@ -63,9 +65,6 @@ export default {
       autologin: false,
       id: "",
       pw: "",
-      params: {
-        client_id: process.env.VUE_APP_GOOGLE_CLIENT_ID,
-      },
     };
   },
   computed: {
@@ -77,31 +76,37 @@ export default {
     },
   },
   mounted() {
-    let that = this;
-    let checkGauthLoad = setInterval(function () {
-      that.isInit = that.$gAuth.isInit;
-      that.isSignIn = that.$gAuth.isAuthorized;
-      if (that.isInit) clearInterval(checkGauthLoad);
-    }, 1000);
+    storage.setItem('kakao',false)
   },
   props: {},
   methods: {
+    kakao () {
+      setTimeout(()=>{
+        if(storage.getItem('kakao')){
+          this.$store.dispatch("kakao", { id: storage.getItem('kakaoid'), email: storage.getItem('kakaoemail') });
+          setTimeout(()=>{
+          storage.setItem('kakao',false)
+          storage.setItem('kakaoid',"")
+          storage.setItem('kakaoemail',"")
+          },300)
+        }
+      },500)
+    },
     onSuccess: (data) => {
-      console.log(data);
-      console.log("success");
       Kakao.API.request({
         url: "/v2/user/me",
         success: function (response) {
-          console.log(response);
+          storage.setItem('kakao',true)
+          storage.setItem('kakaoid',response.id)
+          storage.setItem('kakaoemail',response.kakao_account.email)
         },
         fail: function (error) {
-          console.log(error);
+          alert('에러가 발생했습니다. ' + error)
         },
-      });
+      })
     },
     onFailure: (data) => {
-      console.log(data);
-      console.log("failure");
+      alert('에러가 발생했습니다. ' + data)
     },
 
     goLogin: function () {

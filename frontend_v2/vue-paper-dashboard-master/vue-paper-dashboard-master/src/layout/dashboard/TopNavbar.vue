@@ -14,7 +14,6 @@
               <img v-if="!hasProfile" class="avatar" :src="url" style="width:40px;height:40px" />
             </div>
           </li>
-          {{abc()}}
           <drop-down class="nav-item" :title="userNick+'님'" title-classes="nav-link" v-if="userNick">
             <router-link to="/mypage" class="nav-link">
               <i class="ti-user"></i>
@@ -84,9 +83,6 @@ export default {
     };
   },
   methods: {
-    abc(){
-      return JWT("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoi7Zmp7IiY7ZiEIiwiYWRtaW4iOiJmYWxzZSIsIlVzZXJfSUQiOjE0Mzg0NDQzODZ9.QgzlVW7DrjwN5NvYtSYLgXF8z0moSN_j4WYY_pl_XmY")
-    },
     login() {
       document.querySelector(".login").classList.remove("active");
       document.querySelector(".login").classList.add("active");
