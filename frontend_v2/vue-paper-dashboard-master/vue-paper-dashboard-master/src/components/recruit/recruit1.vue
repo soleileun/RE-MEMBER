@@ -185,11 +185,26 @@
 
     <br />
 
+    <div class="container-fluid" style="padding:0;">
+      <div class="row col-12"  style="margin:0; padding:0;">
+                <recruitcomponent
+                  v-for="(recruit,index) in recruits"
+                  :key="index"
+                  :recruit="recruit"
+                  :pid="recruit.pid"
+                  @delete-recruit="deleteRecruit"
+                  @open-modify="openModify"
+                  @modify-recruit="modifyRecruit"
+                />
+      </div>
+    </div>
     <!-- 카드뷰 -->
+    <!--
     <div class="container">
       <div class="row row--top-40">
         <div class="col-md-12">
           <h2 class="row__title">구인중인 프로젝트</h2>
+          -->
           <!-- <div class="col-1">
             <select id="showcnt" @change="changeShowCnt">
               <option value="5">5개씩 보기</option>
@@ -197,6 +212,7 @@
               <option value="20">20개씩 보기</option>
             </select>
           </div> -->
+          <!--
         </div>
       </div>
       <div class="row row--top-20">
@@ -205,15 +221,19 @@
             <table class="table">
               <thead class="table__thead">
                 <tr>
+                  -->
                   <!-- <th class="table__th">
                     <input id="selectAll" type="checkbox" class="table__select-row" />
                   </th> -->
+                  <!--
                   <th class="table__th">제목</th>
                   <th class="table__th">게시인</th>
                   <th class="table__th">프로젝트명</th>
                   <th class="table__th">마감일시</th>
                   <th class="table__th">구인현황</th>
+                  -->
                   <!-- <th class="table__th">Progress</th> -->
+                  <!--
                   <th class="table__th">모집분야</th>
                   <th class="table__th"></th>
                 </tr>
@@ -234,7 +254,7 @@
         </div>
       </div>
     </div>
-
+  -->
     <!-- <select name="standard" id="standard">
       <option value="t" selected>제목</option>
       <option value="w">작성자</option>
