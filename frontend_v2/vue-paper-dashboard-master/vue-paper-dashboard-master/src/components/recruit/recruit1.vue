@@ -1,5 +1,5 @@
 <template>
-  <div class="recruit1">
+ <div class="recruit1">
     <h1>모집게시판 샘플</h1>
     <hr />
 
@@ -243,6 +243,7 @@
     <button v-on:click="searchRecruit">검색</button>-->
     
   </div>
+
 </template>
 
 <script>

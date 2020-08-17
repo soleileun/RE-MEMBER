@@ -14,8 +14,40 @@ public class RecruitPjtPinterest {
 	private String changeId;
 	private String pjtName;
 	private String interest;
+	private int cnt;
+	private int pjtMemberCnt;
 	
 	
+	public RecruitPjtPinterest(int rnum, int pid, String title, String contents, Date endDate, Date makeDay,
+			Date changeDay, String makeId, String changeId, String pjtName, String interest, int cnt,
+			int pjtMemberCnt) {
+		super();
+		this.rnum = rnum;
+		this.pid = pid;
+		this.title = title;
+		this.contents = contents;
+		this.endDate = endDate;
+		this.makeDay = makeDay;
+		this.changeDay = changeDay;
+		this.makeId = makeId;
+		this.changeId = changeId;
+		this.pjtName = pjtName;
+		this.interest = interest;
+		this.cnt = cnt;
+		this.pjtMemberCnt = pjtMemberCnt;
+	}
+	public int getCnt() {
+		return cnt;
+	}
+	public void setCnt(int cnt) {
+		this.cnt = cnt;
+	}
+	public int getPjtMemberCnt() {
+		return pjtMemberCnt;
+	}
+	public void setPjtMemberCnt(int pjtMemberCnt) {
+		this.pjtMemberCnt = pjtMemberCnt;
+	}
 	@Override
 	public String toString() {
 		return "RecruitPjtPinterest [rnum=" + rnum + ", pid=" + pid + ", title=" + title + ", contents=" + contents
