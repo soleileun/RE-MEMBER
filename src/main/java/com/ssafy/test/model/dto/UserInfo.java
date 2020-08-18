@@ -161,12 +161,13 @@ public class UserInfo {
 		this.address1 = address1;
 	}
 
+	
 	@Override
 	public String toString() {
 		return "UserInfo [id=" + id + ", nickname=" + nickname + ", name=" + name + ", pw=" + pw + ", address1="
 				+ address1 + ", address2=" + address2 + ", phone=" + phone + ", git=" + git + ", points=" + points
 				+ ", lastDate=" + lastDate + ", state=" + state + ", responsibility=" + responsibility + ", isValid="
-				+ isValid + ", leaveUser=" + leaveUser + ", intro=" + intro + "]";
+				+ isValid + ", leaveUser=" + leaveUser + ", intro=" + intro + ", kakaoId=" + kakaoId + "]";
 	}
 	public boolean isValid() {
 		return isValid;

@@ -89,12 +89,22 @@
         <div class="row">
           <div class="searchform" style="width:100%;">
             <div class="row" style="margin:8px;">
-              <div class="col-12">
+              <div class="col-12" style="display : flex;">
                 <p>ID :</p>
                 <fg-input type="text" placeholder="아이디를 입력하세요" id="keyword1" style="width:85%;" />
+                <p>기술 :</p>
+                  <fg-input
+                    id="stackWord"
+                    type="text"
+                    v-model="inputVal"
+                    @input="searchQuery()"
+                    @keyup.enter="enter()"
+                    placeholder="기술 태그 입력해주세요"
+                    style="width:85%;"
+                  />
               </div>
             </div>
-            <div class="input">
+            <!-- <div class="input">
               <div class="row" style="margin:8px;">
                 <div class="col-12">
                   <p>기술 :</p>
@@ -109,7 +119,7 @@
                   />
                 </div>
               </div>
-            </div>
+            </div> -->
             <table class="autoComplete" style="cursor: pointer;">
               <tr v-for="list in lists" :key="list" @click="add(list)">
                 <td>{{list}}</td>

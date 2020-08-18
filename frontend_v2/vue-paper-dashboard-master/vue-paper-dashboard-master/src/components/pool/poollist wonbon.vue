@@ -1,8 +1,5 @@
 <template>
   <div>
-    <h1>인재풀 샘플</h1>
-    <hr />
-
     <div class="card col-md-10 ml-auto col-xl-6 mr-auto">
       <!-- 시군구동 검색 -->
 
@@ -92,12 +89,22 @@
         <div class="row">
           <div class="searchform" style="width:100%;">
             <div class="row" style="margin:8px;">
-              <div class="col-12">
+              <div class="col-12" style="display : flex;">
                 <p>ID :</p>
                 <fg-input type="text" placeholder="아이디를 입력하세요" id="keyword1" style="width:85%;" />
+                <p>기술 :</p>
+                  <fg-input
+                    id="stackWord"
+                    type="text"
+                    v-model="inputVal"
+                    @input="searchQuery()"
+                    @keyup.enter="enter()"
+                    placeholder="기술 태그 입력해주세요"
+                    style="width:85%;"
+                  />
               </div>
             </div>
-            <div class="input">
+            <!-- <div class="input">
               <div class="row" style="margin:8px;">
                 <div class="col-12">
                   <p>기술 :</p>
@@ -112,7 +119,7 @@
                   />
                 </div>
               </div>
-            </div>
+            </div> -->
             <table class="autoComplete" style="cursor: pointer;">
               <tr v-for="list in lists" :key="list" @click="add(list)">
                 <td>{{list}}</td>
@@ -167,213 +174,209 @@
       </li>
     </ul>
     -->
-    <select id="showcnt" @change="changeShowCnt">
-      <option value="8" selected>8개씩 보기</option>
-      <option value="12">12개씩 보기</option>
-      <option value="16">16개씩 보기</option>
-    </select>
-    <!-- 여기서 -->
-    <!-- <div class="overflow-auto table-responsive">
-      <b-table
-        class="table"
-        id="my-table"
-        :items="frees"
-        :per-page="perPage"
-        :current-page="currentPage"
-        small
-        :fields="fields"
-      >
-        <template v-slot:cell(bstate)="data">
-          <div v-if="data.item.bstate == 'free'">자유</div>
-          <div v-if="data.item.bstate == 'notice'">공지</div>
-          <div v-if="data.item.bstate == 'qa'">질문</div>
-        </template>
-        <template v-slot:cell(btitle)="data">
-          <router-link
-            :to="'/freeboard/detailfree/' + data.item.bno + '/' + type"
-          >{{data.item.btitle}}</router-link>
-        </template>
-        <template v-slot:cell(bwriter)="data">
-          <router-link :to="'/profile/' + data.item.bwriter">{{data.item.bwriter}}</router-link>
-        </template>
-        <template v-slot:cell(bview)="data">{{ data.item.bview}}</template>
-        <template v-slot:cell(makeDay)="data">{{ data.item.makeDay.slice(0,10)}}</template>
-      </b-table>
-      <b-pagination
-        v-model="currentPage"
-        :total-rows="rows"
-        :per-page="perPage"
-        aria-controls="my-table"
-      ></b-pagination>
-    </div>-->
-    <!-- 여기까지 가져온거 -->
-
-    <ul
-      class="cards overflow-auto"
-      id="poolpage"
-     
-    >
-      <li class="cards__item" v-for="(pool,index) in extendpools.slice(this.perPage*(currentPage-1),perPage*(currentPage))" :key="index">
-        <div class="card">
-          <div
-            v-if="pool.responsibility === '디자인'"
-            class="card__image card__image--designer"
-            style="position:relative"
-          >
-            <img
-              class="avatar border-white"
-              :src="urls(pool.id)"
-              style="position:absolute;z-index:9;bottom:0;left:0"
-            />
-          </div>
-          <div
-            v-if="pool.responsibility === '개발'"
-            class="card__image card__image--developer"
-            style="position:relative"
-          >
-            <img
-              class="avatar border-white"
-              :src="urls(pool.id)"
-              style="position:absolute;z-index:1;bottom:0;left:0"
-            />
-          </div>
-          <div
-            v-if="pool.responsibility === '기획'"
-            class="card__image card__image--head"
-            style="position:relative"
-          >
-            <img
-              class="avatar border-white"
-              :src="urls(pool.id)"
-              style="position:absolute;z-index:1;bottom:0;left:0"
-            />
-          </div>
-          <div class="card__content">
-            <div class="card__title">
-              <div
-                style="font-weight:800; display:inline-block; margin-right:4px;"
-              >{{pool.nickname}}</div>
-              <p
-                v-if="pool.isValid ===1"
-                style="display:inline-block; color:rgb(79, 245, 154); font-size:10px; text-align:right; margin-bottom:3px;"
-              >인증</p>
-              <p
-                v-else
-                style="display:inline-block; color:red;font-size:10px;text-align:right; margin-bottom:3px; "
-              >미인증</p>
-              <div
-                style="padding-top:0px;margin-top:0px; font-size:10px; margin-bottom:16px;"
-              >{{pool.id}}</div>
+    <notfound v-if="rows === 0" />
+    <div v-else>
+      <select id="showcnt" @change="changeShowCnt">
+        <option value="8" selected>8개씩 보기</option>
+        <option value="12">12개씩 보기</option>
+        <option value="16">16개씩 보기</option>
+      </select>
+      <ul class="cards overflow-auto" id="poolpage">
+        <li
+          class="cards__item"
+          v-for="(pool,index) in extendpools.slice(this.perPage*(currentPage-1),perPage*(currentPage))"
+          :key="index"
+        >
+          <div class="card">
+            <div
+              v-if="pool.responsibility === '디자인'"
+              class="card__image card__image--designer"
+              style="position:relative"
+            >
+              <img
+                class="avatar border-white"
+                :src="urls(pool.id)"
+                style="position:absolute;z-index:9;bottom:0;left:0"
+              />
             </div>
-
-            <p
-              class="card__text"
-              style="font-weight:bold; margin-bottom:4px;"
-            >{{pool.responsibility}}</p>
-            <div class="inter">
-              <div
-                v-for="(interest, idx) in pool.interest"
-                :key="idx"
-                style="margin:2px; display:inline-block"
-              >#{{interest.interest}},</div>
-              <div></div>
+            <div
+              v-if="pool.responsibility === '개발'"
+              class="card__image card__image--developer"
+              style="position:relative"
+            >
+              <img
+                class="avatar border-white"
+                :src="urls(pool.id)"
+                style="position:absolute;z-index:1;bottom:0;left:0"
+              />
             </div>
-            {{pool.intro}}
-            <hr />
-            <div style="font-size: 12px;">
-              <i class="fa fa-map-marker emo"></i>
-              {{pool.address2}}
+            <div
+              v-if="pool.responsibility === '기획'"
+              class="card__image card__image--head"
+              style="position:relative"
+            >
+              <img
+                class="avatar border-white"
+                :src="urls(pool.id)"
+                style="position:absolute;z-index:1;bottom:0;left:0"
+              />
             </div>
+            <div class="card__content">
+              <div class="card__title">
+                <div
+                  style="font-weight:800; display:inline-block; margin-right:4px;"
+                >{{pool.nickname}}</div>
+                <p
+                  v-if="pool.isValid ===1"
+                  style="display:inline-block; color:rgb(79, 245, 154); font-size:10px; text-align:right; margin-bottom:3px;"
+                >
+                  <img v-if="pool.isValid ===1" src="@/assets/img/checklist.png" title="인증된 유저입니다" />
+                </p>
 
-            <div>
-              <!--  관심사로 사용하기
+                <p
+                  v-else
+                  style="display:inline-block; color:red;font-size:10px;text-align:right; margin-bottom:3px; "
+                >
+                  <img src="@/assets/img/error.png" title="미인증된 유저입니다" />
+                </p>
+                <div
+                  style="padding-top:0px;margin-top:0px; font-size:10px; margin-bottom:16px;"
+                >{{pool.id}}</div>
+              </div>
+
+              <p class="card__text" style="font-weight:bold; margin-bottom:4px;">
+                <img v-if="pool.responsibility === '디자인'" src="@/assets/img/paint-palette.png" />
+                <img v-if="pool.responsibility === '개발'" src="@/assets/img/programming.png" />
+                <img v-if="pool.responsibility === '기획'" src="@/assets/img/procedure.png" />
+                {{pool.responsibility}}
+              </p>
+              <div class="inter">
+                <div
+                  v-for="(interest, idx) in pool.interest"
+                  :key="idx"
+                  style="margin:2px; display:inline-block"
+                >#{{interest.interest}},</div>
+                <div></div>
+              </div>
+              {{pool.intro}}
+              <hr />
+              <div style="font-size: 12px;">
+                <img src="@/assets/img/map-location.png" title="위치는 여기!" />
+                {{pool.address2}}
+              </div>
+
+              <div>
+                <!--  관심사로 사용하기
                    <div v-for="(interest, idx) in pool.interest" :key="idx">
                     {{interest.interest}}
                     
                   </div>
-              -->
-              <!-- 수행한 프로젝트
+                -->
+                <!-- 수행한 프로젝트
                      <div v-for="(pjt, idx) in pool.project" :key="idx">
                     {{pjt.pid}}
                     
                     {{pjt.pjtName}}
                   </div>
-              -->
-            </div>
+                -->
+              </div>
 
-            <div class="container-fluid">
-              <div class="row">
-                <div class="col-3" style="font-size:22px; text-align:center;">
-                  <i
-                    class="fa fa-github emo"
-                    v-b-tooltip.hover
-                    title="Github"
-                    v-if="pool.git != null"
-                  ></i>
-                </div>
-                <div class="col-3" style="font-size:22px; text-align:center;">
-                  <i
-                    class="fa fa-user-plus emo"
-                    v-b-tooltip.hover
-                    title="팔로우"
-                    v-if="!follow.find(item=>item.id === pool.id)"
-                    @click="fol(pool.id)"
-                  ></i>
-                  <!-- v-else로 친구라고 넘겨줘도 될듯 -->
-                </div>
-                <div class="col-3" style="font-size:22px; text-align:center;">
-                  <i
-                    class="fa fa-id-card emo"
-                    v-b-tooltip.hover
-                    title="프로필"
-                    @click="toProfile(pool.id)"
-                  ></i>
-                </div>
+              <div class="container-fluid">
+                <div class="row">
+                  <div class="col-3" style="font-size:22px; text-align:center;">
+                    <i
+                      class="fa fa-github emo"
+                      v-b-tooltip.hover
+                      title="Github"
+                      v-if="pool.git != null"
+                    ></i>
+                  </div>
+                  <div class="col-3" style="font-size:22px; text-align:center;">
+                    <i
+                      class="fa fa-user-plus emo"
+                      v-b-tooltip.hover
+                      title="팔로우"
+                      v-if="!follow.find(item=>item.id === pool.id)"
+                      @click="fol(pool.id)"
+                    ></i>
+                    <!-- v-else로 친구라고 넘겨줘도 될듯 -->
+                  </div>
+                  <div class="col-3" style="font-size:22px; text-align:center;">
+                    <i
+                      class="fa fa-id-card emo"
+                      v-b-tooltip.hover
+                      title="프로필"
+                      @click="toProfile(pool.id)"
+                    ></i>
+                  </div>
 
-                <div class="col-3" style="font-size:22px; text-align:center;">
-                  <div>
-                    <button
-                      v-b-modal="'test-'+pool.id"
-                      style="margin:0px; padding:0px; border:0; outline:0; font-size:22px; background-color:white;"
-                    >
-                      <i class="fa fa-tasks emo" v-b-tooltip.hover title="프로젝트 목록"></i>
-                    </button>
+                  <div class="col-3" style="font-size:22px; text-align:center;">
+                    <div>
+                      <button
+                        v-b-modal="'test-'+pool.id"
+                        style="margin:0px; padding:0px; border:0; outline:0; font-size:22px; background-color:white;"
+                      >
+                        <i class="fa fa-tasks emo" v-b-tooltip.hover title="프로젝트 목록"></i>
+                      </button>
 
-                    <b-modal :id="'test-'+pool.id" title="참여한 프로젝트 목록" hide-footer>
-                      <div v-if="pool.project != null">
-                        <div
-                          v-for="(pjt, idx) in pool.project"
-                          :key="idx"
-                          style="font-size:20px; font-weight:bold;"
-                        >
-                          <div class="card">
-                            <div class="card-header" style="cursor:pointer;">{{pjt.pjtName}}</div>
-                            <div class="card-body">
-                              <hr />
-                              <p>{{pjt.pjtContent}}</p>
+                      <b-modal :id="'test-'+pool.id" title="참여한 프로젝트 목록" hide-footer>
+                        <div v-if="pool.project != null">
+                          <div
+                            v-for="(pjt, idx) in pool.project"
+                            :key="idx"
+                            style="font-size:20px; font-weight:bold;"
+                          >
+                            <div class="card">
+                              <div class="card-header" style="cursor:pointer;">{{pjt.pjtName}}</div>
+                              <div class="card-body">
+                                <hr />
+                                <p>{{pjt.pjtContent}}</p>
+                              </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                      <div v-if="pool.projects == null">아직 참여한 프로젝트가 없습니다. 이번 기회에 함께 해보는건 어떨까요?</div>
-                    </b-modal>
-                  </div>
+                        <div v-if="pool.projects == null">아직 참여한 프로젝트가 없습니다. 이번 기회에 함께 해보는건 어떨까요?</div>
+                      </b-modal>
+                    </div>
 
-                  <!--  <i class="fa fa-tasks emo"></i> -->
+                    <!--  <i class="fa fa-tasks emo"></i> -->
+                  </div>
                 </div>
               </div>
+              <div>
+                <!--
+            <router-link
+              :to="'/project/' + pool.id"
+              tag="button"
+              class="btn btn--block card__btn"
+            >프로젝트 보기</router-link>
+            <router-link
+              :to="'/profile/' + pool.id"
+              tag="button"
+              class="btn btn--block card__btn"
+            >프로필 보기</router-link>
+            <a
+              class="btn btn--block card__btn"
+              v-if="pool.git"
+              :href="'https://github.com/'+pool.git"
+            >Git</a>
+            <button
+              v-if="!follow.find(item=>item.id === pool.id)"
+              class="btn btn-success"
+              @click="fol(pool.id)"
+            >팔로우하기</button>
+                -->
+              </div>
             </div>
-            <div></div>
-          </div>
-          <!--
+            <!--
       <b-btn v-b-toggle="'test-'+pool.id"  style="none;">
     Toggle Collapse
   </b-btn>
   <b-collapse :id="'test-'+pool.id" class="mt-2">
     오우오우오오우
   </b-collapse>
-          -->
-          <!--
+            -->
+            <!--
 <div>
   <b-button v-b-modal="'test-'+pool.id">Launch demo modal</b-button>
 
@@ -386,17 +389,18 @@
                   </div>
   </b-modal>
 </div>
-          -->
-        </div>
-      </li>
-    </ul>
-    <b-pagination
-      v-model="currentPage"
-      :total-rows="rows"
-      :per-page="perPage"
-      aria-controls="poolpage"
-      align="center"
-    ></b-pagination>
+            -->
+          </div>
+        </li>
+      </ul>
+      <b-pagination
+        v-model="currentPage"
+        :total-rows="rows"
+        :per-page="perPage"
+        aria-controls="poolpage"
+        align="center"
+      ></b-pagination>
+    </div>
   </div>
 </template>
 
@@ -405,46 +409,19 @@
 <script>
 import Constant from "../../Constant";
 import http from "../../http-common.js";
+import notfound from "@/components/notfound/notfound.vue";
+
 export default {
   name: "poollist1",
+  components: {
+    notfound,
+  },
   data() {
     return {
       //페이징
       perPage: 8,
       currentPage: 1,
-      // fields: [
-      //   {
-      //     key: "bstate",
-      //     label: "종류",
-      //     // sortable: true,
-      //   },
-      //   // {
-      //   //   key: "bno",
-      //   //   label: "번호",
-      //   //   // sortable: true,
-      //   // },
-      //   {
-      //     key: "btitle",
-      //     label: "제목",
-      //     // sortable: true,
-      //   },
-      //   {
-      //     key: "bwriter",
-      //     label: "ID",
-      //     // sortable: true,
-      //   },
-      //   {
-      //     key: "bview",
-      //     label: "조회수",
-      //     // sortable: true,
-      //   },
-      //   {
-      //     key: "makeDay",
-      //     label: "작성일",
-      //     // sortable: true,
-      //   },
-      // ],
-      //////
+
       selectedSido: 0,
       selectedGugun: 0,
       selectedDong: 0,
@@ -520,7 +497,7 @@ export default {
   },
   created() {
     console.log(this.urls("abb"));
-    // this.$store.dispatch(Constant.GET_POOLLIST);
+    this.$store.dispatch(Constant.GET_POOLLIST);
     this.$store.dispatch(Constant.GET_EXTENDPOOLLIST);
     console.log("디스패치 완료");
 
@@ -532,7 +509,6 @@ export default {
     changeShowCnt() {
       this.perPage = parseInt(document.getElementById("showcnt").value);
     },
-
     urls(id) {
       let url = this.$store.state.filestore.fileUrl + id + ".png";
       return url;
@@ -660,6 +636,13 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
+@font-face {
+  font-family: "NanumGothic";
+  src: url("/fonts/NanumGothic.eot");
+  src: url("/fonts/NanumGothic.eot") format("embedded-opentype"),
+    url("/fonts/NanumGothic.woff") format("woff");
+}
+
 td,
 tr,
 th {
@@ -688,16 +671,13 @@ html {
 }
 
 body {
+  font-family: "NanumGothic", "serif";
   color: #999999;
-  font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  //font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-style: normal;
   font-weight: 400;
   letter-spacing: 0;
   padding: 1rem;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  -moz-font-feature-settings: "liga" on;
 }
 
 img {
@@ -707,12 +687,12 @@ img {
 }
 
 .btn {
-  background-color: white;
+  // background-color: white;
   border: 1px solid #cccccc;
   //border-radius: 1rem;
-  color: #696969;
-  padding: 0.5rem;
-  text-transform: lowercase;
+  // color: #696969;
+  // padding: 0.5rem;
+  // text-transform: lowercase;
 }
 
 .btn--block {

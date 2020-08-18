@@ -1,5 +1,5 @@
 <template>
-  <card class="card-user">
+  <card class="card-user col-12">
     <div slot="image">
       <!-- <img src="@/assets/img/whiteBg.png" alt="..." /> -->
     </div>
