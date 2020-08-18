@@ -27,4 +27,6 @@ public interface IssueService {
 	public int updatePriority(Issue v); // 해당 이슈의 중요도를 업데이트함.
 	
 	public int updateByState(Issue v);
+	
+	public List<Issue> selectByPrework(int prework);
 }

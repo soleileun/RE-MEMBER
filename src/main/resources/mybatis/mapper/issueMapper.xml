@@ -25,6 +25,12 @@
 		where issueid=#{issueid}
 	</select>
 	
+	<select id="selectByPrework" parameterType="int" resultType="issue">
+		select *
+		from issue
+		where prework = #{prework}
+	</select>
+	
 	<insert id="insert" parameterType="issue">
 		insert into issue(pid, uid, response, issuetype, issuestate,issuetitle ,issuecontent ,prework,priority,
 		makeDay,startDay ,endDay ,changeDay  )
