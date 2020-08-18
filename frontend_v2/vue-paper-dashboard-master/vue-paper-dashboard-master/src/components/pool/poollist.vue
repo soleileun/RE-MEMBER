@@ -307,12 +307,15 @@
               <div class="container-fluid">
                 <div class="row">
                   <div class="col-3" style="font-size:22px; text-align:center;">
-                    <i
-                      class="fa fa-github emo"
-                      v-b-tooltip.hover
-                      title="Github"
-                      v-if="pool.git != null"
-                    ></i>
+                    <a :href="'https://github.com/'+pool.git" style="color: black">
+                      <i
+                        class="fa fa-github emo"
+                        v-b-tooltip.hover
+                        title="Github"
+                        v-if="pool.git != null"
+                        style="color: black"
+                      ></i>
+                    </a>
                   </div>
                   <div class="col-3" style="font-size:22px; text-align:center;">
                     <i
