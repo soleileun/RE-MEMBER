@@ -58,7 +58,7 @@ const issuestore = {
                     console.log(response.data);
                     store.commit(Constant.GET_ISSUE, { issue: response.data })
                 })
-                .catch(exp => alert('getTodo처리에 실패하였습니다.' + exp));
+                .catch(exp => alert('getTodo(GET_ISSUE)처리에 실패하였습니다.' + exp));
 
         },
 
@@ -73,7 +73,7 @@ const issuestore = {
                 .then(response => {
                     store.commit(Constant.GET_ISSUE_PREWORK, { issue_prework: response.data })
                 })
-                .catch(exp => alert('getTodo처리에 실패하였습니다.' + exp));
+                .catch(exp => alert('getTodo(GET_ISSUE_PREWORK)처리에 실패하였습니다.' + exp));
 
         },
 
@@ -85,9 +85,11 @@ const issuestore = {
             console.log(payload);
             http.get('/api/issue/byprework/' + payload.prework, config)
                 .then(response => {
-                    store.commit(Constant.GET_ISSUE_BY_PREWORK, { issue_by_prework: response.data })
+                    console.log("getIssuebyPrework");
+                    console.log(response.data);
+                    //store.commit(Constant.GET_ISSUE_BY_PREWORK, { issue_by_prework: response.data })
                 })
-                .catch(exp => alert('getTodo처리에 실패하였습니다.' + exp));
+                .catch(exp => alert('getTodo(GET_ISSUE_BY_PREWORK)처리에 실패하였습니다.' + exp));
 
         },
 

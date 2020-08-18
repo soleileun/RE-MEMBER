@@ -19,7 +19,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.test.model.dto.Following;
+import com.ssafy.test.model.dto.Message;
 import com.ssafy.test.model.service.FollowingService;
+import com.ssafy.test.model.service.MessageService;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -35,6 +37,9 @@ public class FollowingController {
 
 	@Autowired
 	private FollowingService fService;
+	
+	@Autowired
+	private MessageService mService;
 
     @ApiOperation(value = "모든 following의 정보를 반환한다.", response = List.class)
 	@GetMapping
@@ -69,6 +74,9 @@ public class FollowingController {
 	public ResponseEntity<String> writeBoard(@RequestBody Following q) {
 		//logger.debug("writeQnA - 호출");
 		if (fService.insert(q) ==1) {
+		Message msg = new Message();
+		msg.setFromUser(q.getUid()); msg.setToUser(q.getTarget());
+		msg.setContent(q.getUid()+"님이 회원님을 팔로우하기 시작했습니다 ");
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		}
 		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);

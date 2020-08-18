@@ -36,6 +36,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ssafy.test.model.dto.Addr;
 import com.ssafy.test.model.dto.Email;
 import com.ssafy.test.model.dto.Inter;
+import com.ssafy.test.model.dto.Message;
 import com.ssafy.test.model.dto.PidPjt;
 import com.ssafy.test.model.dto.Pinterest;
 import com.ssafy.test.model.dto.Pmember;
@@ -51,6 +52,7 @@ import com.ssafy.test.model.service.EmailService;
 import com.ssafy.test.model.service.JwtService;
 import com.ssafy.test.model.service.MailHandler;
 import com.ssafy.test.model.service.MailTempKey;
+import com.ssafy.test.model.service.MessageService;
 import com.ssafy.test.model.service.PinterestService;
 import com.ssafy.test.model.service.PmemberService;
 import com.ssafy.test.model.service.ProjectService;
@@ -103,6 +105,9 @@ public class UserInfoController {
    private PinterestService pinterService;
    @Autowired
    private PmemberService pmservice;
+   
+   @Autowired
+   private MessageService mService;
 
    @ApiOperation(value = "유저풀에서 사용", response = List.class)
    @GetMapping("pools")
@@ -185,15 +190,9 @@ public class UserInfoController {
             }
          }
          */
-         
-         
-         
          v.get(i).setInterest(itmp);
          v.get(i).setProject(ptmp);
       }
-      
-      
-      
 
       logger.debug("getPools - 호출");
       return new ResponseEntity<List<Pools>>(v, HttpStatus.OK);
@@ -425,9 +424,6 @@ public class UserInfoController {
     		  
     	  }
       }
-      
-      
-      
       return new ResponseEntity<List<UserSimple>>(simple, HttpStatus.OK);
    }
 
@@ -487,10 +483,8 @@ public class UserInfoController {
     			  visit[n] =true;
     			  idx++;
     		  }
-    		  
     	  }
       }
-      
       return new ResponseEntity<List<Projectcnt>>(finallist, HttpStatus.OK);
    }
 
@@ -512,7 +506,6 @@ public class UserInfoController {
 
       }
       return new ResponseEntity<Map<String, Object>>(resultMap, status);
-
    }
 
    @ApiOperation(value = "모든 유저의 정보를 반환한다.", response = List.class)
@@ -556,6 +549,7 @@ public class UserInfoController {
          throws MessagingException, UnsupportedEncodingException {
       logger.debug("insertUser - 호출");
       System.out.println(q.toString());
+  
       boolean emailTest = checkRex(q.getId(), "id");
       boolean pwTest = checkRex(q.getPw(), "password");
       boolean nameTest = checkRex(q.getName(), "name");
@@ -586,7 +580,10 @@ public class UserInfoController {
             sendMail.setFrom("test@gmail.com", "admin");
             sendMail.setTo(q.getId());
             sendMail.send();
-
+            Message msg = new Message();
+            msg.setFromUser("admin"); msg.setToUser(q.getId());
+            msg.setContent("가입해주셔서 감사합니다! 우리 함께 멋진 프로젝트를 해봐요 🤗");
+            mService.insert(msg);
             return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
          }
       }

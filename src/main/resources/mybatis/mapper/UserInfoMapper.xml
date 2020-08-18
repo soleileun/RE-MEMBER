@@ -8,9 +8,9 @@
 	<!-- 회원 가입 -->
 	<insert id="insert" parameterType="userinfo">
 		insert into userInfo
-		(id,nickname,name,pw,address1,address2,phone,git,points,lastDate,state,responsibility)
+		(id,nickname,name,pw,address1,address2,phone,git,points,lastDate,state,responsibility,kakaoId)
 		values
-		(#{id},#{nickname},#{name},#{pw},#{address1},#{address2},#{phone},#{git},#{points},#{lastDate},#{state},#{responsibility})
+		(#{id},#{nickname},#{name},#{pw},#{address1},#{address2},#{phone},#{git},#{points},#{lastDate},#{state},#{responsibility},#{kakaoId})
 	</insert>
 
 	<!-- 회원 수정 -->
