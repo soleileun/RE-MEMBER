@@ -122,7 +122,7 @@ export default {
         this.project.pid;
       var name = "project detail";
       var option =
-        "width = 1000, height = 750, top = 100, left = 200, location = no";
+        "width = 1500, height = 750,  location = no";
       window.open(url, name, option);
     },
     openModal() {
