@@ -162,7 +162,16 @@
                     <div
                       class="drag-item-text"
                       @click="issuedetail(item.name.issueid)"
-                    >{{ item.name.changeDay.slice(0,10) }} {{ item.name.issuetitle }}</div>
+                    >
+                    <span class="issueTitle">
+                    {{ item.name.issuetitle }}
+
+                    </span>
+                    <span class="issueDate">
+
+                    {{ item.name.changeDay.slice(0,10) }} 
+                    </span>
+                    </div>
                   </li>
                 </ul>
               </vue-draggable-group>
@@ -610,7 +619,7 @@ ul {
 
 .drag-item {
   margin: 10px;
-  height: 50px;
+  min-height: 50px;
   background: rgba(black, 0.4);
   transition: $ease-out;
 
@@ -624,6 +633,13 @@ ul {
     font-size: 1rem;
     padding-left: 1rem;
     padding-top: 1rem;
+    .issueTitle{
+      font-size: 1.3rem;
+    }
+    .issueDate{
+      font-size: .8rem;
+      white-space: nowrap;
+    }
   }
 }
 

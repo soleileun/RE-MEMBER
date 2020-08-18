@@ -80,7 +80,7 @@
         <!-- The Modal -->
       </div>
       <template v-if="test1">
-        <button class="btn btn-info">프로젝트 팀 참여하기</button>
+        <button class="btn btn-info" @click="addWait">프로젝트 팀 참여하기</button>
       </template>
 
       <div id="myModal" class="modal">
@@ -195,6 +195,9 @@ export default {
     });
   },
   methods: {
+    addWait(){
+      this.$store.dispatch(Constant.ADD_WAITMEMBER,{pid:this.pid})
+    },
     mes: function (id) {
       this.$store.dispatch("sendMes", { toUser: id });
     },

@@ -51,7 +51,8 @@ export default {
     SEARCH_POOL_BY_ADDR: 'searchPoolByAddr',
     GET_EXTENDPOOLLIST: 'extendPoolList',
 
-
+    // 팀 지원, 초대 등
+    ADD_WAITMEMBER:'addWaitMember',
 
     //이거 그 뭐야 채팅 관련
     GET_CHATROOMLIST: 'getChatroomList',

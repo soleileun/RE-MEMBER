@@ -106,54 +106,58 @@ const projectstore = {
         }
       }
       http.post('/api/project/', {
-          // bno : payload.bno,
-          pjtName: payload.pjtName,
-          pjtContent: payload.pjtContent,
-          pjtState: payload.pjtState,
-          pjtMemberCnt: payload.pjtMemberCnt,
-          makeDay: payload.makeDay,
-          makeId: payload.makeId,
-          location:payload.location,
-          //changeDay: payload.changeDay,
-
-          //changeId: payload.changeId,
-          //location: payload.location,
-        }, config)
-        .then((response) => {
-          console.log(response);
-          store.dispatch(Constant.GET_PROJECTLIST_BY_PMEMBER, {
-            userId: payload.makeId
-          });
-          store.state.pinterest.forEach((el) => {
-            http
-              .post("/api/pinterest/", {
-                pid: response.data,
-                interest: el,
-              }, config).then(res => {
-                console.log(res);
-              }).catch(e => console.log(e))
-          })
-          console.log("과연 플젝관심사 추가해줬을까");
-
+        // bno : payload.bno,
+        pjtName: payload.pjtName,
+        pjtContent: payload.pjtContent,
+        pjtState: payload.pjtState,
+        pjtMemberCnt: payload.pjtMemberCnt,
+        makeDay: payload.makeDay,
+        makeId: payload.makeId,
+        location:payload.location,
+        //changeDay: payload.changeDay,
+        
+        //changeId: payload.changeId,
+        //location: payload.location,
+      }, config)
+      .then((response) => {
+        console.log(response);
+        store.dispatch(Constant.GET_PROJECTLIST_BY_PMEMBER, {
+          userId: payload.makeId
+        });
+        store.state.pinterest.forEach((el) => {
+          http
+          .post("/api/pinterest/", {
+            pid: response.data,
+            interest: el,
+          }, config).then(res => {
+            console.log(res);
+          }).catch(e => console.log(e))
         })
-        .catch(exp => {
-          console.log('추가 실패 확인 로그');
-          alert('추가 처리에 실패하였습니다.' + exp);
-        })
+        console.log("과연 플젝관심사 추가해줬을까");
+        
+      })
+      .catch(exp => {
+        console.log('추가 실패 확인 로그');
+        alert('추가 처리에 실패하였습니다.' + exp);
+      })
     },
-
+    // asd
+    [Constant.ADD_WAITMEMBER]: (store, payload) => {
+      
+    }
+    
     // //게시글 추가
     // [Constant.ADD_BOARD]: (store, payload) => {
-    //     // console.log(payload.bstate);
-
-    //     http.post('/api/board/', {
-    //             // bno : payload.bno,
-    //             bwriter : payload.bwriter,
-    //             btitle : payload.btitle,
-    //             bcontent : payload.bcontent,
-    //             bview : payload.bview,
-    //             bfile : payload.bfile,
-    //             bstate : payload.bstate,
+      //     // console.log(payload.bstate);
+      
+      //     http.post('/api/board/', {
+        //             // bno : payload.bno,
+        //             bwriter : payload.bwriter,
+        //             btitle : payload.btitle,
+        //             bcontent : payload.bcontent,
+        //             bview : payload.bview,
+        //             bfile : payload.bfile,
+        //             bstate : payload.bstate,
     //             makeDay : payload.makeDay,
     //             // changeDay : payload.changeDay,
     //             makeId : payload.makeId,
