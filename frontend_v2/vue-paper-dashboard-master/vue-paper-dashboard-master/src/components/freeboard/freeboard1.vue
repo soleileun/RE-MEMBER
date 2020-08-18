@@ -97,7 +97,7 @@
                        <th style="width:2%;">No</th> 
                       <th style="width:6%; min-width:60px;">종류</th>
                       <th style="width:65%;">제목</th>
-                      <th>ID</th>
+                      <th style="min-width:80px;">작성자</th>
                       <th style="min-width:80px; text-align:center;">조회수</th>
                       <th style="min-width:110px; text-align:center;">작성일</th>
                     </tr>
@@ -116,7 +116,7 @@
                         <a v-if="free.cnt != 0" style="display:inline-block; font-weight:800; color:red; padding-left:4px;"> [{{free.cnt}}]</a>
                         <!--<router-link :to="'/freeboard/detailfree/' + free.bno + '/' + type">{{free.btitle}}</router-link>-->
                       </td>
-                      <td><router-link :to="'/profile/' + free.bwriter">{{free.bwriter}}</router-link></td>
+                      <td><router-link :to="'/profile/' + free.bwriter">{{free.nickname}}</router-link></td>
                       <td style="text-align:center;">{{free.bview}}</td>
                       <td style="text-align:center;">{{free.makeDay.slice(0,10)}}</td>
                     </tr>

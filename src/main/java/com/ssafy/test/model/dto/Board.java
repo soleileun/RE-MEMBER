@@ -18,6 +18,34 @@ public class Board {
 	private String changeId;
 	private int isSelect; // 어떤 코멘트를 채택했는지.
 	private int cnt;
+	private String nickname;
+
+	public Board(int bno, String bwriter, String btitle, String bcontent, int bview, String bfile, String bstate,
+			Date makeDay, Date changeDay, String makeId, String changeId, int isSelect, int cnt, String nickname) {
+		super();
+		this.bno = bno;
+		this.bwriter = bwriter;
+		this.btitle = btitle;
+		this.bcontent = bcontent;
+		this.bview = bview;
+		this.bfile = bfile;
+		this.bstate = bstate;
+		this.makeDay = makeDay;
+		this.changeDay = changeDay;
+		this.makeId = makeId;
+		this.changeId = changeId;
+		this.isSelect = isSelect;
+		this.cnt = cnt;
+		this.nickname = nickname;
+	}
+
+	public String getNickname() {
+		return nickname;
+	}
+
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
+	}
 
 	public Board(int bno, String bwriter, String btitle, String bcontent, int bview, String bfile, String bstate,
 			Date makeDay, Date changeDay, String makeId, String changeId, int isSelect, int cnt) {
