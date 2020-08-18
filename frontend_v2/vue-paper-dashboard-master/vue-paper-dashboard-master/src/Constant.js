@@ -57,6 +57,7 @@ export default {
     REMOVE_APPLY:'removeApply',
     MY_APPLY:'myApply',
     PROJECT_APPLY:'projectApply',
+    ADD_NEWMEMBER:'addNewMember',
 
     //이거 그 뭐야 채팅 관련
     GET_CHATROOMLIST: 'getChatroomList',

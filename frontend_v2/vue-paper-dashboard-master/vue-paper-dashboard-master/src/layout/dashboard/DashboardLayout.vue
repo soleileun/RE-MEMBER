@@ -56,7 +56,7 @@
         <li class="divider"></li>
       </mobile-menu>
     </side-bar>
-    <div class="main-panel">
+    <div class="main-panel" style="background-color:white">
       <top-navbar></top-navbar>
 
       <dashboard-content @click.native="toggleSidebar"></dashboard-content>

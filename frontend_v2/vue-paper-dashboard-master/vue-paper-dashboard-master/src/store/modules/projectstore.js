@@ -1,6 +1,7 @@
 import Vuex from 'vuex';
 import Vue from 'vue';
 
+import router from '../../router';
 import Constant from '../../Constant.js';
 import http from '../../http-common.js';
 Vue.use(Vuex);
@@ -13,8 +14,9 @@ const projectstore = {
     pmlist: [],
     pjtcnt: {},
     pinterest: [],
-    pjtName : {}
-
+    pjtName : {},
+    applys:[],
+    applysId:'',
   },
 
   actions: {
@@ -150,15 +152,28 @@ const projectstore = {
         }
       } 
       http
-      .post("/api/waitMember/", { 
-        code: "string",
+      .post("/api/waitMember/", {
+        code: new Date().getTime() +'',
         comment: payload.comment,
         pid: payload.pid,
         state: "string",
         type: "Apply",
         userId: window.sessionStorage.getItem('userid'),
       }, config).then(res => {
-        alert(res.data);
+        alert('지원 되었습니다.');
+      }).catch(e => console.log(e))
+    },
+    [Constant.ADD_NEWMEMBER]: (store, payload) => {
+      //수락
+      const config = {
+        headers: {
+          "jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")
+        }
+      } 
+      http
+      .get("/api/waitMember/invite/"+payload.code, config).then(res => {
+        alert('추가 되었습니다.');
+        router.go()
       }).catch(e => console.log(e))
     },
     [Constant.ADD_INVITE]: (store, payload) => {
@@ -168,16 +183,17 @@ const projectstore = {
           "jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")
         }
       } 
+      
       http
       .post("/api/waitMember/", { 
-        code: "string",
         comment: payload.comment,
         pid: payload.pid,
-        state: "string",
+        state: payload.state,
         type: "Invite",
-        userId: payload.target,
+        userId: payload.userId,
       }, config).then(res => {
-        alert(res.data);
+        alert('초대되었습니다.');
+        router.go()
       }).catch(e => console.log(e))
     },
     [Constant.REMOVE_APPLY]: (store, payload) => {
@@ -189,7 +205,8 @@ const projectstore = {
       } 
       http
       .delete(`/api/waitMember/delete/${payload.target}/${payload.pid}`, config).then(res => {
-        alert(res.data);
+        alert('삭제되었습니다.');
+        router.go()
       }).catch(e => console.log(e))
     },
     [Constant.MY_APPLY]: (store, payload) => {
@@ -214,8 +231,7 @@ const projectstore = {
       } 
       http
       .get(`/api/waitMember/searchByPid/${payload.pid}`, config).then(res => {
-        alert(res.data);
-        store.commit(Constant.PROJECT_APPLY,{applys:res.data})
+        store.commit(Constant.PROJECT_APPLY,{applys:res.data,pid:payload.pid})
       }).catch(e => console.log(e))
     },
 
@@ -316,6 +332,7 @@ const projectstore = {
   mutations: {
     [Constant.PROJECT_APPLY]:(state, payload) => {
       state.applys = payload.applys;
+      state.applysId = payload.pid
     },
     [Constant.MY_APPLY]:(state, payload) => {
       state.applys = payload.applys;
