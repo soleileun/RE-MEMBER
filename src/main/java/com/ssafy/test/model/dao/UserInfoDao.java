@@ -27,6 +27,7 @@ public interface UserInfoDao {
 	public List<UserInfo> selectByAddr(Addr v);
 	
 	public List<Pools> searchAll(SearchParameter sp);
+	public Pools searchPoolById(String id);
 	
 	public List<UserInfo> getRecommendedUser(String id);
 	public List<Project> getRecommendedPJT(String id);

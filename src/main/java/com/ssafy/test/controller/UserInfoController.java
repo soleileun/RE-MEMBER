@@ -393,40 +393,60 @@ public class UserInfoController {
    }
 
    @GetMapping("/getRecommended/User/{id}")
-   public ResponseEntity<List<UserSimple>> getRecommendedUser(@PathVariable String id) {
-	
+   public ResponseEntity<List<Pools>> getRecommendedUser(@PathVariable String id) {
+
+	  List<Pools> v = new ArrayList<>();
       List<UserInfo> list = uiService.getRecommendedUser(id);
-      List<UserSimple> users = new ArrayList<>();
-     
-      for (int i = 0; i < list.size(); i++) {
-         if (list.get(i).getId().equals(id))
-            continue;
-         UserInfo tmp = uiService.select(list.get(i).getId());
-         UserSimple us = new UserSimple(tmp.getId(), tmp.getNickname(), tmp.getGit(), tmp.getLastDate(),
-               tmp.isState(), tmp.getResponsibility(), tmp.isLeaveUser());
-         users.add(us);
-      }
-      List<UserSimple> simple = new ArrayList<>();
-      if(users.size() <3) {
-    	  int num = 3-users.size();
-    	  for(int i=0;i<num;i++)
-    		  users.add(users.get(i));
-      }else {
-    	  boolean[] visit = new boolean [users.size()];
-    	  int idx = 0;
-    	  Random rand = new Random();
-    	  while(true) {
-    		  if(idx ==3) break;
-    		  int n = rand.nextInt(users.size());
-    		  if(!visit[n]) {
-    			  simple.add(users.get(n));
-    			  visit[n] =true;
-    			  idx++;
-    		  }
-    		  
+      for(int i=0;i<list.size();i++) {
+    	  UserInfo tmp = uiService.select(list.get(i).getId());
+    	  if(tmp.isState() == true) {
+    		v.add(uiService.searchPoolById(tmp.getId()));  
     	  }
       }
-      return new ResponseEntity<List<UserSimple>>(simple, HttpStatus.OK);
+   
+      System.out.println("TEST v.size() :" +v.size());
+      System.out.println("TEST element :" +v.get(0).toString());
+      System.out.println("TEST element :" +v.get(1).toString());
+      System.out.println("TEST element :" +v.get(2).toString());
+      ////////////////TEST//////////////////////////////
+      
+      for (int i = 0; i < v.size(); i++) {
+         List<PidPjt> ptmp = new ArrayList<PidPjt>();
+         List<Inter> itmp = new ArrayList<Inter>();
+         String a = v.get(i).getProjects();
+         String b = v.get(i).getInterests();
+         System.out.println("a,b TEST");
+         System.out.println(a); System.out.println(b);
+         if (a != null) {
+            String[] atmp = a.split(",");
+            for (int j = 0; j < atmp.length; j++) {
+               //System.out.println("atmp : " + atmp[j]);
+               String[] s = atmp[j].split(";");
+               int pid = Integer.parseInt(s[0]);
+              // System.out.println("s[1] : " + s[1]);
+             Project pjt = pjtService.select(pid);
+             PidPjt p = new PidPjt();
+             p.setPid(pjt.getPid());p.setPjtName(pjt.getPjtName());
+             p.setPjtContent(pjt.getPjtContent());
+             ptmp.add(p);
+               
+            }
+         }
+         if (b != null) {
+            String[] btmp = b.split(",");
+            for (int j = 0; j < btmp.length; j++) {
+               Inter it = new Inter(btmp[j]);
+               itmp.add(it);
+            }
+         }
+      
+         v.get(i).setInterest(itmp);
+         v.get(i).setProject(ptmp);
+      }
+      
+      
+      
+      return new ResponseEntity<List<Pools>>(v, HttpStatus.OK);
    }
 
    @GetMapping("/getRecommended/PJT/{id}")
