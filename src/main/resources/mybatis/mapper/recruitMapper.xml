@@ -182,6 +182,25 @@ select r.rnum, r.pid, r.title, r.contents, r.endDate, r.makeDay, r.changeDay, r.
 
 	<select id="selectByAddr" resultType="recruitpjtpinterest"
 		parameterType="addr">
+		select a.* from (
+				select a.*, b.cnt from(
+		select pid,count(*) as cnt from pmember group by pid
+		) as b right join (
+		        
+		select r.rnum, r.pid, r.title, r.contents, r.endDate, 
+		r.makeDay, r.changeDay, r.makeId, r.changeId,
+		p.pjtName, p.pjtMemberCnt, p.pjtContent, p.location, p.pjtState, p.interest
+		from recruit as r left join (
+			select pjt.*, bb.interest from project as pjt left join 
+			(SELECT pid, GROUP_CONCAT(interest) AS interest FROM pinterest group by pid
+			) as bb
+			on pjt.pid = bb.pid
+		) as p
+		on r.pid = p.pid
+		) as a
+		on b.pid = a.pid) as a, right join (
+		
+		
 		select r.rnum, r.pid, r.title, r.contents, r.endDate, r.makeDay, r.changeDay, r.makeId, r.changeId, p.pjtName, pi.interest 
 		from recruit as r
 		left
@@ -193,13 +212,36 @@ select r.rnum, r.pid, r.title, r.contents, r.endDate, r.makeDay, r.changeDay, r.
 		CONCAT('%',#{sido},'%')
 		and p.location like CONCAT('%',#{gugun},'%')
 		and p.location like CONCAT('%',#{dong},'%')
-		order by r.rnum desc
+		<!-- order by r.rnum desc -->
         <!-- limit #{paging}, #{pcnt};  -->
+        ) as b
+        on a.pid = b.pid
+        order by a.rnum desc;
 
 	</select>
 	
 	<select id="selectByAddrWriter" resultType="recruitpjtpinterest"
 		parameterType="searchparameter">
+		
+		select a.* from (
+				select a.*, b.cnt from(
+		select pid,count(*) as cnt from pmember group by pid
+		) as b right join (
+		        
+		select r.rnum, r.pid, r.title, r.contents, r.endDate, 
+		r.makeDay, r.changeDay, r.makeId, r.changeId,
+		p.pjtName, p.pjtMemberCnt, p.pjtContent, p.location, p.pjtState, p.interest
+		from recruit as r left join (
+			select pjt.*, bb.interest from project as pjt left join 
+			(SELECT pid, GROUP_CONCAT(interest) AS interest FROM pinterest group by pid
+			) as bb
+			on pjt.pid = bb.pid
+		) as p
+		on r.pid = p.pid
+		) as a
+		on b.pid = a.pid) as a right join (
+		
+		
 		select r.rnum, r.pid, r.title, r.contents, r.endDate, r.makeDay, r.changeDay, r.makeId, r.changeId, p.pjtName, pi.interest 
 		from recruit as r
 		left
@@ -213,12 +255,35 @@ select r.rnum, r.pid, r.title, r.contents, r.endDate, r.makeDay, r.changeDay, r.
 		and p.location like CONCAT('%',#{dong},'%')
 		and r.makeId like CONCAT('%', #{keyword}, '%')
         <!-- limit #{paging}, #{pcnt};  -->
-		order by r.rnum desc
+		<!-- order by r.rnum desc-->
+		) as b
+        on a.pid = b.pid
+        order by a.rnum desc;
+		
 
 	</select>
 	
 	<select id="selectByAddrTitle" resultType="recruitpjtpinterest"
 		parameterType="searchparameter">
+		select a.* from (
+				select a.*, b.cnt from(
+		select pid,count(*) as cnt from pmember group by pid
+		) as b right join (
+		        
+		select r.rnum, r.pid, r.title, r.contents, r.endDate, 
+		r.makeDay, r.changeDay, r.makeId, r.changeId,
+		p.pjtName, p.pjtMemberCnt, p.pjtContent, p.location, p.pjtState, p.interest
+		from recruit as r left join (
+			select pjt.*, bb.interest from project as pjt left join 
+			(SELECT pid, GROUP_CONCAT(interest) AS interest FROM pinterest group by pid
+			) as bb
+			on pjt.pid = bb.pid
+		) as p
+		on r.pid = p.pid
+		) as a
+		on b.pid = a.pid) as a right join (
+		
+		
 		select r.rnum, r.pid, r.title, r.contents, r.endDate, r.makeDay, r.changeDay, r.makeId, r.changeId, p.pjtName, pi.interest
 		from recruit as r
 		left
@@ -232,12 +297,36 @@ select r.rnum, r.pid, r.title, r.contents, r.endDate, r.makeDay, r.changeDay, r.
 		and p.location like CONCAT('%',#{dong},'%')
 		and r.title like CONCAT('%', #{keyword}, '%')
         <!-- limit #{paging}, #{pcnt};  -->
-		order by r.rnum desc
+		<!-- order by r.rnum desc-->
+		) as b
+        on a.pid = b.pid
+        order by a.rnum desc;
+		
 
 	</select>
 
 	<select id="selectAllByWriter" resultType="recruitpjtpinterest"
 		parameterType="searchparameter">
+		select a.* from (
+				select a.*, b.cnt from(
+		select pid,count(*) as cnt from pmember group by pid
+		) as b right join (
+		        
+		select r.rnum, r.pid, r.title, r.contents, r.endDate, 
+		r.makeDay, r.changeDay, r.makeId, r.changeId,
+		p.pjtName, p.pjtMemberCnt, p.pjtContent, p.location, p.pjtState, p.interest
+		from recruit as r left join (
+			select pjt.*, bb.interest from project as pjt left join 
+			(SELECT pid, GROUP_CONCAT(interest) AS interest FROM pinterest group by pid
+			) as bb
+			on pjt.pid = bb.pid
+		) as p
+		on r.pid = p.pid
+		) as a
+		on b.pid = a.pid) as a right join (
+		
+		
+		
 		select r.rnum, r.pid, r.title, r.contents, r.endDate, r.makeDay, r.changeDay, r.makeId, r.changeId, p.pjtName, pi.interest
 		from recruit as r
 		left
@@ -263,11 +352,33 @@ select r.rnum, r.pid, r.title, r.contents, r.endDate, r.makeDay, r.changeDay, r.
 		count(interest) >= #{cnt}
 		)
         <!-- limit #{paging}, #{pcnt};  -->
-		order by r.rnum desc
+		<!-- order by r.rnum desc-->
+		) as b
+        on a.pid = b.pid
+        order by a.rnum desc;
 	</select>
 
 	<select id="selectAllByTitle" resultType="recruitpjtpinterest"
 		parameterType="searchparameter">
+		select a.* from (
+				select a.*, b.cnt from(
+		select pid,count(*) as cnt from pmember group by pid
+		) as b right join (
+		        
+		select r.rnum, r.pid, r.title, r.contents, r.endDate, 
+		r.makeDay, r.changeDay, r.makeId, r.changeId,
+		p.pjtName, p.pjtMemberCnt, p.pjtContent, p.location, p.pjtState, p.interest
+		from recruit as r left join (
+			select pjt.*, bb.interest from project as pjt left join 
+			(SELECT pid, GROUP_CONCAT(interest) AS interest FROM pinterest group by pid
+			) as bb
+			on pjt.pid = bb.pid
+		) as p
+		on r.pid = p.pid
+		) as a
+		on b.pid = a.pid) as a right join (
+		
+		
 		select r.rnum, r.pid, r.title, r.contents, r.endDate, r.makeDay, r.changeDay, r.makeId, r.changeId, p.pjtName, pi.interest
 		from recruit as r
 		left
@@ -298,7 +409,10 @@ select r.rnum, r.pid, r.title, r.contents, r.endDate, r.makeDay, r.changeDay, r.
 		count(interest) >= #{cnt}
 		)
         <!-- limit #{paging}, #{pcnt};  -->
-		order by r.rnum desc
+		<!-- order by r.rnum desc-->
+		) as b
+        on a.pid = b.pid
+        order by a.rnum desc;
 	</select>
 
 	<select id="selectSame" resultType="recruit"
@@ -325,6 +439,26 @@ select r.rnum, r.pid, r.title, r.contents, r.endDate, r.makeDay, r.changeDay, r.
 
 	<select id="selectAddrAndTag" parameterType="addrandtag"
 		resultType="recruit">
+		select a.* from (
+				select a.*, b.cnt from(
+		select pid,count(*) as cnt from pmember group by pid
+		) as b right join (
+		        
+		select r.rnum, r.pid, r.title, r.contents, r.endDate, 
+		r.makeDay, r.changeDay, r.makeId, r.changeId,
+		p.pjtName, p.pjtMemberCnt, p.pjtContent, p.location, p.pjtState, p.interest
+		from recruit as r left join (
+			select pjt.*, bb.interest from project as pjt left join 
+			(SELECT pid, GROUP_CONCAT(interest) AS interest FROM pinterest group by pid
+			) as bb
+			on pjt.pid = bb.pid
+		) as p
+		on r.pid = p.pid
+		) as a
+		on b.pid = a.pid) as a, right join (
+		
+		
+		
 		select r.rnum, r.pid, r.title, r.contents, r.endDate,
 		r.makeDay, r.changeDay, r.makeId, r.changeId from recruit as r
 		left
@@ -347,7 +481,10 @@ select r.rnum, r.pid, r.title, r.contents, r.endDate, r.makeDay, r.changeDay, r.
 		count(interest) >= #{cnt}
 		)
         <!-- limit #{paging}, #{pcnt};  -->
-		order by r.rnum desc
+		<!-- order by r.rnum desc-->
+		) as b
+        on a.pid = b.pid
+        order by a.rnum desc;
 
 	</select>
 

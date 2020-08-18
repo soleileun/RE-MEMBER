@@ -350,7 +350,36 @@ public class RecruitController {
 			
 			//System.out.println("sp 확인");
 			//System.out.println(sp.toString());
-			
+			List<RecruitPjtPinterest> v = rService.searchAll(sp);
+
+			for (int i = 0; i < v.size(); i++) {
+				int result = new Date().compareTo(v.get(i).getEndDate());
+
+				if (result >= 0) { // 앞에 있는게 뒤에있는거보다 더 느리다는 뜻
+
+					v.get(i).setRstate("기한만료");
+				} else if (result == -1) { // 앞에 있는게 뒤에있는거보다 더 빠르다는 뜻
+					if (v.get(i).getPjtMemberCnt() <= v.get(i).getCnt()) {
+						v.get(i).setRstate("모집완료");
+					} else
+						v.get(i).setRstate("모집중");
+
+				}
+				List<Inter> v2 =  new ArrayList<Inter>();
+				String a = v.get(i).getInterest();
+				
+	            if (a != null) {
+	               String[] atmp = a.split(",");
+	               for (int j = 0; j < atmp.length; j++) {
+	                  Inter it = new Inter(atmp[j]);
+	                  v2.add(it);
+	               }
+	               v.get(i).setInterests(v2);
+	            }
+			}
+
+	    		return new ResponseEntity<List<RecruitPjtPinterest>>(v, HttpStatus.OK);
+			/*
 			List<RecruitPjtPinterest> original = rService.searchAll(sp);
 			
 			int len = original.size();
@@ -387,7 +416,7 @@ public class RecruitController {
 				//index++;			
 			}
 			return new ResponseEntity<List<RecruitPjtPinterest>>(ret, HttpStatus.OK);
-
+*/
 		} else {
 			// 기술 스택 태그가 있는 경우
 			String a[] = tag.split(",");
@@ -412,6 +441,37 @@ public class RecruitController {
 			sp.setKeyword(keyword);
 			// 어차피 널이 들어감.
 			
+
+			List<RecruitPjtPinterest> v = rService.searchAll(sp);
+
+			for (int i = 0; i < v.size(); i++) {
+				int result = new Date().compareTo(v.get(i).getEndDate());
+
+				if (result >= 0) { // 앞에 있는게 뒤에있는거보다 더 느리다는 뜻
+
+					v.get(i).setRstate("기한만료");
+				} else if (result == -1) { // 앞에 있는게 뒤에있는거보다 더 빠르다는 뜻
+					if (v.get(i).getPjtMemberCnt() <= v.get(i).getCnt()) {
+						v.get(i).setRstate("모집완료");
+					} else
+						v.get(i).setRstate("모집중");
+
+				}
+				List<Inter> v2 =  new ArrayList<Inter>();
+				String aa = v.get(i).getInterest();
+				
+	            if (aa != null) {
+	               String[] atmp = aa.split(",");
+	               for (int j = 0; j < atmp.length; j++) {
+	                  Inter it = new Inter(atmp[j]);
+	                  v2.add(it);
+	               }
+	               v.get(i).setInterests(v2);
+	            }
+			}
+
+	    		return new ResponseEntity<List<RecruitPjtPinterest>>(v, HttpStatus.OK);
+			/*
 			List<RecruitPjtPinterest> original = rService.searchAll(sp);
 			
 			int len = original.size();
@@ -442,7 +502,7 @@ public class RecruitController {
 				//index++;			
 			}
 			return new ResponseEntity<List<RecruitPjtPinterest>>(ret, HttpStatus.OK);
-
+*/
 		}
 	}
 
