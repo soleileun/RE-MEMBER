@@ -205,7 +205,7 @@
               <label for="subject">내용</label>
             </div>
             <div class="col-75">
-              <vue-editor class="viewEditor" v-model="wrecruit.contents"></vue-editor>
+              <vue-editor class="viewEditor" v-model="wrecruit.contents" :editor-toolbar="customToolbar"></vue-editor>
             </div>
           </div>
 
@@ -360,6 +360,11 @@ export default {
   },
   data() {
     return {
+      customToolbar: [
+      ["bold", "italic", "underline"],
+      [{ list: "ordered" }, { list: "bullet" }],
+      [ "code-block"]
+    ],
       //페이징
       perPage: 6,
       currentPage: 1,
