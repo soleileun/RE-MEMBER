@@ -96,11 +96,16 @@
                 <hr />
               </div>
               <div id="myPjtHistory" class="card-body" style="overflow:scroll; overflow-x:hidden; margin-bottom:20px;min-height:100px">
-                <div class="col-12" style="margin-bottom:13px;" v-for="project in projects" :key="project.pid">
-                  <div class="row pjt">
-                    <div class="col-12 font-weight-bold" style="padding-left:0; max-height:60px; font-size:18px; overflow:hidden;">{{project.pjtName}}</div>
-                    <div class="col-12" style="padding-left:0; max-height:50px; overflow:hidden; font-size:12px;">{{project.pjtContent}}</div>
+                <div v-if="projects[0].project !== '프로젝트 수행 내역이 없습니다.'">
+                  <div class="col-12" style="margin-bottom:13px;" v-for="project in projects" :key="project.pid">
+                    <div class="row pjt">
+                      <div class="col-12 font-weight-bold" style="padding-left:0; max-height:60px; font-size:18px; overflow:hidden;">{{project.pjtName}}</div>
+                      <div class="col-12" style="padding-left:0; max-height:50px; overflow:hidden; font-size:12px;">{{project.pjtContent}}</div>
+                    </div>
                   </div>
+                </div>
+                <div v-else>
+                  {{projects[0].project}}
                 </div>
               </div>
             </div>
@@ -144,7 +149,7 @@
             </div>
 
             <!-- -->
-            
+
             <!--  -->
           </div>
         </div>
@@ -209,17 +214,14 @@ export default {
       return "/project/myproject/" + storage.getItem("userid");
     },
   },
-  methods: {
-    
-  },
+  methods: {},
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-
 #myPjtHistory {
-  color: #66a ;
+  color: #66a;
   .pjt {
     margin: 10px -10px 10px -10px;
     padding: 5px 10px 5px 10px;

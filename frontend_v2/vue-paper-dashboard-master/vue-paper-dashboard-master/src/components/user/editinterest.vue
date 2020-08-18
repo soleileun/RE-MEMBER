@@ -5,7 +5,7 @@
         <div class="col-12">
           <ul>
             예
-            <li>Language : C / C++ / Java / Python / C#</li>
+            <li>Language : C / C++ / Java / Python </li>
             <li>web FrontEnd / BackEnd / Spring / Jenkins</li>
             <li>Mobile -> Hybrid / Android / iOS /</li>
             <li>Javascript -> node.js / Angular.JS / React.js / Vue.js / jQuery</li>
