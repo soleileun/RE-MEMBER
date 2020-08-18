@@ -15,10 +15,12 @@
 </template>
 <script>
 import axios from "axios";
+import serviceSubmitNT from "@/pages/Notifications/serviceSubmitNT";
 export default {
   name: "sitereport",
   data: function () {
     return {
+      type: ["", "info", "success", "warning", "danger"],
       reporttype: "report",
       reportVal: "",
     };
@@ -32,6 +34,21 @@ export default {
         });
         this.reportVal = "";
       }
+      {
+        this.notifyVue("top", "center");
+      }
+    },
+    notifyVue(verticalAlign, horizontalAlign) {
+      console.log("실행됨");
+      const color = Math.floor(Math.random() * 4 + 1);
+      //1 info 2 success 3 warn 4 danger
+      this.$notify({
+        component: serviceSubmitNT,
+        icon: "ti-gift",
+        horizontalAlign: horizontalAlign,
+        verticalAlign: verticalAlign,
+        type: this.type[color],
+      });
     },
   },
 };
