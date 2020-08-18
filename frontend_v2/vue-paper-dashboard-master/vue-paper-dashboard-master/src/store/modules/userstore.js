@@ -99,6 +99,9 @@ const userstore = {
           store.commit('loginError', {
             e: ''
           })
+          storage.setItem('kakaosignup', 'f')
+          storage.setItem('kakaosignupID', "")
+          storage.setItem('kakaosignupEmail', "")
           store.dispatch("init")
           router.go()
         } else {
