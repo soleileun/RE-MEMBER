@@ -27,7 +27,7 @@
         v-for="target in followings.filter(item=> item.state ===false)"
         :key="target.id"
       >
-        <drop-down class="btn" :title="target.nickname+'님'">
+        <drop-down :title="target.nickname+'님'">
           <div class="dropdown-item" @click="mes(target.id)">메세지</div>
           <div class="dropdown-item" @click="viewProf(target.id)">프로필 보기</div>
           <div class="dropdown-item" @click="delFollow(target.id)">팔로우 해제</div>

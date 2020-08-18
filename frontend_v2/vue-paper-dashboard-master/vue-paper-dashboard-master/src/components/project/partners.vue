@@ -91,8 +91,8 @@
         <div v-if="applys.length>0">
           <div v-for="apply in applys" :key="apply.wno">
             <div v-if="apply.type ==='Apply'">
-              {{apply.userId}} / {{apply.comment}}
-              <button class="btn btn-success btn-round" @click="addNewMem(apply.code)">수락</button>
+              {{apply.userId}}&nbsp;&nbsp; :&nbsp;&nbsp; {{apply.comment}}&nbsp;
+              <button class="btn btn-success btn-round" @click="addNewMem(apply.code)">수락</button> &nbsp;&nbsp;&nbsp;
               <button class="btn btn-danger btn-round" @click="delApply(apply.userId)">거절</button>
             </div>
           </div>
@@ -104,7 +104,7 @@
         <div v-if="applys.length>0">
           <div v-for="apply in applys" :key="apply.wno">
             <div v-if="apply.type ==='Invite'">
-              {{apply.userId}} / {{apply.comment}}
+              {{apply.userId}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               <button class="btn btn-danger btn-round" @click="delApply(apply.userId)">초대 취소하기</button>
             </div>
           </div>
