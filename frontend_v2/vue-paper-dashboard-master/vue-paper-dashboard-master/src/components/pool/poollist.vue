@@ -26,7 +26,7 @@
     <section class="filter-sidebar">
       <!-- 시군구동 검색 -->
 
-      <div class="card-body">
+      <div class="card-body cb">
         <div class="row">
           <label for="sido">
             <strong>
@@ -968,5 +968,10 @@ img {
   // padding: 20px 10px 20px 20px;
   border-right: solid 1px #e0e0e0;
   float: left;
+}
+
+.cb{
+  min-height: 470px;
+  height: 100%;
 }
 </style>

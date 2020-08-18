@@ -29,7 +29,7 @@
 
     <section class="filter-sidebar">
       <!-- 시군구동 검색 -->
-      <div class="card-body">
+      <div class="card-body cb">
         <div class="row">
           <label for="sido">
             <strong>
@@ -1173,4 +1173,8 @@ body {
       }
     }
   }
+  .cb{
+  min-height: 470px;
+  height: 100%;
+}
 </style>
