@@ -4,8 +4,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ssafy.test.Board">
 	<select id="selectAll" resultType="board">
-		select board.*, ifnull(c.cnt, 0) as cnt from board left join (
-        select bno, count(*) as cnt from comments group by bno)
+		select board.*, ifnull(c.cnt, 0) as cnt
+        from (select board.*, userInfo.nickname
+    from board, userInfo
+    where board.bwriter = userInfo.id) as board left join (
+         select bno, count(*) as cnt from comments group by bno)
         as c
         on board.bno = c.bno
 		order by bno desc
@@ -32,8 +35,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="search" parameterType="string" resultType="board">
-		select board.*, ifnull(c.cnt, 0) as cnt from board left join (
-        select bno, count(*) as cnt from comments group by bno)
+		select board.*, ifnull(c.cnt, 0) as cnt
+        from (select board.*, userInfo.nickname
+    from board, userInfo
+    where board.bwriter = userInfo.id) as board left join (
+         select bno, count(*) as cnt from comments group by bno)
         as c
         on board.bno = c.bno
 		where bstate =#{bstate}
@@ -42,8 +48,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="searchById" parameterType="string" resultType="board">
-		select board.*, ifnull(c.cnt, 0) as cnt from board left join (
-        select bno, count(*) as cnt from comments group by bno)
+		select board.*, ifnull(c.cnt, 0) as cnt
+        from (select board.*, userInfo.nickname
+    from board, userInfo
+    where board.bwriter = userInfo.id) as board left join (
+         select bno, count(*) as cnt from comments group by bno)
         as c
         on board.bno = c.bno
 		where bwriter =#{bwriter}
@@ -52,8 +61,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 
 	<select id="searchByContents" parameterType="string" resultType="board">
-		select board.*, ifnull(c.cnt, 0) as cnt from board left join (
-        select bno, count(*) as cnt from comments group by bno)
+		select board.*, ifnull(c.cnt, 0) as cnt
+        from (select board.*, userInfo.nickname
+    from board, userInfo
+    where board.bwriter = userInfo.id) as board left join (
+         select bno, count(*) as cnt from comments group by bno)
         as c
         on board.bno = c.bno
 		where bcontent like CONCAT('%',#{bcontent},'%')
@@ -63,8 +75,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	
 	<select id="searchByTitle" parameterType="string" resultType="board">
-		select board.*, ifnull(c.cnt, 0) as cnt from board left join (
-        select bno, count(*) as cnt from comments group by bno)
+		select board.*, ifnull(c.cnt, 0) as cnt
+        from (select board.*, userInfo.nickname
+    from board, userInfo
+    where board.bwriter = userInfo.id) as board left join (
+         select bno, count(*) as cnt from comments group by bno)
         as c
         on board.bno = c.bno
 		where btitle like CONCAT('%',#{btitle},'%')
@@ -73,8 +88,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="searchByTitleAndContents" parameterType="string" resultType="board">
-		select board.*, ifnull(c.cnt, 0) as cnt from board left join (
-        select bno, count(*) as cnt from comments group by bno)
+		select board.*, ifnull(c.cnt, 0) as cnt
+        from (select board.*, userInfo.nickname
+    from board, userInfo
+    where board.bwriter = userInfo.id) as board left join (
+         select bno, count(*) as cnt from comments group by bno)
         as c
         on board.bno = c.bno
 		where btitle like CONCAT('%',#{btitle},'%') or bcontent like CONCAT('%',#{btitle},'%')
@@ -87,8 +105,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 
 	<select id="typesearchById" parameterType="board" resultType="board">
-		select board.*, ifnull(c.cnt, 0) as cnt from board left join (
-        select bno, count(*) as cnt from comments group by bno)
+		select board.*, ifnull(c.cnt, 0) as cnt
+        from (select board.*, userInfo.nickname
+    from board, userInfo
+    where board.bwriter = userInfo.id) as board left join (
+         select bno, count(*) as cnt from comments group by bno)
         as c
         on board.bno = c.bno
 		where bwriter =#{bwriter} and bstate =#{bstate}
@@ -97,8 +118,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 
 	<select id="typesearchByContents" parameterType="board" resultType="board">
-		select board.*, ifnull(c.cnt, 0) as cnt from board left join (
-        select bno, count(*) as cnt from comments group by bno)
+		select board.*, ifnull(c.cnt, 0) as cnt
+        from (select board.*, userInfo.nickname
+    from board, userInfo
+    where board.bwriter = userInfo.id) as board left join (
+         select bno, count(*) as cnt from comments group by bno)
         as c
         on board.bno = c.bno
 		where bcontent like CONCAT('%',#{bcontent},'%') and bstate =#{bstate}
@@ -108,8 +132,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	
 	<select id="typesearchByTitle" parameterType="board" resultType="board">
-		select board.*, ifnull(c.cnt, 0) as cnt from board left join (
-        select bno, count(*) as cnt from comments group by bno)
+		select board.*, ifnull(c.cnt, 0) as cnt
+        from (select board.*, userInfo.nickname
+    from board, userInfo
+    where board.bwriter = userInfo.id) as board left join (
+         select bno, count(*) as cnt from comments group by bno)
         as c
         on board.bno = c.bno
 	where btitle like CONCAT('%',#{btitle},'%') and bstate =#{bstate}
@@ -118,8 +145,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="typesearchByTitleAndContents" parameterType="board" resultType="board">
-		select board.*, ifnull(c.cnt, 0) as cnt from board left join (
-        select bno, count(*) as cnt from comments group by bno)
+		select board.*, ifnull(c.cnt, 0) as cnt
+        from (select board.*, userInfo.nickname
+    from board, userInfo
+    where board.bwriter = userInfo.id) as board left join (
+         select bno, count(*) as cnt from comments group by bno)
         as c
         on board.bno = c.bno
 		where (btitle like CONCAT('%',#{btitle},'%') or bcontent like CONCAT('%',#{bcontent},'%')) and bstate =#{bstate}

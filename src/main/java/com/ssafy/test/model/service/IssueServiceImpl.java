@@ -77,4 +77,9 @@ public class IssueServiceImpl implements IssueService{
 	public int updateByState(Issue v) {
 		return Dao.updateByState(v);
 	}
+
+	@Override
+	public List<Issue> selectByPrework(int prework) {
+		return Dao.selectByPrework(prework);
+	}
 }

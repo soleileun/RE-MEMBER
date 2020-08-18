@@ -127,100 +127,103 @@
     <hr />
     <!-- 로그인 여부에 따라 활성 비활성 여부 결정 -->
     <button id="myBtn" @click="openModal">구인글 등록</button>
-    <select id="showcnt" @change="changeShowCnt">
-      <option value="10" selected>10개씩 보기</option>
-      <option value="15">15개씩 보기</option>
-      <option value="20">20개씩 보기</option>
-    </select>
 
-    <!-- The Modal -->
-    <div class="modal" id="momo">
-      <div class="modal-content">
-        <span class="close">&times;</span>
-        <div class="row">
-          <div class="col-25">
-            <label for="fname">아이디</label>
-          </div>
-          <div class="col-75">
-            <label for="fname">{{loginId}}</label>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-25">
-            <label for="country">내 프로젝트 선택</label>
-          </div>
-          <div class="col-75">
-            <select id="myproject" name="myproject">
-              <option
-                v-for="(project,index) in projects"
-                :key="index"
-                :value="project.pid"
-              >{{project.pjtName}}</option>
-            </select>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-25">
-            <label for="lname">게시글 제목</label>
-          </div>
-          <div class="col-75">
-            <input type="text" v-model="wrecruit.title" placeholder="제목을 입력하세요" />
-          </div>
-        </div>
+    <notfound v-if="rows === 0" />
+    <div v-else>
+      <select id="showcnt" @change="changeShowCnt">
+        <option value="10" selected>10개씩 보기</option>
+        <option value="15">15개씩 보기</option>
+        <option value="20">20개씩 보기</option>
+      </select>
 
-        <div class="row">
-          <div class="col-25">
-            <label for="subject">내용</label>
+      <!-- The Modal -->
+      <div class="modal" id="momo">
+        <div class="modal-content">
+          <span class="close">&times;</span>
+          <div class="row">
+            <div class="col-25">
+              <label for="fname">아이디</label>
+            </div>
+            <div class="col-75">
+              <label for="fname">{{loginId}}</label>
+            </div>
           </div>
-          <div class="col-75">
-            <vue-editor class="viewEditor" v-model="wrecruit.contents"></vue-editor>
+          <div class="row">
+            <div class="col-25">
+              <label for="country">내 프로젝트 선택</label>
+            </div>
+            <div class="col-75">
+              <select id="myproject" name="myproject">
+                <option
+                  v-for="(project,index) in projects"
+                  :key="index"
+                  :value="project.pid"
+                >{{project.pjtName}}</option>
+              </select>
+            </div>
           </div>
-        </div>
+          <div class="row">
+            <div class="col-25">
+              <label for="lname">게시글 제목</label>
+            </div>
+            <div class="col-75">
+              <input type="text" v-model="wrecruit.title" placeholder="제목을 입력하세요" />
+            </div>
+          </div>
 
-        <div class="row">
-          <button class="btn btn-info" @click="addRecruit">등록</button>
+          <div class="row">
+            <div class="col-25">
+              <label for="subject">내용</label>
+            </div>
+            <div class="col-75">
+              <vue-editor class="viewEditor" v-model="wrecruit.contents"></vue-editor>
+            </div>
+          </div>
+
+          <div class="row">
+            <button class="btn btn-info" @click="addRecruit">등록</button>
+          </div>
         </div>
       </div>
-    </div>
-    <!-- Modal end  -->
+      <!-- Modal end  -->
 
-    <br />
+      <br />
 
-    <div class="container-fluid overflow-auto" style="padding:0;">
-      <div class="row col-12" style="margin:0; padding:0;" id="recruitpage">
-        <recruitcomponent
-          v-for="(recruit,index) in recruits.slice(this.perPage*(currentPage-1),perPage*(currentPage))"
-          :key="index"
-          :recruit="recruit"
-          :pid="recruit.pid"
-          @delete-recruit="deleteRecruit"
-          @open-modify="openModify"
-          @modify-recruit="modifyRecruit"
-        />
+      <div class="container-fluid overflow-auto" style="padding:0;">
+        <div class="row col-12" style="margin:0; padding:0;" id="recruitpage">
+          <recruitcomponent
+            v-for="(recruit,index) in recruits.slice(this.perPage*(currentPage-1),perPage*(currentPage))"
+            :key="index"
+            :recruit="recruit"
+            :pid="recruit.pid"
+            @delete-recruit="deleteRecruit"
+            @open-modify="openModify"
+            @modify-recruit="modifyRecruit"
+          />
+        </div>
+        <b-pagination
+          v-model="currentPage"
+          :total-rows="rows"
+          :per-page="perPage"
+          aria-controls="recruitpage"
+          align="center"
+        ></b-pagination>
       </div>
-      <b-pagination
-      v-model="currentPage"
-      :total-rows="rows"
-      :per-page="perPage"
-      aria-controls="recruitpage"
-      align="center"
-    ></b-pagination>
-    </div>
-    <!-- 카드뷰 -->
-    <!--
+      <!-- 카드뷰 -->
+      <!--
     <div class="container">
       <div class="row row--top-40">
         <div class="col-md-12">
           <h2 class="row__title">구인중인 프로젝트</h2>
-    -->
-    <!-- <div class="col-1">
+      -->
+      <!-- <div class="col-1">
             <select id="showcnt" @change="changeShowCnt">
               <option value="5">5개씩 보기</option>
               <option value="10" selected>10개씩 보기</option>
               <option value="20">20개씩 보기</option>
             </select>
-    </div>-->
-    <!--
+      </div>-->
+      <!--
         </div>
       </div>
       <div class="row row--top-20">
@@ -229,19 +232,19 @@
             <table class="table">
               <thead class="table__thead">
                 <tr>
-    -->
-    <!-- <th class="table__th">
+      -->
+      <!-- <th class="table__th">
                     <input id="selectAll" type="checkbox" class="table__select-row" />
-    </th>-->
-    <!--
+      </th>-->
+      <!--
                   <th class="table__th">제목</th>
                   <th class="table__th">게시인</th>
                   <th class="table__th">프로젝트명</th>
                   <th class="table__th">마감일시</th>
                   <th class="table__th">구인현황</th>
-    -->
-    <!-- <th class="table__th">Progress</th> -->
-    <!--
+      -->
+      <!-- <th class="table__th">Progress</th> -->
+      <!--
                   <th class="table__th">모집분야</th>
                   <th class="table__th"></th>
                 </tr>
@@ -262,13 +265,14 @@
         </div>
       </div>
     </div>
-    -->
-    <!-- <select name="standard" id="standard">
+      -->
+      <!-- <select name="standard" id="standard">
       <option value="t" selected>제목</option>
       <option value="w">작성자</option>
     </select>
     <input type="text" placeholder="검색어를 입력하세요" id="searchWord" />
-    <button v-on:click="searchRecruit">검색</button>-->
+      <button v-on:click="searchRecruit">검색</button>-->
+    </div>
   </div>
 </template>
 
@@ -276,15 +280,17 @@
 import { VueEditor } from "vue2-editor";
 import Constant from "../../Constant";
 import recruitcomponent from "@/components/recruit/recruitcomponent.vue";
+import notfound from "@/components/notfound/notfound.vue";
 const storage = window.sessionStorage;
 export default {
   name: "recruit1",
   components: {
     recruitcomponent,
     VueEditor,
+    notfound,
   },
   computed: {
-     rows() {
+    rows() {
       return this.recruits.length;
     },
     recruits() {
@@ -324,7 +330,7 @@ export default {
   },
   data() {
     return {
-       //페이징
+      //페이징
       perPage: 8,
       currentPage: 1,
       // pjtName:this.$store.state.projectstore.pjtName,

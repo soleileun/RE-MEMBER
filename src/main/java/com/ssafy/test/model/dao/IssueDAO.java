@@ -28,4 +28,6 @@ public interface IssueDAO {
 	
 	public int updateByState(Issue v);
 	
+	public List<Issue> selectByPrework(int prework);
+	
 }

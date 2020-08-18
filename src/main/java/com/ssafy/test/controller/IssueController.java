@@ -49,7 +49,15 @@ public class IssueController {
 		v.setIssuestate(issuestate);	
 		return new ResponseEntity<List<Issue>>(Service.selectStateAll(v), HttpStatus.OK);
 	}
+	
+	
 
+	@ApiOperation(value = "이슈번호에 해당하는 이슈의 정보를 반환한다.", response = Issue.class)
+	@GetMapping("byprework/{prework}")
+	public ResponseEntity<List<Issue>> byprework(@PathVariable int prework) {
+		return new ResponseEntity<List<Issue>>(Service.selectByPrework(prework), HttpStatus.OK);
+	}
+	
 	@ApiOperation(value = "이슈번호에 해당하는 이슈의 정보를 반환한다.", response = Issue.class)
 	@GetMapping("no/{issueid}")
 	public ResponseEntity<Issue> detailIssue(@PathVariable int issueid) {

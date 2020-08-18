@@ -74,4 +74,9 @@ public class IssueDAOImpl implements IssueDAO{
 	public int updateByState(Issue v) {
 		return template.update(ns + "updateByState", v);
 	}
+
+	@Override
+	public List<Issue> selectByPrework(int prework) {
+		return template.selectList(ns + "selectByPrework", prework);
+	}
 }
