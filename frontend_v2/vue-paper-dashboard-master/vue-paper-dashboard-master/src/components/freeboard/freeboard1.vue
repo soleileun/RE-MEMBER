@@ -103,7 +103,8 @@
                     </tr>
                   </thead>
                   <tbody id="boardpage">
-                    <tr v-for="(free,index) in frees.slice(this.perPage*(currentPage-1),perPage*(currentPage))" :key="index" style="border:0.5px solid lightgrey;">
+                    <tr v-if="rows === 0" ><td colspan="6"><notfound /></td></tr>
+                    <tr v-else v-for="(free,index) in frees.slice(this.perPage*(currentPage-1),perPage*(currentPage))" :key="index" style="border:0.5px solid lightgrey;">
                       <td>{{free.bno}}</td>  
                       <td>
                         <div v-if="free.bstate =='qa'">질문</div>
@@ -229,9 +230,13 @@
 <script>
 import Constant from "../../Constant";
 // import { mapActions } from 'vuex'
+import notfound from "@/components/notfound/notfound.vue";
 
 export default {
   name: "freeboard1",
+  components:{
+    notfound
+  },
   data() {
     return {
       perPage: 10,
