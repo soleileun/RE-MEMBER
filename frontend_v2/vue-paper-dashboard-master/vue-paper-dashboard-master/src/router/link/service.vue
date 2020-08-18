@@ -1,15 +1,17 @@
 <template>
   <div class="service">
     <div class="container">
-      <h1>고객 센터</h1>
-      <div class="row">
+      <!-- <h1>고객 센터</h1> -->
+      <div class="row" id="test">
         <div class="col-5">
-          사이트 이용 약관
-          <terms />자주 묻는 질문
+          <h5>사이트 이용 약관</h5>
+          <terms />
+          <br />
+          <h5>자주 묻는 질문</h5>
           <siteQ50 />
         </div>
         <div class="col-7">
-          문의 / 신고 / 제안
+          <h5>문의 / 신고 / 제안</h5>
           <sitereport />
         </div>
       </div>
@@ -39,7 +41,15 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-// .main {
-//
-// }
+@import url("https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Nanum+Gothic&family=Noto+Sans+KR&family=Open+Sans&family=Roboto&display=swap");
+.service {
+  // font-family: "Black Han Sans", sans-serif;
+  font-family: "Nanum Gothic", sans-serif;
+}
+.h5 {
+  font-family: "Nanum Gothic", sans-serif;
+}
+#test {
+  // background: white;
+}
 </style>

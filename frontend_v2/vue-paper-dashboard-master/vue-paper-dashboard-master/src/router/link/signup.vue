@@ -28,7 +28,6 @@ export default {
   methods: {
     agree: function () {
       this.states = 2;
-      document.querySelector("html").scrollTop = 0;
     },
   },
 };

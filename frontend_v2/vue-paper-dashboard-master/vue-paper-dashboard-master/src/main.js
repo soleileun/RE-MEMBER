@@ -34,10 +34,7 @@ Vue.use(BootstrapVue);
 
 // dragula
 Vue.use(VueDraggable);
-Vue.use(GAuth, {
-  clientId: '1037334804608-n8oulm1omlcln4r870bbckk31n09nifi.apps.googleusercontent.com',
-  scope: 'profile email https://www.googleapis.com/auth/plus.login'
-})
+
 
 
 

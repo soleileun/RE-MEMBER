@@ -30,7 +30,6 @@ const userstore = {
     recommendedUser: []
   },
 
-
   actions: {
     // 사이트init
     init: (store) => {
@@ -82,6 +81,43 @@ const userstore = {
       }).catch(exp => console.log(exp))
     },
     // 유저 관련
+    kakao: (store, payload) => {
+      http.post('/api/userinfo/login/kakao', {
+        id: payload.id,
+      }).then(res => {
+        console.log(res);
+        if (res.data.data) {
+          window.localStorage.setItem("jwt-auth-token", response.headers["jwt-auth-token"]);
+          window.localStorage.setItem("userNick", response.data.data.nickname)
+          window.localStorage.setItem("userid", response.data.data.id)
+          window.localStorage.setItem("idvalid", "true"); //response.data.data.valid);
+          window.localStorage.setItem("userState", response.data.data.state);
+          window.localStorage.setItem("userintro", response.data.data.intro);
+          window.localStorage.setItem("usergit", response.data.data.git);
+          document.querySelector(".login").classList.remove('active')
+          store.commit('loginError', {
+            e: ''
+          })
+          store.dispatch("init")
+          router.go()
+        } else {
+          document.querySelector('.login').classList.remove('active')
+          document.querySelector('body div').classList.remove('nav-open')
+          storage.setItem('kakaosignup', 'true')
+          storage.setItem('kakaosignupID', payload.id)
+          storage.setItem('kakaosignupEmail', payload.email)
+          let tmp = document.querySelector('#emailid');
+          if (tmp) {
+            tmp.value = payload.email
+          } else {
+            setTimeout(() => {
+
+              router.push({ path: '/signup' })
+            }, 300)
+          }
+        }
+      }).catch(e => alert('에러가 발생했습니다' + e))
+    },
     login: (store, payload) => {
       http.post('/api/userinfo/signin', {
         id: payload.id,
@@ -162,6 +198,7 @@ const userstore = {
         + "rHUkm/qXRGcAkG78qbTqhnXVzkpCTN0yfJTKGQCkvXoWuvCZ7h3XamjxDQGHSMwMADLR3YzUWkdp/Tln9iQqZwCQjeqZ/sBaR2njRsCF2BkAZMTOvivESR1rrpyVRMn8iRFaAMhAM6ChXHDH7I41V89KQnTvGD5DIwAAstEM6HzJvCaZyFhDI6Ar5KpgAMhIfOavEJ62xmZA3Ag4jcoZAGSnemY/usZmQLzgtBg7A4AMNQO+v6ZmQNII+CONAADIUDPg9jU1A0pC1LaXT9EIAIAMNQNeMLus1gzwxbT6ZMwMADJEQzmrV2sG+EZAdByVMwDIVvUsek/iX6s2Ar6CnQFAxuxswerHBPmjgX7O0UAAkKFmQJ925ppVWwElIY7YVN6nGKIFgEw1A+TS+hYrG5q/XXO3zuXcrgkAWbIzf2dAfZ+V7gzwfYEoYuYMALKXbtZmrHRnQLzgNJ9GAABkrxlQe78QMyorn3T2DewMADLY21y0cm/T9zV/QV8TALLe2ywJccIrgnvoawJAxmgoFz40abMVhlYWQv1H9QVWnAAge73NcHm02+DeZnyD0xTMDACyGZ8pObi3Ge9rvoNGAABktBlw3ODepm9x2v+HnQFANu3MnjFoZ/H6+bewMwDIqJ1dtuKQoJIQ6jrGNAAge/hRDf2HASdj/RwAMtzb9KMab+8f1SgL0f2qzufpbAJAFu3M37dpk/s2j+wQwhyElQFAdg0tOlR4L6v6RsBMKmcAkN1mQPQW4b3M21l0Kn1NAMiwnX1w0M702dgZAGTXzuzXVkRn38POACDDdvbDuHbmm5vmWmpnAJBN/OSZuqH/fKBJm4T/YOoMADKKPyTo/iM2je2se7vq00ydAUBG8ZNnz3XtGNtZfc840cTOACCTduYjNH+fk/BnnSnMDAAybGjSRdXEzmYaGgEAkO3e5hGJnc1lTAMAMm5n8xI7+yR2BgAZt7PPJHb2TewMALJtZ9GCxM4uw84AILt09hkXXRHbmfwVOwEAkGU7007+RgjxiXJwi3ad7AQAQFbtrKFdcNuRHcJsPuV+VpwAIMM0las+UN1CTNkheIIVJwDIsp2FLnhS7iiqu1Wfw84AINt2Vn0+3FNUDwyWs7EJAFm2Mz+sMXWiCBQvBgBkndB1GhHOohEAAFnvbSpXPUJUj2XqDAAybmd92lWPF9XTsDMAyL6dBf8lgk9gZwCQg+jskyI4GzsDgBzY2ZdF9ULsDABykGwuFMH3sTMAyEF0dpkIrsbOACAH0dnVIvhfztMAgIzbmT9T439F8HuFnQFAxu1MueoNonorWwEAkHG8nd0qqn/jlk0AyDj+xLO7RHAvxwMBQNbtLHTBvSJ4EDsDgBzY2YOi+gh2BgDZt7PqIyJ4EjsDgBxEZ0+K4FleCgDIOqELnhXBC7wQAJADXhDVl3gZACD7VF8S8cUnAABZZ7mosn4OAHmIzvoEXU0AyEd3k+gMAPJBrwieCXkZACDjhC54mq0AAMhBohm64GFW0AEgH3Z2j6j+VXLeGQBkm4Z01b/+f46XxZLIYYYBAAAAAElFTkSuQmCC", payload.id + '.png');
 
       window.localStorage.setItem("userid", payload.id)
+      console.log(payload.kakaoId);
       http
         .post("/api/userinfo/", {
           id: payload.id,
@@ -173,7 +210,8 @@ const userstore = {
           phone: payload.phone,
           git: payload.git,
           responsibility: payload.responsibility,
-          state: true
+          state: true,
+          kakaoId: payload.kakaoId
         })
         .then((res) => {
           http.post('/api/userinfo/signin', {
@@ -214,7 +252,7 @@ const userstore = {
                   // changeDay : this.board.changeday,
                   makeId: response.data.data.id,
                   // changeId : this.board.changeid
-                  
+
                 });
                 router.push({
                   path: "/main"
