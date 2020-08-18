@@ -741,6 +741,7 @@ img {
   width: 20%;
   min-width: 250px;
   max-width: 400px;
+  margin-left: 5%;
 }
 
 .card {
