@@ -88,7 +88,7 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-lg-4 col-xlg-3 col-md-5">
+          <div class="col-lg-5 col-xlg-4 col-md-5">
             <card-user :bno="bno"></card-user>
             <div class="card col-12" style="max-height:430px; ">
               <div class="card-header">
@@ -123,7 +123,7 @@
               </div>
             </div>
           </div>
-          <div class="col-lg-8 col-xlg-9 col-md-7">
+          <div class="col-lg-7 col-xlg-8 col-md-7">
             <div class="card">
               <div class="card-body">
                 <center class="m-t-30">

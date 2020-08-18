@@ -1,6 +1,6 @@
 <template>
   <div class="recruit1" style="z-index:50;">
-    <div class="col-md-10 ml-auto col-xl-6 mr-auto">
+    <section class="filter-sidebar">
       <!-- 시군구동 검색 -->
       <div class="row">
         <label class="col-md-2" for="sido" style="margin-left:-20px;">
@@ -118,7 +118,7 @@
           >프로젝트 검색</button>
         </div>
       </div>
-    </div>
+    </section>
 
     <hr />
 
@@ -126,7 +126,7 @@
 
     <hr />
     <!-- 로그인 여부에 따라 활성 비활성 여부 결정 -->
-    <button id="myBtn" @click="openModal">구인글 등록</button>
+    <button v-if="loginId !== ''"    id="myBtn" @click="openModal">구인글 등록</button>
 
     <notfound v-if="rows === 0" />
     <div v-else>
@@ -1021,5 +1021,14 @@ body {
 #pagination{
   z-index:0;
 
+}
+
+//filter-sidebar
+.filter-sidebar {
+  width: 20%;
+  min-width: 220px;
+  // padding: 20px 10px 20px 20px;
+  border-right: solid 1px #e0e0e0;
+  float: left;
 }
 </style>

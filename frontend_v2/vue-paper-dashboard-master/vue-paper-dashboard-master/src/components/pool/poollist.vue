@@ -1,19 +1,40 @@
 <template>
   <div>
-    <div class="card col-md-10 ml-auto col-xl-6 mr-auto">
+    <div>
+      <div class="row" style="margin:8px;">
+        <div class="col-6">
+          <p><strong>인재 찾기</strong></p>
+        </div>
+
+        <div class="col-4" style="display : flex;">
+          <p><strong>ID</strong></p>
+          <fg-input type="text" placeholder="아이디를 입력하세요" id="keyword1" style="width:85%;" />
+          
+        </div>
+        <div class="col-2">
+            <div class="button-7" style="float: none; margin: 0 auto;">
+              <div class="eff-7"></div>
+              <a @click="searchPool()">프로젝트 검색</a>
+            </div>
+          </div>
+      </div>
+    </div>
+    <hr />
+    <section class="filter-sidebar">
       <!-- 시군구동 검색 -->
 
       <div class="card-body">
         <div class="row">
-          <label class="col-md-2" for="sido" style="margin-left:-20px;">
+          <label  for="sido" >
             <strong>
               시도
               <span id="userid" class="text-danger"></span>
             </strong>
           </label>
+          
           <select
             id="sido"
-            class="form-control col-md-2"
+            class="form-control "
             @change="changeSido(selectedSido)"
             v-model="selectedSido"
           >
@@ -24,8 +45,8 @@
               }}
             </option>
           </select>
-
-          <label class="col-md-2" for="gugun">
+          <br><br><br>
+          <label for="gugun">
             <strong>
               구군
               <span id="userid" class="text-danger"></span>
@@ -34,7 +55,7 @@
           <select
             v-if="selectedSido!=0"
             id="gugun"
-            class="form-control col-md-2"
+            class="form-control "
             @change="changeGugun(selectedSido, selectedGugun)"
             v-model="selectedGugun"
           >
@@ -45,11 +66,12 @@
               }}
             </option>
           </select>
-          <select v-else id="gugun" class="form-control col-md-2" disabled>
+          <select v-else id="gugun" class="form-control" disabled>
             <option value="0">선택</option>
           </select>
+          <br><br><br>
 
-          <label class="col-md-2" for="dong">
+          <label  for="dong">
             <strong>
               읍면동
               <span id="userid" class="text-danger"></span>
@@ -59,7 +81,7 @@
           <select
             v-if="selectedGugun!=0"
             id="dong"
-            class="form-control col-md-2"
+            class="form-control"
             v-model="selectedDong"
           >
             <!-- @change="changeDong(selectedDong)" -->
@@ -71,37 +93,28 @@
               }}
             </option>
           </select>
-          <select v-else id="dong" class="form-control col-md-2" disabled>
+          <select v-else id="dong" class="form-control " disabled>
             <option value="0">선택</option>
           </select>
         </div>
         <hr />
-        <div class="row">
-          <div class="col-12 selectform">
-            <div
-              class="btn btn-primary btn-round"
-              v-for="(pick,index) in picks"
-              :key="index"
-              @click="deleteStack(index)"
-            >{{pick}}</div>
-          </div>
-        </div>
+        
         <div class="row">
           <div class="searchform" style="width:100%;">
-            <div class="row" style="margin:8px;">
-              <div class="col-12" style="display : flex;">
-                <p>ID :</p>
-                <fg-input type="text" placeholder="아이디를 입력하세요" id="keyword1" style="width:85%;" />
-                <p>기술 :</p>
-                  <fg-input
-                    id="stackWord"
-                    type="text"
-                    v-model="inputVal"
-                    @input="searchQuery()"
-                    @keyup.enter="enter()"
-                    placeholder="기술 태그 입력해주세요"
-                    style="width:85%;"
-                  />
+            <div class="row" >
+              <div class="col-12" >
+                <!-- <p>ID :</p>
+                <fg-input type="text" placeholder="아이디를 입력하세요" id="keyword1" style="width:85%;" />-->
+                <p><strong>기술</strong></p>
+                <fg-input
+                  id="stackWord"
+                  type="text"
+                  v-model="inputVal"
+                  @input="searchQuery()"
+                  @keyup.enter="enter()"
+                  placeholder="기술 태그 입력해주세요"
+                  style="width:100%;"
+                />
               </div>
             </div>
             <!-- <div class="input">
@@ -119,24 +132,36 @@
                   />
                 </div>
               </div>
-            </div> -->
-            <table class="autoComplete" style="cursor: pointer;">
+            </div>-->
+            <!-- 자동완성 리스트 -->
+            <table class="autoComplete" style="cursor: pointer; z-index : 1;">
               <tr v-for="list in lists" :key="list" @click="add(list)">
                 <td>{{list}}</td>
               </tr>
             </table>
           </div>
-          <div class="col-12">
+          <!-- <div class="col-12">
             <div class="button-7" style="float: none; margin: 0 auto;">
               <div class="eff-7"></div>
               <a @click="searchPool()">프로젝트 검색</a>
             </div>
+          </div> -->
+        </div>
+        <!-- 선택 스택들 -->
+        <div class="row">
+          <div class="col-12 selectform">
+            <div
+              class="btn btn-primary btn-round"
+              v-for="(pick,index) in picks"
+              :key="index"
+              @click="deleteStack(index)"
+              style="z-index : 0;"
+            >{{pick}}</div>
           </div>
         </div>
       </div>
-    </div>
+    </section>
 
-    <hr />
     <!-- card layout -->
     <!--
     <ul class="cards">
@@ -177,9 +202,9 @@
     <notfound v-if="rows === 0" />
     <div v-else>
       <select id="showcnt" @change="changeShowCnt">
-        <option value="8" selected>8개씩 보기</option>
+        <option value="6" selected>6개씩 보기</option>
+        <option value="9">9개씩 보기</option>
         <option value="12">12개씩 보기</option>
-        <option value="16">16개씩 보기</option>
       </select>
       <ul class="cards overflow-auto" id="poolpage">
         <li
@@ -419,7 +444,7 @@ export default {
   data() {
     return {
       //페이징
-      perPage: 8,
+      perPage: 6,
       currentPage: 1,
 
       selectedSido: 0,
@@ -865,5 +890,14 @@ img {
     bottom: 49px;
     cursor: pointer;
   }
+}
+
+//filter-sidebar
+.filter-sidebar {
+  width: 20%;
+  min-width: 220px;
+  // padding: 20px 10px 20px 20px;
+  border-right: solid 1px #e0e0e0;
+  float: left;
 }
 </style>
