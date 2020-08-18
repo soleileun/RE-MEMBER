@@ -1,5 +1,5 @@
 <template>
-  <div class="recruit1">
+  <div class="recruit1" style="z-index:50;">
     <div class="col-md-10 ml-auto col-xl-6 mr-auto">
       <!-- 시군구동 검색 -->
       <div class="row">
@@ -137,7 +137,7 @@
       </select>
 
       <!-- The Modal -->
-      <div class="modal" id="momo">
+      <div class="modal" id="momo" style="z-index : 100;">
         <div class="modal-content">
           <span class="close">&times;</span>
           <div class="row">
@@ -189,8 +189,8 @@
 
       <br />
 
-      <div class="container-fluid overflow-auto" style="padding:0;">
-        <div class="row col-12" style="margin:0; padding:0;" id="recruitpage">
+      <div class="container-fluid overflow-auto" style="padding:0; ">
+        <div class="row col-12" style="margin:0; padding:0;  z-index : 0;" id="recruitpage">
           <recruitcomponent
             v-for="(recruit,index) in recruits.slice(this.perPage*(currentPage-1),perPage*(currentPage))"
             :key="index"
@@ -207,6 +207,7 @@
           :per-page="perPage"
           aria-controls="recruitpage"
           align="center"
+          id="pagination"
         ></b-pagination>
       </div>
       <!-- 카드뷰 -->
@@ -409,12 +410,13 @@ export default {
 
       // When the user clicks on the button, open the modal
       modal.style.display = "block";
-
+        window.scrollY=0
+        document.querySelector('html').scrollTop=0
+        document.querySelector('.main-panel').scrollTop=0
       // When the user clicks on <span> (x), close the modal
       span.onclick = function () {
         modal.style.display = "none";
       };
-
       // When the user clicks anywhere outside of the modal, close it
       window.onclick = function (event) {
         if (event.target == modal) {
@@ -1015,5 +1017,9 @@ body {
     width: 100%;
     margin-top: 0;
   }
+}
+#pagination{
+  z-index:0;
+
 }
 </style>
