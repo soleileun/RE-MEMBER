@@ -108,30 +108,32 @@
         <hr />
         <br />
 
-        <div class="row">
-          <div class="searchform" style="width:100%;">
-            <div class="row">
-              <div class="col-12">
-                <p>
-                  <strong>기술</strong>
-                </p>
-                <fg-input
-                  type="text"
-                  v-model="inputVal"
-                  @input="searchQuery()"
-                  @keyup.enter="enter()"
-                  placeholder="기술 태그 입력해주세요"
-                  style="width:100%;"
-                />
-              </div>
-            </div>
-            <table class="autoComplete">
-              <tr v-for="list in lists" :key="list" @click="add(list)">
-                <td>{{list}}</td>
-              </tr>
-            </table>
+        <div class="col-12 searchform">
+          <p>
+            <strong>기술스택</strong>
+          </p>
+          <div class="input">
+            <input
+              type="text"
+              v-model="inputVal"
+              @input="searchQuery()"
+              @keyup.up="upQ()"
+              @keyup.down="downQ()"
+              @keyup.enter="enterQ()"
+              placeholder="스택 입력"
+            />
+          </div>
+          <div class="autoComplete">
+            <div
+              v-for="(list,index) in lists"
+              :key="list"
+              @click="add(list)"
+              :class="`pk${index}`"
+            >{{list}}</div>
           </div>
         </div>
+
+        <br>
 
         <div class="row">
           <div class="col-12 selectform">
@@ -420,6 +422,8 @@ export default {
       ],
       picks: [],
       inputVal: "",
+                  cursor: 0,
+
     };
   },
 
@@ -551,11 +555,16 @@ export default {
         this.lists = this.pints.filter((el) => {
           return el.toLowerCase().match(this.inputVal.toLowerCase());
         });
+        setTimeout(() => {
+          if (this.lists.length > 0) {
+            this.cursor = 0;
+            document.querySelector(`.pk${this.cursor}`).classList.add('act');
+          }
+        }, 50);
       } else {
         this.lists = [];
       }
     },
-
     add: function (x) {
       if (this.picks.length == 5) {
         alert("검색 스택은 5개까지만 입력 가능합니다.");
@@ -570,6 +579,29 @@ export default {
         this.inputVal = "";
         this.lists = [];
       }
+    },
+    upQ() {
+      document.querySelector(`.pk${this.cursor}`).classList.remove('act');
+      this.cursor--;
+      if (this.cursor === -1) {
+        this.cursor = this.lists.length - 1;
+      }
+      document.querySelector(`.pk${this.cursor}`).classList.add('act');
+      let location = document.querySelector(`.pk${this.cursor}`).offsetTop;
+      document.querySelector('.autoComplete').scrollTo({top:location, behavior:'auto'});
+    },
+    downQ() {
+      document.querySelector(`.pk${this.cursor}`).classList.remove('act');
+      this.cursor++;
+      if (this.cursor === this.lists.length) {
+        this.cursor = 0;
+      }
+      document.querySelector(`.pk${this.cursor}`).classList.add('act');
+      let location = document.querySelector(`.pk${this.cursor}`).offsetTop;
+      document.querySelector('.autoComplete').scrollTo({top:location, behavior:'auto'});
+    },
+    enterQ() {
+      this.add(document.querySelector(`.pk${this.cursor}`).innerText)
     },
 
     deleteRecruit(rnum) {
@@ -1098,4 +1130,42 @@ body {
 .button-7:hover a {
   color: #fff;
 }
+
+.searchform {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    // height: 50px;
+    .autoComplete {
+      border: .5px gray solid;
+      position: absolute;
+      max-height: 100px;
+      overflow: auto;
+      background-color: white;
+      width: 98%;
+      left: 6px;
+      bottom: 45px;
+      cursor: pointer;
+      .act{
+        background-color: #aaa;
+      }
+    }
+    .input {
+      height: 100%;
+      width: 100%;
+
+      font-size: 1.2rem;
+      border: 1px black solid;
+      padding: 5px;
+      input {
+        width: 100%;
+        height: 100%;
+        border: none;
+        outline: none;
+        &:focus {
+          border: none;
+        }
+      }
+    }
+  }
 </style>

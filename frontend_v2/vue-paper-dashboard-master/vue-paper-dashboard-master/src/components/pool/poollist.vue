@@ -101,12 +101,37 @@
         </div>
         <hr />
 
+        <div class="col-12 searchform">
+          <p>
+            <strong>기술스택</strong>
+          </p>
+          <div class="input">
+            <input
+              type="text"
+              v-model="inputVal"
+              @input="searchQuery()"
+              @keyup.up="upQ()"
+              @keyup.down="downQ()"
+              @keyup.enter="enterQ()"
+              placeholder="스택 입력"
+            />
+          </div>
+          <div class="autoComplete">
+            <div
+              v-for="(list,index) in lists"
+              :key="list"
+              @click="add(list)"
+              :class="`pk${index}`"
+            >{{list}}</div>
+          </div>
+        </div>
+
+        <!-- 
         <div class="row">
           <div class="searchform" style="width:100%;">
             <div class="row">
               <div class="col-12">
-                <!-- <p>ID :</p>
-                <fg-input type="text" placeholder="아이디를 입력하세요" id="keyword1" style="width:85%;" />-->
+                
                 <p>
                   <strong>기술</strong>
                 </p>
@@ -121,30 +146,19 @@
                 />
               </div>
             </div>
-            <!-- <div class="input">
-              <div class="row" style="margin:8px;">
-                <div class="col-12">
-                  <p>기술 :</p>
-                  <fg-input
-                    id="stackWord"
-                    type="text"
-                    v-model="inputVal"
-                    @input="searchQuery()"
-                    @keyup.enter="enter()"
-                    placeholder="기술 태그 입력해주세요"
-                    style="width:85%;"
-                  />
-                </div>
-              </div>
-            </div>-->
-            <!-- 자동완성 리스트 -->
+          
+            자동완성 리스트
             <table class="autoComplete" style="cursor: pointer; z-index : 1;">
               <tr v-for="list in lists" :key="list" @click="add(list)">
                 <td>{{list}}</td>
               </tr>
             </table>
           </div>
-        </div>
+        </div>-->
+
+        <br>
+
+
         <!-- 선택 스택들 -->
         <div class="row">
           <div class="col-12 selectform">
@@ -493,6 +507,9 @@ export default {
       ],
       picks: [],
       inputVal: "",
+
+            cursor: 0,
+
     };
   },
   computed: {
@@ -637,6 +654,12 @@ export default {
         this.lists = this.pints.filter((el) => {
           return el.toLowerCase().match(this.inputVal.toLowerCase());
         });
+        setTimeout(() => {
+          if (this.lists.length > 0) {
+            this.cursor = 0;
+            document.querySelector(`.pk${this.cursor}`).classList.add('act');
+          }
+        }, 50);
       } else {
         this.lists = [];
       }
@@ -655,6 +678,29 @@ export default {
         this.inputVal = "";
         this.lists = [];
       }
+    },
+     upQ() {
+      document.querySelector(`.pk${this.cursor}`).classList.remove('act');
+      this.cursor--;
+      if (this.cursor === -1) {
+        this.cursor = this.lists.length - 1;
+      }
+      document.querySelector(`.pk${this.cursor}`).classList.add('act');
+      let location = document.querySelector(`.pk${this.cursor}`).offsetTop;
+      document.querySelector('.autoComplete').scrollTo({top:location, behavior:'auto'});
+    },
+    downQ() {
+      document.querySelector(`.pk${this.cursor}`).classList.remove('act');
+      this.cursor++;
+      if (this.cursor === this.lists.length) {
+        this.cursor = 0;
+      }
+      document.querySelector(`.pk${this.cursor}`).classList.add('act');
+      let location = document.querySelector(`.pk${this.cursor}`).offsetTop;
+      document.querySelector('.autoComplete').scrollTo({top:location, behavior:'auto'});
+    },
+    enterQ() {
+      this.add(document.querySelector(`.pk${this.cursor}`).innerText)
     },
   },
 };
@@ -878,21 +924,42 @@ img {
   color: #fff;
 }
 .searchform {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  // height: 50px;
-  .autoComplete {
-    position: absolute;
-    max-height: 100px;
-    overflow: auto;
-    background-color: white;
-    width: 85%;
-    left: 5px;
-    bottom: 49px;
-    cursor: pointer;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    // height: 50px;
+    .autoComplete {
+      border: .5px gray solid;
+      position: absolute;
+      max-height: 100px;
+      overflow: auto;
+      background-color: white;
+      width: 98%;
+      left: 6px;
+      bottom: 45px;
+      cursor: pointer;
+      .act{
+        background-color: #aaa;
+      }
+    }
+    .input {
+      height: 100%;
+      width: 100%;
+
+      font-size: 1.2rem;
+      border: 1px black solid;
+      padding: 5px;
+      input {
+        width: 100%;
+        height: 100%;
+        border: none;
+        outline: none;
+        &:focus {
+          border: none;
+        }
+      }
+    }
   }
-}
 
 //filter-sidebar
 .filter-sidebar {

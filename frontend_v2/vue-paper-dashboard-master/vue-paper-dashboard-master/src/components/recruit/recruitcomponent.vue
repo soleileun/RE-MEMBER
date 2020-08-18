@@ -1,5 +1,5 @@
 <template>
-  <div class="card col-5" style="text-align:left; margin:8px; padding:5px;">
+  <div class="card col-5" style="text-align:left; margin-left:5%; margin-top:3%; padding:5px;">
     <img class="card-img-top" src="img_avatar1.png" alt="아무거나 이미지 넣고" />
 
     <div class="card-body">
