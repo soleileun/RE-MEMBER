@@ -26,6 +26,27 @@
     -->
     <!-- 디비에 들어갈 조건들 : {{selected}} + {{searchWord}} <br> -->
 
+    <div class="container-fluid" style="margin-bottom: 30px;">
+      <div class="col-12" style="cursor:pointer;">
+        <div class="row" style="text-align:center;">
+        <div class="col-4" style="height:50px; background-color:#78acf1; color:white; border-right:1px solid white;" @click="move('free')">
+          <div style="padding-top:10px; padding-bottom:10px; font-weight:800; font-size:20px;">
+          자유
+          </div>
+          </div>
+          <div class="col-4" style="height:50px; background-color:#78acf1; color:white; border-right:1px solid white;" @click="move('qa')">
+            <div style="padding-top:10px; padding-bottom:10px; font-weight:800; font-size:20px;">
+          질문
+          </div>
+          </div>
+          <div class="col-4" style="height:50px; background-color:#78acf1; color:white;" @click="move('notice')">
+            <div style="padding-top:10px; padding-bottom:10px; font-weight:800; font-size:20px;">
+          공지
+          </div>
+          </div>
+        </div>
+        </div>
+      </div>
     <div class="container-fluid">
       <!-- ============================================================== -->
       <!-- Bread crumb and right sidebar toggle -->
@@ -49,11 +70,11 @@
       <!-- ============================================================== -->
       <div class="row">
         <!-- column  -->
-        <div class="col-12">
+        <div class="col-12" >
           <div class="card">
             <div class="card-body">
-              <h4 class="card-title">자유게시판</h4>
-               <div class="col-1">
+              <h4 class="card-title" style="margin-bottom:14px;">게시판</h4>
+               <div class="col-1" style="padding:0px;">
                 <select id="showcnt" @change="changeShowCnt">
                   <option value="5">5개씩 보기</option>
                   <option value="10" selected>10개씩 보기</option>
@@ -74,24 +95,30 @@
                   <thead>
                     <tr>
                        <th style="width:2%;">No</th> 
-                      <th style="width:6%;">종류</th>
+                      <th style="width:6%; min-width:60px;">종류</th>
                       <th style="width:65%;">제목</th>
                       <th>ID</th>
-                      <th>조회수</th>
-                      <th>작성일</th>
+                      <th style="min-width:80px; text-align:center;">조회수</th>
+                      <th style="min-width:110px; text-align:center;">작성일</th>
                     </tr>
                   </thead>
                   <tbody id="boardpage">
-                    <tr v-for="(free,index) in frees.slice(this.perPage*(currentPage-1),perPage*(currentPage))" :key="index">
+                    <tr v-for="(free,index) in frees.slice(this.perPage*(currentPage-1),perPage*(currentPage))" :key="index" style="border:0.5px solid lightgrey;">
                       <td>{{free.bno}}</td>  
-                      <td>자유</td>
+                      <td>
+                        <div v-if="free.bstate =='qa'">질문</div>
+                        <div v-if="free.bstate =='free'">자유</div>
+                        <div v-if="free.bstate =='notice'">공지</div>
+                      </td>
                        <!-- bno 쿼리스트링 달아서 분기   -->
                       <td style="text-align:left;">
-                        <router-link :to="'/freeboard/detailfree/' + free.bno + '/' + type">{{free.btitle}}</router-link>
+                        <a style="display:inline-block; font-weight:800; cursor:pointer;"  @click="detail(free.bno,free.btitle)"> {{free.btitle}}</a>
+                        <a v-if="free.cnt != 0" style="display:inline-block; font-weight:800; color:red; padding-left:4px;"> [{{free.cnt}}]</a>
+                        <!--<router-link :to="'/freeboard/detailfree/' + free.bno + '/' + type">{{free.btitle}}</router-link>-->
                       </td>
                       <td><router-link :to="'/profile/' + free.bwriter">{{free.bwriter}}</router-link></td>
-                      <td>{{free.bview}}</td>
-                      <td>{{free.makeDay.slice(0,10)}}</td>
+                      <td style="text-align:center;">{{free.bview}}</td>
+                      <td style="text-align:center;">{{free.makeDay.slice(0,10)}}</td>
                     </tr>
                   </tbody>
                 </table>
@@ -271,6 +298,14 @@ export default {
     }
   },
   methods: {
+    move(e) {
+      var url = '/freeboard/type/' + e
+      this.$router.push(url); // mainboard 뺐음.
+    },
+    detail(a, b) {
+      var url = '/freeboard/detailfree/' + a + '/' + b
+      this.$router.push(url); // mainboard 뺐음.
+    },
     changeShowCnt() {
       this.perPage = parseInt(document.getElementById("showcnt").value);
     },

@@ -4,7 +4,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ssafy.test.Board">
 	<select id="selectAll" resultType="board">
-		select * from board 
+		select board.*, ifnull(c.cnt, 0) as cnt from board left join (
+        select bno, count(*) as cnt from comments group by bno)
+        as c
+        on board.bno = c.bno
 		order by bno desc
 	</select>
 	
@@ -29,21 +32,30 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="search" parameterType="string" resultType="board">
-		select bno,bwriter,btitle,bcontent,bview,bfile,bstate,makeDay,makeId from board
+		select board.*, ifnull(c.cnt, 0) as cnt from board left join (
+        select bno, count(*) as cnt from comments group by bno)
+        as c
+        on board.bno = c.bno
 		where bstate =#{bstate}
 		order by bno desc
 	
 	</select>
 	
 	<select id="searchById" parameterType="string" resultType="board">
-		select * from board
+		select board.*, ifnull(c.cnt, 0) as cnt from board left join (
+        select bno, count(*) as cnt from comments group by bno)
+        as c
+        on board.bno = c.bno
 		where bwriter =#{bwriter}
 		order by bno desc
 	
 	</select>
 
 	<select id="searchByContents" parameterType="string" resultType="board">
-		select * from board
+		select board.*, ifnull(c.cnt, 0) as cnt from board left join (
+        select bno, count(*) as cnt from comments group by bno)
+        as c
+        on board.bno = c.bno
 		where bcontent like CONCAT('%',#{bcontent},'%')
 		order by bno desc
 	
@@ -51,14 +63,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	
 	<select id="searchByTitle" parameterType="string" resultType="board">
-		select * from board
+		select board.*, ifnull(c.cnt, 0) as cnt from board left join (
+        select bno, count(*) as cnt from comments group by bno)
+        as c
+        on board.bno = c.bno
 		where btitle like CONCAT('%',#{btitle},'%')
 		order by bno desc
 	
 	</select>
 	
 	<select id="searchByTitleAndContents" parameterType="string" resultType="board">
-		select * from board
+		select board.*, ifnull(c.cnt, 0) as cnt from board left join (
+        select bno, count(*) as cnt from comments group by bno)
+        as c
+        on board.bno = c.bno
 		where btitle like CONCAT('%',#{btitle},'%') or bcontent like CONCAT('%',#{btitle},'%')
 		order by bno desc
 	
@@ -69,14 +87,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 
 	<select id="typesearchById" parameterType="board" resultType="board">
-		select * from board
+		select board.*, ifnull(c.cnt, 0) as cnt from board left join (
+        select bno, count(*) as cnt from comments group by bno)
+        as c
+        on board.bno = c.bno
 		where bwriter =#{bwriter} and bstate =#{bstate}
 		order by bno desc
 	
 	</select>
 
 	<select id="typesearchByContents" parameterType="board" resultType="board">
-		select * from board
+		select board.*, ifnull(c.cnt, 0) as cnt from board left join (
+        select bno, count(*) as cnt from comments group by bno)
+        as c
+        on board.bno = c.bno
 		where bcontent like CONCAT('%',#{bcontent},'%') and bstate =#{bstate}
 		order by bno desc
 	
@@ -84,14 +108,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	
 	<select id="typesearchByTitle" parameterType="board" resultType="board">
-	select * from board
+		select board.*, ifnull(c.cnt, 0) as cnt from board left join (
+        select bno, count(*) as cnt from comments group by bno)
+        as c
+        on board.bno = c.bno
 	where btitle like CONCAT('%',#{btitle},'%') and bstate =#{bstate}
 	order by bno desc
 	
 	</select>
 	
 	<select id="typesearchByTitleAndContents" parameterType="board" resultType="board">
-		select * from board
+		select board.*, ifnull(c.cnt, 0) as cnt from board left join (
+        select bno, count(*) as cnt from comments group by bno)
+        as c
+        on board.bno = c.bno
 		where (btitle like CONCAT('%',#{btitle},'%') or bcontent like CONCAT('%',#{bcontent},'%')) and bstate =#{bstate}
 		order by bno desc
 	
