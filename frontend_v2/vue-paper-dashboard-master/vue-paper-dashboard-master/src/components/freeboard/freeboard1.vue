@@ -84,7 +84,7 @@
                <div class="container">
                 <div class="row">
                   <div class="col text-right btndiv">
-                    <button class="btn btn-primary" @click="towrite">글쓰기</button>
+                    <button v-if="loginId !== ''" class="btn btn-primary" @click="towrite">글쓰기</button>
                   </div>
                 </div>
               </div>
