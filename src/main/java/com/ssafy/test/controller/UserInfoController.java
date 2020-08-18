@@ -329,13 +329,15 @@ public class UserInfoController {
 
    @ApiOperation(value = "카카오로 로그인 ", response = String.class)
    @PostMapping("/login/kakao")
-   public ResponseEntity<Map<String, Object>> loginUserForKakao(@RequestBody String kakaoId ,HttpServletResponse response)
-         throws MessagingException, UnsupportedEncodingException {
+   public ResponseEntity<Map<String, Object>> loginUserForKakao(@RequestBody String kakaoId ,HttpServletResponse response){
      
       Map<String, Object> resultMap = new HashMap<>();
          HttpStatus status = null;
+
+//    	 System.out.println(kakaoId);
          try {
              UserInfo loginUser = uiService.loginForKakao(kakaoId);
+             System.out.println(loginUser.toString());
              uiService.updateLastDate(loginUser);
              // 로그인했다면 토큰생성
              String token = jwtService.create(loginUser);
