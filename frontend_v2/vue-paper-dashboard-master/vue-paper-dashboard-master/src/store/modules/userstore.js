@@ -82,18 +82,19 @@ const userstore = {
     },
     // 유저 관련
     kakao: (store, payload) => {
-      http.post('/api/userinfo/login/kakao', {
-        id: payload.id,
-      }).then(res => {
+      console.log(payload.kakaoid*1);
+      console.log(typeof(payload.kakaoid*1));
+      let num = payload.kakaoid*1
+      http.post('/api/userinfo/login/kakao', num).then(res => {
         console.log(res);
         if (res.data.data) {
-          window.localStorage.setItem("jwt-auth-token", response.headers["jwt-auth-token"]);
-          window.localStorage.setItem("userNick", response.data.data.nickname)
-          window.localStorage.setItem("userid", response.data.data.id)
+          window.localStorage.setItem("jwt-auth-token", res.headers["jwt-auth-token"]);
+          window.localStorage.setItem("userNick", res.data.data.nickname)
+          window.localStorage.setItem("userid", res.data.data.id)
           window.localStorage.setItem("idvalid", "true"); //response.data.data.valid);
-          window.localStorage.setItem("userState", response.data.data.state);
-          window.localStorage.setItem("userintro", response.data.data.intro);
-          window.localStorage.setItem("usergit", response.data.data.git);
+          window.localStorage.setItem("userState", res.data.data.state);
+          window.localStorage.setItem("userintro", res.data.data.intro);
+          window.localStorage.setItem("usergit", res.data.data.git);
           document.querySelector(".login").classList.remove('active')
           store.commit('loginError', {
             e: ''
@@ -101,6 +102,11 @@ const userstore = {
           store.dispatch("init")
           router.go()
         } else {
+          window.localStorage.setItem("jwt-auth-token", "");
+          window.localStorage.setItem("userNick", "")
+          window.localStorage.setItem("userid", "")
+          window.localStorage.setItem("idvalid", "");
+          window.localStorage.setItem("userState", "");
           document.querySelector('.login').classList.remove('active')
           document.querySelector('body div').classList.remove('nav-open')
           storage.setItem('kakaosignup', 'true')
@@ -113,7 +119,7 @@ const userstore = {
             setTimeout(() => {
 
               router.push({ path: '/signup' })
-            }, 300)
+            }, 800)
           }
         }
       }).catch(e => alert('에러가 발생했습니다' + e))
@@ -124,8 +130,6 @@ const userstore = {
         pw: payload.pw
       })
         .then(response => {
-          // console.log(response.data.data)
-
           if (response.data.data) {
             window.localStorage.setItem("jwt-auth-token", response.headers["jwt-auth-token"]);
             window.localStorage.setItem("userNick", response.data.data.nickname)
@@ -141,11 +145,11 @@ const userstore = {
             store.dispatch("init")
             router.go()
           } else {
-            storage.setItem("jwt-auth-token", "");
-            storage.setItem("userNick", "")
-            storage.setItem("userid", "")
-            storage.setItem("idvalid", "");
-            storage.setItem("userState", "");
+            window.localStorage.setItem("jwt-auth-token", "");
+            window.localStorage.setItem("userNick", "")
+            window.localStorage.setItem("userid", "")
+            window.localStorage.setItem("idvalid", "");
+            window.localStorage.setItem("userState", "");
             store.commit('loginError', {
               e: '아이디나 존재하지 않거나 비밀번호가 다릅니다.'
             })
@@ -156,9 +160,9 @@ const userstore = {
           store.commit('loginError', {
             e: '오류 발생' + exp
           })
-          storage.setItem("jwt-auth-token", "");
-          storage.setItem("userNick", "")
-          storage.setItem("userid", "")
+          window.localStorage.setItem("jwt-auth-token", "");
+          window.localStorage.setItem("userNick", "")
+          window.localStorage.setItem("userid", "")
         });
     },
     logout: (store) => {
@@ -278,11 +282,11 @@ const userstore = {
                 store.commit('loginError', {
                   e: '회원가입에 오류가 있습니다 문의해주세요'
                 })
-                document.querySelector('#spinner').classList.remove('active')
+                document.querySelector('#spinner1122').classList.remove('active')
               }
             })
             .catch(exp => {
-              document.querySelector('#spinner').classList.remove('active')
+              document.querySelector('#spinner1122').classList.remove('active')
               store.commit('loginError', {
                 e: '오류 발생' + exp
               })
@@ -295,7 +299,11 @@ const userstore = {
 
 
         })
-        .catch((e) => console.log(e));
+        .catch((e) => {
+          console.log(e)
+          document.querySelector('#spinner1122').classList.remove('active')
+
+        });
     },
 
     getFollow: (store, payload) => {

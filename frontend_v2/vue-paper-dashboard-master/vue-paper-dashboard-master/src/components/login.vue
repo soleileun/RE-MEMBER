@@ -13,9 +13,7 @@
             <fg-input type="password" label="비밀번호" placeholder="password" v-model="pw"></fg-input>
           </div>
         </div>
-        <strong>
-        {{error}}
-        </strong>
+        <strong>{{error}}</strong>
         <br />
         <div class="row">
           <div class="col-md-12">
@@ -35,8 +33,8 @@
         <div @click="kakao">
           <KakaoLogin api-key="8e0034110bcf020d70bf38e4fe0f3fb7" image="kakao_account_login_btn_medium_narrow_ov" :on-success="onSuccess" :on-failure="onFailure" />
         </div>
-<!-- <a id="kakao-login-btn"></a> -->
-        
+        <!-- <a id="kakao-login-btn"></a> -->
+
         <!-- <GoogleLogin
           class="big-button"
           :params="params"
@@ -76,37 +74,52 @@ export default {
     },
   },
   mounted() {
-    storage.setItem('kakao',false)
+    storage.setItem("kakao", false);
   },
   props: {},
   methods: {
-    kakao () {
-      setTimeout(()=>{
-        if(storage.getItem('kakao')){
-          this.$store.dispatch("kakao", { id: storage.getItem('kakaoid'), email: storage.getItem('kakaoemail') });
-          setTimeout(()=>{
-          storage.setItem('kakao',false)
-          storage.setItem('kakaoid',"")
-          storage.setItem('kakaoemail',"")
-          },300)
+    kakao() {
+      setTimeout(() => {
+        if (storage.getItem("kakaoid").length > 0) {
+          this.$store.dispatch("kakao", {
+            kakaoid: storage.getItem("kakaoid"),
+            email: storage.getItem("kakaoemail"),
+          });
+          setTimeout(() => {
+            storage.setItem("kakao", false);
+            storage.setItem("kakaoid", "");
+            storage.setItem("kakaoemail", "");
+          }, 500);
+        } else {
+          setTimeout(() => {
+            this.$store.dispatch("kakao", {
+              kakaoid: storage.getItem("kakaoid"),
+              email: storage.getItem("kakaoemail"),
+            });
+            setTimeout(() => {
+              storage.setItem("kakao", false);
+              storage.setItem("kakaoid", "");
+              storage.setItem("kakaoemail", "");
+            }, 500);
+          }, 500);
         }
-      },500)
+      }, 1000);
     },
     onSuccess: (data) => {
       Kakao.API.request({
         url: "/v2/user/me",
         success: function (response) {
-          storage.setItem('kakao',true)
-          storage.setItem('kakaoid',response.id)
-          storage.setItem('kakaoemail',response.kakao_account.email)
+          storage.setItem("kakao", "true");
+          storage.setItem("kakaoid", response.id);
+          storage.setItem("kakaoemail", response.kakao_account.email);
         },
         fail: function (error) {
-          alert('에러가 발생했습니다. ' + error)
+          alert("에러가 발생했습니다. " + error);
         },
-      })
+      });
     },
     onFailure: (data) => {
-      alert('에러가 발생했습니다. ' + data)
+      alert("에러가 발생했습니다. " + data);
     },
 
     goLogin: function () {

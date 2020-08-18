@@ -53,6 +53,10 @@ export default {
 
     // 팀 지원, 초대 등
     ADD_WAITMEMBER:'addWaitMember',
+    ADD_INVITE:'addInvite',
+    REMOVE_APPLY:'removeApply',
+    MY_APPLY:'myApply',
+    PROJECT_APPLY:'projectApply',
 
     //이거 그 뭐야 채팅 관련
     GET_CHATROOMLIST: 'getChatroomList',

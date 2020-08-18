@@ -143,8 +143,82 @@ const projectstore = {
     },
     // asd
     [Constant.ADD_WAITMEMBER]: (store, payload) => {
-      
-    }
+      // 지원
+      const config = {
+        headers: {
+          "jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")
+        }
+      } 
+      http
+      .post("/api/waitMember/", { 
+        code: "string",
+        comment: payload.comment,
+        pid: payload.pid,
+        state: "string",
+        type: "Apply",
+        userId: window.sessionStorage.getItem('userid'),
+      }, config).then(res => {
+        alert(res.data);
+      }).catch(e => console.log(e))
+    },
+    [Constant.ADD_INVITE]: (store, payload) => {
+      // 초대
+      const config = {
+        headers: {
+          "jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")
+        }
+      } 
+      http
+      .post("/api/waitMember/", { 
+        code: "string",
+        comment: payload.comment,
+        pid: payload.pid,
+        state: "string",
+        type: "Invite",
+        userId: payload.target,
+      }, config).then(res => {
+        alert(res.data);
+      }).catch(e => console.log(e))
+    },
+    [Constant.REMOVE_APPLY]: (store, payload) => {
+      // 가입거절
+      const config = {
+        headers: {
+          "jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")
+        }
+      } 
+      http
+      .delete(`/api/waitMember/delete/${payload.target}/${payload.pid}`, config).then(res => {
+        alert(res.data);
+      }).catch(e => console.log(e))
+    },
+    [Constant.MY_APPLY]: (store, payload) => {
+      // 내 지원 목록'
+      const config = {
+        headers: {
+          "jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")
+        }
+      } 
+      http
+      .get(`/api/waitMember/searchById/${storage.getItem("userid")}`, config).then(res => {
+        alert(res.data);
+        store.commit(Constant.MY_APPLY,{applys:res.data})
+      }).catch(e => console.log(e))
+    },
+    [Constant.PROJECT_APPLY]: (store, payload) => {
+      // 프로젝트 지원자 목록
+      const config = {
+        headers: {
+          "jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")
+        }
+      } 
+      http
+      .get(`/api/waitMember/searchByPid/${payload.pid}`, config).then(res => {
+        alert(res.data);
+        store.commit(Constant.PROJECT_APPLY,{applys:res.data})
+      }).catch(e => console.log(e))
+    },
+
     
     // //게시글 추가
     // [Constant.ADD_BOARD]: (store, payload) => {
@@ -240,6 +314,12 @@ const projectstore = {
   },
 
   mutations: {
+    [Constant.PROJECT_APPLY]:(state, payload) => {
+      state.applys = payload.applys;
+    },
+    [Constant.MY_APPLY]:(state, payload) => {
+      state.applys = payload.applys;
+    },
     [Constant.GET_PROJECTLIST_BY_PMEMBER]: (state, payload) => {
       state.projects = payload.projects;
     },
