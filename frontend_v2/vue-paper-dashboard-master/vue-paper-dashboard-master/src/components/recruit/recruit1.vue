@@ -1,141 +1,168 @@
 <template>
   <div class="recruit1" style="z-index:50;">
+    <div>
+      <div class="row" style="display : flex;">
+        <div class="col-6">
+          <p>
+            <strong>프로젝트 검색</strong>
+          </p>
+        </div>
+
+        <div class="col-4" style="display : flex;">
+          <select name="std" id="std">
+            <option value="title" selected>제목</option>
+            <option value="writer">작성자</option>
+          </select>
+          <fg-input type="text" placeholder="검색어를 입력하세요" id="keyword" style="width:85%;" />
+        </div>
+
+        <div class="col-2">
+          <div class="button-7" style="float: none; margin: 0 auto;">
+            <div class="eff-7"></div>
+            <a @click="searchPool()">프로젝트 검색</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <hr />
+
     <section class="filter-sidebar">
       <!-- 시군구동 검색 -->
-      <div class="row">
-        <label class="col-md-2" for="sido" style="margin-left:-20px;">
-          <strong>
-            시도
-            <span id="userid" class="text-danger"></span>
-          </strong>
-        </label>
-        <select
-          id="sido"
-          class="form-control col-md-2"
-          @change="changeSido(selectedSido)"
-          v-model="selectedSido"
-        >
-          <option value="0">선택</option>
-          <option v-for="(sido, index) in sidoList" :value="sido" :key="index">
-            {{
-            sido
-            }}
-          </option>
-        </select>
+      <div class="card-body">
+        <div class="row">
+          <label for="sido">
+            <strong>
+              시도
+              <span id="userid" class="text-danger"></span>
+            </strong>
+          </label>
+          <select
+            id="sido"
+            class="form-control"
+            @change="changeSido(selectedSido)"
+            v-model="selectedSido"
+          >
+            <option value="0">선택</option>
+            <option v-for="(sido, index) in sidoList" :value="sido" :key="index">
+              {{
+              sido
+              }}
+            </option>
+          </select>
 
-        <label class="col-md-2" for="gugun">
-          <strong>
-            구군
-            <span id="userid" class="text-danger"></span>
-          </strong>
-        </label>
-        <select
-          v-if="selectedSido!=0"
-          id="gugun"
-          class="form-control col-md-2"
-          @change="changeGugun(selectedSido, selectedGugun)"
-          v-model="selectedGugun"
-        >
-          <option value="0">선택</option>
-          <option v-for="(gu, index) in gugunList" :value="gu" :key="index">
-            {{
-            gu
-            }}
-          </option>
-        </select>
-        <select v-else id="gugun" class="form-control col-md-2" disabled>
-          <option value="0">선택</option>
-        </select>
+          <br />
+          <br />
+          <br />
 
-        <label class="col-md-2" for="dong">
-          <strong>
-            읍면동
-            <span id="userid" class="text-danger"></span>
-          </strong>
-        </label>
+          <label for="gugun">
+            <strong>
+              구군
+              <span id="userid" class="text-danger"></span>
+            </strong>
+          </label>
+          <select
+            v-if="selectedSido!=0"
+            id="gugun"
+            class="form-control"
+            @change="changeGugun(selectedSido, selectedGugun)"
+            v-model="selectedGugun"
+          >
+            <option value="0">선택</option>
+            <option v-for="(gu, index) in gugunList" :value="gu" :key="index">
+              {{
+              gu
+              }}
+            </option>
+          </select>
+          <select v-else id="gugun" class="form-control" disabled>
+            <option value="0">선택</option>
+          </select>
 
-        <select
-          v-if="selectedGugun!=0"
-          id="dong"
-          class="form-control col-md-2"
-          v-model="selectedDong"
-        >
-          <!-- @change="changeDong(selectedDong)" -->
+          <br />
+          <br />
+          <br />
+          <label for="dong">
+            <strong>
+              읍면동
+              <span id="userid" class="text-danger"></span>
+            </strong>
+          </label>
 
-          <option value="0">선택</option>
-          <option v-for="(don, index) in dongList" :value="don" :key="index">
-            {{
-            don
-            }}
-          </option>
-        </select>
-        <select v-else id="dong" class="form-control col-md-2" disabled>
-          <option value="0">선택</option>
-        </select>
-      </div>
+          <select v-if="selectedGugun!=0" id="dong" class="form-control" v-model="selectedDong">
+            <!-- @change="changeDong(selectedDong)" -->
 
-      <hr />
-
-      <div class="selectform">
-        <div v-for="(pick,index) in picks" :key="index">
-          <button>{{pick}}</button>
-          <button v-on:click="deleteStack(index)">X</button>
+            <option value="0">선택</option>
+            <option v-for="(don, index) in dongList" :value="don" :key="index">
+              {{
+              don
+              }}
+            </option>
+          </select>
+          <select v-else id="dong" class="form-control" disabled>
+            <option value="0">선택</option>
+          </select>
         </div>
-      </div>기술 태그 입력
-      <div class="searchform">
-        <div class="input">
-          <input
-            id="stackWord"
-            type="text"
-            v-model="inputVal"
-            @input="searchQuery()"
-            @keyup.enter="enter()"
-            placeholder="기술 태그 입력해주세요"
-          />
-        </div>
-        <table class="autoComplete">
-          <tr v-for="list in lists" :key="list" @click="add(list)">
-            <td>{{list}}</td>
-          </tr>
-        </table>
+
+        <br />
+        <hr />
+        <br />
 
         <div class="row">
-          <div class="col-1">
-            <select name="std" id="std">
-              <option value="title" selected>제목</option>
-              <option value="writer">작성자</option>
-            </select>
-          </div>
-
-          <div class="col-8">
-            <input type="text" placeholder="검색어를 입력하세요" id="keyword" style="width:100%;" />
+          <div class="searchform" style="width:100%;">
+            <div class="row">
+              <div class="col-12">
+                <p>
+                  <strong>기술</strong>
+                </p>
+                <fg-input
+                  type="text"
+                  v-model="inputVal"
+                  @input="searchQuery()"
+                  @keyup.enter="enter()"
+                  placeholder="기술 태그 입력해주세요"
+                  style="width:100%;"
+                />
+              </div>
+            </div>
+            <table class="autoComplete">
+              <tr v-for="list in lists" :key="list" @click="add(list)">
+                <td>{{list}}</td>
+              </tr>
+            </table>
           </div>
         </div>
-        <div class="col-2">
-          <button
-            @click="searchPool()"
-            style="border: 2px solid rgb(173, 203, 247); border-radius:10px;"
-          >프로젝트 검색</button>
+
+        <div class="row">
+          <div class="col-12 selectform">
+            <div
+              class="btn btn-primary btn-round"
+              v-for="(pick,index) in picks"
+              :key="index"
+              @click="deleteStack(index)"
+              style="z-index : 0;"
+            >{{pick}}</div>
+          </div>
         </div>
       </div>
     </section>
 
-    <hr />
-
     <!--  ////////////////////////////////////////////////////////////////////////// -->
-
-    <hr />
-    <!-- 로그인 여부에 따라 활성 비활성 여부 결정 -->
-    <button v-if="loginId !== ''"    id="myBtn" @click="openModal">구인글 등록</button>
 
     <notfound v-if="rows === 0" />
     <div v-else>
-      <select id="showcnt" @change="changeShowCnt">
-        <option value="10" selected>10개씩 보기</option>
-        <option value="15">15개씩 보기</option>
-        <option value="20">20개씩 보기</option>
-      </select>
-
+      <div class="row">
+        <div class="col-10">
+          <select id="showcnt" @change="changeShowCnt">
+            <option value="6" selected>6개씩 보기</option>
+            <option value="12">12개씩 보기</option>
+            <option value="18">18개씩 보기</option>
+          </select>
+        </div>
+        <div class="col-2">
+          <button v-if="loginId !== ''" id class="btn btn-primary" @click="openModal">구인글 등록</button>
+        </div>
+      </div>
       <!-- The Modal -->
       <div class="modal" id="momo" style="z-index : 100;">
         <div class="modal-content">
@@ -189,7 +216,7 @@
 
       <br />
 
-      <div class="container-fluid overflow-auto" style="padding:0; ">
+      <div class="overflow-auto" style="padding:0; ">
         <div class="row col-12" style="margin:0; padding:0;  z-index : 0;" id="recruitpage">
           <recruitcomponent
             v-for="(recruit,index) in recruits.slice(this.perPage*(currentPage-1),perPage*(currentPage))"
@@ -332,7 +359,7 @@ export default {
   data() {
     return {
       //페이징
-      perPage: 8,
+      perPage: 6,
       currentPage: 1,
       // pjtName:this.$store.state.projectstore.pjtName,
       wrecruit: {
@@ -410,9 +437,9 @@ export default {
 
       // When the user clicks on the button, open the modal
       modal.style.display = "block";
-        window.scrollY=0
-        document.querySelector('html').scrollTop=0
-        document.querySelector('.main-panel').scrollTop=0
+      window.scrollY = 0;
+      document.querySelector("html").scrollTop = 0;
+      document.querySelector(".main-panel").scrollTop = 0;
       // When the user clicks on <span> (x), close the modal
       span.onclick = function () {
         modal.style.display = "none";
@@ -1018,9 +1045,8 @@ body {
     margin-top: 0;
   }
 }
-#pagination{
-  z-index:0;
-
+#pagination {
+  z-index: 0;
 }
 
 //filter-sidebar
@@ -1030,5 +1056,46 @@ body {
   // padding: 20px 10px 20px 20px;
   border-right: solid 1px #e0e0e0;
   float: left;
+}
+
+//버튼
+
+.button-7 {
+  width: 140px;
+  height: 50px;
+  border: 2px solid #34495e;
+  float: left;
+  text-align: center;
+  cursor: pointer;
+  position: relative;
+  box-sizing: border-box;
+  overflow: hidden;
+  margin: 0 0 40px 50px;
+}
+.button-7 a {
+  font-family: arial;
+  font-size: 16px;
+  color: #34495e;
+  text-decoration: none;
+  line-height: 50px;
+  transition: all 0.5s ease;
+  z-index: 2;
+  color: white;
+  position: relative;
+}
+.eff-7 {
+  width: 140px;
+  height: 50px;
+  border: 0px solid #34495e;
+  position: absolute;
+  transition: all 0.5s ease;
+  z-index: 1;
+  box-sizing: border-box;
+}
+.button-7:hover .eff-7 {
+  border: 70px solid #34495e;
+}
+.button-7:hover a {
+  color: #fff;
 }
 </style>

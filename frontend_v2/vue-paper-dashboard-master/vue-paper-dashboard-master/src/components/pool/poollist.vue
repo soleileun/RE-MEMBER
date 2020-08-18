@@ -3,20 +3,23 @@
     <div>
       <div class="row" style="margin:8px;">
         <div class="col-6">
-          <p><strong>인재 찾기</strong></p>
+          <p>
+            <strong>인재 찾기</strong>
+          </p>
         </div>
 
         <div class="col-4" style="display : flex;">
-          <p><strong>ID</strong></p>
+          <p>
+            <strong>ID</strong>
+          </p>
           <fg-input type="text" placeholder="아이디를 입력하세요" id="keyword1" style="width:85%;" />
-          
         </div>
         <div class="col-2">
-            <div class="button-7" style="float: none; margin: 0 auto;">
-              <div class="eff-7"></div>
-              <a @click="searchPool()">프로젝트 검색</a>
-            </div>
+          <div class="button-7" style="float: none; margin: 0 auto;">
+            <div class="eff-7"></div>
+            <a @click="searchPool()">프로젝트 검색</a>
           </div>
+        </div>
       </div>
     </div>
     <hr />
@@ -25,16 +28,16 @@
 
       <div class="card-body">
         <div class="row">
-          <label  for="sido" >
+          <label for="sido">
             <strong>
               시도
               <span id="userid" class="text-danger"></span>
             </strong>
           </label>
-          
+
           <select
             id="sido"
-            class="form-control "
+            class="form-control"
             @change="changeSido(selectedSido)"
             v-model="selectedSido"
           >
@@ -45,7 +48,9 @@
               }}
             </option>
           </select>
-          <br><br><br>
+          <br />
+          <br />
+          <br />
           <label for="gugun">
             <strong>
               구군
@@ -55,7 +60,7 @@
           <select
             v-if="selectedSido!=0"
             id="gugun"
-            class="form-control "
+            class="form-control"
             @change="changeGugun(selectedSido, selectedGugun)"
             v-model="selectedGugun"
           >
@@ -69,21 +74,18 @@
           <select v-else id="gugun" class="form-control" disabled>
             <option value="0">선택</option>
           </select>
-          <br><br><br>
+          <br />
+          <br />
+          <br />
 
-          <label  for="dong">
+          <label for="dong">
             <strong>
               읍면동
               <span id="userid" class="text-danger"></span>
             </strong>
           </label>
 
-          <select
-            v-if="selectedGugun!=0"
-            id="dong"
-            class="form-control"
-            v-model="selectedDong"
-          >
+          <select v-if="selectedGugun!=0" id="dong" class="form-control" v-model="selectedDong">
             <!-- @change="changeDong(selectedDong)" -->
 
             <option value="0">선택</option>
@@ -93,19 +95,21 @@
               }}
             </option>
           </select>
-          <select v-else id="dong" class="form-control " disabled>
+          <select v-else id="dong" class="form-control" disabled>
             <option value="0">선택</option>
           </select>
         </div>
         <hr />
-        
+
         <div class="row">
           <div class="searchform" style="width:100%;">
-            <div class="row" >
-              <div class="col-12" >
+            <div class="row">
+              <div class="col-12">
                 <!-- <p>ID :</p>
                 <fg-input type="text" placeholder="아이디를 입력하세요" id="keyword1" style="width:85%;" />-->
-                <p><strong>기술</strong></p>
+                <p>
+                  <strong>기술</strong>
+                </p>
                 <fg-input
                   id="stackWord"
                   type="text"
@@ -140,12 +144,6 @@
               </tr>
             </table>
           </div>
-          <!-- <div class="col-12">
-            <div class="button-7" style="float: none; margin: 0 auto;">
-              <div class="eff-7"></div>
-              <a @click="searchPool()">프로젝트 검색</a>
-            </div>
-          </div> -->
         </div>
         <!-- 선택 스택들 -->
         <div class="row">
