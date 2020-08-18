@@ -127,7 +127,9 @@ public class UserInfoDaoImpl implements UserInfoDao {
 	@Override
 	public UserInfo loginForKakao(String kakaoId) {
 		// TODO Auto-generated method stub
-		return template.selectOne(ns+"loginForKakao",kakaoId);
+		UserInfo user= new UserInfo();
+		user.setKakaoId(kakaoId);
+		return template.selectOne(ns+"loginForKakao",user);
 	}
 
 }
