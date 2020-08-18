@@ -90,10 +90,12 @@ export default {
   },
   mounted: function () {
     const config = {
-            headers: {"jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")}
-        }
+      headers: {
+        "jwt-auth-token": window.localStorage.getItem("jwt-auth-token"),
+      },
+    };
     http
-      .get("/api/interest/selectById/" + storage.getItem("userid"),config)
+      .get("/api/interest/selectById/" + storage.getItem("userid"), config)
       .then((response) => {
         if (response.data.length > 0) {
           this.ints = response.data;
@@ -138,8 +140,10 @@ export default {
           else dels.push(el.interest);
         });
         const config = {
-            headers: {"jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")}
-        }
+          headers: {
+            "jwt-auth-token": window.localStorage.getItem("jwt-auth-token"),
+          },
+        };
         dels.forEach((el) => {
           http
             .delete("/api/interest/", {
@@ -147,7 +151,10 @@ export default {
                 id: storage.getItem("userid"),
                 interest: el,
               },
-            },config)
+              headers: {
+                "jwt-auth-token": window.localStorage.getItem("jwt-auth-token"),
+              },
+            })
             .then((res) => {
               console.log(res);
             })
@@ -155,10 +162,14 @@ export default {
         });
         this.picks.forEach((el) => {
           http
-            .post("/api/interest/", {
-              id: storage.getItem("userid"),
-              interest: el,
-            },config)
+            .post(
+              "/api/interest/",
+              {
+                id: storage.getItem("userid"),
+                interest: el,
+              },
+              config
+            )
             .then((res) => {
               console.log(res);
             })

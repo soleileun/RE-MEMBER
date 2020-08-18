@@ -1,6 +1,6 @@
 <template>
   <card class="signupform card">
-    <img id="spinner" src="@/assets/img/spinner.png" />
+    <img id="spinner1122" src="@/assets/img/spinner.png" />
     <div>
       <span style="position:fixed;top:-100px">{{nothing}}</span>
       <form @submit.prevent class="forms">
@@ -43,7 +43,7 @@
             <span class="reddot">*</span>
             이름
             <fg-input type="text" placeholder="실명" v-model="name"></fg-input>
-            
+
             <br />
             {{error.name}}
             <br />
@@ -88,12 +88,11 @@
             <span class="reddot">*</span>
             전화번호
             <span style="display:flex; align-items: center">
-
-            <fg-input type="text" maxlength="3" placeholder="010" v-model="phone0"></fg-input>  
-            <i class="ti-minus" style="margin:0px 10px 10px 10px"></i>
-            <fg-input id="p1" type="text" maxlength="4" placeholder="0000" v-model="phone1"></fg-input>
-            <i class="ti-minus" style="margin:0px 10px 10px 10px"></i>
-            <fg-input id="p2" type="text" maxlength="4" placeholder="0000" v-model="phone2"></fg-input>
+              <fg-input type="text" maxlength="3" placeholder="010" v-model="phone0"></fg-input>
+              <i class="ti-minus" style="margin:0px 10px 10px 10px"></i>
+              <fg-input id="p1" type="text" maxlength="4" placeholder="0000" v-model="phone1"></fg-input>
+              <i class="ti-minus" style="margin:0px 10px 10px 10px"></i>
+              <fg-input id="p2" type="text" maxlength="4" placeholder="0000" v-model="phone2"></fg-input>
             </span>
             {{error.phone}}
             <br />
@@ -103,12 +102,11 @@
             깃 주소
             <br />
             <span style="display:flex">
-            <input class="form-control" type="text" value="https://github.com/" disabled/>
-            &nbsp;
-            <input class="form-control" type="text" placeholder="example" v-model="git"/>
-
+              <input class="form-control" type="text" value="https://github.com/" disabled />
+              &nbsp;
+              <input class="form-control" type="text" placeholder="example" v-model="git" />
             </span>
-            <br>
+            <br />
           </div>
           <div class="col-12">
             <span class="reddot">*</span>
@@ -223,7 +221,7 @@ export default {
       responsibility: "",
       kakao: false,
       kakaosignupID: "",
-      nothing:0
+      nothing: 0,
     };
   },
   beforeUpdate() {
@@ -239,7 +237,11 @@ export default {
     }, 500);
   },
   mounted() {
-    document.querySelector('div.main-panel').scrollTop = 0;
+    this.$nextTick(function () {
+      // 모든 화면이 렌더링된 후 실행합니다.
+      document.querySelector("div.main-panel").scrollTop = 0;
+      document.querySelector("html").scrollTop = 0;
+    });
     // document.querySelector('html').sc = 0
     if (window.sessionStorage.getItem("kakaosignup") === "true") {
       this.kakao = true;
@@ -300,28 +302,28 @@ export default {
   },
   methods: {
     jungbok() {
-      this.nothing+=1;
-       setTimeout(() => {
-         if (this.error.id === "" && this.id !== "") {
-           http
-             .get("/api/userinfo/")
-             .then((res) => {
-               if (
-                 !res.data.find((item) => {
-                   if (item.id === this.id) {
-                     alert(`이미 가입된 이메일입니다.`);
-                     this.jungboks = false;
-                     return true;
-                   }
-                 })
-               ) {
-                 alert("사용 가능한 이메일입니다.");
-                 this.jungboks = true;
-               }
-             })
-             .catch((exp) => alert("서버가 불안정합니다." + exp));
-         }
-    }, 100);
+      this.nothing += 1;
+      setTimeout(() => {
+        if (this.error.id === "" && this.id !== "") {
+          http
+            .get("/api/userinfo/")
+            .then((res) => {
+              if (
+                !res.data.find((item) => {
+                  if (item.id === this.id) {
+                    alert(`이미 가입된 이메일입니다.`);
+                    this.jungboks = false;
+                    return true;
+                  }
+                })
+              ) {
+                alert("사용 가능한 이메일입니다.");
+                this.jungboks = true;
+              }
+            })
+            .catch((exp) => alert("서버가 불안정합니다." + exp));
+        }
+      }, 100);
     },
     chek: function (a) {
       this.responsibility = a;
@@ -407,7 +409,7 @@ export default {
       if (!this.jungboks) {
         alert("아이디 중복조회를 하세요");
       } else if (this.submitable) {
-        document.querySelector("#spinner").classList.add("active");
+        document.querySelector("#spinner1122").classList.add("active");
         this.$store.dispatch("signup", {
           id: this.id,
           pw: this.pw,
@@ -431,10 +433,10 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-#spinner {
+#spinner1122 {
   display: none;
 }
-#spinner.active {
+#spinner1122.active {
   display: block;
   position: fixed;
   z-index: 999;

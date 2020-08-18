@@ -80,7 +80,7 @@
         <!-- The Modal -->
       </div>
       <template v-if="test1">
-        <button class="btn btn-info" @click="addWait">프로젝트 팀 참여하기</button>
+        <button class="btn btn-info" @click="openModal4">프로젝트 팀 참여하기</button>
       </template>
 
       <div id="myModal" class="modal">
@@ -155,6 +155,26 @@
               <br />
             </div>
             <button class="btn btn-info btn-round" @click="leaveTeam">팀 나가기</button>
+            <br />
+            <br />
+          </div>
+        </div>
+      </div>
+      <div id="myModal4" class="modal">
+        신청하기
+        <div class="modal-content">
+          <span class="close" id="modal4Close">&times;</span>
+          <div class="col-12">
+            <h3>신청하기</h3>
+            <br />
+
+            <fg-input type="text" v-model="applyComment"></fg-input>
+            <div>
+              <br />
+              <br />
+              <br />
+            </div>
+            <button class="btn btn-info btn-round" @click="addWait">지원하기</button>
             <br />
             <br />
           </div>
@@ -244,6 +264,24 @@ export default {
       let modal = document.getElementById("myModal3");
       // Get the <span> element that closes the modal
       let span = document.querySelector("#modal3Close");
+      // When the user clicks on the button, open the modal
+      modal.style.display = "block";
+      // When the user clicks on <span> (x), close the modal
+      span.addEventListener('click', function () {
+        modal.style.display = "none";
+      });
+      // When the user clicks anywhere outside of the modal, close it
+      window.onclick = function (event) {
+        if (event.target == modal) {
+          modal.style.display = "none";
+        }
+      };
+    },
+    openModal4: function () {
+      console.log(this.userId);
+      let modal = document.getElementById("myModal4");
+      // Get the <span> element that closes the modal
+      let span = document.querySelector("#modal4Close");
       // When the user clicks on the button, open the modal
       modal.style.display = "block";
       // When the user clicks on <span> (x), close the modal
