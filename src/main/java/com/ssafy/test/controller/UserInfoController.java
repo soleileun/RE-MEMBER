@@ -580,10 +580,10 @@ public class UserInfoController {
             sendMail.setFrom("test@gmail.com", "admin");
             sendMail.setTo(q.getId());
             sendMail.send();
-            Message msg = new Message();
-            msg.setFromUser("admin"); msg.setToUser(q.getId());
-            msg.setContent("가입해주셔서 감사합니다! 우리 함께 멋진 프로젝트를 해봐요 🤗");
-            mService.insert(msg);
+//            Message msg = new Message();
+//            msg.setFromUser("admin"); msg.setToUser(q.getId());
+//            msg.setContent("가입해주셔서 감사합니다! 우리 함께 멋진 프로젝트를 해봐요 🤗");
+//            mService.insert(msg);
             return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
          }
       }
