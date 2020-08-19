@@ -92,7 +92,7 @@ public class EmailController {
         MailHandler sendMail = new MailHandler(mailSender);
         sendMail.setSubject("[이메일 인증]");
         sendMail.setText(new StringBuffer().append("<h1>메일인증</h1>")
-                .append("<a href='http://i3a208.p.ssafy.io:8081/api/email/validKey=")
+                .append("<a href='http://localhost:8080/api/email/validKey=")
                 
                 .append(key)
                 .append("' target='_blenk'>이메일 인증 확인</a>")
