@@ -21,9 +21,47 @@ public class UserInfo {
 	private boolean leaveUser;
 	private String intro;
 	private String kakaoId;
+	private String y;
+	private String x;
 	
+	
+	public String getY() {
+		return y;
+	}
+	public void setY(String y) {
+		this.y = y;
+	}
+	public String getX() {
+		return x;
+	}
+	public void setX(String x) {
+		this.x = x;
+	}
 	public String getKakaoId() {
 		return kakaoId;
+	}
+	public UserInfo(String id, String nickname, String name, String pw, String address1, String address2, String phone,
+			String git, int points, Date lastDate, boolean state, String responsibility, boolean isValid,
+			boolean leaveUser, String intro, String kakaoId, String y, String x) {
+		super();
+		this.id = id;
+		this.nickname = nickname;
+		this.name = name;
+		this.pw = pw;
+		this.address1 = address1;
+		this.address2 = address2;
+		this.phone = phone;
+		this.git = git;
+		this.points = points;
+		this.lastDate = lastDate;
+		this.state = state;
+		this.responsibility = responsibility;
+		this.isValid = isValid;
+		this.leaveUser = leaveUser;
+		this.intro = intro;
+		this.kakaoId = kakaoId;
+		this.y = y;
+		this.x = x;
 	}
 	public void setKakaoId(String kakaoId) {
 		this.kakaoId = kakaoId;
