@@ -38,12 +38,7 @@
                     </tr>
                   </thead>
                   <tbody class="table__tbody">
-                    <recruitcomponent
-                      v-for="(recruit,index) in recruits"
-                      :key="index"
-                      :recruit="recruit"
-                      :pid="recruit.pid"
-                    />
+                    <recruitcomponent v-for="(recruit,index) in recruits" :key="index" :recruit="recruit" :pid="recruit.pid" />
                   </tbody>
                 </table>
               </div>
@@ -67,9 +62,7 @@
         </h3>
 
         <div class="dmswjdWKdWkd">
-          <div class="col-3">
             <users />
-          </div>
         </div>
       </div>
     </div>

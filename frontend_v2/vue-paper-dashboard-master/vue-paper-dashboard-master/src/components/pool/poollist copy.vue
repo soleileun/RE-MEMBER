@@ -8,7 +8,7 @@
           </p>
           <hr />
         </div>
-        <div class="filter-sidebar col-md-4" style="background-color:white">
+        <div class="filter-sidebar col-md-4">
           <!-- 시군구동 검색 -->
           <div class="card-body cb">
             <div class style="display : flex;">
@@ -173,8 +173,13 @@
         -->
         <notfound v-if="rows === 0" />
         <div v-else class="col-md-8">
-          <ul class="cards" id="poolpage">
-            <li class="cards__item" v-for="(pool,index) in extendpools.slice(currentPage-1,currentPage-1+perPage)" :key="index">
+          <select id="showcnt" @change="changeShowCnt">
+            <option value="6" selected>6개씩 보기</option>
+            <option value="9">9개씩 보기</option>
+            <option value="12">12개씩 보기</option>
+          </select>
+          <ul class="cards overflow-auto" id="poolpage">
+            <li class="cards__item" v-for="(pool,index) in extendpools.slice(this.perPage*(currentPage-1),perPage*(currentPage))" :key="index">
               <div class="card">
                 <div v-if="pool.responsibility === '디자인'" class="card__image card__image--designer" style="position:relative">
                   <img class="avatar border-white" :src="urls(pool.id)" style="position:absolute;z-index:9;bottom:0;left:0" />
@@ -322,10 +327,7 @@
               </div>
             </li>
           </ul>
-          <!-- <b-pagination v-model="currentPage" :total-rows="rows" :per-page="perPage" aria-controls="poolpage" align="center"></b-pagination> -->
-          <div>
-            <input type="range" v-model="currentPage" min="1" :max="extendpools.length-4" style="width:60%;margin-left:20%;" />
-          </div>
+          <b-pagination v-model="currentPage" :total-rows="rows" :per-page="perPage" aria-controls="poolpage" align="center"></b-pagination>
         </div>
       </div>
     </div>
@@ -347,7 +349,7 @@ export default {
   data() {
     return {
       //페이징
-      perPage: 5,
+      perPage: 6,
       currentPage: 1,
 
       selectedSido: 0,
@@ -404,22 +406,12 @@ export default {
       return this.extendpools.length;
     },
     pools() {
+      console.log("pool 호출");
       return this.$store.state.poolstore.pools;
     },
     extendpools() {
-      let a = [];
-      if (this.$store.state.poolstore.extendpools.length > 0) {
-        a.push({});
-        a.push({});
-        this.$store.state.poolstore.extendpools.forEach((el) => {
-          a.push(el);
-        });
-        a.push({});
-        a.push({});
-      } else {
-        a = [];
-      }
-      return a;
+      console.log("extendpools 호출");
+      return this.$store.state.poolstore.extendpools;
     },
     sidoList() {
       // console.log("확인" + this.$store.state.stackstore.sidolist);
@@ -446,6 +438,9 @@ export default {
   },
   methods: {
     //페이징
+    changeShowCnt() {
+      this.perPage = parseInt(document.getElementById("showcnt").value);
+    },
     urls(id) {
       let url = this.$store.state.filestore.fileUrl + id + ".png";
       return url;
@@ -669,78 +664,34 @@ img {
   display: block;
   width: 100%;
 }
-div.col-md-4{
-z-index: 1;
-}
-div.col-md-8{
-  
-z-index: 0;
-}
 
 .cards {
-  overflow: visible;
-  width: 100%;
-  height: 100%;
   display: flex;
-  flex-flow: row;
-  justify-content: center;
+  flex-flow: row wrap;
+  justify-content: stretch;
   list-style: none;
   margin: 0;
-  margin-left: 200px;
   padding: 0;
-  li:nth-child(1) {
-    z-index: 1;
-  }
-  li:nth-child(2) {
-    margin-top: -6px;
-    z-index: 2;
-  }
-  li:nth-child(3) {
-    margin-top: -10px;
-    z-index: 3;
-  }
-  li:nth-child(4) {
-    margin-top: -6px;
-    z-index: 2;
-  }
-  li:nth-child(5) {
-    z-index: 1;
-  }
 }
 
-@media (max-width: 767px) {
-  .cards{
-    
-  margin-left: 100px;
-  }
- .cards__item {
-  display: flex;
-  padding: 1rem;
-  width: 300px;
-  margin-left: -200px;
-  height: 600px;
-} 
-}
-@media (min-width: 768px) {
 .cards__item {
   display: flex;
   padding: 1rem;
-  width: 500px;
-  margin-left: -400px;
-  height: 600px;
-}  
+  width: 20%;
+  min-width: 250px;
+  max-width: 400px;
+  margin-left: 5%;
 }
-
 
 .card {
   background-color: white;
+  border-radius: 0.25rem;
   box-shadow: 0 20px 40px -14px rgba(0, 0, 0, 0.25);
   display: flex;
   flex-direction: column;
   overflow: hidden;
   width: 100%;
-  border-radius: 25px;
-  border: 1px solid gray;
+
   &:hover {
     .card__image {
       filter: contrast(100%);

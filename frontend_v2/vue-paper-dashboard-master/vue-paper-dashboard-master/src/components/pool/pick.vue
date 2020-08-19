@@ -1,64 +1,30 @@
 <template>
-  <div>
+  <div style="width:100%">
     <notfound v-if="rows === 0" />
-    <div v-else>
-      <ul class="cards" id="poolpage">
-        <li class="cards__item" v-for="(pool,index) in extendpools.slice(0,3)" :key="index">
+    <div class="container row" v-else>
+      <ul class="cards col-4 poolpage" v-for="(pool,index) in extendpools.slice(0,3)" :key="index">
+        <li class="cards__item" >
           <div class="card">
-            <div
-              v-if="pool.responsibility === '디자인'"
-              class="card__image card__image--designer"
-              style="position:relative"
-            >
-              <img
-                class="avatar border-white"
-                :src="urls(pool.id)"
-                style="position:absolute;z-index:9;bottom:0;left:0"
-              />
+            <div v-if="pool.responsibility === '디자인'" class="card__image card__image--designer" style="position:relative">
+              <img class="avatar border-white" :src="urls(pool.id)" style="position:absolute;z-index:9;bottom:0;left:0" />
             </div>
-            <div
-              v-if="pool.responsibility === '개발'"
-              class="card__image card__image--developer"
-              style="position:relative"
-            >
-              <img
-                class="avatar border-white"
-                :src="urls(pool.id)"
-                style="position:absolute;z-index:1;bottom:0;left:0"
-              />
+            <div v-if="pool.responsibility === '개발'" class="card__image card__image--developer" style="position:relative">
+              <img class="avatar border-white" :src="urls(pool.id)" style="position:absolute;z-index:1;bottom:0;left:0" />
             </div>
-            <div
-              v-if="pool.responsibility === '기획'"
-              class="card__image card__image--head"
-              style="position:relative"
-            >
-              <img
-                class="avatar border-white"
-                :src="urls(pool.id)"
-                style="position:absolute;z-index:1;bottom:0;left:0"
-              />
+            <div v-if="pool.responsibility === '기획'" class="card__image card__image--head" style="position:relative">
+              <img class="avatar border-white" :src="urls(pool.id)" style="position:absolute;z-index:1;bottom:0;left:0" />
             </div>
             <div class="card__content">
               <div class="card__title">
-                <div
-                  style="font-weight:800; display:inline-block; margin-right:4px;"
-                >{{pool.nickname}}</div>
-                <p
-                  v-if="pool.isValid ===1"
-                  style="display:inline-block; color:rgb(79, 245, 154); font-size:10px; text-align:right; margin-bottom:3px;"
-                >
+                <div style="font-weight:800; display:inline-block; margin-right:4px;">{{pool.nickname}}</div>
+                <p v-if="pool.isValid ===1" style="display:inline-block; color:rgb(79, 245, 154); font-size:10px; text-align:right; margin-bottom:3px;">
                   <img v-if="pool.isValid ===1" src="@/assets/img/checklist.png" title="인증된 유저입니다" />
                 </p>
 
-                <p
-                  v-else
-                  style="display:inline-block; color:red;font-size:10px;text-align:right; margin-bottom:3px; "
-                >
+                <p v-else style="display:inline-block; color:red;font-size:10px;text-align:right; margin-bottom:3px; ">
                   <img src="@/assets/img/error.png" title="미인증된 유저입니다" />
                 </p>
-                <div
-                  style="padding-top:0px;margin-top:0px; font-size:10px; margin-bottom:16px;"
-                >{{pool.id}}</div>
+                <div style="padding-top:0px;margin-top:0px; font-size:10px; margin-bottom:16px;">{{pool.id}}</div>
               </div>
 
               <p class="card__text" style="font-weight:bold; margin-bottom:4px;">
@@ -68,11 +34,7 @@
                 {{pool.responsibility}}
               </p>
               <div class="inter">
-                <div
-                  v-for="(interest, idx) in pool.interest"
-                  :key="idx"
-                  style="margin:2px; display:inline-block"
-                >#{{interest.interest}},</div>
+                <div v-for="(interest, idx) in pool.interest" :key="idx" style="margin:2px; display:inline-block">#{{interest.interest}},</div>
                 <div></div>
               </div>
               {{pool.intro}}
@@ -88,50 +50,26 @@
                 <div class="row">
                   <div class="col-3" style="font-size:22px; text-align:center;">
                     <a :href="'https://github.com/'+pool.git" style="color: black">
-                      <i
-                        class="fa fa-github emo"
-                        v-b-tooltip.hover
-                        title="Github"
-                        v-if="pool.git != null"
-                        style="color: black"
-                      ></i>
+                      <i class="fa fa-github emo" v-b-tooltip.hover title="Github" v-if="pool.git != null" style="color: black"></i>
                     </a>
                   </div>
                   <div class="col-3" style="font-size:22px; text-align:center;">
-                    <i
-                      class="fa fa-user-plus emo"
-                      v-b-tooltip.hover
-                      title="팔로우"
-                      v-if="!follow.find(item=>item.id === pool.id)"
-                      @click="fol(pool.id)"
-                    ></i>
+                    <i class="fa fa-user-plus emo" v-b-tooltip.hover title="팔로우" v-if="!follow.find(item=>item.id === pool.id)" @click="fol(pool.id)"></i>
                     <!-- v-else로 친구라고 넘겨줘도 될듯 -->
                   </div>
                   <div class="col-3" style="font-size:22px; text-align:center;">
-                    <i
-                      class="fa fa-id-card emo"
-                      v-b-tooltip.hover
-                      title="프로필"
-                      @click="toProfile(pool.id)"
-                    ></i>
+                    <i class="fa fa-id-card emo" v-b-tooltip.hover title="프로필" @click="toProfile(pool.id)"></i>
                   </div>
 
                   <div class="col-3" style="font-size:22px; text-align:center;">
                     <div>
-                      <button
-                        v-b-modal="'test-'+pool.id"
-                        style="margin:0px; padding:0px; border:0; outline:0; font-size:22px; background-color:white;"
-                      >
+                      <button v-b-modal="'test-'+pool.id" style="margin:0px; padding:0px; border:0; outline:0; font-size:22px; background-color:white;">
                         <i class="fa fa-tasks emo" v-b-tooltip.hover title="프로젝트 목록"></i>
                       </button>
 
                       <b-modal :id="'test-'+pool.id" title="참여한 프로젝트 목록" hide-footer>
                         <div v-if="pool.project != null">
-                          <div
-                            v-for="(pjt, idx) in pool.project"
-                            :key="idx"
-                            style="font-size:20px; font-weight:bold;"
-                          >
+                          <div v-for="(pjt, idx) in pool.project" :key="idx" style="font-size:20px; font-weight:bold;">
                             <div class="card">
                               <div class="card-header" style="cursor:pointer;">{{pjt.pjtName}}</div>
                               <div class="card-body">
@@ -689,7 +627,7 @@ img {
   min-height: 470px;
   height: 100%;
 }
-#poolpage {
+.poolpage {
   display: flex;
   flex-flow: row wrap;
 }

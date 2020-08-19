@@ -120,9 +120,8 @@ const userstore = {
             tmp.value = payload.email
           } else {
             setTimeout(() => {
-
               router.push({ path: '/signup' })
-            }, 800)
+            }, 1000)
           }
         }
       }).catch(e => alert('에러가 발생했습니다' + e))

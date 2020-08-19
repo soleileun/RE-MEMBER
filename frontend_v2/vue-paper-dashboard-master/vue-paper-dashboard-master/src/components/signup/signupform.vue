@@ -226,9 +226,11 @@ export default {
   },
   beforeUpdate() {
     if (window.sessionStorage.getItem("kakaosignup") === "true") {
-      this.kakao = true;
-      this.id = window.sessionStorage.getItem("kakaosignupEmail");
-      this.kakaosignupID = window.sessionStorage.getItem("kakaosignupID");
+      setTimeout(()=>{
+        this.kakao = true;
+        this.id = window.sessionStorage.getItem("kakaosignupEmail");
+        this.kakaosignupID = window.sessionStorage.getItem("kakaosignupID");
+      },500)
     }
     setTimeout(() => {
       window.sessionStorage.setItem("kakaosignup", "false");
