@@ -1,6 +1,6 @@
 <template>
   <div class="profile text-center">
-    <h3>{{userid}}님의 소개</h3>
+    <h3>{{board.btitle}}님의 소개</h3>
     <div class="ql-editor profileContainer" v-html="content" v-if="!profileEdit"></div>
     <vue-editor v-show="profileEdit" v-model="content" :editorToolbar="customToolbar"></vue-editor>
     <!-- 에디터를 v-show로 숨겨두지 않으면 일부 꾸밈 코드가 안먹힘 -->
@@ -60,6 +60,7 @@ export default {
           this.content = response.data[0].bcontent;
           this.bno = response.data[0].bno;
           this.board.bview = response.data[0].bview;
+          this.board.btitle = response.data[0].btitle;
         } else {
           this.content='아직 프로필이 없습니다'
         }

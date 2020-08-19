@@ -75,8 +75,7 @@
     <!-- 질문게시판일 경우 -->
     <div v-if="board.bstate == 'qa'">
       <h3 style=" margin:20px;">답변 내역</h3>
-
-      <div class="card" v-for="comment1 in comments" :key="comment1.cno">
+      <div class="card" v-for="comment1 in comments" :key="-comment1.cno">
         <div v-if="comment1.isSelected==1" class="card-body">
           <div class="row anstitle">
             <div class="col-1 pics">사진 </div>
@@ -94,8 +93,8 @@
           <hr />
 
           <div class="col-12 ql-editor" style="min-height:200px;" v-html="comment1.ccontent">
-            <vue-editor v-show="false" style="height:80%;"></vue-editor>
           </div>
+            <vue-editor v-show="false" style="height:80%;"></vue-editor>
         </div>
       </div>
 
@@ -117,8 +116,8 @@
           <hr />
 
           <div class="col-12 ql-editor" style="min-height:250px;" v-html="comment.ccontent">
-            <vue-editor v-show="false" style="height:80%;"></vue-editor>
           </div>
+            <vue-editor v-show="false" style="height:80%;"></vue-editor>
         </div>
       </div>
     </div>

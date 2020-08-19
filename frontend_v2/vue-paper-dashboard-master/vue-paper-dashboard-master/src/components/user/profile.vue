@@ -111,7 +111,7 @@ export default {
           {
             bno: this.bno,
             bwriter: storage.getItem("userid"),
-            btitle: "profile",
+            btitle: storage.getItem('userNick'),
             bcontent: this.content,
             bstate: "profile",
             changeDay: new Date(),

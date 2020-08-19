@@ -179,13 +179,13 @@
             <li class="cards__item" v-for="(pool,index) in extendpools.slice(currentPage-1,currentPage-1+perPage)" :key="index">
               <div class="card">
                 <div v-if="pool.responsibility === '디자인'" class="card__image card__image--designer" style="position:relative">
-                  <img class="avatar border-white" :src="urls(pool.id)" style="position:absolute;z-index:9;bottom:0;left:0" />
+                  <img class="avatar" :src="urls(pool.id)" style="position:absolute;z-index:9;bottom:0;left:0;border:2px solid yellow;background-color:rgba(255,255,255,0.5)" />
                 </div>
                 <div v-if="pool.responsibility === '개발'" class="card__image card__image--developer" style="position:relative">
-                  <img class="avatar border-white" :src="urls(pool.id)" style="position:absolute;z-index:1;bottom:0;left:0" />
+                  <img class="avatar" :src="urls(pool.id)" style="position:absolute;z-index:1;bottom:0;left:0;border:2px solid yellow;background-color:rgba(255,255,255,0.5)" />
                 </div>
                 <div v-if="pool.responsibility === '기획'" class="card__image card__image--head" style="position:relative">
-                  <img class="avatar border-white" :src="urls(pool.id)" style="position:absolute;z-index:1;bottom:0;left:0" />
+                  <img class="avatar" :src="urls(pool.id)" style="position:absolute;z-index:1;bottom:0;left:0;border:2px solid yellow;background-color:rgba(255,255,255,0.5)" />
                 </div>
                 <div class="card__content">
                   <div class="card__title">
@@ -193,7 +193,7 @@
                     <p v-if="pool.isValid ===1" style="display:inline-block; color:rgb(79, 245, 154); font-size:10px; text-align:right; margin-bottom:3px;">
                       <img v-if="pool.isValid ===1" src="@/assets/img/checklist.png" title="인증된 유저입니다" />
                     </p>
-
+                    <p v-else-if="pool.isValid===123"></p>
                     <p v-else style="display:inline-block; color:red;font-size:10px;text-align:right; margin-bottom:3px; ">
                       <img src="@/assets/img/error.png" title="미인증된 유저입니다" />
                     </p>
@@ -411,13 +411,13 @@ export default {
     extendpools() {
       let a = [];
       if (this.$store.state.poolstore.extendpools.length > 0) {
-        a.push({});
-        a.push({});
+        a.push({isValid:123});
+        a.push({isValid:123});
         this.$store.state.poolstore.extendpools.forEach((el) => {
           a.push(el);
         });
-        a.push({});
-        a.push({});
+        a.push({isValid:123});
+        a.push({isValid:123});
       } else {
         a = [];
       }

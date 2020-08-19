@@ -116,8 +116,34 @@ export default {
       .not()
       .symbols();
   },
+  mounted() {
+    http
+      .get(
+        "/api/board/typesearch/writer=" +
+          storage.getItem("userid") +
+          "&bstate=profile"
+      )
+      .then((response) => {
+        if (response.data.length > 0) {
+          this.content = response.data[0].bcontent;
+          this.bno = response.data[0].bno;
+          this.board.bview = response.data[0].bview;
+        } else {
+          alert("내 프로필을 로드하는데에 실패하였습니다.");
+          console.log(response);
+        }
+      })
+      .catch((exp) => alert("내 프로필을 로드하는데에 실패하였습니다." + exp));
+  },
   data: function () {
     return {
+      board: {
+        bno: "0",
+        btitle: "",
+        bview: "",
+        bfile: "",
+        bstate: "",
+      },
       address3: "",
       oldpw: "",
       pw: "",
@@ -313,6 +339,7 @@ export default {
           .then((res) => {
             console.log("결과");
             console.log(res.data);
+            this.complete()
             this.$store.dispatch("login", {
               id: storage.getItem("userid"),
               pw: this.pw,
@@ -321,6 +348,32 @@ export default {
           })
           .catch((e) => console.log(e));
       }
+    },
+    complete: function () {
+      const config = {
+        headers: {
+          "jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token"),
+        },
+      };
+      http
+        .put(
+          "/api/board/change/" + this.board.bno,
+          {
+            bno: this.board.bno,
+            bwriter: storage.getItem("userid"),
+            btitle: this.nickname,
+            bcontent: this.board.content,
+            bstate: "profile",
+            changeDay: new Date(),
+            makeId: storage.getItem("userid"),
+            changeId: storage.getItem("userid"), //세션 id
+          },
+          config
+        )
+        .then((response) => {
+          console.log("수정하였습니다." + response.data);
+        })
+        .catch((exp) => alert("수정 처리에 실패하였습니다." + exp));
     },
   },
 };
