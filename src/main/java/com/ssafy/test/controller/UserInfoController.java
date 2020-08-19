@@ -33,6 +33,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.google.code.geocoder.Geocoder;
+import com.google.code.geocoder.GeocoderRequestBuilder;
+import com.google.code.geocoder.model.GeocodeResponse;
+import com.google.code.geocoder.model.GeocoderRequest;
+import com.google.code.geocoder.model.GeocoderResult;
+import com.google.code.geocoder.model.GeocoderStatus;
+import com.google.code.geocoder.model.LatLng;
 import com.ssafy.test.model.dto.Addr;
 import com.ssafy.test.model.dto.Email;
 import com.ssafy.test.model.dto.Inter;
@@ -610,9 +617,11 @@ public class UserInfoController {
             MailHandler sendMail = new MailHandler(mailSender);
             sendMail.setSubject("[이메일 인증]");
             sendMail.setText(new StringBuffer().append("<h1>메일인증</h1>")
-                  .append("<a href='https://localhost:8080/api/email/validKey=").append(key)
-                  .append("' target='_blenk'>이메일 인증 확인</a>").toString());
-            sendMail.setFrom("test@gmail.com", "admin");
+                    .append("<a href='http://localhost:8080/api/email/validation/")              
+                    .append(key)
+                    .append("' target='_blank'>이메일 인증하기</a>")
+                    .toString());
+            sendMail.setFrom("ADIM@REMEMBER.COM", "RE:MEMBER");
             sendMail.setTo(q.getId());
             sendMail.send();
 //            Message msg = new Message();
@@ -674,5 +683,52 @@ public class UserInfoController {
 
       return false;
    }
+   
+   public static Float[] geoCoding(String location) {
+
+	   if (location == null)  
+	   return null;
+	   Geocoder geocoder = new Geocoder();
+	   // setAddress : 변환하려는 주소 (경기도 성남시 분당구 등)
+	   // setLanguate : 인코딩 설정
+
+	   GeocoderRequest geocoderRequest = new GeocoderRequestBuilder().setAddress(location).setLanguage("ko").getGeocoderRequest();
+
+	   GeocodeResponse geocoderResponse;
+
+
+
+	   try {
+
+	   geocoderResponse = geocoder.geocode(geocoderRequest);
+
+	   if (geocoderResponse.getStatus() == GeocoderStatus.OK & !geocoderResponse.getResults().isEmpty()) {
+
+		   GeocoderResult geocoderResult=geocoderResponse.getResults().iterator().next();
+
+		   LatLng latitudeLongitude = geocoderResult.getGeometry().getLocation();
+
+		   				  
+
+		   Float[] coords = new Float[2];
+
+		   coords[0] = latitudeLongitude.getLat().floatValue();
+
+		   coords[1] = latitudeLongitude.getLng().floatValue();
+
+		   return coords;
+
+		   }
+
+		   } catch (IOException ex) {
+
+		   ex.printStackTrace();
+
+		   }
+
+		   return null;
+
+		   }
+
 
 }
