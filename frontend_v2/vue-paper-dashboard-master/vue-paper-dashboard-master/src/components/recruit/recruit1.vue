@@ -2,27 +2,27 @@
   <div class="recruit1" style="z-index:50;">
     <div>
       <div class="row" style="display : flex;">
-        <div class="col-5">
+        <div class="col-3">
           <p>
             <strong>프로젝트 검색</strong>
           </p>
         </div>
 
         <div class="col-4" style="display : flex;">
-          <select name="std" id="std">
+          <select name="std" id="std" style="height:40px; margin-right:15px;">
             <option value="title" selected>제목</option>
             <option value="writer">작성자</option>
           </select>
           <fg-input type="text" placeholder="검색어를 입력하세요" id="keyword" style="width:85%;" />
         </div>
 
-        <div class="col-3" style="display:flex;">
-          <div @click="searchPool()" class="button-7" style="float: none; margin: 0 auto;">
+        <div class="col-5" style="display:flex;">
+          <div @click="searchPool()" class="button-7" style="float: none; margin: 0 auto; height:50px;">
             <div class="eff-7"></div>
-            <a>프로젝트 검색</a>
+            <a style="display:inline-block; padding-bottom:10px; height:40px;">프로젝트 검색</a>
           </div>
           <div>
-            <button v-if="loginId !== ''" id class="btn btn-primary" @click="openModal">구인글 등록</button>
+            <button v-if="loginId !== ''" id class="btn btn-primary" @click="openModal">등록하기</button>
           </div>
         </div>
       </div>
@@ -109,6 +109,18 @@
 
         <br />
         <hr />
+        
+        <div class="row">
+          <div class="col-12 selectform">
+            <div
+              class="btn btn-primary btn-round"
+              v-for="(pick,index) in picks"
+              :key="index"
+              @click="deleteStack(index)"
+              style="z-index : 0;"
+            >{{pick}}</div>
+          </div>
+        </div>
         <br />
 
         <div class="col-12 searchform">
@@ -137,7 +149,7 @@
         </div>
 
         <br />
-
+<!--
         <div class="row">
           <div class="col-12 selectform">
             <div
@@ -149,6 +161,7 @@
             >{{pick}}</div>
           </div>
         </div>
+        -->
       </div>
     </section>
 
@@ -209,7 +222,7 @@
       <!-- Modal end  -->
     <notfound v-if="rows === 0" />
     <div v-else>
-      <div class="row">
+      <div class="row" style="margin-top:20;">
         <div class="col-10">
           <select id="showcnt" @change="changeShowCnt">
             <option value="6" selected>6개씩 보기</option>
