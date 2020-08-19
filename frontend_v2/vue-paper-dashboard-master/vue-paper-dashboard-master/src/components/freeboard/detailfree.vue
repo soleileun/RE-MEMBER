@@ -14,7 +14,7 @@
         <div class="row">
           <div class="col-1 pics">사진</div>
           <div class="col-3">
-            <div class="col-12 name">{{board.bwriter}}</div>
+            <div class="col-12 name">{{board.nickname}}</div>
             <div class="col-12 date">{{makeDay(board.makeDay)}}</div>
           </div>
         </div>
@@ -50,7 +50,7 @@
     <div class="card" v-if="board.bstate == 'free'">
       <div class="card-body">
         <div class="row" v-for="comment in comments" :key="comment.cno" style="margin-bottom:10px;">
-          <div class="col-2" style="font-weight:800;">{{comment.cwriter}}</div>
+          <div class="col-2" style="font-weight:800;">{{comment.nickname}}</div>
           <div class="col-7">{{comment.ccontent}}</div>
           <div class="col-3" style="text-align:right;">
             {{comment.makeDay.slice(0,10)}}
@@ -81,7 +81,7 @@
           <div class="row anstitle">
             <div class="col-1 pics">사진 </div>
             <div class="col-8">
-              <div class="col-12 name" style="font-weight:800;">{{comment1.cwriter}} <i class="fa fa-bookmark"> </i></div>
+              <div class="col-12 name" style="font-weight:800;">{{comment1.nickname}} <i class="fa fa-bookmark"> </i></div>
               <div class="col-12 date">{{comment1.makeDay.slice(0,16)}}</div>
               
             </div>
@@ -104,7 +104,7 @@
           <div class="row anstitle">
             <div class="col-1 pics">사진</div>
             <div class="col-8">
-              <div class="col-12 name">{{comment.cwriter}}</div>
+              <div class="col-12 name">{{comment.nickname}}</div>
               <div class="col-12 date">{{comment.makeDay.slice(0,16)}}</div>
               
             </div>
@@ -185,6 +185,7 @@ export default {
         changeDay: "",
         makeId: "",
         changeId: "",
+        nickname:"",
       },
     };
   },

@@ -14,6 +14,30 @@ public class Comments {
 	private Date changeDay;
 	private String makeId; // update no
 	private String changeId;
+	private String nickname;
+
+	public Comments(int cno, String cwriter, String ccontent, int bno, Boolean isSelected, Date makeDay, Date changeDay,
+			String makeId, String changeId, String nickname) {
+		super();
+		this.cno = cno;
+		this.cwriter = cwriter;
+		this.ccontent = ccontent;
+		this.bno = bno;
+		this.isSelected = isSelected;
+		this.makeDay = makeDay;
+		this.changeDay = changeDay;
+		this.makeId = makeId;
+		this.changeId = changeId;
+		this.nickname = nickname;
+	}
+
+	public String getNickname() {
+		return nickname;
+	}
+
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
+	}
 
 	public Comments() {
 		super();

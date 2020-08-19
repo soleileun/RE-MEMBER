@@ -193,13 +193,25 @@
     </div>
     <div id="myModal4" class="modal">
       신청하기
-      <div class="modal-content">
+      <div class="modal-content" style="width:600px">
         <span class="close" id="modal4Close">&times;</span>
         <div class="col-12">
           <h3>신청하기</h3>
           <br />
 
           <fg-input type="text" v-model="applyComment"></fg-input>
+          <div class="checks">
+            <span class="btn btn-primary" @click="checkstate('개발')">
+              <input v-model="state" type="radio" value="개발" /> 개발
+            </span>
+            <span class="btn btn-primary" @click="checkstate('디자인')">
+              <input v-model="state" type="radio" value="디자인" /> 디자인
+            </span>
+            <span class="btn btn-primary" @click="checkstate('기획')">
+              <input v-model="state" type="radio" value="기획" />
+              기획
+            </span>
+          </div>
           <div>
             <br />
             <br />
@@ -414,6 +426,7 @@ export default {
 <style>
 #myModal,
 #myModal2,
+#myModal4,
 #myModal3 {
   display: none; /* Hidden by default */
   position: fixed; /* Stay in place */
@@ -429,6 +442,7 @@ export default {
 /* Modal Content/Box */
 #myModal .modal-content,
 #myModal2 .modal-content,
+#myModal4 .modal-content,
 #myModal3 .modal-content {
   width: 50%; /* Full width */
   height: 50%; /* Full height */

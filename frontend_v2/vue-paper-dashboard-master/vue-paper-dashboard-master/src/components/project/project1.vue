@@ -1,9 +1,9 @@
 <template>
 <div>
   <card class="card-user"  display: inline-block>
-    
+    {{project}}
     <div slot="image">
-      <img src="@/assets/img/background.jpg" alt="..." />
+      <img src="https://cdn.pixabay.com/photo/2020/06/05/16/18/meadow-5263664__340.jpg" alt="..." />
     </div>
     <div>
       <div class="author">
