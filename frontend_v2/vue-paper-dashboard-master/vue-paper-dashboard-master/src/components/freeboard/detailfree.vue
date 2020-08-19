@@ -279,7 +279,7 @@ export default {
           bstate: this.type,
         });
         // console.log('삭제요청완료.' + this.board.bno);
-        this.$router.push("/freeboard/type/" + this.type);
+        this.$router.push("/freeboard/type/" + this.type + '/' + this.$route.params.currentPage);
       } else if (con_test == false) {
         console.log("");
       }
@@ -296,11 +296,12 @@ export default {
     },
 
     change() {
-      let addr = "/freeboard/modifyfree/" + this.board.bno + "/" + this.type;
+      let addr = "/freeboard/modifyfree/" + this.board.bno + "/" + this.type + '/' + this.$route.params.currentPage;
       this.$router.push(addr);
     },
     back() {
-      let addr = "/freeboard/type/" + this.type;
+      console.log(this.type);
+      let addr = "/freeboard/type/" + this.type + '/' + this.$route.params.currentPage;
       this.$router.push(addr);
     },
 
