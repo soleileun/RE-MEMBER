@@ -249,7 +249,7 @@ const userstore = {
                   //bno : auto increase
                   // bwriter : this.board.bwriter, 임시로 ssafy foreign key때문
                   bwriter: response.data.data.id,
-                  btitle: "profile",
+                  btitle: response.data.data.nickname,
                   bcontent: "프로필 초기",
                   bview: "",
                   bfile: "",

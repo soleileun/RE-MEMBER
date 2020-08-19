@@ -15,6 +15,10 @@
           <vue-editor v-show="edit" v-model="con" :editorToolbar="customToolbar"></vue-editor>
           <hr />
           <div class="col-4">
+          <router-link :to="'/project/partners/'+recruit.pid">
+            <button class="btn btn-success">팀원보기</button>
+          </router-link>
+          &nbsp;&nbsp;&nbsp;
           <router-link to="/recruit/recruit1">
             <button class="btn btn-info">목록으로</button>
           </router-link>
