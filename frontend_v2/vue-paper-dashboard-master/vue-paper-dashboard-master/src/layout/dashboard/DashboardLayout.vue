@@ -6,13 +6,7 @@
         <sidebar-link to="/pool" name="인재풀" icon="ti-face-smile" />
         <sidebar-link to="/recruit" name="모집" icon="ti-search" />
         <sidebar-link to="/project/myproject/" name="내 프로젝트" icon="ti-briefcase" />
-<<<<<<< HEAD
         <sidebar-link to="/freeboard/type/free" name="게시판" icon="ti-clipboard" />
-=======
-        <sidebar-link to="/freeboard/type/free/1" name="자유게시판" icon="ti-clipboard" />
-        <sidebar-link to="/freeboard/type/qa/1" name="질문게시판" icon="ti-help-alt" />
-        <sidebar-link to="/freeboard/type/notice/1" name="공지사항" icon="ti-announcement" />
->>>>>>> f29c79b84eddc23d25557f9ebd7e3241a268db64
         <sidebar-link to="/service" name="고객센터" icon="ti-headphone-alt" />
 
         <!-- 서버에 올릴땐 빼주세요 -->

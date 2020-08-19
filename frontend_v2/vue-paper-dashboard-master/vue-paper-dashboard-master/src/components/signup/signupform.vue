@@ -225,18 +225,6 @@ export default {
     };
   },
   beforeUpdate() {
-    if (window.sessionStorage.getItem("kakaosignup") === "true") {
-      setTimeout(()=>{
-        this.kakao = true;
-        this.id = window.sessionStorage.getItem("kakaosignupEmail");
-        this.kakaosignupID = window.sessionStorage.getItem("kakaosignupID");
-      },500)
-    }
-    setTimeout(() => {
-      window.sessionStorage.setItem("kakaosignup", "false");
-      window.sessionStorage.setItem("kakaosignupID", "");
-      window.sessionStorage.setItem("kakaosignupEmail", "");
-    }, 500);
   },
   mounted() {
     this.$nextTick(function () {
