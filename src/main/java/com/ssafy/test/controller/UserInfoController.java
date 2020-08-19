@@ -396,6 +396,7 @@ public class UserInfoController {
    public ResponseEntity<List<Pools>> getRecommendedUser(@PathVariable String id) {
 
 	  List<Pools> v = new ArrayList<>();
+	  List<Pools> send = new ArrayList<>();
       List<UserInfo> list = uiService.getRecommendedUser(id);
       for(int i=0;i<list.size();i++) {
     	  UserInfo tmp = uiService.select(list.get(i).getId());
@@ -415,15 +416,12 @@ public class UserInfoController {
          List<Inter> itmp = new ArrayList<Inter>();
          String a = v.get(i).getProjects();
          String b = v.get(i).getInterests();
-         System.out.println("a,b TEST");
-         System.out.println(a); System.out.println(b);
+        
          if (a != null) {
             String[] atmp = a.split(",");
             for (int j = 0; j < atmp.length; j++) {
-               //System.out.println("atmp : " + atmp[j]);
                String[] s = atmp[j].split(";");
                int pid = Integer.parseInt(s[0]);
-              // System.out.println("s[1] : " + s[1]);
              Project pjt = pjtService.select(pid);
              PidPjt p = new PidPjt();
              p.setPid(pjt.getPid());p.setPjtName(pjt.getPjtName());
@@ -439,14 +437,35 @@ public class UserInfoController {
                itmp.add(it);
             }
          }
-      
          v.get(i).setInterest(itmp);
          v.get(i).setProject(ptmp);
+      }
+      Random rand = new Random();  int idx = 0;
+      boolean[] visit = new boolean [v.size()];
+      if(v.size()<=3) {
+    	  
+      }
+      if(v.size() <3) {
+    	for(int i=0;i<v.size();i++) {
+    		send.add(v.get(i));
+    	}
+      }else {
+    
+    	  while(true) {
+    		  if(idx ==3) break;
+    		  int n = rand.nextInt(v.size());
+    		  if(!visit[n]) {
+    			  send.add(v.get(n));
+    			  visit[n] =true;
+    			  idx++;
+    		  }
+    	  }
       }
       
       
       
-      return new ResponseEntity<List<Pools>>(v, HttpStatus.OK);
+    
+      return new ResponseEntity<List<Pools>>(send, HttpStatus.OK);
    }
 
    @GetMapping("/getRecommended/PJT/{id}")
