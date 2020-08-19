@@ -5,19 +5,20 @@
     <div class="card-body">
       <div class="row">
         <div class="col-12">
+          <span v-if="recruit.makeId === id" class="badge badge-pill badge-warning">내프로젝트</span>
           <span v-if="recruit.rstate === '모집중'" class="badge badge-pill badge-success">모집중</span>
           <span v-if="recruit.rstate === '모집완료'" class="badge badge-pill badge-secondary">모집완료</span>
           <span v-if="recruit.rstate === '기간만료'" class="badge badge-pill badge-warning">기간만료</span>
         </div>
         <div class="col-12">
-          <h3 style="display:block;">{{recruit.pjtName}}</h3>
+          <h3 style="display:block;cursor:pointer;" @click="move(recruit.rnum, recruit.pid)">{{recruit.title}}</h3>
         </div>
         <div class="col-12">
           <div class="container-fluid">
             <div class="row">
               <div class="col-8" style="padding-left:0;padding-right:0">
                 <div class="col-12" style="padding:0px;">
-                  <a style="display:block;">by {{recruit.makeId}}</a>
+                  <a style="display:block;">{{recruit.pjtName}}</a>
                 </div>
                 <div class="inter">
                   <div
@@ -49,9 +50,16 @@
           </div>
         </div>
       </div>
-      <div class="col-12" style=" text-align:right; margin-top:10px; padding-top:4px;">
+      <div class="row">
+        <div class="col-6" style="margin-top:10px; padding-top:4px;">
+           <hr />
+                  <a style="display:block;">by {{recruit.makeId}}</a>
+
+        </div>
+      <div class="col-6" style=" text-align:right; margin-top:10px; padding-top:4px;">
         <hr />
         {{recruit.makeDay.slice(0,10)}} ~ {{recruit.endDate.slice(0,10)}}
+      </div>
       </div>
     </div>
   </div>
@@ -80,6 +88,11 @@ export default {
     //   required: true,
     // },
   },
+  data: function() {
+    return {
+        id : storage.getItem("userid"),
+    };
+  },
 
   created() {
     // this.$store.dispatch(Constant.GET_PROJECT, { pid: this.pid });
@@ -93,6 +106,10 @@ export default {
     },
   },
   methods: {
+    move(a, b) {
+    var url ='/recruit/recruitdetail/' + a + '&' + b;
+    this.$router.push(url);
+    },
     imgUrl(id) {
       return this.$store.state.filestore.fileUrl + id + ".png";
     },
