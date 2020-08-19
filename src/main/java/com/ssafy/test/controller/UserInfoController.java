@@ -341,7 +341,7 @@ public class UserInfoController {
       Map<String, Object> resultMap = new HashMap<>();
          HttpStatus status = null;
 
-//    	 System.out.println(kakaoId);
+    	 System.out.println(kakaoId);
          try {
              UserInfo loginUser = uiService.loginForKakao(kakaoId);
              System.out.println(loginUser.toString());
@@ -354,9 +354,9 @@ public class UserInfoController {
              resultMap.put("data", loginUser);
              status = HttpStatus.ACCEPTED;
           } catch (RuntimeException e) {
-             logger.error("로그인 안됨", e);
-             resultMap.put("message", e.getMessage());
-             status = HttpStatus.INTERNAL_SERVER_ERROR;
+//             logger.error("로그인 안됨", e);
+//             resultMap.put("message", e.getMessage());
+             status = HttpStatus.OK;
           }
           return new ResponseEntity<Map<String, Object>>(resultMap, status);
          
@@ -400,73 +400,40 @@ public class UserInfoController {
    }
 
    @GetMapping("/getRecommended/User/{id}")
-   public ResponseEntity<List<Pools>> getRecommendedUser(@PathVariable String id) {
-
-	  List<Pools> v = new ArrayList<>();
-	  List<Pools> send = new ArrayList<>();
+   public ResponseEntity<List<UserSimple>> getRecommendedUser(@PathVariable String id) {
+	
       List<UserInfo> list = uiService.getRecommendedUser(id);
-      for(int i=0;i<list.size();i++) {
-    	  UserInfo tmp = uiService.select(list.get(i).getId());
-    	  if(tmp.isState() == true) {
-    		v.add(uiService.searchPoolById(tmp.getId()));  
-    	  }
+      List<UserSimple> users = new ArrayList<>();
+     
+      for (int i = 0; i < list.size(); i++) {
+         if (list.get(i).getId().equals(id))
+            continue;
+         UserInfo tmp = uiService.select(list.get(i).getId());
+         UserSimple us = new UserSimple(tmp.getId(), tmp.getNickname(), tmp.getGit(), tmp.getLastDate(),
+               tmp.isState(), tmp.getResponsibility(), tmp.isLeaveUser());
+         users.add(us);
       }
-   
-      for (int i = 0; i < v.size(); i++) {
-         List<PidPjt> ptmp = new ArrayList<PidPjt>();
-         List<Inter> itmp = new ArrayList<Inter>();
-         String a = v.get(i).getProjects();
-         String b = v.get(i).getInterests();
-        
-         if (a != null) {
-            String[] atmp = a.split(",");
-            for (int j = 0; j < atmp.length; j++) {
-               String[] s = atmp[j].split(";");
-               int pid = Integer.parseInt(s[0]);
-             Project pjt = pjtService.select(pid);
-             PidPjt p = new PidPjt();
-             p.setPid(pjt.getPid());p.setPjtName(pjt.getPjtName());
-             p.setPjtContent(pjt.getPjtContent());
-             ptmp.add(p);
-               
-            }
-         }
-         if (b != null) {
-            String[] btmp = b.split(",");
-            for (int j = 0; j < btmp.length; j++) {
-               Inter it = new Inter(btmp[j]);
-               itmp.add(it);
-            }
-         }
-         v.get(i).setInterest(itmp);
-         v.get(i).setProject(ptmp);
-      }
-      Random rand = new Random();  int idx = 0;
-      boolean[] visit = new boolean [v.size()];
-      if(v.size()<=3) {
-    	  
-      }
-      if(v.size() <3) {
-    	for(int i=0;i<v.size();i++) {
-    		send.add(v.get(i));
-    	}
+      List<UserSimple> simple = new ArrayList<>();
+      if(users.size() <3) {
+    	  int num = 3-users.size();
+    	  for(int i=0;i<num;i++)
+    		  users.add(users.get(i));
       }else {
-    
+    	  boolean[] visit = new boolean [users.size()];
+    	  int idx = 0;
+    	  Random rand = new Random();
     	  while(true) {
     		  if(idx ==3) break;
-    		  int n = rand.nextInt(v.size());
+    		  int n = rand.nextInt(users.size());
     		  if(!visit[n]) {
-    			  send.add(v.get(n));
+    			  simple.add(users.get(n));
     			  visit[n] =true;
     			  idx++;
     		  }
+    		  
     	  }
       }
-      
-      
-      
-    
-      return new ResponseEntity<List<Pools>>(send, HttpStatus.OK);
+      return new ResponseEntity<List<UserSimple>>(simple, HttpStatus.OK);
    }
 
    @GetMapping("/getRecommended/PJT/{id}")
@@ -504,7 +471,7 @@ public class UserInfoController {
          projects.add(tmp);
       
       }
-//      System.out.println(projects.size());
+      System.out.println(projects.size());
       
       if(projects.size() <3) {
     	  for(int i=0;i<projects.size();i++) {
@@ -590,7 +557,7 @@ public class UserInfoController {
    public ResponseEntity<String> insertUser(@RequestBody UserInfo q)
          throws MessagingException, UnsupportedEncodingException {
       logger.debug("insertUser - 호출");
-//      System.out.println(q.toString());
+      System.out.println(q.toString());
   
       boolean emailTest = checkRex(q.getId(), "id");
       boolean pwTest = checkRex(q.getPw(), "password");

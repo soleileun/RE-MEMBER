@@ -138,7 +138,7 @@ public class WaitMemberController {
       }
      
       if(num ==1)  return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
-      return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT); // 에러를 바꿔줘야할것같아여 ㅠㅠ
+      return new ResponseEntity<String>(FAIL, HttpStatus.OK); // 에러를 바꿔줘야할것같아여 ㅠㅠ
 }
 
    @ApiOperation(value = "해당하는 id의 지원 정보를 반환한다.", response = Following.class)    
@@ -149,7 +149,7 @@ public class WaitMemberController {
 	}
 
    @ApiOperation(value = "해당하는 pid의 지원 유저 정보를 반환한다.", response = Following.class)    
-	@GetMapping("/searchByPid/{id}")
+	@GetMapping("/searchByPid/{pid}")
 	public ResponseEntity<List<WaitMember>> searchByPid(@PathVariable int pid) {
 	
 		return new ResponseEntity<List<WaitMember>>(wmService.selectbyPid(pid), HttpStatus.OK);
