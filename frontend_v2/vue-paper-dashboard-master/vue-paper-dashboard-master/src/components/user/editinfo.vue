@@ -93,6 +93,7 @@ import PV from "password-validator";
 import DaumPostcode from "vuejs-daum-postcode";
 import http from "../../http-common.js";
 const storage = window.sessionStorage;
+import Constant from "../../Constant";
 
 export default {
   name: "editinfo",
@@ -125,9 +126,17 @@ export default {
       )
       .then((response) => {
         if (response.data.length > 0) {
-          this.content = response.data[0].bcontent;
-          this.bno = response.data[0].bno;
+          this.board.bno = response.data[0].bno;
+          this.board.bwriter = response.data[0].bwriter;
+          this.board.btitle = response.data[0].btitle;
+          this.board.bcontent = response.data[0].bcontent;
           this.board.bview = response.data[0].bview;
+          this.board.bfile = response.data[0].bfile;
+          this.board.bstate = response.data[0].bstate;
+          this.board.makeDay = response.data[0].makeDay;
+          this.board.changeDay = response.data[0].changeDay;
+          this.board.makeId = response.data[0].makeId;
+          this.board.changeId = response.data[0].changeId;
         } else {
           alert("내 프로필을 로드하는데에 실패하였습니다.");
           console.log(response);
@@ -138,11 +147,17 @@ export default {
   data: function () {
     return {
       board: {
-        bno: "0",
-        btitle: "",
-        bview: "",
-        bfile: "",
-        bstate: "",
+        bno: '',
+        bwriter: '',
+        btitle: '',
+        bcontent:'',
+        bview:'',
+        bfile:'',
+        bstate:'',
+        makeDay:'',
+        changeDay:'',
+        makeId: '',
+        changeId: '',
       },
       address3: "",
       oldpw: "",
@@ -339,7 +354,9 @@ export default {
           .then((res) => {
             console.log("결과");
             console.log(res.data);
-            this.complete()
+            this.board.btitle = this.nickname
+            console.log(this.board);
+            this.$store.dispatch(Constant.MODIFY_BOARD, { board: this.board });
             this.$store.dispatch("login", {
               id: storage.getItem("userid"),
               pw: this.pw,
@@ -348,32 +365,6 @@ export default {
           })
           .catch((e) => console.log(e));
       }
-    },
-    complete: function () {
-      const config = {
-        headers: {
-          "jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token"),
-        },
-      };
-      http
-        .put(
-          "/api/board/change/" + this.board.bno,
-          {
-            bno: this.board.bno,
-            bwriter: storage.getItem("userid"),
-            btitle: this.nickname,
-            bcontent: this.board.content,
-            bstate: "profile",
-            changeDay: new Date(),
-            makeId: storage.getItem("userid"),
-            changeId: storage.getItem("userid"), //세션 id
-          },
-          config
-        )
-        .then((response) => {
-          console.log("수정하였습니다." + response.data);
-        })
-        .catch((exp) => alert("수정 처리에 실패하였습니다." + exp));
     },
   },
 };
