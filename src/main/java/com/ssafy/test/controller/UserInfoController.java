@@ -623,7 +623,7 @@ public class UserInfoController {
                     .toString());
             sendMail.setFrom("ADIM@REMEMBER.COM", "RE:MEMBER");
             sendMail.setTo(q.getId());
-            sendMail.send();
+//            sendMail.send();
 //            Message msg = new Message();
 //            msg.setFromUser("admin"); msg.setToUser(q.getId());
 //            msg.setContent("가입해주셔서 감사합니다! 우리 함께 멋진 프로젝트를 해봐요 🤗");
