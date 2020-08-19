@@ -53,7 +53,7 @@
       <div class="row">
         <div class="col-6" style="margin-top:10px; padding-top:4px;">
            <hr />
-                  <a style="display:block;">by {{recruit.makeId}}</a>
+                  <a style="display:block;">by {{recruit.nickname}}</a>
 
         </div>
       <div class="col-6" style=" text-align:right; margin-top:10px; padding-top:4px;">
