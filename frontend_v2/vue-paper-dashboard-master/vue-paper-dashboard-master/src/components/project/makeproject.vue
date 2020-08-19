@@ -7,7 +7,7 @@
           <br />
         </div>
         <div class="col-md-12 text-center">
-          <h5>프로젝트 팀장 : {{userId}}</h5>
+          <h5>프로젝트 팀장 : {{userNick}}</h5>
           <br />
         </div>
         <br />
@@ -31,7 +31,13 @@
             v-model="wproject.pjtMemberCnt"
           ></fg-input>
         </div>
-
+        <div class="col-12">
+          <h5>대표 이미지
+          <span class="reddot">*</span></h5>
+          <input type="file" id="ex_file" @change="previewFiles" accept="image/png" >
+          <br>
+          <br>
+        </div>
 
           <div class="col-md-10">
             프로젝트 희망 지역<span class="reddot">*</span>
@@ -145,7 +151,7 @@ export default {
       userId: storage.getItem("userid"),
       address1: "",
       postAct: false,
-
+      file:'',
       wproject: {
         pid: "",
         pjtName: "",
@@ -203,6 +209,15 @@ export default {
     };
   },
   methods: {
+    previewFiles(event) {
+      if (event.target.files[0]) {
+        if (event.target.files[0].type!=='image/png'){
+          alert("확장자가 PNG인 파일만 업로드 가능합니다.")
+        }else{
+          this.file = event.target.files[0]
+        }
+      }
+    },
     check: function () {
       if (this.signup === 0) {
         this.submitable = false;
@@ -251,13 +266,12 @@ export default {
     },
     addProject() {
       this.$store.commit("pinterest", { picks: this.picks });
-      console.log(this.picks);
       if (
         this.wproject.pjtContent.trim() != "" &&
         this.wproject.pjtName.trim() != "" &&
-        this.wproject.pjtMemberCnt != "0"
+        this.wproject.pjtMemberCnt != "0"&&
+        this.file!=''
       ) {
-        console.log("여긴통과함");
         this.$store.dispatch(Constant.ADD_PROJECT, {
           // pid: "",
           pjtName: this.wproject.pjtName,
@@ -268,6 +282,7 @@ export default {
           //changeDay: this.wproject.title,
           makeId: this.userId,
           location: this.wproject.location,
+          file:this.file
           //changeId: this.wproject.title,
           //location: this.wproject.location,
         });
@@ -275,7 +290,7 @@ export default {
         this.$router.push("/project/myproject/");
         console.log(this.userId);
       } else {
-        console.log("공백입력.");
+        alert("필수 항목을 모두 입력 해주세요.");
       }
     },
   },

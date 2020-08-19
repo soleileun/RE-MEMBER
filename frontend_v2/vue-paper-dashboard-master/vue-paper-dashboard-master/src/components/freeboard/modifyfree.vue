@@ -22,16 +22,9 @@
               <div class="col-2 write-left">내용</div>
 
               <div class="col-10 write-right">
-                <vue-editor v-model="board.bcontent" style="height:80%;"></vue-editor>
+                <vue-editor v-model="board.bcontent" style="height:80%;" useCustomImageHandler @imageAdded="handleImageAdded"></vue-editor>
                 <!--<textarea name="" id="" cols="30" rows="10" v-model="board.bcontent" placeholder="내용을 입력하세요"></textarea><br>-->
               </div>
-            </div>
-          </div>
-
-          <div class="container-fluid">
-            <div class="row">
-              <div class="col-2 write-left">첨부파일</div>
-              <div class="col-10 write-right">첨부파일 넣을 수 있는거 넣어주자</div>
             </div>
           </div>
         </div>
@@ -94,6 +87,27 @@ export default {
     },
   },
   methods: {
+    handleImageAdded(file, Editor, cursorLocation) {
+      if (file) {
+        const fileName = new Date().getTime() - 1597262625477;
+        const file2 = new File(
+          [file],
+          `${fileName}.${file.name.split(".")[1]}`,
+          {
+            type: file.type,
+          }
+        );
+        this.$store.dispatch("upFiledirect", {
+          file: file2,
+          bno: this.board.bno,
+        });
+        let url = this.$store.state.filestore.fileUrl + file2.name;
+        setTimeout(()=>{
+          Editor.insertEmbed(cursorLocation, "image", url);
+        },1000)
+        //////
+      }
+    },
     getBoard(bno) {
       this.$store.dispatch(Constant.GET_BOARD, { bno });
     },
@@ -103,7 +117,13 @@ export default {
       } else if (this.board.bcontent != "") {
         this.$store.dispatch(Constant.MODIFY_BOARD, { board: this.board });
         alert("수정이 완료되었습니다.");
-        let addr = "/freeboard/detailfree/" + this.board.bno + "/" + this.type + '/' + this.$route.params.currentPage;
+        let addr =
+          "/freeboard/detailfree/" +
+          this.board.bno +
+          "/" +
+          this.type +
+          "/" +
+          this.$route.params.currentPage;
         this.$router.push(addr);
       } else {
         console.log("공백입력.");
@@ -111,7 +131,13 @@ export default {
       // this.clear();
     },
     back() {
-      let addr = "/freeboard/detailfree/" + this.board.bno + "/" + this.type + '/' + this.$route.params.currentPage;
+      let addr =
+        "/freeboard/detailfree/" +
+        this.board.bno +
+        "/" +
+        this.type +
+        "/" +
+        this.$route.params.currentPage;
       this.$router.push(addr);
     },
     // clear() {

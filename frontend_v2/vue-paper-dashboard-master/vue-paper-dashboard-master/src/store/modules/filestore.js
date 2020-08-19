@@ -37,7 +37,6 @@ const filestore = {
             });
         },
         upFileForBoard: (store, payload) => {
-            console.log(payload)
             store.state.filesBoard.forEach((el) => {
 
                 let formData = new FormData();

@@ -122,7 +122,6 @@ const projectstore = {
         //location: payload.location,
       }, config)
       .then((response) => {
-        console.log(response);
         store.dispatch(Constant.GET_PROJECTLIST_BY_PMEMBER, {
           userId: payload.makeId
         });
@@ -135,8 +134,20 @@ const projectstore = {
             console.log(res);
           }).catch(e => console.log(e))
         })
-        console.log("과연 플젝관심사 추가해줬을까");
         
+        const fileName = response.data;
+        const file2 = new File(
+          [payload.file],
+          `${fileName}.${payload.file.name.split(".")[1]}`,
+          {
+            type: payload.file.type,
+          }
+        );
+        store.dispatch("upFiledirect", {
+          file: file2,
+          bno: 0-response.data,
+          reload: true,
+        });
       })
       .catch(exp => {
         console.log('추가 실패 확인 로그');
