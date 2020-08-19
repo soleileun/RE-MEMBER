@@ -82,7 +82,7 @@
 <script>
 // import 'expose-loader?$!expose-loader?jQuery!jquery';
 
-
+import $ from 'jquery';
 import Constant from "../../Constant";
 import project from "../../components/project/project1";
 import users from "../../components/pool/pick";
