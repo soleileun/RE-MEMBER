@@ -128,40 +128,40 @@ export default {
     // },
   },
   mounted() {
-    $num = $(".my-card").length;
-    $even = $num / 2;
-    $odd = ($num + 1) / 2;
+    let num = $(".my-card").length;
+    let even = num / 2;
+    let odd = (num + 1) / 2;
 
-    if ($num % 2 == 0) {
-      $(".my-card:nth-child(" + $even + ")").addClass("active");
-      $(".my-card:nth-child(" + $even + ")")
+    if (num % 2 == 0) {
+      $(".my-card:nth-child(" + even + ")").addClass("active");
+      $(".my-card:nth-child(" + even + ")")
         .prev()
         .addClass("prev");
-      $(".my-card:nth-child(" + $even + ")")
+      $(".my-card:nth-child(" + even + ")")
         .next()
         .addClass("next");
     } else {
-      $(".my-card:nth-child(" + $odd + ")").addClass("active");
-      $(".my-card:nth-child(" + $odd + ")")
+      $(".my-card:nth-child(" + odd + ")").addClass("active");
+      $(".my-card:nth-child(" + odd + ")")
         .prev()
         .addClass("prev");
-      $(".my-card:nth-child(" + $odd + ")")
+      $(".my-card:nth-child(" + odd + ")")
         .next()
         .addClass("next");
     }
 
     $(".my-card").click(function () {
-      $slide = $(".active").width();
+      let slide = $(".active").width();
       console.log($(".active").position().left);
 
       if ($(this).hasClass("next")) {
         $(".card-carousel")
           .stop(false, true)
-          .animate({ left: "-=" + $slide });
+          .animate({ left: "-=" + slide });
       } else if ($(this).hasClass("prev")) {
         $(".card-carousel")
           .stop(false, true)
-          .animate({ left: "+=" + $slide });
+          .animate({ left: "+=" + slide });
       }
 
       $(this).removeClass("prev next");
