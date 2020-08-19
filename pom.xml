@@ -115,6 +115,15 @@
 			</exclusions>
 		</dependency>
 		
+		<!-- 파일 로드 -->
+		<dependency>
+         <groupId>commons-io</groupId>
+
+         <artifactId>commons-io</artifactId>
+
+         <version>1.4</version>
+
+</dependency>
 <!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt -->
 <dependency>
     <groupId>io.jsonwebtoken</groupId>

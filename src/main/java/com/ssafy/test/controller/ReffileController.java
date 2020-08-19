@@ -1,6 +1,7 @@
 package com.ssafy.test.controller;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -11,13 +12,18 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -120,7 +126,22 @@ public class ReffileController {
 		resultMap.put("data", e.getMessage());
 		return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
-	
+	//////////////////////////////////////////////
+
+	@GetMapping(value = "/image/{imageName}.{extension}", produces = MediaType.IMAGE_PNG_VALUE)
+	public @ResponseBody byte[] getImage(
+			
+		@PathVariable(name = "imageName") String imageName,
+		@PathVariable(name = "extension") String extension,
+		HttpServletRequest request) throws IOException {
+		String imagePath = "C:\\Users\\multicampus\\Desktop\\asdasd\\" + imageName + "." + extension;
+		System.out.println(imagePath);
+		InputStream imageStream = new FileInputStream(imagePath);
+		byte[] imageByteArray = IOUtils.toByteArray(imageStream);
+		imageStream.close();
+		
+		return imageByteArray;
+	}
 	
 	//파일업로드 예시
 		//////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -131,21 +152,20 @@ public class ReffileController {
 		        @RequestParam("fboardno") int fboardno,
 		        @RequestParam("makeId") String makeId) {
 		    //System.out.println(file.getOriginalFilename()); //foname으로 들어가면 될듯.
-		    
+			String fsnames1;
 		    try {
 				//DB에 저장하는 작업
 				Reffile v = new Reffile();
 				SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
-				Date now = new Date();
 				//System.out.println(format1.format(now));
 				v.setFboardno(fboardno);
 				v.setFoname(file.getOriginalFilename());
-				v.setFsname("file_set" + format1.format(now) + file.getOriginalFilename() ); // 이름 바꿔주자
 				v.setFsize(file.getSize());
+				v.setFsname("file"  +  file.getOriginalFilename() ); // 이름 바꿔주자
 				v.setMakeId(makeId);
 				v.setMakeDay(new Date());
 				//date 관련은 다 생성자에서 넣어주자.
-
+				fsnames1 = v.getFsname();
 				saveUploadedFiles(Arrays.asList(file), v.getFsname());
 				//System.out.println("업뎃 : " + Service.update(v));
 				//System.out.println(v.getFboardno());
@@ -157,11 +177,11 @@ public class ReffileController {
 				if (Service.insert(v) != 0) {
 					//System.out.println("db에 저장 완료");
 				}
-
 			} catch (IOException e) {
 				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 			}
-		    return new ResponseEntity<>("Created", HttpStatus.OK);
+		    
+			return new ResponseEntity<String>(fsnames1, HttpStatus.OK);
 		}
 		
 		private void saveUploadedFiles(List<MultipartFile> files, String fname) throws IOException {

@@ -1,6 +1,6 @@
 <template>
   <div class="profile text-center">
-    <h3>{{userid}}님의 소개</h3>
+    <h3>{{board.btitle}}님의 소개</h3>
     <div class="ql-editor profileContainer" v-html="content" v-if="!profileEdit"></div>
     <vue-editor v-show="profileEdit" v-model="content" :editorToolbar="customToolbar"></vue-editor>
     <!-- 에디터를 v-show로 숨겨두지 않으면 일부 꾸밈 코드가 안먹힘 -->
@@ -21,13 +21,13 @@ export default {
   props: {
     userid: String,
   },
-  watch:{
-    userid:function(){
-      this.init()
-    }
+  watch: {
+    userid: function () {
+      this.init();
+    },
   },
-  mounted(){
-    this.init()
+  mounted() {
+    this.init();
   },
   data() {
     return {
@@ -49,23 +49,33 @@ export default {
     };
   },
   methods: {
-    init:function(){
+    init: function () {
       const config = {
-            headers: {"jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")}
-        }
+        headers: {
+          "jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token"),
+        },
+      };
       http
-      .get("/api/board/typesearch/writer=" + this.userid + "&bstate=profile",config)
-      .then((response) => {
-        if (response.data.length > 0) {
-          this.content = response.data[0].bcontent;
-          this.bno = response.data[0].bno;
-          this.board.bview = response.data[0].bview;
-        } else {
-          this.content='아직 프로필이 없습니다'
-        }
-      })
-      .catch((exp) => alert("내 프로필을 로드하는데에 실패하였습니다." + exp));
-    }
+        .get(
+          "/api/board/typesearch/writer=" + this.userid + "&bstate=profile",
+          config
+        )
+        .then((response) => {
+          if (response.data.length > 0) {
+            this.content = response.data[0].bcontent;
+            this.bno = response.data[0].bno;
+            this.board.bview = response.data[0].bview;
+            this.board.btitle = response.data[0].btitle;
+
+            this.$emit("btitle", response.data[0].btitle);
+          } else {
+            this.content = "아직 프로필이 없습니다";
+          }
+        })
+        .catch((exp) =>
+          alert("내 프로필을 로드하는데에 실패하였습니다." + exp)
+        );
+    },
   },
 };
 </script>

@@ -104,7 +104,12 @@
             <span style="display:flex">
               <input class="form-control" type="text" value="https://github.com/" disabled />
               &nbsp;
-              <input class="form-control" type="text" placeholder="example" v-model="git" />
+              <input
+                class="form-control"
+                type="text"
+                placeholder="example"
+                v-model="git"
+              />
             </span>
             <br />
           </div>
@@ -191,6 +196,9 @@ export default {
   },
   data: function () {
     return {
+      geocoder: {},
+      y: "",
+      x: "",
       id: "",
       pw: "",
       pwSchema: new PV(),
@@ -224,9 +232,10 @@ export default {
       nothing: 0,
     };
   },
-  beforeUpdate() {
-  },
+  beforeUpdate() {},
   mounted() {
+    this.geocoder = new kakao.maps.services.Geocoder();
+
     this.$nextTick(function () {
       // 모든 화면이 렌더링된 후 실행합니다.
       document.querySelector("div.main-panel").scrollTop = 0;
@@ -234,12 +243,11 @@ export default {
     });
     // document.querySelector('html').sc = 0
     if (window.sessionStorage.getItem("kakaosignup") === "true") {
-      setTimeout(()=>{
-
+      setTimeout(() => {
         this.kakao = true;
         this.id = window.sessionStorage.getItem("kakaosignupEmail");
         this.kakaosignupID = window.sessionStorage.getItem("kakaosignupID");
-      },300)
+      }, 300);
     }
     setTimeout(() => {
       window.sessionStorage.setItem("kakaosignup", "false");
@@ -294,6 +302,34 @@ export default {
     },
   },
   methods: {
+    getAddress(address) {
+      this.geocoder.addressSearch(address, (result, status) => {
+        // console.log("여긴가");
+        if (status === kakao.maps.services.Status.OK) {
+          //this.markerCenter.setMap(null);
+          this.y = result[0].road_address.y;
+          this.x = result[0].road_address.x;
+          console.log(address);
+          console.log(this.x + " : " + this.y + "실행됨");
+
+          /////
+          this.$store.dispatch("signup", {
+            id: this.id,
+            pw: this.pw,
+            nickname: this.nickname,
+            name: this.name,
+            address1: this.address1,
+            address2: this.address2,
+            phone: `${this.phone0}-${this.phone1}-${this.phone2}`,
+            git: this.git,
+            responsibility: this.responsibility,
+            kakaoId: this.kakaosignupID,
+            y: this.y,
+            x: this.x,
+          });
+        }
+      });
+    },
     jungbok() {
       this.nothing += 1;
       setTimeout(() => {
@@ -402,19 +438,8 @@ export default {
       if (!this.jungboks) {
         alert("아이디 중복조회를 하세요");
       } else if (this.submitable) {
+        this.getAddress(this.address1);
         document.querySelector("#spinner1122").classList.add("active");
-        this.$store.dispatch("signup", {
-          id: this.id,
-          pw: this.pw,
-          nickname: this.nickname,
-          name: this.name,
-          address1: this.address1,
-          address2: this.address2,
-          phone: `${this.phone0}-${this.phone1}-${this.phone2}`,
-          git: this.git,
-          responsibility: this.responsibility,
-          kakaoId: this.kakaosignupID,
-        });
       }
     },
     postActive: function () {

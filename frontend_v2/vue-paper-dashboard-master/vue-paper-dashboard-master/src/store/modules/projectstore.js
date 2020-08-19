@@ -156,7 +156,7 @@ const projectstore = {
         code: new Date().getTime() +'',
         comment: payload.comment,
         pid: payload.pid,
-        state: "string",
+        state: payload.state,
         type: "Apply",
         userId: window.sessionStorage.getItem('userid'),
       }, config).then(res => {

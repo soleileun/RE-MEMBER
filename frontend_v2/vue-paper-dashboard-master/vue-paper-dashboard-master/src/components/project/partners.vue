@@ -62,19 +62,19 @@
           <template v-if="pm.priority === 1">
             <template v-if="pm.userId === userId">
               <div class="col-4">
-                <button class="btn btn-warning" @click="openModal2">Change Leader</button>
+                <button class="btn btn-warning" @click="openModal2">팀장 위임하기</button>
               </div>
             </template>
           </template>
 
           <template v-if="pm.userId === userId">
             <div class="col-4">
-              <button class="btn btn-info" @click="openModal">+ INVITE NEW TEAM MEMBER</button>
+              <button class="btn btn-info" @click="openModal">새 멤버 추가하기</button>
             </div>
           </template>
           <template v-if="pm.userId === userId">
             <div class="col-4">
-              <button class="btn btn-danger" @click="openModal3">Leave This Team</button>
+              <button class="btn btn-danger" @click="openModal3">팀 나가기</button>
             </div>
           </template>
         </div>
@@ -295,6 +295,7 @@ export default {
         this.$store.dispatch(Constant.ADD_WAITMEMBER, {
           pid: this.pid,
           comment: this.applyComment,
+          state:this.state
         });
         document.getElementById("myModal4").style.display = "none";
         this.applyComment = "";

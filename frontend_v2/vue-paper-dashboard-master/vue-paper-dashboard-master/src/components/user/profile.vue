@@ -89,7 +89,6 @@ export default {
           bno: this.bno,
         });
         let url = this.$store.state.filestore.fileUrl + file2.name;
-        console.log(url);
         setTimeout(() => {
           Editor.insertEmbed(cursorLocation, "image", url);
         }, 500);
@@ -111,7 +110,7 @@ export default {
           {
             bno: this.bno,
             bwriter: storage.getItem("userid"),
-            btitle: "profile",
+            btitle: storage.getItem('userNick'),
             bcontent: this.content,
             bstate: "profile",
             changeDay: new Date(),

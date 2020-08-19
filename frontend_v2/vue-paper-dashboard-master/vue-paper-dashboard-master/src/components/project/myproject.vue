@@ -1,9 +1,6 @@
 <template>
   <div class="project1">
     <div v-if="userId.length>0">
-      <h1>{{userId}}님의 프로젝트 페이지</h1>
-      <hr />
-
       <button @click="movePage" class="btn btn-info btn-round">새로운 프로젝트 생성하기</button>
 
       <br />
