@@ -23,11 +23,56 @@
             <button class="btn btn-info">목록으로</button>
           </router-link>
           </div>
-            <div v-if="recruit.makeId === id" class="col-8 text-right btndiv">
-            <button class="btn btn-info"  style="margin-left:10px;margin-right:10px;" >수정</button>
-            <button class="btn btn-info" style="margin-left:10px;margin-right:10px;">삭제</button>
+            <div v-if="recruit.makeId === id || id === 'admin'" class="col-8 text-right btndiv">
+            <button class="btn btn-info"  style="margin-left:10px;margin-right:10px;" @click="openModify">수정</button>
+            <button class="btn btn-info" style="margin-left:10px;margin-right:10px;" @click="deleteRecruit">삭제</button>
             </div>
         </div>
+        
+    <div class="modal" :id="`myModal${recruit.pid}`">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <div class="row">
+          <div class="col-25">
+            <label for="fname">아이디</label>
+          </div>
+          <div class="col-75">
+            <label for="fname">{{loginId}}</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-25">
+            <label for="country">프로젝트</label>
+          </div>
+          <div class="col-75">
+            <select id="myproject" name="myproject" disabled>
+              <option selected :value="recruit.pid">{{recruit.pjtName}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-25">
+            <label for="lname">게시글 제목</label>
+          </div>
+          <div class="col-75">
+            <input type="text" v-model="recruit.title" placeholder="제목을 입력하세요" />
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-25">
+            <label for="subject">내용</label>
+          </div>
+          <div class="col-75">
+            <vue-editor :id="`editor${recruit.pid}`" class="viewEditor" v-model="recruit.contents" style="height:80%;"></vue-editor>
+          </div>
+        </div>
+
+        <div class="row">
+          <button class="btn btn-info" @click="modifyRecruit">수정</button>
+        </div>
+      </div>
+    </div>
       </div>
     </div>
     <!-- 작성자 본인, 관리자만 수정 삭제 가능 -->
@@ -42,6 +87,7 @@
     :comment="comment"
     @delete-comment="deleteComment"
     />-->
+    
   </div>
 </template>
 
@@ -62,6 +108,11 @@ export default {
       customToolbar: [],
       id: storage.getItem("userid"),
       con: "",
+       customToolbar: [
+        ["bold", "italic", "underline"],
+        [{ list: "ordered" }, { list: "bullet" }],
+        ["code-block"],
+      ],
     };
   },
   created() {
@@ -103,6 +154,9 @@ export default {
       this.$store.dispatch(Constant.REMOVE_RECRUIT, {
         rnum: this.recruit.rnum,
       });
+      
+      var url ='/recruit';
+      this.$router.push(url);
     },
 
 
@@ -216,5 +270,109 @@ th {
   margin: 0 auto;
   text-align: center;
   border: 1px solid black;
+}
+
+//모달 인풋 css
+.modal {
+  box-sizing: border-box;
+}
+.modal-content {
+  width: 80%;
+  padding-left: 50px;
+}
+.modal input[type="text"],
+.modal select {
+  width: 80%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+}
+.quillWrapper.viewEditor {
+  width: 80%;
+  height: 500px;
+  max-height: 45vh;
+  border-radius: 4px;
+  resize: vertical;
+  margin-bottom: 100px;
+}
+
+.modal label {
+  padding: 12px 12px 12px 0;
+  display: inline-block;
+}
+
+.modal input[type="submit"] {
+  background-color: #4caf50;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  float: right;
+}
+
+.modal input[type="submit"]:hover {
+  background-color: #45a049;
+}
+
+// .container2 {
+//   border-radius: 5px;
+//   background-color: #f2f2f2;
+//   padding: 20px;
+// }
+
+.col-25 {
+  float: left;
+  width: 25%;
+  margin-top: 6px;
+}
+
+.col-75 {
+  float: left;
+  width: 75%;
+  margin-top: 6px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0, 0, 0); /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 50%; /* Could be more or less, depending on screen size */
+}
+/* The Close Button */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
 }
 </style>
