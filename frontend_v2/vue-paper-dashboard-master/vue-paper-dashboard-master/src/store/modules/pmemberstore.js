@@ -56,6 +56,7 @@ const pmemberstore = {
       console.log(config);
       http.delete('/api/pmember/delete/' + payload.pid + "/" + payload.userId,config).then(res => {
         alert("delete")
+        router.go(-1)
       }).catch(exp => console.log(exp))
     },
   }

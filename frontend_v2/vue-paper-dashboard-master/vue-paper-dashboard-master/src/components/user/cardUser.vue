@@ -77,7 +77,10 @@ export default {
       users: storage.getItem("users"),
       usergit: storage.getItem("usergit"),
       userintro: window.localStorage.getItem("userintro"),
-      url: this.$store.state.filestore.fileUrl + window.localStorage.getItem("userid") +".png",
+      url:
+        this.$store.state.filestore.fileUrl +
+        window.localStorage.getItem("userid") +
+        ".png",
     };
   },
   computed: {
@@ -105,23 +108,24 @@ export default {
     previewFiles(event) {
       if (event.target.files[0]) {
         const fileName = window.localStorage.getItem("userid");
-        if (event.target.files[0].type!=='image/png'){
-          alert("확장자가 PNG인 파일만 업로드 가능합니다.")
+        if (event.target.files[0].type !== "image/png") {
+          alert("확장자가 PNG인 파일만 업로드 가능합니다.");
+        } else {
+          const file2 = new File(
+            [event.target.files[0]],
+            `${fileName}.${event.target.files[0].name.split(".")[1]}`,
+            {
+              type: event.target.files[0].type,
+            }
+          );
+          this.$store.dispatch("upFiledirect", {
+            file: file2,
+            bno: this.bno,
+            reload: true,
+          });
+          let url = this.$store.state.filestore.fileUrl + file2.name;
+          this.url = url;
         }
-        const file2 = new File(
-          [event.target.files[0]],
-          `${fileName}.${event.target.files[0].name.split(".")[1]}`,
-          {
-            type: event.target.files[0].type,
-          }
-        );
-        this.$store.dispatch("upFiledirect", {
-          file: file2,
-          bno: this.bno,
-          reload: true,
-        });
-        let url = this.$store.state.filestore.fileUrl + file2.name;
-        this.url = url;
       }
     },
     getClasses(index) {

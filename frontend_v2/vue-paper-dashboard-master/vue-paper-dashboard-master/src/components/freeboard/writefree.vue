@@ -64,13 +64,6 @@
               </div>
             </div>
           </div>
-
-          <div class="container-fluid">
-            <div class="row">
-              <div class="col-2 write-left">첨부파일</div>
-              <div class="col-10 write-right">첨부파일 넣을 수 있는거 넣어주자</div>
-            </div>
-          </div>
         </div>
 
         <div class="container">

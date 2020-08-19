@@ -3,7 +3,7 @@
   <card class="card-user"  display: inline-block>
     {{project}}
     <div slot="image">
-      <img src="https://cdn.pixabay.com/photo/2020/06/05/16/18/meadow-5263664__340.jpg" alt="..." />
+      <img :src="urls" alt="..." />
     </div>
     <div>
       <div class="author">
@@ -83,6 +83,9 @@ export default {
   component: {},
   data: function () {
     return {
+      urls:this.$store.state.filestore.fileUrl +
+        this.project.pid +
+        ".png",
       index: 0,
       myId : storage.getItem("userid"),
      userNick: storage.getItem("userNick"),
