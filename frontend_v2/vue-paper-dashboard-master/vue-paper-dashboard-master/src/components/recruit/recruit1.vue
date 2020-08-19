@@ -153,20 +153,7 @@
     </section>
 
     <!--  ////////////////////////////////////////////////////////////////////////// -->
-
-    <notfound v-if="rows === 0" />
-    <div v-else>
-      <div class="row">
-        <div class="col-10">
-          <select id="showcnt" @change="changeShowCnt">
-            <option value="6" selected>6개씩 보기</option>
-            <option value="12">12개씩 보기</option>
-            <option value="18">18개씩 보기</option>
-          </select>
-        </div>
-        <div class="col-2"></div>
-      </div>
-      <!-- The Modal -->
+<!-- The Modal -->
       <div class="modal" id="momo" style="z-index : 100;">
         <div class="modal-content">
           <span class="close">&times;</span>
@@ -220,6 +207,19 @@
         </div>
       </div>
       <!-- Modal end  -->
+    <notfound v-if="rows === 0" />
+    <div v-else>
+      <div class="row">
+        <div class="col-10">
+          <select id="showcnt" @change="changeShowCnt">
+            <option value="6" selected>6개씩 보기</option>
+            <option value="12">12개씩 보기</option>
+            <option value="18">18개씩 보기</option>
+          </select>
+        </div>
+        <div class="col-2"></div>
+      </div>
+      
 
       <br />
 

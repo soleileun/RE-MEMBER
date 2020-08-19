@@ -1,9 +1,18 @@
+
+
 <template>
   <div style="width:100%">
+    <div class="card-carousel">
+  <div class="my-card"></div>
+  <div class="my-card"></div>
+  <div class="my-card"></div>
+  <div class="my-card"></div>
+  <div class="my-card"></div>
+</div>
     <notfound v-if="rows === 0" />
     <div class="container row" v-else>
-      <ul class="cards col-4 poolpage" v-for="(pool,index) in extendpools.slice(0,3)" :key="index">
-        <li class="cards__item" >
+      <div class="cards card-carousel">
+        <div class=" my-card" v-for="(pool,index) in extendpools" :key="index">
           <div class="card">
             <div v-if="pool.responsibility === '디자인'" class="card__image card__image--designer" style="position:relative">
               <img class="avatar border-white" :src="urls(pool.id)" style="position:absolute;z-index:9;bottom:0;left:0" />
@@ -88,8 +97,8 @@
               <div></div>
             </div>
           </div>
-        </li>
-      </ul>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -97,6 +106,8 @@
 <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
 
 <script>
+import $ from 'jquery';
+
 import Constant from "../../Constant";
 import http from "../../http-common.js";
 import notfound from "@/components/notfound/notfound.vue";
@@ -106,57 +117,113 @@ export default {
   components: {
     notfound,
   },
+    mounted() {
+    let num = $(".my-card").length;
+    let even = num / 2;
+    let odd = (num + 1) / 2;
+
+    if (num % 2 == 0) {
+      $(".my-card:nth-child(" + even + ")").addClass("active");
+      $(".my-card:nth-child(" + even + ")")
+        .prev()
+        .addClass("prev");
+      $(".my-card:nth-child(" + even + ")")
+        .next()
+        .addClass("next");
+    } else {
+      $(".my-card:nth-child(" + odd + ")").addClass("active");
+      $(".my-card:nth-child(" + odd + ")")
+        .prev()
+        .addClass("prev");
+      $(".my-card:nth-child(" + odd + ")")
+        .next()
+        .addClass("next");
+    }
+
+    $(".my-card").click(function () {
+      let slide = $(".active").width();
+      console.log($(".active").position().left);
+
+      if ($(this).hasClass("next")) {
+        $(".card-carousel")
+          .stop(false, true)
+          .animate({ left: "-=" + slide });
+      } else if ($(this).hasClass("prev")) {
+        $(".card-carousel")
+          .stop(false, true)
+          .animate({ left: "+=" + slide });
+      }
+
+      $(this).removeClass("prev next");
+      $(this).siblings().removeClass("prev active next");
+
+      $(this).addClass("active");
+      $(this).prev().addClass("prev");
+      $(this).next().addClass("next");
+    });
+
+    // Keyboard nav
+    $("html body").keydown(function (e) {
+      if (e.keyCode == 37) {
+        // left
+        $(".active").prev().trigger("click");
+      } else if (e.keyCode == 39) {
+        // right
+        $(".active").next().trigger("click");
+      }
+    });
+  },
   data() {
     return {
       //페이징
-      perPage: 6,
-      currentPage: 1,
+      // perPage: 6,
+      // currentPage: 1,
 
-      selectedSido: 0,
-      selectedGugun: 0,
-      selectedDong: 0,
+      // selectedSido: 0,
+      // selectedGugun: 0,
+      // selectedDong: 0,
 
-      lists: [],
-      pints: [
-        "C",
-        "C++",
-        "Java",
-        "Python",
-        "Frontend",
-        "Backend",
-        "Spring",
-        "Jenkins",
-        "Django",
-        "Android",
-        "iOS",
-        "Unity",
-        "Unreal",
-        "react-native",
-        "Javascript",
-        "node.js",
-        "node.express",
-        "Angular.js",
-        "jQuery",
-        "React.js",
-        "Vue.js",
-        "IoT",
-        "Arduino",
-        "RasberryPi",
-        "Embedded",
-        "Qt",
-        "MachineVision",
-        "BlockChain",
-        "MachinLearning",
-        "DB",
-        "Oracle",
-        "MySQL",
-        "MSSQL",
-        "MariaDB",
-        "MongoDB",
-        "GraphQL",
-      ],
-      picks: [],
-      inputVal: "",
+      // lists: [],
+      // pints: [
+      //   "C",
+      //   "C++",
+      //   "Java",
+      //   "Python",
+      //   "Frontend",
+      //   "Backend",
+      //   "Spring",
+      //   "Jenkins",
+      //   "Django",
+      //   "Android",
+      //   "iOS",
+      //   "Unity",
+      //   "Unreal",
+      //   "react-native",
+      //   "Javascript",
+      //   "node.js",
+      //   "node.express",
+      //   "Angular.js",
+      //   "jQuery",
+      //   "React.js",
+      //   "Vue.js",
+      //   "IoT",
+      //   "Arduino",
+      //   "RasberryPi",
+      //   "Embedded",
+      //   "Qt",
+      //   "MachineVision",
+      //   "BlockChain",
+      //   "MachinLearning",
+      //   "DB",
+      //   "Oracle",
+      //   "MySQL",
+      //   "MSSQL",
+      //   "MariaDB",
+      //   "MongoDB",
+      //   "GraphQL",
+      // ],
+      // picks: [],
+      // inputVal: "",
 
       cursor: 0,
     };
@@ -165,42 +232,36 @@ export default {
     rows() {
       return this.extendpools.length;
     },
-    pools() {
-      console.log("pool 호출");
-      return this.$store.state.poolstore.pools;
-    },
+    // pools() {
+    //   console.log("pool 호출");
+    //   return this.$store.state.poolstore.pools;
+    // },
     extendpools() {
-      console.log("extendpools 호출");
+      console.log("extendpools 호출" + this.$store.state.poolstore.extendpools.length);
       return this.$store.state.poolstore.extendpools;
     },
-    sidoList() {
-      // console.log("확인" + this.$store.state.stackstore.sidolist);
-      return this.$store.state.stackstore.sidolist;
-    },
-    gugunList() {
-      return this.$store.state.stackstore.gugunlist;
-    },
-    dongList() {
-      return this.$store.state.stackstore.donglist;
-    },
+    // sidoList() {
+    //   // console.log("확인" + this.$store.state.stackstore.sidolist);
+    //   return this.$store.state.stackstore.sidolist;
+    // },
+    // gugunList() {
+    //   return this.$store.state.stackstore.gugunlist;
+    // },
+    // dongList() {
+    //   return this.$store.state.stackstore.donglist;
+    // },
     follow() {
       return this.$store.state.userstore.followings;
     },
   },
   created() {
-    console.log(this.urls("abb"));
-    this.$store.dispatch(Constant.GET_POOLLIST);
     this.$store.dispatch(Constant.GET_EXTENDPOOLLIST);
-    console.log("디스패치 완료");
 
     // sido리스트 불러오기
-    this.$store.dispatch(Constant.GET_SIDOLIST);
+    // this.$store.dispatch(Constant.GET_SIDOLIST);
   },
   methods: {
-    //페이징
-    changeShowCnt() {
-      this.perPage = parseInt(document.getElementById("showcnt").value);
-    },
+   
     urls(id) {
       let url = this.$store.state.filestore.fileUrl + id + ".png";
       return url;
@@ -208,13 +269,13 @@ export default {
     fol: function (id) {
       this.$store.dispatch("follow", { target: id });
     },
-    changeSido(selectedSido) {
-      // gugun
-      // console.log(selectedSido);
-      this.selectedGugun = 0;
-      this.selectedDong = 0;
-      this.$store.dispatch(Constant.GET_GUGUNLIST, { sido: selectedSido });
-    },
+    // changeSido(selectedSido) {
+    //   // gugun
+    //   // console.log(selectedSido);
+    //   this.selectedGugun = 0;
+    //   this.selectedDong = 0;
+    //   this.$store.dispatch(Constant.GET_GUGUNLIST, { sido: selectedSido });
+    // },
     toProfile(e) {
       //this.btitle = this.inputtitle;
       let addr = "/profile/" + e;
@@ -225,136 +286,136 @@ export default {
       let addr = "/project/" + e;
       this.$router.push(addr);
     },
-    changeGugun(selectedSido, selectedGugun) {
-      // dong
-      // console.log(selectedSido + selectedGugun);
-      this.selectedDong = 0;
+    // changeGugun(selectedSido, selectedGugun) {
+    //   // dong
+    //   // console.log(selectedSido + selectedGugun);
+    //   this.selectedDong = 0;
 
-      this.$store.dispatch(Constant.GET_DONGLIST, {
-        sido: selectedSido,
-        gugun: selectedGugun,
-      });
-    },
+    //   this.$store.dispatch(Constant.GET_DONGLIST, {
+    //     sido: selectedSido,
+    //     gugun: selectedGugun,
+    //   });
+    // },
     // changeDong(selectedDong) {
     //   // apt
 
     // },
 
-    searchPool() {
-      // extendpools 반영 안 됨
-      let sd = "";
-      let gg = "";
-      let dn = "";
+    // searchPool() {
+    //   // extendpools 반영 안 됨
+    //   let sd = "";
+    //   let gg = "";
+    //   let dn = "";
 
-      if (this.selectedSido == 0) {
-        sd = " ";
-      } else {
-        sd = this.selectedSido;
-      }
-      if (this.selectedGugun == 0) {
-        gg = " ";
-      } else {
-        gg = this.selectedGugun;
-      }
-      if (this.selectedDong == 0) {
-        dn = " ";
-      } else {
-        dn = this.selectedDong;
-      }
-      let addr = sd + "," + gg + "," + dn + ",";
-      let stacks = "";
-      if (this.picks.length != 0) {
-        for (let i = 0; i < this.picks.length; i++) {
-          stacks += this.picks[i] + ",";
-        }
-      } else {
-        stacks = null;
-      }
+    //   if (this.selectedSido == 0) {
+    //     sd = " ";
+    //   } else {
+    //     sd = this.selectedSido;
+    //   }
+    //   if (this.selectedGugun == 0) {
+    //     gg = " ";
+    //   } else {
+    //     gg = this.selectedGugun;
+    //   }
+    //   if (this.selectedDong == 0) {
+    //     dn = " ";
+    //   } else {
+    //     dn = this.selectedDong;
+    //   }
+    //   let addr = sd + "," + gg + "," + dn + ",";
+    //   let stacks = "";
+    //   if (this.picks.length != 0) {
+    //     for (let i = 0; i < this.picks.length; i++) {
+    //       stacks += this.picks[i] + ",";
+    //     }
+    //   } else {
+    //     stacks = null;
+    //   }
 
-      console.log(sd + " " + gg + " " + dn);
-      console.log("태그길이:" + this.picks.length);
-      console.log("stack is + " + stacks);
+    //   console.log(sd + " " + gg + " " + dn);
+    //   console.log("태그길이:" + this.picks.length);
+    //   console.log("stack is + " + stacks);
 
-      if (
-        this.selectedSido == 0 &&
-        this.selectedGugun == 0 &&
-        this.selectedDong == 0 &&
-        this.picks.length == 0 &&
-        document.getElementById("keyword1").value == ""
-      ) {
-        //this.$store.dispatch(Constant.GET_POOLLIST);
-        this.$store.dispatch(Constant.GET_EXTENDPOOLLIST);
-      } else {
-        //통합
-        this.$store.dispatch(Constant.SEARCH_POOLIST, {
-          addr,
-          stacks,
-          keyword: document.getElementById("keyword1").value,
-        });
-      }
-    },
+    //   if (
+    //     this.selectedSido == 0 &&
+    //     this.selectedGugun == 0 &&
+    //     this.selectedDong == 0 &&
+    //     this.picks.length == 0 &&
+    //     document.getElementById("keyword1").value == ""
+    //   ) {
+    //     //this.$store.dispatch(Constant.GET_POOLLIST);
+    //     this.$store.dispatch(Constant.GET_EXTENDPOOLLIST);
+    //   } else {
+    //     //통합
+    //     this.$store.dispatch(Constant.SEARCH_POOLIST, {
+    //       addr,
+    //       stacks,
+    //       keyword: document.getElementById("keyword1").value,
+    //     });
+    //   }
+    // },
 
-    deleteStack(idx) {
-      this.picks.splice(idx, 1);
-    },
+    // deleteStack(idx) {
+    //   this.picks.splice(idx, 1);
+    // },
 
-    searchQuery: function () {
-      if (this.inputVal.trim() !== "") {
-        this.lists = this.pints.filter((el) => {
-          return el.toLowerCase().match(this.inputVal.toLowerCase());
-        });
-        setTimeout(() => {
-          if (this.lists.length > 0) {
-            this.cursor = 0;
-            document.querySelector(`.pk${this.cursor}`).classList.add("act");
-          }
-        }, 50);
-      } else {
-        this.lists = [];
-      }
-    },
-    add: function (x) {
-      if (this.picks.length == 5) {
-        alert("검색 스택은 5개까지만 입력 가능합니다.");
-        this.lists = [];
-        this.inputVal = "";
-      } else {
-        if (x !== "") {
-          if (!this.picks.find((i) => i === x)) {
-            this.picks.push(x);
-          }
-        }
-        this.inputVal = "";
-        this.lists = [];
-      }
-    },
-    upQ() {
-      document.querySelector(`.pk${this.cursor}`).classList.remove("act");
-      this.cursor--;
-      if (this.cursor === -1) {
-        this.cursor = this.lists.length - 1;
-      }
-      document.querySelector(`.pk${this.cursor}`).classList.add("act");
-      let location = document.querySelector(`.pk${this.cursor}`).offsetTop;
-      document
-        .querySelector(".autoComplete")
-        .scrollTo({ top: location, behavior: "auto" });
-    },
-    downQ() {
-      document.querySelector(`.pk${this.cursor}`).classList.remove("act");
-      this.cursor++;
-      if (this.cursor === this.lists.length) {
-        this.cursor = 0;
-      }
-      document.querySelector(`.pk${this.cursor}`).classList.add("act");
-      let location = document.querySelector(`.pk${this.cursor}`).offsetTop;
-      document
-        .querySelector(".autoComplete")
-        .scrollTo({ top: location, behavior: "auto" });
-    },
-    enterQ() {
-      this.add(document.querySelector(`.pk${this.cursor}`).innerText);
-    },
+    // searchQuery: function () {
+    //   if (this.inputVal.trim() !== "") {
+    //     this.lists = this.pints.filter((el) => {
+    //       return el.toLowerCase().match(this.inputVal.toLowerCase());
+    //     });
+    //     setTimeout(() => {
+    //       if (this.lists.length > 0) {
+    //         this.cursor = 0;
+    //         document.querySelector(`.pk${this.cursor}`).classList.add("act");
+    //       }
+    //     }, 50);
+    //   } else {
+    //     this.lists = [];
+    //   }
+    // },
+    // add: function (x) {
+    //   if (this.picks.length == 5) {
+    //     alert("검색 스택은 5개까지만 입력 가능합니다.");
+    //     this.lists = [];
+    //     this.inputVal = "";
+    //   } else {
+    //     if (x !== "") {
+    //       if (!this.picks.find((i) => i === x)) {
+    //         this.picks.push(x);
+    //       }
+    //     }
+    //     this.inputVal = "";
+    //     this.lists = [];
+    //   }
+    // },
+    // upQ() {
+    //   document.querySelector(`.pk${this.cursor}`).classList.remove("act");
+    //   this.cursor--;
+    //   if (this.cursor === -1) {
+    //     this.cursor = this.lists.length - 1;
+    //   }
+    //   document.querySelector(`.pk${this.cursor}`).classList.add("act");
+    //   let location = document.querySelector(`.pk${this.cursor}`).offsetTop;
+    //   document
+    //     .querySelector(".autoComplete")
+    //     .scrollTo({ top: location, behavior: "auto" });
+    // },
+    // downQ() {
+    //   document.querySelector(`.pk${this.cursor}`).classList.remove("act");
+    //   this.cursor++;
+    //   if (this.cursor === this.lists.length) {
+    //     this.cursor = 0;
+    //   }
+    //   document.querySelector(`.pk${this.cursor}`).classList.add("act");
+    //   let location = document.querySelector(`.pk${this.cursor}`).offsetTop;
+    //   document
+    //     .querySelector(".autoComplete")
+    //     .scrollTo({ top: location, behavior: "auto" });
+    // },
+    // enterQ() {
+    //   this.add(document.querySelector(`.pk${this.cursor}`).innerText);
+    // },
   },
 };
 </script>
@@ -630,5 +691,120 @@ img {
 .poolpage {
   display: flex;
   flex-flow: row wrap;
+}
+
+
+//캐러셀
+.card-carousel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.card-carousel .my-card {
+  height: 20rem;
+  width: 12rem;
+  position: relative;
+  z-index: 1;
+  -webkit-transform: scale(0.6) translateY(-2rem);
+  transform: scale(0.6) translateY(-2rem);
+  opacity: 0;
+  cursor: pointer;
+  pointer-events: none;
+  // background: #2e5266;
+  // background: linear-gradient(to top, #2e5266, #6e8898);
+  transition: 1s;
+}
+
+.card-carousel .my-card:after {
+  content: "";
+  position: absolute;
+  height: 2px;
+  width: 100%;
+  border-radius: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  bottom: -5rem;
+  -webkit-filter: blur(4px);
+  filter: blur(4px);
+}
+
+.card-carousel .my-card.active {
+  z-index: 3;
+  -webkit-transform: scale(1) translateY(0) translateX(0);
+  transform: scale(1) translateY(0) translateX(0);
+  opacity: 1;
+  pointer-events: auto;
+  transition: 1s;
+}
+
+.card-carousel .my-card.prev,
+.card-carousel .my-card.next {
+  z-index: 2;
+  -webkit-transform: scale(0.8) translateY(-1rem) translateX(0);
+  transform: scale(0.8) translateY(-1rem) translateX(0);
+  opacity: 0.6;
+  pointer-events: auto;
+  transition: 1s;
+}
+
+.card-carousel .my-card:nth-child(0):before {
+  content: "0";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translateX(-50%) translateY(-50%);
+  transform: translateX(-50%) translateY(-50%);
+  font-size: 3rem;
+  font-weight: 300;
+  color: #fff;
+}
+
+.card-carousel .my-card:nth-child(1):before {
+  content: "1";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translateX(-50%) translateY(-50%);
+  transform: translateX(-50%) translateY(-50%);
+  font-size: 3rem;
+  font-weight: 300;
+  color: #fff;
+}
+
+.card-carousel .my-card:nth-child(2):before {
+  content: "2";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translateX(-50%) translateY(-50%);
+  transform: translateX(-50%) translateY(-50%);
+  font-size: 3rem;
+  font-weight: 300;
+  color: #fff;
+}
+
+.card-carousel .my-card:nth-child(3):before {
+  content: "3";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translateX(-50%) translateY(-50%);
+  transform: translateX(-50%) translateY(-50%);
+  font-size: 3rem;
+  font-weight: 300;
+  color: #fff;
+}
+
+.card-carousel .my-card:nth-child(4):before {
+  content: "4";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translateX(-50%) translateY(-50%);
+  transform: translateX(-50%) translateY(-50%);
+  font-size: 3rem;
+  font-weight: 300;
+  color: #fff;
 }
 </style>
