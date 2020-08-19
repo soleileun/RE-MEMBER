@@ -51,19 +51,25 @@
           </div>
         </div>
       </div>
-      <h3 v-if="this.loginId != '' ">
-        <strong>{{userNick}}</strong>님께 추천드리는 프로젝트입니다!
-      </h3>
-      <div class="dmswjdWKdWkd" v-if="this.loginId != '' ">
-        <div class="col-4" name="rpjt" v-for="project in projects" :key="project.pid">
-          <project :project="project" />
+      <div v-if="this.loginId != '' " class="col-md-12">
+        <h3>
+          <strong>{{userNick}}</strong>님께 추천드리는 프로젝트입니다!
+        </h3>
+        <div class="dmswjdWKdWkd">
+          <div class="col-4" name="rpjt" v-for="project in projects" :key="project.pid">
+            <project :project="project" />
+          </div>
         </div>
-
         <hr />
-        <div>
-          <h3>
-            <strong>{{userNick}}</strong>님께 추천드리는 팀원입니다!
-          </h3>
+
+        <h3>
+          <strong>{{userNick}}</strong>님께 추천드리는 팀원입니다!
+        </h3>
+
+        <div class="dmswjdWKdWkd">
+          <div class="col-3">
+            <users />
+          </div>
         </div>
       </div>
     </div>
@@ -73,6 +79,7 @@
 <script>
 import Constant from "../../Constant";
 import project from "../../components/project/project1";
+import users from "../../components/pool/pick";
 import http from "@/http-common.js";
 import recruitcomponent from "../../components/recruit/recruitcomponent.vue";
 const storage = window.sessionStorage;
@@ -81,6 +88,7 @@ export default {
   components: {
     recruitcomponent,
     project,
+    users,
   },
   data: function () {
     return {
@@ -97,9 +105,14 @@ export default {
       return this.$store.state.recruitstore.recruits;
     },
     projects() {
-      console.log("유저스토어세ㅓ 꺼내보기..");
-      console.log(this.$store.state.userstore.recommendedPJT);
+      // console.log("유저스토어세ㅓ 꺼내보기..");
+      // console.log(this.$store.state.userstore.recommendedPJT);
       return this.$store.state.userstore.recommendedPJT;
+    },
+    users() {
+      console.log("유저확인");
+      console.log(this.$store.state.userstore.recommendedUser);
+      return this.$store.state.userstore.recommendedUser;
     },
     loginId() {
       return this.$store.state.userstore.userid;
@@ -111,6 +124,29 @@ export default {
   methods: {
     toggle() {
       console.log(this.loginId);
+    },
+    changeShowCnt() {
+      this.perPage = parseInt(document.getElementById("showcnt").value);
+    },
+    urls(id) {
+      let url = this.$store.state.filestore.fileUrl + id + ".png";
+      return url;
+    },
+    fol: function (id) {
+      this.$store.dispatch("follow", { target: id });
+    },
+    toProfile(e) {
+      //this.btitle = this.inputtitle;
+      let addr = "/profile/" + e;
+      this.$router.push(addr);
+    },
+    toProject(e) {
+      //this.btitle = this.inputtitle;
+      let addr = "/project/" + e;
+      this.$router.push(addr);
+    },
+    follow() {
+      return this.$store.state.userstore.followings;
     },
   },
 
@@ -139,6 +175,7 @@ body {
   display: flex;
   flex-flow: row wrap;
 }
+
 .search {
   width: 100px;
   height: 100px;

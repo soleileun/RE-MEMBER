@@ -183,4 +183,13 @@ public class Pools {
 	public void setInterest(List<Inter> interest) {
 		this.interest = interest;
 	}
+	@Override
+	public String toString() {
+		return "Pools [id=" + id + ", nickname=" + nickname + ", name=" + name + ", address2=" + address2 + ", git="
+				+ git + ", lastDate=" + lastDate + ", state=" + state + ", responsibility=" + responsibility
+				+ ", isValid=" + isValid + ", leaveUser=" + leaveUser + ", intro=" + intro + ", projects=" + projects
+				+ ", interests=" + interests + ", project=" + project + ", interest=" + interest + ", repository="
+				+ repository + "]";
+	}
+	
 }

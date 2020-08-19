@@ -1,12 +1,11 @@
 <template>
   <div class="detailfree">
     <div class="card">
-      <div class="card-header"></div>
 
       <div class="card-body">
         <div class="container-fluid">
           <div class="row">
-            <div class="col-12" style="text-align:center">
+            <div class="col-12" style="text-align:center;">
               <h1>{{board.btitle}}</h1>
             </div>
           </div>
@@ -21,8 +20,8 @@
         </div>
         <hr />
 
-        <div id="editor" class="container ql-snow">
-          <div class="ql-editor profileContainer" v-html="board.bcontent"></div>
+        <div id="editor" class="container ql-snow" >
+          <div class="ql-editor profileContainer" v-html="board.bcontent" style=" min-height:300px;"></div>
         </div>
 
         <div class="container">
@@ -50,10 +49,10 @@
 
     <div class="card" v-if="board.bstate == 'free'">
       <div class="card-body">
-        <div class="row" v-for="comment in comments" :key="comment.cno">
-          <div class="col-3">{{comment.cwriter}}</div>
-          <div class="col-6">{{comment.ccontent}}</div>
-          <div class="col-3">
+        <div class="row" v-for="comment in comments" :key="comment.cno" style="margin-bottom:10px;">
+          <div class="col-2" style="font-weight:800;">{{comment.cwriter}}</div>
+          <div class="col-7">{{comment.ccontent}}</div>
+          <div class="col-3" style="text-align:right;">
             {{comment.makeDay.slice(0,10)}}
             <span class="ti-trash" v-if="comment.cwriter === loginId" @click="deleteComment(comment)"></span>
             <!-- @click 해서 삭제 넣어주시면 됩니다. -->
@@ -117,7 +116,7 @@
           </div>
           <hr />
 
-          <div class="col-12 ql-editor" style="min-height:200px;" v-html="comment.ccontent">
+          <div class="col-12 ql-editor" style="min-height:250px;" v-html="comment.ccontent">
             <vue-editor v-show="false" style="height:80%;"></vue-editor>
           </div>
         </div>
@@ -279,7 +278,7 @@ export default {
           bstate: this.type,
         });
         // console.log('삭제요청완료.' + this.board.bno);
-        this.$router.push("/freeboard/type/" + this.type);
+        this.$router.push("/freeboard/type/" + this.type + '/' + this.$route.params.currentPage);
       } else if (con_test == false) {
         console.log("");
       }
@@ -296,11 +295,12 @@ export default {
     },
 
     change() {
-      let addr = "/freeboard/modifyfree/" + this.board.bno + "/" + this.type;
+      let addr = "/freeboard/modifyfree/" + this.board.bno + "/" + this.type + '/' + this.$route.params.currentPage;
       this.$router.push(addr);
     },
     back() {
-      let addr = "/freeboard/type/" + this.type;
+      console.log(this.type);
+      let addr = "/freeboard/type/" + this.type + '/' + this.$route.params.currentPage;
       this.$router.push(addr);
     },
 

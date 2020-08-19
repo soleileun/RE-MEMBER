@@ -41,9 +41,10 @@ const pmemberstore = {
         prioirty: '',
       }, config).then(res => {
         alert("리더 권한을 위임했습니다.")
+        router.go()
       }).catch(exp => {
         console.log(exp);
-        alert("오ㅐ안됨")
+        alert("오류가 있습니다. 올바른 아이디를 입력해주세요")
       })
     },
     leaveTeam: (store, payload) => {

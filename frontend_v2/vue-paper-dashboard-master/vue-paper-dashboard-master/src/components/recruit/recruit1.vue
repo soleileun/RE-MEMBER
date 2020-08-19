@@ -1,141 +1,170 @@
 <template>
   <div class="recruit1" style="z-index:50;">
-    <div class="col-md-10 ml-auto col-xl-6 mr-auto">
-      <!-- 시군구동 검색 -->
-      <div class="row">
-        <label class="col-md-2" for="sido" style="margin-left:-20px;">
-          <strong>
-            시도
-            <span id="userid" class="text-danger"></span>
-          </strong>
-        </label>
-        <select
-          id="sido"
-          class="form-control col-md-2"
-          @change="changeSido(selectedSido)"
-          v-model="selectedSido"
-        >
-          <option value="0">선택</option>
-          <option v-for="(sido, index) in sidoList" :value="sido" :key="index">
-            {{
-            sido
-            }}
-          </option>
-        </select>
-
-        <label class="col-md-2" for="gugun">
-          <strong>
-            구군
-            <span id="userid" class="text-danger"></span>
-          </strong>
-        </label>
-        <select
-          v-if="selectedSido!=0"
-          id="gugun"
-          class="form-control col-md-2"
-          @change="changeGugun(selectedSido, selectedGugun)"
-          v-model="selectedGugun"
-        >
-          <option value="0">선택</option>
-          <option v-for="(gu, index) in gugunList" :value="gu" :key="index">
-            {{
-            gu
-            }}
-          </option>
-        </select>
-        <select v-else id="gugun" class="form-control col-md-2" disabled>
-          <option value="0">선택</option>
-        </select>
-
-        <label class="col-md-2" for="dong">
-          <strong>
-            읍면동
-            <span id="userid" class="text-danger"></span>
-          </strong>
-        </label>
-
-        <select
-          v-if="selectedGugun!=0"
-          id="dong"
-          class="form-control col-md-2"
-          v-model="selectedDong"
-        >
-          <!-- @change="changeDong(selectedDong)" -->
-
-          <option value="0">선택</option>
-          <option v-for="(don, index) in dongList" :value="don" :key="index">
-            {{
-            don
-            }}
-          </option>
-        </select>
-        <select v-else id="dong" class="form-control col-md-2" disabled>
-          <option value="0">선택</option>
-        </select>
-      </div>
-
-      <hr />
-
-      <div class="selectform">
-        <div v-for="(pick,index) in picks" :key="index">
-          <button>{{pick}}</button>
-          <button v-on:click="deleteStack(index)">X</button>
+    <div>
+      <div class="row" style="display : flex;">
+        <div class="col-6">
+          <p>
+            <strong>프로젝트 검색</strong>
+          </p>
         </div>
-      </div>기술 태그 입력
-      <div class="searchform">
-        <div class="input">
-          <input
-            id="stackWord"
-            type="text"
-            v-model="inputVal"
-            @input="searchQuery()"
-            @keyup.enter="enter()"
-            placeholder="기술 태그 입력해주세요"
-          />
-        </div>
-        <table class="autoComplete">
-          <tr v-for="list in lists" :key="list" @click="add(list)">
-            <td>{{list}}</td>
-          </tr>
-        </table>
 
-        <div class="row">
-          <div class="col-1">
-            <select name="std" id="std">
-              <option value="title" selected>제목</option>
-              <option value="writer">작성자</option>
-            </select>
-          </div>
-
-          <div class="col-8">
-            <input type="text" placeholder="검색어를 입력하세요" id="keyword" style="width:100%;" />
-          </div>
+        <div class="col-4" style="display : flex;">
+          <select name="std" id="std">
+            <option value="title" selected>제목</option>
+            <option value="writer">작성자</option>
+          </select>
+          <fg-input type="text" placeholder="검색어를 입력하세요" id="keyword" style="width:85%;" />
         </div>
+
         <div class="col-2">
-          <button
-            @click="searchPool()"
-            style="border: 2px solid rgb(173, 203, 247); border-radius:10px;"
-          >프로젝트 검색</button>
+          <div @click="searchPool()" class="button-7" style="float: none; margin: 0 auto;">
+            <div class="eff-7"></div>
+            <a >프로젝트 검색</a>
+          </div>
         </div>
       </div>
     </div>
 
     <hr />
 
-    <!--  ////////////////////////////////////////////////////////////////////////// -->
+    <section class="filter-sidebar">
+      <!-- 시군구동 검색 -->
+      <div class="card-body cb">
+        <div class="row">
+          <label for="sido">
+            <strong>
+              시도
+              <span id="userid" class="text-danger"></span>
+            </strong>
+          </label>
+          <select
+            id="sido"
+            class="form-control"
+            @change="changeSido(selectedSido)"
+            v-model="selectedSido"
+          >
+            <option value="0">선택</option>
+            <option v-for="(sido, index) in sidoList" :value="sido" :key="index">
+              {{
+              sido
+              }}
+            </option>
+          </select>
 
-    <hr />
-    <!-- 로그인 여부에 따라 활성 비활성 여부 결정 -->
-    <button id="myBtn" @click="openModal">구인글 등록</button>
+          <br />
+          <br />
+          <br />
+
+          <label for="gugun">
+            <strong>
+              구군
+              <span id="userid" class="text-danger"></span>
+            </strong>
+          </label>
+          <select
+            v-if="selectedSido!=0"
+            id="gugun"
+            class="form-control"
+            @change="changeGugun(selectedSido, selectedGugun)"
+            v-model="selectedGugun"
+          >
+            <option value="0">선택</option>
+            <option v-for="(gu, index) in gugunList" :value="gu" :key="index">
+              {{
+              gu
+              }}
+            </option>
+          </select>
+          <select v-else id="gugun" class="form-control" disabled>
+            <option value="0">선택</option>
+          </select>
+
+          <br />
+          <br />
+          <br />
+          <label for="dong">
+            <strong>
+              읍면동
+              <span id="userid" class="text-danger"></span>
+            </strong>
+          </label>
+
+          <select v-if="selectedGugun!=0" id="dong" class="form-control" v-model="selectedDong">
+            <!-- @change="changeDong(selectedDong)" -->
+
+            <option value="0">선택</option>
+            <option v-for="(don, index) in dongList" :value="don" :key="index">
+              {{
+              don
+              }}
+            </option>
+          </select>
+          <select v-else id="dong" class="form-control" disabled>
+            <option value="0">선택</option>
+          </select>
+        </div>
+
+        <br />
+        <hr />
+        <br />
+
+        <div class="col-12 searchform">
+          <p>
+            <strong>기술스택</strong>
+          </p>
+          <div class="input">
+            <input
+              type="text"
+              v-model="inputVal"
+              @input="searchQuery()"
+              @keyup.up="upQ()"
+              @keyup.down="downQ()"
+              @keyup.enter="enterQ()"
+              placeholder="스택 입력"
+            />
+          </div>
+          <div class="autoComplete">
+            <div
+              v-for="(list,index) in lists"
+              :key="list"
+              @click="add(list)"
+              :class="`pk${index}`"
+            >{{list}}</div>
+          </div>
+        </div>
+
+        <br>
+
+        <div class="row">
+          <div class="col-12 selectform">
+            <div
+              class="btn btn-primary btn-round"
+              v-for="(pick,index) in picks"
+              :key="index"
+              @click="deleteStack(index)"
+              style="z-index : 0;"
+            >{{pick}}</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!--  ////////////////////////////////////////////////////////////////////////// -->
 
     <notfound v-if="rows === 0" />
     <div v-else>
-      <select id="showcnt" @change="changeShowCnt">
-        <option value="10" selected>10개씩 보기</option>
-        <option value="15">15개씩 보기</option>
-        <option value="20">20개씩 보기</option>
-      </select>
-
+      <div class="row">
+        <div class="col-10">
+          <select id="showcnt" @change="changeShowCnt">
+            <option value="6" selected>6개씩 보기</option>
+            <option value="12">12개씩 보기</option>
+            <option value="18">18개씩 보기</option>
+          </select>
+        </div>
+        <div class="col-2">
+          <button v-if="loginId !== ''" id class="btn btn-primary" @click="openModal">구인글 등록</button>
+        </div>
+      </div>
       <!-- The Modal -->
       <div class="modal" id="momo" style="z-index : 100;">
         <div class="modal-content">
@@ -176,7 +205,7 @@
               <label for="subject">내용</label>
             </div>
             <div class="col-75">
-              <vue-editor class="viewEditor" v-model="wrecruit.contents"></vue-editor>
+              <vue-editor class="viewEditor" v-model="wrecruit.contents" :editor-toolbar="customToolbar"></vue-editor>
             </div>
           </div>
 
@@ -189,16 +218,14 @@
 
       <br />
 
-      <div class="container-fluid overflow-auto" style="padding:0; ">
+      <div class="overflow-auto" style="padding:0; ">
         <div class="row col-12" style="margin:0; padding:0;  z-index : 0;" id="recruitpage">
           <recruitcomponent
             v-for="(recruit,index) in recruits.slice(this.perPage*(currentPage-1),perPage*(currentPage))"
             :key="index"
             :recruit="recruit"
             :pid="recruit.pid"
-            @delete-recruit="deleteRecruit"
-            @open-modify="openModify"
-            @modify-recruit="modifyRecruit"
+           
           />
         </div>
         <b-pagination
@@ -331,8 +358,13 @@ export default {
   },
   data() {
     return {
+      customToolbar: [
+      ["bold", "italic", "underline"],
+      [{ list: "ordered" }, { list: "bullet" }],
+      [ "code-block"]
+    ],
       //페이징
-      perPage: 8,
+      perPage: 6,
       currentPage: 1,
       // pjtName:this.$store.state.projectstore.pjtName,
       wrecruit: {
@@ -393,6 +425,8 @@ export default {
       ],
       picks: [],
       inputVal: "",
+                  cursor: 0,
+
     };
   },
 
@@ -410,9 +444,9 @@ export default {
 
       // When the user clicks on the button, open the modal
       modal.style.display = "block";
-        window.scrollY=0
-        document.querySelector('html').scrollTop=0
-        document.querySelector('.main-panel').scrollTop=0
+      window.scrollY = 0;
+      document.querySelector("html").scrollTop = 0;
+      document.querySelector(".main-panel").scrollTop = 0;
       // When the user clicks on <span> (x), close the modal
       span.onclick = function () {
         modal.style.display = "none";
@@ -524,11 +558,16 @@ export default {
         this.lists = this.pints.filter((el) => {
           return el.toLowerCase().match(this.inputVal.toLowerCase());
         });
+        setTimeout(() => {
+          if (this.lists.length > 0) {
+            this.cursor = 0;
+            document.querySelector(`.pk${this.cursor}`).classList.add('act');
+          }
+        }, 50);
       } else {
         this.lists = [];
       }
     },
-
     add: function (x) {
       if (this.picks.length == 5) {
         alert("검색 스택은 5개까지만 입력 가능합니다.");
@@ -544,16 +583,39 @@ export default {
         this.lists = [];
       }
     },
+    upQ() {
+      document.querySelector(`.pk${this.cursor}`).classList.remove('act');
+      this.cursor--;
+      if (this.cursor === -1) {
+        this.cursor = this.lists.length - 1;
+      }
+      document.querySelector(`.pk${this.cursor}`).classList.add('act');
+      let location = document.querySelector(`.pk${this.cursor}`).offsetTop;
+      document.querySelector('.autoComplete').scrollTo({top:location, behavior:'auto'});
+    },
+    downQ() {
+      document.querySelector(`.pk${this.cursor}`).classList.remove('act');
+      this.cursor++;
+      if (this.cursor === this.lists.length) {
+        this.cursor = 0;
+      }
+      document.querySelector(`.pk${this.cursor}`).classList.add('act');
+      let location = document.querySelector(`.pk${this.cursor}`).offsetTop;
+      document.querySelector('.autoComplete').scrollTo({top:location, behavior:'auto'});
+    },
+    enterQ() {
+      this.add(document.querySelector(`.pk${this.cursor}`).innerText)
+    },
 
-    deleteRecruit(rnum) {
-      this.$emit("delete-recruit", rnum);
-    },
-    modifyRecruit() {
-      this.$emit("modify-recruit");
-    },
-    openModify() {
-      this.$emit("open-modify");
-    },
+    // deleteRecruit(rnum) {
+    //   this.$emit("delete-recruit", rnum);
+    // },
+    // modifyRecruit() {
+    //   this.$emit("modify-recruit");
+    // },
+    // openModify() {
+    //   this.$emit("open-modify");
+    // },
   },
 };
 </script>
@@ -1018,8 +1080,99 @@ body {
     margin-top: 0;
   }
 }
-#pagination{
-  z-index:0;
+#pagination {
+  z-index: 0;
+}
 
+//filter-sidebar
+.filter-sidebar {
+  width: 20%;
+  min-width: 220px;
+  // padding: 20px 10px 20px 20px;
+  border-right: solid 1px #e0e0e0;
+  float: left;
+}
+
+//버튼
+
+.button-7 {
+  width: 140px;
+  height: 50px;
+  border: 2px solid #34495e;
+  float: left;
+  text-align: center;
+  cursor: pointer;
+  position: relative;
+  box-sizing: border-box;
+  overflow: hidden;
+  margin: 0 0 40px 50px;
+}
+.button-7 a {
+  font-family: arial;
+  font-size: 16px;
+  color: #34495e;
+  text-decoration: none;
+  line-height: 50px;
+  transition: all 0.5s ease;
+  z-index: 2;
+  color: white;
+  position: relative;
+}
+.eff-7 {
+  width: 140px;
+  height: 50px;
+  border: 0px solid #34495e;
+  position: absolute;
+  transition: all 0.5s ease;
+  z-index: 1;
+  box-sizing: border-box;
+}
+.button-7:hover .eff-7 {
+  border: 70px solid #34495e;
+}
+.button-7:hover a {
+  color: #fff;
+}
+
+.searchform {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    // height: 50px;
+    .autoComplete {
+      border: .5px gray solid;
+      position: absolute;
+      max-height: 100px;
+      overflow: auto;
+      background-color: white;
+      width: 98%;
+      left: 6px;
+      bottom: 45px;
+      cursor: pointer;
+      .act{
+        background-color: #aaa;
+      }
+    }
+    .input {
+      height: 100%;
+      width: 100%;
+
+      font-size: 1.2rem;
+      border: 1px black solid;
+      padding: 5px;
+      input {
+        width: 100%;
+        height: 100%;
+        border: none;
+        outline: none;
+        &:focus {
+          border: none;
+        }
+      }
+    }
+  }
+  .cb{
+  min-height: 470px;
+  height: 100%;
 }
 </style>

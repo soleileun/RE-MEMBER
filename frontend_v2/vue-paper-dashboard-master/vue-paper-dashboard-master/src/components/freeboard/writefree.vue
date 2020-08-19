@@ -175,7 +175,7 @@ export default {
     },
     check() {
       //this.btitle = this.inputtitle;
-      let addr = "/freeboard/type/" + this.type;
+      let addr = "/freeboard/type/" + this.type + '/'+ this.$route.params.currentPage;
       this.$router.push(addr);
       console.log(this.btitle);
       console.log(this.bcontent);

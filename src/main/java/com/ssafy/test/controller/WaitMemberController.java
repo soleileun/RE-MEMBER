@@ -122,15 +122,15 @@ public class WaitMemberController {
     	  }
       }else if( wm.getType().equals("Invite")) {
 
-    	 String key = new MailTempKey().getKey(50, false);
+    	 String key = new MailTempKey().getKey(10, false);
     	 wm.setCode(key);
     	MailHandler sendMail = new MailHandler(mailSender);
     	sendMail.setSubject("[이메일 인증]");
         sendMail.setText(new StringBuffer().append("<h1>"+wm.getPid()+"번 프로젝트에서 "+wm.getUserId()+"님을 초대했습니다.</h1>")
         		.append("<h2>제안하는 팀의 포지션은 " +wm.getState()+"입니다! </h2>")
         		.append("<p>팀에 참여하시려면 아래 링크를 눌러주세요!</p><br>")
-              .append("<a href='https://localhost:8080/api/waitMember/invite/key=").append(key)
-              .append("' target='_blenk'>팀에 참여하기</a>").toString());
+              .append("<a href='http://localhost:8080/api/waitMember/invite/").append(key)
+              .append("' target='_blank'>팀에 참여하기</a>").toString());
         sendMail.setFrom("ADIM@REMEMBER.COM", "RE:MEMBER");
         sendMail.setTo(wm.getUserId());
         sendMail.send();

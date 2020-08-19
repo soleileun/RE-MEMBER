@@ -84,7 +84,7 @@
                <div class="container">
                 <div class="row">
                   <div class="col text-right btndiv">
-                    <button class="btn btn-primary" @click="towrite">글쓰기</button>
+                    <button v-if="loginId !== ''" class="btn btn-primary" @click="towrite">글쓰기</button>
                   </div>
                 </div>
               </div>
@@ -113,7 +113,7 @@
                       </td>
                        <!-- bno 쿼리스트링 달아서 분기   -->
                       <td style="text-align:left;">
-                        <a style="display:inline-block; font-weight:800; cursor:pointer;"  @click="detail(free.bno,free.btitle)"> {{free.btitle}}</a>
+                        <a style="display:inline-block; font-weight:800; cursor:pointer;"  @click="detail(free.bno,free.bstate)"> {{free.btitle}}</a>
                         <a v-if="free.cnt != 0" style="display:inline-block; font-weight:800; color:red; padding-left:4px;"> [{{free.cnt}}]</a>
                         <!--<router-link :to="'/freeboard/detailfree/' + free.bno + '/' + type">{{free.btitle}}</router-link>-->
                       </td>
@@ -240,7 +240,7 @@ export default {
   data() {
     return {
       perPage: 10,
-      currentPage: 1,
+      currentPage : this.$route.params.currentPage,
       // fields: [
       //   {
       //     key: "bstate",
@@ -276,6 +276,7 @@ export default {
     };
   },
   computed: {
+    
     type() {
       return this.$route.params.type;
     },
@@ -304,11 +305,11 @@ export default {
   },
   methods: {
     move(e) {
-      var url = '/freeboard/type/' + e
+      var url = '/freeboard/type/' + e + '/1';
       this.$router.push(url); // mainboard 뺐음.
     },
     detail(a, b) {
-      var url = '/freeboard/detailfree/' + a + '/' + b
+      var url = '/freeboard/detailfree/' + a + '/' + b + '/' + this.currentPage;
       this.$router.push(url); // mainboard 뺐음.
     },
     changeShowCnt() {
@@ -341,7 +342,7 @@ export default {
            alert("관리자 권한이 필요한 서비스입니다.");
         }
         else{
-          let addr = "/freeboard/writefree/"+this.type;
+          let addr = "/freeboard/writefree/"+this.type+'/'+this.currentPage;
           this.$router.push(addr);
         }
       }

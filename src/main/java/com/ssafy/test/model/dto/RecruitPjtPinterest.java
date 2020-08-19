@@ -22,8 +22,40 @@ public class RecruitPjtPinterest {
 	private String pjtState;
 	private String rstate;
 	private List<Inter> interests;
+	private String nickname;
 	
 	
+	public RecruitPjtPinterest(int rnum, int pid, String title, String contents, Date endDate, Date makeDay,
+			Date changeDay, String makeId, String changeId, String pjtName, String interest, int cnt, int pjtMemberCnt,
+			String pjtContent, String location, String pjtState, String rstate, List<Inter> interests,
+			String nickname) {
+		super();
+		this.rnum = rnum;
+		this.pid = pid;
+		this.title = title;
+		this.contents = contents;
+		this.endDate = endDate;
+		this.makeDay = makeDay;
+		this.changeDay = changeDay;
+		this.makeId = makeId;
+		this.changeId = changeId;
+		this.pjtName = pjtName;
+		this.interest = interest;
+		this.cnt = cnt;
+		this.pjtMemberCnt = pjtMemberCnt;
+		this.pjtContent = pjtContent;
+		this.location = location;
+		this.pjtState = pjtState;
+		this.rstate = rstate;
+		this.interests = interests;
+		this.nickname = nickname;
+	}
+	public String getNickname() {
+		return nickname;
+	}
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
+	}
 	public RecruitPjtPinterest(int rnum, int pid, String title, String contents, Date endDate, Date makeDay,
 			Date changeDay, String makeId, String changeId, String pjtName, String interest, int cnt, int pjtMemberCnt,
 			String pjtContent, String location, String pjtState, String rstate, List<Inter> interests) {

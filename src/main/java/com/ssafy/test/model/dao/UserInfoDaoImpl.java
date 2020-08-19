@@ -132,4 +132,11 @@ public class UserInfoDaoImpl implements UserInfoDao {
 		return template.selectOne(ns+"loginForKakao",user);
 	}
 
+	@Override
+	public Pools searchPoolById(String id) {
+		// TODO Auto-generated method stub
+		System.out.println("id확인 :" +id);
+		return template.selectOne(ns+"searchPoolById",id);
+	}
+
 }

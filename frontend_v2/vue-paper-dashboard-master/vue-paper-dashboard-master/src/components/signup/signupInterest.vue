@@ -7,7 +7,7 @@
           <div class="col-12">
             <ul>
               예
-              <li>Language : C / C++ / Java / Python / C#</li>
+              <li>Language : C / C++ / Java / Python</li>
               <li>web FrontEnd / BackEnd / Spring / Jenkins</li>
               <li>Mobile -> Hybrid / Android / iOS /</li>
               <li>Javascript -> node.js / Angular.JS / React.js / Vue.js / jQuery</li>
@@ -16,36 +16,20 @@
             </ul>
           </div>
           <div class="col-12 selectform">
-            <div
-              class="btn btn-primary btn-round"
-              v-for="pick in picks"
-              :key="pick"
-              @click="del(pick)"
-            >{{pick}}</div>
+            <div class="btn btn-primary btn-round" v-for="pick in picks" :key="pick" @click="del(pick)">{{pick}}</div>
             <br />
           </div>
           <div class="col-12 searchform">
             <div class="input">
-              <input
-                type="text"
-                v-model="inputVal"
-                @input="searchQuery()"
-                @keyup.up="upQ()"
-                @keyup.down="downQ()"
-                @keyup.enter="enterQ()"
-              />
+              <input type="text" v-model="inputVal" @input="searchQuery()" @keyup.up="upQ()" @keyup.down="downQ()" @keyup.enter="enterQ()" />
             </div>
             <div class="autoComplete">
-              <div v-for="list in lists" :key="list" @click="add(list)">{{list}}</div>
+              <div v-for="(list,index) in lists" :key="list" @click="add(list)" :class="`pk${index}`">{{list}}</div>
             </div>
           </div>
           <div class="col-12">
             <br />
-            <button
-              class="gosignup btn btn-success"
-              @click="gosignup"
-              :class="{submitable:submitable&&signup}"
-            >회원가입</button>
+            <button class="gosignup btn btn-success" @click="gosignup" :class="{submitable:submitable&&signup}">회원가입</button>
           </div>
         </div>
       </form>
@@ -105,6 +89,7 @@ export default {
       picks: [],
       submitable: false,
       inputVal: "",
+      cursor: 0,
     };
   },
   watch: {
@@ -129,6 +114,12 @@ export default {
         this.lists = this.pints.filter((el) => {
           return el.toLowerCase().match(this.inputVal.toLowerCase());
         });
+        setTimeout(() => {
+          if (this.lists.length > 0) {
+            this.cursor = 0;
+            document.querySelector(`.pk${this.cursor}`).classList.add('act');
+          }
+        }, 50);
       } else {
         this.lists = [];
       }
@@ -152,14 +143,29 @@ export default {
       const idx = this.picks.indexOf(x);
       if (idx > -1) this.picks.splice(idx, 1);
     },
-    upQ(){
-
+    upQ() {
+      document.querySelector(`.pk${this.cursor}`).classList.remove('act');
+      this.cursor--;
+      if (this.cursor === -1) {
+        this.cursor = this.lists.length - 1;
+      }
+      document.querySelector(`.pk${this.cursor}`).classList.add('act');
+      let location = document.querySelector(`.pk${this.cursor}`).offsetTop;
+      document.querySelector('.autoComplete').scrollTo({top:location, behavior:'auto'});
     },
-    downQ(){
-
+    downQ() {
+      document.querySelector(`.pk${this.cursor}`).classList.remove('act');
+      this.cursor++;
+      if (this.cursor === this.lists.length) {
+        this.cursor = 0;
+      }
+      document.querySelector(`.pk${this.cursor}`).classList.add('act');
+      let location = document.querySelector(`.pk${this.cursor}`).offsetTop;
+      document.querySelector('.autoComplete').scrollTo({top:location, behavior:'auto'});
     },
-    enterQ(){
-    }
+    enterQ() {
+      this.add(document.querySelector(`.pk${this.cursor}`).innerText)
+    },
   },
 };
 </script>
@@ -179,14 +185,18 @@ export default {
     flex-direction: column;
     // height: 50px;
     .autoComplete {
+      border: .5px gray solid;
       position: absolute;
       max-height: 100px;
       overflow: auto;
       background-color: white;
-      width: 90%;
-      left: 5px;
-      bottom: 49px;
+      width: 98%;
+      left: 6px;
+      bottom: 45px;
       cursor: pointer;
+      .act{
+        background-color: #aaa;
+      }
     }
     .input {
       height: 100%;

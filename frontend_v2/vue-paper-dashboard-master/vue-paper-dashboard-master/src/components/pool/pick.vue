@@ -1,229 +1,9 @@
 <template>
   <div>
-    <div>
-      <div class="row" style="margin:8px;">
-        <div class="col-6">
-          <p>
-            <strong>인재 찾기</strong>
-          </p>
-        </div>
-
-        <div class="col-4" style="display : flex;">
-          <p>
-            <strong>ID</strong>
-          </p>
-          <fg-input type="text" placeholder="아이디를 입력하세요" id="keyword1" style="width:85%;" />
-        </div>
-        <div class="col-2">
-          <div class="button-7" style="float: none; margin: 0 auto;">
-            <div class="eff-7"></div>
-            <a @click="searchPool()">프로젝트 검색</a>
-          </div>
-        </div>
-      </div>
-    </div>
-    <hr />
-    <section class="filter-sidebar">
-      <!-- 시군구동 검색 -->
-
-      <div class="card-body cb">
-        <div class="row">
-          <label for="sido">
-            <strong>
-              시도
-              <span id="userid" class="text-danger"></span>
-            </strong>
-          </label>
-
-          <select
-            id="sido"
-            class="form-control"
-            @change="changeSido(selectedSido)"
-            v-model="selectedSido"
-          >
-            <option value="0">선택</option>
-            <option v-for="(sido, index) in sidoList" :value="sido" :key="index">
-              {{
-              sido
-              }}
-            </option>
-          </select>
-          <br />
-          <br />
-          <br />
-          <label for="gugun">
-            <strong>
-              구군
-              <span id="userid" class="text-danger"></span>
-            </strong>
-          </label>
-          <select
-            v-if="selectedSido!=0"
-            id="gugun"
-            class="form-control"
-            @change="changeGugun(selectedSido, selectedGugun)"
-            v-model="selectedGugun"
-          >
-            <option value="0">선택</option>
-            <option v-for="(gu, index) in gugunList" :value="gu" :key="index">
-              {{
-              gu
-              }}
-            </option>
-          </select>
-          <select v-else id="gugun" class="form-control" disabled>
-            <option value="0">선택</option>
-          </select>
-          <br />
-          <br />
-          <br />
-
-          <label for="dong">
-            <strong>
-              읍면동
-              <span id="userid" class="text-danger"></span>
-            </strong>
-          </label>
-
-          <select v-if="selectedGugun!=0" id="dong" class="form-control" v-model="selectedDong">
-            <!-- @change="changeDong(selectedDong)" -->
-
-            <option value="0">선택</option>
-            <option v-for="(don, index) in dongList" :value="don" :key="index">
-              {{
-              don
-              }}
-            </option>
-          </select>
-          <select v-else id="dong" class="form-control" disabled>
-            <option value="0">선택</option>
-          </select>
-        </div>
-        <hr />
-
-        <div class="col-12 searchform">
-          <p>
-            <strong>기술스택</strong>
-          </p>
-          <div class="input">
-            <input
-              type="text"
-              v-model="inputVal"
-              @input="searchQuery()"
-              @keyup.up="upQ()"
-              @keyup.down="downQ()"
-              @keyup.enter="enterQ()"
-              placeholder="스택 입력"
-            />
-          </div>
-          <div class="autoComplete">
-            <div
-              v-for="(list,index) in lists"
-              :key="list"
-              @click="add(list)"
-              :class="`pk${index}`"
-            >{{list}}</div>
-          </div>
-        </div>
-
-        <!-- 
-        <div class="row">
-          <div class="searchform" style="width:100%;">
-            <div class="row">
-              <div class="col-12">
-                
-                <p>
-                  <strong>기술</strong>
-                </p>
-                <fg-input
-                  id="stackWord"
-                  type="text"
-                  v-model="inputVal"
-                  @input="searchQuery()"
-                  @keyup.enter="enter()"
-                  placeholder="기술 태그 입력해주세요"
-                  style="width:100%;"
-                />
-              </div>
-            </div>
-          
-            자동완성 리스트
-            <table class="autoComplete" style="cursor: pointer; z-index : 1;">
-              <tr v-for="list in lists" :key="list" @click="add(list)">
-                <td>{{list}}</td>
-              </tr>
-            </table>
-          </div>
-        </div>-->
-
-        <br>
-
-
-        <!-- 선택 스택들 -->
-        <div class="row">
-          <div class="col-12 selectform">
-            <div
-              class="btn btn-primary btn-round"
-              v-for="(pick,index) in picks"
-              :key="index"
-              @click="deleteStack(index)"
-              style="z-index : 0;"
-            >{{pick}}</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- card layout -->
-    <!--
-    <ul class="cards">
-      <li class="cards__item" v-for="pool in pools" :key="pool.id">
-        <div class="card">
-          <div class="card__image card__image--fence"></div>
-          <div class="card__content">
-            <div class="card__title">{{pool.nickname}}</div>
-            <p class="card__text">
-              <br />
-              {{pool.responsibility}}
-            </p>
-            <router-link
-              :to="'/project/' + pool.id"
-              tag="button"
-              class="btn btn--block card__btn"
-            >프로젝트 보기</router-link>
-            <router-link
-              :to="'/profile/' + pool.id"
-              tag="button"
-              class="btn btn--block card__btn"
-            >프로필 보기</router-link>
-            <a
-              class="btn btn--block card__btn"
-              v-if="pool.git"
-              :href="'https://github.com/'+pool.git"
-            >Git</a>
-            <button
-              v-if="!follow.find(item=>item.id === pool.id)"
-              class="btn btn-success"
-              @click="fol(pool.id)"
-            >팔로우하기</button>
-          </div>
-        </div>
-      </li>
-    </ul>
-    -->
     <notfound v-if="rows === 0" />
     <div v-else>
-      <select id="showcnt" @change="changeShowCnt">
-        <option value="6" selected>6개씩 보기</option>
-        <option value="9">9개씩 보기</option>
-        <option value="12">12개씩 보기</option>
-      </select>
-      <ul class="cards overflow-auto" id="poolpage">
-        <li
-          class="cards__item"
-          v-for="(pool,index) in extendpools.slice(this.perPage*(currentPage-1),perPage*(currentPage))"
-          :key="index"
-        >
+      <ul class="cards" id="poolpage">
+        <li class="cards__item" v-for="(pool,index) in extendpools.slice(0,3)" :key="index">
           <div class="card">
             <div
               v-if="pool.responsibility === '디자인'"
@@ -302,21 +82,7 @@
                 {{pool.address2}}
               </div>
 
-              <div>
-                <!--  관심사로 사용하기
-                   <div v-for="(interest, idx) in pool.interest" :key="idx">
-                    {{interest.interest}}
-                    
-                  </div>
-                -->
-                <!-- 수행한 프로젝트
-                     <div v-for="(pjt, idx) in pool.project" :key="idx">
-                    {{pjt.pid}}
-                    
-                    {{pjt.pjtName}}
-                  </div>
-                -->
-              </div>
+              <div></div>
 
               <div class="container-fluid">
                 <div class="row">
@@ -378,68 +144,14 @@
                         <div v-if="pool.projects == null">아직 참여한 프로젝트가 없습니다. 이번 기회에 함께 해보는건 어떨까요?</div>
                       </b-modal>
                     </div>
-
-                    <!--  <i class="fa fa-tasks emo"></i> -->
                   </div>
                 </div>
               </div>
-              <div>
-                <!--
-            <router-link
-              :to="'/project/' + pool.id"
-              tag="button"
-              class="btn btn--block card__btn"
-            >프로젝트 보기</router-link>
-            <router-link
-              :to="'/profile/' + pool.id"
-              tag="button"
-              class="btn btn--block card__btn"
-            >프로필 보기</router-link>
-            <a
-              class="btn btn--block card__btn"
-              v-if="pool.git"
-              :href="'https://github.com/'+pool.git"
-            >Git</a>
-            <button
-              v-if="!follow.find(item=>item.id === pool.id)"
-              class="btn btn-success"
-              @click="fol(pool.id)"
-            >팔로우하기</button>
-                -->
-              </div>
+              <div></div>
             </div>
-            <!--
-      <b-btn v-b-toggle="'test-'+pool.id"  style="none;">
-    Toggle Collapse
-  </b-btn>
-  <b-collapse :id="'test-'+pool.id" class="mt-2">
-    오우오우오오우
-  </b-collapse>
-            -->
-            <!--
-<div>
-  <b-button v-b-modal="'test-'+pool.id">Launch demo modal</b-button>
-
-  <b-modal :id="'test-'+pool.id" title="BootstrapVue">
-    <p class="my-4">참여한 프로젝트 목록</p>
-    <div v-for="(pjt, idx) in pool.project" :key="idx">
-                    {{pjt.pid}}
-                    
-                    {{pjt.pjtName}}
-                  </div>
-  </b-modal>
-</div>
-            -->
           </div>
         </li>
       </ul>
-      <b-pagination
-        v-model="currentPage"
-        :total-rows="rows"
-        :per-page="perPage"
-        aria-controls="poolpage"
-        align="center"
-      ></b-pagination>
     </div>
   </div>
 </template>
@@ -508,8 +220,7 @@ export default {
       picks: [],
       inputVal: "",
 
-            cursor: 0,
-
+      cursor: 0,
     };
   },
   computed: {
@@ -657,7 +368,7 @@ export default {
         setTimeout(() => {
           if (this.lists.length > 0) {
             this.cursor = 0;
-            document.querySelector(`.pk${this.cursor}`).classList.add('act');
+            document.querySelector(`.pk${this.cursor}`).classList.add("act");
           }
         }, 50);
       } else {
@@ -679,28 +390,32 @@ export default {
         this.lists = [];
       }
     },
-     upQ() {
-      document.querySelector(`.pk${this.cursor}`).classList.remove('act');
+    upQ() {
+      document.querySelector(`.pk${this.cursor}`).classList.remove("act");
       this.cursor--;
       if (this.cursor === -1) {
         this.cursor = this.lists.length - 1;
       }
-      document.querySelector(`.pk${this.cursor}`).classList.add('act');
+      document.querySelector(`.pk${this.cursor}`).classList.add("act");
       let location = document.querySelector(`.pk${this.cursor}`).offsetTop;
-      document.querySelector('.autoComplete').scrollTo({top:location, behavior:'auto'});
+      document
+        .querySelector(".autoComplete")
+        .scrollTo({ top: location, behavior: "auto" });
     },
     downQ() {
-      document.querySelector(`.pk${this.cursor}`).classList.remove('act');
+      document.querySelector(`.pk${this.cursor}`).classList.remove("act");
       this.cursor++;
       if (this.cursor === this.lists.length) {
         this.cursor = 0;
       }
-      document.querySelector(`.pk${this.cursor}`).classList.add('act');
+      document.querySelector(`.pk${this.cursor}`).classList.add("act");
       let location = document.querySelector(`.pk${this.cursor}`).offsetTop;
-      document.querySelector('.autoComplete').scrollTo({top:location, behavior:'auto'});
+      document
+        .querySelector(".autoComplete")
+        .scrollTo({ top: location, behavior: "auto" });
     },
     enterQ() {
-      this.add(document.querySelector(`.pk${this.cursor}`).innerText)
+      this.add(document.querySelector(`.pk${this.cursor}`).innerText);
     },
   },
 };
@@ -924,42 +639,42 @@ img {
   color: #fff;
 }
 .searchform {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    // height: 50px;
-    .autoComplete {
-      border: .5px gray solid;
-      position: absolute;
-      max-height: 100px;
-      overflow: auto;
-      background-color: white;
-      width: 98%;
-      left: 6px;
-      bottom: 45px;
-      cursor: pointer;
-      .act{
-        background-color: #aaa;
-      }
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  // height: 50px;
+  .autoComplete {
+    border: 0.5px gray solid;
+    position: absolute;
+    max-height: 100px;
+    overflow: auto;
+    background-color: white;
+    width: 98%;
+    left: 6px;
+    bottom: 45px;
+    cursor: pointer;
+    .act {
+      background-color: #aaa;
     }
-    .input {
-      height: 100%;
-      width: 100%;
+  }
+  .input {
+    height: 100%;
+    width: 100%;
 
-      font-size: 1.2rem;
-      border: 1px black solid;
-      padding: 5px;
-      input {
-        width: 100%;
-        height: 100%;
+    font-size: 1.2rem;
+    border: 1px black solid;
+    padding: 5px;
+    input {
+      width: 100%;
+      height: 100%;
+      border: none;
+      outline: none;
+      &:focus {
         border: none;
-        outline: none;
-        &:focus {
-          border: none;
-        }
       }
     }
   }
+}
 
 //filter-sidebar
 .filter-sidebar {
@@ -970,8 +685,12 @@ img {
   float: left;
 }
 
-.cb{
+.cb {
   min-height: 470px;
   height: 100%;
+}
+#poolpage {
+  display: flex;
+  flex-flow: row wrap;
 }
 </style>

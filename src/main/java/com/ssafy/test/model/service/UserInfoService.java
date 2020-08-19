@@ -33,6 +33,6 @@ public interface UserInfoService {
 	
 	public List<UserInfo> getAddressList(int pid);
 	public List<Pools> getPools(); //Two<Integer,Integer> v
-	
+	public Pools searchPoolById(String id);
 	public UserInfo loginForKakao(String kakaoId);
 }

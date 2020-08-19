@@ -11,12 +11,18 @@
           <hr />
         </div>
         <div class="row">
-          <div class="col-12 ql-editor" v-html="recruit.contents"></div>
+          <div style="min-height:350px;" class="col-12 ql-editor" v-html="recruit.contents"></div>
           <vue-editor v-show="edit" v-model="con" :editorToolbar="customToolbar"></vue-editor>
           <hr />
+          <div class="col-4">
           <router-link to="/recruit/recruit1">
             <button class="btn btn-info">목록으로</button>
           </router-link>
+          </div>
+            <div v-if="recruit.makeId === id" class="col-8 text-right btndiv">
+            <button class="btn btn-info"  style="margin-left:10px;margin-right:10px;" >수정</button>
+            <button class="btn btn-info" style="margin-left:10px;margin-right:10px;">삭제</button>
+            </div>
         </div>
       </div>
     </div>
@@ -38,6 +44,7 @@
 <script>
 import { VueEditor } from "vue2-editor";
 import Constant from "../../Constant";
+const storage = window.sessionStorage;
 // import comment from '../comment/comment';
 
 export default {
@@ -49,6 +56,7 @@ export default {
     return {
       edit: false,
       customToolbar: [],
+      id: storage.getItem("userid"),
       con: "",
     };
   },
@@ -84,6 +92,58 @@ export default {
       } else {
         return "";
       }
+    },
+    
+    deleteRecruit() {
+      // console.log("삭제 rnum : " + this.recruit.rnum);
+      this.$store.dispatch(Constant.REMOVE_RECRUIT, {
+        rnum: this.recruit.rnum,
+      });
+    },
+
+
+
+
+    openModify() {
+      // Get the modal
+      let mid = "myModal" + this.recruit.pid;
+      var modal = document.getElementById(mid);
+
+      // Get the <span> element that closes the modal
+      var span = document.getElementsByClassName("close")[0];
+
+      // When the user clicks on the button, open the modal
+      modal.style.display = "block";
+
+      // When the user clicks on <span> (x), close the modal
+      span.onclick = function () {
+        modal.style.display = "none";
+      };
+
+      // When the user clicks anywhere outside of the modal, close it
+      window.onclick = function (event) {
+        if (event.target == modal) {
+          modal.style.display = "none";
+        }
+      };
+    },
+    modifyRecruit() {
+      console.log("contents : " + this.recruit.contents);
+      this.$store.dispatch(Constant.MODIFY_RECRUIT, {
+        rnum: this.recruit.rnum,
+        // pid: this.recruit.rnum,
+        title: this.recruit.title,
+        contents: this.recruit.contents,
+        // endDate: this.recruit.endDate,
+        // makeDay: this.recruit.makeDay,
+        // changeDay: this.recruit.changeDay,
+        // makeId: this.loginId,
+        changeId: this.loginId,
+      });
+
+      let mid = "myModal" + this.recruit.pid;
+      var modal = document.getElementById(mid);
+      modal.style.display = "none";
     },
     // deleteRecruit(){
     //   var con_test = confirm("삭제하시겠습니까?");

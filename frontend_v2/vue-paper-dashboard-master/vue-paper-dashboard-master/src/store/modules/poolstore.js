@@ -8,10 +8,11 @@ Vue.use(Vuex);
 const poolstore = {
   state: {
     pools: [],
-    extendpools:[],
+    extendpools: [],
+    recommendpools: []
     // pool: {}
   },
- 
+
   actions: {
 
     // [Constant.GET_POOLLIST]: (store) => {
@@ -24,20 +25,24 @@ const poolstore = {
     // },
     [Constant.GET_EXTENDPOOLLIST]: (store) => {
       http.get('/api/userinfo/pools')
-          .then(response => {
-            console.log("지금 온 내용 :" +response.data)
-              store.commit(Constant.GET_EXTENDPOOLLIST, { extendpools: response.data })
+        .then(response => {
+          console.log("지금 온 내용 :" + response.data)
+          store.commit(Constant.GET_EXTENDPOOLLIST, {
+            extendpools: response.data
+          })
         })
-          .catch(exp => alert('getExtendPoolList처리에 실패하였습니다!.' + exp));
+        .catch(exp => alert('getExtendPoolList처리에 실패하였습니다!.' + exp));
     },
-   
+
     //통합 검색
     [Constant.SEARCH_POOLIST]: (store, payload) => {
       // console.log(payload);
       const config = {
-        headers: {"jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")}
-}     
-      http.get('/api/userinfo/searchAll/tag=' + payload.stacks + '&addr=' + payload.addr+ '&keyword='+payload.keyword,config)
+        headers: {
+          "jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")
+        }
+      }
+      http.get('/api/userinfo/searchAll/tag=' + payload.stacks + '&addr=' + payload.addr + '&keyword=' + payload.keyword, config)
         .then(response => {
           console.log('통합 검색 조건 유저리스트 반환: ' + response.status);
           store.commit(Constant.GET_EXTENDPOOLLIST, {
@@ -71,7 +76,7 @@ const poolstore = {
     //             alert('추가 처리에 실패하였습니다.' + exp);
     //         })
     // },
-   
+
     // //댓글 삭제
     // [Constant.REMOVE_COMMENT]: (store, payload) => {
     //     http.delete('/api/comments/delete/' + payload.cno)
@@ -95,9 +100,9 @@ const poolstore = {
     //         })
     //         .catch(exp => alert('댓글 클리어 실패하였습니다.' + exp));
     // },
-   
 
-   
+
+
   },
 
   mutations: {
@@ -108,12 +113,11 @@ const poolstore = {
     [Constant.GET_EXTENDPOOLLIST]: (state, payload) => {
       console.log('mutation' + payload.extendpools);
       state.extendpools = payload.extendpools;
-  },
+    },
 
   },
 
-  modules: {
-  }
+  modules: {}
 };
 
 export default poolstore;

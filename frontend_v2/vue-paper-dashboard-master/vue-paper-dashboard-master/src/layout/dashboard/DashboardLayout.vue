@@ -6,9 +6,9 @@
         <sidebar-link to="/pool" name="인재풀" icon="ti-face-smile" />
         <sidebar-link to="/recruit" name="모집" icon="ti-search" />
         <sidebar-link to="/project/myproject/" name="내 프로젝트" icon="ti-briefcase" />
-        <sidebar-link to="/freeboard/type/free" name="자유게시판" icon="ti-clipboard" />
-        <sidebar-link to="/freeboard/type/qa" name="질문게시판" icon="ti-help-alt" />
-        <sidebar-link to="/freeboard/type/notice" name="공지사항" icon="ti-announcement" />
+        <sidebar-link to="/freeboard/type/free/1" name="자유게시판" icon="ti-clipboard" />
+        <sidebar-link to="/freeboard/type/qa/1" name="질문게시판" icon="ti-help-alt" />
+        <sidebar-link to="/freeboard/type/notice/1" name="공지사항" icon="ti-announcement" />
         <sidebar-link to="/service" name="고객센터" icon="ti-headphone-alt" />
         <sidebar-link to="/issuetest" name="이슈테스트" icon="ti-headphone-alt" />
 
@@ -56,7 +56,7 @@
         <li class="divider"></li>
       </mobile-menu>
     </side-bar>
-    <div class="main-panel">
+    <div class="main-panel" style="background-color:white">
       <top-navbar></top-navbar>
 
       <dashboard-content @click.native="toggleSidebar"></dashboard-content>

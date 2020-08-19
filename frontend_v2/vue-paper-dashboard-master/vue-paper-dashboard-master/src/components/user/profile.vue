@@ -1,8 +1,8 @@
 <template>
-  <div class="profile text-center">
+  <div class="profile text-center" >
     <h3>내 소개</h3>
     <div id="editor" class="container ql-snow" v-if="!profileEdit">
-      <div class="ql-editor profileContainer" v-html="content"></div>
+      <div class="ql-editor profileContainer" v-html="content" style="min-height:500px"></div>
     </div>
     <vue-editor id="editor" v-if="profileEdit" v-model="content" useCustomImageHandler @imageAdded="handleImageAdded"></vue-editor>
     <!-- 에디터를 v-show로 숨겨두지 않으면 일부 꾸밈 코드가 안먹힘 -->
@@ -61,7 +61,8 @@ export default {
             this.$emit("bno", response.data[0].bno);
             this.board.bview = response.data[0].bview;
           } else {
-            alert("내 프로필을 로드하는데에 실패하였습니다." + exp);
+            alert("내 프로필을 로드하는데에 실패하였습니다.");
+            console.log(response)
           }
         })
         .catch((exp) =>
@@ -130,6 +131,9 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
+h3{
+  margin-top: 0;
+}
 .profile {
   font: 100;
   .ql-editor.profileContainer {
