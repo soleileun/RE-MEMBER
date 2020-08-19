@@ -160,8 +160,8 @@ public class ReffileController {
 				//System.out.println(format1.format(now));
 				v.setFboardno(fboardno);
 				v.setFoname(file.getOriginalFilename());
-				v.setFsname("file"  + file.getOriginalFilename() ); // 이름 바꿔주자
 				v.setFsize(file.getSize());
+				v.setFsname("file"  +  file.getOriginalFilename() ); // 이름 바꿔주자
 				v.setMakeId(makeId);
 				v.setMakeDay(new Date());
 				//date 관련은 다 생성자에서 넣어주자.
