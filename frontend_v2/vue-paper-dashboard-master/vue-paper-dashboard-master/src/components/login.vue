@@ -79,8 +79,8 @@ export default {
   props: {},
   methods: {
     kakao() {
-      setTimeout(() => {
-        if (storage.getItem("kakaoid").length > 0) {
+      if (storage.getItem("kakao") === "true") {
+        setTimeout(() => {
           this.$store.dispatch("kakao", {
             kakaoid: storage.getItem("kakaoid"),
             email: storage.getItem("kakaoemail"),
@@ -90,20 +90,12 @@ export default {
             storage.setItem("kakaoid", "");
             storage.setItem("kakaoemail", "");
           }, 500);
-        } else {
-          setTimeout(() => {
-            this.$store.dispatch("kakao", {
-              kakaoid: storage.getItem("kakaoid"),
-              email: storage.getItem("kakaoemail"),
-            });
-            setTimeout(() => {
-              storage.setItem("kakao", false);
-              storage.setItem("kakaoid", "");
-              storage.setItem("kakaoemail", "");
-            }, 500);
-          }, 500);
-        }
-      }, 1000);
+        }, 500);
+      } else {
+        setTimeout(() => {
+          this.kakao();
+        }, 500);
+      }
     },
     onSuccess: (data) => {
       Kakao.API.request({

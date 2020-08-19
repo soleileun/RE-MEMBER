@@ -172,7 +172,9 @@
     </ul>
         -->
         <notfound v-if="rows === 0" />
-        <div v-else class="col-md-8">
+        <div v-else class="col-md-8" style="position:relative">
+            <i class="ti-angle-left leff" @click="mouseover(1)" style="position:absolute;top:50%; left:0; z-index:5"></i>
+            <i class="ti-angle-right rigg" @click="mouseover(3)" style="position:absolute;top:50%; right:0; z-index:5"></i>
           <ul class="cards" id="poolpage">
             <li class="cards__item" v-for="(pool,index) in extendpools.slice(currentPage-1,currentPage-1+perPage)" :key="index">
               <div class="card">
@@ -324,7 +326,7 @@
           </ul>
           <!-- <b-pagination v-model="currentPage" :total-rows="rows" :per-page="perPage" aria-controls="poolpage" align="center"></b-pagination> -->
           <div>
-            <input type="range" v-model="currentPage" min="1" :max="extendpools.length-4" style="width:60%;margin-left:20%;" />
+            <input type="range" v-model="currentPage" min="1" :max="extendpools.length-4" style="width:60%;margin-left:20%;height:50px" />
           </div>
         </div>
       </div>
@@ -395,7 +397,7 @@ export default {
       ],
       picks: [],
       inputVal: "",
-
+      delays: false,
       cursor: 0,
     };
   },
@@ -445,6 +447,23 @@ export default {
     this.$store.dispatch(Constant.GET_SIDOLIST);
   },
   methods: {
+    mouseover(idx) {
+      if (!this.delays) {
+        this.delays = true;
+        if (idx === 3) {
+          this.currentPage++;
+          if (this.currentPage === this.extendpools.length - 3) {
+            this.currentPage--;
+          }
+        } else if (idx === 1) {
+          this.currentPage--;
+          if (this.currentPage === 0) {
+            this.currentPage++;
+          }
+        }
+        this.delays = false;
+      }
+    },
     //페이징
     urls(id) {
       let url = this.$store.state.filestore.fileUrl + id + ".png";
@@ -635,7 +654,18 @@ th {
 *::after {
   box-sizing: border-box;
 }
-
+.leff,
+.rigg {
+  color: black;
+  text-shadow: #fff 1px 1px 1px;
+  font-size: 40px;
+  &:hover {
+    font-size: 50px;
+    cursor: pointer;
+    background-color: #ccc;
+    border-radius: 50%;
+  }
+}
 html {
   background-color: #f0f0f0;
 }
@@ -669,18 +699,19 @@ img {
   display: block;
   width: 100%;
 }
-div.col-md-4{
-z-index: 1;
+div.col-md-4 {
+  z-index: 1;
 }
-div.col-md-8{
-  
-z-index: 0;
+div.col-md-8 {
+  z-index: 0;
+  height: 100%;
 }
 
 .cards {
+  overflow-y: scroll;
   overflow: visible;
   width: 100%;
-  height: 100%;
+  height: 650px;
   display: flex;
   flex-flow: row;
   justify-content: center;
@@ -709,28 +740,26 @@ z-index: 0;
 }
 
 @media (max-width: 767px) {
-  .cards{
-    
-  margin-left: 100px;
+  .cards {
+    margin-left: 100px;
   }
- .cards__item {
-  display: flex;
-  padding: 1rem;
-  width: 300px;
-  margin-left: -200px;
-  height: 600px;
-} 
+  .cards__item {
+    display: flex;
+    padding: 1rem;
+    width: 300px;
+    margin-left: -200px;
+    height: 600px;
+  }
 }
 @media (min-width: 768px) {
-.cards__item {
-  display: flex;
-  padding: 1rem;
-  width: 500px;
-  margin-left: -400px;
-  height: 600px;
-}  
+  .cards__item {
+    display: flex;
+    padding: 1rem;
+    width: 500px;
+    margin-left: -400px;
+    height: 600px;
+  }
 }
-
 
 .card {
   background-color: white;

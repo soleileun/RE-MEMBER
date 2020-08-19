@@ -113,7 +113,7 @@ const userstore = {
           document.querySelector('.login').classList.remove('active')
           document.querySelector('body div').classList.remove('nav-open')
           storage.setItem('kakaosignup', 'true')
-          storage.setItem('kakaosignupID', payload.id)
+          storage.setItem('kakaosignupID', payload.kakaoid*1)
           storage.setItem('kakaosignupEmail', payload.email)
           let tmp = document.querySelector('#emailid');
           if (tmp) {
