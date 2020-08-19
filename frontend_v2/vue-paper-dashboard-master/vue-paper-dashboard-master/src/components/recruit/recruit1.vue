@@ -17,9 +17,9 @@
         </div>
 
         <div class="col-2">
-          <div class="button-7" style="float: none; margin: 0 auto;">
+          <div @click="searchPool()" class="button-7" style="float: none; margin: 0 auto;">
             <div class="eff-7"></div>
-            <a @click="searchPool()">프로젝트 검색</a>
+            <a >프로젝트 검색</a>
           </div>
         </div>
       </div>
@@ -225,9 +225,7 @@
             :key="index"
             :recruit="recruit"
             :pid="recruit.pid"
-            @delete-recruit="deleteRecruit"
-            @open-modify="openModify"
-            @modify-recruit="modifyRecruit"
+           
           />
         </div>
         <b-pagination
@@ -609,15 +607,15 @@ export default {
       this.add(document.querySelector(`.pk${this.cursor}`).innerText)
     },
 
-    deleteRecruit(rnum) {
-      this.$emit("delete-recruit", rnum);
-    },
-    modifyRecruit() {
-      this.$emit("modify-recruit");
-    },
-    openModify() {
-      this.$emit("open-modify");
-    },
+    // deleteRecruit(rnum) {
+    //   this.$emit("delete-recruit", rnum);
+    // },
+    // modifyRecruit() {
+    //   this.$emit("modify-recruit");
+    // },
+    // openModify() {
+    //   this.$emit("open-modify");
+    // },
   },
 };
 </script>

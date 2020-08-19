@@ -17,6 +17,32 @@ public class RecruitPjt {
 	private int cnt;
 	private int pjtMemberCnt;
 	private String rstate;
+	private String nickname;
+	
+	public RecruitPjt(int rnum, int pid, String title, String contents, Date endDate, Date makeDay, Date changeDay,
+			String makeId, String changeId, String pjtName, int cnt, int pjtMemberCnt, String rstate, String nickname) {
+		super();
+		this.rnum = rnum;
+		this.pid = pid;
+		this.title = title;
+		this.contents = contents;
+		this.endDate = endDate;
+		this.makeDay = makeDay;
+		this.changeDay = changeDay;
+		this.makeId = makeId;
+		this.changeId = changeId;
+		this.pjtName = pjtName;
+		this.cnt = cnt;
+		this.pjtMemberCnt = pjtMemberCnt;
+		this.rstate = rstate;
+		this.nickname = nickname;
+	}
+	public String getNickname() {
+		return nickname;
+	}
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
+	}
 	public RecruitPjt(int rnum, int pid, String title, String contents, Date endDate, Date makeDay, Date changeDay,
 			String makeId, String changeId, String pjtName, int cnt, int pjtMemberCnt, String rstate) {
 		super();

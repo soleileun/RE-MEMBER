@@ -33,6 +33,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.google.code.geocoder.Geocoder;
+import com.google.code.geocoder.GeocoderRequestBuilder;
+import com.google.code.geocoder.model.GeocodeResponse;
+import com.google.code.geocoder.model.GeocoderRequest;
+import com.google.code.geocoder.model.GeocoderResult;
+import com.google.code.geocoder.model.GeocoderStatus;
+import com.google.code.geocoder.model.LatLng;
 import com.ssafy.test.model.dto.Addr;
 import com.ssafy.test.model.dto.Email;
 import com.ssafy.test.model.dto.Inter;
@@ -396,6 +403,7 @@ public class UserInfoController {
    public ResponseEntity<List<Pools>> getRecommendedUser(@PathVariable String id) {
 
 	  List<Pools> v = new ArrayList<>();
+	  List<Pools> send = new ArrayList<>();
       List<UserInfo> list = uiService.getRecommendedUser(id);
       for(int i=0;i<list.size();i++) {
     	  UserInfo tmp = uiService.select(list.get(i).getId());
@@ -404,26 +412,17 @@ public class UserInfoController {
     	  }
       }
    
-      System.out.println("TEST v.size() :" +v.size());
-      System.out.println("TEST element :" +v.get(0).toString());
-      System.out.println("TEST element :" +v.get(1).toString());
-      System.out.println("TEST element :" +v.get(2).toString());
-      ////////////////TEST//////////////////////////////
-      
       for (int i = 0; i < v.size(); i++) {
          List<PidPjt> ptmp = new ArrayList<PidPjt>();
          List<Inter> itmp = new ArrayList<Inter>();
          String a = v.get(i).getProjects();
          String b = v.get(i).getInterests();
-         System.out.println("a,b TEST");
-         System.out.println(a); System.out.println(b);
+        
          if (a != null) {
             String[] atmp = a.split(",");
             for (int j = 0; j < atmp.length; j++) {
-               //System.out.println("atmp : " + atmp[j]);
                String[] s = atmp[j].split(";");
                int pid = Integer.parseInt(s[0]);
-              // System.out.println("s[1] : " + s[1]);
              Project pjt = pjtService.select(pid);
              PidPjt p = new PidPjt();
              p.setPid(pjt.getPid());p.setPjtName(pjt.getPjtName());
@@ -439,14 +438,35 @@ public class UserInfoController {
                itmp.add(it);
             }
          }
-      
          v.get(i).setInterest(itmp);
          v.get(i).setProject(ptmp);
+      }
+      Random rand = new Random();  int idx = 0;
+      boolean[] visit = new boolean [v.size()];
+      if(v.size()<=3) {
+    	  
+      }
+      if(v.size() <3) {
+    	for(int i=0;i<v.size();i++) {
+    		send.add(v.get(i));
+    	}
+      }else {
+    
+    	  while(true) {
+    		  if(idx ==3) break;
+    		  int n = rand.nextInt(v.size());
+    		  if(!visit[n]) {
+    			  send.add(v.get(n));
+    			  visit[n] =true;
+    			  idx++;
+    		  }
+    	  }
       }
       
       
       
-      return new ResponseEntity<List<Pools>>(v, HttpStatus.OK);
+    
+      return new ResponseEntity<List<Pools>>(send, HttpStatus.OK);
    }
 
    @GetMapping("/getRecommended/PJT/{id}")
@@ -484,7 +504,7 @@ public class UserInfoController {
          projects.add(tmp);
       
       }
-      System.out.println(projects.size());
+//      System.out.println(projects.size());
       
       if(projects.size() <3) {
     	  for(int i=0;i<projects.size();i++) {
@@ -570,7 +590,7 @@ public class UserInfoController {
    public ResponseEntity<String> insertUser(@RequestBody UserInfo q)
          throws MessagingException, UnsupportedEncodingException {
       logger.debug("insertUser - 호출");
-      System.out.println(q.toString());
+//      System.out.println(q.toString());
   
       boolean emailTest = checkRex(q.getId(), "id");
       boolean pwTest = checkRex(q.getPw(), "password");
@@ -597,9 +617,11 @@ public class UserInfoController {
             MailHandler sendMail = new MailHandler(mailSender);
             sendMail.setSubject("[이메일 인증]");
             sendMail.setText(new StringBuffer().append("<h1>메일인증</h1>")
-                  .append("<a href='https://localhost:8080/api/email/validKey=").append(key)
-                  .append("' target='_blenk'>이메일 인증 확인</a>").toString());
-            sendMail.setFrom("test@gmail.com", "admin");
+                    .append("<a href='http://localhost:8080/api/email/validation/")              
+                    .append(key)
+                    .append("' target='_blank'>이메일 인증하기</a>")
+                    .toString());
+            sendMail.setFrom("ADIM@REMEMBER.COM", "RE:MEMBER");
             sendMail.setTo(q.getId());
             sendMail.send();
 //            Message msg = new Message();
@@ -661,5 +683,52 @@ public class UserInfoController {
 
       return false;
    }
+   
+   public static Float[] geoCoding(String location) {
+
+	   if (location == null)  
+	   return null;
+	   Geocoder geocoder = new Geocoder();
+	   // setAddress : 변환하려는 주소 (경기도 성남시 분당구 등)
+	   // setLanguate : 인코딩 설정
+
+	   GeocoderRequest geocoderRequest = new GeocoderRequestBuilder().setAddress(location).setLanguage("ko").getGeocoderRequest();
+
+	   GeocodeResponse geocoderResponse;
+
+
+
+	   try {
+
+	   geocoderResponse = geocoder.geocode(geocoderRequest);
+
+	   if (geocoderResponse.getStatus() == GeocoderStatus.OK & !geocoderResponse.getResults().isEmpty()) {
+
+		   GeocoderResult geocoderResult=geocoderResponse.getResults().iterator().next();
+
+		   LatLng latitudeLongitude = geocoderResult.getGeometry().getLocation();
+
+		   				  
+
+		   Float[] coords = new Float[2];
+
+		   coords[0] = latitudeLongitude.getLat().floatValue();
+
+		   coords[1] = latitudeLongitude.getLng().floatValue();
+
+		   return coords;
+
+		   }
+
+		   } catch (IOException ex) {
+
+		   ex.printStackTrace();
+
+		   }
+
+		   return null;
+
+		   }
+
 
 }

@@ -103,7 +103,7 @@ export default {
       } else if (this.board.bcontent != "") {
         this.$store.dispatch(Constant.MODIFY_BOARD, { board: this.board });
         alert("수정이 완료되었습니다.");
-        let addr = "/freeboard/detailfree/" + this.board.bno + "/" + this.type;
+        let addr = "/freeboard/detailfree/" + this.board.bno + "/" + this.type + '/' + this.$route.params.currentPage;
         this.$router.push(addr);
       } else {
         console.log("공백입력.");
@@ -111,7 +111,7 @@ export default {
       // this.clear();
     },
     back() {
-      let addr = "/freeboard/detailfree/" + this.board.bno + "/" + this.type;
+      let addr = "/freeboard/detailfree/" + this.board.bno + "/" + this.type + '/' + this.$route.params.currentPage;
       this.$router.push(addr);
     },
     // clear() {

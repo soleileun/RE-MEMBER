@@ -64,7 +64,7 @@ const routes = [{
         component: main
       },
       {
-        path: "freeboard/type/:type",
+        path: "freeboard/type/:type/:currentPage",
         name: "자유게시판",
         component: freeboard,
       },
@@ -106,17 +106,17 @@ const routes = [{
       /////////// 잎파리
 
       {
-        path: "/freeboard/writefree/:type",
+        path: "/freeboard/writefree/:type/:currentPage",
         name: "자유게시판 글쓰기",
         component: writefree,
       },
       {
-        path: "/freeboard/detailfree/:bno/:type",
+        path: "/freeboard/detailfree/:bno/:type/:currentPage",
         name: "자유게시판 글",
         component: detailfree,
       },
       {
-        path: "/freeboard/modifyfree/:bno/:type",
+        path: "/freeboard/modifyfree/:bno/:type/:currentPage",
         name: "글 수정",
         component: modifyfree,
       }, {
