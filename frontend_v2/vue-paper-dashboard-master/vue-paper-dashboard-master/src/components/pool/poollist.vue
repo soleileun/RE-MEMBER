@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div >
     <div>
       <div class="row" style="margin:8px;">
         <div class="col-12">
@@ -175,7 +175,7 @@
         <div v-else class="col-md-8" style="position:relative">
             <i class="ti-angle-left leff" @click="mouseover(1)" style="position:absolute;top:50%; left:0; z-index:5"></i>
             <i class="ti-angle-right rigg" @click="mouseover(3)" style="position:absolute;top:50%; right:0; z-index:5"></i>
-          <ul class="cards" id="poolpage">
+          <ul class="cards cards-ul" id="poolpage">
             <li class="cards__item" v-for="(pool,index) in extendpools.slice(currentPage-1,currentPage-1+perPage)" :key="index">
               <div class="card">
                 <div v-if="pool.responsibility === '디자인'" class="card__image card__image--designer" style="position:relative">
@@ -947,5 +947,13 @@ div.col-md-8 {
   flex-direction: column;
   min-height: 470px;
   height: 100%;
+}
+.cards-ul {
+  padding-top:40px;
+  padding-bottom:40px;
+  padding-left:400px;
+  overflow:hidden;
+  margin-left: 20px;
+
 }
 </style>
