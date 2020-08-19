@@ -1,8 +1,8 @@
 <template>
   <div class="follows">
+      <h4>활동중인 유저</h4>
     <div v-if="followings.length===0">팔로우한 사람이 없습니다.</div>
     <div v-if="followings">
-      <h4>활동중인 유저</h4>
       <div v-if="!followings.filter(item=> item.state ===true).length===0">활동중인 팔로우가 없습니다.</div>
       <div
         class="follow"
