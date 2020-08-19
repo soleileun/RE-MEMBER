@@ -47,16 +47,16 @@ public class EmailController {
 	private JavaMailSender mailSender;
 
     @ApiOperation(value = "key를 입력받아서 있으면 유저 valid를 true로 바꿔줌 ", response = Email.class)    
-	@GetMapping("{validKey}")
-	public ResponseEntity<Email> validKey(@PathVariable String validKey) {
-		System.out.println(validKey);
+	@GetMapping("/validation/{validKey}")
+	public ResponseEntity<String> validKey(@PathVariable String validKey) {
+//		System.out.println(validKey);
 		Email temp = eService.selectByKey(validKey);
 		if (temp != null) {
 			uiService.updateVal(temp.getUserEmail());
 			eService.delete(temp.getUserEmail());
-		return new ResponseEntity<Email>(temp, HttpStatus.OK);
+		return new ResponseEntity<String>("이메일이 인증되었습니다", HttpStatus.OK);
 		}else {
-			return new ResponseEntity<Email>(temp, HttpStatus.NO_CONTENT); 
+			return new ResponseEntity<String>("인증 실패 ㅠㅠ", HttpStatus.NO_CONTENT); 
 		}
 	}
     
@@ -86,18 +86,17 @@ public class EmailController {
 //    		return new ResponseEntity<String>("회원가입이 필요한 회원임", HttpStatus.NO_CONTENT);
 //    	}
     	//이메일 인증
-		String key = new MailTempKey().getKey(50, false);
+		String key = new MailTempKey().getKey(15, false);
 		Email e = new Email(id,key) ;
         eService.insert(e);
         MailHandler sendMail = new MailHandler(mailSender);
         sendMail.setSubject("[이메일 인증]");
         sendMail.setText(new StringBuffer().append("<h1>메일인증</h1>")
-                .append("<a href='http://localhost:8080/api/email/validKey=")
-                
+                .append("<a href='http://localhost:8080/api/email/validation/")              
                 .append(key)
-                .append("' target='_blenk'>이메일 인증 확인</a>")
+                .append("' target='_blank'>이메일 인증하기</a>")
                 .toString());
-        sendMail.setFrom("test@gmail.com", "admin");
+        sendMail.setFrom("ADIM@REMEMBER.COM", "RE:MEMBER");
         sendMail.setTo(id);
         sendMail.send();
 		
