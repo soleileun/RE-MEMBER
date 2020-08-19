@@ -1,9 +1,7 @@
 package com.ssafy.test.controller;
 
-import java.io.IOException;
+
 import java.io.UnsupportedEncodingException;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,7 +11,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.mail.MessagingException;
-import javax.net.ssl.HttpsURLConnection;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -33,13 +30,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.google.code.geocoder.Geocoder;
-import com.google.code.geocoder.GeocoderRequestBuilder;
-import com.google.code.geocoder.model.GeocodeResponse;
-import com.google.code.geocoder.model.GeocoderRequest;
-import com.google.code.geocoder.model.GeocoderResult;
-import com.google.code.geocoder.model.GeocoderStatus;
-import com.google.code.geocoder.model.LatLng;
+
 import com.ssafy.test.model.dto.Addr;
 import com.ssafy.test.model.dto.Email;
 import com.ssafy.test.model.dto.Inter;
@@ -81,10 +72,6 @@ import io.swagger.annotations.ApiOperation;
 @RestController
 @RequestMapping("/api/userinfo")
 public class UserInfoController {
-	
-	
-	
-	
 
    private static final Logger logger = LoggerFactory.getLogger(UserInfoController.class);
    private static final String SUCCESS = "success";
@@ -341,7 +328,7 @@ public class UserInfoController {
       Map<String, Object> resultMap = new HashMap<>();
          HttpStatus status = null;
 
-    	 System.out.println(kakaoId);
+//    	 System.out.println(kakaoId);
          try {
              UserInfo loginUser = uiService.loginForKakao(kakaoId);
              System.out.println(loginUser.toString());
@@ -354,9 +341,9 @@ public class UserInfoController {
              resultMap.put("data", loginUser);
              status = HttpStatus.ACCEPTED;
           } catch (RuntimeException e) {
-//             logger.error("로그인 안됨", e);
-//             resultMap.put("message", e.getMessage());
-             status = HttpStatus.OK;
+             logger.error("로그인 안됨", e);
+             resultMap.put("message", e.getMessage());
+             status = HttpStatus.INTERNAL_SERVER_ERROR;
           }
           return new ResponseEntity<Map<String, Object>>(resultMap, status);
          
@@ -398,42 +385,76 @@ public class UserInfoController {
       List<UserInfo> list = uiService.getAddressList(pid);
       return new ResponseEntity<List<UserInfo>>(list, HttpStatus.OK);
    }
+   
 
    @GetMapping("/getRecommended/User/{id}")
-   public ResponseEntity<List<UserSimple>> getRecommendedUser(@PathVariable String id) {
-	
+   public ResponseEntity<List<Pools>> getRecommendedUser(@PathVariable String id) {
+
+	  List<Pools> v = new ArrayList<>();
+	  List<Pools> send = new ArrayList<>();
       List<UserInfo> list = uiService.getRecommendedUser(id);
-      List<UserSimple> users = new ArrayList<>();
-     
-      for (int i = 0; i < list.size(); i++) {
-         if (list.get(i).getId().equals(id))
-            continue;
-         UserInfo tmp = uiService.select(list.get(i).getId());
-         UserSimple us = new UserSimple(tmp.getId(), tmp.getNickname(), tmp.getGit(), tmp.getLastDate(),
-               tmp.isState(), tmp.getResponsibility(), tmp.isLeaveUser());
-         users.add(us);
+      for(int i=0;i<list.size();i++) {
+    	  UserInfo tmp = uiService.select(list.get(i).getId());
+    	  if(tmp.isState() == true) {
+    		v.add(uiService.searchPoolById(tmp.getId()));  
+    	  }
       }
-      List<UserSimple> simple = new ArrayList<>();
-      if(users.size() <3) {
-    	  int num = 3-users.size();
-    	  for(int i=0;i<num;i++)
-    		  users.add(users.get(i));
+   
+      for (int i = 0; i < v.size(); i++) {
+         List<PidPjt> ptmp = new ArrayList<PidPjt>();
+         List<Inter> itmp = new ArrayList<Inter>();
+         String a = v.get(i).getProjects();
+         String b = v.get(i).getInterests();
+        
+         if (a != null) {
+            String[] atmp = a.split(",");
+            for (int j = 0; j < atmp.length; j++) {
+               String[] s = atmp[j].split(";");
+               int pid = Integer.parseInt(s[0]);
+             Project pjt = pjtService.select(pid);
+             PidPjt p = new PidPjt();
+             p.setPid(pjt.getPid());p.setPjtName(pjt.getPjtName());
+             p.setPjtContent(pjt.getPjtContent());
+             ptmp.add(p);
+               
+            }
+         }
+         if (b != null) {
+            String[] btmp = b.split(",");
+            for (int j = 0; j < btmp.length; j++) {
+               Inter it = new Inter(btmp[j]);
+               itmp.add(it);
+            }
+         }
+         v.get(i).setInterest(itmp);
+         v.get(i).setProject(ptmp);
+      }
+      Random rand = new Random();  int idx = 0;
+      boolean[] visit = new boolean [v.size()];
+      if(v.size()<=3) {
+    	  
+      }
+      if(v.size() <3) {
+    	for(int i=0;i<v.size();i++) {
+    		send.add(v.get(i));
+    	}
       }else {
-    	  boolean[] visit = new boolean [users.size()];
-    	  int idx = 0;
-    	  Random rand = new Random();
+    
     	  while(true) {
     		  if(idx ==3) break;
-    		  int n = rand.nextInt(users.size());
+    		  int n = rand.nextInt(v.size());
     		  if(!visit[n]) {
-    			  simple.add(users.get(n));
+    			  send.add(v.get(n));
     			  visit[n] =true;
     			  idx++;
     		  }
-    		  
     	  }
       }
-      return new ResponseEntity<List<UserSimple>>(simple, HttpStatus.OK);
+      
+      
+      
+    
+      return new ResponseEntity<List<Pools>>(send, HttpStatus.OK);
    }
 
    @GetMapping("/getRecommended/PJT/{id}")
@@ -471,7 +492,7 @@ public class UserInfoController {
          projects.add(tmp);
       
       }
-      System.out.println(projects.size());
+//      System.out.println(projects.size());
       
       if(projects.size() <3) {
     	  for(int i=0;i<projects.size();i++) {
@@ -557,7 +578,7 @@ public class UserInfoController {
    public ResponseEntity<String> insertUser(@RequestBody UserInfo q)
          throws MessagingException, UnsupportedEncodingException {
       logger.debug("insertUser - 호출");
-      System.out.println(q.toString());
+//      System.out.println(q.toString());
   
       boolean emailTest = checkRex(q.getId(), "id");
       boolean pwTest = checkRex(q.getPw(), "password");
@@ -651,51 +672,42 @@ public class UserInfoController {
       return false;
    }
    
-   public static Float[] geoCoding(String location) {
+   private static double distance(double lat1, double lon1, double lat2, double lon2, String unit) {
 
-	   if (location == null)  
-	   return null;
-	   Geocoder geocoder = new Geocoder();
-	   // setAddress : 변환하려는 주소 (경기도 성남시 분당구 등)
-	   // setLanguate : 인코딩 설정
-
-	   GeocoderRequest geocoderRequest = new GeocoderRequestBuilder().setAddress(location).setLanguage("ko").getGeocoderRequest();
-
-	   GeocodeResponse geocoderResponse;
+//    ** 사용법 킬로미터(Kilo Meter) 단위
+//       double distanceKiloMeter =
+//               distance(37.504198, 127.047967, 37.501025, 127.037701, "km");
 
 
+       double theta = lon1 - lon2;
+       double dist = Math.sin(degTorad(lat1)) * Math.sin(degTorad(lat2)) + Math.cos(degTorad(lat1)) * Math.cos(degTorad(lat2)) * Math.cos(degTorad(theta));
+        
+       dist = Math.acos(dist);
+       dist = radTodeg(dist);
+       dist = dist * 60 * 1.1515;
+        
+       if (unit == "km") {
+           dist = dist * 1.609344;
+       } else if(unit == "m"){
+           dist = dist * 1609.344;
+       }
 
-	   try {
+       return (dist);
+   }
+    
+   private static double degTorad(double deg) {
+       return (deg * Math.PI / 180.0);
+   }
+    
+   private static double radTodeg(double rad) {
+       return (rad * 180 / Math.PI);
+   }
 
-	   geocoderResponse = geocoder.geocode(geocoderRequest);
 
-	   if (geocoderResponse.getStatus() == GeocoderStatus.OK & !geocoderResponse.getResults().isEmpty()) {
+   
+   
 
-		   GeocoderResult geocoderResult=geocoderResponse.getResults().iterator().next();
-
-		   LatLng latitudeLongitude = geocoderResult.getGeometry().getLocation();
-
-		   				  
-
-		   Float[] coords = new Float[2];
-
-		   coords[0] = latitudeLongitude.getLat().floatValue();
-
-		   coords[1] = latitudeLongitude.getLng().floatValue();
-
-		   return coords;
-
-		   }
-
-		   } catch (IOException ex) {
-
-		   ex.printStackTrace();
-
-		   }
-
-		   return null;
-
-		   }
-
+   
+   
 
 }

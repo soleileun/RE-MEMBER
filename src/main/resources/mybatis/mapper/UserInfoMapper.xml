@@ -8,9 +8,9 @@
 	<!-- 회원 가입 -->
 	<insert id="insert" parameterType="userinfo">
 		insert into userInfo
-		(id,nickname,name,pw,address1,address2,phone,git,points,lastDate,state,responsibility,kakaoId)
+		(id,nickname,name,pw,address1,address2,phone,git,points,lastDate,state,responsibility,kakaoId,y,x)
 		values
-		(#{id},#{nickname},#{name},#{pw},#{address1},#{address2},#{phone},#{git},#{points},#{lastDate},#{state},#{responsibility},#{kakaoId})
+		(#{id},#{nickname},#{name},#{pw},#{address1},#{address2},#{phone},#{git},#{points},#{lastDate},#{state},#{responsibility},#{kakaoId},#{y},#{x})
 	</insert>
 
 	<!-- 회원 수정 -->
@@ -48,7 +48,7 @@
 	<!-- 로그인 회원 조회 -->
 	<select id="select" parameterType="string" resultType="userinfo">
 		select
-		id,nickname,name,pw,leaveUser,git,intro,kakaoId,state
+		id,nickname,name,pw,leaveUser,git,intro,kakaoId,state,y,x
 		from userInfo where id=#{id}
 	</select>
 
