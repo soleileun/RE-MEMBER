@@ -21,15 +21,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="select" parameterType="int" resultType="board">
-		select * from board
-		where bno =#{bno}
+		
+    select board.*, userInfo.nickname from board, userInfo
+	where bno =#{bno} and board.bwriter = userInfo.id;
+
 	
 	</select>
 	
 
 	<select id="getComments" parameterType="int" resultType="comments">
-		select * from comments
-		where bno =#{bno}
+		select comments.*, userInfo.nickname from comments, userInfo
+		where bno =#{bno} and cwriter = userInfo.id
 		order by bno desc
 	
 	</select>
