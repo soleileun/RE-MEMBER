@@ -405,12 +405,6 @@ public class UserInfoController {
     	  }
       }
    
-      System.out.println("TEST v.size() :" +v.size());
-      System.out.println("TEST element :" +v.get(0).toString());
-      System.out.println("TEST element :" +v.get(1).toString());
-      System.out.println("TEST element :" +v.get(2).toString());
-      ////////////////TEST//////////////////////////////
-      
       for (int i = 0; i < v.size(); i++) {
          List<PidPjt> ptmp = new ArrayList<PidPjt>();
          List<Inter> itmp = new ArrayList<Inter>();
@@ -503,7 +497,7 @@ public class UserInfoController {
          projects.add(tmp);
       
       }
-      System.out.println(projects.size());
+//      System.out.println(projects.size());
       
       if(projects.size() <3) {
     	  for(int i=0;i<projects.size();i++) {
@@ -589,7 +583,7 @@ public class UserInfoController {
    public ResponseEntity<String> insertUser(@RequestBody UserInfo q)
          throws MessagingException, UnsupportedEncodingException {
       logger.debug("insertUser - 호출");
-      System.out.println(q.toString());
+//      System.out.println(q.toString());
   
       boolean emailTest = checkRex(q.getId(), "id");
       boolean pwTest = checkRex(q.getPw(), "password");
