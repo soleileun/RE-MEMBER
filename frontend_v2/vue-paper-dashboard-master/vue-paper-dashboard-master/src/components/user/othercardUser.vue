@@ -6,7 +6,7 @@
     <div>
       <div class="author">
         <img class="avatar border-white" :src="url" alt="..." />
-        <h4 class="title">{{userid}}</h4>
+        <h4 class="title">{{btitle}}</h4>
       </div>
     </div>
     <hr />
@@ -27,6 +27,7 @@ const storage = window.sessionStorage;
 export default {
   props: {
     userid: String,
+    btitle: String,
   },
   data() {
     return {
