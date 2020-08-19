@@ -113,16 +113,15 @@ const userstore = {
           document.querySelector('.login').classList.remove('active')
           document.querySelector('body div').classList.remove('nav-open')
           storage.setItem('kakaosignup', 'true')
-          storage.setItem('kakaosignupID', payload.id)
+          storage.setItem('kakaosignupID', payload.kakaoid*1)
           storage.setItem('kakaosignupEmail', payload.email)
           let tmp = document.querySelector('#emailid');
           if (tmp) {
             tmp.value = payload.email
           } else {
             setTimeout(() => {
-
               router.push({ path: '/signup' })
-            }, 800)
+            }, 1000)
           }
         }
       }).catch(e => alert('에러가 발생했습니다' + e))

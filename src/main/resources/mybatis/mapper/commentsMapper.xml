@@ -4,35 +4,39 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ssafy.test.Comments">
 	<select id="selectAll" resultType="comments">
-		select *
-		from comments
+		select comments.*, userInfo.nickname
+		from comments, userInfo
+		where cwriter = userInfo.id
 	</select>
 
 	<select id="select" parameterType="int" resultType="comments">
-		select *
-		from
-		comments
-		where cno =#{cno}
+		
+		select comments.*, userInfo.nickname
+		from comments, userInfo
+		where cwriter = userInfo.id and cno =#{cno}
 	</select>
 
 	<select id="selectedComments" parameterType="int"
 		resultType="comments">
-		select *
-		from comments
-		where bno =#{bno} and isSelected = 1
+		
+		select comments.*, userInfo.nickname
+		from comments, userInfo
+		where cwriter = userInfo.id and bno =#{bno} and isSelected = 1
 	</select>
 
 	<select id="searchById" parameterType="string"
 		resultType="comments">
-		select *
-		from comments
-		where cwriter =#{cwriter}
+		
+		select comments.*, userInfo.nickname
+		from comments, userInfo
+		where cwriter = userInfo.id and cwriter =#{cwriter}
 	</select>
 	<select id="searchSelectedComments" parameterType="string"
 		resultType="comments">
-		select *
-		from comments
-		where cwriter =#{cwriter} and
+		
+		select comments.*, userInfo.nickname
+		from comments, userInfo
+		where cwriter = userInfo.id and cwriter =#{cwriter} and
 		isSelected = 1
 	</select>
 

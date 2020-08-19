@@ -33,10 +33,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	where a.pid = b.pid
 	order by a.rnum desc;
 	-->
-			select a.*, b.cnt, b.nickname from(
-		select pid,count(*) as cnt, nickname from userInfo, pmember 
-        where pmember.userId = userInfo.id
-        group by pid,nickname
+			select a.*, b.cnt
+        from
+        (
+		select a.cnt, a.pid, pjtMemberCnt
+		from project,
+		(
+			select count(*) as cnt, pid
+			from pmember
+			group by pid
+		) as a
+		where a.pid = project.pid
         ) as b,
 (
 select r.rnum, r.pid, r.title, r.contents, r.endDate, r.makeDay, r.changeDay, r.makeId, r.changeId, p.pjtName, pi.interest
@@ -177,7 +184,8 @@ select r.rnum, r.pid, r.title, r.contents, r.endDate, r.makeDay, r.changeDay, r.
 
 	<select id="selectByAddr" resultType="recruitpjtpinterest"
 		parameterType="addr">
-		select a.*, b.cnt, b.nickname from(
+		select distinct a.* from 
+		(select a.*, b.cnt, b.nickname from(		
 		select pid,count(*) as cnt, nickname from userInfo, pmember 
         where pmember.userId = userInfo.id
         group by pid,nickname
@@ -194,7 +202,7 @@ select r.rnum, r.pid, r.title, r.contents, r.endDate, r.makeDay, r.changeDay, r.
 		) as p
 		on r.pid = p.pid
 		) as a
-		on b.pid = a.pid) as a, right join (
+		on b.pid = a.pid) as a right join (
 		
 		
 		select r.rnum, r.pid, r.title, r.contents, r.endDate, r.makeDay, r.changeDay, r.makeId, r.changeId, p.pjtName, pi.interest 
@@ -218,8 +226,8 @@ select r.rnum, r.pid, r.title, r.contents, r.endDate, r.makeDay, r.changeDay, r.
 	
 	<select id="selectByAddrWriter" resultType="recruitpjtpinterest"
 		parameterType="searchparameter">
-		
-		select a.*, b.cnt, b.nickname from(
+		select distinct a.* from 
+		(select a.*, b.cnt, b.nickname from(		
 		select pid,count(*) as cnt, nickname from userInfo, pmember 
         where pmember.userId = userInfo.id
         group by pid,nickname
@@ -262,7 +270,8 @@ select r.rnum, r.pid, r.title, r.contents, r.endDate, r.makeDay, r.changeDay, r.
 	
 	<select id="selectByAddrTitle" resultType="recruitpjtpinterest"
 		parameterType="searchparameter">
-		select a.*, b.cnt, b.nickname from(
+		select distinct a.* from 
+		(select a.*, b.cnt, b.nickname from(		
 		select pid,count(*) as cnt, nickname from userInfo, pmember 
         where pmember.userId = userInfo.id
         group by pid,nickname
@@ -305,7 +314,9 @@ select r.rnum, r.pid, r.title, r.contents, r.endDate, r.makeDay, r.changeDay, r.
 
 	<select id="selectAllByWriter" resultType="recruitpjtpinterest"
 		parameterType="searchparameter">
-		select a.*, b.cnt, b.nickname from(
+		
+		select distinct a.* from 
+		(select a.*, b.cnt, b.nickname from(		
 		select pid,count(*) as cnt, nickname from userInfo, pmember 
         where pmember.userId = userInfo.id
         group by pid,nickname
@@ -359,7 +370,8 @@ select r.rnum, r.pid, r.title, r.contents, r.endDate, r.makeDay, r.changeDay, r.
 
 	<select id="selectAllByTitle" resultType="recruitpjtpinterest"
 		parameterType="searchparameter">
-		select a.*, b.cnt, b.nickname from(
+		select distinct a.* from 
+		(select a.*, b.cnt, b.nickname from(		
 		select pid,count(*) as cnt, nickname from userInfo, pmember 
         where pmember.userId = userInfo.id
         group by pid,nickname
@@ -439,7 +451,8 @@ select r.rnum, r.pid, r.title, r.contents, r.endDate, r.makeDay, r.changeDay, r.
 
 	<select id="selectAddrAndTag" parameterType="addrandtag"
 		resultType="recruit">
-		select a.*, b.cnt, b.nickname from(
+		select distinct a.* from 
+		(select a.*, b.cnt, b.nickname from(		
 		select pid,count(*) as cnt, nickname from userInfo, pmember 
         where pmember.userId = userInfo.id
         group by pid,nickname
@@ -456,7 +469,7 @@ select r.rnum, r.pid, r.title, r.contents, r.endDate, r.makeDay, r.changeDay, r.
 		) as p
 		on r.pid = p.pid
 		) as a
-		on b.pid = a.pid) as a, right join (
+		on b.pid = a.pid) as a right join (
 		
 		
 		

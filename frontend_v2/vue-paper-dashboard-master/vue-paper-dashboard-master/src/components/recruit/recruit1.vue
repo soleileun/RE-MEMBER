@@ -2,7 +2,7 @@
   <div class="recruit1" style="z-index:50;">
     <div>
       <div class="row" style="display : flex;">
-        <div class="col-6">
+        <div class="col-5">
           <p>
             <strong>프로젝트 검색</strong>
           </p>
@@ -16,10 +16,13 @@
           <fg-input type="text" placeholder="검색어를 입력하세요" id="keyword" style="width:85%;" />
         </div>
 
-        <div class="col-2">
+        <div class="col-3" style="display:flex;">
           <div @click="searchPool()" class="button-7" style="float: none; margin: 0 auto;">
             <div class="eff-7"></div>
-            <a >프로젝트 검색</a>
+            <a>프로젝트 검색</a>
+          </div>
+          <div>
+            <button v-if="loginId !== ''" id class="btn btn-primary" @click="openModal">구인글 등록</button>
           </div>
         </div>
       </div>
@@ -133,7 +136,7 @@
           </div>
         </div>
 
-        <br>
+        <br />
 
         <div class="row">
           <div class="col-12 selectform">
@@ -150,22 +153,7 @@
     </section>
 
     <!--  ////////////////////////////////////////////////////////////////////////// -->
-
-    <notfound v-if="rows === 0" />
-    <div v-else>
-      <div class="row">
-        <div class="col-10">
-          <select id="showcnt" @change="changeShowCnt">
-            <option value="6" selected>6개씩 보기</option>
-            <option value="12">12개씩 보기</option>
-            <option value="18">18개씩 보기</option>
-          </select>
-        </div>
-        <div class="col-2">
-          <button v-if="loginId !== ''" id class="btn btn-primary" @click="openModal">구인글 등록</button>
-        </div>
-      </div>
-      <!-- The Modal -->
+<!-- The Modal -->
       <div class="modal" id="momo" style="z-index : 100;">
         <div class="modal-content">
           <span class="close">&times;</span>
@@ -205,7 +193,11 @@
               <label for="subject">내용</label>
             </div>
             <div class="col-75">
-              <vue-editor class="viewEditor" v-model="wrecruit.contents" :editor-toolbar="customToolbar"></vue-editor>
+              <vue-editor
+                class="viewEditor"
+                v-model="wrecruit.contents"
+                :editor-toolbar="customToolbar"
+              ></vue-editor>
             </div>
           </div>
 
@@ -215,6 +207,19 @@
         </div>
       </div>
       <!-- Modal end  -->
+    <notfound v-if="rows === 0" />
+    <div v-else>
+      <div class="row">
+        <div class="col-10">
+          <select id="showcnt" @change="changeShowCnt">
+            <option value="6" selected>6개씩 보기</option>
+            <option value="12">12개씩 보기</option>
+            <option value="18">18개씩 보기</option>
+          </select>
+        </div>
+        <div class="col-2"></div>
+      </div>
+      
 
       <br />
 
@@ -225,7 +230,6 @@
             :key="index"
             :recruit="recruit"
             :pid="recruit.pid"
-           
           />
         </div>
         <b-pagination
@@ -359,10 +363,10 @@ export default {
   data() {
     return {
       customToolbar: [
-      ["bold", "italic", "underline"],
-      [{ list: "ordered" }, { list: "bullet" }],
-      [ "code-block"]
-    ],
+        ["bold", "italic", "underline"],
+        [{ list: "ordered" }, { list: "bullet" }],
+        ["code-block"],
+      ],
       //페이징
       perPage: 6,
       currentPage: 1,
@@ -425,8 +429,7 @@ export default {
       ],
       picks: [],
       inputVal: "",
-                  cursor: 0,
-
+      cursor: 0,
     };
   },
 
@@ -561,7 +564,7 @@ export default {
         setTimeout(() => {
           if (this.lists.length > 0) {
             this.cursor = 0;
-            document.querySelector(`.pk${this.cursor}`).classList.add('act');
+            document.querySelector(`.pk${this.cursor}`).classList.add("act");
           }
         }, 50);
       } else {
@@ -584,27 +587,31 @@ export default {
       }
     },
     upQ() {
-      document.querySelector(`.pk${this.cursor}`).classList.remove('act');
+      document.querySelector(`.pk${this.cursor}`).classList.remove("act");
       this.cursor--;
       if (this.cursor === -1) {
         this.cursor = this.lists.length - 1;
       }
-      document.querySelector(`.pk${this.cursor}`).classList.add('act');
+      document.querySelector(`.pk${this.cursor}`).classList.add("act");
       let location = document.querySelector(`.pk${this.cursor}`).offsetTop;
-      document.querySelector('.autoComplete').scrollTo({top:location, behavior:'auto'});
+      document
+        .querySelector(".autoComplete")
+        .scrollTo({ top: location, behavior: "auto" });
     },
     downQ() {
-      document.querySelector(`.pk${this.cursor}`).classList.remove('act');
+      document.querySelector(`.pk${this.cursor}`).classList.remove("act");
       this.cursor++;
       if (this.cursor === this.lists.length) {
         this.cursor = 0;
       }
-      document.querySelector(`.pk${this.cursor}`).classList.add('act');
+      document.querySelector(`.pk${this.cursor}`).classList.add("act");
       let location = document.querySelector(`.pk${this.cursor}`).offsetTop;
-      document.querySelector('.autoComplete').scrollTo({top:location, behavior:'auto'});
+      document
+        .querySelector(".autoComplete")
+        .scrollTo({ top: location, behavior: "auto" });
     },
     enterQ() {
-      this.add(document.querySelector(`.pk${this.cursor}`).innerText)
+      this.add(document.querySelector(`.pk${this.cursor}`).innerText);
     },
 
     // deleteRecruit(rnum) {
@@ -1135,43 +1142,43 @@ body {
 }
 
 .searchform {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    // height: 50px;
-    .autoComplete {
-      border: .5px gray solid;
-      position: absolute;
-      max-height: 100px;
-      overflow: auto;
-      background-color: white;
-      width: 98%;
-      left: 6px;
-      bottom: 45px;
-      cursor: pointer;
-      .act{
-        background-color: #aaa;
-      }
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  // height: 50px;
+  .autoComplete {
+    border: 0.5px gray solid;
+    position: absolute;
+    max-height: 100px;
+    overflow: auto;
+    background-color: white;
+    width: 98%;
+    left: 6px;
+    bottom: 45px;
+    cursor: pointer;
+    .act {
+      background-color: #aaa;
     }
-    .input {
-      height: 100%;
-      width: 100%;
+  }
+  .input {
+    height: 100%;
+    width: 100%;
 
-      font-size: 1.2rem;
-      border: 1px black solid;
-      padding: 5px;
-      input {
-        width: 100%;
-        height: 100%;
+    font-size: 1.2rem;
+    border: 1px black solid;
+    padding: 5px;
+    input {
+      width: 100%;
+      height: 100%;
+      border: none;
+      outline: none;
+      &:focus {
         border: none;
-        outline: none;
-        &:focus {
-          border: none;
-        }
       }
     }
   }
-  .cb{
+}
+.cb {
   min-height: 470px;
   height: 100%;
 }

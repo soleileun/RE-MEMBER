@@ -2,130 +2,106 @@
   <div>
     <div>
       <div class="row" style="margin:8px;">
-        <div class="col-6">
+        <div class="col-12">
           <p>
             <strong>인재 찾기</strong>
           </p>
+          <hr />
         </div>
+        <div class="filter-sidebar col-md-4" style="background-color:white">
+          <!-- 시군구동 검색 -->
+          <div class="card-body cb">
+            <div class style="display : flex;">
+              <p>
+                <strong>ID</strong>
+              </p>
+              <fg-input type="text" placeholder="아이디를 입력하세요" id="keyword1" style="width:85%;" />
+            </div>
+            <div class>
+              <label for="sido">
+                <strong>
+                  시도
+                  <span id="userid" class="text-danger"></span>
+                </strong>
+              </label>
 
-        <div class="col-4" style="display : flex;">
-          <p>
-            <strong>ID</strong>
-          </p>
-          <fg-input type="text" placeholder="아이디를 입력하세요" id="keyword1" style="width:85%;" />
-        </div>
-        <div class="col-2">
-          <div class="button-7" style="float: none; margin: 0 auto;">
-            <div class="eff-7"></div>
-            <a @click="searchPool()">프로젝트 검색</a>
+              <select id="sido" class="form-control" @change="changeSido(selectedSido)" v-model="selectedSido">
+                <option value="0">선택</option>
+                <option v-for="(sido, index) in sidoList" :value="sido" :key="index">
+                  {{
+                  sido
+                  }}
+                </option>
+              </select>
+              <br />
+              <label for="gugun">
+                <strong>
+                  구군
+                  <span id="userid" class="text-danger"></span>
+                </strong>
+              </label>
+              <select v-if="selectedSido!=0" id="gugun" class="form-control" @change="changeGugun(selectedSido, selectedGugun)" v-model="selectedGugun">
+                <option value="0">선택</option>
+                <option v-for="(gu, index) in gugunList" :value="gu" :key="index">
+                  {{
+                  gu
+                  }}
+                </option>
+              </select>
+              <select v-else id="gugun" class="form-control" disabled>
+                <option value="0">선택</option>
+              </select>
+              <br />
+
+              <label for="dong">
+                <strong>
+                  읍면동
+                  <span id="userid" class="text-danger"></span>
+                </strong>
+              </label>
+
+              <select v-if="selectedGugun!=0" id="dong" class="form-control" v-model="selectedDong">
+                <!-- @change="changeDong(selectedDong)" -->
+
+                <option value="0">선택</option>
+                <option v-for="(don, index) in dongList" :value="don" :key="index">
+                  {{
+                  don
+                  }}
+                </option>
+              </select>
+              <select v-else id="dong" class="form-control" disabled>
+                <option value="0">선택</option>
+              </select>
+            </div>
+            <hr />
+            <div class="row">
+              <div class="col-12 selectform">
+                <div class="btn btn-primary btn-round" v-for="(pick,index) in picks" :key="index" @click="deleteStack(index)" style="z-index : 0;">{{pick}}</div>
+              </div>
+            </div>
+            <br />
+            <div class="searchform">
+              <p>
+                <strong>기술스택</strong>
+              </p>
+              <div class="input">
+                <input type="text" v-model="inputVal" @input="searchQuery()" @keyup.up="upQ()" @keyup.down="downQ()" @keyup.enter="enterQ()" placeholder="스택 입력" />
+              </div>
+              <div class="autoComplete">
+                <div v-for="(list,index) in lists" :key="list" @click="add(list)" :class="`pk${index}`">{{list}}</div>
+              </div>
+            </div>
+            <hr />
+
+            <div class>
+              <div class="button-7" style="float: none; margin: 0 auto;">
+                <div class="eff-7"></div>
+                <a @click="searchPool()">프로젝트 검색</a>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
-    <hr />
-    <section class="filter-sidebar">
-      <!-- 시군구동 검색 -->
-
-      <div class="card-body cb">
-        <div class="row">
-          <label for="sido">
-            <strong>
-              시도
-              <span id="userid" class="text-danger"></span>
-            </strong>
-          </label>
-
-          <select
-            id="sido"
-            class="form-control"
-            @change="changeSido(selectedSido)"
-            v-model="selectedSido"
-          >
-            <option value="0">선택</option>
-            <option v-for="(sido, index) in sidoList" :value="sido" :key="index">
-              {{
-              sido
-              }}
-            </option>
-          </select>
-          <br />
-          <br />
-          <br />
-          <label for="gugun">
-            <strong>
-              구군
-              <span id="userid" class="text-danger"></span>
-            </strong>
-          </label>
-          <select
-            v-if="selectedSido!=0"
-            id="gugun"
-            class="form-control"
-            @change="changeGugun(selectedSido, selectedGugun)"
-            v-model="selectedGugun"
-          >
-            <option value="0">선택</option>
-            <option v-for="(gu, index) in gugunList" :value="gu" :key="index">
-              {{
-              gu
-              }}
-            </option>
-          </select>
-          <select v-else id="gugun" class="form-control" disabled>
-            <option value="0">선택</option>
-          </select>
-          <br />
-          <br />
-          <br />
-
-          <label for="dong">
-            <strong>
-              읍면동
-              <span id="userid" class="text-danger"></span>
-            </strong>
-          </label>
-
-          <select v-if="selectedGugun!=0" id="dong" class="form-control" v-model="selectedDong">
-            <!-- @change="changeDong(selectedDong)" -->
-
-            <option value="0">선택</option>
-            <option v-for="(don, index) in dongList" :value="don" :key="index">
-              {{
-              don
-              }}
-            </option>
-          </select>
-          <select v-else id="dong" class="form-control" disabled>
-            <option value="0">선택</option>
-          </select>
-        </div>
-        <hr />
-
-        <div class="col-12 searchform">
-          <p>
-            <strong>기술스택</strong>
-          </p>
-          <div class="input">
-            <input
-              type="text"
-              v-model="inputVal"
-              @input="searchQuery()"
-              @keyup.up="upQ()"
-              @keyup.down="downQ()"
-              @keyup.enter="enterQ()"
-              placeholder="스택 입력"
-            />
-          </div>
-          <div class="autoComplete">
-            <div
-              v-for="(list,index) in lists"
-              :key="list"
-              @click="add(list)"
-              :class="`pk${index}`"
-            >{{list}}</div>
-          </div>
-        </div>
-
         <!-- 
         <div class="row">
           <div class="searchform" style="width:100%;">
@@ -156,26 +132,10 @@
           </div>
         </div>-->
 
-        <br>
-
-
         <!-- 선택 스택들 -->
-        <div class="row">
-          <div class="col-12 selectform">
-            <div
-              class="btn btn-primary btn-round"
-              v-for="(pick,index) in picks"
-              :key="index"
-              @click="deleteStack(index)"
-              style="z-index : 0;"
-            >{{pick}}</div>
-          </div>
-        </div>
-      </div>
-    </section>
 
-    <!-- card layout -->
-    <!--
+        <!-- card layout -->
+        <!--
     <ul class="cards">
       <li class="cards__item" v-for="pool in pools" :key="pool.id">
         <div class="card">
@@ -210,181 +170,112 @@
         </div>
       </li>
     </ul>
-    -->
-    <notfound v-if="rows === 0" />
-    <div v-else>
-      <select id="showcnt" @change="changeShowCnt">
-        <option value="6" selected>6개씩 보기</option>
-        <option value="9">9개씩 보기</option>
-        <option value="12">12개씩 보기</option>
-      </select>
-      <ul class="cards overflow-auto" id="poolpage">
-        <li
-          class="cards__item"
-          v-for="(pool,index) in extendpools.slice(this.perPage*(currentPage-1),perPage*(currentPage))"
-          :key="index"
-        >
-          <div class="card">
-            <div
-              v-if="pool.responsibility === '디자인'"
-              class="card__image card__image--designer"
-              style="position:relative"
-            >
-              <img
-                class="avatar border-white"
-                :src="urls(pool.id)"
-                style="position:absolute;z-index:9;bottom:0;left:0"
-              />
-            </div>
-            <div
-              v-if="pool.responsibility === '개발'"
-              class="card__image card__image--developer"
-              style="position:relative"
-            >
-              <img
-                class="avatar border-white"
-                :src="urls(pool.id)"
-                style="position:absolute;z-index:1;bottom:0;left:0"
-              />
-            </div>
-            <div
-              v-if="pool.responsibility === '기획'"
-              class="card__image card__image--head"
-              style="position:relative"
-            >
-              <img
-                class="avatar border-white"
-                :src="urls(pool.id)"
-                style="position:absolute;z-index:1;bottom:0;left:0"
-              />
-            </div>
-            <div class="card__content">
-              <div class="card__title">
-                <div
-                  style="font-weight:800; display:inline-block; margin-right:4px;"
-                >{{pool.nickname}}</div>
-                <p
-                  v-if="pool.isValid ===1"
-                  style="display:inline-block; color:rgb(79, 245, 154); font-size:10px; text-align:right; margin-bottom:3px;"
-                >
-                  <img v-if="pool.isValid ===1" src="@/assets/img/checklist.png" title="인증된 유저입니다" />
-                </p>
+        -->
+        <notfound v-if="rows === 0" />
+        <div v-else class="col-md-8" style="position:relative">
+            <i class="ti-angle-left leff" @click="mouseover(1)" style="position:absolute;top:50%; left:0; z-index:5"></i>
+            <i class="ti-angle-right rigg" @click="mouseover(3)" style="position:absolute;top:50%; right:0; z-index:5"></i>
+          <ul class="cards" id="poolpage">
+            <li class="cards__item" v-for="(pool,index) in extendpools.slice(currentPage-1,currentPage-1+perPage)" :key="index">
+              <div class="card">
+                <div v-if="pool.responsibility === '디자인'" class="card__image card__image--designer" style="position:relative">
+                  <img class="avatar border-white" :src="urls(pool.id)" style="position:absolute;z-index:9;bottom:0;left:0" />
+                </div>
+                <div v-if="pool.responsibility === '개발'" class="card__image card__image--developer" style="position:relative">
+                  <img class="avatar border-white" :src="urls(pool.id)" style="position:absolute;z-index:1;bottom:0;left:0" />
+                </div>
+                <div v-if="pool.responsibility === '기획'" class="card__image card__image--head" style="position:relative">
+                  <img class="avatar border-white" :src="urls(pool.id)" style="position:absolute;z-index:1;bottom:0;left:0" />
+                </div>
+                <div class="card__content">
+                  <div class="card__title">
+                    <div style="font-weight:800; display:inline-block; margin-right:4px;">{{pool.nickname}}</div>
+                    <p v-if="pool.isValid ===1" style="display:inline-block; color:rgb(79, 245, 154); font-size:10px; text-align:right; margin-bottom:3px;">
+                      <img v-if="pool.isValid ===1" src="@/assets/img/checklist.png" title="인증된 유저입니다" />
+                    </p>
 
-                <p
-                  v-else
-                  style="display:inline-block; color:red;font-size:10px;text-align:right; margin-bottom:3px; "
-                >
-                  <img src="@/assets/img/error.png" title="미인증된 유저입니다" />
-                </p>
-                <div
-                  style="padding-top:0px;margin-top:0px; font-size:10px; margin-bottom:16px;"
-                >{{pool.id}}</div>
-              </div>
+                    <p v-else style="display:inline-block; color:red;font-size:10px;text-align:right; margin-bottom:3px; ">
+                      <img src="@/assets/img/error.png" title="미인증된 유저입니다" />
+                    </p>
+                    <div style="padding-top:0px;margin-top:0px; font-size:10px; margin-bottom:16px;">{{pool.id}}</div>
+                  </div>
 
-              <p class="card__text" style="font-weight:bold; margin-bottom:4px;">
-                <img v-if="pool.responsibility === '디자인'" src="@/assets/img/paint-palette.png" />
-                <img v-if="pool.responsibility === '개발'" src="@/assets/img/programming.png" />
-                <img v-if="pool.responsibility === '기획'" src="@/assets/img/procedure.png" />
-                {{pool.responsibility}}
-              </p>
-              <div class="inter">
-                <div
-                  v-for="(interest, idx) in pool.interest"
-                  :key="idx"
-                  style="margin:2px; display:inline-block"
-                >#{{interest.interest}},</div>
-                <div></div>
-              </div>
-              {{pool.intro}}
-              <hr />
-              <div style="font-size: 12px;">
-                <img src="@/assets/img/map-location.png" title="위치는 여기!" />
-                {{pool.address2}}
-              </div>
+                  <p class="card__text" style="font-weight:bold; margin-bottom:4px;">
+                    <img v-if="pool.responsibility === '디자인'" src="@/assets/img/paint-palette.png" />
+                    <img v-if="pool.responsibility === '개발'" src="@/assets/img/programming.png" />
+                    <img v-if="pool.responsibility === '기획'" src="@/assets/img/procedure.png" />
+                    {{pool.responsibility}}
+                  </p>
+                  <div class="inter">
+                    <div v-for="(interest, idx) in pool.interest" :key="idx" style="margin:2px; display:inline-block">#{{interest.interest}},</div>
+                    <div></div>
+                  </div>
+                  {{pool.intro}}
+                  <hr />
+                  <div style="font-size: 12px;">
+                    <img src="@/assets/img/map-location.png" title="위치는 여기!" />
+                    {{pool.address2}}
+                  </div>
 
-              <div>
-                <!--  관심사로 사용하기
+                  <div>
+                    <!--  관심사로 사용하기
                    <div v-for="(interest, idx) in pool.interest" :key="idx">
                     {{interest.interest}}
                     
                   </div>
-                -->
-                <!-- 수행한 프로젝트
+                    -->
+                    <!-- 수행한 프로젝트
                      <div v-for="(pjt, idx) in pool.project" :key="idx">
                     {{pjt.pid}}
                     
                     {{pjt.pjtName}}
                   </div>
-                -->
-              </div>
-
-              <div class="container-fluid">
-                <div class="row">
-                  <div class="col-3" style="font-size:22px; text-align:center;">
-                    <a :href="'https://github.com/'+pool.git" style="color: black">
-                      <i
-                        class="fa fa-github emo"
-                        v-b-tooltip.hover
-                        title="Github"
-                        v-if="pool.git != null"
-                        style="color: black"
-                      ></i>
-                    </a>
-                  </div>
-                  <div class="col-3" style="font-size:22px; text-align:center;">
-                    <i
-                      class="fa fa-user-plus emo"
-                      v-b-tooltip.hover
-                      title="팔로우"
-                      v-if="!follow.find(item=>item.id === pool.id)"
-                      @click="fol(pool.id)"
-                    ></i>
-                    <!-- v-else로 친구라고 넘겨줘도 될듯 -->
-                  </div>
-                  <div class="col-3" style="font-size:22px; text-align:center;">
-                    <i
-                      class="fa fa-id-card emo"
-                      v-b-tooltip.hover
-                      title="프로필"
-                      @click="toProfile(pool.id)"
-                    ></i>
+                    -->
                   </div>
 
-                  <div class="col-3" style="font-size:22px; text-align:center;">
-                    <div>
-                      <button
-                        v-b-modal="'test-'+pool.id"
-                        style="margin:0px; padding:0px; border:0; outline:0; font-size:22px; background-color:white;"
-                      >
-                        <i class="fa fa-tasks emo" v-b-tooltip.hover title="프로젝트 목록"></i>
-                      </button>
+                  <div class="container-fluid">
+                    <div class="row">
+                      <div class="col-3" style="font-size:22px; text-align:center;">
+                        <a :href="'https://github.com/'+pool.git" style="color: black">
+                          <i class="fa fa-github emo" v-b-tooltip.hover title="Github" v-if="pool.git != null" style="color: black"></i>
+                        </a>
+                      </div>
+                      <div class="col-3" style="font-size:22px; text-align:center;">
+                        <i class="fa fa-user-plus emo" v-b-tooltip.hover title="팔로우" v-if="!follow.find(item=>item.id === pool.id)" @click="fol(pool.id)"></i>
+                        <!-- v-else로 친구라고 넘겨줘도 될듯 -->
+                      </div>
+                      <div class="col-3" style="font-size:22px; text-align:center;">
+                        <i class="fa fa-id-card emo" v-b-tooltip.hover title="프로필" @click="toProfile(pool.id)"></i>
+                      </div>
 
-                      <b-modal :id="'test-'+pool.id" title="참여한 프로젝트 목록" hide-footer>
-                        <div v-if="pool.project != null">
-                          <div
-                            v-for="(pjt, idx) in pool.project"
-                            :key="idx"
-                            style="font-size:20px; font-weight:bold;"
-                          >
-                            <div class="card">
-                              <div class="card-header" style="cursor:pointer;">{{pjt.pjtName}}</div>
-                              <div class="card-body">
-                                <hr />
-                                <p>{{pjt.pjtContent}}</p>
+                      <div class="col-3" style="font-size:22px; text-align:center;">
+                        <div>
+                          <button v-b-modal="'test-'+pool.id" style="margin:0px; padding:0px; border:0; outline:0; font-size:22px; background-color:white;">
+                            <i class="fa fa-tasks emo" v-b-tooltip.hover title="프로젝트 목록"></i>
+                          </button>
+
+                          <b-modal :id="'test-'+pool.id" title="참여한 프로젝트 목록" hide-footer>
+                            <div v-if="pool.project != null">
+                              <div v-for="(pjt, idx) in pool.project" :key="idx" style="font-size:20px; font-weight:bold;">
+                                <div class="card">
+                                  <div class="card-header" style="cursor:pointer;">{{pjt.pjtName}}</div>
+                                  <div class="card-body">
+                                    <hr />
+                                    <p>{{pjt.pjtContent}}</p>
+                                  </div>
+                                </div>
                               </div>
                             </div>
-                          </div>
+                            <div v-if="pool.projects == null">아직 참여한 프로젝트가 없습니다. 이번 기회에 함께 해보는건 어떨까요?</div>
+                          </b-modal>
                         </div>
-                        <div v-if="pool.projects == null">아직 참여한 프로젝트가 없습니다. 이번 기회에 함께 해보는건 어떨까요?</div>
-                      </b-modal>
-                    </div>
 
-                    <!--  <i class="fa fa-tasks emo"></i> -->
+                        <!--  <i class="fa fa-tasks emo"></i> -->
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
-              <div>
-                <!--
+                  <div>
+                    <!--
             <router-link
               :to="'/project/' + pool.id"
               tag="button"
@@ -405,18 +296,18 @@
               class="btn btn-success"
               @click="fol(pool.id)"
             >팔로우하기</button>
-                -->
-              </div>
-            </div>
-            <!--
+                    -->
+                  </div>
+                </div>
+                <!--
       <b-btn v-b-toggle="'test-'+pool.id"  style="none;">
     Toggle Collapse
   </b-btn>
   <b-collapse :id="'test-'+pool.id" class="mt-2">
     오우오우오오우
   </b-collapse>
-            -->
-            <!--
+                -->
+                <!--
 <div>
   <b-button v-b-modal="'test-'+pool.id">Launch demo modal</b-button>
 
@@ -429,17 +320,16 @@
                   </div>
   </b-modal>
 </div>
-            -->
+                -->
+              </div>
+            </li>
+          </ul>
+          <!-- <b-pagination v-model="currentPage" :total-rows="rows" :per-page="perPage" aria-controls="poolpage" align="center"></b-pagination> -->
+          <div>
+            <input type="range" v-model="currentPage" min="1" :max="extendpools.length-4" style="width:60%;margin-left:20%;height:50px" />
           </div>
-        </li>
-      </ul>
-      <b-pagination
-        v-model="currentPage"
-        :total-rows="rows"
-        :per-page="perPage"
-        aria-controls="poolpage"
-        align="center"
-      ></b-pagination>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -459,7 +349,7 @@ export default {
   data() {
     return {
       //페이징
-      perPage: 6,
+      perPage: 5,
       currentPage: 1,
 
       selectedSido: 0,
@@ -507,9 +397,8 @@ export default {
       ],
       picks: [],
       inputVal: "",
-
-            cursor: 0,
-
+      delays: false,
+      cursor: 0,
     };
   },
   computed: {
@@ -517,12 +406,22 @@ export default {
       return this.extendpools.length;
     },
     pools() {
-      console.log("pool 호출");
       return this.$store.state.poolstore.pools;
     },
     extendpools() {
-      console.log("extendpools 호출");
-      return this.$store.state.poolstore.extendpools;
+      let a = [];
+      if (this.$store.state.poolstore.extendpools.length > 0) {
+        a.push({});
+        a.push({});
+        this.$store.state.poolstore.extendpools.forEach((el) => {
+          a.push(el);
+        });
+        a.push({});
+        a.push({});
+      } else {
+        a = [];
+      }
+      return a;
     },
     sidoList() {
       // console.log("확인" + this.$store.state.stackstore.sidolist);
@@ -548,10 +447,24 @@ export default {
     this.$store.dispatch(Constant.GET_SIDOLIST);
   },
   methods: {
-    //페이징
-    changeShowCnt() {
-      this.perPage = parseInt(document.getElementById("showcnt").value);
+    mouseover(idx) {
+      if (!this.delays) {
+        this.delays = true;
+        if (idx === 3) {
+          this.currentPage++;
+          if (this.currentPage === this.extendpools.length - 3) {
+            this.currentPage--;
+          }
+        } else if (idx === 1) {
+          this.currentPage--;
+          if (this.currentPage === 0) {
+            this.currentPage++;
+          }
+        }
+        this.delays = false;
+      }
     },
+    //페이징
     urls(id) {
       let url = this.$store.state.filestore.fileUrl + id + ".png";
       return url;
@@ -657,7 +570,7 @@ export default {
         setTimeout(() => {
           if (this.lists.length > 0) {
             this.cursor = 0;
-            document.querySelector(`.pk${this.cursor}`).classList.add('act');
+            document.querySelector(`.pk${this.cursor}`).classList.add("act");
           }
         }, 50);
       } else {
@@ -679,28 +592,32 @@ export default {
         this.lists = [];
       }
     },
-     upQ() {
-      document.querySelector(`.pk${this.cursor}`).classList.remove('act');
+    upQ() {
+      document.querySelector(`.pk${this.cursor}`).classList.remove("act");
       this.cursor--;
       if (this.cursor === -1) {
         this.cursor = this.lists.length - 1;
       }
-      document.querySelector(`.pk${this.cursor}`).classList.add('act');
+      document.querySelector(`.pk${this.cursor}`).classList.add("act");
       let location = document.querySelector(`.pk${this.cursor}`).offsetTop;
-      document.querySelector('.autoComplete').scrollTo({top:location, behavior:'auto'});
+      document
+        .querySelector(".autoComplete")
+        .scrollTo({ top: location, behavior: "auto" });
     },
     downQ() {
-      document.querySelector(`.pk${this.cursor}`).classList.remove('act');
+      document.querySelector(`.pk${this.cursor}`).classList.remove("act");
       this.cursor++;
       if (this.cursor === this.lists.length) {
         this.cursor = 0;
       }
-      document.querySelector(`.pk${this.cursor}`).classList.add('act');
+      document.querySelector(`.pk${this.cursor}`).classList.add("act");
       let location = document.querySelector(`.pk${this.cursor}`).offsetTop;
-      document.querySelector('.autoComplete').scrollTo({top:location, behavior:'auto'});
+      document
+        .querySelector(".autoComplete")
+        .scrollTo({ top: location, behavior: "auto" });
     },
     enterQ() {
-      this.add(document.querySelector(`.pk${this.cursor}`).innerText)
+      this.add(document.querySelector(`.pk${this.cursor}`).innerText);
     },
   },
 };
@@ -737,7 +654,18 @@ th {
 *::after {
   box-sizing: border-box;
 }
-
+.leff,
+.rigg {
+  color: black;
+  text-shadow: #fff 1px 1px 1px;
+  font-size: 40px;
+  &:hover {
+    font-size: 50px;
+    cursor: pointer;
+    background-color: #ccc;
+    border-radius: 50%;
+  }
+}
 html {
   background-color: #f0f0f0;
 }
@@ -771,34 +699,77 @@ img {
   display: block;
   width: 100%;
 }
-
-.cards {
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: stretch;
-  list-style: none;
-  margin: 0;
-  padding: 0;
+div.col-md-4 {
+  z-index: 1;
+}
+div.col-md-8 {
+  z-index: 0;
+  height: 100%;
 }
 
-.cards__item {
+.cards {
+  overflow-y: scroll;
+  overflow: visible;
+  width: 100%;
+  height: 650px;
   display: flex;
-  padding: 1rem;
-  width: 20%;
-  min-width: 250px;
-  max-width: 400px;
-  margin-left: 5%;
+  flex-flow: row;
+  justify-content: center;
+  list-style: none;
+  margin: 0;
+  margin-left: 200px;
+  padding: 0;
+  li:nth-child(1) {
+    z-index: 1;
+  }
+  li:nth-child(2) {
+    margin-top: -6px;
+    z-index: 2;
+  }
+  li:nth-child(3) {
+    margin-top: -10px;
+    z-index: 3;
+  }
+  li:nth-child(4) {
+    margin-top: -6px;
+    z-index: 2;
+  }
+  li:nth-child(5) {
+    z-index: 1;
+  }
+}
+
+@media (max-width: 767px) {
+  .cards {
+    margin-left: 100px;
+  }
+  .cards__item {
+    display: flex;
+    padding: 1rem;
+    width: 300px;
+    margin-left: -200px;
+    height: 600px;
+  }
+}
+@media (min-width: 768px) {
+  .cards__item {
+    display: flex;
+    padding: 1rem;
+    width: 500px;
+    margin-left: -400px;
+    height: 600px;
+  }
 }
 
 .card {
   background-color: white;
-  border-radius: 0.25rem;
   box-shadow: 0 20px 40px -14px rgba(0, 0, 0, 0.25);
   display: flex;
   flex-direction: column;
   overflow: hidden;
   width: 100%;
-
+  border-radius: 25px;
+  border: 1px solid gray;
   &:hover {
     .card__image {
       filter: contrast(100%);
@@ -924,53 +895,56 @@ img {
   color: #fff;
 }
 .searchform {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    // height: 50px;
-    .autoComplete {
-      border: .5px gray solid;
-      position: absolute;
-      max-height: 100px;
-      overflow: auto;
-      background-color: white;
-      width: 98%;
-      left: 6px;
-      bottom: 45px;
-      cursor: pointer;
-      .act{
-        background-color: #aaa;
-      }
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  // height: 50px;
+  .autoComplete {
+    border: 0.5px gray solid;
+    position: absolute;
+    max-height: 100px;
+    overflow: auto;
+    background-color: white;
+    width: 98%;
+    left: 6px;
+    bottom: 45px;
+    cursor: pointer;
+    .act {
+      background-color: #aaa;
     }
-    .input {
-      height: 100%;
-      width: 100%;
+  }
+  .input {
+    height: 100%;
+    width: 100%;
 
-      font-size: 1.2rem;
-      border: 1px black solid;
-      padding: 5px;
-      input {
-        width: 100%;
-        height: 100%;
+    font-size: 1.2rem;
+    border: 1px black solid;
+    padding: 5px;
+    input {
+      width: 100%;
+      height: 100%;
+      border: none;
+      outline: none;
+      &:focus {
         border: none;
-        outline: none;
-        &:focus {
-          border: none;
-        }
       }
     }
   }
+}
 
 //filter-sidebar
 .filter-sidebar {
-  width: 20%;
   min-width: 220px;
   // padding: 20px 10px 20px 20px;
   border-right: solid 1px #e0e0e0;
   float: left;
 }
 
-.cb{
+.cb {
+  display: flex;
+  justify-content: flex-start;
+  align-items: stretch;
+  flex-direction: column;
   min-height: 470px;
   height: 100%;
 }

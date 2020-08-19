@@ -225,16 +225,6 @@ export default {
     };
   },
   beforeUpdate() {
-    if (window.sessionStorage.getItem("kakaosignup") === "true") {
-      this.kakao = true;
-      this.id = window.sessionStorage.getItem("kakaosignupEmail");
-      this.kakaosignupID = window.sessionStorage.getItem("kakaosignupID");
-    }
-    setTimeout(() => {
-      window.sessionStorage.setItem("kakaosignup", "false");
-      window.sessionStorage.setItem("kakaosignupID", "");
-      window.sessionStorage.setItem("kakaosignupEmail", "");
-    }, 500);
   },
   mounted() {
     this.$nextTick(function () {
@@ -244,9 +234,12 @@ export default {
     });
     // document.querySelector('html').sc = 0
     if (window.sessionStorage.getItem("kakaosignup") === "true") {
-      this.kakao = true;
-      this.id = window.sessionStorage.getItem("kakaosignupEmail");
-      this.kakaosignupID = window.sessionStorage.getItem("kakaosignupID");
+      setTimeout(()=>{
+
+        this.kakao = true;
+        this.id = window.sessionStorage.getItem("kakaosignupEmail");
+        this.kakaosignupID = window.sessionStorage.getItem("kakaosignupID");
+      },300)
     }
     setTimeout(() => {
       window.sessionStorage.setItem("kakaosignup", "false");

@@ -29,7 +29,7 @@
                   <div></div>
                 </div>
 
-                <div class="col-12" style="padding-left:0;padding-right:0">{{recruit.pjtContent}}</div>
+                <div class="col-12" style="max-height: 40px; padding-left:0;padding-right:0; overflow:hidden;">{{recruit.pjtContent}}</div>
               </div>
               <div class="col-4" style="padding-right:0">
                 <p
