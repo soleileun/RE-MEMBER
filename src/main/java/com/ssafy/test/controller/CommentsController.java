@@ -23,6 +23,7 @@ import com.ssafy.test.model.dto.Message;
 import com.ssafy.test.model.service.BoardService;
 import com.ssafy.test.model.service.CommentsService;
 import com.ssafy.test.model.service.MessageService;
+import com.ssafy.test.model.service.UserInfoService;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -41,6 +42,9 @@ public class CommentsController {
 	private MessageService mService;
 	@Autowired
 	private BoardService bService;
+	
+	@Autowired
+	private UserInfoService uiService;
 
 	@ApiOperation(value = "모든 커멘트의 정보를 반환한다.", response = List.class)
 	@GetMapping
@@ -82,7 +86,7 @@ public class CommentsController {
 			msg.setFromUser("admin");
 			msg.setToUser(bService.select(v.getBno()).getBwriter());
 			
-			msg.setContent("[SYSTEM:댓글] :  (" + bService.select(v.getBno()).getBtitle() + ")글에 " + v.getCwriter() +"님이 댓글을 달았습니다.");
+			msg.setContent("[SYSTEM:댓글] :  (" + bService.select(v.getBno()).getBtitle() + ")글에 " + uiService.select(v.getCwriter()).getNickname() +"님이 댓글을 달았습니다.");
 			msg.setRead(false);
 			msg.setTime(new Date());
 			//mService.insert(msg)
