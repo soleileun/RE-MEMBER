@@ -139,6 +139,8 @@ export default {
       height: 200px;
       margin-right: 10px;
       padding: 2px;
+      display: flex;
+      align-items: center;
       img {
         width: 100%;
         max-height: 100%;
