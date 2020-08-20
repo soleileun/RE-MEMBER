@@ -1,81 +1,51 @@
 <template>
-<div>
-  <card class="card-user"  display: inline-block>
-    {{project}}
-    <div slot="image">
-      <img :src="urls" alt="..." />
-    </div>
-    <div>
-      <div class="author">
+  <div class="project1">
+    <div class="topp">
+      <div class="pjtImg">
+        <img :src="urls" alt="..." />
+      </div>
+      <div class="rigtt">
         <h4 class="title">
           {{project.pjtName}}
-          <br />
-          <a href="#">
-            <small>현재 프로젝트 인원 : {{project.cnt}} / {{project.pjtMemberCnt}}</small>
-          </a>
         </h4>
+        <a href="#">
+          <small>현재 프로젝트 인원 : {{project.cnt}} / {{project.pjtMemberCnt}}</small>
+        </a>
+        <p class="description">
+          팀장: {{project.makeId}}
+          <br />
+          <a class="hash" v-if="project.tag1 != null">#{{project.tag1}}</a>
+          <a class="hash" v-if="project.tag2 != null">#{{project.tag2}}</a>
+          <a class="hash" v-if="project.tag3 != null">#{{project.tag3}}</a>
+          <a class="hash" v-if="project.tag4 != null">#{{project.tag4}}</a>
+          <a class="hash" v-if="project.tag5 != null">#{{project.tag5}}</a>
+          <br />
+          {{project.pjtContent}}
+        </p>
+        {{project.location}}
       </div>
-      <p class="description text-center">
-        팀장: {{project.makeId}}
-        <br />
-        <a class="hash" v-if="project.tag1 != null"> #{{project.tag1}} </a>
-        <a class="hash" v-if="project.tag2 != null"> #{{project.tag2}} </a>
-        <a class="hash" v-if="project.tag3 != null"> #{{project.tag3}} </a>
-        <a class="hash" v-if="project.tag4 != null"> #{{project.tag4}} </a>
-        <a class="hash" v-if="project.tag5 != null"> #{{project.tag5}} </a>
-        <br />
-        {{project.pjtContent}}
-      </p>
     </div>
-    <hr />
-    <div class="text-center">
-      <div class="row justify-content-md-center">
+    <div class="text-center" style="min-width:50%">
+      <div class="row">
         <div clss="col-lg-4">
-          <router-link  :to="'/project/partners/'+project.pid">
-          <button id="myBtn"  class="btn btn-round btn-dark" >팀원 보기</button>
-         </router-link>
+          <router-link :to="'/project/partners/'+project.pid">
+            <button id="myBtn" class="btn btn-round btn-dark">팀원 보기</button>
+          </router-link>
         </div>
         <span></span>
         <div clss="col-lg-8">
-          <button  v-on:click="popup()" class="btn btn-round btn-success">일정관리페이지</button>
+          <button v-on:click="popup()" class="btn btn-round btn-success">일정관리페이지</button>
         </div>
-        <div clss="col-lg-8">
-          <!-- <button class="btn btn-round btn-success">다른사람이 볼때 보이는 버튼</button> -->
-         
-        </div>
-
-        <!-- <div v-for="(info, index) in details" :key="index" :class="getClasses(index)">
-          <h5>
-            {{info.title}}
-            <br />
-            <small>{{info.subTitle}}</small>
-          </h5>
-        </div>-->
       </div>
-      
     </div>
-  
-  </card>
-            <!-- The Modal -->
-        <!-- <div id="myModal" class="modal">
-          Modal content
-          <div class="modal-content">
-            <span class="close">&times;</span>
-            <h3>프로젝트 팀원</h3>
-
-            <ul>
-              <li v-for="pm in pmlist" :key="pm.userId">{{ pm.userId }}</li>
-            </ul>
-          </div>
-        </div> -->
   </div>
-  <!-- <a href=""> 클릭 시 링크 설정 -->
-  <!-- <router-link :to="'/project/projectdetail/'+project.pid"> -->
-
-  <!-- </router-link> -->
 </template>
 
 <script>
+// { "pid": 96, "pjtName": "싸피 탈출", "pjtContent": "ㅁㄴㅇㅁㄴㅇ", "pjtState": "ing", "pjtMemberCnt": 5,
+// "makeDay": "2020-08-18T15:00:00.000+00:00", "changeDay": null, "makeId": "sksmsmy@khu.ac.kr", "changeId": null,
+// "location": "서울 강동구 천호동", "userId": "sksmsmy@khu.ac.kr", "cnt": 1, "priority": 1, "state": "ing", "tag1": "MachineVision",
+// "tag2": "react-native", "tag3": null, "tag4": null, "tag5": null }
 import Constant from "../../Constant";
 const storage = window.sessionStorage;
 export default {
@@ -83,12 +53,10 @@ export default {
   component: {},
   data: function () {
     return {
-      urls:this.$store.state.filestore.fileUrl +
-        this.project.pid +
-        ".png",
+      urls: this.$store.state.filestore.fileUrl + this.project.pid + ".png",
       index: 0,
-      myId : storage.getItem("userid"),
-     userNick: storage.getItem("userNick"),
+      myId: storage.getItem("userid"),
+      userNick: storage.getItem("userNick"),
       // userId: storage.getItem("userid"),
       targetId: this.$route.params.userId,
       // pjtcnt:this.$store.state.projectstore.pjtcnt[this.project.pid],
@@ -100,14 +68,12 @@ export default {
     },
   },
   mounted() {
-   // console.log(this.project.pid);
-  //  setTimeout(()=>{
-  //    this.pjtcnt = this.$store.state.projectstore.pjtcnt[this.project.pid]
-
-  //  },500) 
+    // console.log(this.project.pid);
+    //  setTimeout(()=>{
+    //    this.pjtcnt = this.$store.state.projectstore.pjtcnt[this.project.pid]
+    //  },500)
   },
-    created() {
-  },
+  created() {},
   props: {
     project: {
       type: Object,
@@ -123,35 +89,8 @@ export default {
         "/" +
         this.project.pid;
       var name = "project detail";
-      var option =
-        "width = 1500, height = 750,  location = no";
+      var option = "width = 1500, height = 750,  location = no";
       window.open(url, name, option);
-    },
-    openModal() {
-      console.log(this.project.pid);
-      this.$store.dispatch(Constant.GET_PROJECT_MEMBER_BY_PID, {
-        pid: this.project.pid,
-      });
-      console.log(this.$store.state.projectstore.pmlist);
-      // Get the modal
-      var modal = document.getElementById("myModal");
-      // Get the <span> element that closes the modal
-      var span = document.getElementsByClassName("close")[0];
-      // When the user clicks on the button, open the modal
-      modal.style.display = "block";
-      // When the user clicks on <span> (x), close the modal
-      span.onclick = function () {
-        modal.style.display = "none";
-      };
-      // When the user clicks anywhere outside of the modal, close it
-      window.onclick = function (event) {
-        if (event.target == modal) {
-          modal.style.display = "none";
-        }
-      };
-      this.$store.dispatch(Constant.GET_PROJECT_MEMBER_BY_PID, {
-        pid: this.project.pid,
-      });
     },
     getClasses(index) {
       var remainder = index % 3;
@@ -169,350 +108,56 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 // <style scoped lang="scss">
-
-// // 아래 css 변경 금지
-// html,
-// body,
-// div,
-// span,
-// applet,
-// object,
-// iframes,
-// h1,
-// h2,
-// h3,
-// h4,
-// h5,
-// h6,
-// p,
-// blockquote,
-// pre,
-// a,
-// abbr,
-// acronym,
-// address,
-// big,
-// quotes,
-// code,
-// del,
-// dfn,
-// em,
-// img,
-// ins,
-// kbd,
-// q,
-// s,
-// samp,
-// small,
-// strike,
-// sub,
-// sup,
-// tt,
-// var,
-// u,
-// i,
-// center,
-// dl,
-// dt,
-// dd,
-// ol,
-// ul,
-// li,
-// fieldset,
-// form,
-// label,
-// legend,
-// table,
-// caption,
-// tbody,
-// tfoot,
-// thead,
-// tr,
-// th,
-// td,
-// article,
-// aside,
-// canvas,
-// details,
-// embed,
-// figure,
-// figcaption,
-// footer,
-// header,
-// hgroup,
-// menu,
-// nav,
-// output,
-// ruby,
-// section,
-// summary,
-// time,
-// mark,
-// audio,
-// video {
-//   margin: 0;
-
-//   padding: 0;
-
-//   border: 0;
-
-//   font-size: 100%;
-
-//   do: inherit;
-
-//   vertical-align: baseline;
-// }
-
-// article,
-// aside,
-// details,
-// figcaption,
-// figure,
-// footer,
-// header,
-// hgroup,
-// menu,
-// nav,
-// section {
-//   display: block;
-// }
-
-// blockquote,
-// q {
-//   quotes: none;
-// }
-
-// blockquote:before,
-// blockquote:after,
-// q:before,
-// q:after {
-//   content: "";
-
-//   content: none;
-// }
-
-// table {
-//   border-collapse: collapse;
-
-//   border-spacing: 0;
-// }
-
-// /*css 초기화*/
-
-// .card {
-//   height: 400px;
-
-//   width: 20%;
-
-//   border-radius: 15px;
-
-//   display: inline-block;
-//   // float:left;
-//   margin-top: 30px;
-
-//   margin-left: 30px;
-
-//   margin-bottom: 0px;
-
-//   position: relative;
-
-//   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-
-//   overflow: hidden;
-// }
-
-// .card-header {
-//   -webkit-transition: 0.5s; /*사파리 & 크롬*/
-
-//   -moz-transition: 0.5s; /*파이어폭스*/
-
-//   -ms-transition: 0.5s; /*인터넷 익스플로러*/
-
-//   -o-transition: 0.5s; /*오페라*/
-
-//   transition: 0.5s;
-
-//   width: 100%;
-
-//   height: 270px;
-
-//   border-radius: 15px 15px 0 0;
-
-//   // background-image: url("images/korea.jpeg");
-
-//   background-size: 100% 280px;
-
-//   background-repeat: no-repeat;
-// }
-
-// .card:hover .card-header {
-//   opacity: 0.8;
-
-//   height: 100px;
-// }
-
-// .card-header-is_closed {
-//   background-color: #ef5a31;
-
-//   color: #fff;
-
-//   font-weight: bold;
-
-//   text-align: center;
-
-//   float: right;
-
-//   margin: 15px 15px 0 0;
-
-//   border-radius: 50%;
-
-//   font-weight: bold;
-
-//   padding: 10px 10px;
-
-//   line-height: 20px;
-// }
-
-// h1 {
-//   font-size: 22px;
-
-//   font-weight: bold;
-// }
-
-// .card-body {
-// }
-
-// .card-body-header {
-//   line-height: 25px;
-
-//   margin: 10px 20px 0px 20px;
-// }
-
-// .card-body-description {
-//   opacity: 0;
-
-//   color: #757b82;
-
-//   line-height: 25px;
-
-//   -webkit-transition: 0.2s ease-in-out; /*사파리&크롬*/
-
-//   -moz-transition: 0.2s ease-in-out; /*파이어폭스*/
-
-//   -ms-transition: 0.2s ease-in-out; /*익스플로러*/
-
-//   -o-transition: 0.2s ease-in-out; /*오페라*/
-
-//   transition: 0.2s ease-in-out;
-
-//   overflow: hidden;
-
-//   height: 180px;
-
-//   margin: 5px 20px;
-// }
-
-// .card:hover .card-body-description {
-//   opacity: 1;
-
-//   -webkit-transition: 0.5s ease-in-out;
-
-//   -moz-transition: 0.5s ease-in-out;
-
-//   -ms-transition: 0.5s ease-in-out;
-
-//   -o-transition: 0.5s ease-in-out;
-
-//   transition: 0.5s ease-in-out;
-
-//   overflow: scroll;
-// }
-
-// .card-body-hashtag {
-//   color: #2478ff;
-
-//   font-style: italic;
-// }
-
-// .card-body-footer {
-//   position: absolute;
-//   margin-top: 15px;
-//   margin-bottom: 6px;
-//   bottom: 0;
-//   width: 314px;
-//   font-size: 14px;
-//   color: #9fa5a8;
-//   padding: 0 15px;
-// }
-
-// .icon {
-//   display: inline-block;
-
-//   vertical-align: middle;
-
-//   margin-right: 2px;
-// }
-
-// .icon-view_count {
-//   width: 25px;
-
-//   height: 17px;
-
-//   // background: url("images/eye.jpg") no-repeat;
-// }
-
-// .icon-comments_count {
-//   margin-left: 5px;
-
-//   width: 25px;
-
-//   height: 17px;
-
-//   // background: url("images/comment.jpg") no-repeat;
-// }
-
-// .reg_date {
-//   float: right;
-// }
-
-/* The Modal (background) */
-.modal {
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 9999; /* Sit on top */
-  left: 0;
-  top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0, 0, 0); /* Fallback color */
-  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
-}
-
-/* Modal Content/Box */
-.modal-content {
-  background-color: #fefefe;
-  margin: 15% auto; /* 15% from the top and centered */
-  padding: 20px;
-  border: 1px solid #888;
-  width: 50%; /* Could be more or less, depending on screen size */
-}
-/* The Close Button */
-.close {
-  color: #aaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-}
-.close:hover,
-.close:focus {
-  color: black;
-  text-decoration: none;
-  cursor: pointer;
+.project1 {
+  margin: 20px;
+  padding: 15px;
+  width: 800px;
+  height: 300px;
+  max-width: 75vw;
+  min-width: 290px;
+  border: 1px solid #eeeeee;
+  border-radius: 10px;
+  box-shadow: gray 3px 3px 6px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  .topp {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    h4{
+      margin-top: 0;
+    }
+    .pjtImg {
+      border: 1px solid #ccc;
+      border-radius: 30px;
+      width: 200px;
+      height: 200px;
+      margin-right: 10px;
+      padding: 2px;
+      img {
+        max-width: 100%;
+        max-height: 100%;
+      }
+    }
+    .rigtt {
+      height: 100%;
+      width: 50%;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: flex-start;
+    }
+  }
+  .row{
+    display: flex;
+    justify-content: space-around;
+  }
 }
 .hash {
-  font-size:12px;
-  color:rgb(142, 118, 248);
+  font-size: 12px;
+  color: rgb(142, 118, 248);
   margin: 4px;
 }
 </style>
