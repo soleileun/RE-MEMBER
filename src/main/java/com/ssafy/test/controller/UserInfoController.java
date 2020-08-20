@@ -3,6 +3,7 @@ package com.ssafy.test.controller;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,9 +43,11 @@ import com.ssafy.test.model.dto.Pools;
 import com.ssafy.test.model.dto.Project;
 import com.ssafy.test.model.dto.Projectcnt;
 import com.ssafy.test.model.dto.SearchParameter;
+import com.ssafy.test.model.dto.Two;
 import com.ssafy.test.model.dto.User;
 import com.ssafy.test.model.dto.UserInfo;
 import com.ssafy.test.model.dto.UserSimple;
+import com.ssafy.test.model.dto.UsersInterest;
 import com.ssafy.test.model.service.BoardService;
 import com.ssafy.test.model.service.EmailService;
 import com.ssafy.test.model.service.JwtService;
@@ -106,9 +109,9 @@ public class UserInfoController {
    @ApiOperation(value = "유저풀에서 사용", response = List.class)
    @GetMapping("pools")
    public ResponseEntity<List<Pools>> getPools() throws Exception {
-	   //Two<Integer, Integer> two = new Two<Integer,Integer>();
-	   //two.setFirst(paging * cnt);
-	   //two.setSecond(cnt);
+      //Two<Integer, Integer> two = new Two<Integer,Integer>();
+      //two.setFirst(paging * cnt);
+      //two.setSecond(cnt);
       List<Pools> v = uiService.getPools();
       for (int i = 0; i < v.size(); i++) {
          List<PidPjt> ptmp = new ArrayList<PidPjt>();
@@ -151,32 +154,32 @@ public class UserInfoController {
             
             try {
                // 웹에서 내용을 가져온다.
-            	int status =  Jsoup.connect("https://github.com/" + v.get(i).getGit() + "?tab=repositories").ignoreHttpErrors(true).execute().statusCode();
-            	//int status =  Jsoup.connect("https://github.com/kyhoon001" + "?tab=repositories").ignoreHttpErrors(true).execute().statusCode();
-            	if(status == 200) {
-            		System.out.println("정상쓰");
-            		List<Two<String,String>> rtmp = new ArrayList<Two<String,String>>();
-            		
-            		Document doc = Jsoup.connect("https://github.com/" + v.get(i).getGit() + "?tab=repositories").get();
+               int status =  Jsoup.connect("https://github.com/" + v.get(i).getGit() + "?tab=repositories").ignoreHttpErrors(true).execute().statusCode();
+               //int status =  Jsoup.connect("https://github.com/kyhoon001" + "?tab=repositories").ignoreHttpErrors(true).execute().statusCode();
+               if(status == 200) {
+                  System.out.println("정상쓰");
+                  List<Two<String,String>> rtmp = new ArrayList<Two<String,String>>();
+                  
+                  Document doc = Jsoup.connect("https://github.com/" + v.get(i).getGit() + "?tab=repositories").get();
                // 내용 중에서 원하는 부분을 가져온다.
-            		Elements contents = doc.select(".wb-break-all a");
+                  Elements contents = doc.select(".wb-break-all a");
                // 원하는 부분은 Elements형태로 되어 있으므로 이를 String 형태로 바꾸어 준다.
-            		String text = contents.text();
-            		String[] reposit = text.split(" ");
-            		//System.out.println("스플릿까지 했음");
-            		//System.out.println("text : " + text);
-            		//System.out.println("resposit : " + reposit[0]);
+                  String text = contents.text();
+                  String[] reposit = text.split(" ");
+                  //System.out.println("스플릿까지 했음");
+                  //System.out.println("text : " + text);
+                  //System.out.println("resposit : " + reposit[0]);
                for (int j = 0; j < reposit.length; j++) {
-           			Two<String,String> r = new Two<String,String>();
-            	   System.out.println(j + " 번째 추가 : " + reposit[j]);
-            	   r.setFirst(reposit[j]);
-            	   r.setSecond("https://github.com/" +  v.get(i).getGit() +'/' + reposit[j]);
-            	   rtmp.add(r);
-            	   //v.get(i).getRepository().add(reposit[j]);
+                    Two<String,String> r = new Two<String,String>();
+                  System.out.println(j + " 번째 추가 : " + reposit[j]);
+                  r.setFirst(reposit[j]);
+                  r.setSecond("https://github.com/" +  v.get(i).getGit() +'/' + reposit[j]);
+                  rtmp.add(r);
+                  //v.get(i).getRepository().add(reposit[j]);
                }
                v.get(i).setRepository(rtmp);
                // System.out.println("reposit" + i + " : " + reposit[i]);
-            	}
+               }
             } catch (IOException e) { // Jsoup의 connect 부분에서 IOException 오류가 날 수 있으므로 사용한다.
                e.printStackTrace();
                System.out.println("에러 떴다");
@@ -328,7 +331,7 @@ public class UserInfoController {
       Map<String, Object> resultMap = new HashMap<>();
          HttpStatus status = null;
 
-//    	 System.out.println(kakaoId);
+//        System.out.println(kakaoId);
          try {
              UserInfo loginUser = uiService.loginForKakao(kakaoId);
              System.out.println(loginUser.toString());
@@ -390,14 +393,60 @@ public class UserInfoController {
    @GetMapping("/getRecommended/User/{id}")
    public ResponseEntity<List<Pools>> getRecommendedUser(@PathVariable String id) {
 
-	  List<Pools> v = new ArrayList<>();
-	  List<Pools> send = new ArrayList<>();
-      List<UserInfo> list = uiService.getRecommendedUser(id);
+     List<Pools> v = new ArrayList<>();
+     List<Pools> send = new ArrayList<>();
+      List<UsersInterest> list  = uiService.getUserByInterest(id);
+      List<UsersInterest> rank = new ArrayList<>();
+      UserInfo me = uiService.select(id);
       for(int i=0;i<list.size();i++) {
-    	  UserInfo tmp = uiService.select(list.get(i).getId());
-    	  if(tmp.isState() == true) {
-    		v.add(uiService.searchPoolById(tmp.getId()));  
-    	  }
+         String userid = list.get(i).getId();
+         if(userid.equals(id)) continue;
+         int interscore = list.get(i).getCnt() *10;
+         if(interscore>70) interscore=70;
+         int pjtscore =0;
+         List<Projectcnt> pjtlist = pjtService.searchByUserId(userid);
+         for(int j=0;j<pjtlist.size();j++) {
+            if(pjtlist.get(j).getPjtState()=="end") {
+               pjtscore ++;
+            }
+         }
+         pjtscore = pjtscore *10;
+         if(pjtscore >30) pjtscore =30;
+//         System.out.println("거리계산");
+         UserInfo target = uiService.select(userid);
+//         System.out.println(target.getY() + ":" + target.getX());
+//         System.out.println(me.getY() + ":" + me.getX());
+         int distscore = 0;
+         if(target.getY() != null && target.getX() !=null && me.getX() !=null && me.getY()!= null) {
+         distscore = distance(Float.parseFloat(me.getY()), Float.parseFloat(me.getX()), Float.parseFloat(target.getY()), Float.parseFloat(target.getX()));}
+         else {
+            distscore =0;
+         }
+         int total = distscore + interscore + pjtscore;
+         rank.add(new UsersInterest(userid,total));
+//         System.out.println("여기됨");
+      }
+      rank.sort(new Comparator<UsersInterest>() {
+
+      @Override
+      public int compare(UsersInterest o1, UsersInterest o2) {
+      if(o1.getCnt()>o2.getCnt()) return -1;
+      else {
+         if(o1.getCnt() == o2.getCnt()) {
+            return o1.getId().compareTo(o2.getId());
+         }
+      }
+         return 1;
+      }
+   });
+      
+      
+      
+      for(int i=0;i<rank.size();i++) {
+         UserInfo tmp = uiService.select(rank.get(i).getId());
+         if(tmp.isState() == true) {
+          v.add(uiService.searchPoolById(tmp.getId()));  
+         }
       }
    
       for (int i = 0; i < v.size(); i++) {
@@ -429,26 +478,30 @@ public class UserInfoController {
          v.get(i).setInterest(itmp);
          v.get(i).setProject(ptmp);
       }
+      if(v.size() >15) {
+         v=v.subList(0, 14);
+      }
+      
       Random rand = new Random();  int idx = 0;
       boolean[] visit = new boolean [v.size()];
       if(v.size()<=3) {
-    	  
+         
       }
       if(v.size() <3) {
-    	for(int i=0;i<v.size();i++) {
-    		send.add(v.get(i));
-    	}
+       for(int i=0;i<v.size();i++) {
+          send.add(v.get(i));
+       }
       }else {
     
-    	  while(true) {
-    		  if(idx ==3) break;
-    		  int n = rand.nextInt(v.size());
-    		  if(!visit[n]) {
-    			  send.add(v.get(n));
-    			  visit[n] =true;
-    			  idx++;
-    		  }
-    	  }
+         while(true) {
+            if(idx ==3) break;
+            int n = rand.nextInt(v.size());
+            if(!visit[n]) {
+               send.add(v.get(n));
+               visit[n] =true;
+               idx++;
+            }
+         }
       }
       
       
@@ -463,6 +516,11 @@ public class UserInfoController {
       List<Projectcnt> finallist = new ArrayList<>();
       List<Projectcnt> projects = new ArrayList<>();
       List<Pmember> myprojects = pmservice.selectByUserId(id); 
+//      System.out.println(list.size());
+      if(list.size() != 0) {
+         for(int i=0;i<list.size();i++)
+            System.out.println(list.get(i).toString());
+      }
 
       for (int i = 0; i < list.size(); i++) {
          boolean flag = false;
@@ -495,25 +553,25 @@ public class UserInfoController {
 //      System.out.println(projects.size());
       
       if(projects.size() <3) {
-    	  for(int i=0;i<projects.size();i++) {
-    		  finallist.add(projects.get(i));
-    	  }
-    	  int num = 3-projects.size();
-    	  for(int i=0;i<num;i++)
-    		  finallist.add(projects.get(0));
+         for(int i=0;i<projects.size();i++) {
+            finallist.add(projects.get(i));
+         }
+         int num = 3-projects.size();
+         for(int i=0;i<num;i++)
+            finallist.add(projects.get(0));
       }else {
-    	  boolean[] visit = new boolean [projects.size()];
-    	  int idx = 0;
-    	  Random rand = new Random();
-    	  while(true) {
-    		  if(idx ==3) break;
-    		  int n = rand.nextInt(projects.size());
-    		  if(!visit[n]) {
-    			  finallist.add(projects.get(n));
-    			  visit[n] =true;
-    			  idx++;
-    		  }
-    	  }
+         boolean[] visit = new boolean [projects.size()];
+         int idx = 0;
+         Random rand = new Random();
+         while(true) {
+            if(idx ==3) break;
+            int n = rand.nextInt(projects.size());
+            if(!visit[n]) {
+               finallist.add(projects.get(n));
+               visit[n] =true;
+               idx++;
+            }
+         }
       }
       return new ResponseEntity<List<Projectcnt>>(finallist, HttpStatus.OK);
    }
@@ -672,27 +730,32 @@ public class UserInfoController {
       return false;
    }
    
-   private static double distance(double lat1, double lon1, double lat2, double lon2, String unit) {
+   private static int getScoreByInterandPJT() {
+      int score =0;
+      
+      
+      return 0;
+      
+   }
+   private static int distance(Float lat1, Float lon1, Float lat2, Float lon2) {
 
 //    ** 사용법 킬로미터(Kilo Meter) 단위
 //       double distanceKiloMeter =
 //               distance(37.504198, 127.047967, 37.501025, 127.037701, "km");
 
-
-       double theta = lon1 - lon2;
-       double dist = Math.sin(degTorad(lat1)) * Math.sin(degTorad(lat2)) + Math.cos(degTorad(lat1)) * Math.cos(degTorad(lat2)) * Math.cos(degTorad(theta));
-        
+      System.out.println("test1");
+       double theta = (double)lon1 - lon2;
+       System.out.println("test2");
+       double dist = (double)Math.sin(degTorad(lat1)) * Math.sin(degTorad(lat2)) + Math.cos(degTorad(lat1)) * Math.cos(degTorad(lat2)) * Math.cos(degTorad(theta));
+       System.out.println("test3");
        dist = Math.acos(dist);
        dist = radTodeg(dist);
        dist = dist * 60 * 1.1515;
-        
-       if (unit == "km") {
-           dist = dist * 1.609344;
-       } else if(unit == "m"){
-           dist = dist * 1609.344;
-       }
-
-       return (dist);
+       dist = dist * 1.609344;
+       int score= getScore(dist);
+       System.out.println("test4");
+       return score;
+     
    }
     
    private static double degTorad(double deg) {
@@ -703,11 +766,40 @@ public class UserInfoController {
        return (rad * 180 / Math.PI);
    }
 
+   private static int getScore(double dist) {
+      int score = -50;
+      if(dist<10) {
+         score = 100;
+      }else if(dist<20) {
+         score = 90;
+      }else if(dist<50) {
+         score = 80;
+      }else if(dist<75) {
+         score = 70;
+      }else if(dist<100) {
+         score = 60;
+      }else if(dist<125) {
+         score = 50;
+      }else if(dist<150) {
+         score = 40;
+      }else if(dist<175) {
+         score = 30;
+      }else if(dist<200) {
+         score = 20;
+      }else if(dist<225) {
+         score = 10;
+      }else if(dist<250) {
+         score = 0;
+      }else if(dist<275) {
+         score = -10;
+      }else if(dist<300) {
+         score = -20;
+      }else if(dist<325) {
+         score = -30;
+      }
+      
+      return score;
+   }
 
-   
-   
-
-   
-   
 
 }

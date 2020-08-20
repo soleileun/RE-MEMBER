@@ -12,7 +12,9 @@ import com.ssafy.test.model.dto.Addr;
 import com.ssafy.test.model.dto.Pools;
 import com.ssafy.test.model.dto.Project;
 import com.ssafy.test.model.dto.SearchParameter;
+import com.ssafy.test.model.dto.Two;
 import com.ssafy.test.model.dto.UserInfo;
+import com.ssafy.test.model.dto.UsersInterest;
 
 @Service
 public class UserInfoServiceImpl implements UserInfoService {
@@ -129,6 +131,12 @@ public class UserInfoServiceImpl implements UserInfoService {
 	public Pools searchPoolById(String id) {
 		// TODO Auto-generated method stub
 		return uDao.searchPoolById(id);
+	}
+
+	@Override
+	public List<UsersInterest> getUserByInterest(String userid) {
+		// TODO Auto-generated method stub
+		return  uDao.getUserByInterest(userid);
 	}
 
 }

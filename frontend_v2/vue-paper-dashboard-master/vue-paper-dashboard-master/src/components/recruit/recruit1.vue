@@ -30,7 +30,11 @@
 
     <hr />
 
-    <section class="filter-sidebar">
+
+    <div class="col-12">
+
+
+    <section class="filter-sidebar col-3">
       <!-- 시군구동 검색 -->
       <div class="card-body cb">
         <div class="row">
@@ -164,6 +168,9 @@
         -->
       </div>
     </section>
+      </div>
+
+
 
     <!--  ////////////////////////////////////////////////////////////////////////// -->
 <!-- The Modal -->
@@ -254,6 +261,7 @@
           id="pagination"
         ></b-pagination>
       </div>
+      
       <!-- 카드뷰 -->
       <!--
     <div class="container">
