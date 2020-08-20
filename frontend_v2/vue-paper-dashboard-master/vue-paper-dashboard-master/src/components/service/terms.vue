@@ -1,5 +1,9 @@
 <template>
-  <div class="terms">운영자는 절대적이며 회원은 복종해야한다.</div>
+  <div class="terms">
+    RE:MEMBER는 여러분의 목소리를 듣습니다 :)
+    <br />RE:MEMBER를 이용해주셔서 감사합니다
+    <br />원하는 바를 이루는 길에 RE:MEMBER가 함께할게요!
+  </div>
 </template>
 <script>
 export default {
