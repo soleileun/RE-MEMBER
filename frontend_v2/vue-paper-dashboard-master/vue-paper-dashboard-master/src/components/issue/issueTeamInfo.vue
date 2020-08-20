@@ -367,9 +367,7 @@ export default {
       this.$store.dispatch("sendMes", { toUser: id });
     },
     openModal() {
-      // console.log("눌린다");
       this.pid = this.$route.params.pid;
-      // console.log(this.$store.state.projectstore.pmlist);
       // Get the modal
       let modal = document.getElementById("myModal");
       // Get the <span> element that closes the modal
@@ -405,7 +403,6 @@ export default {
       };
     },
     openModal3: function () {
-      console.log(this.userId);
       let modal = document.getElementById("myModal3");
       // Get the <span> element that closes the modal
       let span = document.querySelector("#modal3Close");
@@ -423,7 +420,6 @@ export default {
       };
     },
     openModal4: function () {
-      console.log(this.userId);
       let modal = document.getElementById("myModal4");
       // Get the <span> element that closes the modal
       let span = document.querySelector("#modal4Close");
@@ -449,7 +445,6 @@ export default {
       }
     },
     leaveTeam: function () {
-      // console.log(userId);
       if (this.bye === this.userId) {
         this.$store.dispatch("leaveTeam", {
           userId: window.localStorage.getItem("userid"),

@@ -25,7 +25,6 @@ export default {
 
   methods: {
     deleteComment(comment) {
-      console.log("왜???");
       if (this.userNick === comment.cwriter) {
         this.$store.dispatch(Constant.REMOVE_COMMENT, {
           cno: comment.cno,

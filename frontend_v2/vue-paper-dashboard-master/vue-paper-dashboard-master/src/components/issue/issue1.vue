@@ -248,19 +248,15 @@ export default {
         showDropzoneAreas: true,
         multipleDropzonesItemsDraggingEnabled: true,
         onDrop(event) {
-          // console.log(event.items[0].innerHTML);
-          // //console.log(event.items[0]);
-          // console.log(this.groups[0]);
+          
         },
-        // onDragstart(event) {
-        //   event.stop();
-        // },
+        
         onDragend(event) {
           componentInstance.someDummyMethod();
           if (!event.droptarget) {
-            console.log("event is dropped out");
+            
           } else {
-            console.log("success!");
+            
           }
         },
       },
@@ -322,12 +318,9 @@ export default {
       return this.$store.state.issuestore.issues_ongoing;
     },
     project() {
-      console.log(this.$store.state.projectstore.project);
       return this.$store.state.projectstore.project;
     },
     issue() {
-      // console.log("computed");
-      // console.log(this.$store.state.issuestore.issue);
       return this.$store.state.issuestore.issue;
     },
     issue_prework() {
@@ -418,7 +411,6 @@ export default {
       this.$router.go();
     },
     issuedetail: function (issueid) {
-      console.log(issueid);
       this.issueid = issueid;
       this.$store.dispatch(Constant.GET_ISSUE, {
         issueid: this.issueid,
@@ -446,25 +438,18 @@ export default {
       // 만일 원래의 issuestate와 같다면 아무것도 변경하지 않음
       // 다르면 changeDay도 같이 변경
 
-      console.log("update");
       this.groups[0].items.forEach((el) => {
         el.name.issuestate = "created";
-        console.log("created");
-        console.log(el.name);
         this.$store.dispatch(Constant.UPDATE_ISSUE_BY_STATE, el.name);
       });
 
       this.groups[1].items.forEach((el) => {
         el.name.issuestate = "ongoing";
-        console.log("ongoing");
-        console.log(el.name);
         this.$store.dispatch(Constant.UPDATE_ISSUE_BY_STATE, el.name);
       });
 
       this.groups[2].items.forEach((el) => {
         el.name.issuestate = "done";
-        console.log("done");
-        console.log(el.name);
         this.$store.dispatch(Constant.UPDATE_ISSUE_BY_STATE, el.name);
       });
 

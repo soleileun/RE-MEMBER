@@ -296,15 +296,9 @@ export default {
           bno: this.board.bno,
           bstate: this.type,
         });
-<<<<<<< HEAD
         this.$router.push("/freeboard/type/" + this.type + '/' + this.$route.params.currentPage);
-=======
-        // console.log('삭제요청완료.' + this.board.bno);
-        this.$router.push(
-          "/freeboard/type/" + this.type + "/" + this.$route.params.currentPage
-        );
->>>>>>> 6f852f582715ed7916f94dd32bc7a208f34af0ae
       } else if (con_test == false) {
+
       }
     },
 
@@ -329,13 +323,7 @@ export default {
       this.$router.push(addr);
     },
     back() {
-<<<<<<< HEAD
       let addr = "/freeboard/type/" + this.type + '/' + this.$route.params.currentPage;
-=======
-      console.log(this.type);
-      let addr =
-        "/freeboard/type/" + this.type + "/" + this.$route.params.currentPage;
->>>>>>> 6f852f582715ed7916f94dd32bc7a208f34af0ae
       this.$router.push(addr);
     },
 
@@ -361,7 +349,7 @@ export default {
         alert("댓글 추가가 완료되었습니다.");
         this.comment2.ccontent = "";
       } else {
-        console.log("공백입력.");
+        
       }
     },
   },
