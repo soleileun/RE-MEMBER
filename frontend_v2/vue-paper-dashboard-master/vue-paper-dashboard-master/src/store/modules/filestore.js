@@ -10,8 +10,8 @@ const filestore = {
     state: {
         filesBoard: [],
         // 여기랑 스프링 reffile controller 수정 필요
-        fileUrl:"http://localhost:8080/api/reffile/image/file",
-        uploadUrl:"http://localhost:8080/api/reffile/files",
+        fileUrl:"http://i3a208.p.ssafy.io:8080/api/reffile/image/file",
+        uploadUrl:"http://i3a208.p.ssafy.io:8080/api/reffile/files",
     },
     
     actions: {
