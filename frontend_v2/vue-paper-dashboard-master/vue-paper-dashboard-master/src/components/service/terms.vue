@@ -14,8 +14,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 .terms {
-  border: 1px solid gray;
-
-  padding: 15px;
+  font-weight: 800;
+  font-size: 1.2rem;
 }
 </style>
