@@ -18,7 +18,7 @@ import VueDraggable from 'vue-draggable'
 import App from "./App";
 import router from "./router/index";
 import store from '@/store/index.js'
-import BootstrapVue from 'bootstrap-vue'
+import { BootstrapVue, BootstrapVueIcons } from 'bootstrap-vue'
 import GAuth from 'vue-google-oauth2'
 
 import PaperDashboard from "./plugins/paperDashboard";
@@ -31,6 +31,7 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 Vue.use(PaperDashboard);
 //부트스트랩-뷰
 Vue.use(BootstrapVue);
+Vue.use(BootstrapVueIcons);
 
 // dragula
 Vue.use(VueDraggable);

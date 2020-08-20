@@ -288,7 +288,6 @@ export default {
         });
         //userid 수정해야됨!
         this.$router.push("/project/myproject/");
-        console.log(this.userId);
       } else {
         alert("필수 항목을 모두 입력 해주세요.");
       }

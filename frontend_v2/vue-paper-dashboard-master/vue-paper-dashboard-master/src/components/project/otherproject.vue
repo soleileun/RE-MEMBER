@@ -42,11 +42,10 @@ export default {
     this.$store.dispatch(Constant.GET_PROJECTLIST_BY_PMEMBER, { userId:this.$route.params.userid });
   },
   mounted() {
-    // console.log(targetId + " : " + userId);
+    
   },
   methods: {
     // getPmemberList(userId) {
-    //   console.log("과정1");
 
       
     // },

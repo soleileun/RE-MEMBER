@@ -126,7 +126,7 @@ export default {
           this.$route.params.currentPage;
         this.$router.push(addr);
       } else {
-        console.log("공백입력.");
+        
       }
       // this.clear();
     },

@@ -75,18 +75,15 @@ const issuestore = {
                     changeDay: payload.changeDay,
                 }, config)
                 .then(() => {
-                    console.log('추가하였습니다.');
                     store.dispatch(Constant.GET_ISSUELIST, { pid: payload.pid });
 
                 })
                 .catch(exp => {
-                    console.log('추가 실패 확인 로그');
                     alert('추가 처리에 실패하였습니다.' + exp);
                 })
         },
         //이슈 수정
         [Constant.MODIFY_ISSUE]: (store, payload) => {
-            // console.log(payload);
             const config = {
                 headers: { "jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token") }
             }

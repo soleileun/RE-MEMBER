@@ -76,7 +76,6 @@ export default {
   methods: {
     datee(day) {
       if (day) {
-        console.log();
         return new Date().getDate() - new Date(day).getDate();
       } else {
         return "";
@@ -92,7 +91,6 @@ export default {
       this.$router.push("/profile/" + id);
     },
     delFollow(id) {
-      // console.log(id);
       this.$store.dispatch("delFollow", {
         uid: storage.getItem("userid"),
         target: id,

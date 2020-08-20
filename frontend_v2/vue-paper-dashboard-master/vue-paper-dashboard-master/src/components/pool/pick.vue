@@ -5,7 +5,7 @@
 
     <notfound v-if="rows === 0" />
     <div class="card-carousel">
-      <div class="my-card" v-for="(pool,index) in extendpools" :key="index">
+      <div class="my-card" v-for="(pool,index) in extendpools.slice(0,3)" :key="index">
         <div class="card">
           <div
             v-if="pool.responsibility === '디자인'"
@@ -325,6 +325,14 @@ export default {
   components: {
     notfound,
   },
+  props: {
+     
+    extendpools: {
+      type: Array,
+      required: true,
+    },
+     
+  },
   mounted() {
     let num = $(".my-card").length;
     let even = num / 2;
@@ -383,92 +391,32 @@ export default {
   },
   data() {
     return {
-      //페이징
-      // perPage: 6,
-      // currentPage: 1,
-
-      // selectedSido: 0,
-      // selectedGugun: 0,
-      // selectedDong: 0,
-
-      // lists: [],
-      // pints: [
-      //   "C",
-      //   "C++",
-      //   "Java",
-      //   "Python",
-      //   "Frontend",
-      //   "Backend",
-      //   "Spring",
-      //   "Jenkins",
-      //   "Django",
-      //   "Android",
-      //   "iOS",
-      //   "Unity",
-      //   "Unreal",
-      //   "react-native",
-      //   "Javascript",
-      //   "node.js",
-      //   "node.express",
-      //   "Angular.js",
-      //   "jQuery",
-      //   "React.js",
-      //   "Vue.js",
-      //   "IoT",
-      //   "Arduino",
-      //   "RasberryPi",
-      //   "Embedded",
-      //   "Qt",
-      //   "MachineVision",
-      //   "BlockChain",
-      //   "MachinLearning",
-      //   "DB",
-      //   "Oracle",
-      //   "MySQL",
-      //   "MSSQL",
-      //   "MariaDB",
-      //   "MongoDB",
-      //   "GraphQL",
-      // ],
-      // picks: [],
-      // inputVal: "",
+      
 
       cursor: 0,
     };
   },
   computed: {
     rows() {
+      console.log('rows :' +  this.extendpools.length);
       return this.extendpools.length;
     },
-    // pools() {
-    //   console.log("pool 호출");
-    //   return this.$store.state.poolstore.pools;
+    
+    // extendpools() {
+    //   console.log(
+    //     "extendpools 호출" + this.$store.state.poolstore.extendpools.length
+    //   );
+    //   return this.$store.state.poolstore.extendpools;
     // },
-    extendpools() {
-      console.log(
-        "extendpools 호출" + this.$store.state.poolstore.extendpools.length
-      );
-      return this.$store.state.poolstore.extendpools;
-    },
-    // sidoList() {
-    //   // console.log("확인" + this.$store.state.stackstore.sidolist);
-    //   return this.$store.state.stackstore.sidolist;
-    // },
-    // gugunList() {
-    //   return this.$store.state.stackstore.gugunlist;
-    // },
-    // dongList() {
-    //   return this.$store.state.stackstore.donglist;
-    // },
+   
     follow() {
       return this.$store.state.userstore.followings;
     },
   },
   created() {
-    this.$store.dispatch(Constant.GET_EXTENDPOOLLIST);
+    // this.$store.dispatch(Constant.GET_EXTENDPOOLLIST);
 
-    // sido리스트 불러오기
-    // this.$store.dispatch(Constant.GET_SIDOLIST);
+  
   },
   methods: {
     urls(id) {
@@ -478,13 +426,7 @@ export default {
     fol: function (id) {
       this.$store.dispatch("follow", { target: id });
     },
-    // changeSido(selectedSido) {
-    //   // gugun
-    //   // console.log(selectedSido);
-    //   this.selectedGugun = 0;
-    //   this.selectedDong = 0;
-    //   this.$store.dispatch(Constant.GET_GUGUNLIST, { sido: selectedSido });
-    // },
+   
     toProfile(e) {
       //this.btitle = this.inputtitle;
       let addr = "/profile/" + e;
@@ -495,136 +437,7 @@ export default {
       let addr = "/project/" + e;
       this.$router.push(addr);
     },
-    // changeGugun(selectedSido, selectedGugun) {
-    //   // dong
-    //   // console.log(selectedSido + selectedGugun);
-    //   this.selectedDong = 0;
-
-    //   this.$store.dispatch(Constant.GET_DONGLIST, {
-    //     sido: selectedSido,
-    //     gugun: selectedGugun,
-    //   });
-    // },
-    // changeDong(selectedDong) {
-    //   // apt
-
-    // },
-
-    // searchPool() {
-    //   // extendpools 반영 안 됨
-    //   let sd = "";
-    //   let gg = "";
-    //   let dn = "";
-
-    //   if (this.selectedSido == 0) {
-    //     sd = " ";
-    //   } else {
-    //     sd = this.selectedSido;
-    //   }
-    //   if (this.selectedGugun == 0) {
-    //     gg = " ";
-    //   } else {
-    //     gg = this.selectedGugun;
-    //   }
-    //   if (this.selectedDong == 0) {
-    //     dn = " ";
-    //   } else {
-    //     dn = this.selectedDong;
-    //   }
-    //   let addr = sd + "," + gg + "," + dn + ",";
-    //   let stacks = "";
-    //   if (this.picks.length != 0) {
-    //     for (let i = 0; i < this.picks.length; i++) {
-    //       stacks += this.picks[i] + ",";
-    //     }
-    //   } else {
-    //     stacks = null;
-    //   }
-
-    //   console.log(sd + " " + gg + " " + dn);
-    //   console.log("태그길이:" + this.picks.length);
-    //   console.log("stack is + " + stacks);
-
-    //   if (
-    //     this.selectedSido == 0 &&
-    //     this.selectedGugun == 0 &&
-    //     this.selectedDong == 0 &&
-    //     this.picks.length == 0 &&
-    //     document.getElementById("keyword1").value == ""
-    //   ) {
-    //     //this.$store.dispatch(Constant.GET_POOLLIST);
-    //     this.$store.dispatch(Constant.GET_EXTENDPOOLLIST);
-    //   } else {
-    //     //통합
-    //     this.$store.dispatch(Constant.SEARCH_POOLIST, {
-    //       addr,
-    //       stacks,
-    //       keyword: document.getElementById("keyword1").value,
-    //     });
-    //   }
-    // },
-
-    // deleteStack(idx) {
-    //   this.picks.splice(idx, 1);
-    // },
-
-    // searchQuery: function () {
-    //   if (this.inputVal.trim() !== "") {
-    //     this.lists = this.pints.filter((el) => {
-    //       return el.toLowerCase().match(this.inputVal.toLowerCase());
-    //     });
-    //     setTimeout(() => {
-    //       if (this.lists.length > 0) {
-    //         this.cursor = 0;
-    //         document.querySelector(`.pk${this.cursor}`).classList.add("act");
-    //       }
-    //     }, 50);
-    //   } else {
-    //     this.lists = [];
-    //   }
-    // },
-    // add: function (x) {
-    //   if (this.picks.length == 5) {
-    //     alert("검색 스택은 5개까지만 입력 가능합니다.");
-    //     this.lists = [];
-    //     this.inputVal = "";
-    //   } else {
-    //     if (x !== "") {
-    //       if (!this.picks.find((i) => i === x)) {
-    //         this.picks.push(x);
-    //       }
-    //     }
-    //     this.inputVal = "";
-    //     this.lists = [];
-    //   }
-    // },
-    // upQ() {
-    //   document.querySelector(`.pk${this.cursor}`).classList.remove("act");
-    //   this.cursor--;
-    //   if (this.cursor === -1) {
-    //     this.cursor = this.lists.length - 1;
-    //   }
-    //   document.querySelector(`.pk${this.cursor}`).classList.add("act");
-    //   let location = document.querySelector(`.pk${this.cursor}`).offsetTop;
-    //   document
-    //     .querySelector(".autoComplete")
-    //     .scrollTo({ top: location, behavior: "auto" });
-    // },
-    // downQ() {
-    //   document.querySelector(`.pk${this.cursor}`).classList.remove("act");
-    //   this.cursor++;
-    //   if (this.cursor === this.lists.length) {
-    //     this.cursor = 0;
-    //   }
-    //   document.querySelector(`.pk${this.cursor}`).classList.add("act");
-    //   let location = document.querySelector(`.pk${this.cursor}`).offsetTop;
-    //   document
-    //     .querySelector(".autoComplete")
-    //     .scrollTo({ top: location, behavior: "auto" });
-    // },
-    // enterQ() {
-    //   this.add(document.querySelector(`.pk${this.cursor}`).innerText);
-    // },
+    
   },
 };
 </script>

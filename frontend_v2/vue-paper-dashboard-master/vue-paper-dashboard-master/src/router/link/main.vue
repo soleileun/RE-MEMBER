@@ -14,17 +14,32 @@
       @sliding-start="onSlideStart"
       @sliding-end="onSlideEnd"
     >
+      <!-- Slides with custom text -->
+      <b-carousel-slide img-src="https://picsum.photos/1024/480/?image=54">
+        <h1>
+          <div class="text-center">
+            <img class="cimage" src="@/assets/img/newlogo.png" />
+            <br />
+            <strong style="color : white;">
+              Find Your Partner, HERE, WITH
+              <div style="color : yellow;">RE:MEMBER!</div>
+            </strong>
+          </div>
+        </h1>
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+      </b-carousel-slide>
+
       <!-- Text slides with image -->
       <b-carousel-slide
         caption="First slide"
         text="Nulla vitae elit libero, a pharetra augue mollis interdum."
         img-src="https://picsum.photos/1024/480/?image=52"
       ></b-carousel-slide>
-
-      <!-- Slides with custom text -->
-      <b-carousel-slide img-src="https://picsum.photos/1024/480/?image=54">
-        <h1>Hello world!</h1>
-      </b-carousel-slide>
 
       <!-- Slides with image only -->
       <b-carousel-slide img-src="https://picsum.photos/1024/480/?image=58"></b-carousel-slide>
@@ -52,21 +67,16 @@
       </b-carousel-slide>
     </b-carousel>
 
-    <p class="mt-4">
+    <!-- <p class="mt-4">
       Slide #: {{ slide }}
       <br />
       Sliding: {{ sliding }}
-    </p>
+    </p>-->
 
     <!-- 캐러셀 end -->
 
     <div class="container">
-      <div class="text-center">
-        <h3>
-          Find Your Partner, HERE, WITH
-          <strong>RE:MEMBER!</strong>
-        </h3>
-      </div>
+      <div class="text-center"></div>
       <div class="search open">
         <input type="search" class="search-box" placeholder="RE:cruit your MEMBER" />
         <span class="search-button">
@@ -107,9 +117,6 @@
         </div>
       </div>
       <div v-if="this.loginId != '' " class="col-md-12">
-        <h3>
-          <strong>{{userNick}}</strong>님께 추천드리는 프로젝트입니다!
-        </h3>
         <!-- <div class="dmswjdWKdWkd">
           <div class="col-4" name="rpjt" v-for="project in projects" :key="project.pid">
             <project :project="project" />
@@ -117,13 +124,67 @@
         </div>-->
         <hr />
 
-        <h3>
-          <strong>{{userNick}}</strong>님께 추천드리는 팀원입니다!
-        </h3>
+        <!-- 오버레이 -->
+        <b-overlay
+          :show="show"
+          rounded="sm"
+          @shown="onShown"
+          @hidden="onHidden"
+          style="text-align:center;"
+        >
+          <b-card title="팀원과 프로젝트를 추천해드립니다!" :aria-hidden="show ? 'true' : null">
+            <br />
+            <b-card-text>
+              <strong>{{userNick}}</strong> 님께서 함께하시기 적합한 인재와 프로젝트를
+              <strong>{{userNick}}</strong> 님의 위치, 기술 스택을 기반으로 추천해드립니다.
+            </b-card-text>
+            <b-card-text>버튼을 눌러 팀원과 프로젝트를 추천받아보세요!</b-card-text>
+            <b-button ref="show" :disabled="show" variant="primary" @click="layout">{{btnName1}}</b-button>
 
-        <div class="dmswjdWKdWkd">
-          <users />
-        </div>
+            <recommend-pool v-if="showRecommendPool === false" />
+            <div v-else>
+              <b-card-text>
+                <h3>
+                  <strong>{{userNick}}</strong> 님께 추천드리는 팀원입니다!
+                </h3>
+              </b-card-text>
+              <div class="dmswjdWKdWkd">
+                <users :extendpools="extendpools" />
+              </div>
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+
+              <hr />
+              <b-card-text>
+                <h3>
+                  <strong>{{userNick}}</strong> 님께 추천드리는 프로젝트입니다!
+                </h3>
+              </b-card-text>
+            </div>
+          </b-card>
+          <!-- 로딩화면 -->
+          <template v-slot:overlay>
+            <div class="text-center">
+              <b-icon icon="stopwatch" font-scale="3" animation="cylon"></b-icon>
+              <br />
+              <br />
+              <p id="cancel-label">
+                <strong>팀원을 매칭하는 중입니다. 잠시만 기다려주세요...</strong>
+              </p>
+              <b-button
+                ref="cancel"
+                variant="outline-danger"
+                size="sm"
+                aria-describedby="cancel-label"
+                @click="show = false"
+              >Cancel</b-button>
+            </div>
+          </template>
+        </b-overlay>
+        <!-- 오버레이 end -->
       </div>
     </div>
   </div>
@@ -140,6 +201,7 @@ import project from "../../components/project/project1";
 import users from "../../components/pool/pick";
 import http from "@/http-common.js";
 import recruitcomponent from "../../components/recruit/recruitcomponent.vue";
+import recommendPool from "../../components/notfound/recommendPool.vue";
 const storage = window.sessionStorage;
 export default {
   name: "mains",
@@ -147,6 +209,7 @@ export default {
     recruitcomponent,
     project,
     users,
+    recommendPool,
   },
   data: function () {
     return {
@@ -158,9 +221,18 @@ export default {
       //  loginId: "",
       slide: 0,
       sliding: null,
+      show: false,
+      showRecommendPool: false,
+      btnName1: "추천받기",
     };
   },
   computed: {
+    extendpools() {
+      console.log(
+        "extendpools 호출" + this.$store.state.poolstore.extendpools.length
+      );
+      return this.$store.state.poolstore.extendpools;
+    },
     recruits() {
       return this.$store.state.recruitstore.recruits;
     },
@@ -183,11 +255,29 @@ export default {
   },
 
   methods: {
+    layout() {
+      this.$store.dispatch(Constant.GET_EXTENDPOOLLIST);
+
+      this.show = true;
+      setTimeout(() => {
+        this.show = false;
+        this.showRecommendPool = true;
+        this.btnName1 = "다시 추천받기";
+      }, 3000);
+    },
     onSlideStart(slide) {
       this.sliding = true;
     },
     onSlideEnd(slide) {
       this.sliding = false;
+    },
+    onShown() {
+      // Focus the cancel button when the overlay is showing
+      this.$refs.cancel.focus();
+    },
+    onHidden() {
+      // Focus the show button when the overlay is removed
+      this.$refs.show.focus();
     },
     toggle() {
       console.log(this.loginId);
@@ -217,8 +307,8 @@ export default {
     },
   },
 
-  beforeCreate() {
-    // this.$store.dispatch(Constant.GET_RECRUITLIST);
+  created() {
+    this.$store.dispatch(Constant.GET_EXTENDPOOLLIST);
     // this.$store.dispatch("getRecommendedUser");
     // this.$store.dispatch("getRecommendedPJT");
   },
@@ -346,5 +436,10 @@ body {
       height: 18px;
     }
   }
+}
+
+.cimage {
+  width: 30%;
+  height: 20%;
 }
 </style>

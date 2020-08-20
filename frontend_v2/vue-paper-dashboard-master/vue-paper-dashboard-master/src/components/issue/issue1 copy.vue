@@ -363,9 +363,7 @@ export default {
         showDropzoneAreas: true,
         multipleDropzonesItemsDraggingEnabled: true,
         onDrop(event) {
-          console.log(event.items[0].innerHTML);
-          //console.log(event.items[0]);
-          console.log(this.groups[0]);
+          
         },
         // onDragstart(event) {
         //   event.stop();
@@ -373,9 +371,9 @@ export default {
         onDragend(event) {
           componentInstance.someDummyMethod();
           if (!event.droptarget) {
-            console.log("event is dropped out");
+            //실패
           } else {
-            console.log("success!");
+            // 성공
           }
         },
       },
@@ -540,7 +538,7 @@ export default {
     },
 
     onGroupsChange(e) {
-      console.log("onGroupChange!!!!!!");
+      //그룹바뀜
     },
   },
 };

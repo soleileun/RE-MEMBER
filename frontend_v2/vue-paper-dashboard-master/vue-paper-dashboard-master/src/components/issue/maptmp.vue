@@ -166,7 +166,6 @@
 									var totalX = 0;
 									var totalY = 0;
 									var len = markers.length;
-									console.log("len is " + len);
 									for (var i = 0; i < len; i++) {
 										totalX += markers[i].getPosition().Ha;
 										totalY += markers[i].getPosition().Ga;

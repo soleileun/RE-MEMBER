@@ -21,7 +21,6 @@ const commentstore = {
     }
       http.get('/api/board/getcomments/'+ payload.bno,config)
           .then(response => {
-            console.log(response)
               store.commit(Constant.GET_COMMENTLIST, { comments: response.data })
         })
           .catch(exp => alert('getBoardList처리에 실패하였습니다!.' + exp));
@@ -29,7 +28,6 @@ const commentstore = {
    
     //댓글 추가
     [Constant.ADD_COMMENT]: (store, payload) => {
-        console.log(payload.bno);
         const config = {
           headers: {"jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")}
       }
@@ -42,19 +40,16 @@ const commentstore = {
                 makeId:payload.makeId
             },config)
             .then(() => {
-                console.log('추가하였습니다.');
                 store.dispatch(Constant.GET_COMMENTLIST, {bno : payload.bno});
 
             })
             .catch(exp => {
-                console.log('추가 실패 확인 로그');
                 alert('추가 처리에 실패하였습니다.' + exp);
             })
     },
 
     //채택
     [Constant.PICK_COMMENTS]: (store, payload) => {
-      console.log(payload.cno);
       // console.log(payload);
       const config = {
           headers: { "jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token") }

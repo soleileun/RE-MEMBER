@@ -1,5 +1,5 @@
 <template>
-  <div >
+  <div>
     <div>
       <div class="row" style="margin:8px;">
         <div class="col-12">
@@ -173,8 +173,8 @@
         -->
         <notfound v-if="rows === 0" />
         <div v-else class="col-md-8" style="position:relative">
-            <i class="ti-angle-left leff" @click="mouseover(1)" style="position:absolute;top:50%; left:0; z-index:5"></i>
-            <i class="ti-angle-right rigg" @click="mouseover(3)" style="position:absolute;top:50%; right:0; z-index:5"></i>
+          <i class="ti-angle-left leff" @click="mouseover(1)" style="position:absolute;top:50%; left:0; z-index:5"></i>
+          <i class="ti-angle-right rigg" @click="mouseover(3)" style="position:absolute;top:50%; right:0; z-index:5"></i>
           <ul class="cards cards-ul" id="poolpage">
             <li class="cards__item" v-for="(pool,index) in extendpools.slice(currentPage-1,currentPage-1+perPage)" :key="index">
               <div class="card">
@@ -190,10 +190,10 @@
                 <div class="card__content">
                   <div class="card__title">
                     <div style="font-weight:800; display:inline-block; margin-right:4px;">{{pool.nickname}}</div>
-                    <p v-if="pool.isValid ===1" style="display:inline-block; color:rgb(79, 245, 154); font-size:10px; text-align:right; margin-bottom:3px;">
-                      <img v-if="pool.isValid ===1" src="@/assets/img/checklist.png" title="인증된 유저입니다" />
+                    <p v-if="pool.valid ===true" style="display:inline-block; color:rgb(79, 245, 154); font-size:10px; text-align:right; margin-bottom:3px;">
+                      <img  src="@/assets/img/checklist.png" title="인증된 유저입니다" />
                     </p>
-                    <p v-else-if="pool.isValid===123"></p>
+                    <p v-else-if="pool.valid===123"></p>
                     <p v-else style="display:inline-block; color:red;font-size:10px;text-align:right; margin-bottom:3px; ">
                       <img src="@/assets/img/error.png" title="미인증된 유저입니다" />
                     </p>
@@ -326,7 +326,7 @@
           </ul>
           <!-- <b-pagination v-model="currentPage" :total-rows="rows" :per-page="perPage" aria-controls="poolpage" align="center"></b-pagination> -->
           <div>
-            <input type="range" v-model="currentPage" min="1" :max="extendpools.length-4" style="width:60%;margin-left:20%;height:50px" />
+            <input type="range" id="scrollRange" v-model="currentPage" min="1" :max="extendpools.length-4" style="width:60%;margin-left:20%;height:50px" />
           </div>
         </div>
       </div>
@@ -411,20 +411,19 @@ export default {
     extendpools() {
       let a = [];
       if (this.$store.state.poolstore.extendpools.length > 0) {
-        a.push({isValid:123});
-        a.push({isValid:123});
+        a.push({ valid: 123 });
+        a.push({ valid: 123 });
         this.$store.state.poolstore.extendpools.forEach((el) => {
           a.push(el);
         });
-        a.push({isValid:123});
-        a.push({isValid:123});
+        a.push({ valid: 123 });
+        a.push({ valid: 123 });
       } else {
         a = [];
       }
       return a;
     },
     sidoList() {
-      // console.log("확인" + this.$store.state.stackstore.sidolist);
       return this.$store.state.stackstore.sidolist;
     },
     gugunList() {
@@ -438,10 +437,8 @@ export default {
     },
   },
   created() {
-    console.log(this.urls("abb"));
     this.$store.dispatch(Constant.GET_POOLLIST);
     this.$store.dispatch(Constant.GET_EXTENDPOOLLIST);
-    console.log("디스패치 완료");
 
     // sido리스트 불러오기
     this.$store.dispatch(Constant.GET_SIDOLIST);
@@ -461,7 +458,13 @@ export default {
             this.currentPage++;
           }
         }
+        document.querySelector('li.cards__item:nth-child(3)').classList.add('act')
+        setTimeout(()=>{
+          
+        document.querySelector('li.cards__item:nth-child(3)').classList.remove('act')
+        },1000)
         this.delays = false;
+        
       }
     },
     //페이징
@@ -474,7 +477,6 @@ export default {
     },
     changeSido(selectedSido) {
       // gugun
-      // console.log(selectedSido);
       this.selectedGugun = 0;
       this.selectedDong = 0;
       this.$store.dispatch(Constant.GET_GUGUNLIST, { sido: selectedSido });
@@ -491,7 +493,6 @@ export default {
     },
     changeGugun(selectedSido, selectedGugun) {
       // dong
-      // console.log(selectedSido + selectedGugun);
       this.selectedDong = 0;
 
       this.$store.dispatch(Constant.GET_DONGLIST, {
@@ -534,10 +535,6 @@ export default {
       } else {
         stacks = null;
       }
-
-      console.log(sd + " " + gg + " " + dn);
-      console.log("태그길이:" + this.picks.length);
-      console.log("stack is + " + stacks);
 
       if (
         this.selectedSido == 0 &&
@@ -710,8 +707,6 @@ div.col-md-8 {
 .cards {
   overflow-y: scroll;
   overflow: visible;
-  width: 100%;
-  height: 650px;
   display: flex;
   flex-flow: row;
   justify-content: center;
@@ -730,6 +725,11 @@ div.col-md-8 {
     margin-top: -10px;
     z-index: 3;
   }
+  li.act{
+    animation-name: toggle;
+    animation-duration: 0.5s;
+    animation-timing-function: linear;
+  }
   li:nth-child(4) {
     margin-top: -6px;
     z-index: 2;
@@ -740,18 +740,51 @@ div.col-md-8 {
 }
 
 @media (max-width: 767px) {
-  .cards {
-    margin-left: 100px;
+  .leff {
+    margin-left: 0;
   }
-  .cards__item {
-    display: flex;
-    padding: 1rem;
-    width: 300px;
-    margin-left: -200px;
-    height: 600px;
+  .rigg {
+    margin-right: 0;
+  }
+  div.col-md-8 {
+    z-index: 0;
+    height: 500px;
+    padding: 0;
+  }
+  .cards.cards-ul {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 480px;
+    .cards__item {
+      display: flex;
+      padding: 1rem;
+      width: 250px;
+      margin-left: -100px;
+      margin-right: -100px;
+      height: 450px;
+    }
+  }
+  #scrollRange {
+  }
+  @keyframes toggle {
+    50% {
+      width: 280px;
+      height: 455px;
+    }
   }
 }
 @media (min-width: 768px) {
+  @keyframes toggle {
+    50% {
+      width: 570px;
+      height: 610px;
+    }
+  }
+  .cards {
+    width: 100%;
+    height: 650px;
+  }
   .cards__item {
     display: flex;
     padding: 1rem;
@@ -949,12 +982,11 @@ div.col-md-8 {
   height: 100%;
 }
 .cards-ul {
-  padding-top:40px;
-  padding-bottom:40px;
-  padding-left:400px;
-  overflow:hidden;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  padding-left: 400px;
+  overflow: hidden;
   margin-left: 20px;
-
 }
 
 </style>

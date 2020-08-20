@@ -63,25 +63,22 @@ const recruitstore = {
           "jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")
         }
       }
-      console.log(payload);
       http.post('/api/recruit/', {
-          pid: payload.pid,
-          title: payload.title,
-          contents: payload.contents,
-          endDate: payload.endDate,
-          makeDay: payload.makeDay,
-          changeDay: payload.changeDay,
-          makeId: payload.makeId,
-          changeId: payload.changeId,
+        pid: payload.pid,
+        title: payload.title,
+        contents: payload.contents,
+        endDate: payload.endDate,
+        makeDay: payload.makeDay,
+        changeDay: payload.changeDay,
+        makeId: payload.makeId,
+        changeId: payload.changeId,
 
-        }, config)
+      }, config)
         .then(() => {
-          console.log('구인글 추가하였습니다.');
           store.dispatch(Constant.GET_RECRUITLIST);
 
         })
         .catch(exp => {
-          console.log('추가 실패 확인 로그');
           alert('리쿠르트 추가 처리에 실패하였습니다.' + exp);
         })
     },
@@ -110,7 +107,7 @@ const recruitstore = {
 
     //주소, 태그로 풀리스트 반환
     [Constant.SEARCH_RECRUIT_BY_TAG_ADDR]: (store, payload) => {
-      console.log(payload);
+
       const config = {
         headers: {
           "jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")
@@ -118,7 +115,6 @@ const recruitstore = {
       }
       http.get('/api/recruit/selectAddrAndTag/tag=' + payload.stacks + '&addr=' + payload.addr, config)
         .then(response => {
-          console.log('풀리스트 반환: ' + response.data);
           store.commit(Constant.GET_RECRUITLIST, {
             recruits: response.data
           })
@@ -127,7 +123,6 @@ const recruitstore = {
     },
     //주소로 풀리스트 반환
     [Constant.SEARCH_RECRUIT_BY_ADDR]: (store, payload) => {
-      console.log(payload);
       const config = {
         headers: {
           "jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")
@@ -135,7 +130,6 @@ const recruitstore = {
       }
       http.get('/api/recruit/addr/sido=' + payload.sido + '&gugun=' + payload.gugun + '&dong=' + payload.dong, config)
         .then(response => {
-          // console.log('풀리스트 반환: '+response.data);
           store.commit(Constant.GET_RECRUITLIST, {
             recruits: response.data
           })
@@ -144,7 +138,6 @@ const recruitstore = {
     },
     //태그로 풀리스트 반환
     [Constant.SEARCH_RECRUIT_BY_TAG]: (store, payload) => {
-      console.log(payload);
       const config = {
         headers: {
           "jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")
@@ -179,7 +172,6 @@ const recruitstore = {
 
     //통합 검색
     [Constant.SEARCH_RECRUIT]: (store, payload) => {
-      console.log(payload);
       const config = {
         headers: {
           "jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")
@@ -187,7 +179,7 @@ const recruitstore = {
       }
       http.get('/api/recruit/search/tag=' + payload.stacks + '&addr=' + payload.addr + '&by=' + payload.by + '&keyword=' + payload.keyword, config)
         .then(response => {
-          console.log('통합 검색 조건 리쿠르트리스트 반환: ' + response.data);
+          
           store.commit(Constant.GET_RECRUITLIST, {
             recruits: response.data
           })
@@ -203,16 +195,16 @@ const recruitstore = {
         }
       }
       http.put('/api/recruit/' + payload.rnum, {
-          rnum: payload.rnum,
-          // pid: this.recruit.rnum,
-          title: payload.title,
-          contents: payload.contents,
-          // endDate: this.recruit.endDate,
-          // makeDay: this.recruit.makeDay,
-          // changeDay: this.recruit.changeDay,
-          // makeId: this.loginId,
-          changeId: payload.changeId,
-        }, config)
+        rnum: payload.rnum,
+        // pid: this.recruit.rnum,
+        title: payload.title,
+        contents: payload.contents,
+        // endDate: this.recruit.endDate,
+        // makeDay: this.recruit.makeDay,
+        // changeDay: this.recruit.changeDay,
+        // makeId: this.loginId,
+        changeId: payload.changeId,
+      }, config)
         .then(() => {
           // console.log('수정하였습니다.'+ response.data);
           alert('수정 완료하였습니다');

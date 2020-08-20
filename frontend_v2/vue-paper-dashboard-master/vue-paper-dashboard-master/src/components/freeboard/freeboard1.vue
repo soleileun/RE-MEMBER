@@ -284,8 +284,6 @@ export default {
       return this.frees.length;
     },
     frees() {
-      // console.log('안녕');
-      // console.log('확인 : ' + this.$store.state.boardstore.boards);
       return this.$store.state.boardstore.boards;
     },
     loginId() {
@@ -294,7 +292,6 @@ export default {
     },
   },
   created() {
-    console.log(this.type);
     this.$store.dispatch(Constant.GET_BOARDLIST, { bstate: this.type });
   },
   
@@ -321,7 +318,6 @@ export default {
 
       //제목 검색
       if (std == "t") {
-        console.log(val);
         this.$store.dispatch(Constant.SEARCH_BOARD_TITLE, {
           btitle: val,
           bstate: this.type,

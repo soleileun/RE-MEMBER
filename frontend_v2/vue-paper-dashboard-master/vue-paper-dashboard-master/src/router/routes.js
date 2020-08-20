@@ -51,6 +51,7 @@ import TableList from "@/pages/TableList.vue";
 //issue page
 import issuetest from "@/components/issue/issue1.vue";
 import maps from "@/components/issue/maps.vue";
+import isuueTeam from "@/components/issue/issueTeamInfo.vue";
 
 const routes = [{
     path: "/",
@@ -267,6 +268,11 @@ const routes = [{
         path: "issuetest/:userId/:pid",
         name: "issuetest",
         component: issuetest
+      },
+      {
+        path: "issue/partners/:pid",
+        name: "팀원 정보",
+        component: isuueTeam
       },
       {
         path: "maps/:userId/:pid",

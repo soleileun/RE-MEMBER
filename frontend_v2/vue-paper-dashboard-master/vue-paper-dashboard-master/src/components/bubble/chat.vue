@@ -228,13 +228,10 @@ export default {
   },
   created() { // 소켓 초기 연결을 시작합니다.
       this.connect();
-      console.log("STOMP is working");
          this.$store.dispatch(Constant.CHAT_READ, {
           roomName : this.room,
           id : this.id,}
           );
-          console.log(this.id + "가 쓴거 아님 다 읽음 표시로 바꿈");
-
     return this.$store.state.chatstore.chats;
   },
   methods: {
@@ -256,7 +253,6 @@ export default {
       }
     },    
     send() { // 메시지를 발송하는 함수입니다.
-      console.log("Send message:" + this.content);
       if (this.stompClient && this.stompClient.connected) {
         const msg = { 
           id: this.id,
@@ -278,17 +274,14 @@ export default {
       }
     },    
     connect() {  
-        console.log("socket start");
         const serverURL = "http://i3a208.p.ssafy.io:8000"
         let socket = new SockJS(serverURL);
         this.stompClient = Stomp.over(socket);
-        console.log(`target server : ${serverURL}`)
         this.stompClient.connect(
         {},
         frame => {
           // 소켓 연결 성공
           this.connected = true;
-          console.log('[SUCCESS] socket is connected', frame);
             
             
           this.stompClient.subscribe("/send/" + this.room, res => {
@@ -306,28 +299,16 @@ export default {
               id : this.id,}
             );
           });
-          console.log(this.id + "[UPDATE] isRead field");
         },
         error => {
           // 소켓 연결 실패
-          console.log('[FAIL] socket connection is failed', error);
           this.connected = false;
         }
       );        
     },
     back() {
- //     console.log("back 클릭");
       this.$emit('endchat',false);
     },
-    /*
-    inviteuser(e) {
-      
-      if(e.keyCode === 13 && this.id !== '' && this.target !== ''){ // 엔터를 눌러 메시지를 발송합니다.
-        this.invite()
-        console.log("target");
-      }
-    },
-    */
     invite() {
       if(this.id !== '' && this.target !== '') {
         //만약 유저 아이디로 조회해서 널이 아니면 초대함.
@@ -337,46 +318,14 @@ export default {
           uid : this.target,
           })
           .then(response =>{
-            if(response == null)
-            console.log("then에서 찍어주는거야");
-            console.log(response);
             
           })
-          /*
-      console.log(this.target + "님을 초대");
-      alert(this.target + "님을 초대했습니다.");
-      }
-
-
-      //초대 관련 시스템 메시지
-
-      
-      console.log("Send message:" + this.target + "님께서 입장하셨습니다.");
-      if (this.stompClient && this.stompClient.connected) {
-        const msg = { 
-          id: "system",
-          nickname: "system",
-          content: this.target + "님께서 입장하셨습니다.",
-          roomName: this.room, 
-        };
-        this.stompClient.send("/receive/"+this.room, JSON.stringify(msg), {});
-
-        this.$store.dispatch(Constant.SEND_CHAT,{
-          roomName : this.rname,
-          id : "system",
-          nickname : "system",
-          content : this.target + "님께서 입장하셨습니다.",
-          makedate : new Date(),
-          });
-      */
       }
       // 끝
     },
     exit() {
-      console.log("나가기");
 
       //나감 관련 시스템 메시지
-      console.log("Send message:" + this.id + "님이 나가셨습니다.");
       if (this.stompClient && this.stompClient.connected) {
         const msg = { 
           id: "system",
@@ -406,7 +355,6 @@ export default {
   },
 beforeDestroy:function(){
     if(this.stompClient !== null) {
-        console.log("disconnect");
         this.stompClient.disconnect();
         this.$store.dispatch(Constant.GET_CHATLIST, {roomName : null, id:null});
       }

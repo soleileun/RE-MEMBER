@@ -1,10 +1,10 @@
 <template>
   <div class="container row" display:centered>
     <transition name="fade">
-          <div class="loading" >
-            <span class="fa fa-spinner fa-spin"></span> Loading
-          </div>
-        </transition>
+      <div class="loading">
+        <span class="fa fa-spinner fa-spin"></span> Loading
+      </div>
+    </transition>
     <div class="col-7">
       <card class="card text-center" :title="title">
         <div>
@@ -14,21 +14,34 @@
                 <div class="col-2">
                   <div class="avatar">
                     <template v-if="pm.priority === 1">
-                      <img src="@/assets/img/crown.png" alt="Circle Image" class="rounded img-fluid" />
+                      <img
+                        src="@/assets/img/crown.png"
+                        alt="Circle Image"
+                        class="rounded img-fluid"
+                      />
                     </template>
                     <template v-if="pm.priority != 1">
-                      <img src="@/assets/img/shield.png" alt="Circle Image" class="rounded img-fluid" />
+                      <img
+                        src="@/assets/img/shield.png"
+                        alt="Circle Image"
+                        class="rounded img-fluid"
+                      />
                     </template>
                   </div>
                 </div>
                 <div class="col-2">
                   <div class="avatar">
-                    <img src="@/assets/img/faces/face-1.jpg" alt="Circle Image" class="rounded img-fluid" />
+                    <img
+                      src="@/assets/img/faces/face-1.jpg"
+                      alt="Circle Image"
+                      class="rounded img-fluid"
+                    />
                   </div>
                 </div>
                 <div class="col-4 text-center">
                   <div :class="getStatusClass(pm.state)">
                     <small v-if="pm.state ==='ing'">Active</small>
+                    <small v-if="pm.state !='ing'" colcor="red">Disable</small>
                   </div>
                   <router-link :to="'/profile/' + pm.userId">
                     <h5>
@@ -37,20 +50,19 @@
                   </router-link>
                 </div>
 
-                <div class="col-1">
+                <div class="col-2">
                   <p-button type="success" outline icon>
                     <i class="fa fa-envelope" @click="mes(pm.userId)"></i>
                   </p-button>
                 </div>
 
-                <div class="col-1">
+                <div class="col-2">
                   <p-button type="info" outline icon>
-                    <i class="fa fa-user-plus"></i>
-                  </p-button>
-                </div>
-                <div class="col-1">
-                  <p-button type="info" outline icon>
-                    <i class="fa fa-user-plus"></i>
+                    <i
+                      class="fa fa-user-plus"
+                      v-if="!follow.find(item=>item.id === pm.userId)"
+                      @click="fol(pm.userId)"
+                    ></i>
                   </p-button>
                 </div>
               </div>
@@ -78,10 +90,15 @@
             </div>
           </template>
         </div>
-        <template v-if="!pmlist.find(item => item.userId === userId) && !applys.find(item=>item.userId===userId)">
+        <template
+          v-if="!pmlist.find(item => item.userId === userId) && !applys.find(item=>item.userId===userId)"
+        >
           <button class="btn btn-info" @click="openModal4">프로젝트 팀 참여하기</button>
         </template>
-        <button v-else-if="!pmlist.find(item => item.userId === userId)" class="btn btn-danger">지원되었습니다.</button>
+        <button
+          v-else-if="!pmlist.find(item => item.userId === userId)"
+          class="btn btn-danger"
+        >지원되었습니다.</button>
       </card>
     </div>
 
@@ -92,8 +109,14 @@
           <div v-for="apply in applys" :key="apply.wno">
             <div v-if="apply.type ==='Apply'">
               {{apply.userId}}&nbsp;&nbsp; :&nbsp;&nbsp; {{apply.comment}}&nbsp;
-              <button class="btn btn-success btn-round" @click="addNewMem(apply.code)">수락</button> &nbsp;&nbsp;&nbsp;
-              <button class="btn btn-danger btn-round" @click="delApply(apply.userId)">거절</button>
+              <button
+                class="btn btn-success btn-round"
+                @click="addNewMem(apply.code)"
+              >수락</button> &nbsp;&nbsp;&nbsp;
+              <button
+                class="btn btn-danger btn-round"
+                @click="delApply(apply.userId)"
+              >거절</button>
             </div>
           </div>
         </div>
@@ -105,7 +128,10 @@
           <div v-for="apply in applys" :key="apply.wno">
             <div v-if="apply.type ==='Invite'">
               {{apply.userId}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              <button class="btn btn-danger btn-round" @click="delApply(apply.userId)">초대 취소하기</button>
+              <button
+                class="btn btn-danger btn-round"
+                @click="delApply(apply.userId)"
+              >초대 취소하기</button>
             </div>
           </div>
         </div>
@@ -249,6 +275,9 @@ export default {
     };
   },
   computed: {
+    follow() {
+      return this.$store.state.userstore.followings;
+    },
     pmlist() {
       return this.$store.state.projectstore.pmlist;
     },
@@ -295,11 +324,14 @@ export default {
         this.$store.dispatch(Constant.ADD_WAITMEMBER, {
           pid: this.pid,
           comment: this.applyComment,
-          state:this.state
+          state: this.state,
         });
         document.getElementById("myModal4").style.display = "none";
         this.applyComment = "";
       }
+    },
+    fol: function (id) {
+      this.$store.dispatch("follow", { target: id });
     },
     mes: function (id) {
       this.$store.dispatch("sendMes", { toUser: id });
@@ -414,6 +446,8 @@ export default {
           return "text-muted";
         case "ing":
           return "text-success";
+        case "stop":
+          return "text-danger";
         case "Busy":
           return "text-danger";
         default:
@@ -482,7 +516,7 @@ export default {
 .checks {
   display: inline;
 }
-.loading{
+.loading {
   display: none;
 }
 .loading.act {

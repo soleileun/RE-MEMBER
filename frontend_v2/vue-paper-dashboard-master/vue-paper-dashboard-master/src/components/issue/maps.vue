@@ -1,6 +1,6 @@
 <template>
-<div>
-  <div class="scroll-sidebar">
+  <div>
+    <div class="scroll-sidebar">
       <!-- Sidebar navigation-->
       <div class="sidebar-nav">
         <div class="sidebar" data-color="purple" data-image="./assets/issue_img/sidebar-5.jpg">
@@ -26,43 +26,76 @@
                   <span>지도</span>
                 </div>
               </li>
-              <li class="active test nav-item">
-                <div class="navtest">
-                  <i class="fa fa-tasks"></i>
-                  <span>프로젝트</span>
-                </div>
-              </li>
-              <li class="active test nav-item" @click="teaminfo">
+              <!-- <router-link class="nav-link" :to="'/project/partners/'+this.$route.params.pid"> -->
+              <li class="active test nav-item" @click="teamInfo">
                 <div class="navtest">
                   <i class="fa fa-id-card-o"></i>
                   <span>팀 정보</span>
                 </div>
               </li>
+              <!-- </router-link> -->
             </ul>
           </div>
         </div>
       </div>
     </div>
-  <div id="dmap">
-    <div>
-      <p class="category" align="center">근처 카페를 검색하고 싶으시면 카페 검색하기를 눌러주세요.</p>
-      <p align="center">
-      <button class="btn btn-info btn-simple btn-xs"
-       @click="findCafe()">카페 검색하기</button>
-      </p>
-      
-    </div>
+    <div class="scroll-sidebar">
+      <!-- Sidebar navigation-->
+      <div class="sidebar-nav">
+        <div class="sidebar" data-color="purple" data-image="./assets/issue_img/sidebar-5.jpg">
+          <div class="sidebar-wrapper" style="background-color: #212120;">
+            <div class="logo">
+              <a
+                href
+                class="simple-text navbar-brand"
+                style="font-weight:800; font-size: 18px;"
+              >Project Info</a>
+            </div>
 
-    <!-- <div id="map" style="width: 700px; height: 500px;"></div> -->
-    <div class="map_wrap">
-      <div id="map" style="width: 100%; height: 100%; position: relative; overflow: hidden;"></div>
-      <div class="hAddr">
-        <span class="title">지도중심기준 행정동 주소정보</span>
-        <span id="centerAddr"></span>
+            <ul class="nav">
+              <li class="active test nav-item" @click="issue">
+                <div class="navtest">
+                  <i class="fa fa-exclamation"></i>
+                  <span>이슈목록</span>
+                </div>
+              </li>
+              <li class="active test nav-item" @click="maps">
+                <div class="navtest">
+                  <i class="fa fa-map-o"></i>
+                  <span>지도</span>
+                </div>
+              </li>
+              <!-- <router-link class="nav-link" :to="'/project/partners/'+this.$route.params.pid"> -->
+              <li class="active test nav-item" @click="teamInfo">
+                <div class="navtest">
+                  <i class="fa fa-id-card-o"></i>
+                  <span>팀 정보</span>
+                </div>
+              </li>
+              <!-- </router-link> -->
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="dmap">
+      <div>
+        <p class="category" align="center">근처 카페를 검색하고 싶으시면 카페 검색하기를 눌러주세요.</p>
+        <p align="center">
+          <button class="btn btn-info btn-simple btn-xs" @click="findCafe()">카페 검색하기</button>
+        </p>
+      </div>
+
+      <!-- <div id="map" style="width: 700px; height: 500px;"></div> -->
+      <div class="map_wrap">
+        <div id="map" style="width: 100%; height: 100%; position: relative; overflow: hidden;"></div>
+        <div class="hAddr">
+          <span class="title">지도중심기준 행정동 주소정보</span>
+          <span id="centerAddr"></span>
+        </div>
       </div>
     </div>
   </div>
-</div>
 </template>
 
 <script>
@@ -99,13 +132,12 @@ export default {
 
     // 키워드 검색 완료 시 호출되는 콜백함수 입니다
     placesSearchCB(data, status, pagination) {
-      if (status === kakao.maps.services.Status.OK) {        
+      if (status === kakao.maps.services.Status.OK) {
         for (var i = 0; i < data.length; i++) {
           this.displayMarker(data[i]);
         }
       } else {
         //alert("주위 검색 실패!");
-        console.log("실패");
       }
     },
 
@@ -117,8 +149,8 @@ export default {
         this.$route.params.pid;
       this.$router.push(addr);
     },
-    teaminfo() {
-      this.$router.push("teamInfo.html");
+    teamInfo() {
+      this.$router.push("/issue/partners/" + this.$route.params.pid);
     },
     maps() {
       let addr =
@@ -196,7 +228,7 @@ export default {
 																			+ '</div>'); */
         this.category.setContent(content);
         this.category.open(this.map, marker2);
-      });//
+      }); //
     },
     addMarker(position) {
       // 마커를 생성합니다
@@ -252,12 +284,9 @@ export default {
       let len = this.users.length;
 
       for (var i = 0; i < len; i++) {
-        //console.log(this.users[i].address2);
         let address = this.users[i].address1;
-        console.log(address);
         this.geocoder.addressSearch(address, (result, status) => {
           if (status === kakao.maps.services.Status.OK) {
-            console.log("sucess!");
             //this.markerCenter.setMap(null);
             var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
             var marker = new kakao.maps.Marker({
@@ -272,7 +301,6 @@ export default {
         var totalX = 0;
         var totalY = 0;
         var leng = this.markers.length;
-        console.log("leng is " + leng);
 
         for (var i = 0; i < leng; i++) {
           totalX += this.markers[i].getPosition().Ha;
@@ -280,7 +308,6 @@ export default {
         }
         totalX /= leng;
         totalY /= leng;
-        console.log(totalX, totalY);
 
         var coords2 = new kakao.maps.LatLng(totalX, totalY);
         this.markers = [];
@@ -316,16 +343,14 @@ export default {
         this.searchDetailAddrFromCoords(coords2, (result, status) => {
           if (status === kakao.maps.services.Status.OK) {
             var detailAddr = !!result[0].road_address
-              ? "<div>" +
-                result[0].road_address.address_name +
-                "</div>"
+              ? "<div>" + result[0].road_address.address_name + "</div>"
               : "";
-            detailAddr +=
-              "<div>" + result[0].address.address_name + "</div>";
+            detailAddr += "<div>" + result[0].address.address_name + "</div>";
 
             var content =
               '<div class="bAddr" style="padding: 5px;  text-overflow: ellipsis;  overflow: hidden;  white-space: nowrap;">' +
-              '<span class="title" style="font-weight: bold;  display: block; text-align: center;">중간 지점</span>' + '<br/>' +
+              '<span class="title" style="font-weight: bold;  display: block; text-align: center;">중간 지점</span>' +
+              "<br/>" +
               detailAddr +
               "</div>";
 
@@ -360,7 +385,6 @@ export default {
       this.geocoder.addressSearch(input, (result, status) => {
         // 정상적으로 검색이 완료됐으면
         if (status === kakao.maps.services.Status.OK) {
-          //   console.log("markerCenter is " + this.markerCenter);
           this.markerCenter.setMap(null);
           var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
 
@@ -501,9 +525,9 @@ export default {
       this.searchAddrFromCoords(this.map.getCenter(), this.displayCenterInfo);
     });
 
-     setTimeout(() => {
-        this.mountedTesting();
-      }, 100);
+    setTimeout(() => {
+      this.mountedTesting();
+    }, 100);
     // this.mountedTesting();
     //
     // setTimeout(() => {
@@ -623,9 +647,6 @@ export default {
   margin-top: 0;
 }
 
-
-
-
 $ease-out: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
 $to-do: #f4ce46;
 $in-progress: #2a92bf;
@@ -649,7 +670,6 @@ ul {
   margin: 0;
   padding: 0;
 }
-
 
 .item-dropzone-area {
   height: 6rem;
@@ -676,5 +696,4 @@ ul {
 .navtest:hover {
   color: #ffffff;
 }
-
 </style>
