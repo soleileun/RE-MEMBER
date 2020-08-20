@@ -166,6 +166,10 @@ const userstore = {
         });
     },
     logout: (store) => {
+      store.dispatch("init")
+        router.go({
+          path: '/main'
+        });
       storage.setItem("jwt-auth-token", "");
       storage.setItem("userNick", "")
       storage.setItem("userid", "")
@@ -173,12 +177,6 @@ const userstore = {
       window.localStorage.setItem("userNick", "")
       window.localStorage.setItem("userid", "")
       window.localStorage.setItem("autologin", "f")
-      setTimeout(() => {
-        store.dispatch("init")
-        router.go({
-          path: '/main'
-        });
-      }, 100)
     },
     signup: (store, payload) => {
       const dataURLtoFile = (dataurl, fileName) => {
