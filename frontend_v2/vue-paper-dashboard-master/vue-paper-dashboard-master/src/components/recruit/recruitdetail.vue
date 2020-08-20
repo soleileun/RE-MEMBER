@@ -113,6 +113,7 @@ export default {
         [{ list: "ordered" }, { list: "bullet" }],
         ["code-block"],
       ],
+      loginId: storage.getItem('userid')
     };
   },
   created() {

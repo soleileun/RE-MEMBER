@@ -114,7 +114,7 @@ export default {
   padding: 15px;
   width: 800px;
   height: 300px;
-  max-width: 35vw;
+  max-width: 32vw;
   min-width: 290px;
   border: 1px solid #eeeeee;
   border-radius: 10px;
