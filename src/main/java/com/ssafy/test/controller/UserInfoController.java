@@ -515,12 +515,14 @@ public class UserInfoController {
       List<Project> list = uiService.getRecommendedPJT(id); // 추천 15개 받아옴 
       List<Projectcnt> finallist = new ArrayList<>();
       List<Projectcnt> projects = new ArrayList<>();
+//      System.out.println(id);
+//      System.out.println("왜안되냥");
       List<Pmember> myprojects = pmservice.selectByUserId(id); 
 //      System.out.println(list.size());
-      if(list.size() != 0) {
-         for(int i=0;i<list.size();i++)
-            System.out.println(list.get(i).toString());
-      }
+//      if(list.size() != 0) {
+//         for(int i=0;i<list.size();i++)
+//            System.out.println(list.get(i).toString());
+//      }
 
       for (int i = 0; i < list.size(); i++) {
          boolean flag = false;
@@ -535,7 +537,10 @@ public class UserInfoController {
             continue;
          
          Projectcnt tmp = pjtService.searchByPID(thispid);
+//         System.out.println(thispid);
+//         System.out.println(tmp.toString());
          List<Pinterest> pinter = pinterService.select(thispid);
+//         System.out.println(pinter.toString());
          int size = pinter.size();
          if (size > 0)
             tmp.setTag1(pinter.get(0).getInterest());
@@ -550,21 +555,15 @@ public class UserInfoController {
          projects.add(tmp);
       
       }
-//      System.out.println(projects.size());
+      System.out.println(projects.size());
       
-      if(projects.size() <3) {
-         for(int i=0;i<projects.size();i++) {
-            finallist.add(projects.get(i));
-         }
-         int num = 3-projects.size();
-         for(int i=0;i<num;i++)
-            finallist.add(projects.get(0));
-      }else {
-         boolean[] visit = new boolean [projects.size()];
+      boolean[] visit = new boolean [projects.size()];
+      
+    if(projects.size()>=5){
          int idx = 0;
          Random rand = new Random();
          while(true) {
-            if(idx ==3) break;
+            if(idx ==4) break;
             int n = rand.nextInt(projects.size());
             if(!visit[n]) {
                finallist.add(projects.get(n));
@@ -573,6 +572,10 @@ public class UserInfoController {
             }
          }
       }
+      
+//      for(int i=0;i<finallist.size();i++) {
+//    	  System.out.println(finallist.get(i).toString());
+//      }
       return new ResponseEntity<List<Projectcnt>>(finallist, HttpStatus.OK);
    }
 

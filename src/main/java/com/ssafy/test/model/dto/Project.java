@@ -15,6 +15,13 @@ public class Project {
 	private String changeId;
 	private String location;
 
+	@Override
+	public String toString() {
+		return "Project [pid=" + pid + ", pjtName=" + pjtName + ", pjtContent=" + pjtContent + ", pjtState=" + pjtState
+				+ ", pjtMemberCnt=" + pjtMemberCnt + ", makeDay=" + makeDay + ", changeDay=" + changeDay + ", makeId="
+				+ makeId + ", changeId=" + changeId + ", location=" + location + "]";
+	}
+
 	public int getPid() {
 		return pid;
 	}
