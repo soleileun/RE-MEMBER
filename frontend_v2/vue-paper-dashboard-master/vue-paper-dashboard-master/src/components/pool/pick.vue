@@ -358,7 +358,7 @@ export default {
 
     $(".my-card").click(function () {
       let slide = $(".active").width();
-      console.log($(".active").position().left);
+      // console.log($(".active").position().left);
 
       if ($(this).hasClass("next")) {
         $(".card-carousel")
@@ -398,7 +398,7 @@ export default {
   },
   computed: {
     rows() {
-      console.log('rows :' +  this.extendpools.length);
+      // console.log('rows :' +  this.extendpools.length);
       return this.extendpools.length;
     },
     

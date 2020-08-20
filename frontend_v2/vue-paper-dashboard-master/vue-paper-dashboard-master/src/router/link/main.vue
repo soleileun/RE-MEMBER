@@ -332,9 +332,9 @@ export default {
   },
   computed: {
     extendpools() {
-      console.log(
-        "extendpools 호출" + this.$store.state.poolstore.extendpools.length
-      );
+      // console.log(
+      //   "extendpools 호출" + this.$store.state.poolstore.extendpools.length
+      // );
       return this.$store.state.poolstore.extendpools;
     },
     recruits() {
@@ -342,7 +342,7 @@ export default {
     },
     projects() {
       // console.log("유저스토어세ㅓ 꺼내보기..");
-      console.log(this.$store.state.userstore.recommendedPJT);
+      // console.log(this.$store.state.userstore.recommendedPJT);
       // console.log(this.$store.state.projectstore.projects);
       return this.$store.state.userstore.recommendedPJT;
     },
@@ -388,7 +388,7 @@ export default {
       this.$refs.show.focus();
     },
     toggle() {
-      console.log(this.loginId);
+      // console.log(this.loginId);
     },
     changeShowCnt() {
       this.perPage = parseInt(document.getElementById("showcnt").value);
