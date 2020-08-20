@@ -1,26 +1,11 @@
-백엔드 개발
-
-기본적인 구인구직 데이터와 프로젝트 데이터에 대한 DB 연동 및 CRUD 기능 구현
-
-https://opentutorials.org/course/2717/11274
-    - aws 관련 정보 사이트
-    
-데이터 베이스 구축 완료
-
-![ERD](./ERD.png)
-
-필요한 4개 테이블 (project, project_member, recruit, interest) 에 대한 crud 기능 구현
-
 # RE:멤버
 
 
-### :family: 참여 인원
-- 서울 2반 이원오 백엔드 팀장  <br>
-- 서울 2반 김영훈 백엔드<br>
-- 서울 2반 최은정 백엔드<br>
-- 서울 2반 황수현 프론트<br>
-- 서울 2반 유동균 프론트<br>
+### ⚙️ 개발 배경
+- 프로젝트를 수행을 위한 구인 사이트는 이미 존재하나 그 수준이 높아 구직자, 학습자들은 해당 사이트를 이용하기 힘든 상황임.
+- 주변 구직자 및 대학생들을 상대로 조사하였을 때, 학부생 수준에서 스터디 혹은 프로젝트를 위한 인원을 구할 수 있는 사이트에 대한 니즈가 있음을 확인함.
 
+ 
 ### :scroll: 개발 목표
 - 목표1 : 팀에서 필요로 하는 기술에 대한 정보와, 팀을 찾는 인원들이 가진 정보를 매칭하여 지원자들에 대한 잠재적인 인력풀을 제공
 - 목표2 : 사용자의 git에 존재하는 repositories에 대한 정보를 프로필에 표시하여 해당 인원의 기술 수준에 대한 척도를 제공.
@@ -29,18 +14,7 @@ https://opentutorials.org/course/2717/11274
 - 목표5 : 프로젝트 페이지에서 팀원들의 소통을 위한 간단한 채팅 시스템 구현.
 
 
-
-프로젝트를 수행을 위한 구인 사이트는 이미 존재하나 그 수준이 높아 구직자, 학습자들은 해당 사이트를 이용하기 힘든 상황임.
-주변 구직자 및 대학생들을 상대로 조사하였을 때, 학부생 수준에서 스터디 혹은 프로젝트를 위한 인원을 구할 수 있는 사이트에 대한 니즈가 있음을 확인함.
-
-
-https://img.shields.io/badge/Frontend-VUE.js-green
-
-### :clipboard: 개발 내용 및 범위
-서버를 통해 패킷을 브로드캐스팅하는 디지털 신호등(송신 타워)을 구현하고 자율주행차량이 패킷을 수신할 수 있도록 통신 모듈을 탑재한다. 그 후 제어 서버의 신호 제어에 따라 디지털 신호등을 통해 주행을 통제하고 사고 방지를 위해 안전거리를 유지한다.
-
-
-### :wrench: 개발 스택
+### :wrench: 사용언어 및 기술스택
 ![플랫폼](https://img.shields.io/badge/platform-Web-purple)
 ![프론트엔드](https://img.shields.io/badge/Frontend-VUE.js-green)
 ![백엔드](https://img.shields.io/badge/Backend-Spring-blue)
@@ -49,18 +23,79 @@ https://img.shields.io/badge/Frontend-VUE.js-green
 ![언어](https://img.shields.io/badge/language-JAVA,__Javascript-brown)
 ![스크립트](https://img.shields.io/badge/Script-sock.js-red)
 
-### :wrench: 호환 브라우저
+
+### 📥 설치방법
+    
+    npm i
+    
+    
+### 📒 사용방법
+
+#### Front
+    npm run serve  또는  npm run dev
+    
+#### Back
+    Run as  ->  Spring Boot App
 
 
+### 🌐 호환 브라우저
 
-### :wrench: 개발 스택
-### :wrench: 개발 스택
-### :wrench: 개발 스택
+| Chrome | Safari |
+| ---------- | :--------- |
+| <img src="/uploads/e46c65c61f1dcf704e6c3748642cf299/image.png"  width="100" height="100">  | <img src="/uploads/8d0d0075d2d2c44b237e5a4f23e45f37/image.png"  width="100" height="100">       |
+
+### 📃 주요기능 소개
+
+#### 팀원 및 프로젝트 추천
+
+지역, 기술스택 매칭, 완료 프로젝트 수를 기반으로 점수를 도출해내어 팀원과 프로젝트 맞춤형 추천
+
+![image](/uploads/f0c33d8eb64fd35d551b381bbd3e62d7/image.png)
+
+![image](/uploads/4d29f471a648377fbf09e5ee68ed3edb/image.png)
 
 
+#### 인재풀
+
+위치, 기술스택, 아이디 기반 프로젝트 팀원 찾기
+
+![image](/uploads/7a0d23d99047fcc5e4ec0c8acef2e6e8/image.png)
+
+#### 구인
+
+위치, 기술스택, 작성자명/구인글 제목 기반 구인글 찾기
+
+![image](/uploads/72c2401c4795c26d846e6e5ccdf67128/image.png)
+
+#### 실시간 채팅
+
+함께하고자 하는 인재나 팀원들과 실시간으로 채팅 가능
+
+![image](/uploads/b62b6e82f2ebd5662933f0653384e241/image.png)
+
+#### 프로젝트 이슈 관리페이지
+
+프로젝트 계획, 진행상황, 팀원 관리 페이지
+
+![image](/uploads/6c048969aed47b519040da8aa999dca2/image.png)
+
+![image](/uploads/b992d1eb01b4d1d40b0fc9392769a4ef/image.png)
+
+#### 팀 모임 중간위치 찾기 및 주변 카페 검색
+
+원활한 팀 미팅을 위해 중간 지점을 찾아주고 주변 카페 검색 가능
+
+![image](/uploads/03318039a858baa710d6f7e61c222cac/image.png)
 
 
 ### :six_pointed_star: 기대 효과
-본 프로젝트에서 제안한 아이디어로 기존 방식의 자율주행차량보다 신호 인식률을 향상시키고, 현재 신호와 잔여시간, 차량의 속도 등을 계산하여 불필요한 가/감속을 방지하여 연비를 향상 할 수 있다. 또한, 중앙 집중제어 방식을 통하여 관리운영비를 감소시키고 향후 AI, 빅데이터 등을 결합하여 교통흐름을 보다 효율적으로 제어가 가능하다.
+- 특정 IT 기술에 대한 팀원을 구하고 프로젝트 경험을 쌓을 수 있는 기회 제공
+- 프로젝트/공모전 매칭 기능을 통한 기존 플랫폼 모집성 글의 한계 극복
+- 개인 프로젝트 관리 페이지를 통한 포트폴리오 관리
 
-
+### :family: 참여 인원
+- 서울 2반 이원오 백엔드 팀장  <br>
+- 서울 2반 김영훈 백엔드<br>
+- 서울 2반 최은정 백엔드<br>
+- 서울 2반 황수현 프론트<br>
+- 서울 2반 유동균 프론트<br>
