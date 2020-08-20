@@ -1,10 +1,10 @@
 <template>
   <div class="profile text-center" >
     <h3>내 소개</h3>
-    <div id="editor" class="container ql-snow" v-if="!profileEdit">
+    <div id="editor1" class="container ql-snow" v-if="!profileEdit">
       <div class="ql-editor profileContainer" v-html="content" style="min-height:500px"></div>
     </div>
-    <vue-editor id="editorSiba" v-if="profileEdit" v-model="content" useCustomImageHandler @imageAdded="handleImageAdded" editorOptions=""></vue-editor>
+    <vue-editor id="editor2" v-show="profileEdit" v-model="content" useCustomImageHandler @imageAdded="handleImageAdded" ></vue-editor>
     <!-- 에디터를 v-show로 숨겨두지 않으면 일부 꾸밈 코드가 안먹힘 -->
     <div v-if="myprofile">
       <button class="btn btn-round btn-success" v-if="!profileEdit" @click="edit">프로필 수정하기</button>
@@ -73,7 +73,6 @@ export default {
   },
   methods: {
     handleImageAdded(file, Editor, cursorLocation) {
-      console.log(file);
       if (file) {
         const fileName = new Date().getTime() - 1597262625477;
         const file2 = new File(
