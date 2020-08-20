@@ -190,10 +190,10 @@
                 <div class="card__content">
                   <div class="card__title">
                     <div style="font-weight:800; display:inline-block; margin-right:4px;">{{pool.nickname}}</div>
-                    <p v-if="pool.isValid ===1" style="display:inline-block; color:rgb(79, 245, 154); font-size:10px; text-align:right; margin-bottom:3px;">
-                      <img v-if="pool.isValid ===1" src="@/assets/img/checklist.png" title="인증된 유저입니다" />
+                    <p v-if="pool.valid ===true" style="display:inline-block; color:rgb(79, 245, 154); font-size:10px; text-align:right; margin-bottom:3px;">
+                      <img  src="@/assets/img/checklist.png" title="인증된 유저입니다" />
                     </p>
-                    <p v-else-if="pool.isValid===123"></p>
+                    <p v-else-if="pool.valid===123"></p>
                     <p v-else style="display:inline-block; color:red;font-size:10px;text-align:right; margin-bottom:3px; ">
                       <img src="@/assets/img/error.png" title="미인증된 유저입니다" />
                     </p>
@@ -411,13 +411,13 @@ export default {
     extendpools() {
       let a = [];
       if (this.$store.state.poolstore.extendpools.length > 0) {
-        a.push({ isValid: 123 });
-        a.push({ isValid: 123 });
+        a.push({ valid: 123 });
+        a.push({ valid: 123 });
         this.$store.state.poolstore.extendpools.forEach((el) => {
           a.push(el);
         });
-        a.push({ isValid: 123 });
-        a.push({ isValid: 123 });
+        a.push({ valid: 123 });
+        a.push({ valid: 123 });
       } else {
         a = [];
       }
