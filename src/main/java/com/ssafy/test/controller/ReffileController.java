@@ -129,13 +129,25 @@ public class ReffileController {
 	}
 	//////////////////////////////////////////////
 
-	@GetMapping(value = "/image/{imageName}.{extension}", produces = MediaType.IMAGE_PNG_VALUE)
+	@GetMapping(value = "/image/{imageName", produces = MediaType.IMAGE_PNG_VALUE)
 	public @ResponseBody byte[] getImage(
 			
 		@PathVariable(name = "imageName") String imageName,
-		@PathVariable(name = "extension") String extension,
 		HttpServletRequest request) throws IOException {
-		String imagePath = "/project/test/s03p12a208/src/main/resources/static/image/" + imageName + "." + extension;
+		String original = imageName;
+		StringBuilder sb = new StringBuilder(original);
+		// asdasdasdasd.PNG // asdasdsddasds.png 
+		int len = original.length() - 1;
+		for(int i = len; original.charAt(i) != '.'; i--) {
+			char ch = original.charAt(i);
+			if(ch < 95) {
+				ch += 32;
+				sb.setCharAt(i, ch);
+			}
+		}
+		String ret = sb.toString();
+		System.out.println("ret is the " + ret);
+		String imagePath = "/project/test/s03p12a208/src/main/resources/static/image/" + ret;
 		System.out.println(imagePath);
 		InputStream imageStream = new FileInputStream(imagePath);
 		byte[] imageByteArray = IOUtils.toByteArray(imageStream);
