@@ -1,7 +1,6 @@
 <template>
   <div class="detailfree">
     <div class="card">
-
       <div class="card-body">
         <div class="container-fluid">
           <div class="row">
@@ -20,15 +19,27 @@
         </div>
         <hr />
 
-        <div id="editor" class="container ql-snow" >
-          <div class="ql-editor profileContainer" v-html="board.bcontent" style=" min-height:300px;"></div>
+        <div id="editor" class="container ql-snow">
+          <div
+            class="ql-editor profileContainer"
+            v-html="board.bcontent"
+            style=" min-height:300px;"
+          ></div>
         </div>
 
         <div class="container">
           <div class="row">
             <div class="col text-center btndiv">
-              <button v-if="board.bwriter === loginId || loginId === 'admin' " class="btn btn-outline-warning" @click="change">수정하기</button>
-              <button v-if="board.bwriter === loginId || loginId === 'admin' " class="btn btn-outline-danger" @click="deleteFree">삭제하기</button>
+              <button
+                v-if="board.bwriter === loginId || loginId === 'admin' "
+                class="btn btn-outline-warning"
+                @click="change"
+              >수정하기</button>
+              <button
+                v-if="board.bwriter === loginId || loginId === 'admin' "
+                class="btn btn-outline-danger"
+                @click="deleteFree"
+              >삭제하기</button>
               <button class="btn btn-outline-primary" @click="back">목록으로</button>
             </div>
           </div>
@@ -54,7 +65,11 @@
           <div class="col-7">{{comment.ccontent}}</div>
           <div class="col-3" style="text-align:right;">
             {{comment.makeDay.slice(0,10)}}
-            <span class="ti-trash" v-if="comment.cwriter === loginId" @click="deleteComment(comment)"></span>
+            <span
+              class="ti-trash"
+              v-if="comment.cwriter === loginId"
+              @click="deleteComment(comment)"
+            ></span>
             <!-- @click 해서 삭제 넣어주시면 됩니다. -->
           </div>
         </div>
@@ -78,23 +93,21 @@
       <div class="card" v-for="comment1 in comments" :key="-comment1.cno">
         <div v-if="comment1.isSelected==1" class="card-body">
           <div class="row anstitle">
-            <div class="col-1 pics">사진 </div>
+            <div class="col-1 pics">사진</div>
             <div class="col-8">
-              <div class="col-12 name" style="font-weight:800;">{{comment1.nickname}} <i class="fa fa-bookmark"> </i></div>
-              <div class="col-12 date">{{comment1.makeDay.slice(0,16)}}</div>
-              
-            </div>
-            <div class="col-2" style="color:red; font-size:16px; font-weight:800">
-              
-               채택됨
+              <div class="col-12 name" style="font-weight:800;">
+                {{comment1.nickname}}
+                <i class="fa fa-bookmark"></i>
               </div>
+              <div class="col-12 date">{{comment1.makeDay.slice(0,16)}}</div>
+            </div>
+            <div class="col-2" style="color:red; font-size:16px; font-weight:800">채택됨</div>
             <div class="ti-trash" @click="deleteComment(comment1)"></div>
           </div>
           <hr />
 
-          <div class="col-12 ql-editor" style="min-height:200px;" v-html="comment1.ccontent">
-          </div>
-            <vue-editor v-show="false" style="height:80%;"></vue-editor>
+          <div class="col-12 ql-editor" style="min-height:200px;" v-html="comment1.ccontent"></div>
+          <vue-editor v-show="false" style="height:80%;"></vue-editor>
         </div>
       </div>
 
@@ -105,19 +118,24 @@
             <div class="col-8">
               <div class="col-12 name">{{comment.nickname}}</div>
               <div class="col-12 date">{{comment.makeDay.slice(0,16)}}</div>
-              
             </div>
             <div class="col-2">
-              
-                <button v-if="board.isSelect==0 && board.bwriter === id" class="btn btn-primary" @click="select(comment.cno)">채택하기</button>
-              </div>
-            <div class="ti-trash" @click="deleteComment(comment)"></div>
+              <button
+                v-if="board.isSelect==0 && board.bwriter === id"
+                class="btn btn-primary"
+                @click="select(comment.cno)"
+              >채택하기</button>
+            </div>
+            <div
+              class="ti-trash"
+              v-if="comment.cwriter === loginId"
+              @click="deleteComment(comment)"
+            ></div>
           </div>
           <hr />
 
-          <div class="col-12 ql-editor" style="min-height:250px;" v-html="comment.ccontent">
-          </div>
-            <vue-editor v-show="false" style="height:80%;"></vue-editor>
+          <div class="col-12 ql-editor" style="min-height:250px;" v-html="comment.ccontent"></div>
+          <vue-editor v-show="false" style="height:80%;"></vue-editor>
         </div>
       </div>
     </div>
@@ -127,7 +145,12 @@
         <div class="container-fluid">
           <div class="row" style="min-height:300px;">
             <div class="col-12">
-              <vue-editor v-model="comment2.ccontent" style="height:60%;" useCustomImageHandler @imageAdded="handleImageAdded"></vue-editor>
+              <vue-editor
+                v-model="comment2.ccontent"
+                style="height:60%;"
+                useCustomImageHandler
+                @imageAdded="handleImageAdded"
+              ></vue-editor>
               <!--<textarea name="" id="" cols="30" rows="10" v-model="board.bcontent" placeholder="내용을 입력하세요"></textarea><br>-->
             </div>
           </div>
@@ -172,7 +195,7 @@ export default {
   name: "detailfree",
   data() {
     return {
-      id:storage.getItem("userid"),
+      id: storage.getItem("userid"),
       //bno:board.bno,
       comment2: {
         cno: "",
@@ -184,7 +207,7 @@ export default {
         changeDay: "",
         makeId: "",
         changeId: "",
-        nickname:"",
+        nickname: "",
       },
     };
   },
@@ -247,21 +270,19 @@ export default {
     select(e) {
       //선태갛자
       this.$store.dispatch(Constant.PICK_COMMENTS, {
-          // cno :this.comment2.cno,
-          // cwriter:this.comment2.cwriter,
-          cno: e,
-          bno: this.board.bno,
-          type: this.board.bstate,
-        });
+        // cno :this.comment2.cno,
+        // cwriter:this.comment2.cwriter,
+        cno: e,
+        bno: this.board.bno,
+        type: this.board.bstate,
+      });
     },
-    makeDay(x){
-      if (x){
-        
-        return x.slice(0,16);
-        }
-        else{
-          return ''
-        }
+    makeDay(x) {
+      if (x) {
+        return x.slice(0, 16);
+      } else {
+        return "";
+      }
     },
     getBoard(bno) {
       this.$store.dispatch(Constant.GET_BOARD, { bno });
@@ -275,7 +296,14 @@ export default {
           bno: this.board.bno,
           bstate: this.type,
         });
+<<<<<<< HEAD
         this.$router.push("/freeboard/type/" + this.type + '/' + this.$route.params.currentPage);
+=======
+        // console.log('삭제요청완료.' + this.board.bno);
+        this.$router.push(
+          "/freeboard/type/" + this.type + "/" + this.$route.params.currentPage
+        );
+>>>>>>> 6f852f582715ed7916f94dd32bc7a208f34af0ae
       } else if (con_test == false) {
       }
     },
@@ -291,11 +319,23 @@ export default {
     },
 
     change() {
-      let addr = "/freeboard/modifyfree/" + this.board.bno + "/" + this.type + '/' + this.$route.params.currentPage;
+      let addr =
+        "/freeboard/modifyfree/" +
+        this.board.bno +
+        "/" +
+        this.type +
+        "/" +
+        this.$route.params.currentPage;
       this.$router.push(addr);
     },
     back() {
+<<<<<<< HEAD
       let addr = "/freeboard/type/" + this.type + '/' + this.$route.params.currentPage;
+=======
+      console.log(this.type);
+      let addr =
+        "/freeboard/type/" + this.type + "/" + this.$route.params.currentPage;
+>>>>>>> 6f852f582715ed7916f94dd32bc7a208f34af0ae
       this.$router.push(addr);
     },
 
