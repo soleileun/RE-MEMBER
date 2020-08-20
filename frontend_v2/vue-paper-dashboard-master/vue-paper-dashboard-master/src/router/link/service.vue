@@ -7,7 +7,6 @@
         <div class="col-5" id="box">
           <br />
           <br />
-          <h5>사이트 이용 약관</h5>
           <terms />
           <br />
           <h5>자주 묻는 질문</h5>
