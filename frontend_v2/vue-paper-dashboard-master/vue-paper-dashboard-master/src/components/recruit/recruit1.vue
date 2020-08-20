@@ -290,7 +290,7 @@ export default {
         rnum: "",
         pid: "",
         title: "",
-        contents: ".",
+        contents: "",
         endDate: "",
         makeDay: "",
         changeDay: "",
