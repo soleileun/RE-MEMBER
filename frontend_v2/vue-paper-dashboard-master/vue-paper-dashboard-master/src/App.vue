@@ -22,7 +22,6 @@ export default {
     buble,
   },
   mounted: function () {
-    console.log(storage);
     this.$store.dispatch("init", {});
     
     // if (

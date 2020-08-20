@@ -228,13 +228,10 @@ export default {
   },
   created() { // 소켓 초기 연결을 시작합니다.
       this.connect();
-      console.log("STOMP is working");
          this.$store.dispatch(Constant.CHAT_READ, {
           roomName : this.room,
           id : this.id,}
           );
-          console.log(this.id + "가 쓴거 아님 다 읽음 표시로 바꿈");
-
     return this.$store.state.chatstore.chats;
   },
   methods: {

@@ -202,7 +202,6 @@ export default {
     board: {
       get() {
         // 화살표함수 사용하면 안됨. this : undefined 로 나옴.
-        // console.log(this.$store.state.boardstore.board);
         return this.$store.state.boardstore.board;
       },
       set(newBoard) {
@@ -221,7 +220,6 @@ export default {
     },
 
     comments() {
-      // console.log('도착'+this.$store.state.commentstore.comments);
       return this.$store.state.commentstore.comments;
     },
   },
@@ -277,10 +275,8 @@ export default {
           bno: this.board.bno,
           bstate: this.type,
         });
-        // console.log('삭제요청완료.' + this.board.bno);
         this.$router.push("/freeboard/type/" + this.type + '/' + this.$route.params.currentPage);
       } else if (con_test == false) {
-        console.log("");
       }
     },
 
@@ -299,7 +295,6 @@ export default {
       this.$router.push(addr);
     },
     back() {
-      console.log(this.type);
       let addr = "/freeboard/type/" + this.type + '/' + this.$route.params.currentPage;
       this.$router.push(addr);
     },
