@@ -167,9 +167,9 @@ const userstore = {
     },
     logout: (store) => {
       store.dispatch("init")
-        router.go({
-          path: '/main'
-        });
+      router.go({
+        path: '/main'
+      });
       storage.setItem("jwt-auth-token", "");
       storage.setItem("userNick", "")
       storage.setItem("userid", "")
@@ -379,12 +379,14 @@ const userstore = {
       http
         .get("/api/userinfo/", config)
         .then((response) => {
-
+          // console.log("보냈어!");
           http.get('/api/userinfo/getRecommended/User/' + storage.getItem("userid"), {
             headers: {
               "jwt-auth-token": storage.getItem("jwt-auth-token")
             }
           }).then(res => {
+            // console.log("받아줘!");
+            console.log(res);
             store.commit('loadRecommendedUser', {
               recommendedUser: res.data,
               users: response.data
@@ -406,15 +408,18 @@ const userstore = {
           "jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")
         }
       }
+
       http
         .get("/api/userinfo/", config)
         .then((response) => {
-
+          // console.log("보냈다고!");
           http.get('/api/userinfo/getRecommended/PJT/' + storage.getItem("userid"), {
             headers: {
               "jwt-auth-token": storage.getItem("jwt-auth-token")
             }
           }).then(res => {
+            // console.log("받아줘!");
+            console.log(res);
             store.commit('loadRecommendedPJT', {
               recommendedPJT: res.data,
               users: response.data
@@ -455,8 +460,7 @@ const userstore = {
                 router.push({
                   path: "/main"
                 });
-              }).catch(exp => {
-              })
+              }).catch(exp => {})
           } else {
             alert("비밀번호가 다릅니다.")
           }

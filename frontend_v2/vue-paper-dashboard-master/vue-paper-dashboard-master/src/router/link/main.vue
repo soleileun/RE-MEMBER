@@ -248,7 +248,7 @@
                 </h3>
               </b-card-text>
               <div class="dmswjdWKdWkd">
-                <users :extendpools="extendpools" />
+                <users :extendpools="users" />
               </div>
               <br />
               <br />
@@ -342,13 +342,13 @@ export default {
     },
     projects() {
       // console.log("유저스토어세ㅓ 꺼내보기..");
-      // console.log(this.$store.state.userstore.recommendedPJT);
-      console.log(this.$store.state.projectstore.projects);
+      console.log(this.$store.state.userstore.recommendedPJT);
+      // console.log(this.$store.state.projectstore.projects);
       return this.$store.state.userstore.recommendedPJT;
     },
     users() {
-      console.log("유저확인");
-      console.log(this.$store.state.userstore.recommendedUser);
+      // console.log("유저확인");
+      // console.log(this.$store.state.userstore.recommendedUser);
       return this.$store.state.userstore.recommendedUser;
     },
     loginId() {
@@ -416,7 +416,7 @@ export default {
   },
 
   created() {
-    this.$store.dispatch(Constant.GET_EXTENDPOOLLIST);
+    // this.$store.dispatch(Constant.GET_EXTENDPOOLLIST);
     // this.$store.dispatch(Constant.GET_PROJECTLIST_BY_PMEMBER, {
     //   userId: "ejchoi0225@gmail.com",
     // }); //임시로 넣어놈.
