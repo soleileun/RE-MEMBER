@@ -57,7 +57,7 @@
           <div class="container-fluid">
             <div class="row" style="min-height:600px;">
               <div class="col-2 write-left">내용
-<br><br>
+<br><br>  
               <div v-if="filein" style="color:red">
                 사진은 글 작성 완료 후 표시됩니다.
               </div>
