@@ -134,7 +134,7 @@ public class ReffileController {
 		@PathVariable(name = "imageName") String imageName,
 		@PathVariable(name = "extension") String extension,
 		HttpServletRequest request) throws IOException {
-		String imagePath = "C:\\Users\\multicampus\\Desktop\\asdasd\\" + imageName + "." + extension;
+		String imagePath = "/project/test/s03p12a208/src/main/resources/static/image/" + imageName + "." + extension;
 		System.out.println(imagePath);
 		InputStream imageStream = new FileInputStream(imagePath);
 		byte[] imageByteArray = IOUtils.toByteArray(imageStream);
