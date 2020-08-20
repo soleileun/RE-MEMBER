@@ -56,23 +56,27 @@
                                     <div class="form-group">
                                         <label class="col-md-12">닉네임</label>
                                         <div class="col-md-12">
-                                            <input v-model="nickname" maxlength="12" type="text"  class="form-control form-control-line">
+                                            <input v-model="nickname" maxlength="12" type="text"  class="form-control form-control-line">          {{error.nickname}}
+
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label  class="col-md-12">비밀번호</label>
                                         <div class="col-md-12">
-                                            <input v-model="pw" type="password"  class="form-control form-control-line" >
+                                            <input v-model="pw" type="password"  class="form-control form-control-line" >          {{error.pw}}
+
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-md-12">비밀번호 확인</label>
                                         <div class="col-md-12">
                                             <input v-model="pw2" type="password" class="form-control form-control-line">
-                                        </div>
+                                        {{error.pw2}} </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-md-12">주소</label>
+                                                  {{error.address}}
+
                                         <div class="col-md-12">
                                             <input v-model="address1" type="text" disabled  class="form-control form-control-line">
                                         </div>
@@ -92,6 +96,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label class="col-md-12">전화번호</label>
+          {{error.phone}}
                                         <div class="row col-12">
                                         <div class="col-md-3">
                                             <input v-model="phone0" maxlength="3" type="tel" class="form-control form-control-line">
@@ -125,6 +130,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label class="col-sm-12">역할</label>
+          {{error.responsibility}}
                                         <div class="col-sm-12">
                                             <select v-model="responsibility" class="form-control form-control-line">
                                                 <option>개발</option>

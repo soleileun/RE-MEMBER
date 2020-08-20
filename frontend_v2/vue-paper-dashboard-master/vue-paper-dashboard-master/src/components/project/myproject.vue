@@ -6,13 +6,15 @@
       <br />
       <br />
       <div class="row">
-        <div class="col-4" v-if="projects.length<1">프로젝트가 없습니다.</div>
-          <project :project="project"  v-for="project in projects" :key="project.pid"/>
-          <!-- @delete-project="deleteComment" -->
+        <div class="col-12" v-if="projects.length<1">
+          <nomyproject />
+        </div>
+        <project :project="project" v-for="project in projects" :key="project.pid" />
+        <!-- @delete-project="deleteComment" -->
       </div>
     </div>
     <div v-else>
-      <h1>로그인이 필요합니다.</h1>
+      <notlogin />
     </div>
   </div>
 </template>
@@ -21,11 +23,16 @@
 import Constant from "../../Constant";
 import project from "../project/project1";
 import http from "@/http-common.js";
+import nomyproject from "@/components/notfound/nomyproject.vue";
+import notlogin from "@/components/notfound/notlogin.vue";
+
 const storage = window.sessionStorage;
 export default {
   name: "myproject",
   components: {
     project,
+    nomyproject,
+    notlogin
   },
   data: function () {
     return {
@@ -42,16 +49,15 @@ export default {
   },
   created() {
     if (storage.getItem("userid") === "") {
-      document.querySelector('.login').classList.remove('active')
-      document.querySelector('.login').classList.add('active')
+      document.querySelector(".login").classList.remove("active");
+      document.querySelector(".login").classList.add("active");
     } else {
       this.$store.dispatch(Constant.GET_PROJECTLIST_BY_PMEMBER, {
-        userId: storage.getItem('userid'),
+        userId: storage.getItem("userid"),
       });
     }
   },
-  mounted() {
-  },
+  mounted() {},
   methods: {
     // getPmemberList(userId) {
 
