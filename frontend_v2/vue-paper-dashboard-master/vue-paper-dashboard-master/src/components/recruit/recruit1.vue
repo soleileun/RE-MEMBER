@@ -30,130 +30,97 @@
 
     <hr />
 
-
     <div class="col-12">
+      <section class="filter-sidebar col-3">
+        <!-- 시군구동 검색 -->
+        <div class="card-body cb">
+          <div class="row">
+            <label for="sido">
+              <strong>
+                시도
+                <span id="userid" class="text-danger"></span>
+              </strong>
+            </label>
+            <select id="sido" class="form-control" @change="changeSido(selectedSido)" v-model="selectedSido">
+              <option value="0">선택</option>
+              <option v-for="(sido, index) in sidoList" :value="sido" :key="index">
+                {{
+                sido
+                }}
+              </option>
+            </select>
 
+            <br />
+            <br />
+            <br />
 
-    <section class="filter-sidebar col-3">
-      <!-- 시군구동 검색 -->
-      <div class="card-body cb">
-        <div class="row">
-          <label for="sido">
-            <strong>
-              시도
-              <span id="userid" class="text-danger"></span>
-            </strong>
-          </label>
-          <select
-            id="sido"
-            class="form-control"
-            @change="changeSido(selectedSido)"
-            v-model="selectedSido"
-          >
-            <option value="0">선택</option>
-            <option v-for="(sido, index) in sidoList" :value="sido" :key="index">
-              {{
-              sido
-              }}
-            </option>
-          </select>
+            <label for="gugun">
+              <strong>
+                구군
+                <span id="userid" class="text-danger"></span>
+              </strong>
+            </label>
+            <select v-if="selectedSido!=0" id="gugun" class="form-control" @change="changeGugun(selectedSido, selectedGugun)" v-model="selectedGugun">
+              <option value="0">선택</option>
+              <option v-for="(gu, index) in gugunList" :value="gu" :key="index">
+                {{
+                gu
+                }}
+              </option>
+            </select>
+            <select v-else id="gugun" class="form-control" disabled>
+              <option value="0">선택</option>
+            </select>
 
-          <br />
-          <br />
-          <br />
+            <br />
+            <br />
+            <br />
+            <label for="dong">
+              <strong>
+                읍면동
+                <span id="userid" class="text-danger"></span>
+              </strong>
+            </label>
 
-          <label for="gugun">
-            <strong>
-              구군
-              <span id="userid" class="text-danger"></span>
-            </strong>
-          </label>
-          <select
-            v-if="selectedSido!=0"
-            id="gugun"
-            class="form-control"
-            @change="changeGugun(selectedSido, selectedGugun)"
-            v-model="selectedGugun"
-          >
-            <option value="0">선택</option>
-            <option v-for="(gu, index) in gugunList" :value="gu" :key="index">
-              {{
-              gu
-              }}
-            </option>
-          </select>
-          <select v-else id="gugun" class="form-control" disabled>
-            <option value="0">선택</option>
-          </select>
+            <select v-if="selectedGugun!=0" id="dong" class="form-control" v-model="selectedDong">
+              <!-- @change="changeDong(selectedDong)" -->
 
-          <br />
-          <br />
-          <br />
-          <label for="dong">
-            <strong>
-              읍면동
-              <span id="userid" class="text-danger"></span>
-            </strong>
-          </label>
-
-          <select v-if="selectedGugun!=0" id="dong" class="form-control" v-model="selectedDong">
-            <!-- @change="changeDong(selectedDong)" -->
-
-            <option value="0">선택</option>
-            <option v-for="(don, index) in dongList" :value="don" :key="index">
-              {{
-              don
-              }}
-            </option>
-          </select>
-          <select v-else id="dong" class="form-control" disabled>
-            <option value="0">선택</option>
-          </select>
-        </div>
-
-        <br />
-        <hr />
-        
-        <div class="row">
-          <div class="col-12 selectform">
-            <div
-              class="btn btn-primary btn-round"
-              v-for="(pick,index) in picks"
-              :key="index"
-              @click="deleteStack(index)"
-              style="z-index : 0;"
-            >{{pick}}</div>
+              <option value="0">선택</option>
+              <option v-for="(don, index) in dongList" :value="don" :key="index">
+                {{
+                don
+                }}
+              </option>
+            </select>
+            <select v-else id="dong" class="form-control" disabled>
+              <option value="0">선택</option>
+            </select>
           </div>
-        </div>
-        <br />
 
-        <div class="col-12 searchform">
-          <p>
-            <strong>기술스택</strong>
-          </p>
-          <div class="input">
-            <input
-              type="text"
-              v-model="inputVal"
-              @input="searchQuery()"
-              @keyup.up="upQ()"
-              @keyup.down="downQ()"
-              @keyup.enter="enterQ()"
-              placeholder="스택 입력"
-            />
-          </div>
-          <div class="autoComplete">
-            <div
-              v-for="(list,index) in lists"
-              :key="list"
-              @click="add(list)"
-              :class="`pk${index}`"
-            >{{list}}</div>
-          </div>
-        </div>
+          <br />
+          <hr />
 
-        <br />
-<!--
+          <div class="row">
+            <div class="col-12 selectform">
+              <div class="btn btn-primary btn-round" v-for="(pick,index) in picks" :key="index" @click="deleteStack(index)" style="z-index : 0;">{{pick}}</div>
+            </div>
+          </div>
+          <br />
+
+          <div class="col-12 searchform">
+            <p>
+              <strong>기술스택</strong>
+            </p>
+            <div class="input">
+              <input type="text" v-model="inputVal" @input="searchQuery()" @keyup.up="upQ()" @keyup.down="downQ()" @keyup.enter="enterQ()" placeholder="스택 입력" />
+            </div>
+            <div class="autoComplete">
+              <div v-for="(list,index) in lists" :key="list" @click="add(list)" :class="`pk${index}`">{{list}}</div>
+            </div>
+          </div>
+
+          <br />
+          <!--
         <div class="row">
           <div class="col-12 selectform">
             <div
@@ -165,68 +132,58 @@
             >{{pick}}</div>
           </div>
         </div>
-        -->
-      </div>
-    </section>
-      </div>
-
-
+          -->
+        </div>
+      </section>
+    </div>
 
     <!--  ////////////////////////////////////////////////////////////////////////// -->
-<!-- The Modal -->
-      <div class="modal" id="momo" style="z-index : 100;">
-        <div class="modal-content">
-          <span class="close">&times;</span>
-          <div class="row">
-            <div class="col-25">
-              <label for="fname">아이디</label>
-            </div>
-            <div class="col-75">
-              <label for="fname">{{loginId}}</label>
-            </div>
+    <!-- The Modal -->
+    <div class="modal" id="momo" style="z-index : 100;">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <div class="row">
+          <div class="col-25">
+            <label for="fname">아이디</label>
           </div>
-          <div class="row">
-            <div class="col-25">
-              <label for="country">내 프로젝트 선택</label>
-            </div>
-            <div class="col-75">
-              <select id="myproject" name="myproject">
-                <option
-                  v-for="(project,index) in projects"
-                  :key="index"
-                  :value="project.pid"
-                >{{project.pjtName}}</option>
-              </select>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-25">
-              <label for="lname">게시글 제목</label>
-            </div>
-            <div class="col-75">
-              <input type="text" v-model="wrecruit.title" placeholder="제목을 입력하세요" />
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-25">
-              <label for="subject">내용</label>
-            </div>
-            <div class="col-75">
-              <vue-editor
-                class="viewEditor"
-                v-model="wrecruit.contents"
-                :editor-toolbar="customToolbar"
-              ></vue-editor>
-            </div>
-          </div>
-
-          <div class="row">
-            <button class="btn btn-info" @click="addRecruit">등록</button>
+          <div class="col-75">
+            <label for="fname">{{loginId}}</label>
           </div>
         </div>
+        <div class="row">
+          <div class="col-25">
+            <label for="country">내 프로젝트 선택</label>
+          </div>
+          <div class="col-75">
+            <select id="myproject" name="myproject">
+              <option v-for="(project,index) in projects" :key="index" :value="project.pid">{{project.pjtName}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-25">
+            <label for="lname">게시글 제목</label>
+          </div>
+          <div class="col-75">
+            <input type="text" v-model="wrecruit.title" placeholder="제목을 입력하세요" />
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-25">
+            <label for="subject">내용</label>
+          </div>
+          <div class="col-75">
+            <vue-editor class="viewEditor" id="editor" v-model="wrecruit.contents" :editor-toolbar="customToolbar"></vue-editor>
+          </div>
+        </div>
+
+        <div class="row">
+          <button class="btn btn-info" @click="addRecruit">등록</button>
+        </div>
       </div>
-      <!-- Modal end  -->
+    </div>
+    <!-- Modal end  -->
     <notfound v-if="rows === 0" />
     <div v-else>
       <div class="row" style="margin-top:20;">
@@ -239,29 +196,16 @@
         </div>
         <div class="col-2"></div>
       </div>
-      
 
       <br />
 
       <div class="overflow-auto" style="padding:0; ">
         <div class="row col-12" style="margin:0; padding:0;  z-index : 0;" id="recruitpage">
-          <recruitcomponent
-            v-for="(recruit,index) in recruits.slice(this.perPage*(currentPage-1),perPage*(currentPage))"
-            :key="index"
-            :recruit="recruit"
-            :pid="recruit.pid"
-          />
+          <recruitcomponent v-for="(recruit,index) in recruits.slice(this.perPage*(currentPage-1),perPage*(currentPage))" :key="index" :recruit="recruit" :pid="recruit.pid" />
         </div>
-        <b-pagination
-          v-model="currentPage"
-          :total-rows="rows"
-          :per-page="perPage"
-          aria-controls="recruitpage"
-          align="center"
-          id="pagination"
-        ></b-pagination>
+        <b-pagination v-model="currentPage" :total-rows="rows" :per-page="perPage" aria-controls="recruitpage" align="center" id="pagination"></b-pagination>
       </div>
-      
+
       <!-- 카드뷰 -->
       <!--
     <div class="container">
@@ -384,9 +328,25 @@ export default {
   data() {
     return {
       customToolbar: [
-        ["bold", "italic", "underline"],
-        [{ list: "ordered" }, { list: "bullet" }],
-        ["code-block"],
+        [{ font: [] }],
+        [{ header: [false, 1, 2, 3, 4, 5, 6] }],
+        [{ size: ["small", false, "large", "huge"] }],
+        ["bold", "italic", "underline", "strike"],
+        [
+          { align: "" },
+          { align: "center" },
+          { align: "right" },
+          { align: "justify" },
+        ],
+        [{ header: 1 }, { header: 2 }],
+        ["blockquote", "code-block"],
+        [{ list: "ordered" }, { list: "bullet" }, { list: "check" }],
+        [{ script: "sub" }, { script: "super" }],
+        [{ indent: "-1" }, { indent: "+1" }],
+        [{ color: [] }, { background: [] }],
+        ["link", "video", "formula"],
+        [{ direction: "rtl" }],
+        ["clean"],
       ],
       //페이징
       perPage: 6,
@@ -396,7 +356,7 @@ export default {
         rnum: "",
         pid: "",
         title: "",
-        contents: "",
+        contents: ".",
         endDate: "",
         makeDay: "",
         changeDay: "",
