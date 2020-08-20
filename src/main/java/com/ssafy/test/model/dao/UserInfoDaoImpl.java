@@ -11,7 +11,9 @@ import com.ssafy.test.model.dto.Addr;
 import com.ssafy.test.model.dto.Pools;
 import com.ssafy.test.model.dto.Project;
 import com.ssafy.test.model.dto.SearchParameter;
+import com.ssafy.test.model.dto.Two;
 import com.ssafy.test.model.dto.UserInfo;
+import com.ssafy.test.model.dto.UsersInterest;
 
 
 
@@ -137,6 +139,12 @@ public class UserInfoDaoImpl implements UserInfoDao {
 		// TODO Auto-generated method stub
 		System.out.println("id확인 :" +id);
 		return template.selectOne(ns+"searchPoolById",id);
+	}
+
+	@Override
+	public List<UsersInterest> getUserByInterest(String userid) {
+		// TODO Auto-generated method stub
+		return template.selectList(ns+"getUserByInterest",userid);
 	}
 
 }

@@ -76,6 +76,18 @@
 		order by cnt desc limit 15;
 	</select>
 
+	<select id="getUserByInterest" parameterType="string"
+		resultType="usersinterest">
+		select id, count(*) as cnt
+		from (
+		select *
+		from interest
+		where interest in (select interest from interest where id=#{id})
+		) as b 
+		group by id
+		order by cnt desc;
+	</select>
+
 	<select id="getRecommendedPJT" parameterType="string"
 		resultType="project">
 		select pid , count(*) as cnt

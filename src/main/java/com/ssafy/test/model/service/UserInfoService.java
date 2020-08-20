@@ -6,7 +6,9 @@ import com.ssafy.test.model.dto.Addr;
 import com.ssafy.test.model.dto.Pools;
 import com.ssafy.test.model.dto.Project;
 import com.ssafy.test.model.dto.SearchParameter;
+import com.ssafy.test.model.dto.Two;
 import com.ssafy.test.model.dto.UserInfo;
+import com.ssafy.test.model.dto.UsersInterest;
 
 
 public interface UserInfoService {
@@ -35,4 +37,6 @@ public interface UserInfoService {
 	public List<Pools> getPools(); //Two<Integer,Integer> v
 	public Pools searchPoolById(String id);
 	public UserInfo loginForKakao(String kakaoId);
+	public List<UsersInterest> getUserByInterest(String userid);
+	
 }

@@ -70,6 +70,8 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			alias="two" />
 			<typeAlias type="com.ssafy.test.model.dto.WaitMember"
 			alias="waitmember" />
+			<typeAlias type="com.ssafy.test.model.dto.UsersInterest"
+			alias="usersinterest" />
 			
 	</typeAliases>
 
