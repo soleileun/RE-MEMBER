@@ -487,9 +487,7 @@ public class UserInfoController {
       
       Random rand = new Random();  int idx = 0;
       boolean[] visit = new boolean [v.size()];
-      if(v.size()<=3) {
-         
-      }
+  
       if(v.size() <3) {
        for(int i=0;i<v.size();i++) {
           send.add(v.get(i));
@@ -506,6 +504,9 @@ public class UserInfoController {
             }
          }
       }
+      for(int i=0;i<send.size();i++) {
+    	  System.out.println(send.get(i).toString());
+      }
       return new ResponseEntity<List<Pools>>(send, HttpStatus.OK);
    }
 
@@ -514,14 +515,14 @@ public class UserInfoController {
       List<Project> list = uiService.getRecommendedPJT(id); // 추천 15개 받아옴 
       List<Projectcnt> finallist = new ArrayList<>();
       List<Projectcnt> projects = new ArrayList<>();
-//      System.out.println(id);
-//      System.out.println("왜안되냥");
+      System.out.println(id);
+      System.out.println("왜안되냥");
       List<Pmember> myprojects = pmservice.selectByUserId(id); 
-//      System.out.println(list.size());
-//      if(list.size() != 0) {
-//         for(int i=0;i<list.size();i++)
-//            System.out.println(list.get(i).toString());
-//      }
+      System.out.println(list.size());
+      if(list.size() != 0) {
+         for(int i=0;i<list.size();i++)
+            System.out.println(list.get(i).toString());
+      }
 
       for (int i = 0; i < list.size(); i++) {
          boolean flag = false;
@@ -536,10 +537,10 @@ public class UserInfoController {
             continue;
          
          Projectcnt tmp = pjtService.searchByPID(thispid);
-//         System.out.println(thispid);
-//         System.out.println(tmp.toString());
+         System.out.println(thispid);
+         System.out.println(tmp.toString());
          List<Pinterest> pinter = pinterService.select(thispid);
-//         System.out.println(pinter.toString());
+         System.out.println(pinter.toString());
          int size = pinter.size();
          if (size > 0)
             tmp.setTag1(pinter.get(0).getInterest());
@@ -552,6 +553,7 @@ public class UserInfoController {
          if (size > 4)
             tmp.setTag5(pinter.get(4).getInterest());
          projects.add(tmp);
+         System.out.println("여긴통과를 안해?");
       
       }
       System.out.println(projects.size());
@@ -570,11 +572,17 @@ public class UserInfoController {
                idx++;
             }
          }
+      }else {
+    	  for(int i=0;i<projects.size();i++) {
+    		  finallist.add(projects.get(i));
+    	  }
       }
-      
-//      for(int i=0;i<finallist.size();i++) {
-//    	  System.out.println(finallist.get(i).toString());
-//      }
+
+	  System.out.println("////////////////////////");
+      for(int i=0;i<finallist.size();i++) {
+    	  System.out.println("////////////////////////");
+    	  System.out.println(finallist.get(i).toString());
+      }
       return new ResponseEntity<List<Projectcnt>>(finallist, HttpStatus.OK);
    }
 
@@ -745,17 +753,17 @@ public class UserInfoController {
 //       double distanceKiloMeter =
 //               distance(37.504198, 127.047967, 37.501025, 127.037701, "km");
 
-      System.out.println("test1");
+//      System.out.println("test1");
        double theta = (double)lon1 - lon2;
-       System.out.println("test2");
+//       System.out.println("test2");
        double dist = (double)Math.sin(degTorad(lat1)) * Math.sin(degTorad(lat2)) + Math.cos(degTorad(lat1)) * Math.cos(degTorad(lat2)) * Math.cos(degTorad(theta));
-       System.out.println("test3");
+//       System.out.println("test3");
        dist = Math.acos(dist);
        dist = radTodeg(dist);
        dist = dist * 60 * 1.1515;
        dist = dist * 1.609344;
        int score= getScore(dist);
-       System.out.println("test4");
+//       System.out.println("test4");
        return score;
      
    }
