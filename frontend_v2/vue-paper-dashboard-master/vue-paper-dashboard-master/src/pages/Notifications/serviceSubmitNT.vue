@@ -1,5 +1,5 @@
 <template>
-  <span>리크루트 멤버에 오신것을 환영합니다</span>
+  <span>RE:MEMBER에 주신 소중한 의견 감사합니다!</span>
 </template>
 
 <script>

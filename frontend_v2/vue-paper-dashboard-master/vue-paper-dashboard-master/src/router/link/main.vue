@@ -34,7 +34,6 @@
         <br />
       </b-carousel-slide>
 
-
       <!-- Slides with img slot -->
       <!-- Note the classes .d-block and .img-fluid to prevent browser default image alignment -->
       <b-carousel-slide>
@@ -59,8 +58,6 @@
           />
         </template>
       </b-carousel-slide>
-
-     
     </b-carousel>
 
     <!-- <p class="mt-4">
@@ -92,10 +89,22 @@
         <div class="col-md-3 d-flex align-self-stretch ftco-animate">
           <div class="media block-6 services d-block text-center">
             <div class="d-flex justify-content-center">
-             <svg width="25%" height="25%" viewBox="0 0 16 16" class="bi bi-compass" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-  <path fill-rule="evenodd" d="M8 15.016a6.5 6.5 0 1 0 0-13 6.5 6.5 0 0 0 0 13zm0 1a7.5 7.5 0 1 0 0-15 7.5 7.5 0 0 0 0 15z"/>
-  <path d="M6 1a1 1 0 0 1 1-1h2a1 1 0 0 1 0 2H7a1 1 0 0 1-1-1zm.94 6.44l4.95-2.83-2.83 4.95-4.95 2.83 2.83-4.95z"/>
-</svg>
+              <svg
+                width="25%"
+                height="25%"
+                viewBox="0 0 16 16"
+                class="bi bi-compass"
+                fill="currentColor"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M8 15.016a6.5 6.5 0 1 0 0-13 6.5 6.5 0 0 0 0 13zm0 1a7.5 7.5 0 1 0 0-15 7.5 7.5 0 0 0 0 15z"
+                />
+                <path
+                  d="M6 1a1 1 0 0 1 1-1h2a1 1 0 0 1 0 2H7a1 1 0 0 1-1-1zm.94 6.44l4.95-2.83-2.83 4.95-4.95 2.83 2.83-4.95z"
+                />
+              </svg>
             </div>
             <div class="media-body p-2 mt-2">
               <h3 class="heading mb-3">위치 기반 서비스</h3>
@@ -106,10 +115,23 @@
         <div class="col-md-3 d-flex align-self-stretch ftco-animate">
           <div class="media block-6 services d-block text-center">
             <div class="d-flex justify-content-center">
-              <svg width="25%" height="25%" viewBox="0 0 16 16" class="bi bi-layers-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-  <path fill-rule="evenodd" d="M7.765 1.559a.5.5 0 0 1 .47 0l7.5 4a.5.5 0 0 1 0 .882l-7.5 4a.5.5 0 0 1-.47 0l-7.5-4a.5.5 0 0 1 0-.882l7.5-4z"/>
-  <path fill-rule="evenodd" d="M2.125 8.567l-1.86.992a.5.5 0 0 0 0 .882l7.5 4a.5.5 0 0 0 .47 0l7.5-4a.5.5 0 0 0 0-.882l-1.86-.992-5.17 2.756a1.5 1.5 0 0 1-1.41 0l.418-.785-.419.785-5.169-2.756z"/>
-</svg>
+              <svg
+                width="25%"
+                height="25%"
+                viewBox="0 0 16 16"
+                class="bi bi-layers-fill"
+                fill="currentColor"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M7.765 1.559a.5.5 0 0 1 .47 0l7.5 4a.5.5 0 0 1 0 .882l-7.5 4a.5.5 0 0 1-.47 0l-7.5-4a.5.5 0 0 1 0-.882l7.5-4z"
+                />
+                <path
+                  fill-rule="evenodd"
+                  d="M2.125 8.567l-1.86.992a.5.5 0 0 0 0 .882l7.5 4a.5.5 0 0 0 .47 0l7.5-4a.5.5 0 0 0 0-.882l-1.86-.992-5.17 2.756a1.5 1.5 0 0 1-1.41 0l.418-.785-.419.785-5.169-2.756z"
+                />
+              </svg>
             </div>
             <div class="media-body p-2 mt-2">
               <h3 class="heading mb-3">기술 스택 기반</h3>
@@ -120,11 +142,23 @@
         <div class="col-md-3 d-flex align-self-stretch ftco-animate">
           <div class="media block-6 services d-block text-center">
             <div class="d-flex justify-content-center">
-             <svg width="25%" height="25%" viewBox="0 0 16 16" class="bi bi-person-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-  <path d="M13.468 12.37C12.758 11.226 11.195 10 8 10s-4.757 1.225-5.468 2.37A6.987 6.987 0 0 0 8 15a6.987 6.987 0 0 0 5.468-2.63z"/>
-  <path fill-rule="evenodd" d="M8 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
-  <path fill-rule="evenodd" d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zM0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8z"/>
-</svg>
+              <svg
+                width="25%"
+                height="25%"
+                viewBox="0 0 16 16"
+                class="bi bi-person-circle"
+                fill="currentColor"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M13.468 12.37C12.758 11.226 11.195 10 8 10s-4.757 1.225-5.468 2.37A6.987 6.987 0 0 0 8 15a6.987 6.987 0 0 0 5.468-2.63z"
+                />
+                <path fill-rule="evenodd" d="M8 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
+                <path
+                  fill-rule="evenodd"
+                  d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zM0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8z"
+                />
+              </svg>
             </div>
             <div class="media-body p-2 mt-2">
               <h3 class="heading mb-3">신뢰도</h3>
@@ -134,10 +168,20 @@
         </div>
         <div class="col-md-3 d-flex align-self-stretch ftco-animate">
           <div class="media block-6 services d-block text-center">
-            <div class="d-flex justify-content-center" >
-              <svg width="25%" height="25%" viewBox="0 0 16 16" class="bi bi-list-check" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-  <path fill-rule="evenodd" d="M5 11.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zM3.854 2.146a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 1 1 .708-.708L2 3.293l1.146-1.147a.5.5 0 0 1 .708 0zm0 4a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 1 1 .708-.708L2 7.293l1.146-1.147a.5.5 0 0 1 .708 0zm0 4a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 0 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0z"/>
-</svg>
+            <div class="d-flex justify-content-center">
+              <svg
+                width="25%"
+                height="25%"
+                viewBox="0 0 16 16"
+                class="bi bi-list-check"
+                fill="currentColor"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M5 11.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zM3.854 2.146a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 1 1 .708-.708L2 3.293l1.146-1.147a.5.5 0 0 1 .708 0zm0 4a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 1 1 .708-.708L2 7.293l1.146-1.147a.5.5 0 0 1 .708 0zm0 4a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 0 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0z"
+                />
+              </svg>
             </div>
             <div class="media-body p-2 mt-2">
               <h3 class="heading mb-3">이슈 관리 페이지</h3>
@@ -152,7 +196,8 @@
           <b-card title="팀원과 프로젝트를 추천해드립니다!">
             <br />
             <b-card-text style="font-size : 30px;">로그인해서 팀원과 프로젝트를 추천받아보세요!</b-card-text>
-            <br><br>
+            <br />
+            <br />
             <svg
               width="10%"
               height="10%"
@@ -167,8 +212,8 @@
                 d="M4.5 4a3.5 3.5 0 1 1 7 0v3h-1V4a2.5 2.5 0 0 0-5 0v3h-1V4z"
               />
             </svg>
-            <br>
-            <br>
+            <br />
+            <br />
             <br />
             <br />
             <b-button ref="show" :disabled="show" variant="primary" @click="loginchang">로그인</b-button>
@@ -299,7 +344,7 @@ export default {
       // console.log("유저스토어세ㅓ 꺼내보기..");
       // console.log(this.$store.state.userstore.recommendedPJT);
       console.log(this.$store.state.projectstore.projects);
-      return this.$store.state.projectstore.projects;
+      return this.$store.state.userstore.recommendedPJT;
     },
     users() {
       console.log("유저확인");
@@ -372,11 +417,11 @@ export default {
 
   created() {
     this.$store.dispatch(Constant.GET_EXTENDPOOLLIST);
-    this.$store.dispatch(Constant.GET_PROJECTLIST_BY_PMEMBER, {
-      userId: "ejchoi0225@gmail.com",
-    }); //임시로 넣어놈.
-    // this.$store.dispatch("getRecommendedUser");
-    // this.$store.dispatch("getRecommendedPJT");
+    // this.$store.dispatch(Constant.GET_PROJECTLIST_BY_PMEMBER, {
+    //   userId: "ejchoi0225@gmail.com",
+    // }); //임시로 넣어놈.
+    this.$store.dispatch("getRecommendedUser");
+    this.$store.dispatch("getRecommendedPJT");
   },
 };
 </script>
@@ -508,6 +553,4 @@ body {
   width: 30%;
   height: 20%;
 }
-
-
 </style>
