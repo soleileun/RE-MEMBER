@@ -26,18 +26,14 @@
                   <span>지도</span>
                 </div>
               </li>
-              <li class="active test nav-item">
-                <div class="navtest">
-                  <i class="fa fa-tasks"></i>
-                  <span>프로젝트</span>
-                </div>
-              </li>
-              <li class="active test nav-item" @click="teaminfo">
+              <!-- <router-link class="nav-link" :to="'/project/partners/'+this.$route.params.pid"> -->
+              <li class="active test nav-item" @click="teamInfo">
                 <div class="navtest">
                   <i class="fa fa-id-card-o"></i>
                   <span>팀 정보</span>
                 </div>
               </li>
+              <!-- </router-link> -->
             </ul>
           </div>
         </div>
@@ -46,21 +42,22 @@
 
     <div class="content" v-if="issues.length != 0">
       <div class="container-fluid">
-        <div class="row" >
-
+        <div class="row">
           <div class="col-lg-4">
-                                <div class="card " style="width:100%; height:100%;"> 
-                                    <div class="card-header">
-                                        <i class="fas fa-chart-pie mr-1"></i>
-                                        이슈 현황
-                                    </div>
-                                    <div class="card-body"><canvas id="myChart" width="100%" height="80%"></canvas></div>
-                                    <div class="card-footer small text-muted">
-                                      <i class="fa fa-history"></i>
-                    Last Update {{issues[0].changeDay.slice(0,10)}} {{issues[0].changeDay.slice(11,19)}}
-                                    </div>
-                                </div>
-                            </div>
+            <div class="card" style="width:100%; height:100%;">
+              <div class="card-header">
+                <i class="fas fa-chart-pie mr-1"></i>
+                이슈 현황
+              </div>
+              <div class="card-body">
+                <canvas id="myChart" width="100%" height="80%"></canvas>
+              </div>
+              <div class="card-footer small text-muted">
+                <i class="fa fa-history"></i>
+                Last Update {{issues[0].changeDay.slice(0,10)}} {{issues[0].changeDay.slice(11,19)}}
+              </div>
+            </div>
+          </div>
           <!--
           <div class="col-5 " style="overflow:auto;">
             <div class="card">
@@ -93,7 +90,7 @@
                 </p>
               </div>
               <div class="content" style="height:37vh; overflow-y:scroll; overflow-x:none;">
-                <div class="overflow-auto table-responsive" style="">
+                <div class="overflow-auto table-responsive" style>
                   <table class="table" style="width:100%;">
                     <thead>
                       <th class="td-actions" style="width:15%;">상태</th>
@@ -115,28 +112,31 @@
                 </div>
               </div>
 
-
-                <div class="footer">
-                  <hr />
-                  <div class="stats">
-                    <i class="fa fa-history"></i>
-                    Last Update {{issues[0].changeDay.slice(0,10)}} {{issues[0].changeDay.slice(11,19)}}
-                  </div>
+              <div class="footer">
+                <hr />
+                <div class="stats">
+                  <i class="fa fa-history"></i>
+                  Last Update {{issues[0].changeDay.slice(0,10)}} {{issues[0].changeDay.slice(11,19)}}
                 </div>
               </div>
             </div>
           </div>
+        </div>
         <!-- drag and drop -->
-        <div class="content container-fluid row col-14 card" style="margin-top:20px;" v-drag-and-drop:options="options">
+        <div
+          class="content container-fluid row col-14 card"
+          style="margin-top:20px;"
+          v-drag-and-drop:options="options"
+        >
           <div class="card-header" style="max-height:120px;">
-          <h4 class="header card-title col-8" style="display:inline-block;">이슈 현황</h4>
-          <p align="right" class="category col-4" style="display:inline-block;">
-            <button
-              v-on:click="updateIssueChange()"
-              class="btn btn-info btn-simple btn-xs"
-            >변경사항 저장하기</button>
-          </p>
-          <hr />
+            <h4 class="header card-title col-8" style="display:inline-block;">이슈 현황</h4>
+            <p align="right" class="category col-4" style="display:inline-block;">
+              <button
+                v-on:click="updateIssueChange()"
+                class="btn btn-info btn-simple btn-xs"
+              >변경사항 저장하기</button>
+            </p>
+            <hr />
           </div>
           <ul class="drag-list content" style="margin-top:10px;">
             <li class="drag-column" v-for="group in groups" :key="group.id">
@@ -152,25 +152,16 @@
                 :data-id="group.id"
                 @change="onGroupsChange"
               >
-                <ul class="drag-inner-list " :data-id="group.id">
+                <ul class="drag-inner-list" :data-id="group.id">
                   <li
                     class="drag-item"
                     v-for="item in group.items"
                     :key="item.id"
                     :data-id="item.id"
                   >
-                    <div
-                      class="drag-item-text"
-                      @click="issuedetail(item.name.issueid)"
-                    >
-                    <span class="issueTitle">
-                    {{ item.name.issuetitle }}
-
-                    </span>
-                    <span class="issueDate">
-
-                    {{ item.name.changeDay.slice(0,10) }} 
-                    </span>
+                    <div class="drag-item-text" @click="issuedetail(item.name.issueid)">
+                      <span class="issueTitle">{{ item.name.issuetitle }}</span>
+                      <span class="issueDate">{{ item.name.changeDay.slice(0,10) }}</span>
                     </div>
                   </li>
                 </ul>
@@ -198,7 +189,13 @@
         </p>
       </div>
     </div>
-    <issuedetail :issue="issue" :project="project" :issue_prework="issue_prework" :issues="issues" :issue_by_prework="issue_by_prework"/>
+    <issuedetail
+      :issue="issue"
+      :project="project"
+      :issue_prework="issue_prework"
+      :issues="issues"
+      :issue_by_prework="issue_by_prework"
+    />
     <issuecreate :issues="issues" />
   </div>
 </template>
@@ -222,6 +219,7 @@ export default {
   data() {
     const componentInstance = this;
     return {
+      pid: this.$route.params.pid,
       issueid: 0,
       data: [],
       left: {},
@@ -405,8 +403,8 @@ export default {
         this.$route.params.pid;
       this.$router.push(addr);
     },
-    teaminfo() {
-      this.$router.push("teamInfo.html");
+    teamInfo() {
+      this.$router.push("/issue/partners/" + this.$route.params.pid);
     },
     maps() {
       let addr =
@@ -633,11 +631,11 @@ ul {
     font-size: 1rem;
     padding-left: 1rem;
     padding-top: 1rem;
-    .issueTitle{
+    .issueTitle {
       font-size: 1.3rem;
     }
-    .issueDate{
-      font-size: .8rem;
+    .issueDate {
+      font-size: 0.8rem;
       white-space: nowrap;
     }
   }
@@ -681,34 +679,34 @@ ul {
 .navtest:hover {
   color: #ffffff;
 }
-.drag-inner-list[data-id = '1'] > li {
-  border-radius : 15px;
-  background-color: rgba( 135, 206, 235, 0.7 );
+.drag-inner-list[data-id="1"] > li {
+  border-radius: 15px;
+  background-color: rgba(135, 206, 235, 0.7);
   vertical-align: middle;
   text-align: center;
-  cursor:Pointer;
+  cursor: Pointer;
 }
-.drag-inner-list[data-id = '1'] > li:active {
-  cursor:move;
+.drag-inner-list[data-id="1"] > li:active {
+  cursor: move;
 }
-.drag-inner-list[data-id = '2'] > li {
-  background-color: rgba( 255, 0, 0, 0.7 );
-  border-radius : 15px;
+.drag-inner-list[data-id="2"] > li {
+  background-color: rgba(255, 0, 0, 0.7);
+  border-radius: 15px;
   vertical-align: middle;
   text-align: center;
-  cursor:Pointer;
+  cursor: Pointer;
 }
-.drag-inner-list[data-id = '2'] > li:active {
-  cursor:move;
+.drag-inner-list[data-id="2"] > li:active {
+  cursor: move;
 }
-.drag-inner-list[data-id = '3'] > li {
-  background-color: rgba( 154, 205, 50, 0.7 );
-  border-radius : 15px;
-  cursor:Pointer;
+.drag-inner-list[data-id="3"] > li {
+  background-color: rgba(154, 205, 50, 0.7);
+  border-radius: 15px;
+  cursor: Pointer;
   vertical-align: middle;
   text-align: center;
 }
-.drag-inner-list[data-id = '3'] > li:active {
-  cursor:move;
+.drag-inner-list[data-id="3"] > li:active {
+  cursor: move;
 }
 </style>
