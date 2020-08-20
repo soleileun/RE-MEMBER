@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.test.model.dto.Board;
 import com.ssafy.test.model.service.BoardService;
+import com.ssafy.test.model.service.MessageService;
 import com.ssafy.test.model.dto.Comments;
 
 import io.swagger.annotations.ApiOperation;
@@ -35,6 +36,8 @@ public class BoardController {
 	@Autowired
 	private BoardService bService;
 
+	
+	
 	@ApiOperation(value = "모든 게시글의 정보를 반환한다.", response = List.class)
 	@GetMapping
 	public ResponseEntity<List<Board>> retrieveBoard() throws Exception {
