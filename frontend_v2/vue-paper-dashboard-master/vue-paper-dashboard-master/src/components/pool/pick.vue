@@ -5,7 +5,7 @@
 
     <notfound v-if="rows === 0" />
     <div class="card-carousel">
-      <div class="my-card" v-for="(pool,index) in extendpools" :key="index">
+      <div class="my-card" v-for="(pool,index) in extendpools.slice(0,3)" :key="index">
         <div class="card">
           <div
             v-if="pool.responsibility === '디자인'"
