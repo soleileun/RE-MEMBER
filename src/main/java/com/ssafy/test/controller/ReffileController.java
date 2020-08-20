@@ -66,7 +66,7 @@ public class ReffileController {
 
 	
 	/////////////////파일 업로드 주소
-	private static String UPLOADED_FOLDER = "./../../resource/static/image/";
+	private static String UPLOADED_FOLDER = "/project/test/s03p12a208/src/main/resources/static/image/";
 	///////////////////
 	
 	
