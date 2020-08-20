@@ -187,7 +187,6 @@ export default {
       };
     },
     modifyRecruit() {
-      console.log("contents : " + this.recruit.contents);
       this.$store.dispatch(Constant.MODIFY_RECRUIT, {
         rnum: this.recruit.rnum,
         // pid: this.recruit.rnum,

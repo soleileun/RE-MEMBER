@@ -27,7 +27,6 @@ export default {
         this.users = response.data;
       })
       .catch((e) => {
-        console.log(e);
       });
   },
   methods: {

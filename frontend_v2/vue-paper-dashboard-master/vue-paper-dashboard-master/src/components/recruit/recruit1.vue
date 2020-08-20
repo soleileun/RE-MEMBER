@@ -522,11 +522,6 @@ export default {
       } else {
         stacks = null;
       }
-
-      console.log(sd + " " + gg + " " + dn);
-      console.log("태그길이:" + this.picks.length);
-      console.log("stack is + " + this.stacks);
-
       //통합
       this.$store.dispatch(Constant.SEARCH_RECRUIT, {
         addr,

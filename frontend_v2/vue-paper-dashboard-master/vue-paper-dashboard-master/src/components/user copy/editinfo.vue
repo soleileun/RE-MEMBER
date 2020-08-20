@@ -271,12 +271,10 @@ export default {
           }
         })
         .then((res) => {
-          console.log('결과')
-          console.log(res.data);
           this.$store.dispatch("login", { id: storage.getItem("userid"), pw: this.pw });
           this.$router.push({name:'user'})
         })
-        .catch((e) => console.log(e));
+        .catch((e) =>{});
     },
   },
 };

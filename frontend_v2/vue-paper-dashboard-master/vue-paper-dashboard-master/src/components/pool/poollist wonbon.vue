@@ -474,11 +474,9 @@ export default {
       return this.extendpools.length;
     },
     pools() {
-      console.log("pool 호출");
       return this.$store.state.poolstore.pools;
     },
     extendpools() {
-      console.log("extendpools 호출");
       return this.$store.state.poolstore.extendpools;
     },
     sidoList() {
@@ -496,10 +494,8 @@ export default {
     },
   },
   created() {
-    console.log(this.urls("abb"));
     this.$store.dispatch(Constant.GET_POOLLIST);
     this.$store.dispatch(Constant.GET_EXTENDPOOLLIST);
-    console.log("디스패치 완료");
 
     // sido리스트 불러오기
     this.$store.dispatch(Constant.GET_SIDOLIST);
@@ -578,10 +574,6 @@ export default {
       } else {
         stacks = null;
       }
-
-      console.log(sd + " " + gg + " " + dn);
-      console.log("태그길이:" + this.picks.length);
-      console.log("stack is + " + stacks);
 
       if (
         this.selectedSido == 0 &&

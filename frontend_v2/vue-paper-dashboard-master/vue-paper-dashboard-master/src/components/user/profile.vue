@@ -82,7 +82,6 @@ export default {
             this.board.bview = response.data[0].bview;
           } else {
             alert("내 프로필을 로드하는데에 실패하였습니다.");
-            console.log(response)
           }
         })
         .catch((exp) =>
@@ -140,7 +139,6 @@ export default {
           config
         )
         .then((response) => {
-          console.log("수정하였습니다." + response.data);
         })
         .catch((exp) => alert("수정 처리에 실패하였습니다." + exp));
     },

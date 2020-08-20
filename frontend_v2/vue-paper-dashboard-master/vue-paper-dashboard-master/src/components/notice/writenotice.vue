@@ -55,7 +55,6 @@ export default {
                 });
                 this.$router.push('/notice');
             }else{
-                console.log('공백입력.');
             }    
             this.clear();
         },

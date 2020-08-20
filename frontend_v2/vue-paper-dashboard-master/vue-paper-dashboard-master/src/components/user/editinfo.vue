@@ -301,7 +301,6 @@ export default {
           this.board.changeId = response.data[0].changeId;
         } else {
           alert("내 프로필을 로드하는데에 실패하였습니다.");
-          console.log(response);
         }
       })
       .catch((exp) => alert("내 프로필을 로드하는데에 실패하였습니다." + exp));
@@ -515,10 +514,7 @@ export default {
             config
           )
           .then((res) => {
-            console.log("결과");
-            console.log(res.data);
             this.board.btitle = this.nickname
-            console.log(this.board);
             this.$store.dispatch(Constant.MODIFY_BOARD, { board: this.board });
             this.$store.dispatch("login", {
               id: storage.getItem("userid"),
@@ -526,7 +522,7 @@ export default {
             });
             this.$router.push({ path: "/mypage" });
           })
-          .catch((e) => console.log(e));
+          .catch((e) => {});
       }
     },
   },

@@ -29,9 +29,8 @@ export default {
       http
         .get("/api/email/resend/" + storage.getItem("userid"))
         .then((res) => {
-          console.log(res);
         })
-        .catch((e) => console.log(e));
+        .catch((e) => {});
     },
   },
 };

@@ -70,10 +70,6 @@ export default {
       .then((response) => {
         if (response.data.length > 0) {
           this.projects = response.data;
-          console.log(response.data);
-          console.log("여기랑");
-          console.log("유저아이디 : " + this.$route.params.userid);
-          console.log("여기 사이");
         } else {
           this.projects = [{ pid: "프로젝트 수행 내역이 없습니다." }];
         }

@@ -309,8 +309,6 @@ export default {
           //this.markerCenter.setMap(null);
           this.y = result[0].road_address.y;
           this.x = result[0].road_address.x;
-          console.log(address);
-          console.log(this.x + " : " + this.y + "실행됨");
 
           /////
           this.$store.dispatch("signup", {

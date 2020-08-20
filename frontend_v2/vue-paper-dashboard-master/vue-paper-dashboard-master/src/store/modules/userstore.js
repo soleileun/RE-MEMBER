@@ -77,16 +77,13 @@ const userstore = {
               list: res.data
             })
           }
-        }).catch(exp => console.log(exp))
-      }).catch(exp => console.log(exp))
+        }).catch(exp => {})
+      }).catch(exp => [])
     },
     // 유저 관련
     kakao: (store, payload) => {
-      console.log(payload.kakaoid * 1);
-      console.log(typeof (payload.kakaoid * 1));
       let num = payload.kakaoid * 1
       http.post('/api/userinfo/login/kakao', num).then(res => {
-        console.log(res);
         if (res.data.data) {
           window.localStorage.setItem("jwt-auth-token", res.headers["jwt-auth-token"]);
           window.localStorage.setItem("userNick", res.data.data.nickname)
@@ -160,7 +157,6 @@ const userstore = {
           }
         })
         .catch(exp => {
-          console.log(exp)
           store.commit('loginError', {
             e: '오류 발생' + exp
           })
@@ -208,7 +204,6 @@ const userstore = {
         "rHUkm/qXRGcAkG78qbTqhnXVzkpCTN0yfJTKGQCkvXoWuvCZ7h3XamjxDQGHSMwMADLR3YzUWkdp/Tln9iQqZwCQjeqZ/sBaR2njRsCF2BkAZMTOvivESR1rrpyVRMn8iRFaAMhAM6ChXHDH7I41V89KQnTvGD5DIwAAstEM6HzJvCaZyFhDI6Ar5KpgAMhIfOavEJ62xmZA3Ag4jcoZAGSnemY/usZmQLzgtBg7A4AMNQO+v6ZmQNII+CONAADIUDPg9jU1A0pC1LaXT9EIAIAMNQNeMLus1gzwxbT6ZMwMADJEQzmrV2sG+EZAdByVMwDIVvUsek/iX6s2Ar6CnQFAxuxswerHBPmjgX7O0UAAkKFmQJ925ppVWwElIY7YVN6nGKIFgEw1A+TS+hYrG5q/XXO3zuXcrgkAWbIzf2dAfZ+V7gzwfYEoYuYMALKXbtZmrHRnQLzgNJ9GAABkrxlQe78QMyorn3T2DewMADLY21y0cm/T9zV/QV8TALLe2ywJccIrgnvoawJAxmgoFz40abMVhlYWQv1H9QVWnAAge73NcHm02+DeZnyD0xTMDACyGZ8pObi3Ge9rvoNGAABktBlw3ODepm9x2v+HnQFANu3MnjFoZ/H6+bewMwDIqJ1dtuKQoJIQ6jrGNAAge/hRDf2HASdj/RwAMtzb9KMab+8f1SgL0f2qzufpbAJAFu3M37dpk/s2j+wQwhyElQFAdg0tOlR4L6v6RsBMKmcAkN1mQPQW4b3M21l0Kn1NAMiwnX1w0M702dgZAGTXzuzXVkRn38POACDDdvbDuHbmm5vmWmpnAJBN/OSZuqH/fKBJm4T/YOoMADKKPyTo/iM2je2se7vq00ydAUBG8ZNnz3XtGNtZfc840cTOACCTduYjNH+fk/BnnSnMDAAybGjSRdXEzmYaGgEAkO3e5hGJnc1lTAMAMm5n8xI7+yR2BgAZt7PPJHb2TewMALJtZ9GCxM4uw84AILt09hkXXRHbmfwVOwEAkGU7007+RgjxiXJwi3ad7AQAQFbtrKFdcNuRHcJsPuV+VpwAIMM0las+UN1CTNkheIIVJwDIsp2FLnhS7iiqu1Wfw84AINt2Vn0+3FNUDwyWs7EJAFm2Mz+sMXWiCBQvBgBkndB1GhHOohEAAFnvbSpXPUJUj2XqDAAybmd92lWPF9XTsDMAyL6dBf8lgk9gZwCQg+jskyI4GzsDgBzY2ZdF9ULsDABykGwuFMH3sTMAyEF0dpkIrsbOACAH0dnVIvhfztMAgIzbmT9T439F8HuFnQFAxu1MueoNonorWwEAkHG8nd0qqn/jlk0AyDj+xLO7RHAvxwMBQNbtLHTBvSJ4EDsDgBzY2YOi+gh2BgDZt7PqIyJ4EjsDgBxEZ0+K4FleCgDIOqELnhXBC7wQAJADXhDVl3gZACD7VF8S8cUnAABZZ7mosn4OAHmIzvoEXU0AyEd3k+gMAPJBrwieCXkZACDjhC54mq0AAMhBohm64GFW0AEgH3Z2j6j+VXLeGQBkm4Z01b/+f46XxZLIYYYBAAAAAElFTkSuQmCC", payload.id + '.png');
 
       window.localStorage.setItem("userid", payload.id)
-      console.log(payload.kakaoId);
       http
         .post("/api/userinfo/", {
           id: payload.id,
@@ -279,7 +274,7 @@ const userstore = {
                       interest: el,
                     }, config).then(res => {
 
-                    }).catch(e => console.log(e))
+                    }).catch(e => {})
                 })
               } else {
                 window.localStorage.setItem("jwt-auth-token", "");
@@ -310,7 +305,6 @@ const userstore = {
 
         })
         .catch((e) => {
-          console.log(e)
           document.querySelector('#spinner1122').classList.remove('active')
 
         });
@@ -343,7 +337,7 @@ const userstore = {
 
               // });
             })
-          }).catch(exp => console.log(exp))
+          }).catch(exp => {})
         })
         .catch((exp) => alert("에러" + exp));
     },
@@ -363,7 +357,6 @@ const userstore = {
               "jwt-auth-token": storage.getItem("jwt-auth-token")
             }
           }).then(res => {
-            console.log(res);
             store.commit('loadfollowers', {
               followers: res.data,
               users: response.data
@@ -375,7 +368,7 @@ const userstore = {
             //     uid2: item.target,
             //   });
             // })
-          }).catch(exp => console.log(exp))
+          }).catch(exp => {})
         })
         .catch((exp) => alert("에러" + exp));
     },
@@ -394,8 +387,6 @@ const userstore = {
               "jwt-auth-token": storage.getItem("jwt-auth-token")
             }
           }).then(res => {
-            console.log("유저추천...");
-            console.log(res);
             store.commit('loadRecommendedUser', {
               recommendedUser: res.data,
               users: response.data
@@ -407,9 +398,9 @@ const userstore = {
             //     uid2: item.target,
             //   });
             // })
-          }).catch(exp => console.log(exp))
+          }).catch(exp => {})
         })
-        .catch((exp) => alert("에러" + exp));
+        .catch((exp) => alert("에러가 발생했습니다." + exp));
     },
     getRecommendedPJT: (store) => {
       const config = {
@@ -426,8 +417,6 @@ const userstore = {
               "jwt-auth-token": storage.getItem("jwt-auth-token")
             }
           }).then(res => {
-            console.log("프로젝트추천...");
-            console.log(res);
             store.commit('loadRecommendedPJT', {
               recommendedPJT: res.data,
               users: response.data
@@ -439,9 +428,9 @@ const userstore = {
             //     uid2: item.target,
             //   });
             // })
-          }).catch(exp => console.log(exp))
+          }).catch(exp => {})
         })
-        .catch((exp) => alert("에러" + exp));
+        .catch((exp) => alert("에러가 발생했습니다." + exp));
     },
     leave: (store, payload) => {
 
@@ -469,7 +458,6 @@ const userstore = {
                   path: "/main"
                 });
               }).catch(exp => {
-                console.log(exp)
               })
           } else {
             alert("비밀번호가 다릅니다.")
@@ -493,7 +481,7 @@ const userstore = {
         })
         alert('팔로우 되었습니다!')
         store.dispatch('getFollow')
-      }).catch(exp => console.log(exp))
+      }).catch(exp => {})
     },
     delFollow: (store, payload) => {
       const config = {
@@ -505,7 +493,7 @@ const userstore = {
       http.delete('/api/following/delete/' + payload.uid + "/" + payload.target, config).then(res => {
         alert("팔로우가 취소되었습니다");
         store.dispatch('getFollow')
-      }).catch(exp => console.log(exp))
+      }).catch(exp => {})
     },
     // 메세지
     sendMes: (store, payload) => {
@@ -567,7 +555,7 @@ const userstore = {
         store.commit('loadDetailMes', {
           list: res.data
         })
-      }).catch(exp => console.log(exp))
+      }).catch(exp => {})
     },
     delMes: (store, payload) => {
       const config = {
@@ -577,7 +565,7 @@ const userstore = {
       }
       http.delete(`/api/message/${payload.mnum}`, config).then(res => {
         alert("메세지가 삭제되었습니다." + res.data)
-      }).catch(exp => console.log(exp))
+      }).catch(exp => {})
     },
     mesRead: (store, payload) => {
       const config = {
@@ -590,7 +578,7 @@ const userstore = {
         mnum: payload.mnum,
         fromUser: "admin",
         toUser: storage.getItem("userid")
-      }, config).then(res => {}).catch(exp => console.log(exp))
+      }, config).then(res => {}).catch(exp => {})
     },
   },
 

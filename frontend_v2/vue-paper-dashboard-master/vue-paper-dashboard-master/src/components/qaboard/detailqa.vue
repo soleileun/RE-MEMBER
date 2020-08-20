@@ -97,7 +97,6 @@ export default {
         this.$router.push('/qaboard');
       }
       else if(con_test == false){
-        console.log('');
       }
     },
 
@@ -124,7 +123,6 @@ export default {
           alert('댓글 추가가 완료되었습니다.');
           this.comment2.ccontent='';
       }else{
-          console.log('공백입력.');
       }    
     },
     

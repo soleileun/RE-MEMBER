@@ -159,7 +159,6 @@ export default {
 
       //제목 검색
       if(std == 't'){
-        console.log(val);
         this.$store.dispatch(Constant.SEARCH_BOARD_TITLE, {btitle : val, bstate : 'notice'});
       }else{ //작성자 검색
         this.$store.dispatch(Constant.SEARCH_BOARD_WRITER, {bwriter : val, bstate : 'notice'});

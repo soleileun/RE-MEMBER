@@ -79,10 +79,8 @@ export default {
         responseType: "json"
       })
         .then(response => {
-          console.log(response.data);
         })
         .catch(e => {
-          console.log(e);
         });
     },
     submitpw: function() {
@@ -102,10 +100,8 @@ export default {
         responseType: "json"
       })
         .then(response => {
-          console.log(response.data);
         })
         .catch(e => {
-          console.log(e);
         });
     }
   }

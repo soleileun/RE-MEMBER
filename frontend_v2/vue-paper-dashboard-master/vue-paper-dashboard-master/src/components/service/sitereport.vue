@@ -39,7 +39,6 @@ export default {
       }
     },
     notifyVue(verticalAlign, horizontalAlign) {
-      console.log("실행됨");
       const color = Math.floor(Math.random() * 4 + 1);
       //1 info 2 success 3 warn 4 danger
       this.$notify({

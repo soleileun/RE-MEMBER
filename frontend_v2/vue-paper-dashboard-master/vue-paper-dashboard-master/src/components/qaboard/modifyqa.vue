@@ -56,7 +56,6 @@
             let addr = "/qaboard/detailqa/"+ this.board.bno;
             this.$router.push(addr);
           } else {
-            console.log("공백입력.");
           }
           // this.clear();
         },

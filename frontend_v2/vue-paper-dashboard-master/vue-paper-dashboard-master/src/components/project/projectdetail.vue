@@ -143,10 +143,7 @@ export default {
       
       //console.log("source : " + source);
       //console.log("el : " + el.className);
-      console.log("id : " + el.id);
       //console.log("부모 id : " + this.$parent.name);
-      console.log("부모 id : " + document.querySelector('#' + el.id).parentNode.id);
-      console.log(el.id + "의 상태를 " + document.querySelector('#' + el.id).parentNode.id + "로 바꾸는 쿼리 실행");
       //부모 id에 따라 상태를 대기 진행중 완료됨으로 업데이트 하는 쿼리 실행하면 됨
 
 

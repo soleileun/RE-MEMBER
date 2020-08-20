@@ -94,7 +94,7 @@ export default {
             alert("찾는 정보의 아이디가 없습니다.");
           }
         })
-        .catch((exp) => console.log("서버가 불안정합니다." + exp));
+        .catch((exp) =>{});
     },
     searchPW() {
       http
@@ -114,7 +114,7 @@ export default {
             alert("찾는 정보의 아이디가 없습니다.");
           }
         })
-        .catch((exp) => console.log("서버가 불안정합니다." + exp));
+        .catch((exp) => {});
     },
   },
 };

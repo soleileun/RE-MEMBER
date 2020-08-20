@@ -77,7 +77,6 @@ export default {
   },
   methods: {
     edit: function () {
-      console.log(this.content);
       this.profileEdit = true;
     },
     complete: function () {
@@ -94,7 +93,6 @@ export default {
           changeId: storage.getItem("userid"), //세션 id
         })
         .then((response) => {
-          console.log("수정하였습니다." + response.data);
         })
         .catch((exp) => alert("수정 처리에 실패하였습니다." + exp));
     },

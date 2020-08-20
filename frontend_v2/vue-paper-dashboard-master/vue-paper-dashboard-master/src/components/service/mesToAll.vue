@@ -27,11 +27,9 @@ export default {
       http
         .get("/api/userinfo/")
         .then((response) => {
-          console.log(response.data);
           this.users = response.data;
           if (this.users) {
             this.users.forEach((element) => {
-              console.log(element.id);
               this.$store.dispatch("sendMes", {
                 other: element.id,
                 content: this.mesval,
@@ -40,7 +38,6 @@ export default {
           }
         })
         .catch((e) => {
-          console.log(e);
         });
     },
   },

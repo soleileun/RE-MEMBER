@@ -103,11 +103,8 @@ export default {
   },
   methods: {
     check: function () {
-      console.log(this.Myfollowers);
-      console.log(this.Myfollows);
     },
     delFollow(id) {
-      console.log(id);
       this.$store.dispatch("delFollow", {
         uid: storage.getItem("userid"),
         target: id,

@@ -375,7 +375,6 @@ export default {
       };
     },
     openModal3: function () {
-      console.log(this.userId);
       let modal = document.getElementById("myModal3");
       // Get the <span> element that closes the modal
       let span = document.querySelector("#modal3Close");
@@ -393,7 +392,6 @@ export default {
       };
     },
     openModal4: function () {
-      console.log(this.userId);
       let modal = document.getElementById("myModal4");
       // Get the <span> element that closes the modal
       let span = document.querySelector("#modal4Close");

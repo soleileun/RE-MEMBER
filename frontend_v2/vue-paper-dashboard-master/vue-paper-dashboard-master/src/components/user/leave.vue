@@ -18,7 +18,6 @@ export default {
   methods: {
     leavemodal: function () {
       if (this.pw !== "") {
-        console.log(this.pw);
         this.$store.dispatch("leave", { pw: this.pw });
       } else {
         alert("비밀번호를 정확하게 입력해주세요");

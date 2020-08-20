@@ -156,9 +156,8 @@ export default {
               },
             })
             .then((res) => {
-              console.log(res);
-            })
-            .catch((e) => console.log(e));
+                          })
+            .catch((e) =>{});
         });
         this.picks.forEach((el) => {
           http
@@ -171,9 +170,9 @@ export default {
               config
             )
             .then((res) => {
-              console.log(res);
+              
             })
-            .catch((e) => console.log(e));
+            .catch((e) => {});
         });
 
         setTimeout(() => {
