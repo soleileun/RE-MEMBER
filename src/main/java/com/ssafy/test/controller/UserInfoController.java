@@ -417,8 +417,11 @@ public class UserInfoController {
 //         System.out.println(target.getY() + ":" + target.getX());
 //         System.out.println(me.getY() + ":" + me.getX());
          int distscore = 0;
-         if(target.getY() != null && target.getX() !=null && me.getX() !=null && me.getY()!= null) {
-         distscore = distance(Float.parseFloat(me.getY()), Float.parseFloat(me.getX()), Float.parseFloat(target.getY()), Float.parseFloat(target.getX()));}
+        if(target.getY() != null && target.getX() !=null && me.getX() !=null && me.getY()!= null) {
+        	if(target.getY().length() <1|| me.getX().length()<1) {
+           	 distscore=0;
+            }else {
+         distscore = distance(Float.parseFloat(me.getY()), Float.parseFloat(me.getX()), Float.parseFloat(target.getY()), Float.parseFloat(target.getX()));}}
          else {
             distscore =0;
          }
@@ -503,10 +506,6 @@ public class UserInfoController {
             }
          }
       }
-      
-      
-      
-    
       return new ResponseEntity<List<Pools>>(send, HttpStatus.OK);
    }
 
