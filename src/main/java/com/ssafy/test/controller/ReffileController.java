@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.StringTokenizer;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -158,10 +159,26 @@ public class ReffileController {
 				Reffile v = new Reffile();
 				SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
 				//System.out.println(format1.format(now));
+				
+				String original = file.getOriginalFilename();
+				StringBuilder sb = new StringBuilder(original);
+				// asdasdasdasd.PNG // asdasdsddasds.png 
+				int len = original.length() - 1;
+				for(int i = len; original.charAt(i) != '.'; i--) {
+					char ch = original.charAt(i);
+					if(ch < 95) {
+						ch += 32;
+						sb.setCharAt(i, ch);
+					}
+				}
+				String ret = sb.toString();
+				System.out.println("ret is the " + ret);
+				
 				v.setFboardno(fboardno);
 				v.setFoname(file.getOriginalFilename());
 				v.setFsize(file.getSize());
-				v.setFsname("file"  +  file.getOriginalFilename() ); // 이름 바꿔주자
+//				v.setFsname("file"  +  file.getOriginalFilename() ); // 이름 바꿔주자
+				v.setFsname("file"  +  ret );
 				v.setMakeId(makeId);
 				v.setMakeDay(new Date());
 				//date 관련은 다 생성자에서 넣어주자.
