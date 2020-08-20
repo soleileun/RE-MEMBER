@@ -5,23 +5,23 @@
         <img :src="urls" alt="..." />
       </div>
       <div class="rigtt">
-        <h4 class="title">
-          {{project.pjtName}}
-        </h4>
+        <h4 class="title">{{project.pjtName}}</h4>
         <a href="#">
           <small>현재 프로젝트 인원 : {{project.cnt}} / {{project.pjtMemberCnt}}</small>
         </a>
-        <p class="description">
+        <div>
           팀장: {{project.makeId}}
-          <br />
+          <span class="hashs">
+
           <a class="hash" v-if="project.tag1 != null">#{{project.tag1}}</a>
           <a class="hash" v-if="project.tag2 != null">#{{project.tag2}}</a>
           <a class="hash" v-if="project.tag3 != null">#{{project.tag3}}</a>
           <a class="hash" v-if="project.tag4 != null">#{{project.tag4}}</a>
           <a class="hash" v-if="project.tag5 != null">#{{project.tag5}}</a>
-          <br />
+          
+          </span>
           {{project.pjtContent}}
-        </p>
+        </div>
         {{project.location}}
       </div>
     </div>
@@ -109,11 +109,12 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 // <style scoped lang="scss">
 .project1 {
+  word-break: keep-all;
   margin: 20px;
   padding: 15px;
   width: 800px;
   height: 300px;
-  max-width: 75vw;
+  max-width: 35vw;
   min-width: 290px;
   border: 1px solid #eeeeee;
   border-radius: 10px;
@@ -123,10 +124,12 @@ export default {
   justify-content: space-around;
   align-items: center;
   .topp {
+    word-break: keep-all;
     width: 100%;
     display: flex;
     justify-content: space-between;
-    h4{
+    h4 {
+      word-break: keep-all;
       margin-top: 0;
     }
     .pjtImg {
@@ -137,20 +140,34 @@ export default {
       margin-right: 10px;
       padding: 2px;
       img {
-        max-width: 100%;
+        width: 100%;
         max-height: 100%;
       }
     }
     .rigtt {
+      word-break: keep-all;
       height: 100%;
       width: 50%;
       display: flex;
       flex-direction: column;
       justify-content: flex-start;
       align-items: flex-start;
+      div {
+        word-break: keep-all;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-content: flex-start;
+        .hashs{
+          display: flex;
+        flex-flow: row wrap;
+        justify-content: flex-start;
+        align-content: flex-start;
+        }
+      }
     }
   }
-  .row{
+  .row {
     display: flex;
     justify-content: space-around;
   }
