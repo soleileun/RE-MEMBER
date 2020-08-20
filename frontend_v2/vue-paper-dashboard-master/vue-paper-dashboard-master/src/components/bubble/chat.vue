@@ -108,7 +108,7 @@
 
           <div v-else style="text-align:left">
             <div class = "namepart">
-              <img src="" style="width:30px;height:30px; padding-top:6px;" > 
+              <img :src="url(chat.id)" style="width:30px;height:30px; padding-top:6px;" > 
             </div>
           <div>
             <span style="font-size:13px; text-align:top">{{ chat.nickname }} </span>
@@ -235,7 +235,9 @@ export default {
     return this.$store.state.chatstore.chats;
   },
   methods: {
-    
+    url(id){
+      return this.$store.state.filestore.fileUrl + id +".png";
+    },
     clickSend () {
       if(this.id !== '' && this.content !== ''){
         this.nickname = storage.getItem("userid"); // 현재 접속중인 유저의 id를 사용합니다.
