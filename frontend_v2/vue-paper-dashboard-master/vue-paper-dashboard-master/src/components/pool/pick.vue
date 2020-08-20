@@ -913,7 +913,7 @@ img {
 .card-carousel .my-card {
   height: 20rem;
   width: 12rem;
-  position: relative;
+  // position: relative;
   z-index: 1;
   -webkit-transform: scale(0.6) translateY(-2rem);
   transform: scale(0.6) translateY(-2rem);

@@ -1,5 +1,65 @@
 <template>
   <div class="mains">
+    <!-- 캐러셀 -->
+    <b-carousel
+      id="carousel-1"
+      v-model="slide"
+      :interval="4000"
+      controls
+      indicators
+      background="#ababab"
+      img-width="1024"
+      img-height="480"
+      style="text-shadow: 1px 1px 2px #333;"
+      @sliding-start="onSlideStart"
+      @sliding-end="onSlideEnd"
+    >
+      <!-- Text slides with image -->
+      <b-carousel-slide
+        caption="First slide"
+        text="Nulla vitae elit libero, a pharetra augue mollis interdum."
+        img-src="https://picsum.photos/1024/480/?image=52"
+      ></b-carousel-slide>
+
+      <!-- Slides with custom text -->
+      <b-carousel-slide img-src="https://picsum.photos/1024/480/?image=54">
+        <h1>Hello world!</h1>
+      </b-carousel-slide>
+
+      <!-- Slides with image only -->
+      <b-carousel-slide img-src="https://picsum.photos/1024/480/?image=58"></b-carousel-slide>
+
+      <!-- Slides with img slot -->
+      <!-- Note the classes .d-block and .img-fluid to prevent browser default image alignment -->
+      <b-carousel-slide>
+        <template v-slot:img>
+          <img
+            class="d-block img-fluid w-100"
+            width="1024"
+            height="480"
+            src="https://picsum.photos/1024/480/?image=55"
+            alt="image slot"
+          />
+        </template>
+      </b-carousel-slide>
+
+      <!-- Slide with blank fluid image to maintain slide aspect ratio -->
+      <b-carousel-slide caption="Blank Image" img-blank img-alt="Blank image">
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse eros felis, tincidunt
+          a tincidunt eget, convallis vel est. Ut pellentesque ut lacus vel interdum.
+        </p>
+      </b-carousel-slide>
+    </b-carousel>
+
+    <p class="mt-4">
+      Slide #: {{ slide }}
+      <br />
+      Sliding: {{ sliding }}
+    </p>
+
+    <!-- 캐러셀 end -->
+
     <div class="container">
       <div class="text-center">
         <h3>
@@ -54,16 +114,15 @@
           <div class="col-4" name="rpjt" v-for="project in projects" :key="project.pid">
             <project :project="project" />
           </div>
-        </div> -->
+        </div>-->
         <hr />
 
         <h3>
           <strong>{{userNick}}</strong>님께 추천드리는 팀원입니다!
         </h3>
 
-       
         <div class="dmswjdWKdWkd">
-            <users />
+          <users />
         </div>
       </div>
     </div>
@@ -75,7 +134,7 @@
 <script>
 // import 'expose-loader?$!expose-loader?jQuery!jquery';
 
-import $ from 'jquery';
+import $ from "jquery";
 import Constant from "../../Constant";
 import project from "../../components/project/project1";
 import users from "../../components/pool/pick";
@@ -97,6 +156,8 @@ export default {
       userId: storage.getItem("userid"),
       userNick: storage.getItem("userNick"),
       //  loginId: "",
+      slide: 0,
+      sliding: null,
     };
   },
   computed: {
@@ -122,6 +183,12 @@ export default {
   },
 
   methods: {
+    onSlideStart(slide) {
+      this.sliding = true;
+    },
+    onSlideEnd(slide) {
+      this.sliding = false;
+    },
     toggle() {
       console.log(this.loginId);
     },
@@ -280,6 +347,4 @@ body {
     }
   }
 }
-
-
 </style>
