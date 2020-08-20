@@ -129,7 +129,7 @@ public class ReffileController {
 	}
 	//////////////////////////////////////////////
 
-	@GetMapping(value = "/image/{imageName", produces = MediaType.IMAGE_PNG_VALUE)
+	@GetMapping(value = "/image/{imageName}", produces = MediaType.IMAGE_PNG_VALUE)
 	public @ResponseBody byte[] getImage(
 			
 		@PathVariable(name = "imageName") String imageName,
