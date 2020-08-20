@@ -1,10 +1,18 @@
 <template>
   <div class="editinfo">
+
+
+
+
+
+
+    
     <div v-if="!pwvalid">
       <card class="card text-center">
         <h4>개인정보 수정을 위해 비밀번호를 다시 한 번 입력해주세요</h4>
 
         <br />
+
         <div class="row justify-content-md-center">
           <div class="col-sm-4 center">
             <input type="password" label="비밀번호" v-model="oldpw" @keyup.enter="pwconfirm" placeholder="비밀번호를 입력해주세요" />
@@ -15,22 +23,170 @@
         <button class="btn btn-info btn-round" @click="pwconfirm">개인정보 바꾸기</button>
       </card>
     </div>
-    <div v-else>
-      <h4>개인정보 수정</h4>
+    
+    <div v-else class="col-12">
+
+
+                <div class="row" >
+                    <!-- Column -->
+                    <div class="col-lg-4 col-xlg-3 col-md-5">
+                        <div class="card" >
+                            <div class="card-body" style="min-height:400px;">
+                                <center class="m-t-30" > <img src="assets/images/users/5.jpg" class="img-circle" width="150" style="margin-bottom:50px;"/>
+                                    <h4 class="card-title m-t-10">{{board.bwriter}}</h4>
+                                    <h6 class="card-subtitle">{{nickname}}</h6>
+                                    <h6 class="card-subtitle">{{responsibility}}</h6>
+                                    <!--
+                                    <div class="row text-center justify-content-md-center">
+                                        <div class="col-4"><a href="javascript:void(0)" class="link"><i class="icon-people"></i> <font class="font-medium">254</font></a></div>
+                                        <div class="col-4"><a href="javascript:void(0)" class="link"><i class="icon-picture"></i> <font class="font-medium">54</font></a></div>
+                                    </div>
+                                    -->
+                                </center>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Column -->
+                    <!-- Column -->
+                    <div class="col-lg-8 col-xlg-9 col-md-7">
+                        <div class="card">
+                            <!-- Tab panes -->
+                            <div class="card-body">
+                                <form class="form-horizontal form-material">
+                                    <div class="form-group">
+                                        <label class="col-md-12">닉네임</label>
+                                        <div class="col-md-12">
+                                            <input v-model="nickname" maxlength="12" type="text"  class="form-control form-control-line">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label  class="col-md-12">비밀번호</label>
+                                        <div class="col-md-12">
+                                            <input v-model="pw" type="password"  class="form-control form-control-line" >
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-12">비밀번호 확인</label>
+                                        <div class="col-md-12">
+                                            <input v-model="pw2" type="password" class="form-control form-control-line">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-12">주소</label>
+                                        <div class="col-md-12">
+                                            <input v-model="address1" type="text" disabled  class="form-control form-control-line">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-12">추가 주소</label>
+                                        <div class="col-md-12">
+                                            <input  v-model="address3" type="text" class="form-control form-control-line">
+                                            <div class="btn btn-primary" @click="postActive">
+                                              <span v-if="!postAct">주소</span>
+                                              <span v-else>X</span>
+                                            </div>
+                                              <div class="postcode" v-if="postAct">
+                                                <DaumPostcode :on-complete="handleAddress" />
+                                              </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-12">전화번호</label>
+                                        <div class="row col-12">
+                                        <div class="col-md-3">
+                                            <input v-model="phone0" maxlength="3" type="tel" class="form-control form-control-line">
+                                        </div>
+                                        <div style="padding-top:15px;padding-bottom:15px;">ㅡ</div>
+                                        <div class="col-md-3">
+                                            <input id="p1" v-model="phone1" maxlength="4" type="tel" class="form-control form-control-line">
+                                        </div>
+                                        <div style="padding-top:15px;padding-bottom:15px;">ㅡ</div>
+                                        <div class="col-md-3">
+                                            <input id="p2" v-model="phone1" maxlength="4" type="tel" class="form-control form-control-line">
+                                        </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-12">Git 계정</label>
+                                        <div class="col-md-12">
+                                            <input v-model="git" type="text" class="form-control form-control-line">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-12">인재풀 등록 여부  
+                                            <input type="checkbox" v-model="st" /></label>
+                                        
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-12">자기소개</label>
+                                        <div class="col-md-12">
+                                            <textarea v-model="intro" maxlength="100" type="text" rows="5" cols="20" class="form-control form-control-line"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-12">역할</label>
+                                        <div class="col-sm-12">
+                                            <select v-model="responsibility" class="form-control form-control-line">
+                                                <option>개발</option>
+                                                <option>디자인</option>
+                                                <option>기획</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-12">
+                                          
+                                            <div @click="edit" class="btn btn-success">수정</div>
+                                          <!--
+                                            <button class="btn btn-success">Update Profile</button>
+                                          -->
+                                        </div>
+                                    </div>
+                                </form> <!-- form이었음 -->
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Column -->
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+<!--
+      <div class="row">
+      <div class="col-1">
+        </div>
+      <div class="col-10 center">
       <card class="card text-center">
-        <span class="form">
+        <div class="form col-12">
           <span>
             한줄 자기 소개
             {{intro.length}}/100
             :
           </span>
           <textarea style="resize:none;width:300px" rows="5" cols="20" v-model="intro" maxlength="100" type="text" />
+          <div class="row col-12">
+            <div class="col-4" style="text-align:right; font-size:22px;">
           비밀번호 :
+          </div>
+          <div class="col-8" style="text-align:left; font-size:22px;">
           <input v-model="pw" type="password" />
           {{error.pw}}
+          </div>
+          </div>
+          
+          <div class="row col-12">
           비밀번호 확인 :
           <input v-model="pw2" type="password" />
           {{error.pw2}}
+          </div>
           <span>
             닉네임(별명)
             {{nickname.length}}/12
@@ -53,7 +209,7 @@
           <div class="postcode" v-if="postAct">
             <DaumPostcode :on-complete="handleAddress" />
           </div>
-        </span>
+        </div>
         <br />
         <span>
           전화번호 :
@@ -84,6 +240,12 @@
         <br />
         <button @click="edit" class="btn-info btn-round">수정</button>
       </card>
+    </div>
+    
+      <div class="col-1">
+        </div>
+    </div>
+    -->
     </div>
   </div>
 </template>
@@ -219,7 +381,8 @@ export default {
   },
   methods: {
     postActive: function () {
-      this.postAct = true;
+      if(this.postAct == true) { this.postAct = false;}
+      else this.postAct = true;
     },
     handleAddress: function (data) {
       let fullAddress = data.address;
@@ -388,5 +551,22 @@ export default {
   .submitable {
     opacity: 1;
   }
+
+
+.form-material {
+  .postcode {
+    height: 300px;
+    width: 500px;
+    border: 2px black solid;
+    overflow-y: scroll;
+  }
+  .gosignin {
+    opacity: 0.2;
+  }
+  .submitable {
+    opacity: 1;
+  }
+}
+
 }
 </style>
