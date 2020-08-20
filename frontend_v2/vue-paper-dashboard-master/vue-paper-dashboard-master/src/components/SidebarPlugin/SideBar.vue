@@ -8,7 +8,7 @@
     <div class="sidebar-wrapper" id="style-3">
       <div class="logo">
         <router-link to="/" class="simple-text">
-          <img class="welogo" src="@/assets/img/logo.png" alt />
+          <img class="welogo" src="@/assets/img/newlogowhite.png" alt />
         </router-link>
       </div>
       <slot></slot>
