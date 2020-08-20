@@ -325,6 +325,14 @@ export default {
   components: {
     notfound,
   },
+  props: {
+     
+    extendpools: {
+      type: Array,
+      required: true,
+    },
+     
+  },
   mounted() {
     let num = $(".my-card").length;
     let even = num / 2;
@@ -394,19 +402,19 @@ export default {
       return this.extendpools.length;
     },
     
-    extendpools() {
-      console.log(
-        "extendpools 호출" + this.$store.state.poolstore.extendpools.length
-      );
-      return this.$store.state.poolstore.extendpools;
-    },
+    // extendpools() {
+    //   console.log(
+    //     "extendpools 호출" + this.$store.state.poolstore.extendpools.length
+    //   );
+    //   return this.$store.state.poolstore.extendpools;
+    // },
    
     follow() {
       return this.$store.state.userstore.followings;
     },
   },
   created() {
-    this.$store.dispatch(Constant.GET_EXTENDPOOLLIST);
+    // this.$store.dispatch(Constant.GET_EXTENDPOOLLIST);
 
   
   },
