@@ -84,7 +84,7 @@ export default {
     popup() {
       //배포 주소로 바꾸기! 포트도
       var url =
-        "http://localhost:8081/issuetest/" +
+        "http://i3a208.p.ssafy.io:8081/issuetest/" +
         this.myId + //여기 세션 아이디로 교체
         "/" +
         this.project.pid;
