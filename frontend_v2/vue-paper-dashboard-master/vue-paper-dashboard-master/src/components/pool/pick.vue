@@ -358,7 +358,6 @@ export default {
 
     $(".my-card").click(function () {
       let slide = $(".active").width();
-      console.log($(".active").position().left);
 
       if ($(this).hasClass("next")) {
         $(".card-carousel")
@@ -398,16 +397,9 @@ export default {
   },
   computed: {
     rows() {
-      console.log('rows :' +  this.extendpools.length);
       return this.extendpools.length;
     },
     
-    // extendpools() {
-    //   console.log(
-    //     "extendpools 호출" + this.$store.state.poolstore.extendpools.length
-    //   );
-    //   return this.$store.state.poolstore.extendpools;
-    // },
    
     follow() {
       return this.$store.state.userstore.followings;

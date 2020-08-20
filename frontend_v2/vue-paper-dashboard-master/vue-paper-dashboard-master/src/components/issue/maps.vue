@@ -138,7 +138,6 @@ export default {
         }
       } else {
         //alert("주위 검색 실패!");
-        console.log("실패");
       }
     },
 
@@ -285,12 +284,9 @@ export default {
       let len = this.users.length;
 
       for (var i = 0; i < len; i++) {
-        //console.log(this.users[i].address2);
         let address = this.users[i].address1;
-        console.log(address);
         this.geocoder.addressSearch(address, (result, status) => {
           if (status === kakao.maps.services.Status.OK) {
-            console.log("sucess!");
             //this.markerCenter.setMap(null);
             var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
             var marker = new kakao.maps.Marker({
@@ -305,7 +301,6 @@ export default {
         var totalX = 0;
         var totalY = 0;
         var leng = this.markers.length;
-        console.log("leng is " + leng);
 
         for (var i = 0; i < leng; i++) {
           totalX += this.markers[i].getPosition().Ha;
@@ -313,7 +308,6 @@ export default {
         }
         totalX /= leng;
         totalY /= leng;
-        console.log(totalX, totalY);
 
         var coords2 = new kakao.maps.LatLng(totalX, totalY);
         this.markers = [];
@@ -391,7 +385,6 @@ export default {
       this.geocoder.addressSearch(input, (result, status) => {
         // 정상적으로 검색이 완료됐으면
         if (status === kakao.maps.services.Status.OK) {
-          //   console.log("markerCenter is " + this.markerCenter);
           this.markerCenter.setMap(null);
           var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
 

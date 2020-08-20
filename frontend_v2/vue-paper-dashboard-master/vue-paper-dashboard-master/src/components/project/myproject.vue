@@ -37,12 +37,10 @@ export default {
 
   computed: {
     projects() {
-      console.log("확인2" + this.$store.state.projectstore.projects);
       return this.$store.state.projectstore.projects;
     },
   },
   created() {
-    //console.log(userId);
     if (storage.getItem("userid") === "") {
       document.querySelector('.login').classList.remove('active')
       document.querySelector('.login').classList.add('active')
@@ -53,11 +51,9 @@ export default {
     }
   },
   mounted() {
-    // console.log(targetId + " : " + userId);
   },
   methods: {
     // getPmemberList(userId) {
-    //   console.log("과정1");
 
     // },
     movePage() {
