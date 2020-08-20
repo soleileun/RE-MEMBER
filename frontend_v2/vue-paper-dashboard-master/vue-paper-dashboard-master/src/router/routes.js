@@ -66,7 +66,7 @@ const routes = [{
       },
       {
         path: "freeboard/type/:type/:currentPage",
-        name: "자유게시판",
+        name: "게시판",
         component: freeboard,
       },
       // {
@@ -108,12 +108,12 @@ const routes = [{
 
       {
         path: "/freeboard/writefree/:type/:currentPage",
-        name: "자유게시판 글쓰기",
+        name: "게시판 글쓰기",
         component: writefree,
       },
       {
         path: "/freeboard/detailfree/:bno/:type/:currentPage",
-        name: "자유게시판 글",
+        name: "게시판 글",
         component: detailfree,
       },
       {

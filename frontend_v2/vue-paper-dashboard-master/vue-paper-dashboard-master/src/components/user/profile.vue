@@ -4,7 +4,7 @@
     <div id="editor" class="container ql-snow" v-if="!profileEdit">
       <div class="ql-editor profileContainer" v-html="content" style="min-height:500px"></div>
     </div>
-    <vue-editor id="editorSiba" v-if="profileEdit" v-model="content" :editor-toolbar="customToolbar" useCustomImageHandler @imageAdded="handleImageAdded" editorOptions=""></vue-editor>
+    <vue-editor id="editorSiba" v-if="profileEdit" v-model="content" useCustomImageHandler @imageAdded="handleImageAdded" editorOptions=""></vue-editor>
     <!-- 에디터를 v-show로 숨겨두지 않으면 일부 꾸밈 코드가 안먹힘 -->
     <div v-if="myprofile">
       <button class="btn btn-round btn-success" v-if="!profileEdit" @click="edit">프로필 수정하기</button>
@@ -28,27 +28,6 @@ export default {
   },
   data() {
     return {
-      customToolbar: [
-        [{ font: [] }],
-        [{ header: [false, 1, 2, 3, 4, 5, 6] }],
-        [{ size: ["small", false, "large", "huge"] }],
-        ["bold", "italic", "underline", "strike"],
-        [
-          { align: "" },
-          { align: "center" },
-          { align: "right" },
-          { align: "justify" },
-        ],
-        [{ header: 1 }, { header: 2 }],
-        ["blockquote", "code-block"],
-        [{ list: "ordered" }, { list: "bullet" }, { list: "check" }],
-        [{ script: "sub" }, { script: "super" }],
-        [{ indent: "-1" }, { indent: "+1" }],
-        [{ color: [] }, { background: [] }],
-        ["link", "image", "video", "formula"],
-        [{ direction: "rtl" }],
-        ["clean"],
-      ],
       content: "불러오는 중입니다.",
       profileEdit: false,
       bno: "0",
@@ -94,6 +73,7 @@ export default {
   },
   methods: {
     handleImageAdded(file, Editor, cursorLocation) {
+      console.log(file);
       if (file) {
         const fileName = new Date().getTime() - 1597262625477;
         const file2 = new File(

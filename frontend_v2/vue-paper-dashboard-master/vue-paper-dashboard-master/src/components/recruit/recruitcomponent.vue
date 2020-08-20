@@ -221,8 +221,7 @@ export default {
     }
     .imagee{
       width: 100%;
-      height: 300px;
-      min-height: 300px;
+      max-height: 130px;
       overflow: hidden;
       img{
         width: 100%;

@@ -29,17 +29,17 @@
     <div class="container-fluid" style="margin-bottom: 30px;">
       <div class="col-12" style="cursor:pointer;">
         <div class="row" style="text-align:center;">
-        <div class="col-4" style="height:50px; background-color:#78acf1; color:white; border-right:1px solid white;" @click="move('free')">
+        <div class="col-4 ss" style="height:50px; background-color:#78acf1; color:white; " @click="move('free')" :class="{type:type==='free'}">
           <div style="padding-top:10px; padding-bottom:10px; font-weight:800; font-size:20px;">
           자유
           </div>
           </div>
-          <div class="col-4" style="height:50px; background-color:#78acf1; color:white; border-right:1px solid white;" @click="move('qa')">
+          <div class="col-4 ss" style="height:50px; background-color:#78acf1; color:white; " @click="move('qa')" :class="{type:type==='qa'}">
             <div style="padding-top:10px; padding-bottom:10px; font-weight:800; font-size:20px;">
           질문
           </div>
           </div>
-          <div class="col-4" style="height:50px; background-color:#78acf1; color:white;" @click="move('notice')">
+          <div class="col-4 ss" style="height:50px; background-color:#78acf1; color:white;" @click="move('notice')" :class="{type:type==='notice'}">
             <div style="padding-top:10px; padding-bottom:10px; font-weight:800; font-size:20px;">
           공지
           </div>
@@ -73,7 +73,6 @@
         <div class="col-12" >
           <div class="card">
             <div class="card-body">
-              <h4 class="card-title" style="margin-bottom:14px;">게시판</h4>
                <div class="col-1" style="padding:0px;">
                 <select id="showcnt" @change="changeShowCnt">
                   <option value="5">5개씩 보기</option>
@@ -788,7 +787,16 @@ Table-Data Table
   -o-transition-duration: 0.3s;
   transition-duration: 0.3s;
 }
-
+.ss.type{
+  border: red solid 2px;
+}
+.ss:nth-child(2){
+  border-left: white 1px solid;
+  border-right: white 1px solid;
+  &.type{
+    border: red solid 2px;
+  }
+}
 .dataTables_filter {
   float: right;
   margin-top: 10px;
