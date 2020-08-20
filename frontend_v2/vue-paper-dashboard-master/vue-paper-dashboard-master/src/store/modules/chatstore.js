@@ -79,7 +79,6 @@ const chatstore = {
                         id : payload.uid,
                     },config)
                         .then(() => {
-                            console.log('Is Read');
                         })
                         .catch(exp => alert('[FAIL] CHAT_READ is not working' + exp));
 
@@ -97,7 +96,6 @@ const chatstore = {
                         http.get('/api/chat/chat/name='+ payload.roomName+'&id=' + payload.id, config)
                         .then(response => {
                             store.commit(Constant.GET_CHATLIST, { chats: response.data })
-                            console.log("불러왔음." + payload.roomName)
                             //alert(payload.uid + "님을 초대했습니다.");
                         })
                         .catch(exp => alert('getchatList처리에 실패하였습니다!!' + exp));
@@ -110,7 +108,6 @@ const chatstore = {
                 };
             })
             .catch(exp => {
-                console.log('추가 실패 확인 로그' + exp);
                 //alert('이미 참가중인 유저입니다.');
             })
     },
@@ -123,13 +120,11 @@ const chatstore = {
         http.get('/api/chat/chat/name='+ payload.roomName+'&id=' + payload.id, config)
             .then(response => {
                 store.commit(Constant.GET_CHATLIST, { chats: response.data })
-                console.log("불러왔음." + payload.roomName)
           })
             .catch(exp => alert('getchatList처리에 실패하였습니다!!' + exp));
       },
     //채팅 보내기 dispatch 수정해야함
     [Constant.SEND_CHAT]: (store, payload) => {
-        // console.log(payload.bstate);
         const config = {
             headers: {"jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")}
         }
@@ -141,12 +136,10 @@ const chatstore = {
                 makedate : payload.makedate,
             },config)
             .then(() => {
-                console.log('채팅 입력했습니다');
                 //store.dispatch(Constant.GET_CHATROOMLIST);//, {rooms : payload.bstate});
 
             })
             .catch(exp => {
-                console.log('채팅 입력 실패 확인 로그');
                 alert('채팅에 실패하였습니다.' + exp);
             })
     },
@@ -183,14 +176,11 @@ const chatstore = {
         const config = {
             headers: {"jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")}
         }
-        console.log(payload.roomName);
-        console.log(payload.id);
         http.put('/api/chat/change/roomName=' + payload.roomName + '&id=' + storage.getItem("userid"), {
             roomName : payload.roomName,
             id : payload.id,
         },config)
             .then(() => {
-                console.log('Is Read');
             })
             .catch(exp => alert('[FAIL] CHAT_READ is not working' + exp));
     },
@@ -198,14 +188,13 @@ const chatstore = {
 
   mutations: {
     [Constant.GET_CHATROOMLIST]: (state, payload) => {
-        // console.log('mutation' + payload.boards);
         state.rooms = payload.rooms;
     },
     [Constant.GET_CHATROOMMEMBER]: (state, payload) => {
         state.members = payload.members;
     },
     [Constant.GET_CHATLIST]: (state, payload) => {
-        // console.log('mutation' + payload.boards);
+
         state.chats = payload.chats;
     },
     [Constant.GET_CHATROOMONETOONE]: (state, payload) => {

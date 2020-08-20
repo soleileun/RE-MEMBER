@@ -104,8 +104,7 @@ export default {
         this.message = ''
       }
     },    
-    send() {
-      console.log("Send message:" + this.message);
+    send() {}
       if (this.stompClient && this.stompClient.connected) {
         const msg = { 
           nickname: this.userName,
@@ -117,11 +116,8 @@ export default {
       }
     },    
       enter() {
-      console.log("click 됨");
             //this.stompClient.subscribe("/send/" + this.pid, res => {
             this.stompClient.subscribe("/send/" + this.pid, res => {
-            console.log('구독으로 받은 메시지 입니다.', res.body);
-            console.log("구독 : " + "/send/" + this.pid);
             // roomname으로 들어오는 방 정보가 현재 접속한 방 정보와 일치하면 push해주게 해서 방을 구분함.
             // 받은 데이터를 json으로 파싱하고 리스트에 넣어줍니다.
             this.recvList.push(JSON.parse(res.body))
@@ -131,13 +127,11 @@ export default {
       const serverURL = "http://i3a208.p.ssafy.io:8000"
       let socket = new SockJS(serverURL);
       this.stompClient = Stomp.over(socket);
-      console.log(`소켓 연결을 시도합니다. 서버 주소: ${serverURL}`)
       this.stompClient.connect(
         {},
         frame => {
           // 소켓 연결 성공
           this.connected = true;
-          console.log('소켓 연결 성공', frame);
           // 서버의 메시지 전송 endpoint를 구독합니다.
           // 이런형태를 pub sub 구조라고 합니다.
           //this.stompClient.subscribe("/send", res => {
@@ -151,14 +145,12 @@ export default {
         },
         error => {
           // 소켓 연결 실패
-          console.log('소켓 연결 실패', error);
           this.connected = false;
         }
       );        
     }
   },
   mounted: function(){
-    console.log(storage)
     this.$store.dispatch("init", {});
   },
   beforeUpdate: function(){

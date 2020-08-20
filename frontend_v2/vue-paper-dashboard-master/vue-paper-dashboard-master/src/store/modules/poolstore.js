@@ -26,7 +26,6 @@ const poolstore = {
     [Constant.GET_EXTENDPOOLLIST]: (store) => {
       http.get('/api/userinfo/pools')
         .then(response => {
-          console.log("지금 온 내용 :" + response.data)
           store.commit(Constant.GET_EXTENDPOOLLIST, {
             extendpools: response.data
           })
@@ -36,7 +35,6 @@ const poolstore = {
 
     //통합 검색
     [Constant.SEARCH_POOLIST]: (store, payload) => {
-      // console.log(payload);
       const config = {
         headers: {
           "jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")
@@ -44,7 +42,6 @@ const poolstore = {
       }
       http.get('/api/userinfo/searchAll/tag=' + payload.stacks + '&addr=' + payload.addr + '&keyword=' + payload.keyword, config)
         .then(response => {
-          console.log('통합 검색 조건 유저리스트 반환: ' + response.status);
           store.commit(Constant.GET_EXTENDPOOLLIST, {
             extendpools: response.data
           })
@@ -56,7 +53,6 @@ const poolstore = {
     },
     // //댓글 추가
     // [Constant.ADD_COMMENT]: (store, payload) => {
-    //     console.log(payload.bno);
 
     //     http.post('/api/comments/', {
     //             cwriter:payload.cwriter,
@@ -111,7 +107,6 @@ const poolstore = {
     //     state.pools = payload.pools.filter(item=>item.responsibility!=="admin");
     // },
     [Constant.GET_EXTENDPOOLLIST]: (state, payload) => {
-      console.log('mutation' + payload.extendpools);
       state.extendpools = payload.extendpools;
     },
 

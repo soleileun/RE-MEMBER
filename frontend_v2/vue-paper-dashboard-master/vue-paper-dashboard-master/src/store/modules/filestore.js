@@ -51,7 +51,6 @@ const filestore = {
                         },
                     })
                     .then(function (result) {
-                        console.log('이미지 업로드 완료');
                         store.commit('delTempFiles')
                     })
                     .catch(function () {
@@ -64,7 +63,6 @@ const filestore = {
 
     mutations: {
         upBoardFiles: (state, payload) => {
-            console.log(payload.file)
             state.filesBoard.push(payload.file)
         },
         delTempFiles: (state) => {

@@ -139,7 +139,6 @@ const stackstore = {
         // console.log(payload);
         http.get('/api/usertag/selectAddrAndTag/tag='+payload.stacks+'&addr=' + payload.addr)
             .then(response => {
-                console.log('풀리스트 반환: '+response.data);
                 store.commit(Constant.GET_POOLLIST, { pools : response.data })
           })
             .catch(exp => alert('풀리스트 반환 처리에 실패하였습니다.' + exp));

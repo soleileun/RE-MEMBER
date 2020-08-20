@@ -39,7 +39,6 @@ const issuestore = {
             window.localStorage.setItem('issueLoad', "false")
             http.get('/api/issue/search/pid=' + payload.pid + '&issuestate=' + payload.issuestate, config)
                 .then(response => {
-                    // console.log(response)
                     store.commit(Constant.GET_ISSUELIST_BY_STATE, { issues: response.data, issuestate: payload.issuestate })
 
                 })
@@ -50,12 +49,8 @@ const issuestore = {
             const config = {
                 headers: { "jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token") }
             }
-            console.log("확인")
-            console.log(payload);
             http.get('/api/issue/no/' + payload.issueid, config)
                 .then(response => {
-                    console.log("success");
-                    console.log(response.data);
                     store.commit(Constant.GET_ISSUE, { issue: response.data })
                 })
                 .catch(exp => alert('getTodo(GET_ISSUE)처리에 실패하였습니다.' + exp));
@@ -67,8 +62,6 @@ const issuestore = {
             const config = {
                 headers: { "jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token") }
             }
-            console.log("확인")
-            console.log(payload);
             http.get('/api/issue/no/' + payload.issueid, config)
                 .then(response => {
                     store.commit(Constant.GET_ISSUE_PREWORK, { issue_prework: response.data })
@@ -81,12 +74,8 @@ const issuestore = {
             const config = {
                 headers: { "jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token") }
             }
-            console.log("확인")
-            console.log(payload);
             http.get('/api/issue/byprework/' + payload.prework, config)
                 .then(response => {
-                    console.log("getIssuebyPrework");
-                    console.log(response.data);
                     //store.commit(Constant.GET_ISSUE_BY_PREWORK, { issue_by_prework: response.data })
                 })
                 .catch(exp => alert('getTodo(GET_ISSUE_BY_PREWORK)처리에 실패하였습니다.' + exp));
@@ -95,7 +84,6 @@ const issuestore = {
 
         //이슈 추가
         [Constant.ADD_ISSUE]: (store, payload) => {
-            // console.log(payload.bstate);
             const config = {
                 headers: { "jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token") }
             }
@@ -115,12 +103,10 @@ const issuestore = {
                     changeDay: payload.changeDay,
                 }, config)
                 .then(() => {
-                    console.log('추가하였습니다.');
                     store.dispatch(Constant.GET_ISSUELIST, { pid: payload.pid });
 
                 })
                 .catch(exp => {
-                    console.log('추가 실패 확인 로그');
                     alert('추가 처리에 실패하였습니다.' + exp);
                 })
         },
@@ -149,7 +135,6 @@ const issuestore = {
                     changeDay: payload.changeDay,
                 }, config)
                 .then(() => {
-                    //console.log("성공함");
                 })
                 .catch(exp => alert('수정 처리에 실패하였습니다.' + exp));
         },
@@ -160,7 +145,6 @@ const issuestore = {
             }
             http.put('/api/issue/updateByState', payload, config)
                 .then((response) => {
-                    console.log('수정하였습니다.' + response.data);
                     //store.dispatch(Constant.READ_BOARD, {bno : payload.bno});
                 })
                 .catch(exp => alert('수정 처리에 실패하였습니다.' + exp));

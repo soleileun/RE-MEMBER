@@ -26,7 +26,7 @@ const pmemberstore = {
         prioirty: '',
       }, config).then(res => {
         alert("팀원 추가 성공!")
-      }).catch(exp => console.log(exp))
+      }).catch(exp =>{})
     },
     changeLeader: (store, payload) => {
       const config = {
@@ -43,7 +43,7 @@ const pmemberstore = {
         alert("리더 권한을 위임했습니다.")
         router.go()
       }).catch(exp => {
-        console.log(exp);
+        
         alert("오류가 있습니다. 올바른 아이디를 입력해주세요")
       })
     },
@@ -53,11 +53,10 @@ const pmemberstore = {
           "jwt-auth-token": window.localStorage.getItem("jwt-auth-token")
         }
       }
-      console.log(config);
       http.delete('/api/pmember/delete/' + payload.pid + "/" + payload.userId,config).then(res => {
         alert("delete")
         router.go(-1)
-      }).catch(exp => console.log(exp))
+      }).catch(exp => {})
     },
   }
 }

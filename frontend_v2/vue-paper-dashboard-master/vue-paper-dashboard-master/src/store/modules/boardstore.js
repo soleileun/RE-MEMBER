@@ -21,7 +21,6 @@ const boardstore = {
         }
       http.get('/api/board/statesearching/'+ payload.bstate,config)
           .then(response => {
-            // console.log(response)
               store.commit(Constant.GET_BOARDLIST, { boards: response.data })
         })
           .catch(exp => alert('getBoardList처리에 실패하였습니다!!' + exp));
@@ -58,12 +57,10 @@ const boardstore = {
                 // changeId : payload.changeId
             },config)
             .then((res) => {
-                console.log('추가하였습니다.');
                 store.dispatch(Constant.GET_BOARDLIST, {bstate : payload.bstate});
                 store.dispatch('upFileForBoard',{bno:res.data})
             })
             .catch(exp => {
-                console.log('추가 실패 확인 로그');
                 alert('추가 처리에 실패하였습니다.' + exp);
             })
     },
@@ -95,14 +92,11 @@ const boardstore = {
 
     
     [Constant.READ_BOARD]: (store, payload) => {
-        // console.log(payload);
-        console.log("받아옴? : " + payload.bno);
         const config = {
             headers: {"jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")}
         }
         http.put('/api/board/read/' + payload.bno, config)
             .then(() => {
-                 console.log('수정하였습니다.'+ response.data);
                 //store.dispatch(Constant.READ_BOARD, {bno : payload.bno});
             })
             .catch(exp => alert('읽음 처리에 실패하였습니다.' + exp));
@@ -124,26 +118,22 @@ const boardstore = {
     },
     //제목으로 찾기
     [Constant.SEARCH_BOARD_TITLE]: (store,payload) => {
-        console.log(payload);
         const config = {
             headers: {"jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")}
         }
         http.get('/api/board/typesearch/btitle='+ payload.btitle + '&bstate=' + payload.bstate,config)
             .then(response => {
-                console.log(response.data);
                 store.commit(Constant.GET_BOARDLIST, { boards: response.data })
           })
             .catch(exp => alert('search by title 처리에 실패하였습니다.' + exp));
       },
     //작성자로 찾기
     [Constant.SEARCH_BOARD_WRITER]: (store,payload) => {
-        console.log(payload);
         const config = {
             headers: {"jwt-auth-token": window.sessionStorage.getItem("jwt-auth-token")}
         }
         http.get('/api/board/typesearch/writer='+ payload.bwriter + '&bstate=' + payload.bstate,config)
             .then(response => {
-                console.log(response.data);
                 store.commit(Constant.GET_BOARDLIST, { boards: response.data })
           })
             .catch(exp => alert('search by title 처리에 실패하였습니다.' + exp));
