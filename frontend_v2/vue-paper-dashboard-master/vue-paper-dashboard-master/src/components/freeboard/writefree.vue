@@ -56,8 +56,12 @@
 
           <div class="container-fluid">
             <div class="row" style="min-height:600px;">
-              <div class="col-2 write-left">내용</div>
-
+              <div class="col-2 write-left">내용
+<br><br>
+              <div v-if="filein" style="color:red">
+                사진은 글 작성 완료 후 표시됩니다.
+              </div>
+              </div>
               <div class="col-10 write-right">
                 <vue-editor v-model="board.bcontent" style="height:80%;" useCustomImageHandler @imageAdded="handleImageAdded"></vue-editor>
                 <!--<textarea name="" id="" cols="30" rows="10" v-model="board.bcontent" placeholder="내용을 입력하세요"></textarea><br>-->
@@ -119,11 +123,13 @@ export default {
         makeId: this.loginId,
         changeId: this.loginId,
       },
+      filein:false
     };
   },
   methods: {
     handleImageAdded(file, Editor, cursorLocation) {
       if (file) {
+        this.filein = true
         const fileName = new Date().getTime() - 1597262625477;
         const file2 = new File(
           [file],
