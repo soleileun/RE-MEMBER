@@ -24,6 +24,14 @@ public class Projectcnt {
 	private String tag4;
 	private String tag5;
 	
+	@Override
+	public String toString() {
+		return "Projectcnt [pid=" + pid + ", pjtName=" + pjtName + ", pjtContent=" + pjtContent + ", pjtState="
+				+ pjtState + ", pjtMemberCnt=" + pjtMemberCnt + ", makeDay=" + makeDay + ", changeDay=" + changeDay
+				+ ", makeId=" + makeId + ", changeId=" + changeId + ", location=" + location + ", userId=" + userId
+				+ ", cnt=" + cnt + ", priority=" + priority + ", state=" + state + ", tag1=" + tag1 + ", tag2=" + tag2
+				+ ", tag3=" + tag3 + ", tag4=" + tag4 + ", tag5=" + tag5 + "]";
+	}
 	public Projectcnt(int pid, String pjtName, String pjtContent, String pjtState, int pjtMemberCnt, Date makeDay,
 			Date changeDay, String makeId, String changeId, String location, String userId, int cnt, int priority,
 			String state, String tag1, String tag2, String tag3, String tag4, String tag5) {
