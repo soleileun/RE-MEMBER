@@ -17,7 +17,11 @@
         </div>
 
         <div class="col-5" style="display:flex;">
-          <div @click="searchPool()" class="button-7" style="float: none; margin: 0 auto; height:50px;">
+          <div
+            @click="searchPool()"
+            class="button-7"
+            style="float: none; margin: 0 auto; height:50px;"
+          >
             <div class="eff-7"></div>
             <a style="display:inline-block; padding-bottom:10px; height:40px;">프로젝트 검색</a>
           </div>
@@ -42,7 +46,12 @@
                 <span id="userid" class="text-danger"></span>
               </strong>
             </label>
-            <select id="sido" class="form-control" @change="changeSido(selectedSido)" v-model="selectedSido">
+            <select
+              id="sido"
+              class="form-control"
+              @change="changeSido(selectedSido)"
+              v-model="selectedSido"
+            >
               <option value="0">선택</option>
               <option v-for="(sido, index) in sidoList" :value="sido" :key="index">
                 {{
@@ -61,7 +70,13 @@
                 <span id="userid" class="text-danger"></span>
               </strong>
             </label>
-            <select v-if="selectedSido!=0" id="gugun" class="form-control" @change="changeGugun(selectedSido, selectedGugun)" v-model="selectedGugun">
+            <select
+              v-if="selectedSido!=0"
+              id="gugun"
+              class="form-control"
+              @change="changeGugun(selectedSido, selectedGugun)"
+              v-model="selectedGugun"
+            >
               <option value="0">선택</option>
               <option v-for="(gu, index) in gugunList" :value="gu" :key="index">
                 {{
@@ -103,7 +118,13 @@
 
           <div class="row">
             <div class="col-12 selectform">
-              <div class="btn btn-primary btn-round" v-for="(pick,index) in picks" :key="index" @click="deleteStack(index)" style="z-index : 0;">{{pick}}</div>
+              <div
+                class="btn btn-primary btn-round"
+                v-for="(pick,index) in picks"
+                :key="index"
+                @click="deleteStack(index)"
+                style="z-index : 0;"
+              >{{pick}}</div>
             </div>
           </div>
           <br />
@@ -113,10 +134,23 @@
               <strong>기술스택</strong>
             </div>
             <div class="input">
-              <input type="text" v-model="inputVal" @input="searchQuery()" @keyup.up="upQ()" @keyup.down="downQ()" @keyup.enter="enterQ()" placeholder="스택 입력" />
+              <input
+                type="text"
+                v-model="inputVal"
+                @input="searchQuery()"
+                @keyup.up="upQ()"
+                @keyup.down="downQ()"
+                @keyup.enter="enterQ()"
+                placeholder="스택 입력"
+              />
             </div>
             <div class="autoComplete">
-              <div v-for="(list,index) in lists" :key="list" @click="add(list)" :class="`pk${index}`">{{list}}</div>
+              <div
+                v-for="(list,index) in lists"
+                :key="list"
+                @click="add(list)"
+                :class="`pk${index}`"
+              >{{list}}</div>
             </div>
           </div>
 
@@ -150,9 +184,22 @@
             <div class="col-2"></div>
           </div>
           <div class="row">
-            <recruitcomponent class="col-12 col-lg-6 col-xl-4" v-for="(recruit,index) in recruits.slice(this.perPage*(currentPage-1),perPage*(currentPage))" :key="index" :recruit="recruit" :pid="recruit.pid" />
+            <recruitcomponent
+              class="col-12 col-lg-6 col-xl-4"
+              v-for="(recruit,index) in recruits.slice(this.perPage*(currentPage-1),perPage*(currentPage))"
+              :key="index"
+              :recruit="recruit"
+              :pid="recruit.pid"
+            />
           </div>
-          <b-pagination v-model="currentPage" :total-rows="rows" :per-page="perPage" aria-controls="recruitpage" align="center" id="pagination"></b-pagination>
+          <b-pagination
+            v-model="currentPage"
+            :total-rows="rows"
+            :per-page="perPage"
+            aria-controls="recruitpage"
+            align="center"
+            id="pagination"
+          ></b-pagination>
         </div>
       </div>
     </div>
@@ -176,7 +223,11 @@
           </div>
           <div class="col-75">
             <select id="myproject" name="myproject">
-              <option v-for="(project,index) in projects" :key="index" :value="project.pid">{{project.pjtName}}</option>
+              <option
+                v-for="(project,index) in projects"
+                :key="index"
+                :value="project.pid"
+              >{{project.pjtName}}</option>
             </select>
           </div>
         </div>
@@ -194,7 +245,12 @@
             <label for="subject">내용</label>
           </div>
           <div class="col-75">
-            <vue-editor class="viewEditor" id="editor" v-model="wrecruit.contents" :editor-toolbar="customToolbar"></vue-editor>
+            <vue-editor
+              class="viewEditor"
+              id="editor"
+              v-model="wrecruit.contents"
+              :editor-toolbar="customToolbar"
+            ></vue-editor>
           </div>
         </div>
 
@@ -379,25 +435,38 @@ export default {
     addRecruit() {
       let ppid = document.getElementById("myproject");
       ppid = ppid.options[ppid.selectedIndex].value;
-      console.log("선택된 프로젝트넘버 : " + ppid);
-      if (this.wrecruit.contents.trim() != "") {
-        this.$store.dispatch(Constant.ADD_RECRUIT, {
-          //rnum:'',
-          pid: ppid,
-          title: this.wrecruit.title,
-          contents: this.wrecruit.contents,
-          endDate: this.wrecruit.endDate,
-          makeDay: this.wrecruit.makeDay,
-          changeDay: this.wrecruit.changeDay,
-          makeId: this.loginId,
-          changeId: this.loginId,
-        });
+      // console.log("선택된 프로젝트넘버 : " + ppid);
 
-        var modal = document.getElementById("momo");
-        modal.style.display = "none";
-        // this.$router.push("/recruit/recruit1");
+      // console.log(this.recruits);
+      var flag = true;
+      for (var i = 0; i < this.recruits.length; i++) {
+        if (this.recruits[i].pid == ppid) {
+          flag = false;
+        }
+      }
+      // console.log(flag);
+      if (flag) {
+        if (this.wrecruit.contents.trim() != "") {
+          this.$store.dispatch(Constant.ADD_RECRUIT, {
+            //rnum:'',
+            pid: ppid,
+            title: this.wrecruit.title,
+            contents: this.wrecruit.contents,
+            endDate: this.wrecruit.endDate,
+            makeDay: this.wrecruit.makeDay,
+            changeDay: this.wrecruit.changeDay,
+            makeId: this.loginId,
+            changeId: this.loginId,
+          });
+
+          var modal = document.getElementById("momo");
+          modal.style.display = "none";
+          // this.$router.push("/recruit/recruit1");
+        } else {
+          alert("공백 입력이 있어요 ㅠㅠ");
+        }
       } else {
-        console.log("공백입력.");
+        alert("이미 게시된 프로젝트입니다 :( 이전 글을 확인해주세요!");
       }
     },
 
