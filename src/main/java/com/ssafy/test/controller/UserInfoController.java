@@ -1,6 +1,7 @@
 package com.ssafy.test.controller;
 
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -145,6 +146,14 @@ public class UserInfoController {
             }
          }
          
+         
+         
+         
+
+          
+         
+         
+         
          // 너무 오래 걸림. 각각 호출하도록 바꿔야할듯.
          /* 
          if (v.get(i).getGit() != null) {
@@ -187,6 +196,31 @@ public class UserInfoController {
          v.get(i).setInterest(itmp);
          v.get(i).setProject(ptmp);
       }
+      
+      /*
+      try {
+         // 웹에서 내용을 가져온다.
+      	int status =  Jsoup.connect("https://github.com").ignoreHttpErrors(true).execute().statusCode();
+      	System.out.println(status);
+      	if(status == 200) {
+      		System.out.println("정상쓰");
+      		
+      		Document doc = Jsoup.connect("https://github.com").get();
+      		System.out.println(doc);
+         // 내용 중에서 원하는 부분을 가져온다.
+      		Elements contents = doc.select(".py-2");
+         // 원하는 부분은 Elements형태로 되어 있으므로 이를 String 형태로 바꾸어 준다.
+      		System.out.println(contents.text());
+      		String text = contents.text();
+         }
+         // System.out.println("reposit" + i + " : " + reposit[i]);
+      	}
+      	catch (IOException e) { // Jsoup의 connect 부분에서 IOException 오류가 날 수 있으므로 사용한다.
+         e.printStackTrace();
+         System.out.println("에러 떴다");
+         
+      }
+      */
 
       logger.debug("getPools - 호출");
       return new ResponseEntity<List<Pools>>(v, HttpStatus.OK);
