@@ -117,6 +117,33 @@
         </div>-->
         <hr />
 
+        <!-- 오버레이 -->
+        <b-overlay :show="show" rounded="sm" @shown="onShown" @hidden="onHidden">
+          <b-card title="Card with custom overlay content" :aria-hidden="show ? 'true' : null">
+            <b-card-text>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</b-card-text>
+            <b-card-text>Click the button to toggle the overlay:</b-card-text>
+            <b-button
+              ref="show"
+              :disabled="show"
+              variant="primary"
+              @click="show = true"
+            >Show overlay</b-button>
+          </b-card>
+          <template v-slot:overlay>
+            <div class="text-center">
+              <b-icon icon="stopwatch" font-scale="3" animation="cylon"></b-icon>
+              <p id="cancel-label"><strong>Please wait...</strong></p>
+              <b-button
+                ref="cancel"
+                variant="outline-danger"
+                size="sm"
+                aria-describedby="cancel-label"
+                @click="show = false"
+              >Cancel</b-button>
+            </div>
+          </template>
+        </b-overlay>
+        <!-- 오버레이 end -->
         <h3>
           <strong>{{userNick}}</strong>님께 추천드리는 팀원입니다!
         </h3>
@@ -158,6 +185,7 @@ export default {
       //  loginId: "",
       slide: 0,
       sliding: null,
+      show: false,
     };
   },
   computed: {
@@ -188,6 +216,14 @@ export default {
     },
     onSlideEnd(slide) {
       this.sliding = false;
+    },
+    onShown() {
+      // Focus the cancel button when the overlay is showing
+      this.$refs.cancel.focus();
+    },
+    onHidden() {
+      // Focus the show button when the overlay is removed
+      this.$refs.show.focus();
     },
     toggle() {
       console.log(this.loginId);
