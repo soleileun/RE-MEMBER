@@ -79,7 +79,7 @@ export default {
   props: {},
   methods: {
     kakao() {
-      if (storage.getItem("kakao") === "true") {
+      if (storage.getItem("kakao") === "true" &&storage.getItem("kakaoid").length>0 ) {
         setTimeout(() => {
           this.$store.dispatch("kakao", {
             kakaoid: storage.getItem("kakaoid"),
