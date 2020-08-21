@@ -281,7 +281,9 @@ export default {
       return this.recruits.length;
     },
     recruits() {
-      return this.$store.state.recruitstore.recruits;
+      let a = this.$store.state.recruitstore.recruits; 
+      a.reverse();
+      return a;
     },
     projects() {
       return this.$store.state.projectstore.projects;

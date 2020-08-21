@@ -4,7 +4,7 @@
     <div id="editor1" class="container ql-snow" v-if="!profileEdit">
       <div class="ql-editor profileContainer" v-html="content" style="min-height:500px"></div>
     </div>
-    <vue-editor id="editor2" v-show="profileEdit" v-model="content" useCustomImageHandler @imageAdded="handleImageAdded" :editor-toolbar="customToolbar" ></vue-editor>
+    <vue-editor id="editor2" v-show="profileEdit" v-model="content" useCustomImageHandler @imageAdded="handleImageAdded" :editor-toolbar="customToolbar" :editorOptions="{ format: {font:'serif'}}"></vue-editor>
     <!-- 에디터를 v-show로 숨겨두지 않으면 일부 꾸밈 코드가 안먹힘 -->
     <div v-if="myprofile">
       <button class="btn btn-round btn-success" v-if="!profileEdit" @click="edit">프로필 수정하기</button>
