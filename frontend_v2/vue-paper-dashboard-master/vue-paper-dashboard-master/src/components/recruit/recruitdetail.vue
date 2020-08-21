@@ -64,7 +64,8 @@
             <label for="subject">내용</label>
           </div>
           <div class="col-75">
-            <vue-editor :id="`editor${recruit.pid}`" class="viewEditor" v-model="recruit.contents" style="height:80%;"></vue-editor>
+            <vue-editor :id="`editor${recruit.pid}`" class="viewEditor" v-model="recruit.contents" style="height:80%;"
+              :editor-toolbar="customToolbar"></vue-editor>
           </div>
         </div>
 
@@ -105,13 +106,28 @@ export default {
   data() {
     return {
       edit: false,
-      customToolbar: [],
       id: storage.getItem("userid"),
       con: "",
        customToolbar: [
-        ["bold", "italic", "underline"],
-        [{ list: "ordered" }, { list: "bullet" }],
-        ["code-block"],
+        [{ font: [] }],
+        [{ header: [false, 1, 2, 3, 4, 5, 6] }],
+        [{ size: ["small", false, "large", "huge"] }],
+        ["bold", "italic", "underline", "strike"],
+        [
+          { align: "" },
+          { align: "center" },
+          { align: "right" },
+          { align: "justify" },
+        ],
+        [{ header: 1 }, { header: 2 }],
+        ["blockquote", "code-block"],
+        [{ list: "ordered" }, { list: "bullet" }, { list: "check" }],
+        [{ script: "sub" }, { script: "super" }],
+        [{ indent: "-1" }, { indent: "+1" }],
+        [{ color: [] }, { background: [] }],
+        ["link", "video", "formula"],
+        [{ direction: "rtl" }],
+        ["clean"],
       ],
       loginId: storage.getItem('userid')
     };
@@ -360,7 +376,7 @@ th {
   margin: 15% auto; /* 15% from the top and centered */
   padding: 20px;
   border: 1px solid #888;
-  width: 50%; /* Could be more or less, depending on screen size */
+  width: 80%; /* Could be more or less, depending on screen size */
 }
 /* The Close Button */
 .close {
