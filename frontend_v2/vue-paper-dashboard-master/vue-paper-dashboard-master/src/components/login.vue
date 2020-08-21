@@ -107,12 +107,10 @@ export default {
           storage.setItem("kakaoemail", response.kakao_account.email);
         },
         fail: function (error) {
-          alert("에러가 발생했습니다. " + error);
         },
       });
     },
     onFailure: (data) => {
-      alert("에러가 발생했습니다. " + data);
     },
 
     goLogin: function () {

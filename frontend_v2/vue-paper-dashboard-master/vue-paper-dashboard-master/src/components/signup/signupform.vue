@@ -163,7 +163,6 @@
   </div>-->
 </template>
 
-
 <script>
 import PV from "password-validator";
 import * as EmailValidator from "email-validator";
@@ -240,8 +239,6 @@ export default {
       // 모든 화면이 렌더링된 후 실행합니다.
       document.querySelector("div.main-panel").scrollTop = 0;
       document.querySelector("html").scrollTop = 0;
-    });
-    // document.querySelector('html').sc = 0
     if (window.sessionStorage.getItem("kakaosignup") === "true") {
       setTimeout(() => {
         this.kakao = true;
@@ -254,6 +251,8 @@ export default {
       window.sessionStorage.setItem("kakaosignupID", "");
       window.sessionStorage.setItem("kakaosignupEmail", "");
     }, 500);
+    });
+    // document.querySelector('html').sc = 0
   },
   watch: {
     pw: function () {

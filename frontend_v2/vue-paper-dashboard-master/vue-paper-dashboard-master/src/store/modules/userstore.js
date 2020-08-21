@@ -118,19 +118,20 @@ const userstore = {
             })
           }, 1000)
         }
+        
       })
-      // .catch(e => alert('에러가 발생했습니다' + e))
+      // .catch(e => console.log(e))
     },
     login: (store, payload) => {
       http.post('/api/userinfo/signin', {
         id: payload.id,
         pw: payload.pw
       })
-        .then(response => {
-          if (response.data.data) {
-            window.localStorage.setItem("jwt-auth-token", response.headers["jwt-auth-token"]);
-            window.localStorage.setItem("userNick", response.data.data.nickname)
-            window.localStorage.setItem("userid", response.data.data.id)
+      .then(response => {
+        if (response.data.data) {
+          window.localStorage.setItem("jwt-auth-token", response.headers["jwt-auth-token"]);
+          window.localStorage.setItem("userNick", response.data.data.nickname)
+          window.localStorage.setItem("userid", response.data.data.id)
             window.localStorage.setItem("idvalid", "true"); //response.data.data.valid);
             window.localStorage.setItem("userState", response.data.data.state);
             window.localStorage.setItem("userintro", response.data.data.intro);
@@ -382,7 +383,6 @@ const userstore = {
             }
           }).then(res => {
             // console.log("받아줘!");
-            console.log(res);
             store.commit('loadRecommendedUser', {
               recommendedUser: res.data,
               users: response.data
@@ -415,7 +415,6 @@ const userstore = {
             }
           }).then(res => {
             // console.log("받아줘!");
-            console.log(res);
             store.commit('loadRecommendedPJT', {
               recommendedPJT: res.data,
               users: response.data
