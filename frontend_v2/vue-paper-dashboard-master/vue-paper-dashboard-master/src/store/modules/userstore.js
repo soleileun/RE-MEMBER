@@ -77,7 +77,7 @@ const userstore = {
               list: res.data
             })
           }
-        }).catch(exp => {})
+        }).catch(exp => { })
       }).catch(exp => [])
     },
     // 유저 관련
@@ -112,25 +112,20 @@ const userstore = {
           storage.setItem('kakaosignup', 'true')
           storage.setItem('kakaosignupID', payload.kakaoid * 1)
           storage.setItem('kakaosignupEmail', payload.email)
-          let tmp = document.querySelector('#emailid');
-          if (tmp) {
-            tmp.value = payload.email
-          } else {
-            setTimeout(() => {
-              router.push({
-                path: '/signup'
-              })
-            }, 1000)
-          }
+          setTimeout(() => {
+            router.push({
+              path: '/signup'
+            })
+          }, 1000)
         }
       })
       // .catch(e => alert('에러가 발생했습니다' + e))
     },
     login: (store, payload) => {
       http.post('/api/userinfo/signin', {
-          id: payload.id,
-          pw: payload.pw
-        })
+        id: payload.id,
+        pw: payload.pw
+      })
         .then(response => {
           if (response.data.data) {
             window.localStorage.setItem("jwt-auth-token", response.headers["jwt-auth-token"]);
@@ -157,14 +152,14 @@ const userstore = {
             })
           }
         })
-        // .catch(exp => {
-        //   store.commit('loginError', {
-        //     e: '오류 발생' + exp
-        //   })
-        //   window.localStorage.setItem("jwt-auth-token", "");
-        //   window.localStorage.setItem("userNick", "")
-        //   window.localStorage.setItem("userid", "")
-        // });
+      // .catch(exp => {
+      //   store.commit('loginError', {
+      //     e: '오류 발생' + exp
+      //   })
+      //   window.localStorage.setItem("jwt-auth-token", "");
+      //   window.localStorage.setItem("userNick", "")
+      //   window.localStorage.setItem("userid", "")
+      // });
     },
     logout: (store) => {
       store.dispatch("init")
@@ -221,9 +216,9 @@ const userstore = {
         })
         .then((res) => {
           http.post('/api/userinfo/signin', {
-              id: payload.id,
-              pw: payload.pw
-            })
+            id: payload.id,
+            pw: payload.pw
+          })
             .then(response => {
               if (response.data.data) {
                 const config = {
@@ -273,7 +268,7 @@ const userstore = {
                       interest: el,
                     }, config).then(res => {
 
-                    }).catch(e => {})
+                    }).catch(e => { })
                 })
               } else {
                 window.localStorage.setItem("jwt-auth-token", "");
@@ -289,24 +284,24 @@ const userstore = {
                 document.querySelector('#spinner1122').classList.remove('active')
               }
             })
-            // .catch(exp => {
-            //   document.querySelector('#spinner1122').classList.remove('active')
-            //   store.commit('loginError', {
-            //     e: '오류 발생' + exp
-            //   })
-            //   storage.setItem("jwt-auth-token", "");
-            //   storage.setItem("userNick", "")
-            //   storage.setItem("userid", "")
-            // });
+          // .catch(exp => {
+          //   document.querySelector('#spinner1122').classList.remove('active')
+          //   store.commit('loginError', {
+          //     e: '오류 발생' + exp
+          //   })
+          //   storage.setItem("jwt-auth-token", "");
+          //   storage.setItem("userNick", "")
+          //   storage.setItem("userid", "")
+          // });
 
 
 
 
         })
-        // .catch((e) => {
-        //   document.querySelector('#spinner1122').classList.remove('active')
+      // .catch((e) => {
+      //   document.querySelector('#spinner1122').classList.remove('active')
 
-        // });
+      // });
     },
 
     getFollow: (store, payload) => {
@@ -336,9 +331,9 @@ const userstore = {
 
               // });
             })
-          }).catch(exp => {})
+          }).catch(exp => { })
         })
-        // .catch((exp) => alert("에러" + exp));
+      // .catch((exp) => alert("에러" + exp));
     },
 
     getFollower: (store) => {
@@ -367,9 +362,9 @@ const userstore = {
             //     uid2: item.target,
             //   });
             // })
-          }).catch(exp => {})
+          }).catch(exp => { })
         })
-        // .catch((exp) => alert("에러" + exp));
+      // .catch((exp) => alert("에러" + exp));
     },
     getRecommendedUser: (store) => {
       const config = {
@@ -399,9 +394,9 @@ const userstore = {
             //     uid2: item.target,
             //   });
             // })
-          }).catch(exp => {})
+          }).catch(exp => { })
         })
-        // .catch((exp) => alert("에러가 발생했습니다." + exp));
+      // .catch((exp) => alert("에러가 발생했습니다." + exp));
     },
     getRecommendedPJT: (store) => {
       const config = {
@@ -432,9 +427,9 @@ const userstore = {
             //     uid2: item.target,
             //   });
             // })
-          }).catch(exp => {})
+          }).catch(exp => { })
         })
-        // .catch((exp) => alert("에러가 발생했습니다." + exp));
+      // .catch((exp) => alert("에러가 발생했습니다." + exp));
     },
     leave: (store, payload) => {
 
@@ -445,30 +440,30 @@ const userstore = {
       }
 
       http.post('/api/userinfo/signin', {
-          id: storage.getItem("userid"),
-          pw: payload.pw,
-        }, config)
+        id: storage.getItem("userid"),
+        pw: payload.pw,
+      }, config)
         .then(response => {
           if (response.data.data) {
             http.delete('api/userinfo/' + storage.getItem("userid"), config = {
-                headers: {
-                  "jwt-auth-token": storage.getItem("jwt-auth-token")
-                }
-              })
+              headers: {
+                "jwt-auth-token": storage.getItem("jwt-auth-token")
+              }
+            })
               .then(() => {
 
                 store.dispatch("logout");
                 router.push({
                   path: "/main"
                 });
-              }).catch(exp => {})
+              }).catch(exp => { })
           } else {
             alert("비밀번호가 다릅니다.")
           }
         })
-        // .catch(exp => {
-        //   alert("오류가 발생했습니다." + exp)
-        // })
+      // .catch(exp => {
+      //   alert("오류가 발생했습니다." + exp)
+      // })
     },
     follow: (store, payload) => {
       const config = {
@@ -485,7 +480,7 @@ const userstore = {
         })
         alert('팔로우 되었습니다!')
         store.dispatch('getFollow')
-      }).catch(exp => {})
+      }).catch(exp => { })
     },
     delFollow: (store, payload) => {
       const config = {
@@ -497,7 +492,7 @@ const userstore = {
       http.delete('/api/following/delete/' + payload.uid + "/" + payload.target, config).then(res => {
         alert("팔로우가 취소되었습니다");
         store.dispatch('getFollow')
-      }).catch(exp => {})
+      }).catch(exp => { })
     },
     // 메세지
     sendMes: (store, payload) => {
@@ -528,11 +523,11 @@ const userstore = {
           }
         }
         http.post('/api/message/', {
-            content: payload.content,
-            fromUser: storage.getItem("userid"),
-            toUser: payload.other,
-            read: false,
-          }, config)
+          content: payload.content,
+          fromUser: storage.getItem("userid"),
+          toUser: payload.other,
+          read: false,
+        }, config)
           .then(response => {
             store.commit('pushDetailMes', {
               mes: {
@@ -543,9 +538,9 @@ const userstore = {
               }
             })
           })
-          // .catch(exp => {
-          //   alert('메세지 전송에 실패하였습니다.' + exp)
-          // });
+        // .catch(exp => {
+        //   alert('메세지 전송에 실패하였습니다.' + exp)
+        // });
       }
 
     },
@@ -559,7 +554,7 @@ const userstore = {
         store.commit('loadDetailMes', {
           list: res.data
         })
-      }).catch(exp => {})
+      }).catch(exp => { })
     },
     delMes: (store, payload) => {
       const config = {
@@ -569,7 +564,7 @@ const userstore = {
       }
       http.delete(`/api/message/${payload.mnum}`, config).then(res => {
         alert("메세지가 삭제되었습니다." + res.data)
-      }).catch(exp => {})
+      }).catch(exp => { })
     },
     mesRead: (store, payload) => {
       const config = {
@@ -582,7 +577,7 @@ const userstore = {
         mnum: payload.mnum,
         fromUser: "admin",
         toUser: storage.getItem("userid")
-      }, config).then(res => {}).catch(exp => {})
+      }, config).then(res => { }).catch(exp => { })
     },
   },
 
