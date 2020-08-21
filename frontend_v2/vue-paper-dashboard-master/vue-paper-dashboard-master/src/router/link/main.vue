@@ -420,8 +420,13 @@ export default {
     // this.$store.dispatch(Constant.GET_PROJECTLIST_BY_PMEMBER, {
     //   userId: "ejchoi0225@gmail.com",
     // }); //임시로 넣어놈.
-    this.$store.dispatch("getRecommendedUser");
+    if(this.$store.state.userstore.userid===''){
+
+    }else{
+         this.$store.dispatch("getRecommendedUser");
     this.$store.dispatch("getRecommendedPJT");
+    }
+ 
   },
 };
 </script>
