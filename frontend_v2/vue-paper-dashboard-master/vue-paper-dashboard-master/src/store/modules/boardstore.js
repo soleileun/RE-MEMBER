@@ -23,7 +23,7 @@ const boardstore = {
           .then(response => {
               store.commit(Constant.GET_BOARDLIST, { boards: response.data })
         })
-          .catch(exp => alert('getBoardList처리에 실패하였습니다!!' + exp));
+        //   .catch(exp => alert('getBoardList처리에 실패하였습니다!!' + exp));
     },
     //bno으로 게시글 하나 가져오기
     [Constant.GET_BOARD]: (store, payload) => {
@@ -34,7 +34,7 @@ const boardstore = {
             .then(response => {
                 // console.log(response.data);
                 store.commit(Constant.GET_BOARD, { board: response.data })})
-            .catch(exp => alert('getTodo처리에 실패하였습니다.' + exp));
+            // .catch(exp => alert('getTodo처리에 실패하였습니다.' + exp));
 
     },
     //게시글 추가
@@ -60,9 +60,9 @@ const boardstore = {
                 store.dispatch(Constant.GET_BOARDLIST, {bstate : payload.bstate});
                 store.dispatch('upFileForBoard',{bno:res.data})
             })
-            .catch(exp => {
-                alert('추가 처리에 실패하였습니다.' + exp);
-            })
+            // .catch(exp => {
+            //     alert('추가 처리에 실패하였습니다.' + exp);
+            // })
     },
     //게시글 수정
     [Constant.MODIFY_BOARD]: (store, payload) => {
@@ -87,7 +87,7 @@ const boardstore = {
                 // console.log('수정하였습니다.'+ response.data);
                 store.dispatch(Constant.GET_BOARD, {bno : payload.board.bno});
             })
-            .catch(exp => alert('수정 처리에 실패하였습니다.' + exp));
+            // .catch(exp => alert('수정 처리에 실패하였습니다.' + exp));
     },
 
     
@@ -99,7 +99,7 @@ const boardstore = {
             .then(() => {
                 //store.dispatch(Constant.READ_BOARD, {bno : payload.bno});
             })
-            .catch(exp => alert('읽음 처리에 실패하였습니다.' + exp));
+            // .catch(exp => alert('읽음 처리에 실패하였습니다.' + exp));
     },
 
     //게시글 삭제
@@ -113,7 +113,7 @@ const boardstore = {
                 store.dispatch(Constant.GET_BOARDLIST, {bstate : payload.bstate});
 
             })
-            .catch(exp => alert('삭제 처리에 실패하였습니다.' + exp));
+            // .catch(exp => alert('삭제 처리에 실패하였습니다.' + exp));
 
     },
     //제목으로 찾기
@@ -125,7 +125,7 @@ const boardstore = {
             .then(response => {
                 store.commit(Constant.GET_BOARDLIST, { boards: response.data })
           })
-            .catch(exp => alert('search by title 처리에 실패하였습니다.' + exp));
+            // .catch(exp => alert('search by title 처리에 실패하였습니다.' + exp));
       },
     //작성자로 찾기
     [Constant.SEARCH_BOARD_WRITER]: (store,payload) => {
@@ -136,7 +136,7 @@ const boardstore = {
             .then(response => {
                 store.commit(Constant.GET_BOARDLIST, { boards: response.data })
           })
-            .catch(exp => alert('search by title 처리에 실패하였습니다.' + exp));
+            // .catch(exp => alert('search by title 처리에 실패하였습니다.' + exp));
       },
 
 

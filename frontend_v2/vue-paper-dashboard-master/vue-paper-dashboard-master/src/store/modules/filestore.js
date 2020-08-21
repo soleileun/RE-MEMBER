@@ -32,9 +32,9 @@ const filestore = {
                       router.go()
                   }
             })
-            .catch(function () {
-              alert("오류가 발생했습니다. 인터넷 연결 확인 후 새로고침해주세요");
-            });
+            // .catch(function () {
+            //   alert("오류가 발생했습니다. 인터넷 연결 확인 후 새로고침해주세요");
+            // });
         },
         upFileForBoard: (store, payload) => {
             store.state.filesBoard.forEach((el) => {
@@ -53,9 +53,9 @@ const filestore = {
                     .then(function (result) {
                         store.commit('delTempFiles')
                     })
-                    .catch(function () {
-                        alert('오류')
-                    });
+                    // .catch(function () {
+                    //     alert('오류')
+                    // });
             })
         },
 

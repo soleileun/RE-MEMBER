@@ -23,7 +23,7 @@ const commentstore = {
           .then(response => {
               store.commit(Constant.GET_COMMENTLIST, { comments: response.data })
         })
-          .catch(exp => alert('getBoardList처리에 실패하였습니다!.' + exp));
+          // .catch(exp => alert('getBoardList처리에 실패하였습니다!.' + exp));
     },
    
     //댓글 추가
@@ -43,9 +43,9 @@ const commentstore = {
                 store.dispatch(Constant.GET_COMMENTLIST, {bno : payload.bno});
 
             })
-            .catch(exp => {
-                alert('추가 처리에 실패하였습니다.' + exp);
-            })
+            // .catch(exp => {
+            //     alert('추가 처리에 실패하였습니다.' + exp);
+            // })
     },
 
     //채택
@@ -65,7 +65,7 @@ const commentstore = {
               //let addr = "/freeboard/detailfree/" + payload.bno + "/" + payload.bstate;
               //this.$router.push(addr);
           })
-          .catch(exp => alert('채택 처리에 실패하였습니다.' + exp));
+          // .catch(exp => alert('채택 처리에 실패하였습니다.' + exp));
   },
    
     //댓글 삭제
@@ -79,7 +79,7 @@ const commentstore = {
                 store.dispatch(Constant.GET_COMMENTLIST, {bno : payload.bno});
 
             })
-            .catch(exp => alert('삭제 처리에 실패하였습니다.' + exp));
+            // .catch(exp => alert('삭제 처리에 실패하였습니다.' + exp));
 
     },
 

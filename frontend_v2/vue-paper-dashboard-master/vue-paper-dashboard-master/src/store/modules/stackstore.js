@@ -37,7 +37,7 @@ const stackstore = {
             // console.log(response)
               store.commit(Constant.GET_SIDOLIST, { sidolist: response.data })
         })
-          .catch(exp => alert('getsidoList처리에 실패하였습니다!!' + exp));
+          // .catch(exp => alert('getsidoList처리에 실패하였습니다!!' + exp));
     },
     //시도로 구군 부르기
     [Constant.GET_GUGUNLIST]: (store,payload) => {
@@ -49,7 +49,7 @@ const stackstore = {
             // console.log(response)
               store.commit(Constant.GET_GUGUNLIST, { gugunlist: response.data })
         })
-          .catch(exp => alert('get구군PoolList처리에 실패하였습니다!!' + exp));
+          // .catch(exp => alert('get구군PoolList처리에 실패하였습니다!!' + exp));
     },
     //구군으로 동 부르기
     [Constant.GET_DONGLIST]: (store,payload) => {
@@ -61,7 +61,7 @@ const stackstore = {
             // console.log('반응:'+response)
               store.commit(Constant.GET_DONGLIST, { donglist: response.data })
         })
-          .catch(exp => alert('get동lList처리에 실패하였습니다!!' + exp));
+          // .catch(exp => alert('get동lList처리에 실패하였습니다!!' + exp));
     },
 
     // //bno으로 게시글 하나 가져오기
@@ -141,7 +141,7 @@ const stackstore = {
             .then(response => {
                 store.commit(Constant.GET_POOLLIST, { pools : response.data })
           })
-            .catch(exp => alert('풀리스트 반환 처리에 실패하였습니다.' + exp));
+            // .catch(exp => alert('풀리스트 반환 처리에 실패하였습니다.' + exp));
       },
     //주소로 풀리스트 반환
     [Constant.SEARCH_POOL_BY_ADDR]: (store,payload) => {
@@ -151,7 +151,7 @@ const stackstore = {
                 // console.log('풀리스트 반환: '+response.data);
                 store.commit(Constant.GET_POOLLIST, { pools : response.data })
           })
-            .catch(exp => alert('풀리스트 반환 처리에 실패하였습니다.' + exp));
+            // .catch(exp => alert('풀리스트 반환 처리에 실패하였습니다.' + exp));
       },
     //태그로 풀리스트 반환
     [Constant.SEARCH_POOL_BY_TAG]: (store,payload) => {
@@ -161,7 +161,7 @@ const stackstore = {
                 // console.log('풀리스트 반환: '+response.data);
                 store.commit(Constant.GET_POOLLIST, { pools : response.data })
           })
-            .catch(exp => alert('풀리스트 반환 처리에 실패하였습니다.' + exp));
+            // .catch(exp => alert('풀리스트 반환 처리에 실패하였습니다.' + exp));
       },
 
     

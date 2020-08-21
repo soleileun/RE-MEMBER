@@ -123,7 +123,8 @@ const userstore = {
             }, 1000)
           }
         }
-      }).catch(e => alert('에러가 발생했습니다' + e))
+      })
+      // .catch(e => alert('에러가 발생했습니다' + e))
     },
     login: (store, payload) => {
       http.post('/api/userinfo/signin', {
@@ -156,14 +157,14 @@ const userstore = {
             })
           }
         })
-        .catch(exp => {
-          store.commit('loginError', {
-            e: '오류 발생' + exp
-          })
-          window.localStorage.setItem("jwt-auth-token", "");
-          window.localStorage.setItem("userNick", "")
-          window.localStorage.setItem("userid", "")
-        });
+        // .catch(exp => {
+        //   store.commit('loginError', {
+        //     e: '오류 발생' + exp
+        //   })
+        //   window.localStorage.setItem("jwt-auth-token", "");
+        //   window.localStorage.setItem("userNick", "")
+        //   window.localStorage.setItem("userid", "")
+        // });
     },
     logout: (store) => {
       store.dispatch("init")
@@ -288,24 +289,24 @@ const userstore = {
                 document.querySelector('#spinner1122').classList.remove('active')
               }
             })
-            .catch(exp => {
-              document.querySelector('#spinner1122').classList.remove('active')
-              store.commit('loginError', {
-                e: '오류 발생' + exp
-              })
-              storage.setItem("jwt-auth-token", "");
-              storage.setItem("userNick", "")
-              storage.setItem("userid", "")
-            });
+            // .catch(exp => {
+            //   document.querySelector('#spinner1122').classList.remove('active')
+            //   store.commit('loginError', {
+            //     e: '오류 발생' + exp
+            //   })
+            //   storage.setItem("jwt-auth-token", "");
+            //   storage.setItem("userNick", "")
+            //   storage.setItem("userid", "")
+            // });
 
 
 
 
         })
-        .catch((e) => {
-          document.querySelector('#spinner1122').classList.remove('active')
+        // .catch((e) => {
+        //   document.querySelector('#spinner1122').classList.remove('active')
 
-        });
+        // });
     },
 
     getFollow: (store, payload) => {
@@ -337,7 +338,7 @@ const userstore = {
             })
           }).catch(exp => {})
         })
-        .catch((exp) => alert("에러" + exp));
+        // .catch((exp) => alert("에러" + exp));
     },
 
     getFollower: (store) => {
@@ -368,7 +369,7 @@ const userstore = {
             // })
           }).catch(exp => {})
         })
-        .catch((exp) => alert("에러" + exp));
+        // .catch((exp) => alert("에러" + exp));
     },
     getRecommendedUser: (store) => {
       const config = {
@@ -400,7 +401,7 @@ const userstore = {
             // })
           }).catch(exp => {})
         })
-        .catch((exp) => alert("에러가 발생했습니다." + exp));
+        // .catch((exp) => alert("에러가 발생했습니다." + exp));
     },
     getRecommendedPJT: (store) => {
       const config = {
@@ -433,7 +434,7 @@ const userstore = {
             // })
           }).catch(exp => {})
         })
-        .catch((exp) => alert("에러가 발생했습니다." + exp));
+        // .catch((exp) => alert("에러가 발생했습니다." + exp));
     },
     leave: (store, payload) => {
 
@@ -464,9 +465,10 @@ const userstore = {
           } else {
             alert("비밀번호가 다릅니다.")
           }
-        }).catch(exp => {
-          alert("오류가 발생했습니다." + exp)
         })
+        // .catch(exp => {
+        //   alert("오류가 발생했습니다." + exp)
+        // })
     },
     follow: (store, payload) => {
       const config = {
@@ -541,9 +543,9 @@ const userstore = {
               }
             })
           })
-          .catch(exp => {
-            alert('메세지 전송에 실패하였습니다.' + exp)
-          });
+          // .catch(exp => {
+          //   alert('메세지 전송에 실패하였습니다.' + exp)
+          // });
       }
 
     },
