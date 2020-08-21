@@ -45,7 +45,7 @@ export default {
         [{ script: "sub" }, { script: "super" }],
         [{ indent: "-1" }, { indent: "+1" }],
         [{ color: [] }, { background: [] }],
-        ["link", "image", "video", "formula"],
+        [ "image", "video"],
         [{ direction: "rtl" }],
         ["clean"],
       ],

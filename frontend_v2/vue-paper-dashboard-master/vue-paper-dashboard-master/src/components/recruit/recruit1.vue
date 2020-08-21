@@ -336,7 +336,7 @@ export default {
         [{ script: "sub" }, { script: "super" }],
         [{ indent: "-1" }, { indent: "+1" }],
         [{ color: [] }, { background: [] }],
-        ["link", "video", "formula"],
+        [ "video"],
         [{ direction: "rtl" }],
         ["clean"],
       ],
