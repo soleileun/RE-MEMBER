@@ -348,7 +348,7 @@ public class UserInfoController {
              resultMap.put("message", e.getMessage());
              status = HttpStatus.INTERNAL_SERVER_ERROR;
           }
-          return new ResponseEntity<Map<String, Object>>(resultMap, status);
+          return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
          
          // 에러를 바꿔줘야할것같아여 ㅠㅠ
    }
