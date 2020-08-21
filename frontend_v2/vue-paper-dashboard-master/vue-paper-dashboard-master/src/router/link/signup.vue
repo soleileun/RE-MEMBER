@@ -21,7 +21,7 @@ export default {
     };
   },
   mounted(){
-    if (window.localStorage.getItem('userid').length>0){
+    if (window.localStorage.getItem('userid')&&window.localStorage.getItem('userid').length>0){
       this.$router.push('/')
     }
   },
