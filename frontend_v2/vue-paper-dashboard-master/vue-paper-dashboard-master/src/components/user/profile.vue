@@ -1,10 +1,10 @@
 <template>
-  <div class="profile text-center" >
+  <div class="profile text-center">
     <h3>내 소개</h3>
     <div id="editor1" class="container ql-snow" v-if="!profileEdit">
       <div class="ql-editor profileContainer" v-html="content" style="min-height:500px"></div>
     </div>
-    <vue-editor id="editor2" v-show="profileEdit" v-model="content" useCustomImageHandler @imageAdded="handleImageAdded" ></vue-editor>
+    <vue-editor id="editor2" v-show="profileEdit" v-model="content" useCustomImageHandler @imageAdded="handleImageAdded" :editor-toolbar="customToolbar" ></vue-editor>
     <!-- 에디터를 v-show로 숨겨두지 않으면 일부 꾸밈 코드가 안먹힘 -->
     <div v-if="myprofile">
       <button class="btn btn-round btn-success" v-if="!profileEdit" @click="edit">프로필 수정하기</button>
@@ -28,6 +28,27 @@ export default {
   },
   data() {
     return {
+      customToolbar: [
+        [{ font: [] }],
+        [{ header: [false, 1, 2, 3, 4, 5, 6] }],
+        [{ size: ["small", false, "large", "huge"] }],
+        ["bold", "italic", "underline", "strike"],
+        [
+          { align: "" },
+          { align: "center" },
+          { align: "right" },
+          { align: "justify" },
+        ],
+        [{ header: 1 }, { header: 2 }],
+        ["blockquote", "code-block"],
+        [{ list: "ordered" }, { list: "bullet" }, { list: "check" }],
+        [{ script: "sub" }, { script: "super" }],
+        [{ indent: "-1" }, { indent: "+1" }],
+        [{ color: [] }, { background: [] }],
+        ["link", "image", "video", "formula"],
+        [{ direction: "rtl" }],
+        ["clean"],
+      ],
       content: "불러오는 중입니다.",
       profileEdit: false,
       bno: "0",
@@ -108,7 +129,7 @@ export default {
           {
             bno: this.bno,
             bwriter: storage.getItem("userid"),
-            btitle: storage.getItem('userNick'),
+            btitle: storage.getItem("userNick"),
             bcontent: this.content,
             bstate: "profile",
             changeDay: new Date(),
@@ -117,8 +138,7 @@ export default {
           },
           config
         )
-        .then((response) => {
-        })
+        .then((response) => {})
         .catch((exp) => alert("수정 처리에 실패하였습니다." + exp));
     },
   },
@@ -127,7 +147,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-h3{
+h3 {
   margin-top: 0;
 }
 .profile {

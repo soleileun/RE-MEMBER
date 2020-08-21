@@ -63,7 +63,7 @@
               </div>
               </div>
               <div class="col-10 write-right">
-                <vue-editor v-model="board.bcontent" style="height:80%;" useCustomImageHandler @imageAdded="handleImageAdded"></vue-editor>
+                <vue-editor v-model="board.bcontent" style="height:80%;" useCustomImageHandler @imageAdded="handleImageAdded" :editor-toolbar="customToolbar"></vue-editor>
                 <!--<textarea name="" id="" cols="30" rows="10" v-model="board.bcontent" placeholder="내용을 입력하세요"></textarea><br>-->
               </div>
             </div>
@@ -110,6 +110,27 @@ export default {
   },
   data: function () {
     return {
+      customToolbar: [
+        [{ font: [] }],
+        [{ header: [false, 1, 2, 3, 4, 5, 6] }],
+        [{ size: ["small", false, "large", "huge"] }],
+        ["bold", "italic", "underline", "strike"],
+        [
+          { align: "" },
+          { align: "center" },
+          { align: "right" },
+          { align: "justify" },
+        ],
+        [{ header: 1 }, { header: 2 }],
+        ["blockquote", "code-block"],
+        [{ list: "ordered" }, { list: "bullet" }, { list: "check" }],
+        [{ script: "sub" }, { script: "super" }],
+        [{ indent: "-1" }, { indent: "+1" }],
+        [{ color: [] }, { background: [] }],
+        ["link", "image", "video", "formula"],
+        [{ direction: "rtl" }],
+        ["clean"],
+      ],
       board: {
         //bno : '',// 자동 증가라 필요가 없음
         bwriter: this.loginId, //writer를 닉네임으로 할건지 메일로 할건지에 대해서
