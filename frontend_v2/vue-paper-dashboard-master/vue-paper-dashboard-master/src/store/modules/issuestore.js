@@ -27,7 +27,7 @@ const issuestore = {
                     // console.log(response)
                     store.commit(Constant.GET_ISSUELIST, { issues: response.data })
                 })
-                .catch(exp => alert('getISSUEList처리에 실패하였습니다!!' + exp));
+                // .catch(exp => alert('getISSUEList처리에 실패하였습니다!!' + exp));
         },
 
         //issue 리스트 (state 별로 들고오기)
@@ -42,7 +42,7 @@ const issuestore = {
                     store.commit(Constant.GET_ISSUELIST_BY_STATE, { issues: response.data, issuestate: payload.issuestate })
 
                 })
-                .catch(exp => alert('getISSUEList처리에 실패하였습니다!!' + exp));
+                // .catch(exp => alert('getISSUEList처리에 실패하였습니다!!' + exp));
         },
         //issueid로 게시글 하나 가져오기
         [Constant.GET_ISSUE]: (store, payload) => {
@@ -53,7 +53,7 @@ const issuestore = {
                 .then(response => {
                     store.commit(Constant.GET_ISSUE, { issue: response.data })
                 })
-                .catch(exp => alert('getTodo(GET_ISSUE)처리에 실패하였습니다.' + exp));
+                // .catch(exp => alert('getTodo(GET_ISSUE)처리에 실패하였습니다.' + exp));
 
         },
 
@@ -66,7 +66,7 @@ const issuestore = {
                 .then(response => {
                     store.commit(Constant.GET_ISSUE_PREWORK, { issue_prework: response.data })
                 })
-                .catch(exp => alert('getTodo(GET_ISSUE_PREWORK)처리에 실패하였습니다.' + exp));
+                // .catch(exp => alert('getTodo(GET_ISSUE_PREWORK)처리에 실패하였습니다.' + exp));
 
         },
 
@@ -78,7 +78,7 @@ const issuestore = {
                 .then(response => {
                     //store.commit(Constant.GET_ISSUE_BY_PREWORK, { issue_by_prework: response.data })
                 })
-                .catch(exp => alert('getTodo(GET_ISSUE_BY_PREWORK)처리에 실패하였습니다.' + exp));
+                // .catch(exp => alert('getTodo(GET_ISSUE_BY_PREWORK)처리에 실패하였습니다.' + exp));
 
         },
 
@@ -106,9 +106,9 @@ const issuestore = {
                     store.dispatch(Constant.GET_ISSUELIST, { pid: payload.pid });
 
                 })
-                .catch(exp => {
-                    alert('추가 처리에 실패하였습니다.' + exp);
-                })
+                // .catch(exp => {
+                //     alert('추가 처리에 실패하였습니다.' + exp);
+                // })
         },
 
 
@@ -136,7 +136,7 @@ const issuestore = {
                 }, config)
                 .then(() => {
                 })
-                .catch(exp => alert('수정 처리에 실패하였습니다.' + exp));
+                // .catch(exp => alert('수정 처리에 실패하였습니다.' + exp));
         },
 
         [Constant.UPDATE_ISSUE_BY_STATE]: (_store, payload) => {
@@ -147,7 +147,7 @@ const issuestore = {
                 .then((response) => {
                     //store.dispatch(Constant.READ_BOARD, {bno : payload.bno});
                 })
-                .catch(exp => alert('수정 처리에 실패하였습니다.' + exp));
+                // .catch(exp => alert('수정 처리에 실패하였습니다.' + exp));
         },
 
         [Constant.CHANGE_RESPONSE]: (store, payload) => {
@@ -165,7 +165,7 @@ const issuestore = {
                     //store.dispatch(Constant.GET_ISSUELIST, { pid: payload.pid });
                     //alert("변경되었습니다.");
                 })
-                .catch(exp => alert('수정 처리에 실패하였습니다.' + exp));
+                // .catch(exp => alert('수정 처리에 실패하였습니다.' + exp));
         },
         //이슈글 삭제
         [Constant.REMOVE_ISSUE]: (store, payload) => {
@@ -177,7 +177,7 @@ const issuestore = {
                     alert('삭제하였습니다.');
                     store.dispatch(Constant.GET_ISSUELIST, { pid: payload.pid });
                 })
-                .catch(exp => alert('삭제 처리에 실패하였습니다.' + exp));
+                // .catch(exp => alert('삭제 처리에 실패하였습니다.' + exp));
 
         },
 

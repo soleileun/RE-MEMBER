@@ -22,7 +22,7 @@ const mapstore = {
                 .then(response => {
                     store.commit(Constant.GET_ADDRESS_LIST, { users: response.data })
                 })
-                .catch(exp => alert('getBoardList처리에 실패하였습니다!!' + exp));
+                // .catch(exp => alert('getBoardList처리에 실패하였습니다!!' + exp));
         },
 
 

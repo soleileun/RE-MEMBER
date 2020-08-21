@@ -39,7 +39,7 @@ const projectstore = {
           //   })
           // })
         })
-        .catch(exp => alert('getPmemberList처리에 실패하였습니다.' + exp));
+        // .catch(exp => alert('getPmemberList처리에 실패하였습니다.' + exp));
     },
     //pid으로 현재 프로젝트 멤버수 가져오기
     // [Constant.GET_CURRENT_MEMBER_COUNT]: (store, payload) => {
@@ -75,7 +75,7 @@ const projectstore = {
             pid: payload.pid
           })
         })
-        .catch(exp => alert('pid으로 현재 프로젝트 정보 가져오기에 실패하였습니다.' + exp));
+        // .catch(exp => alert('pid으로 현재 프로젝트 정보 가져오기에 실패하였습니다.' + exp));
     },
 
     //pid으로 프로젝트 하나 가져오기
@@ -93,7 +93,7 @@ const projectstore = {
             project: response.data
           })
         })
-        .catch(exp => alert('getTodo처리에 실패하였습니다.' + exp));
+        // .catch(exp => alert('getTodo처리에 실패하였습니다.' + exp));
 
     },
 
@@ -146,9 +146,9 @@ const projectstore = {
           reload: true,
         });
       })
-      .catch(exp => {
-        alert('추가 처리에 실패하였습니다.' + exp);
-      })
+      // .catch(exp => {
+      //   alert('추가 처리에 실패하였습니다.' + exp);
+      // })
     },
     // asd
     [Constant.ADD_WAITMEMBER]: (store, payload) => {
@@ -168,7 +168,8 @@ const projectstore = {
         userId: window.sessionStorage.getItem('userid'),
       }, config).then(res => {
         alert('지원 되었습니다.');
-      }).catch(e => {})
+      })
+      // .catch(e => {})
     },
     [Constant.ADD_NEWMEMBER]: (store, payload) => {
       //수락
@@ -181,7 +182,8 @@ const projectstore = {
       .get("/api/waitMember/invite/"+payload.code, config).then(res => {
         alert('추가 되었습니다.');
         router.go()
-      }).catch(e =>{})
+      })
+      // .catch(e =>{})
     },
     [Constant.ADD_INVITE]: (store, payload) => {
       // 초대
@@ -201,7 +203,8 @@ const projectstore = {
       }, config).then(res => {
         alert('초대되었습니다.');
         router.go()
-      }).catch(e => {})
+      })
+      // .catch(e => {})
     },
     [Constant.REMOVE_APPLY]: (store, payload) => {
       // 가입거절
@@ -214,7 +217,8 @@ const projectstore = {
       .delete(`/api/waitMember/delete/${payload.target}/${payload.pid}`, config).then(res => {
         alert('삭제되었습니다.');
         router.go()
-      }).catch(e => {})
+      })
+      // .catch(e => {})
     },
     [Constant.MY_APPLY]: (store, payload) => {
       // 내 지원 목록'
@@ -227,7 +231,8 @@ const projectstore = {
       .get(`/api/waitMember/searchById/${storage.getItem("userid")}`, config).then(res => {
         alert(res.data);
         store.commit(Constant.MY_APPLY,{applys:res.data})
-      }).catch(e => {})
+      })
+      // .catch(e => {})
     },
     [Constant.PROJECT_APPLY]: (store, payload) => {
       // 프로젝트 지원자 목록
@@ -239,7 +244,8 @@ const projectstore = {
       http
       .get(`/api/waitMember/searchByPid/${payload.pid}`, config).then(res => {
         store.commit(Constant.PROJECT_APPLY,{applys:res.data,pid:payload.pid})
-      }).catch(e => {})
+      })
+      // .catch(e => {})
     },
 
     

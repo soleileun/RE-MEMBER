@@ -35,7 +35,7 @@ const recruitstore = {
           //   })
           // })
         })
-        .catch(exp => alert('getRecruitList처리에 실패하였습니다!.' + exp));
+        // .catch(exp => alert('getRecruitList처리에 실패하였습니다!.' + exp));
     },
 
     //rnum으로 구인글 하나 가져오기
@@ -52,7 +52,7 @@ const recruitstore = {
             recruit: response.data
           })
         })
-        .catch(exp => alert('getTodo처리에 실패하였습니다.' + exp));
+        // .catch(exp => alert('getTodo처리에 실패하였습니다.' + exp));
 
     },
 
@@ -78,9 +78,9 @@ const recruitstore = {
           store.dispatch(Constant.GET_RECRUITLIST);
 
         })
-        .catch(exp => {
-          alert('리쿠르트 추가 처리에 실패하였습니다.' + exp);
-        })
+        // .catch(exp => {
+        //   alert('리쿠르트 추가 처리에 실패하였습니다.' + exp);
+        // })
     },
 
     // [Constant.ADD_PINTEREST]: (store, payload) => {
@@ -119,7 +119,7 @@ const recruitstore = {
             recruits: response.data
           })
         })
-        .catch(exp => alert('풀리스트 반환 처리에 실패하였습니다.' + exp));
+        // .catch(exp => alert('풀리스트 반환 처리에 실패하였습니다.' + exp));
     },
     //주소로 풀리스트 반환
     [Constant.SEARCH_RECRUIT_BY_ADDR]: (store, payload) => {
@@ -134,7 +134,7 @@ const recruitstore = {
             recruits: response.data
           })
         })
-        .catch(exp => alert('풀리스트 반환 처리에 실패하였습니다.' + exp));
+        // .catch(exp => alert('풀리스트 반환 처리에 실패하였습니다.' + exp));
     },
     //태그로 풀리스트 반환
     [Constant.SEARCH_RECRUIT_BY_TAG]: (store, payload) => {
@@ -150,7 +150,7 @@ const recruitstore = {
             recruits: response.data
           })
         })
-        .catch(exp => alert('풀리스트 반환 처리에 실패하였습니다.' + exp));
+        // .catch(exp => alert('풀리스트 반환 처리에 실패하였습니다.' + exp));
     },
     //댓글 삭제
     [Constant.REMOVE_RECRUIT]: (store, payload) => {
@@ -165,7 +165,7 @@ const recruitstore = {
           store.dispatch(Constant.GET_RECRUITLIST);
 
         })
-        .catch(exp => alert('삭제 처리에 실패하였습니다.' + exp));
+        // .catch(exp => alert('삭제 처리에 실패하였습니다.' + exp));
 
     },
 
@@ -184,7 +184,7 @@ const recruitstore = {
             recruits: response.data
           })
         })
-        .catch(exp => alert('풀리스트 반환 처리에 실패하였습니다.' + exp));
+        // .catch(exp => alert('풀리스트 반환 처리에 실패하였습니다.' + exp));
     },
 
     [Constant.MODIFY_RECRUIT]: (store, payload) => {
@@ -209,7 +209,7 @@ const recruitstore = {
           // console.log('수정하였습니다.'+ response.data);
           alert('수정 완료하였습니다');
         })
-        .catch(exp => alert('수정 처리에 실패하였습니다.' + exp));
+        // .catch(exp => alert('수정 처리에 실패하였습니다.' + exp));
     },
 
 

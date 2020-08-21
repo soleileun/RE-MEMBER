@@ -30,7 +30,7 @@ const poolstore = {
             extendpools: response.data
           })
         })
-        .catch(exp => alert('getExtendPoolList처리에 실패하였습니다!.' + exp));
+        // .catch(exp => alert('getExtendPoolList처리에 실패하였습니다!.' + exp));
     },
 
     //통합 검색
@@ -49,7 +49,7 @@ const poolstore = {
           //  pools: response.data
           //})
         })
-        .catch(exp => alert('풀리스트 반환 처리에 실패하였습니다.' + exp));
+        // .catch(exp => alert('풀리스트 반환 처리에 실패하였습니다.' + exp));
     },
     // //댓글 추가
     // [Constant.ADD_COMMENT]: (store, payload) => {
