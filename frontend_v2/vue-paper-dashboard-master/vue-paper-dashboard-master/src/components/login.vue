@@ -98,6 +98,7 @@ export default {
       }
     },
     onSuccess: (data) => {
+      storage.setItem("kakaoid",'')
       Kakao.API.request({
         url: "/v2/user/me",
         success: function (response) {
